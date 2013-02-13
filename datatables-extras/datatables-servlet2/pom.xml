@@ -9,6 +9,7 @@
    </parent>
 
    <artifactId>datatables-servlet2</artifactId>
+   <version>0.1.3-SNAPSHOT</version>
    <packaging>jar</packaging>
 
    <name>Dandelion : Datatables :: Extras :: Servlet 2 compatibility</name>
