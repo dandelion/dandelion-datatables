@@ -327,7 +327,7 @@
    </tag>
    <tag>
       <name>column</name>
-      <tag-class>com.github.dandelion.datatables.core.jsp.tag.ColumnTag</tag-class>
+      <tag-class>com.github.dandelion.datatables.jsp.tag.ColumnTag</tag-class>
       <body-content>JSP</body-content>
       <description>Describe a column of the HTML table.</description>
       <attribute>
