@@ -1,0 +1,252 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+      <groupId>org.sonatype.oss</groupId>
+      <artifactId>oss-parent</artifactId>
+      <version>7</version>
+   </parent>
+
+   <groupId>com.github.dandelion</groupId>
+   <artifactId>dandelion-datatables</artifactId>
+   <version>0.8.4-SNAPSHOT</version>
+   <packaging>pom</packaging>
+
+   <name>Dandelion : Datatables :: Parent</name>
+
+   <modules>
+      <module>datatables-core</module>
+      <module>datatables-jsp</module>
+      <module>datatables-thymeleaf</module>
+      <module>datatables-extras</module>
+   </modules>
+
+   <licenses>
+      <license>
+         <name>BSD 3-Clause</name>
+         <url>http://opensource.org/licenses/BSD-3-Clause</url>
+         <distribution>repo</distribution>
+      </license>
+   </licenses>
+
+   <scm>
+      <connection>scm:git:git://github.com/dandelion/dandelion-datatables.git</connection>
+      <developerConnection>scm:git:git@github.com:dandelion/dandelion-datatables.git</developerConnection>
+      <url>http://github.com/dandelion/dandelion-datatables</url>
+   </scm>
+
+   <properties>
+      <!-- Configuration -->
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+      <!-- Dependencies -->
+      <commons-lang.version>2.6</commons-lang.version>
+      <commons-collection.version>3.2.1</commons-collection.version>
+      <commons-beanutils.version>1.8.3</commons-beanutils.version>
+      <jackson.version>1.9.9</jackson.version>
+      <servlet.version>3.0.1</servlet.version>
+      <slf4j.version>1.6.4</slf4j.version>
+      <junit.version>4.10</junit.version>
+
+      <!-- Maven plugins -->
+      <maven.compiler.version>2.3.2</maven.compiler.version>
+      <maven.javadoc.version>2.8.1</maven.javadoc.version>
+      <maven.source.version>2.2</maven.source.version>
+      <maven.project-report-info.version>2.5.1</maven.project-report-info.version>
+      <maven.site.version>3.1</maven.site.version>
+      <maven.release.version>2.3.2</maven.release.version>
+   </properties>
+
+   <dependencyManagement>
+      <dependencies>
+         <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>${jackson.version}</version>
+            <scope>compile</scope>
+         </dependency>
+
+         <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${commons-lang.version}</version>
+            <scope>compile</scope>
+         </dependency>
+
+         <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>${commons-beanutils.version}</version>
+            <scope>compile</scope>
+            <exclusions>
+               <exclusion>
+                  <groupId>commons-logging</groupId>
+                  <artifactId>commons-logging</artifactId>
+               </exclusion>
+            </exclusions>
+         </dependency>
+
+         <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.version}</version>
+            <scope>provided</scope>
+         </dependency>
+
+         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>compile</scope>
+         </dependency>
+
+         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+         </dependency>
+
+      </dependencies>
+   </dependencyManagement>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>${maven.compiler.version}</version>
+            <configuration>
+               <source>1.6</source>
+               <target>1.6</target>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${maven.javadoc.version}</version>
+            <configuration>
+               <stylesheet>maven</stylesheet>
+            </configuration>
+            <executions>
+               <execution>
+                  <id>attach-javadocs</id>
+                  <goals>
+                     <goal>jar</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>${maven.source.version}</version>
+            <executions>
+               <execution>
+                  <id>attach-sources</id>
+                  <goals>
+                     <goal>jar</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-project-info-reports-plugin</artifactId>
+            <version>${maven.project-report-info.version}</version>
+         </plugin>
+
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-site-plugin</artifactId>
+            <version>${maven.site.version}</version>
+            <configuration>
+               <port>9000</port>
+               <skipDeploy>true</skipDeploy>
+            </configuration>
+         </plugin>
+      </plugins>
+      <extensions>
+         <extension>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-webdav-jackrabbit</artifactId>
+            <version>2.2</version>
+         </extension>
+      </extensions>
+   </build>
+
+   <profiles>
+      <profile>
+         <id>release-sign-artifacts</id>
+         <activation>
+            <property>
+               <name>performRelease</name>
+               <value>true</value>
+            </property>
+         </activation>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-gpg-plugin</artifactId>
+                  <version>1.4</version>
+                  <executions>
+                     <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                           <goal>sign</goal>
+                        </goals>
+                     </execution>
+                  </executions>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
+      <profile>
+         <id>cloudbees</id>
+         <repositories>
+            <repository>
+               <id>datatables4j-snapshot-repo</id>
+               <name>DataTables4j Snapshot Repository</name>
+               <url>http://repository-datatables4j.forge.cloudbees.com/snapshot/</url>
+               <layout>default</layout>
+               <releases>
+                  <enabled>false</enabled>
+               </releases>
+               <snapshots>
+                  <enabled>true</enabled>
+               </snapshots>
+            </repository>
+            <repository>
+               <id>datatables4j-release-repo</id>
+               <name>DataTables4j Release Repository</name>
+               <url>http://repository-datatables4j.forge.cloudbees.com/release/</url>
+               <layout>default</layout>
+               <releases>
+                  <enabled>true</enabled>
+               </releases>
+               <snapshots>
+                  <enabled>false</enabled>
+               </snapshots>
+            </repository>
+         </repositories>
+
+         <distributionManagement>
+            <repository>
+               <id>datatables4j-release-repo</id>
+               <name>DataTables4j Release Repository</name>
+               <url>dav:https://repository-datatables4j.forge.cloudbees.com/release</url>
+            </repository>
+            <snapshotRepository>
+               <id>datatables4j-snapshot-repo</id>
+               <name>DataTables4j Snaphost Repository</name>
+               <url>dav:https://repository-datatables4j.forge.cloudbees.com/snapshot</url>
+            </snapshotRepository>
+         </distributionManagement>
+      </profile>
+   </profiles>
+</project>
