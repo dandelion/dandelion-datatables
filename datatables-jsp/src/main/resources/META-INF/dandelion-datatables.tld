@@ -24,6 +24,7 @@
          DataTables jQuery plugin.</description>
       <attribute>
          <name>id</name>
+         <rtexprvalue>true</rtexprvalue>
          <required>true</required>
          <description>(required) DOM id of the HTML table.</description>
       </attribute>
