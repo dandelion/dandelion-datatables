@@ -185,7 +185,7 @@
                   <goals>
                      <goal>site</goal>
                   </goals>
-                  <phase>site</phase>
+                  <phase>site-deploy</phase>
                   <configuration>
                      <merge>false</merge>
                      <message>Update site for ${project.version}</message>
