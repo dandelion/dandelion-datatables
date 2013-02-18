@@ -266,12 +266,12 @@
             <repository>
                <id>dandelion-release-repo</id>
                <name>Dandelion Release Repository</name>
-               <url>dav:http://repository-dandelion.forge.cloudbees.com/release</url>
+               <url>dav:https://repository-dandelion.forge.cloudbees.com/release</url>
             </repository>
             <snapshotRepository>
                <id>dandelion-snapshot-repo</id>
                <name>Dandelion Snaphost Repository</name>
-               <url>dav:http://repository-dandelion.forge.cloudbees.com/snapshot</url>
+               <url>dav:https://repository-dandelion.forge.cloudbees.com/snapshot</url>
             </snapshotRepository>
          </distributionManagement>
       </profile>
