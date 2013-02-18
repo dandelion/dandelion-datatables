@@ -2,11 +2,17 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
 
+   <parent>
+      <groupId>com.github.dandelion</groupId>
+      <artifactId>dandelion-datatables</artifactId>
+      <version>0.8.4-SNAPSHOT</version>
+   </parent>
+
    <groupId>com.github.dandelion</groupId>
    <artifactId>datatables-doc</artifactId>
-   <version>0.8.4-SNAPSHOT</version>
 
    <name>Dandelion : Datatables :: Documentation</name>
+   <url>http://dandelion.github.com/dandelion-datatables/</url>
 
    <licenses>
       <license>
