@@ -12,7 +12,7 @@
    <version>0.1.4-SNAPSHOT</version>
    <packaging>jar</packaging>
 
-   <name>Dandelion : Datatables :: Extras :: Export XLSX using iText</name>
+   <name>Dandelion : Datatables :: Extras :: Export XLSX using POI-OOXML</name>
 
    <dependencies>
       <dependency>
