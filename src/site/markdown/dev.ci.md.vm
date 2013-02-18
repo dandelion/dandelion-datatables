@@ -1,0 +1,19 @@
+<h3>Development</h3>
+<hr />
+
+<h4>Continous Integration</h4>
+
+<br />
+<h5>Overview</h5>
+
+<img src="./images/logo_cloudbees_built-on.png"/>
+
+This project uses the amazing [CloudBees DEV@cloud](http://www.cloudbees.com/dev.cb) solution for continous integration, which provides among other things :
+
+* The famous CI server [Jenkins](http://jenkins-ci.org/)
+* Maven repositories for [Releases](https://repository-datatables4j.forge.cloudbees.com/release/ "Release repo") and [Snapshots](https://repository-datatables4j.forge.cloudbees.com/snapshot/ "Snapshot repo")  
+
+<br />
+<h5>Access</h5>
+
+Jenkins will be soon visible.

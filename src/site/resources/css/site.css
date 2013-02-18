@@ -1,0 +1,107 @@
+#banner {
+	margin-bottom: 10px;
+}
+
+/*
+.breadcrumb {
+  padding: 8px 15px;
+  margin: 10px 0 20px;
+  list-style: none;
+  background-color: #f5f5f5;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+*/
+.bs-docs-example {
+	position: relative;
+	margin: 15px 0;
+	padding: 39px 19px 14px;
+	*padding-top: 19px;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+/* Echo out a label for the example */
+.bs-docs-example:after {
+	content: "Code";
+	position: absolute;
+	top: -1px;
+	left: -1px;
+	padding: 3px 7px;
+	font-size: 12px;
+	font-weight: bold;
+	background-color: #f5f5f5;
+	border: 1px solid #ddd;
+	color: #9da0a4;
+	-webkit-border-radius: 4px 0 4px 0;
+	-moz-border-radius: 4px 0 4px 0;
+	border-radius: 4px 0 4px 0;
+}
+
+/* Remove spacing between an example and it's code */
+.bs-docs-example+.prettyprint {
+	margin-top: -20px;
+	padding-top: 15px;
+}
+
+/* Tweak examples
+------------------------- */
+.bs-docs-example>p:last-child {
+	margin-bottom: 0;
+}
+
+.bs-docs-example .table,.bs-docs-example .progress,.bs-docs-example .well,.bs-docs-example .alert,.bs-docs-example .hero-unit,.bs-docs-example .pagination,.bs-docs-example .navbar,.bs-docs-example>.nav,.bs-docs-example blockquote
+	{
+	margin-bottom: 5px;
+}
+
+.bs-docs-example .pagination {
+	margin-top: 0;
+}
+
+/* jQuery TOC plugin (https://github.com/dcneiner/TableOfContents) */
+#toc {
+	right: 20px;
+	top: 194px;
+	position: fixed;
+	font-size: 10pt;
+	width: 200px;
+	padding: 10px 10px 10px 40px;
+	background: whiteSmoke;
+	background-color: whiteSmoke;
+	border: solid 1px #ccd136;
+	margin: 0 0 10px 15px;
+	border: 1px solid #CCC;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	-moz-border-radius: 0.5ex;
+	-webkit-border-radius: 0.5ex;
+	border-radius: 0.5ex;
+}
+
+.stick {
+	position: fixed;
+	top: 10px;
+}
+
+#sticky {
+  background-color: #fff;
+  -moz-border-radius: 0.5ex;
+  -webkit-border-radius: 0.5ex;
+  border-radius: 0.5ex;
+  color: #000;
+  font-size: 2em;
+  padding: 0.5ex;
+  width: 600px;
+  }
+#sticky.stick {
+  -moz-border-radius: 0 0 0.5em 0.5em;
+  -webkit-border-radius: 0 0 0.5em 0.5em;
+  border-radius: 0 0 0.5em 0.5em;
+  position: fixed;
+  top: 0;
+  z-index: 10000;
+  }

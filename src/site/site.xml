@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+   <skin>
+      <groupId>org.apache.maven.skins</groupId>
+      <artifactId>maven-fluido-skin</artifactId>
+      <version>1.3.0</version>
+   </skin>
+
+   <googleAnalyticsAccountId>UA-33818546-7</googleAnalyticsAccountId>
+
+   <custom>
+      <fluidoSkin>
+         <sideBarEnabled>true</sideBarEnabled>
+         <leftColumnClass>span2</leftColumnClass>
+         <bodyColumnClass>span10</bodyColumnClass>
+         <gitHub>
+            <projectId>dandelion-datatables</projectId>
+            <ribbonOrientation>right</ribbonOrientation>
+            <ribbonColor>gray</ribbonColor>
+         </gitHub>
+         <twitter>
+            <user>dandelion_proj</user>
+            <showUser>false</showUser>
+            <showFollowers>true</showFollowers>
+         </twitter>
+         <googlePlusOne />
+         <ohloh>
+            <projectId>633354</projectId>
+            <widget>thin-badge</widget>
+         </ohloh>
+      </fluidoSkin>
+   </custom>
+
+   <bannerLeft>
+      <name>Dandelion-DataTables</name>
+      <src>/images/logo_dandelion.png</src>
+      <href>http://dandelion.github.com/dandelion-datatables/</href>
+   </bannerLeft>
+
+   <body>
+      <head>
+         <meta name="keywords"
+            content="taglib,tag,datatables,thymeleaf,dandelion,dandelion-datatables,jsp,java,table,html" />
+         <script type="text/javascript" src="./js/site_custom.js"></script>
+      </head>
+
+      <links>
+         <!-- 
+         <item name="Live demo" target="_blank"
+            href="http://demo.datatables4j.cloudbees.net/" />
+         <item name="Live Thymeleaf demo" target="_blank"
+            href="http://demo.thymeleaf.datatables4j.cloudbees.net/" />
+             -->
+         <item name="DataTables" target="_blank" href="http://datatables.net" />
+      </links>
+
+      <menu name="Overview">
+         <item name="Home" href="index.html" />
+         <item name="Install" href="install.html" collapse="true">
+            <item name="JSP taglib" href="install.jsp.html" />
+            <item name="Thymeleaf" href="install.thymeleaf.html" />
+         </item>
+         <item name="Changelog" href="changelog.html" />
+         <item name="Roadmap" href="roadmap.html" />
+         <item name="Forum" href="forum.html" />
+         <item name="Download" href="download.html" />
+      </menu>
+      
+      <menu name="Migration guide">
+         <item name="Migrating from DataTables4j" href="migration.html" />
+      </menu>
+      
+      <!-- 
+      <menu name="Examples">
+         <item name="Live demo" href="${demoAppUrl}" />
+         <item name="Live Thymeleaf demo" href="${demoThymeleafAppUrl}" />
+      </menu>
+       -->
+       
+      <menu name="Reference">
+         <item name="JSP taglib" href="ref.taglib.html" collapse="true">
+            <item name="Table tag" href="ref.tagtable.html" />
+            <item name="Column tag" href="ref.tagcolumn.html" />
+            <item name="ColumnHead tag" href="ref.tagcolumnhead.html" />
+            <item name="ExtraConf tag" href="ref.tagextraconf.html" />
+            <item name="ExtraFile tag" href="ref.tagextrafile.html" />
+            <item name="Prop tag" href="ref.tagprop.html" />
+            <item name="Export tag" href="ref.tagexport.html" />
+         </item>
+         <item name="Thymeleaf dialect" href="ref.thymeleaf.html"
+            collapse="true">
+            <item name="Table attributes" href="ref.tmltable.html" />
+            <item name="Thead attributes" href="ref.tmlthead.html" />
+            <item name="Th attributes" href="ref.tmlth.html" />
+         </item>
+         <item name="Configuration properties" href="ref.properties.html" />
+      </menu>
+
+      <!-- 
+      <menu name="Development">
+         <item name="Continous Integration" href="dev.ci.html" />
+         <item name="Contribute" href="dev.contribute.html" />
+      </menu>
+       -->
+   </body>
+</project>
