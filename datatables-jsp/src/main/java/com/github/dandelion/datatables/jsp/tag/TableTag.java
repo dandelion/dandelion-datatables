@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 DataTables4j
+ * Copyright (c) 2012 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -12,7 +12,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
- * 3. Neither the name of DataTables4j nor the names of its contributors 
+ * 3. Neither the name of Dandelion nor the names of its contributors 
  * may be used to endorse or promote products derived from this software 
  * without specific prior written permission.
  * 
@@ -89,7 +89,7 @@ public class TableTag extends AbstractTableTag {
 			// Load table properties
 			PropertiesLoader.load(this.table);
 		} catch (BadConfigurationException e) {
-			throw new JspException("Unable to load DataTables4j configuration");
+			throw new JspException("Unable to load Dandelion configuration");
 		}
 
 		// The table data are loaded using AJAX source
@@ -184,7 +184,7 @@ public class TableTag extends AbstractTableTag {
 			exportDelegate.launchExport();
 
 		} catch (ExportException e) {
-			logger.error("Something went wront with the DataTables4j export configuration.");
+			logger.error("Something went wront with the Dandelion export configuration.");
 			throw new JspException(e);
 		}
 
@@ -273,7 +273,7 @@ public class TableTag extends AbstractTableTag {
 			logger.error("Something went wront with the compressor.");
 			throw new JspException(e);
 		} catch (BadConfigurationException e) {
-			logger.error("Something went wront with the DataTables4j configuration. Please check your datatables4j.properties file");
+			logger.error("Something went wront with the Dandelion configuration. Please check your Dandelion.properties file");
 			throw new JspException(e);
 		} catch (DataNotFoundException e) {
 			logger.error("Something went wront with the data provider.");
