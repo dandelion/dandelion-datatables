@@ -75,7 +75,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.theme.TableThemeOptio
 public class DataTablesDialect extends AbstractDialect {
 
 	public static final String DIALECT_PREFIX = "dt";
-	public static final String LAYOUT_NAMESPACE = "http://github.com/datatables4j/thymeleaf";
+	public static final String LAYOUT_NAMESPACE = "http://www.thymeleaf.org/dandelion/datatables";
 	public static final int DT_HIGHEST_PRECEDENCE = 3500;
 	
 	public String getPrefix() {
