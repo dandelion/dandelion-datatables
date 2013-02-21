@@ -1,13 +1,13 @@
-<h3>ExtraFile Tag</h3>
-<hr />
+### ExtraFile Tag
+<br />
 
-<h4>Description</h4>
+#### Description
 <br />
 
 Specify the location of an extra file containing Javascript code which will be merged with the main Javascript generated file.
 
 <br />
-<h4>Usage</h4>
+#### Usage
 
     <datatables:table>
        ...
@@ -16,7 +16,7 @@ Specify the location of an extra file containing Javascript code which will be m
     </datatables:table>
 
 <br />
-<h4>Reference</h4>
+#### Reference
 
 <table id="tagReference" class="table table-striped table-bordered">
   <thead>

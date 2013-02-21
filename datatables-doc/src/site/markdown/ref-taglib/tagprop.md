@@ -1,13 +1,13 @@
-<h3>Prop tag</h3>
-<hr />
+### Prop tag
+<br />
 
-<h4>Description</h4>
+#### Description
 <br />
 
 Locally override a global [Dandelion-DataTables configuration property](./ref.properties.html).
 
 <br />
-<h4>Usage</h4>
+#### Usage
     
     <datatables:table>
        ...
@@ -16,7 +16,7 @@ Locally override a global [Dandelion-DataTables configuration property](./ref.pr
     </datatables:table>
     
 <br />    
-<h4>Reference</h4>
+#### Reference
 
 <table id="tagReference" class="table table-striped table-bordered">
   <thead>

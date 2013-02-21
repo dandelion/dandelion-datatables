@@ -1,13 +1,12 @@
-<h3>Column tag</h3>
-<hr />
-
-<h4>Description</h4>
+### Column tag
 <br />
+
+#### Description
 
 Describes a column of the HTML table.
 
 <br />
-<h4>Usage</h4>
+#### Usage
 
 You can either let the <code>property</code> attribute handle the content of a cell. This attribute is used to retrieve the corresponding value of the bean of the iterated collection. As a consequence, the <code>column</code> tag doesn\'t need to have a body. 
 
@@ -20,7 +19,7 @@ Or you can set a body and put anything you want inside (HTML, other tags\...). S
     </datatables>
 
 <br />
-<h4>Reference</h4>
+#### Reference
 
 <table id="tagReference" class="table table-striped table-bordered">
   <thead>

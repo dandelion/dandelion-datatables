@@ -1,13 +1,13 @@
-<h3>ExtraConf Tag</h3>
-<hr />
+### ExtraConf Tag
+<br />
 
-<h4>Description</h4>
+#### Description
 <br />
 
 Specify the location of a file containing a JSON-formatted DataTables configuration to merge with the generated one.
 
 <br />
-<h4>Usage</h4>
+#### Usage
 
     <datatables:table>
        ...
@@ -16,7 +16,7 @@ Specify the location of a file containing a JSON-formatted DataTables configurat
     </datatables:table>
 
 <br />
-<h4>Reference</h4>
+#### Reference
 
 <table id="tagReference" class="table table-striped table-bordered">
   <thead>

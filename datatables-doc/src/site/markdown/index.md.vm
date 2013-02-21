@@ -8,7 +8,6 @@ Writing table in your Java/JEE based web application has never been so easy than
 
 <br />
 <h4>How to use it?</h4>
-<br />
 <h5>With JSP taglib</h5>
 Quiet simply. Once the taglib definition included in your JSP, write the following lines :
 
@@ -52,10 +51,10 @@ As a result, you\'ll have the following full-featured HTML table!
 
 <br /><br />
 <h4>Getting started</h4>
-Feel free to browse/fork the demo apps!
+Feel free to browse/clone/fork the demo apps!
 
- * [Live taglib demo](${demoAppUrl})
- * [Live Thymeleaf demo](${demoThymeleafAppUrl})
+ * [JSP demo](https://github.com/Dandelion/dandelion-samples/tree/master/datatables-jsp)
+ * [Thymeleaf demo](https://github.com/Dandelion/dandelion-samples/tree/master/datatables-thymeleaf)
 
 <br />
 <h4>Bug / Enhancement</h4>

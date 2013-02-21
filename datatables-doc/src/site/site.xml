@@ -52,11 +52,12 @@
          <item name="Live Thymeleaf demo" target="_blank"
             href="http://demo.thymeleaf.datatables4j.cloudbees.net/" />
              -->
+         <item name="Dandelion" target="_blank" href="http://dandelion.github.com/" />
          <item name="DataTables" target="_blank" href="http://datatables.net" />
       </links>
 
       <menu name="Overview">
-         <item name="Home" href="index.html" />
+         <item name="Home" href="/" />
          <item name="Install" href="install.html" collapse="true">
             <item name="JSP taglib" href="install.jsp.html" />
             <item name="Thymeleaf" href="install.thymeleaf.html" />
@@ -65,36 +66,49 @@
          <item name="Roadmap" href="roadmap.html" />
          <item name="Forum" href="forum.html" />
          <item name="Download" href="download.html" />
+         <item name="Migration guide" href="migration.html" />
       </menu>
       
-      <menu name="Migration guide">
-         <item name="Migrating from DataTables4j" href="migration.html" />
+      <menu name="Tutorial">
+         <item name="Basics" href="basics.html" collapse="true">
+            <item name="JSP taglib" href="install.jsp.html" />
+            <item name="Thymeleaf" href="install.thymeleaf.html" />
+         </item>
+         <item name="Advanced" href="advanced.html" collapse="true">
+            <item name="JSP taglib" href="install.jsp.html" />
+            <item name="Thymeleaf" href="install.thymeleaf.html" />
+         </item>
+         <item name="Themes" href="themes.html" collapse="true">
+            <item name="JSP taglib" href="install.jsp.html" />
+            <item name="Thymeleaf" href="install.thymeleaf.html" />
+         </item>
+         <item name="AJAX" href="ajax/" collapse="true">
+            <item name="AJAX source" href="/ajax/ajaxsource.html" />
+            <item name="Thymeleaf" href="install.thymeleaf.html" />
+         </item>
+         <item name="Plugins" href="plugins.html" collapse="true">
+            <item name="JSP taglib" href="install.jsp.html" />
+            <item name="Thymeleaf" href="install.thymeleaf.html" />
+         </item>
       </menu>
-      
-      <!-- 
-      <menu name="Examples">
-         <item name="Live demo" href="${demoAppUrl}" />
-         <item name="Live Thymeleaf demo" href="${demoThymeleafAppUrl}" />
-      </menu>
-       -->
        
       <menu name="Reference">
-         <item name="JSP taglib" href="ref.taglib.html" collapse="true">
-            <item name="Table tag" href="ref.tagtable.html" />
-            <item name="Column tag" href="ref.tagcolumn.html" />
-            <item name="ColumnHead tag" href="ref.tagcolumnhead.html" />
-            <item name="ExtraConf tag" href="ref.tagextraconf.html" />
-            <item name="ExtraFile tag" href="ref.tagextrafile.html" />
-            <item name="Prop tag" href="ref.tagprop.html" />
-            <item name="Export tag" href="ref.tagexport.html" />
+         <item name="JSP taglib" href="ref-taglib/" collapse="true">
+            <item name="Table tag" href="ref-taglib/tagtable.html" />
+            <item name="Column tag" href="ref-taglib/tagcolumn.html" />
+            <item name="ColumnHead tag" href="ref-taglib/tagcolumnhead.html" />
+            <item name="ExtraConf tag" href="ref-taglib/tagextraconf.html" />
+            <item name="ExtraFile tag" href="ref-taglib/tagextrafile.html" />
+            <item name="Prop tag" href="ref-taglib/tagprop.html" />
+            <item name="Export tag" href="ref-taglib/tagexport.html" />
          </item>
-         <item name="Thymeleaf dialect" href="ref.thymeleaf.html"
+         <item name="Thymeleaf dialect" href="ref-thymeleaf/"
             collapse="true">
-            <item name="Table attributes" href="ref.tmltable.html" />
-            <item name="Thead attributes" href="ref.tmlthead.html" />
-            <item name="Th attributes" href="ref.tmlth.html" />
+            <item name="Table attributes" href="ref-thymeleaf/tmltable.html" />
+            <item name="Thead attributes" href="ref-thymeleaf/tmlthead.html" />
+            <item name="Th attributes" href="ref-thymeleaf/tmlth.html" />
          </item>
-         <item name="Configuration properties" href="ref.properties.html" />
+         <item name="Configuration properties" href="properties.html" />
       </menu>
 
       <!-- 

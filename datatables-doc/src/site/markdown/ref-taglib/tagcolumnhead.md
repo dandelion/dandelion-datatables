@@ -1,14 +1,11 @@
-<h3>ColumnHead tag</h3>
-<hr />
-
-<h4>Description</h4>
+### ColumnHead tag
 <br />
 
+#### Description
 Allows to fill a column header with more complex content than a usual title.
 
 <br />
-<h4>Usage</h4>
-
+#### Usage
 You need to follow the two following steps :
 
  * Write anything insile the <code>columnHead</code> tag but remember to set the <code>uid</code> attribute, which is an arbitrary id for the column. 
@@ -28,7 +25,7 @@ You need to follow the two following steps :
 
     
 <br />
-<h4>Reference</h4>
+#### Reference
 
 <table id="tagReference" class="table table-striped table-bordered">
   <thead>

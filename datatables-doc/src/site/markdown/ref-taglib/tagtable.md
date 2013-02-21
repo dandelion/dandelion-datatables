@@ -1,13 +1,11 @@
-<h3>Table tag</h3>
-<hr />
-
-<h4>Description</h4>
+### Table tag
 <br />
 
+#### Description
 Decribes how the HTML table should be generated.
 
 <br />
-<h4>Usage</h4>
+#### Usage
 
     <datatables:table>
        ...
@@ -15,7 +13,7 @@ Decribes how the HTML table should be generated.
 
 <p class="alert alert-warn"><strong>Warning !</strong><br /> the table tag must have a body.</p>
 
-<h4>Reference</h4>
+#### Reference
 
 <table id="tagReference" class="table table-striped table-bordered">
   <thead>

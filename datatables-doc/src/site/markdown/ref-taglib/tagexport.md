@@ -1,13 +1,13 @@
-<h3>Export Tag</h3>
-<hr />
+### Export Tag
+<br />
 
-<h4>Description</h4>
+#### Description
 <br />
 
 Configure the HTML link and properties for a given export type.
 
 <br />
-<h4>Usage</h4>
+#### Usage
 
     <datatables:table>
        ...
@@ -16,7 +16,7 @@ Configure the HTML link and properties for a given export type.
     </datatables:table>
 
 <br />
-<h4>Reference</h4>
+#### Reference
 
 <table id="tagReference" class="table table-striped table-bordered">
   <thead>
