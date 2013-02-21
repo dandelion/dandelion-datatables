@@ -158,7 +158,7 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 	 */
 	private void setupHtmlGeneration(Arguments arguments, Element element,
 			HttpServletRequest request) {
-		ServletContext servletContext = request.getServletContext();
+		ServletContext servletContext = request.getSession().getServletContext();
 
 		this.htmlTable.setExporting(false);
 
