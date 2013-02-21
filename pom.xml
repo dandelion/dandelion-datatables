@@ -9,7 +9,7 @@
 
    <groupId>com.github.dandelion</groupId>
    <artifactId>dandelion-datatables</artifactId>
-   <version>0.8.4-SNAPSHOT</version>
+   <version>0.8.4</version>
    <packaging>pom</packaging>
 
    <name>Dandelion : Datatables :: Parent</name>
