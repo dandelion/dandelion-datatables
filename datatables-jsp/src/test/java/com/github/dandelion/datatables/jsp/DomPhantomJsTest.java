@@ -12,7 +12,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
- * 3. Neither the name of DataTables4j nor the names of its contributors
+ * 3. Neither the name of Dandelion nor the names of its contributors
  * may be used to endorse or promote products derived from this software
  * without specific prior written permission.
  *
@@ -40,6 +40,7 @@ import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.fluentlenium.core.FluentAdapter;
+import org.fluentlenium.core.domain.FluentList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -59,6 +60,8 @@ import com.github.dandelion.datatables.entity.Person;
 public abstract class DomPhantomJsTest extends FluentAdapter {
     private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(1024, 768);
 
+    public static final String TABLE_ID = "myTableId";
+    
     protected static WebDriver driver;
     private static Server webServer;
 
@@ -151,5 +154,9 @@ public abstract class DomPhantomJsTest extends FluentAdapter {
 
     public String defaultUrl() {
         return "http://127.0.0.1:9090";
+    }
+    
+    public FluentList getTable(){
+    	return find("#" + TABLE_ID + "_wrapper").find("table");
     }
 }
