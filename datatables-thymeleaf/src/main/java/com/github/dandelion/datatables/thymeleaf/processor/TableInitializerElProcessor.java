@@ -82,8 +82,6 @@ public class TableInitializerElProcessor extends AbstractElementProcessor {
 			((IWebContext) arguments.getContext()).getHttpServletRequest().setAttribute(
 					"tableNode", element);
 			
-			element.setAttribute("style","display:none;");
-			
 			// Don't forget to remove the attribute
 			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":table");
 
