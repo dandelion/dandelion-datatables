@@ -29,12 +29,6 @@
       </license>
    </licenses>
 
-   <scm>
-      <connection>scm:git:git://github.com/dandelion/dandelion-datatables.git</connection>
-      <developerConnection>scm:git:git@github.com:dandelion/dandelion-datatables.git</developerConnection>
-      <url>http://github.com/dandelion/dandelion-datatables</url>
-   </scm>
-
    <properties>
       <!-- Configuration -->
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -237,4 +231,10 @@
       <system>GitHub</system>
       <url>https://github.com/dandelion/issues/issues</url>
    </issueManagement>
+   
+   <scm>
+      <connection>scm:git:git://github.com/Dandelion/dandelion-datatables.git</connection>
+      <developerConnection>scm:git:git@github.com:Dandelion/dandelion-datatables.git</developerConnection>
+      <url>http://github.com/Dandelion/dandelion-datatables</url>
+   </scm>
 </project>
