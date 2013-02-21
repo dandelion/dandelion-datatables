@@ -25,7 +25,6 @@ import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.DataNotFoundException;
-import com.github.dandelion.datatables.core.exception.DataTables4jException;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportProperties;
@@ -142,7 +141,7 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 			exportDelegate.launchExport();
 
 		} catch (ExportException e) {
-			logger.error("Something went wront with the DataTables4j export configuration.");
+			logger.error("Something went wront with the Dandelion-datatables export configuration.");
 			// throw new JspException(e);
 			e.printStackTrace();
 		}
@@ -221,15 +220,15 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 			logger.debug("Web content generated successfully");
 		} catch (CompressionException e) {
 			logger.error("Something went wront with the compressor.");
-			throw new DataTables4jException(e);
+			throw new RuntimeException(e);
 		} catch (IOException e) {
-			throw new DataTables4jException(e);
+			throw new RuntimeException(e);
 		} catch (BadConfigurationException e) {
-			logger.error("Something went wront with the DataTables4j configuration.");
-			throw new DataTables4jException(e);
+			logger.error("Something went wront with the Dandelion-datatables configuration.");
+			throw new RuntimeException(e);
 		} catch (DataNotFoundException e) {
 			logger.error("Something went wront with the data provider.");
-			throw new DataTables4jException(e);
+			throw new RuntimeException(e);
 		}
 	}
 

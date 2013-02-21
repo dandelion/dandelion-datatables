@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 DataTables4j
+ * Copyright (c) 2012 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -12,7 +12,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
- * 3. Neither the name of DataTables4j nor the names of its contributors 
+ * 3. Neither the name of Dandelion nor the names of its contributors 
  * may be used to endorse or promote products derived from this software 
  * without specific prior written permission.
  * 
@@ -33,7 +33,7 @@ import com.github.dandelion.datatables.core.constants.ResourceType;
 
 /**
  * <p>
- * POJO for a JS file, which will be served by the DataTables4j servlet to the
+ * POJO for a JS file, which will be served by the Dandelion-datatables servlet to the
  * client.
  * <p>
  * Only the JsResource (or main JS file) which handles the main DataTables

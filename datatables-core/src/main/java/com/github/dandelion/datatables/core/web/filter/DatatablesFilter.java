@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 DataTables4j
+ * Copyright (c) 2012 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -12,7 +12,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
- * 3. Neither the name of DataTables4j nor the names of its contributors 
+ * 3. Neither the name of Dandelion nor the names of its contributors 
  * may be used to endorse or promote products derived from this software 
  * without specific prior written permission.
  * 
@@ -60,14 +60,12 @@ import com.github.dandelion.datatables.core.export.ExportProperties;
  * @author Thibault Duchateau
  * @since 0.7.0
  */
-@WebFilter(filterName = "DataTables4jFilter", value = { "/*" })
+@WebFilter(filterName = "DataTablesFilter", value = { "/*" })
 public class DatatablesFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 
-		// TODO configuration dynamique de l'urlPattern en fonction de la conf
-		// Datatables4j ?
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 DataTables4j
+ * Copyright (c) 2012 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -12,7 +12,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
- * 3. Neither the name of DataTables4j nor the names of its contributors 
+ * 3. Neither the name of Dandelion nor the names of its contributors 
  * may be used to endorse or promote products derived from this software 
  * without specific prior written permission.
  * 
@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.constants;
 
 /**
- * Enum containing the different type of resource that DataTables4j can generate. 
+ * Enum containing the different type of resource that Dandelion-datatables can generate. 
  *
  * @author Thibault Duchateau
  */
@@ -43,15 +43,15 @@ public enum ResourceType {
 	// DataTables plugin javascript file
 	PLUGIN, 
 	
-	// DataTables4j feature javascript file
+	// Dandelion-datatables feature javascript file
 	FEATURE, 
 	
 	THEME,
 	
-	// DataTables4j javascript aggregated file
+	// Dandelion-datatables javascript aggregated file
 	AGGREGATE, 
 	
-	// DataTables4j javascript minimified file
+	// Dandelion-datatables javascript minimified file
 	MINIMIFIED,
 	
 	EXTERNAL

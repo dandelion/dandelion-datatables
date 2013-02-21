@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 DataTables4j
+ * Copyright (c) 2012 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -12,7 +12,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
- * 3. Neither the name of DataTables4j nor the names of its contributors 
+ * 3. Neither the name of Dandelion nor the names of its contributors 
  * may be used to endorse or promote products derived from this software 
  * without specific prior written permission.
  * 
@@ -36,10 +36,10 @@ package com.github.dandelion.datatables.core.util;
  */
 public class NameConstants {
 
-	public static final String DT_MAIN_JS = "datatables4j-";
-	public static final String DT_PLUGIN_JS = "datatables4j-";
-	public static final String DT_AGG_ALL_JS = "datatables4j-aggr-";
-	public static final String DT_AGG_ALL_CSS = "datatables4j-aggr-";
-	public static final String DT_AGG_PLUGINS_JS = "datatables4j-aggr-plugins-";
-	public static final String DT_AGG_PLUGINS_CSS = "datatables4j-aggr-plugins-";
+	public static final String DT_MAIN_JS = "datatables-";
+	public static final String DT_PLUGIN_JS = "datatables-";
+	public static final String DT_AGG_ALL_JS = "datatables-aggr-";
+	public static final String DT_AGG_ALL_CSS = "datatables-aggr-";
+	public static final String DT_AGG_PLUGINS_JS = "datatables-aggr-plugins-";
+	public static final String DT_AGG_PLUGINS_CSS = "datatables-aggr-plugins-";
 }

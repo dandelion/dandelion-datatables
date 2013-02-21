@@ -56,7 +56,7 @@ public class TableInitializerElProcessor extends AbstractElementProcessor {
 				// Load table properties
 				PropertiesLoader.load(htmlTable);
 			} catch (BadConfigurationException e) {
-				logger.error("Unable to load DataTables4j configuration");
+				logger.error("Unable to load Dandelion-datatables configuration");
 				e.printStackTrace();
 			}
 
@@ -65,7 +65,7 @@ public class TableInitializerElProcessor extends AbstractElementProcessor {
 			htmlTable.addFooterRow();
 
 			// Add a "finalizing div" after the HTML table tag in order to
-			// finalize the DataTables4j configuration generation
+			// finalize the Dandelion-datatables configuration generation
 			// The div will be removed in its processor
 			Element div = new Element("div");
 			div.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":tmp", "internalUse");

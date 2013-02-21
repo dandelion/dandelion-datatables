@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 DataTables4j
+ * Copyright (c) 2012 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -12,7 +12,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
- * 3. Neither the name of DataTables4j nor the names of its contributors 
+ * 3. Neither the name of Dandelion nor the names of its contributors 
  * may be used to endorse or promote products derived from this software 
  * without specific prior written permission.
  * 
@@ -57,7 +57,7 @@ public class ResourceCompressor {
 
 	/**
 	 * Main routine of the compressor which launches different type of
-	 * compression depending on the datatables4j configuration.
+	 * compression depending on the Dandelion-datatables configuration.
 	 * 
 	 * @param webResources
 	 *            The wrapper POJO containing all web resources to compress.
@@ -78,7 +78,7 @@ public class ResourceCompressor {
 		// Get the compressor helper instance
 		ResourceCompressorDelegate compressorHelper = new ResourceCompressorDelegate(table);
 
-		// If DataTables4j has been manually installed, some jar might be
+		// If Dandelion-datatables has been manually installed, some jar might be
 		// missing
 		// So, first check if the CompressorClass exist in the classpath
 		if (ReflectHelper.canBeUsed(table.getTableProperties().getCompressorClassName())) {
@@ -113,7 +113,7 @@ public class ResourceCompressor {
 
 	/**
 	 * Compress only javascript resources using the implementation defined in
-	 * the datatables4j properties file.
+	 * the Dandelion-datatables properties file.
 	 * 
 	 * @param webResources
 	 *            The wrapper POJO containing all web resources to compress.
@@ -158,7 +158,7 @@ public class ResourceCompressor {
 
 	/**
 	 * Compress the main Javascript file using the implementation defined in the
-	 * datatables4j properties file.
+	 * Dandelion-datatables properties file.
 	 * 
 	 * @param webResources
 	 *            The wrapper POJO containing the resource to compress.
@@ -193,7 +193,7 @@ public class ResourceCompressor {
 
 	/**
 	 * Compress only stylesheet resources using the implementation defined in
-	 * the datatables4j properties file.
+	 * the Dandelion-datatables properties file.
 	 * 
 	 * @param webResources
 	 *            The wrapper POJO containing all web resources to compress.
