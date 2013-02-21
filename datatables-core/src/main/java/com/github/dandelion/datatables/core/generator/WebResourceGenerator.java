@@ -159,7 +159,7 @@ public class WebResourceGenerator {
 		/**
 		 * Table display
 		 */
-		if(table.getPlugins() == null || table.getPlugins().isEmpty()){
+		if(StringUtils.isNotBlank(table.getAppear())){
 			
 			if("block".equals(table.getAppear())){
 				mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId() + "').show();");			

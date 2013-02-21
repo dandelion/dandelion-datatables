@@ -117,7 +117,6 @@ public class HtmlTable extends HtmlTag {
 	private void init(){
 		// Basic attributes
 		this.cdn = false;
-		this.appear = "fadein";
 		
 		// Export
 		this.isExportable = false;
@@ -138,11 +137,11 @@ public class HtmlTable extends HtmlTag {
 	public StringBuffer toHtml() {
 		StringBuffer html = new StringBuffer();
 
-		if(this.plugins == null || this.plugins.isEmpty()){
+		if(this.appear != null && !"".equals(this.appear)){
 			html.append("<table style=\"display:none;\" id=\"");
 		}
 		else{
-			html.append("<table id=\"");			
+			html.append("<table id=\"");
 		}
 		html.append(this.id);
 		html.append("\"");
@@ -562,24 +561,6 @@ public class HtmlTable extends HtmlTag {
 		this.currentUrl = currentUrl;
 	}
 
-	@Override
-	public String toString() {
-		return "HtmlTable [id=" + id + ", cssStyle=" + cssStyle + ", cssClass=" + cssClass
-				+ ", autoWidth=" + autoWidth + ", deferRender=" + deferRender + ", info=" + info
-				+ ", filterable=" + filterable + ", paginate=" + paginate + ", paginationStyle="
-				+ paginationType + ", lengthChange=" + lengthChange + ", processing=" + processing
-				+ ", sort=" + sort + ", stateSave=" + stateSave + ", labels=" + labels + ", cdn="
-				+ cdn + ", jqueryUI=" + jqueryUI + ", scrollY=" + scrollY + ", fixedPosition="
-				+ fixedPosition + ", fixedOffsetTop=" + fixedOffsetTop + ", head=" + head
-				+ ", body=" + body + ", foot=" + foot + ", tableProperties=" + tableProperties
-				+ ", datasourceUrl=" + datasourceUrl + ", plugins=" + plugins + ", features="
-				+ features + ", extraFiles=" + extraFiles + ", extraConfs=" + extraConfs
-				+ ", randomId=" + randomId + ", objectType=" + objectType + ", currentUrl="
-				+ currentUrl + ", exportProperties=" + exportProperties + ", exporting="
-				+ exporting + ", exportConfMap=" + exportConfMap + ", exportLinkPositions="
-				+ exportLinkPositions + ", isExportable=" + isExportable + "]";
-	}
-
 	public AbstractTheme getTheme() {
 		return theme;
 	}
@@ -634,5 +615,26 @@ public class HtmlTable extends HtmlTag {
 
 	public void setJsonp(Boolean jsonp) {
 		this.jsonp = jsonp;
+	}
+
+	@Override
+	public String toString() {
+		return "HtmlTable [autoWidth=" + autoWidth + ", deferRender=" + deferRender + ", info="
+				+ info + ", filterable=" + filterable + ", paginate=" + paginate
+				+ ", paginationType=" + paginationType + ", lengthChange=" + lengthChange
+				+ ", sort=" + sort + ", stateSave=" + stateSave + ", labels=" + labels + ", cdn="
+				+ cdn + ", jqueryUI=" + jqueryUI + ", appear=" + appear + ", appearDuration="
+				+ appearDuration + ", processing=" + processing + ", serverSide=" + serverSide
+				+ ", ajaxSource=" + ajaxSource + ", pipelining=" + pipelining + ", pipeSize="
+				+ pipeSize + ", jsonp=" + jsonp + ", scrollY=" + scrollY + ", fixedPosition="
+				+ fixedPosition + ", fixedOffsetTop=" + fixedOffsetTop + ", head=" + head
+				+ ", body=" + body + ", foot=" + foot + ", tableProperties=" + tableProperties
+				+ ", datasourceUrl=" + datasourceUrl + ", plugins=" + plugins + ", features="
+				+ features + ", extraFiles=" + extraFiles + ", extraConfs=" + extraConfs
+				+ ", randomId=" + randomId + ", objectType=" + objectType + ", currentUrl="
+				+ currentUrl + ", exportProperties=" + exportProperties + ", exporting="
+				+ exporting + ", exportConfMap=" + exportConfMap + ", exportLinkPositions="
+				+ exportLinkPositions + ", isExportable=" + isExportable + ", theme=" + theme
+				+ ", themeOption=" + themeOption + "]";
 	}
 }
