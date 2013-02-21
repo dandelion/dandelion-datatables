@@ -58,7 +58,7 @@
 
       <menu name="Overview">
          <item name="Home" href="/" />
-         <item name="Install" href="install.html" collapse="true">
+         <item name="Install" href="install/" collapse="true">
             <item name="JSP taglib" href="install.jsp.html" />
             <item name="Thymeleaf" href="install.thymeleaf.html" />
          </item>

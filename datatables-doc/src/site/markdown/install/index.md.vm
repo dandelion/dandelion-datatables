@@ -1,7 +1,5 @@
-<link rel="stylesheet" href="./css/bootstrap.min.css" />
-
-<h3>Installation guide</h3>
-<hr />
+### Installation guide
+<br />
 
 <h4>Prerequisites</h4>
 ​
@@ -20,8 +18,8 @@ The installation guide defers, depending on the template engine you want to use 
 
 <br />
 
- * [With JSP](./install.jsp.html)
- * [With Thymeleaf](./install.thymeleaf.html)
+ * [With JSP](jsp.html)
+ * [With Thymeleaf](thymeleaf.html)
 
 
 
