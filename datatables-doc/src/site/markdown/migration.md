@@ -1,11 +1,10 @@
 ### Migrating from DataTables4j to Dandelion-datatables
 **Dandelion-datatables** is a continuation of the previous [DataTables4j](http://datatables4j.github.com/docs) project. For now, it's just a simple renaming (and also internal and transparent structure simplifications) but in a near future, we will inform you of features and services connected with Dandelion! 
 
-At the moment, we just ask you to start migrating your apps from DataTables4j to Dandelion-datatables. As you will see in the following section, the workload is quite limited! :-) 
+At the moment, we just ask you to start migrating your apps from **DataTables4j** to **Dandelion-datatables**. As you will see in the following section, the workload is quite limited! :-) 
 
 <br />
 #### Step 1 : update all your dependencies 
-
 The following table lists the old and new dependencies.
 
 <table>
@@ -51,8 +50,7 @@ The following table lists the old and new dependencies.
   </tbody>
 </table>
 
-**Warning !**
-Ensure to delete all DataTables4j dependencies to avoid classpath conflicts.
+<p class="alert alert-warn"><strong>Warning !</strong><br />Ensure to delete all <strong>DataTables4j</strong> dependencies to avoid classpath conflicts.</p>
 
 <br />
 #### Step 2 (JSP): update the taglib URI
@@ -77,7 +75,53 @@ To:
     <html xmlns:th="http://www.thymeleaf.org" xmlns:dt="http://github.com/dandelion/datatables">
 
 <br />
-#### Step 3 (optional) : servlet 2.x
+#### Step 3 : update properties in new `datatables.properties` file
+The following table lists the old and new properties.
+
+<table>
+  <thead>
+  	<tr>
+  	  <th>Property</th>
+  	  <th>Old</th>
+  	  <th>New</th>
+  	</tr>  
+  </thead>
+  <tbody>
+  	<tr>
+  	  <td>compressor.class</td>
+  	  <td>com.github.datatables4j.plugins.compression.YuiResourceCompressor</td>
+  	  <td>com.github.dandelion.datatables.extras.compression.YuiResourceCompressor</td>
+  	</tr>
+  	<tr>
+  	  <td>export.csv.default.class</td>
+  	  <td>com.github.datatables4j.core.base.export.CsvExport</td>
+  	  <td>com.github.dandelion.datatables.core.export.CsvExport</td>
+  	</tr>
+  	<tr>
+  	  <td>export.xml.default.class</td>
+  	  <td>com.github.datatables4j.core.base.export.XmlExport</td>
+  	  <td>com.github.dandelion.datatables.core.export.XmlExport</td>
+  	</tr>
+  	<tr>
+  	  <td>export.xls.default.class</td>
+  	  <td>com.github.datatables4j.plugins.export.poi.XlsExport</td>
+  	  <td>com.github.dandelion.datatables.extras.export.poi.XlsExport</td>
+  	</tr>
+  	<tr>
+  	  <td>export.xlsx.default.class</td>
+  	  <td>com.github.datatables4j.plugins.export.poi.XlsxExport</td>
+  	  <td>com.github.dandelion.datatables.extras.export.poi.XlsxExport</td>
+  	</tr>
+  	<tr>
+  	  <td>export.pdf.default.class</td>
+  	  <td>com.github.datatables4j.plugins.export.itext.PdfExport</td>
+  	  <td>com.github.dandelion.datatables.extras.export.itext.PdfExport</td>
+  	</tr>
+  </tbody>
+</table>
+
+<br />
+#### Step 4 (optional) : servlet 2.x
 If you were using the [Servlet2 compatibility module](https://github.com/datatables4j/datatables4j-backward-servlet2.x), first ensure to update the corresponding dependency (see above).
 
 Then, ensure to update the qualified class names in `web.xml` :
@@ -107,7 +151,7 @@ Then, ensure to update the qualified class names in `web.xml` :
     </filter-mapping>
 
 <br />
-#### Step 4 (optional) : Spring 3
+#### Step 5 (optional) : Spring 3
 If you were using the [Spring 3 extra module](https://github.com/datatables4j/datatables4j-core-parent/tree/master/datatables4j-spring3)(used in server-side processing), first ensure to update the corresponding dependency (see above). 
 
 Then, ensure to update the qualified class name in you Spring MVC configuration:

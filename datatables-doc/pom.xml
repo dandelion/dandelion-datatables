@@ -5,7 +5,7 @@
    <parent>
       <groupId>com.github.dandelion</groupId>
       <artifactId>dandelion-datatables</artifactId>
-      <version>0.8.4-SNAPSHOT</version>
+      <version>0.8.4</version>
    </parent>
 
    <groupId>com.github.dandelion</groupId>
@@ -27,22 +27,8 @@
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-      <!-- Dependencies -->
-      <commons-lang.version>2.6</commons-lang.version>
-      <commons-collection.version>3.2.1</commons-collection.version>
-      <commons-beanutils.version>1.8.3</commons-beanutils.version>
-      <jackson.version>1.9.9</jackson.version>
-      <servlet.version>3.0.1</servlet.version>
-      <slf4j.version>1.6.4</slf4j.version>
-      <junit.version>4.10</junit.version>
-
-      <!-- Maven plugins -->
-      <maven.compiler.version>2.3.2</maven.compiler.version>
-      <maven.javadoc.version>2.8.1</maven.javadoc.version>
-      <maven.source.version>2.2</maven.source.version>
-      <maven.project-report-info.version>2.5.1</maven.project-report-info.version>
-      <maven.site.version>3.1</maven.site.version>
-      <maven.release.version>2.3.2</maven.release.version>
+      <!-- Extras version -->
+      <backwardServlet2Version>0.1.3</backwardServlet2Version>
    </properties>
 
    <build>

@@ -1,14 +1,14 @@
-<h3>Download</h3>
-<hr />
+### Download
+<br />
 
-<h4>Main taglib JARs</h4>
+#### Main JARs
 
-All the main Dandelion-DataTables JAR can be found in the [Maven Central Repository](http://search.maven.org/#search%7Cga%7C1%dandelion-datatables)
+All the main **Dandelion-DataTables** JAR can be found in the [Maven Central Repository](http://search.maven.org/#search%7Cga%7C1%dandelion-datatables)
 
 <br />
-<h4>Taglib dependencies</h4>
+#### Dependencies
 
-You can download the Dandelion-DataTables dependencies using e.g. [http://search.maven.org](http://search.maven.org) or [http://mvnrepository.com/](http://mvnrepository.com/).
+You can download the **Dandelion-DataTables** dependencies using e.g. [http://search.maven.org](http://search.maven.org) or [http://mvnrepository.com/](http://mvnrepository.com/).
 
  * <strong>slf4j-api-1.6.4.jar</strong> : [using mvnrepository](http://mvnrepository.com/artifact/org.slf4j/slf4j-api/1.6.4) | [using search.maven](http://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-api%7C1.6.4%7Cjar)
 

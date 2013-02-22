@@ -8,6 +8,8 @@ This is not a formal roadmap, more a priority list which evolves with time.
 
  * Better integration with Thymeleaf
 
+ * Extension points for AbstractExtension
+ 
  * Add content assist in Eclipse for the Thymeleaf dialect and all enumerated types of the JSP taglib
  
  * Spring Data REST integration (for server-side processing)

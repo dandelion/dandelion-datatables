@@ -1,33 +1,30 @@
-<link rel="stylesheet" href="./css/bootstrap.min.css" />
+### Installation guide with JSP
 
-<h3>Installation guide with JSP</h3>
-<hr />
+#### With Servlet 3.x compatible containers
 
-<h4>With Servlet 3.x compatible containers</h4>
+##### Step 1 : Install the Dandelion-DataTables JARs
 
-<h5>Step 1 : Install the Dandelion-DataTables JARs</h5>
+###### Manually
 
-<h6>Manually</h6>
+Download the JAR (see [here](../download.html)) and make sure that they are all made available via the application classpath. (Usually in **WEB-INF\\lib**)
 
-Download the JAR (see [here](./download.html)) and make sure that they are all made available via the application classpath. (Usually in **WEB-INF\\lib**)
-
-<h6>Using Maven</h6>
+######Using Maven
  
 Just add the following dependency in the <tt>dependencies</tt> section of your <tt>pom.xml</tt> :
 
     <dependency>
         <groupId>com.github.dandelion</groupId>
         <artifactId>datatables-jsp</artifactId>
-        <version>${project.version}</version>
+        <version>0.8.4</version>
     </dependency>
 
-<h5>Step 2 : Declare the taglib definition</h5>
+##### Step 2 : Declare the taglib definition
 
 Everywhere you want to display a table using <strong>Dandelion-DataTables</strong>, you need to add the taglib definition in your JSP :
 
 	<%@ taglib prefix="datatables" uri="http://github.com/dandelion/datatables" %>
 
-<h5>Step 3 : Include client-side dependencies</h5>
+##### Step 3 : Include client-side dependencies
 
 By default, the Javascript libraries are not embedded in <strong>Dandelion-DataTables</strong>. So ensure you declared somewhere in your pages those <tt>script</tt> and <tt>link</tt> tags :
 
@@ -43,22 +40,22 @@ By default, the Javascript libraries are not embedded in <strong>Dandelion-DataT
 You can now begin using the taglib ! :-)
 
 <br />
-<h4>With Servlet 2.x compatible containers</h4>
+#### With Servlet 2.x compatible containers
 
-<h5>Steps 1/2/3</h5>
+##### Steps 1/2/3
 You need to follow the first three steps described above.
 
 <br />
-<h5>Step 4 : Add the backward compatibility dependency</h5>
+##### Step 4 : Add the backward compatibility dependency
 
     <dependency>
         <groupId>com.github.dandelion</groupId>
         <artifactId>datatables-servlet2</artifactId>
-        <version>${backwardServlet2Version}</version>
+        <version>0.1.3</version>
     </dependency>
     
 <br />
-<h5>Step 5 : Add the Dandelion-DataTables servlet and filter definitions</h5>
+##### Step 5 : Add the Dandelion-DataTables servlet and filter definitions
 
 Add the following configuration to your <tt>web.xml</tt> :
 
@@ -89,6 +86,6 @@ Add the following configuration to your <tt>web.xml</tt> :
 You can now begin using the taglib ! :-)
 
 <br />
-<h4>Optional step : Add a Dandelion-DataTables custom configuration file</h4>
+#### Optional step : Add a Dandelion-DataTables custom configuration file
 
-See the [properties reference](./ref.properties.html) to see more details !
+See the [properties reference](../properties.html) to see more details !

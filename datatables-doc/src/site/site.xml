@@ -46,21 +46,15 @@
       </head>
 
       <links>
-         <!-- 
-         <item name="Live demo" target="_blank"
-            href="http://demo.datatables4j.cloudbees.net/" />
-         <item name="Live Thymeleaf demo" target="_blank"
-            href="http://demo.thymeleaf.datatables4j.cloudbees.net/" />
-             -->
          <item name="Dandelion" target="_blank" href="http://dandelion.github.com/" />
          <item name="DataTables" target="_blank" href="http://datatables.net" />
       </links>
 
       <menu name="Overview">
-         <item name="Home" href="/" />
+         <item name="Home" href="/index.html" />
          <item name="Install" href="install/" collapse="true">
-            <item name="JSP taglib" href="install.jsp.html" />
-            <item name="Thymeleaf" href="install.thymeleaf.html" />
+            <item name="JSP taglib" href="/install/jsp.html" />
+            <item name="Thymeleaf" href="/install/thymeleaf.html" />
          </item>
          <item name="Changelog" href="changelog.html" />
          <item name="Roadmap" href="roadmap.html" />
@@ -69,26 +63,56 @@
          <item name="Migration guide" href="migration.html" />
       </menu>
       
-      <menu name="Tutorial">
-         <item name="Basics" href="basics.html" collapse="true">
-            <item name="JSP taglib" href="install.jsp.html" />
-            <item name="Thymeleaf" href="install.thymeleaf.html" />
+      <menu name="Tutorials">
+         <item name="Basics" href="basics/" collapse="true">
+            <item name="Default configuration" href="/basics/default.html" />
+            <item name="Changing appearance" href="/basics/changingappearance.html" />
+            <item name="Sorting data" href="/basics/sorting.html" />
+            <item name="Filtering data" href="/basics/filtering.html" />
+            <item name="Paging data" href="/basics/paging.html" />
+            <item name="Handling default values" href="/basics/defaultvalues.html" />
+            <item name="Using CDN" href="/basics/cdn.html" />
+            <item name="Multiple tables" href="/basics/multiple.html" />
+            <item name="Custom content" href="/basics/customcontent.html" />
+            <item name="Using implicit object" href="/basics/implicit.html" />
+            <item name="Custom column head" href="/basics/customhead.html" />
          </item>
-         <item name="Advanced" href="advanced.html" collapse="true">
-            <item name="JSP taglib" href="install.jsp.html" />
-            <item name="Thymeleaf" href="install.thymeleaf.html" />
+
+         <item name="Advanced" href="advanced/" collapse="true">
+            <item name="Custom row id" href="/advanced/rowid.html" />
+            <item name="i18n" href="/advanced/i18n.html" />
+            <item name="Using extra file" href="/advanced/extrafile.html" />
+            <item name="Using extra conf" href="/advanced/extraconf.html" />
+            <item name="Overriding default configuration" href="/advanced/overrideconf.html" />
+            <item name="Using compression" href="/advanced/compression.html" />
+            <item name="Using aggregation" href="/advanced/aggregation.html" />
          </item>
-         <item name="Themes" href="themes.html" collapse="true">
-            <item name="JSP taglib" href="install.jsp.html" />
-            <item name="Thymeleaf" href="install.thymeleaf.html" />
+
+         <item name="Themes" href="themes/" collapse="true">
+            <item name="Bootstrap2" href="/themes/bootstrap2.html" />
+            <item name="jQueryUI" href="/themes/jqueryui.html" />
          </item>
+
+         <item name="Export" href="export/" collapse="true">
+            <item name="Activate export" href="/export/activateexport.html" />
+            <item name="Multiple formats" href="/export/multiple.html" />
+            <item name="Custom export links" href="/export/customlink.html" />
+            <item name="Custom export content" href="/export/customcontent.html" />
+         </item>
+         
          <item name="AJAX" href="ajax/" collapse="true">
             <item name="AJAX source" href="/ajax/ajaxsource.html" />
-            <item name="Thymeleaf" href="install.thymeleaf.html" />
+            <item name="Handling null/default values" href="/ajax/handlingnullvalues.html" />
+            <item name="Server-side processing" href="/ajax/serverside.html" />
+            <item name="Spring MVC integration" href="/ajax/springmvc.html" />
+            <item name="Pipelining data" href="/ajax/pipelining.html" />
          </item>
-         <item name="Plugins" href="plugins.html" collapse="true">
-            <item name="JSP taglib" href="install.jsp.html" />
-            <item name="Thymeleaf" href="install.thymeleaf.html" />
+         
+         <item name="Plugins" href="plugins/" collapse="true">
+            <item name="ColReorder" href="/plugins/colreorder.html" />
+            <item name="Scroller" href="/plugins/scroller.html" />
+            <item name="FixedHeader" href="/plugins/fixedheader.html" />
+            <item name="Combo!" href="/plugins/combo.html" />
          </item>
       </menu>
        
@@ -112,7 +136,7 @@
       </menu>
 
       <!-- 
-      <menu name="Development">
+      <menu name="Project info">
          <item name="Continous Integration" href="dev.ci.html" />
          <item name="Contribute" href="dev.contribute.html" />
       </menu>

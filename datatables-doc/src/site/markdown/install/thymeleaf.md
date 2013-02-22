@@ -1,6 +1,4 @@
-<link rel="stylesheet" href="./css/bootstrap.min.css" />
-
-<a href="http://www.thymeleaf.org"><img src="./images/logo_thymeleaflogonamesmall.png" style="float:right; margin-right: 10px;" width="400px" height="90px" /></a>
+<a href="http://www.thymeleaf.org"><img src="../images/logo_thymeleaflogonamesmall.png" style="float:right; margin-right: 10px;" width="400px" height="90px" /></a>
 <h3>Installation guide with Thymeleaf</h3>
 <hr />
 
@@ -10,7 +8,7 @@
 
 <h6>Manually</h6>
 
-Download the JARs (see [here](./download.html)) and make sure that they are all made available via the application classpath. (Usually in **WEB-INF/lib**)
+Download the JARs (see [here](../download.html)) and make sure that they are all made available via the application classpath. (Usually in **WEB-INF/lib**)
 
 <h6>Using Maven (or Maven-compatible dependency managers)</h6>
  
@@ -19,7 +17,7 @@ Just add the following dependency :
     <dependency>
         <groupId>com.github.dandelion</groupId>
         <artifactId>datatables-thymeleaf</artifactId>
-        <version>${project.version}</version>
+        <version>0.8.4</version>
     </dependency>
 
 <h5>Step 2 : Declare the Dandelion-DataTables dialect</h5>
@@ -76,7 +74,7 @@ You need to follow the first four steps described above.
     <dependency>
         <groupId>com.github.dandelion</groupId>
         <artifactId>datatables-servlet2</artifactId>
-        <version>${backwardServlet2Version}</version>
+        <version>0.1.3</version>
     </dependency>
     
 <h5>Step 6 : Add the DataTables4j servlet and filter definitions</h5>
@@ -110,4 +108,4 @@ Add the following configuration to your <tt>web.xml</tt> :
 <br />
 <h4>Optional step : Add a Dandelion-DataTables custom configuration file</h4>
 
-See the [properties reference](./ref.properties.html) to see more details !
+See the [properties reference](../properties.html) to see more details !
