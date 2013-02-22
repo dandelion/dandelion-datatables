@@ -59,7 +59,7 @@ Decribes how the HTML table should be generated.
     <td>Display mode used when the table has finished loading and must appear in the page. A duration can be set (in milliseconds) if the display mode is set to "fadein"</td>
     <td>java.lang.String</td>
     <td>block|fadein[,duration]</td>
-    <td>fadein</td>
+    <td></td>
   </tr>
   <tr>
     <td>cdn</td>

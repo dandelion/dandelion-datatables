@@ -38,7 +38,7 @@ Don\'t forget to add the prefix <code>dt:</code> before each attribute.
     <td>dt:appear</td>
     <td>Display mode used when the table has finished loading and must appear in the page. A duration can be set (in milliseconds) if the display mode is set to "fadein"</td>
     <td>block|fadein[,duration]</td>
-    <td>fadein</td>
+    <td></td>
   </tr>
   <tr>
     <td>dt:cdn</td>
