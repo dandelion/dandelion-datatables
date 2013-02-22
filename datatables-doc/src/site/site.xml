@@ -15,7 +15,7 @@
          <leftColumnClass>span2</leftColumnClass>
          <bodyColumnClass>span10</bodyColumnClass>
          <gitHub>
-            <projectId>dandelion-datatables</projectId>
+            <projectId>dandelion/dandelion-datatables</projectId>
             <ribbonOrientation>right</ribbonOrientation>
             <ribbonColor>gray</ribbonColor>
          </gitHub>
