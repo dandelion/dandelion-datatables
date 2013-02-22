@@ -105,7 +105,9 @@
             <item name="Handling null/default values" href="/ajax/handlingnullvalues.html" />
             <item name="Server-side processing" href="/ajax/serverside.html" />
             <item name="Spring MVC integration" href="/ajax/springmvc.html" />
+            <!-- 
             <item name="Pipelining data" href="/ajax/pipelining.html" />
+             -->
          </item>
          
          <!-- 
