@@ -4,11 +4,11 @@
    <parent>
       <groupId>com.github.dandelion</groupId>
       <artifactId>datatables-extras</artifactId>
-      <version>0.8.5</version>
+      <version>0.8.6-SNAPSHOT</version>
    </parent>
 
    <artifactId>datatables-export-poi-ooxml</artifactId>
-   <version>0.1.5</version>
+   <version>0.1.6-SNAPSHOT</version>
    <packaging>jar</packaging>
 
    <name>Dandelion : Datatables :: Extras :: Export XLSX using POI-OOXML</name>
@@ -17,7 +17,7 @@
       <dependency>
          <groupId>com.github.dandelion</groupId>
          <artifactId>datatables-core</artifactId>
-         <version>0.8.5</version>
+         <version>0.8.6-SNAPSHOT</version>
       </dependency>
 
       <dependency>
