@@ -4,7 +4,7 @@
    <parent>
       <groupId>com.github.dandelion</groupId>
       <artifactId>dandelion-datatables</artifactId>
-      <version>0.8.5-SNAPSHOT</version>
+      <version>0.8.5</version>
    </parent>
 
    <artifactId>datatables-extras</artifactId>
