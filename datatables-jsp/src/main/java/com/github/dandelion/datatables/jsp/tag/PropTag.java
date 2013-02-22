@@ -71,7 +71,7 @@ public class PropTag extends TagSupport {
 		AbstractTableTag parent = (AbstractTableTag) getParent();
 
 		// Evaluate the tag only once using the isFirstRow method
-		if(parent.isFirstRow()){
+		if(parent.isFirstIteration()){
 			
 			if(parent.getTable().getTableProperties().isValidProperty(name)){
 				// Override the existing properties with the new one

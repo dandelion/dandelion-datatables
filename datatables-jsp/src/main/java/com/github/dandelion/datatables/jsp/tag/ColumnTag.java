@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.model.DisplayType;
 import com.github.dandelion.datatables.core.model.HtmlColumn;
@@ -49,44 +47,10 @@ public class ColumnTag extends AbstractColumnTag {
 
 	private static final long serialVersionUID = -8928415196287387948L;
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ColumnTag.class);
-
 	/**
-	 * TODO
+	 * Nothing happens in doStartTag.
 	 */
 	public int doStartTag() throws JspException {
-		TableTag parent = (TableTag) getParent();
-
-		if (parent.getLoadingType() == "AJAX") {
-			return EVAL_PAGE;
-		} else if (parent.getLoadingType() == "DOM") {
-			// If the body is not empty, the property attribute will be ignored
-			if (getBodyContent() != null) {
-				return EVAL_BODY_BUFFERED;
-			} else {
-
-				this.addColumn(false, getColumnContent());
-
-				return EVAL_PAGE;
-			}
-		}
-
-		// Never reached
-		return SKIP_BODY;
-	}
-
-	/**
-	 * TODO
-	 */
-	public int doAfterBody() throws JspException {
-
-		TableTag parent = (TableTag) getParent();
-		if ("DOM".equals(parent.getLoadingType()) && getBodyContent() != null) {
-			String bodyString = getBodyContent().getString().trim().replaceAll("[\n\r]", "");
-			this.addColumn(false, bodyString);
-		}
-
 		return EVAL_PAGE;
 	}
 
@@ -96,14 +60,28 @@ public class ColumnTag extends AbstractColumnTag {
 	public int doEndTag() throws JspException {
 		TableTag parent = (TableTag) getParent();
 
+		// DOM source
 		if ("DOM".equals(parent.getLoadingType())) {
 
-			if (parent.isFirstRow()) {
-
+			// The column has a body
+			if (getBodyContent() != null) {
+				String bodyString = getBodyContent().getString().trim().replaceAll("[\n\r]", "");
+				this.addColumn(false, bodyString);
+			}
+			// The column doens't have a body but a property is set
+			else{
+				this.addColumn(false, getColumnContent());	
+			}
+			
+			// At the first iteration, the header row must filled in too
+			if (parent.isFirstIteration()) {
 				this.addColumn(true, this.title);
 			}
+
 			return EVAL_PAGE;
-		} else if ("AJAX".equals(parent.getLoadingType())) {
+		} 
+		// AJAX source
+		else if ("AJAX".equals(parent.getLoadingType())) {
 
 			HtmlColumn column = new HtmlColumn(true, this.title);
 

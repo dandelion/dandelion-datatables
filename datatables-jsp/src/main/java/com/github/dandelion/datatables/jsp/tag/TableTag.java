@@ -78,7 +78,7 @@ public class TableTag extends AbstractTableTag {
 	 */
 	public int doStartTag() throws JspException {
 		// Just used to identify the first row (header)
-		rowNumber = 1;
+		iterationNumber = 1;
 
 		// Init the table with its DOM id and a generated random number
 		table = new HtmlTable(id, ResourceHelper.getRamdomNumber());
@@ -122,7 +122,7 @@ public class TableTag extends AbstractTableTag {
 	 */
 	public int doAfterBody() throws JspException {
 
-		this.rowNumber++;
+		this.iterationNumber++;
 
 		return processIteration();
 	}

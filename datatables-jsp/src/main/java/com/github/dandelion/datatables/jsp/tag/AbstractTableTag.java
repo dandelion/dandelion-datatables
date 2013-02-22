@@ -145,7 +145,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected String themeOption;
 
 	// Internal common attributes
-	protected int rowNumber;
+	protected int iterationNumber;
 	protected HtmlTable table;
 	protected Iterator<Object> iterator;
 	protected Object currentObject;
@@ -582,12 +582,12 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 		this.row = row;
 	}
 
-	public Boolean isFirstRow() {
-		return this.rowNumber == 1;
+	public Boolean isFirstIteration() {
+		return this.iterationNumber == 1;
 	}
 
-	public Integer getRowNumber() {
-		return this.rowNumber;
+	public Integer getIterationNumber() {
+		return this.iterationNumber;
 	}
 
 	public Object getCurrentObject() {

@@ -84,7 +84,7 @@ public class ExportTag extends TagSupport {
 		AbstractTableTag parent = (AbstractTableTag) getParent();
 
 		// Evaluate the tag only once using the parent's isFirstRow method
-		if (parent.isFirstRow()) {
+		if (parent.isFirstIteration()) {
 
 			ExportType exportType = null;
 			try {
