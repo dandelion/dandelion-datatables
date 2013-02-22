@@ -46,7 +46,6 @@
       </head>
 
       <links>
-         <item name="Dandelion" target="_blank" href="http://dandelion.github.com/" />
          <item name="DataTables" target="_blank" href="http://datatables.net" />
       </links>
 
@@ -58,12 +57,13 @@
          </item>
          <item name="Changelog" href="changelog.html" />
          <item name="Roadmap" href="roadmap.html" />
-         <item name="Forum" href="forum.html" />
+         <item name="Forum" target="_blank" href="http://dandelion-forum.48353.n6.nabble.com/" />
          <item name="Download" href="download.html" />
          <item name="Migration guide" href="migration.html" />
       </menu>
       
       <menu name="Tutorials">
+         <!-- 
          <item name="Basics" href="basics/" collapse="true">
             <item name="Default configuration" href="/basics/default.html" />
             <item name="Changing appearance" href="/basics/changingappearance.html" />
@@ -99,7 +99,7 @@
             <item name="Custom export links" href="/export/customlink.html" />
             <item name="Custom export content" href="/export/customcontent.html" />
          </item>
-         
+          -->
          <item name="AJAX" href="ajax/" collapse="true">
             <item name="AJAX source" href="/ajax/ajaxsource.html" />
             <item name="Handling null/default values" href="/ajax/handlingnullvalues.html" />
@@ -108,12 +108,14 @@
             <item name="Pipelining data" href="/ajax/pipelining.html" />
          </item>
          
+         <!-- 
          <item name="Plugins" href="plugins/" collapse="true">
             <item name="ColReorder" href="/plugins/colreorder.html" />
             <item name="Scroller" href="/plugins/scroller.html" />
             <item name="FixedHeader" href="/plugins/fixedheader.html" />
             <item name="Combo!" href="/plugins/combo.html" />
          </item>
+          -->
       </menu>
        
       <menu name="Reference">
