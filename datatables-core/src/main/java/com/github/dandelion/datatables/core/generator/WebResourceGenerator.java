@@ -268,7 +268,7 @@ public class WebResourceGenerator {
 			case TOP_RIGHT:
 				divExport.addCssStyle("float:right;");
 				mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId()
-						+ "_length').after('" + divExport.toHtml() + "');");
+						+ "_filter').before('" + divExport.toHtml() + "');");
 				break;
 
 			default:
