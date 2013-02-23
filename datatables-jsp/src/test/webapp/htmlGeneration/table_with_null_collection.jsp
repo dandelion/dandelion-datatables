@@ -1,16 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ taglib prefix="datatables" uri="http://github.com/dandelion/datatables"%>
+<jsp:include page="../common/taglib.jsp" />
 
 <!DOCTYPE html>
 <html>
 <head>
-<link href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" rel="stylesheet" />
-<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"></script>
+<jsp:include page="../common/head.jsp" />
 </head>
 <body>
-   <datatables:table id="myTableId" data="${persons}">
+   <datatables:table id="myTableId" data="${nullList}">
       <datatables:column title="Id" property="id" />
       <datatables:column title="FirstName" property="firstName" />
       <datatables:column title="LastName" property="lastName" />

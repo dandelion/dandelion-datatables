@@ -15,6 +15,11 @@ public class Address {
 	public Address() {
 
 	}
+	
+	public Address(String street, Town town){
+		this.street = street;
+		this.town = town;
+	}
 
 	public Address(String street) {
 		this.street = street;

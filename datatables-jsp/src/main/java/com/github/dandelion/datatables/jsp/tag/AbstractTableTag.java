@@ -459,7 +459,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	 */
 	protected int processIteration() throws JspException {
 
-		if ("DOM".equals(this.loadingType) && iterator.hasNext()) {
+		if ("DOM".equals(this.loadingType) && iterator != null && iterator.hasNext()) {
 
 			Object object = iterator.next();
 
@@ -888,7 +888,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 		this.data = data;
 
 		Collection<Object> dataTmp = (Collection<Object>) data;
-		if (dataTmp.size() > 0) {
+		if (dataTmp != null && dataTmp.size() > 0) {
 			iterator = dataTmp.iterator();
 		} else {
 			// TODO afficher un message d'erreur

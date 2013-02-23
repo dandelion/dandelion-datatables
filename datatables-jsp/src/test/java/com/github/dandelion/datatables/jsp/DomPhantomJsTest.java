@@ -32,7 +32,6 @@ package com.github.dandelion.datatables.jsp;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.jasper.servlet.JspServlet;
 import org.eclipse.jetty.server.Server;
@@ -59,6 +58,7 @@ import org.openqa.selenium.remote.service.DriverService;
 
 import com.github.dandelion.datatables.core.web.servlet.DatatablesServlet;
 import com.github.dandelion.datatables.entity.Person;
+import com.github.dandelion.datatables.utils.Mock;
 
 public abstract class DomPhantomJsTest extends FluentAdapter {
     private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(1024, 768);
@@ -71,12 +71,6 @@ public abstract class DomPhantomJsTest extends FluentAdapter {
     
     @BeforeClass
     public static void configure_server() throws Exception {
-    	List<Person> persons = new ArrayList<Person>();
-        persons.add(new Person(1L, "Thibault", "DUCHATEAU", "thibault.duchateau@mail.com"));
-        persons.add(new Person(2L, "Romain", "LESPINASSE", "romain.lespinasse@mail.com"));
-        
-        List<Person> emptyList = new ArrayList<Person>();
-        List<Person> nullList = null;
         
         webServer = new Server();
 
@@ -87,14 +81,13 @@ public abstract class DomPhantomJsTest extends FluentAdapter {
 
         WebAppContext context = new WebAppContext("src/test/webapp", "/");
         
-        context.setAttribute("persons", persons);
-        context.setAttribute("emptyList", emptyList);
-        context.setAttribute("nullList", nullList);
+        context.setAttribute("persons", Mock.persons);
+        context.setAttribute("emptyList", new ArrayList<Person>());
+        context.setAttribute("nullList", null);
         
         ServletHolder jsp = context.addServlet(JspServlet.class, "*.jsp");
         jsp.setInitParameter("classpath", context.getClassPath());
         
-        webServer.setAttribute("persons", persons);
         webServer.setHandler(context);
         webServer.setStopAtShutdown(true);
         

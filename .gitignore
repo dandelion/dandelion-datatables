@@ -5,3 +5,4 @@ target
 .classpath
 .settings
 rebel.xml
+/datatables-jsp/snapshots
