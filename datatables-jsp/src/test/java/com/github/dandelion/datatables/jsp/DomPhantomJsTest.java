@@ -38,9 +38,11 @@ import org.apache.jasper.servlet.JspServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.testing.ServletTester;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.fluentlenium.core.FluentAdapter;
 import org.fluentlenium.core.domain.FluentList;
+import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -55,6 +57,7 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
+import com.github.dandelion.datatables.core.web.servlet.DatatablesServlet;
 import com.github.dandelion.datatables.entity.Person;
 
 public abstract class DomPhantomJsTest extends FluentAdapter {
@@ -64,9 +67,10 @@ public abstract class DomPhantomJsTest extends FluentAdapter {
     
     protected static WebDriver driver;
     private static Server webServer;
-
+    protected static ServletTester servletTester;
+    
     @BeforeClass
-    public static void configure_server() {
+    public static void configure_server() throws Exception {
     	List<Person> persons = new ArrayList<Person>();
         persons.add(new Person(1L, "Thibault", "DUCHATEAU", "thibault.duchateau@mail.com"));
         persons.add(new Person(2L, "Romain", "LESPINASSE", "romain.lespinasse@mail.com"));
@@ -93,6 +97,10 @@ public abstract class DomPhantomJsTest extends FluentAdapter {
         webServer.setAttribute("persons", persons);
         webServer.setHandler(context);
         webServer.setStopAtShutdown(true);
+        
+        servletTester = new ServletTester();
+        servletTester.addServlet(DatatablesServlet.class, "/datatablesController");
+        servletTester.start();
     }
 
     @Before
@@ -136,6 +144,7 @@ public abstract class DomPhantomJsTest extends FluentAdapter {
             driver.manage().window().setSize(DEFAULT_WINDOW_SIZE);
             initFluent(driver).withDefaultUrl(defaultUrl());
         }
+        
 
         @Override
         protected void succeeded(Description description) {
@@ -156,7 +165,12 @@ public abstract class DomPhantomJsTest extends FluentAdapter {
         return "http://127.0.0.1:9090";
     }
     
-    public FluentList getTable(){
+    @SuppressWarnings("unchecked")
+	public FluentList<FluentWebElement> getTable(){
     	return find("#" + TABLE_ID + "_wrapper").find("table");
+    }
+    
+    public FluentWebElement getBody(){
+    	return findFirst("body");
     }
 }
