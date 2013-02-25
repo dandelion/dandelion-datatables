@@ -63,19 +63,18 @@
       </menu>
       
       <menu name="Tutorials">
-         <!-- 
+          
          <item name="Basics" href="basics/" collapse="true">
-            <item name="Default configuration" href="/basics/default.html" />
-            <item name="Changing appearance" href="/basics/changingappearance.html" />
+            <item name="Feature enablement" href="/basics/featurenablement.html" />
             <item name="Sorting data" href="/basics/sorting.html" />
             <item name="Filtering data" href="/basics/filtering.html" />
-            <item name="Paging data" href="/basics/paging.html" />
-            <item name="Handling default values" href="/basics/defaultvalues.html" />
+            <item name="Handling null/default values" href="/basics/defaultvalues.html" />
             <item name="Using CDN" href="/basics/cdn.html" />
+            <item name="Changing table's appearing" href="/basics/changingappearing.html" />
             <item name="Multiple tables" href="/basics/multiple.html" />
-            <item name="Custom content" href="/basics/customcontent.html" />
             <item name="Using implicit object" href="/basics/implicit.html" />
-            <item name="Custom column head" href="/basics/customhead.html" />
+            <item name="Specific column's content" href="/basics/customcontent.html" />
+            <item name="Specific column's head" href="/basics/customhead.html" />
          </item>
 
          <item name="Advanced" href="advanced/" collapse="true">
@@ -99,7 +98,7 @@
             <item name="Custom export links" href="/export/customlink.html" />
             <item name="Custom export content" href="/export/customcontent.html" />
          </item>
-          -->
+          
          <item name="AJAX" href="ajax/" collapse="true">
             <item name="AJAX source" href="/ajax/ajaxsource.html" />
             <item name="Handling null/default values" href="/ajax/handlingnullvalues.html" />

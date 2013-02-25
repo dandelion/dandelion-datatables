@@ -1,15 +1,15 @@
-### Basics :: Using CDN
+### Basics :: Changing table\'s appearing
 
-You can choose to load the required Datatables web assets (JS, CSS, images) using the Microsoft\'s CDN.
+By default, the table is displayed during the HTML markup and the server-side Javascript generation, sometimes resulting in a ugly display for some milliseconds, depending on browsers. 
 
-`link` and `script` HTML tags will be generated and will wrap the table.
+This behaviour can be changed using the `appear` / `dt:appear` table attribute (JSP/Thymeleaf).
 
-Just set the `cdn` / `dt:cdn` table attributes to `true` (JSP/Thymeleaf).
+In the following example, a duration of 1500 milliseconds has been set to the fadeIn animation instead of the default 400 milliseconds but you cal also set the `block` value to trigger the jQuery show() function.
 
 <br />
 #### Using JSP
 
-	<datatables:table id="myTableId" data="${persons}" cdn="true">
+	<datatables:table id="myTableId" data="${persons}" appear="fadein,1500">
 	   <datatables:column title="Id" property="id" />
 	   <datatables:column title="FirstName" property="firstName" />
 	   <datatables:column title="LastName" property="lastName" />
@@ -19,7 +19,7 @@ Just set the `cdn` / `dt:cdn` table attributes to `true` (JSP/Thymeleaf).
 
 #### Using Thymeleaf
 
-	<table id="myTable" dt:table="true" dt:cdn="true">
+	<table id="myTable" dt:table="true" dt:appear="fadein,1500">
 	   <thead>
 	      <tr>
 	         <th>Id</th>
