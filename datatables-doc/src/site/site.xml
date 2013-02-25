@@ -94,14 +94,15 @@
             <item name="jQueryUI" href="/themes/jqueryui.html" />
          </item>
    
-         <!-- 
+          
          <item name="Export" href="export/" collapse="true">
-            <item name="Activate export" href="/export/activateexport.html" />
-            <item name="Multiple formats" href="/export/multiple.html" />
-            <item name="Custom export links" href="/export/customlink.html" />
+            <item name="Exporting data" href="/export/activateexport.html" />
+            <item name="Multiple export formats" href="/export/multiple.html" />
+            <item name="Adapting export links" href="/export/customlink.html" />
+            <!--
             <item name="Custom export content" href="/export/customcontent.html" />
+             -->
          </item>
-          -->
            
          <item name="AJAX" href="ajax/" collapse="true">
             <item name="AJAX source" href="/ajax/ajaxsource.html" />
