@@ -1,4 +1,4 @@
-### Pipelining data
+### AJAX :: Pipelining data
 
 #### Introduction
 When using server-side processing with DataTables, it can be quite intensive on your server having an Ajax call every time the user performs some kind of interaction - you can effectively DDOS your server with your own application!

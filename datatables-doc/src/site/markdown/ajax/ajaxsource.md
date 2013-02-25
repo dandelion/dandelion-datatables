@@ -1,4 +1,4 @@
-### How to use AJAX source
+### AJAX :: How to use AJAX source
 
 It can be useful to populate the table using an AJAX source, let's say web service returning your entities.
 

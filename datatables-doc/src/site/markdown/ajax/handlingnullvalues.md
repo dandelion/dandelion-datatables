@@ -1,4 +1,4 @@
-### Handling null/default values
+### AJAX :: Handling null/default values
 
 This section deals with the case where the bean you\'re trying to display in the table has null properties.
 

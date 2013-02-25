@@ -76,7 +76,8 @@
             <item name="Specific column's content" href="/basics/customcontent.html" />
             <item name="Specific column's head" href="/basics/customhead.html" />
          </item>
-
+         
+         <!-- 
          <item name="Advanced" href="advanced/" collapse="true">
             <item name="Custom row id" href="/advanced/rowid.html" />
             <item name="i18n" href="/advanced/i18n.html" />
@@ -86,19 +87,22 @@
             <item name="Using compression" href="/advanced/compression.html" />
             <item name="Using aggregation" href="/advanced/aggregation.html" />
          </item>
-
+          -->
+          
          <item name="Themes" href="themes/" collapse="true">
             <item name="Bootstrap2" href="/themes/bootstrap2.html" />
             <item name="jQueryUI" href="/themes/jqueryui.html" />
          </item>
-
+   
+         <!-- 
          <item name="Export" href="export/" collapse="true">
             <item name="Activate export" href="/export/activateexport.html" />
             <item name="Multiple formats" href="/export/multiple.html" />
             <item name="Custom export links" href="/export/customlink.html" />
             <item name="Custom export content" href="/export/customcontent.html" />
          </item>
-          
+          -->
+           
          <item name="AJAX" href="ajax/" collapse="true">
             <item name="AJAX source" href="/ajax/ajaxsource.html" />
             <item name="Handling null/default values" href="/ajax/handlingnullvalues.html" />

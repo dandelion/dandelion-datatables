@@ -1,4 +1,4 @@
-### Spring MVC integration
+### AJAX :: Spring MVC integration
 
 #### Introduction
 Since 0.8.2, a Spring3 module has been added to <strong>Dandelion-datatables</strong>. It's a bit light at the moment but you can already use it if you need server-side processing.

@@ -1,4 +1,4 @@
-### Server-side processing
+### AJAX :: Server-side processing
 
 #### Introduction
 
