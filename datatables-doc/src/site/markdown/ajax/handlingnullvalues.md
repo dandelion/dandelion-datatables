@@ -2,6 +2,7 @@
 
 This section deals with the case where the bean you\'re trying to display in the table has null properties.
 
+<br /> 
 #### Using JSP
 Using JSP with AJAX sources, null values are handled in the same way than for DOM sources. 
 By default, an empty string will be displayed. You can also use the `default` column attribute to replace the empty string by any string you want.
@@ -14,6 +15,7 @@ By default, an empty string will be displayed. You can also use the `default` co
 	   <datatables:column title="Mail" property="mail" />
 	</datatables:table>
 
+<br /> 
 #### Using Thymeleaf      
 Using Thymeleaf, this is quite similar. Just use the `dt:default` TH attribute to override the default empty string.
 

@@ -1,4 +1,4 @@
-### AJAX Home
+### Basics
 
 [AJAX source](./ajaxsource.html)
 

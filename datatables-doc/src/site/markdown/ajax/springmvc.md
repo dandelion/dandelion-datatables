@@ -5,13 +5,14 @@ Since 0.8.2, a Spring3 module has been added to <strong>Dandelion-datatables</st
 
 Indeed, a custom annotation has been added in order to automatically map the DataTables request parameter (sent when server-side processing is enabled) in the `DatatablesCriterias` bean : `@DatatablesParams`.
 
+<br /> 
 #### How to use it ?
 First, add the new dependency :
 
 	<dependency>
 	   <groupId>com.github.dandelion</groupId>
 	   <artifactId>datatables-spring3</artifactId>
-	   <version>0.8.4</version>
+	   <version>0.8.5</version>
 	</dependency>
 
 Moreover, you need to register a new custom WebArgumentResolvers as follows :
@@ -32,6 +33,7 @@ Once the dependency added, just update your Spring MVC controller as follows :
 
 As you can see, it's just the Spring equivalent of `DatatablesCriterias.getFromRequest(HttpServletRequest request)`
 
+<br /> 
 #### Using JSP
 	
 	<datatables:table id="myTableId" url="/persons2" serverSide="true" processing="true">
@@ -42,6 +44,7 @@ As you can see, it's just the Spring equivalent of `DatatablesCriterias.getFromR
 	    <datatables:column title="Mail" property="mail" />
 	</datatables:table>
 
+<br /> 
 #### Using Thymeleaf
    
 	<table id="myTableId" dt:table="true" dt:url="/persons2" dt:serverside="true" dt:processing="true">

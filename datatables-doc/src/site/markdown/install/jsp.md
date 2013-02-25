@@ -59,25 +59,25 @@ You need to follow the first three steps described above.
 
 Add the following configuration to your <tt>web.xml</tt> :
 
-    <!-- DataTables4j servlet definition -->
+    <!-- Dandelion-Datatables servlet definition -->
     <servlet>
         <servlet-name>datatablesController</servlet-name>
         <servlet-class>com.github.dandelion.datatables.extras.servlet2.servlet.DatatablesServlet</servlet-class>
     </servlet>
 
-    <!-- DataTables4j servlet mapping -->
+    <!-- Dandelion-Datatables servlet mapping -->
     <servlet-mapping>
         <servlet-name>datatablesController</servlet-name>
         <url-pattern>/datatablesController/*</url-pattern>
     </servlet-mapping>
 
-    <!-- DataTables4j filter definition -->
+    <!-- Dandelion-Datatables filter definition -->
     <filter>
         <filter-name>datatablesFilter</filter-name>
         <filter-class>com.github.dandelion.datatables.extras.servlet2.filter.DatatablesFilter</filter-class>
     </filter>
 
-    <!-- DataTables4j filter mapping -->
+    <!-- Dandelion-Datatables filter mapping -->
     <filter-mapping>
         <filter-name>datatablesFilter</filter-name>
         <url-pattern>/*</url-pattern>
