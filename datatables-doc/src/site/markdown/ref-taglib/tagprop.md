@@ -23,7 +23,6 @@ Locally override a global [Dandelion-DataTables configuration property](./ref.pr
     <tr>
       <th>Name</th>
       <th>Description</th>
-      <th>Type</th>
       <th>Value(s)</th>
       <th>Default</th>
     </tr>
@@ -32,14 +31,12 @@ Locally override a global [Dandelion-DataTables configuration property](./ref.pr
   <tr>
     <td>name</td>
     <td><strong>(required)</strong> Name of the property to override</td>
-    <td>java.lang.String</td>
     <td></td>
     <td></td>
   </tr>
   <tr>
     <td>value</td>
     <td><strong>(required)</strong> Value of the property to override</td>
-    <td>java.lang.String</td>
     <td></td>
     <td></td>
   </tr>

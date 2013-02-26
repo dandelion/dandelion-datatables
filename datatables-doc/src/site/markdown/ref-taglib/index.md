@@ -1,6 +1,6 @@
 ### Taglib reference
 
-This section provides a complete list of available tags.
+This section provides a complete list of available JSP tags.
 
  * [Table tag](tagtable.html)
  * [Column tag](tagcolumn.html)

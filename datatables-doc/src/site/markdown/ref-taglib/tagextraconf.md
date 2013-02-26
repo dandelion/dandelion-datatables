@@ -23,7 +23,6 @@ Specify the location of a file containing a JSON-formatted DataTables configurat
     <tr>
       <th>Name</th>
       <th>Description</th>
-      <th>Type</th>
       <th>Value(s)</th>
       <th>Default</th>
     </tr>
@@ -32,7 +31,6 @@ Specify the location of a file containing a JSON-formatted DataTables configurat
   <tr>
     <td>src</td>
     <td>(<strong>required</strong>) Location of the file containing the extra DataTables configuration</td>
-    <td>java.lang.String</td>
     <td></td>
     <td></td>
   </tr>

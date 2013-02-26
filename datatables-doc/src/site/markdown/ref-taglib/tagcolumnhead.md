@@ -32,7 +32,6 @@ You need to follow the two following steps :
     <tr>
       <th>Name</th>
       <th>Description</th>
-      <th>Type</th>
       <th>Value(s)</th>
       <th>Default</th>
     </tr>
@@ -41,7 +40,6 @@ You need to follow the two following steps :
   <tr>
     <td>uid</td>
     <td>Unique arbitrary id of the column, used in relation to the column tag</td>
-    <td>java.lang.String</td>
     <td></td>
     <td></td>
   </tr>

@@ -23,7 +23,6 @@ Configure the HTML link and properties for a given export type.
     <tr>
       <th>Name</th>
       <th>Description</th>
-      <th>Type</th>
       <th>Value(s)</th>
       <th>Default</th>
     </tr>
@@ -32,35 +31,30 @@ Configure the HTML link and properties for a given export type.
   <tr>
     <td>type</td>
     <td>(<strong>required</strong>) Comma-separated list of activated exports.</td>
-    <td>java.lang.String</td>
     <td>csv[,xml|pdf|xls|xlsx]</td>
     <td></td>
   </tr>
   <tr>
     <td>label</td>
     <td>Label of the HTML link</td>
-    <td>java.lang.String</td>
     <td></td>
     <td></td>
   </tr>
   <tr>
     <td>cssStyle</td>
     <td>CSS style applied to the HTML link</td>
-    <td>java.lang.String</td>
     <td></td>
     <td></td>
   </tr>
   <tr>
     <td>cssClass</td>
     <td>CSS class applied to the HTML link</td>
-    <td>java.lang.String</td>
     <td></td>
     <td></td>
   </tr>
   <tr>
     <td>includeHeader</td>
     <td>Indicated whether headers should be added in export or not (only for compatible export : CSV, XLS)</td>
-    <td>java.lang.Boolean</td>
     <td>true|false</td>
     <td>true</td>
   </tr>
@@ -68,7 +62,6 @@ Configure the HTML link and properties for a given export type.
   <tr>
     <td>area</td>
     <td>Indicates how much data should be exported. Choose <tt>list</tt> for the full list or <tt>current</tt> to only export the data that is currently being shown</td>
-    <td>java.lang.String</td>
     <td>list|current</td>
     <td>list</td>
   </tr>
@@ -76,14 +69,12 @@ Configure the HTML link and properties for a given export type.
   <tr>
     <td>fileName</td>
     <td>Name of the file containing exported data</td>
-    <td>java.lang.String</td>
     <td></td>
     <td>The export type uppercased</td>
   </tr>
   <tr>
     <td>autoSize</td>
     <td>Indicates whether columns should be auto-sized or not (only for compatible export : XLS) (See the <a href="http://poi.apache.org/spreadsheet/quick-guide.html#Autofit">reference</a>)</td>
-    <td>java.lang.Boolean</td>
     <td>true|false</td>
     <td>false</td>
   </tr>

@@ -23,7 +23,6 @@ Specify the location of an extra file containing Javascript code which will be m
     <tr>
       <th>Name</th>
       <th>Description</th>
-      <th>Type</th>
       <th>Value(s)</th>
       <th>Default</th>
     </tr>
@@ -32,14 +31,12 @@ Specify the location of an extra file containing Javascript code which will be m
   <tr>
     <td>src</td>
     <td>(<strong>required</strong>) Location of the file containing Javascript code</td>
-    <td>java.lang.String</td>
     <td></td>
     <td></td>
   </tr>
   <tr>
     <td>insert</td>
     <td>Specify where the extra file content must be inserted in the main Javascript generated file</td>
-    <td>java.lang.String</td>
     <td>BEFOREALL : at the beginning of the main Javascript generated file<br/>AFTERSTARTDOCUMENTREADY : just after the jQuery <a href="http://api.jquery.com/ready/">.ready() function</a><br />BEFORENDDOCUMENTREADY : just before the end of the jQuery <a href="http://api.jquery.com/ready/">.ready() function</a><br />AFTERALL : at the end of the main Javascript file</td>
     <td>BEFOREALL</td>
   </tr>
