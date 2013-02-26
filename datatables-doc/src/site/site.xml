@@ -111,14 +111,12 @@
             <item name="Pipelining data" href="/ajax/pipelining.html" />
          </item>
          
-         <!-- 
          <item name="Plugins" href="plugins/" collapse="true">
             <item name="ColReorder" href="/plugins/colreorder.html" />
             <item name="Scroller" href="/plugins/scroller.html" />
             <item name="FixedHeader" href="/plugins/fixedheader.html" />
-            <item name="Combo!" href="/plugins/combo.html" />
          </item>
-          -->
+
       </menu>
        
       <menu name="Reference">

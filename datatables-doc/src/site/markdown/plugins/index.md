@@ -1,7 +1,5 @@
-### AJAX Home
+### Plugins
 
-[AJAX source](./ajaxsource.html)
-
-[AJAX source](/ajaxsource.html)
-
-[AJAX source](ajaxsource.html)
+ * [ColReorder](colreorder.html)
+ * [Scroller](scroller.html)
+ * [FixedHeader](fixedheader.html)
