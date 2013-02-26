@@ -1,7 +1,3 @@
-### Export :: using your own export classes
+### Export :: Write your own export classes
 
-[AJAX source](./ajaxsource.html)
-
-[AJAX source](/ajaxsource.html)
-
-[AJAX source](ajaxsource.html)
+Soon!
