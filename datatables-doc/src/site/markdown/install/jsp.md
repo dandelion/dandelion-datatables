@@ -51,7 +51,7 @@ You need to follow the first three steps described above.
     <dependency>
         <groupId>com.github.dandelion</groupId>
         <artifactId>datatables-servlet2</artifactId>
-        <version>0.1.3</version>
+        <version>0.1.4</version>
     </dependency>
     
 <br />
@@ -71,7 +71,7 @@ Add the following configuration to your <tt>web.xml</tt> :
         <url-pattern>/datatablesController/*</url-pattern>
     </servlet-mapping>
 
-    <!-- Dandelion-Datatables filter definition -->
+    <!-- Dandelion-Datatables filter definition (used for export) -->
     <filter>
         <filter-name>datatablesFilter</filter-name>
         <filter-class>com.github.dandelion.datatables.extras.servlet2.filter.DatatablesFilter</filter-class>
