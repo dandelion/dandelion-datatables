@@ -77,7 +77,6 @@
             <item name="Specific column's head" href="/basics/customhead.html" />
          </item>
          
-         <!-- 
          <item name="Advanced" href="advanced/" collapse="true">
             <item name="Custom row id" href="/advanced/rowid.html" />
             <item name="i18n" href="/advanced/i18n.html" />
@@ -85,9 +84,10 @@
             <item name="Using extra conf" href="/advanced/extraconf.html" />
             <item name="Overriding default configuration" href="/advanced/overrideconf.html" />
             <item name="Using compression" href="/advanced/compression.html" />
+            <!-- 
             <item name="Using aggregation" href="/advanced/aggregation.html" />
+             -->
          </item>
-          -->
           
          <item name="Themes" href="themes/" collapse="true">
             <item name="Bootstrap2" href="/themes/bootstrap2.html" />
