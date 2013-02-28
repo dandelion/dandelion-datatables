@@ -373,9 +373,13 @@
       </attribute>
       <attribute>
          <name>filterable</name>
-         <description>(true|false) Enable or disable filtering on
-            column. (Default : true)</description>
+         <description>(true|false) Enable or disable a filtering field in the column's foot. (Default : false)</description>
       </attribute>
+      <attribute>
+   <name>searchable</name>
+   <description>(true|false) Enable or disable filtering on
+      column. (Default : true)</description>
+</attribute>
       <attribute>
          <name>filterType</name>
          <description>(SELECT|INPUT) If filterable is enabled, you

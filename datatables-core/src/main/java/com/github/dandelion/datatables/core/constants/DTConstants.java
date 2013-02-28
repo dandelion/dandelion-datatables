@@ -46,6 +46,7 @@ public class DTConstants {
 	public static final String DT_LENGTH_CHANGE = "bLengthChange";
 	public static final String DT_STATE_SAVE = "bStateSave";
 	public static final String DT_S_DEFAULT_CONTENT = "sDefaultContent";
+	public static final String DT_S_TYPE = "sType";
 
 	// AJAX related constants
 	public static final String DT_B_DEFER_RENDER = "bDeferRender";
@@ -87,6 +88,7 @@ public class DTConstants {
 	
 	// Column configuration
 	public static final String DT_SORTABLE = "bSortable";
+	public static final String DT_SEARCHABLE = "bSearchable";
 	public static final String DT_SORT_INIT = "aaSorting";
 	public static final String DT_SORT_DIR = "asSorting";
 	public static final String DT_DATA = "mData";

@@ -53,6 +53,7 @@ public class HtmlColumn extends HtmlTag {
 	private String property;
 	private String defaultValue;
 	private Boolean filterable;
+	private Boolean searchable;
 
 	/**
 	 * <p>
@@ -93,6 +94,9 @@ public class HtmlColumn extends HtmlTag {
 		// Filterable
 		this.filterable = false;
 
+		// Searchable
+		this.searchable = true;
+		
 		// FilterType
 		this.filterType = FilterType.INPUT;
 
@@ -275,5 +279,13 @@ public class HtmlColumn extends HtmlTag {
 				+ ", filterable=" + filterable + ", filterType=" + filterType + ", filterCssClass="
 				+ filterCssClass + ", filterPlaceholder=" + filterPlaceholder
 				+ ", enabledDisplayTypes=" + enabledDisplayTypes + "]";
+	}
+
+	public Boolean getSearchable() {
+		return searchable;
+	}
+
+	public void setSearchable(Boolean searchable) {
+		this.searchable = searchable;
 	}
 }

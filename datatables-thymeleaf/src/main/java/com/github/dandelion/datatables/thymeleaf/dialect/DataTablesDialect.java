@@ -59,6 +59,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.basic.TablePaginateAt
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableSortAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThFilterTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThFilterableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSearchableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.ThExportFilenameAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.plugin.TheadColReorderAttrProcessor;
@@ -111,6 +112,7 @@ public class DataTablesDialect extends AbstractDialect {
 		processors.add(new TableAppearAttrProcessor(new AttributeNameProcessorMatcher("appear", "table")));
 		processors.add(new ThSortableAttrProcessor(new AttributeNameProcessorMatcher("sortable", "th")));
 		processors.add(new ThFilterableAttrProcessor(new AttributeNameProcessorMatcher("filterable", "th")));
+		processors.add(new ThSearchableAttrProcessor(new AttributeNameProcessorMatcher("searchable", "th")));
 		processors.add(new ThFilterTypeAttrProcessor(new AttributeNameProcessorMatcher("filterType", "th")));
 		processors.add(new TableLabelsAttrProcessor(new AttributeNameProcessorMatcher("labels", "table")));
 		

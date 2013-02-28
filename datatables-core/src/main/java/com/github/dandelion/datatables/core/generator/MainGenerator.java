@@ -80,6 +80,9 @@ public class MainGenerator {
         		// Sortable
         		tmp.put(DTConstants.DT_SORTABLE, column.isSortable());
         		
+        		// Searchable
+        		tmp.put(DTConstants.DT_SEARCHABLE, column.getSearchable());
+        		
         		// Column's content
         		if (StringUtils.isNotBlank(column.getProperty())) {
         			tmp.put(DTConstants.DT_DATA, column.getProperty());
@@ -88,6 +91,8 @@ public class MainGenerator {
         		if(column.getDefaultValue() != null){
         			tmp.put(DTConstants.DT_S_DEFAULT_CONTENT, column.getDefaultValue());
         		}
+        		
+//        		tmp.put(DTConstants.DT_S_TYPE, "html");
         		
         		// Sorting direction
         		if (StringUtils.isNotBlank(column.getSortDirection())) {
