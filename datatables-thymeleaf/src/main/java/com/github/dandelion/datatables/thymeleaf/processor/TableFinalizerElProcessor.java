@@ -71,10 +71,7 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 		// Get the HTTP request
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 
-		// HtmlTable htmlTable = (HtmlTable)
-		// arguments.getLocalVariable("htmlTable");
-		HtmlTable htmlTable = Utils.getTable(arguments);
-		this.htmlTable = htmlTable;
+        this.htmlTable = Utils.getTable(arguments);
 
 		if (this.htmlTable != null) {
 
@@ -108,11 +105,6 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 
 	/**
 	 * Set up the export properties, before the filter intercepts the response.
-	 * 
-	 * @return allways SKIP_PAGE, because the export filter will override the
-	 *         response with the exported data instead of displaying the page.
-	 * @throws JspException
-	 *             if something went wrong during export.
 	 */
 	private void setupExport(Arguments arguments) {
 		logger.debug("Setting export up ...");
@@ -142,7 +134,6 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 
 		} catch (ExportException e) {
 			logger.error("Something went wront with the Dandelion-datatables export configuration.");
-			// throw new JspException(e);
 			e.printStackTrace();
 		}
 
@@ -151,14 +142,10 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 
 	/**
 	 * Set up the HTML table generation.
-	 * 
-	 * @return allways EVAL_PAGE to keep evaluating the page.
-	 * @throws JspException
-	 *             if something went wrong during the processing.
 	 */
 	private void setupHtmlGeneration(Arguments arguments, Element element,
 			HttpServletRequest request) {
-		ServletContext servletContext = request.getSession().getServletContext();
+		ServletContext servletContext = request.getServletContext();
 
 		this.htmlTable.setExporting(false);
 
@@ -241,19 +228,18 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 
 		// Get the URL parameter used to identify the export type
 		String exportTypeString = request.getParameter(
-				ExportConstants.DT4J_REQUESTPARAM_EXPORT_TYPE).toString();
+                ExportConstants.DT4J_REQUESTPARAM_EXPORT_TYPE);
 
 		// Convert it to the corresponding enum
-		ExportType exportType = ExportType.findByUrlParameter(Integer.parseInt(exportTypeString));
 
-		return exportType;
+        return ExportType.findByUrlParameter(Integer.parseInt(exportTypeString));
 	}
 
-	/**
-	 * TODO
-	 * 
-	 * @param element
-	 */
+    /**
+     * TODO finalize
+     * @param element .
+     * @param arguments .
+     */
 	private void generateFooter(Element element, Arguments arguments) {
 		Element tfoot = new Element("tfoot");
 
