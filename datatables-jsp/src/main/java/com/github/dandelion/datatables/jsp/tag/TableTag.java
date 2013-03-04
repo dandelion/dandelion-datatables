@@ -32,7 +32,6 @@ package com.github.dandelion.datatables.jsp.tag;
 import java.io.IOException;
 import java.util.Map.Entry;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
@@ -41,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.aggregator.ResourceAggregator;
+import com.github.dandelion.datatables.core.cache.AssetCache;
 import com.github.dandelion.datatables.core.compressor.ResourceCompressor;
 import com.github.dandelion.datatables.core.constants.CdnConstants;
 import com.github.dandelion.datatables.core.constants.ResourceType;
@@ -202,7 +202,8 @@ public class TableTag extends AbstractTableTag {
 	 */
 	private int setupHtmlGeneration() throws JspException {
 		String baseUrl = RequestHelper.getBaseUrl(pageContext.getRequest());
-		ServletContext servletContext = pageContext.getServletContext();
+		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+		WebResources webResources = null;
 		
 		this.table.setExporting(false);
 
@@ -216,12 +217,28 @@ public class TableTag extends AbstractTableTag {
 		registerTheme();
 
 		try {
-			// Init the web resources generator
-			WebResourceGenerator contentGenerator = new WebResourceGenerator();
+			// First we check if the DataTables configuration already exist in the cache
+			String keyToTest = RequestHelper.getCurrentUrl(request) + "|" + this.table.getId();
 
-			// Generate the web resources (JS, CSS) and wrap them into a
-			// WebResources POJO
-			WebResources webResources = contentGenerator.generateWebResources(this.table);
+			if(!AssetCache.cache.containsKey(keyToTest)){
+				logger.debug("No asset for the key {}. Generating...", keyToTest);
+				
+				// Init the web resources generator
+				WebResourceGenerator contentGenerator = new WebResourceGenerator();
+	
+				// Generate the web resources (JS, CSS) and wrap them into a
+				// WebResources POJO
+				webResources = contentGenerator.generateWebResources(this.table);
+				logger.debug("Web content generated successfully");
+				
+				AssetCache.cache.put(keyToTest, webResources);
+				logger.debug("Cache updated with new web resources");
+			}
+			else{
+				logger.debug("Asset(s) already exist, retrieving content from cache...");
+
+				webResources = (WebResources) AssetCache.cache.get(keyToTest);
+			}
 
 			// Aggregation
 			if (this.table.getTableProperties().isAggregatorEnable()) {
@@ -244,8 +261,8 @@ public class TableTag extends AbstractTableTag {
 					generateLinkTag(entry.getValue().getLocation());
 				}
 				else{
-					servletContext.setAttribute(entry.getKey(), entry.getValue());
-					generateLinkTag(baseUrl + "/datatablesController/" + entry.getKey());
+//					servletContext.setAttribute(entry.getKey(), entry.getValue());
+					generateLinkTag(baseUrl + "/datatablesController/" + entry.getKey() + "?id=" + this.table.getId() + "&c=" + RequestHelper.getCurrentUrl(request));
 					
 				}
 			}
@@ -258,14 +275,13 @@ public class TableTag extends AbstractTableTag {
 				generateScriptTag(CdnConstants.CDN_DATATABLES_JS_MIN);
 			}
 			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
-				servletContext.setAttribute(entry.getKey(), entry.getValue());
-				generateScriptTag(baseUrl + "/datatablesController/" + entry.getKey());
+//				servletContext.setAttribute(entry.getKey(), entry.getValue());
+				generateScriptTag(baseUrl + "/datatablesController/" + entry.getKey() + "?id=" + this.table.getId() + "&c=" + RequestHelper.getCurrentUrl(request));
 			}
-			servletContext.setAttribute(webResources.getMainJsFile().getName(),
-					webResources.getMainJsFile());
-			generateScriptTag(baseUrl + "/datatablesController/" + webResources.getMainJsFile().getName());
+//			servletContext.setAttribute(webResources.getMainJsFile().getName(),
+//					webResources.getMainJsFile());
+			generateScriptTag(baseUrl + "/datatablesController/" + webResources.getMainJsFile().getName() + "?id=" + this.table.getId() + "&c=" + RequestHelper.getCurrentUrl(request) + "&t=main");
 
-			logger.debug("Web content generated successfully");
 		} catch (IOException e) {
 			logger.error("Something went wront with the datatables tag");
 			throw new JspException(e);

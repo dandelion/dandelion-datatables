@@ -32,7 +32,6 @@ package com.github.dandelion.datatables.core.web.servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,8 +40,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.model.CssResource;
-import com.github.dandelion.datatables.core.model.JsResource;
+import com.github.dandelion.datatables.core.cache.AssetCache;
+import com.github.dandelion.datatables.core.model.WebResources;
 
 /**
  * Main Dandelion-datatables servlet which serves web resources.
@@ -50,7 +49,6 @@ import com.github.dandelion.datatables.core.model.JsResource;
  * @author Thibault Duchateau
  */
 @WebServlet(name="datatablesController", urlPatterns={"/datatablesController/*"})
-@WebInitParam(name="debug", value="false")
 public class DatatablesServlet extends HttpServlet {
 	private static final long serialVersionUID = 4971523176859296399L;
 
@@ -72,30 +70,38 @@ public class DatatablesServlet extends HttpServlet {
 		StringBuffer resourceUrl = request.getRequestURL();
 		String resourceName = resourceUrl.substring(resourceUrl.lastIndexOf("/") + 1);
 		String fileContent = null;
+
+		String mainKey = request.getParameter("c") + "|" + request.getParameter("id");
+		String type = request.getParameter("t");;
 		
-		// Depending on its type, different content is served
-		if(resourceName.endsWith("js")){
+		if(AssetCache.cache.containsKey(mainKey)){
 			
-			// Set header properties
-			response.setContentType("application/javascript");
+			// Depending on its type, different content is served
+			if(resourceName.endsWith("js")){
+				
+				// Set header properties
+				response.setContentType("application/javascript");
+				
+				if("main".equals(type)){
+					fileContent = ((WebResources) AssetCache.cache.get(mainKey)).getMainJsFile().getContent();
+				}
+				else{
+					fileContent = ((WebResources) AssetCache.cache.get(mainKey)).getJavascripts().get(resourceName).getContent();
+				}
+			}
+			else if(resourceName.endsWith("css")){
+				
+				// Set header properties
+				response.setContentType("text/css");
+				
+				fileContent = ((WebResources) AssetCache.cache.get(mainKey)).getStylesheets().get(resourceName).getContent();
+			}
 			
-			fileContent = ((JsResource) getServletContext().getAttribute(resourceName)).getContent();
+			// Write the content in the response
+			response.getWriter().write(fileContent);
 		}
-		else if(resourceName.endsWith("css")){
-			
-			// Set header properties
-			response.setContentType("text/css");
-			
-			fileContent = ((CssResource) getServletContext().getAttribute(resourceName)).getContent();
-		}
-		
-		// Write the content in the response
-		response.getWriter().write(fileContent);
-		
-		String debug = getInitParameter("debug");
-		if(debug == null || !"true".equals(debug)){
-			// Clear the servlet context
-			getServletContext().removeAttribute(resourceName);
+		else{
+			throw new ServletException("The Dandelion assets should have been generated!");
 		}
 	}
 }

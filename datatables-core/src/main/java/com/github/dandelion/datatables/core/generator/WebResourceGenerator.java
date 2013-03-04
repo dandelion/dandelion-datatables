@@ -116,7 +116,7 @@ public class WebResourceGenerator {
 		String tableId = table.getRandomId();
 		JsResource mainJsFile = new JsResource(ResourceType.MAIN, NameConstants.DT_MAIN_JS
 				+ tableId + ".js");
-		mainJsFile.setTableId(tableId);
+		mainJsFile.setTableId(table.getId());
 
 		/**
 		 * Extra files management
