@@ -39,8 +39,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.model.CssResource;
-import com.github.dandelion.datatables.core.model.JsResource;
+import com.github.dandelion.datatables.core.cache.AssetCache;
+import com.github.dandelion.datatables.core.model.WebResources;
 
 /**
  * Dandelion-datatables servlet compatible whith the servlet 2.x API.
@@ -60,37 +60,48 @@ public class DatatablesServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		logger.debug("DataTables servlet captured GET request {}", request.getRequestURI());
-
+logger.debug("DataTables servlet captured GET request {}", request.getRequestURI());
+		
 		// Common response header
-		response.setHeader("Cache-Control", "no-cache");
-
+		// TODO adapt caching behaviour depending on the file nature (e.g. plugin)
+		response.setHeader("Cache-Control","no-cache");
+		
 		// Get requested file name
 		StringBuffer resourceUrl = request.getRequestURL();
 		String resourceName = resourceUrl.substring(resourceUrl.lastIndexOf("/") + 1);
 		String fileContent = null;
 
-		// Depending on its type, different content is served
-		if (resourceName.endsWith("js")) {
-
-			// Set header properties
-			response.setContentType("application/javascript");
-
-			fileContent = ((JsResource) getServletContext().getAttribute(resourceName))
-					.getContent();
-		} else if (resourceName.endsWith("css")) {
-
-			// Set header properties
-			response.setContentType("text/css");
-
-			fileContent = ((CssResource) getServletContext().getAttribute(resourceName))
-					.getContent();
+		String mainKey = request.getParameter("c") + "|" + request.getParameter("id");
+		String type = request.getParameter("t");;
+		
+		if(AssetCache.cache.containsKey(mainKey)){
+			
+			// Depending on its type, different content is served
+			if(resourceName.endsWith("js")){
+				
+				// Set header properties
+				response.setContentType("application/javascript");
+				
+				if("main".equals(type)){
+					fileContent = ((WebResources) AssetCache.cache.get(mainKey)).getMainJsFile().getContent();
+				}
+				else{
+					fileContent = ((WebResources) AssetCache.cache.get(mainKey)).getJavascripts().get(resourceName).getContent();
+				}
+			}
+			else if(resourceName.endsWith("css")){
+				
+				// Set header properties
+				response.setContentType("text/css");
+				
+				fileContent = ((WebResources) AssetCache.cache.get(mainKey)).getStylesheets().get(resourceName).getContent();
+			}
+			
+			// Write the content in the response
+			response.getWriter().write(fileContent);
 		}
-
-		// Write the content in the response
-		response.getWriter().write(fileContent);
-
-		// Clear the servlet context
-		getServletContext().removeAttribute(resourceName);
+		else{
+			throw new ServletException("The asset should have been generated!!!!");
+		}
 	}
 }
