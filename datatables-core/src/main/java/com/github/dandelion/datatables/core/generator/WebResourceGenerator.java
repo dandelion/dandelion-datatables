@@ -113,9 +113,10 @@ public class WebResourceGenerator {
 		 */
 		// We need to append a randomUUID in case of multiple tables exists in
 		// the same JSP
+		String tableId = table.getRandomId();
 		JsResource mainJsFile = new JsResource(ResourceType.MAIN, NameConstants.DT_MAIN_JS
-				+ table.getRandomId() + ".js");
-		mainJsFile.setTable(table);
+				+ tableId + ".js");
+		mainJsFile.setTableId(tableId);
 
 		/**
 		 * Extra files management

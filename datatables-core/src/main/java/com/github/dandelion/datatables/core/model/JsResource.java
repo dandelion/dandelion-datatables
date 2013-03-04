@@ -91,7 +91,7 @@ public class JsResource {
 	 * Table to initialize. Only used if the current JsResource has the MAIN
 	 * ResourceType.
 	 */
-	private HtmlTable table;
+	private String tableId;
 
 	/**
 	 * Type of the JS resource.
@@ -144,11 +144,11 @@ public class JsResource {
 			}
 
 			retval.append("var oTable_");
-			retval.append(table.getId());
+			retval.append(this.tableId);
 			retval.append(";\n");
 
 			retval.append("var oTable_");
-			retval.append(table.getId());
+			retval.append(this.tableId);
 			retval.append("_params = ");
 			retval.append(this.dataTablesConf);
 			retval.append(";\n");
@@ -167,11 +167,11 @@ public class JsResource {
 			// DataTables initialization
 			retval.append(INDENTATION);
 			retval.append("oTable_");
-			retval.append(this.table.getId());
+			retval.append(this.tableId);
 			retval.append(" = $('#");
-			retval.append(this.table.getId());
+			retval.append(this.tableId);
 			retval.append("').dataTable(oTable_");
-			retval.append(table.getId());
+			retval.append(this.tableId);
 			retval.append("_params)");
 			if (this.dataTablesExtra != null) {
 				retval.append(".");
@@ -340,12 +340,11 @@ public class JsResource {
 		this.location = location;
 	}
 
-	public HtmlTable getTable() {
-		return table;
+	public String getTableId() {
+		return tableId;
 	}
 
-	public void setTable(HtmlTable table) {
-		this.table = table;
+	public void setTableId(String tableId) {
+		this.tableId = tableId;
 	}
-
 }
