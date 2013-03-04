@@ -261,9 +261,7 @@ public class TableTag extends AbstractTableTag {
 					generateLinkTag(entry.getValue().getLocation());
 				}
 				else{
-//					servletContext.setAttribute(entry.getKey(), entry.getValue());
 					generateLinkTag(baseUrl + "/datatablesController/" + entry.getKey() + "?id=" + this.table.getId() + "&c=" + RequestHelper.getCurrentUrl(request));
-					
 				}
 			}
 
@@ -275,11 +273,9 @@ public class TableTag extends AbstractTableTag {
 				generateScriptTag(CdnConstants.CDN_DATATABLES_JS_MIN);
 			}
 			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
-//				servletContext.setAttribute(entry.getKey(), entry.getValue());
 				generateScriptTag(baseUrl + "/datatablesController/" + entry.getKey() + "?id=" + this.table.getId() + "&c=" + RequestHelper.getCurrentUrl(request));
 			}
-//			servletContext.setAttribute(webResources.getMainJsFile().getName(),
-//					webResources.getMainJsFile());
+			// Main Javascript file
 			generateScriptTag(baseUrl + "/datatablesController/" + webResources.getMainJsFile().getName() + "?id=" + this.table.getId() + "&c=" + RequestHelper.getCurrentUrl(request) + "&t=main");
 
 		} catch (IOException e) {

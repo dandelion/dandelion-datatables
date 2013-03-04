@@ -3,7 +3,6 @@ package com.github.dandelion.datatables.thymeleaf.processor;
 import java.io.IOException;
 import java.util.Map.Entry;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +18,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.element.AbstractElementProcessor;
 
 import com.github.dandelion.datatables.core.aggregator.ResourceAggregator;
+import com.github.dandelion.datatables.core.cache.AssetCache;
 import com.github.dandelion.datatables.core.compressor.ResourceCompressor;
 import com.github.dandelion.datatables.core.constants.CdnConstants;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
@@ -145,18 +145,8 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 	 */
 	private void setupHtmlGeneration(Arguments arguments, Element element,
 			HttpServletRequest request) {
-		ServletContext servletContext;
-        try {
-            servletContext = request.getServletContext();
-        } catch(Exception e) {
-            if(e instanceof NoSuchMethodException) {
-                // servlet 2.x mode
-                servletContext = request.getSession().getServletContext();
-            } else {
-                throw new RuntimeException(e);
-            }
-        }
-
+		WebResources webResources = null;
+		
 		this.htmlTable.setExporting(false);
 
 		// Plugins and themes are activated in their respective attribute
@@ -167,14 +157,29 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 
 		try {
 
-			// Init the web resources generator
-			WebResourceGenerator contentGenerator = new WebResourceGenerator();
+			// First we check if the DataTables configuration already exist in the cache
+			String keyToTest = RequestHelper.getCurrentUrl(request) + "|" + htmlTable.getId();
 
-			// Generate the web resources (JS, CSS) and wrap them into a
-			// WebResources POJO
-			WebResources webResources;
-			webResources = contentGenerator.generateWebResources(htmlTable);
+			if(!AssetCache.cache.containsKey(keyToTest)){
+				logger.debug("No asset for the key {}. Generating...", keyToTest);
+				
+				// Init the web resources generator
+				WebResourceGenerator contentGenerator = new WebResourceGenerator();
+	
+				// Generate the web resources (JS, CSS) and wrap them into a
+				// WebResources POJO
+				webResources = contentGenerator.generateWebResources(htmlTable);
+				logger.debug("Web content generated successfully");
+				
+				AssetCache.cache.put(keyToTest, webResources);
+				logger.debug("Cache updated with new web resources");
+			}
+			else{
+				logger.debug("Asset(s) already exist, retrieving content from cache...");
 
+				webResources = (WebResources) AssetCache.cache.get(keyToTest);
+			}
+						
 			// Aggregation
 			if (htmlTable.getTableProperties().isAggregatorEnable()) {
 				logger.debug("Aggregation enabled");
@@ -193,9 +198,8 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 						CdnConstants.CDN_DATATABLES_CSS);
 			}
 			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
-				servletContext.setAttribute(entry.getKey(), entry.getValue());
 				DomUtils.addLinkTag(element, request, Utils.getBaseUrl(request)
-						+ "/datatablesController/" + entry.getKey());
+						+ "/datatablesController/" + entry.getKey() + "?id=" + htmlTable.getId() + "&c=" + RequestHelper.getCurrentUrl(request));
 			}
 
 			// <script> HTML tag generation
@@ -204,15 +208,12 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 						CdnConstants.CDN_DATATABLES_JS_MIN);
 			}
 			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
-				servletContext.setAttribute(entry.getKey(), entry.getValue());
 				DomUtils.addScriptTag(DomUtils.getParentAsElement(element), request,
-						Utils.getBaseUrl(request) + "/datatablesController/" + entry.getKey());
+						Utils.getBaseUrl(request) + "/datatablesController/" + entry.getKey() + "?id=" + htmlTable.getId() + "&c=" + RequestHelper.getCurrentUrl(request));
 			}
-			servletContext.setAttribute(webResources.getMainJsFile().getName(),
-					webResources.getMainJsFile());
 			DomUtils.addScriptTag(DomUtils.getParentAsElement(element), request,
 					Utils.getBaseUrl(request) + "/datatablesController/"
-							+ webResources.getMainJsFile().getName());
+							+ webResources.getMainJsFile().getName() + "?id=" + htmlTable.getId() + "&c=" + RequestHelper.getCurrentUrl(request) + "&t=main");
 
 			logger.debug("Web content generated successfully");
 		} catch (CompressionException e) {
