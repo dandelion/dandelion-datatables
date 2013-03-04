@@ -7,6 +7,10 @@
    <servlet>
       <servlet-name>datatablesController</servlet-name>
       <servlet-class>com.github.dandelion.datatables.core.web.servlet.DatatablesServlet</servlet-class>
+      <init-param>
+         <param-name>debug</param-name>
+         <param-value>true</param-value>
+      </init-param>
    </servlet>
 
    <!-- Dandelion-datatables servlet mapping -->

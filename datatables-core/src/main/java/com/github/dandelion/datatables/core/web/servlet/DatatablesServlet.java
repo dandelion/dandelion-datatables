@@ -32,6 +32,7 @@ package com.github.dandelion.datatables.core.web.servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +50,7 @@ import com.github.dandelion.datatables.core.model.JsResource;
  * @author Thibault Duchateau
  */
 @WebServlet(name="datatablesController", urlPatterns={"/datatablesController/*"})
+@WebInitParam(name="debug", value="false")
 public class DatatablesServlet extends HttpServlet {
 	private static final long serialVersionUID = 4971523176859296399L;
 
@@ -86,11 +88,14 @@ public class DatatablesServlet extends HttpServlet {
 			
 			fileContent = ((CssResource) getServletContext().getAttribute(resourceName)).getContent();
 		}
-				
+		
 		// Write the content in the response
 		response.getWriter().write(fileContent);
-
-		// Clear the servlet context
-		getServletContext().removeAttribute(resourceName);
+		
+		String debug = getInitParameter("debug");
+		if(debug == null || !"true".equals(debug)){
+			// Clear the servlet context
+			getServletContext().removeAttribute(resourceName);
+		}
 	}
 }

@@ -37,6 +37,7 @@ import org.apache.jasper.servlet.JspServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.testing.HttpTester;
 import org.eclipse.jetty.testing.ServletTester;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.fluentlenium.core.FluentAdapter;
@@ -67,7 +68,10 @@ public abstract class DomPhantomJsTest extends FluentAdapter {
     
     protected static WebDriver driver;
     private static Server webServer;
-    protected static ServletTester servletTester;
+    protected ServletTester servletTester;
+    protected HttpTester request;
+    protected HttpTester response;
+    protected static WebAppContext context;
     
     @BeforeClass
     public static void configure_server() throws Exception {
@@ -79,7 +83,7 @@ public abstract class DomPhantomJsTest extends FluentAdapter {
         connector.setPort(9090);
         webServer.addConnector(connector);
 
-        WebAppContext context = new WebAppContext("src/test/webapp", "/");
+        context = new WebAppContext("src/test/webapp", "/");
         
         context.setAttribute("persons", Mock.persons);
         context.setAttribute("emptyList", new ArrayList<Person>());
@@ -90,16 +94,23 @@ public abstract class DomPhantomJsTest extends FluentAdapter {
         
         webServer.setHandler(context);
         webServer.setStopAtShutdown(true);
-        
-        servletTester = new ServletTester();
-        servletTester.addServlet(DatatablesServlet.class, "/datatablesController");
-        servletTester.start();
     }
 
     @Before
     public void start_server() {
-        try {
+        this.servletTester = new ServletTester();
+        this.servletTester.setContextPath("/");
+        this.servletTester.addServlet(DatatablesServlet.class, "/datatablesController");
+        
+        this.request = new HttpTester();
+        this.response = new HttpTester();
+        this.request.setMethod("GET");
+        this.request.setHeader("Host", "tester");
+        this.request.setVersion("HTTP/1.0");
+        
+    	try {
             webServer.start();
+            servletTester.start();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -108,6 +119,7 @@ public abstract class DomPhantomJsTest extends FluentAdapter {
     @After
     public void stop_server() {
         try {
+        	servletTester.stop();
             webServer.stop();
         } catch (Exception e) {
             throw new RuntimeException(e);
