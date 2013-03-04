@@ -51,7 +51,7 @@ public class ColumnTag extends AbstractColumnTag {
 	 * Nothing happens in doStartTag.
 	 */
 	public int doStartTag() throws JspException {
-		return EVAL_PAGE;
+		return EVAL_BODY_BUFFERED;
 	}
 
 	/**
