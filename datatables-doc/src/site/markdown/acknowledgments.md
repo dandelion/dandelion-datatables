@@ -28,7 +28,7 @@ This site :
 </ul>
 
 <br />
-<img src="./../images/yourkit.png" style="float:left; margin-right: 10px; margin-bottom:10px;" />
+<img src="./images/yourkit2.png" style="float:left; margin-right: 10px; margin-bottom:10px;" />
 **Dandelion-DataTables** is tested using the great Java profiling tool [YourKit](http://www.yourkit.com/).
 
 YourKit is kindly supporting open source projects with its full-featured Java Profiler.<br/>
