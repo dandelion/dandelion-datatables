@@ -16,7 +16,7 @@ import com.github.dandelion.datatables.jsp.DomPhantomJsTest;
  */
 public class HtmlGenerationTest extends DomPhantomJsTest {
 
-	@Test
+//	@Test
 	public void should_generate_table_markup() throws IOException, Exception {
 		goTo("/htmlGeneration/table_default.jsp");
 		assertThat(getTable()).hasSize(1);
@@ -27,21 +27,21 @@ public class HtmlGenerationTest extends DomPhantomJsTest {
 		assertThat(getTable().find("tbody").find("tr")).hasSize(10);
 	}
 
-	@Test
+//	@Test
 	public void should_generate_script_tag() {
 		goTo("/htmlGeneration/table_default.jsp");
 		FluentWebElement body = findFirst("body");
 		assertThat(body.find("script")).hasSize(1);
 	}
 	
-	@Test
+//	@Test
 	public void when_emptylist_should_not_generate_anything() {
 		goTo("/htmlGeneration/table_with_empty_collection.jsp");
 		assertThat(getTable()).hasSize(0);
 		System.out.println(driver.getPageSource());
 	}
 	
-	@Test
+//	@Test
 	public void when_nulllist_should_not_generate_anything() {
 		goTo("/htmlGeneration/table_with_null_collection.jsp");
 		assertThat(getTable()).hasSize(0);
