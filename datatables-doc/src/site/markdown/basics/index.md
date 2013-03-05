@@ -3,6 +3,7 @@
  * [Feature enablement](featurenablement.html)
  * [Sorting data](sorting.html)
  * [Filtering data](filtering.html)
+ * [Paging data](paging.html)
  * [Handling null/default values](defaultvalues.html)
  * [Using CDN](cdn.html)
  * [Changing table\'s appearing](changingappearing.html)

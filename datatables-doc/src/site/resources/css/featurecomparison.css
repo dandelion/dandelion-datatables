@@ -1,0 +1,5 @@
+#features thead th { text-align: left; }
+#features tbody td { text-align: left; }
+#features td:not(:first-child), #features th:not(:first-child) {
+	text-align: center;
+}

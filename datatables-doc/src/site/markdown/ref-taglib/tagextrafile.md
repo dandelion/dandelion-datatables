@@ -18,7 +18,7 @@ Specify the location of an extra file containing Javascript code which will be m
 <br />
 #### Reference
 
-<table id="tagReference" class="table table-striped table-bordered">
+<table id="reference" class="table table-striped table-bordered">
   <thead>
     <tr>
       <th>Name</th>
@@ -43,8 +43,6 @@ Specify the location of an extra file containing Javascript code which will be m
   </tbody>
 </table>
 
-<link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
-<link rel="stylesheet" href="./css/tabletag.css" />
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js" ></script>
-<script src="./js/datatables.fixedheader.min.js" ></script>
-<script src="./js/tagreference.js" ></script>
+<link rel="stylesheet" href="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+<script src="./../js/site_reference.js"></script>

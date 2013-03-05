@@ -18,7 +18,7 @@ Don\'t forget to add the prefix <code>dt:</code> before each attribute.
 <br />
 <h4>Reference</h4>
 
-<table id="tagReference" class="table table-striped table-bordered">
+<table id="reference" class="table table-striped table-bordered">
   <thead>
     <tr>
       <th>Name</th>
@@ -32,6 +32,12 @@ Don\'t forget to add the prefix <code>dt:</code> before each attribute.
     <td>dt:table</td>
     <td><strong>(required)</strong> Enables DataTables4j in a Thymeleaf template. The value must be <code>true</code></td>
     <td>true|false</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>dt:url</td>
+    <td>Web service URL used to populate the table</td>
+    <td></td>
     <td></td>
   </tr>
   <tr>
@@ -133,8 +139,6 @@ Don\'t forget to add the prefix <code>dt:</code> before each attribute.
   </tbody>
 </table>
 
-<link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
-<link rel="stylesheet" href="./css/tabletag.css" />
+<link rel="stylesheet" href="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
-<script src="./js/datatables.fixedheader.min.js"></script>
-<script src="./js/tagreference.js"></script>
+<script src="./../js/site_reference.js"></script>
