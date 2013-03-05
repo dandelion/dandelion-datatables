@@ -5,7 +5,7 @@
    <groupId>com.github.dandelion</groupId>
    <artifactId>datatables-doc</artifactId>
    <version>0.8.6</version>
-   
+
    <name>Dandelion : Datatables :: Documentation</name>
    <url>http://dandelion.github.com/dandelion-datatables/</url>
 
@@ -77,4 +77,9 @@
       </extensions>
    </build>
 
+   <scm>
+      <connection>scm:git:git://github.com/dandelion/dandelion-datatables.git</connection>
+      <developerConnection>scm:git:git@github.com:dandelion/dandelion-datatables.git</developerConnection>
+      <url>http://github.com/dandelion/dandelion-datatables</url>
+   </scm>
 </project>
