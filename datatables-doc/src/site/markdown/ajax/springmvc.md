@@ -12,7 +12,7 @@ First, add the new dependency :
 	<dependency>
 	   <groupId>com.github.dandelion</groupId>
 	   <artifactId>datatables-spring3</artifactId>
-	   <version>0.8.5</version>
+	   <version>0.8.6</version>
 	</dependency>
 
 Moreover, you need to register a new custom WebArgumentResolvers as follows :

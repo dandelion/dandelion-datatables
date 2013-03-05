@@ -17,7 +17,7 @@ Just add the following dependency :
     <dependency>
         <groupId>com.github.dandelion</groupId>
         <artifactId>datatables-thymeleaf</artifactId>
-        <version>0.8.4</version>
+        <version>0.8.6</version>
     </dependency>
 
 <h5>Step 2 : Declare the Dandelion-DataTables dialect</h5>
@@ -74,7 +74,7 @@ You need to follow the first four steps described above.
     <dependency>
         <groupId>com.github.dandelion</groupId>
         <artifactId>datatables-servlet2</artifactId>
-        <version>0.1.4</version>
+        <version>0.8.6</version>
     </dependency>
     
 <h5>Step 6 : Add the DataTables4j servlet and filter definitions</h5>

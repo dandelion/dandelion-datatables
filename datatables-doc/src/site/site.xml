@@ -51,13 +51,12 @@
 
       <menu name="Overview">
          <item name="Home" href="/index.html" />
-         <item name="Install" href="install/" collapse="true">
+         <item name="Installation" href="install/" collapse="true">
             <item name="JSP taglib" href="/install/jsp.html" />
             <item name="Thymeleaf" href="/install/thymeleaf.html" />
          </item>
          <item name="Changelog" href="changelog.html" />
          <item name="Roadmap" href="roadmap.html" />
-         <item name="Forum" target="_blank" href="http://dandelion-forum.48353.n6.nabble.com/" />
          <item name="Download" href="download.html" />
          <item name="Migration guide" href="migration.html" />
       </menu>
@@ -137,12 +136,14 @@
          </item>
          <item name="Configuration properties" href="properties.html" />
       </menu>
-
-      <!-- 
-      <menu name="Project info">
-         <item name="Continous Integration" href="dev.ci.html" />
-         <item name="Contribute" href="dev.contribute.html" />
+      
+      <menu name="Community">
+         <item name="Forum" target="_blank" href="http://dandelion-forum.48353.n6.nabble.com/" />
+         <item name="Issue tracking" target="_blank" href="http://github.com/dandelion/issues/issues" />
+         <item name="Source repository" target="_blank" href="http://github.com/dandelion" />
+         <item name="Continuous Integration" target="_blank" href="https://dandelion.ci.cloudbees.com/" />
+         <item name="Project team" href="team.html" />   
       </menu>
-       -->
+
    </body>
 </project>

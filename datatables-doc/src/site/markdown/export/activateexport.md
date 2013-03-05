@@ -26,7 +26,7 @@ First, you will need to add an extra dependency in your `pom.xml`:
     <dependency>
         <groupId>com.github.dandelion</groupId>
         <artifactId>datatables-servlet2</artifactId>
-        <version>0.1.4</version>
+        <version>0.8.6</version>
     </dependency>
 
 Then, you need to declare the Datatables servlet filter in you `web.xml` as follows :
