@@ -47,6 +47,43 @@ You can find below the full list of features supported by **Dandelion-Datatables
       <td><a href="/basics/featurenablement.html" class="btn btn-mini btn-info">More details »</a></td>    
     </tr>
     <tr>
+      <td>Handling default value</td>
+      <td><a href="/ref-taglib/tagcolumn.html#default">default</a></td>
+      <td>Native support</td>
+      <td><a href="/basics/defaultvalues.html" class="btn btn-mini btn-info">More details »</a></td>   
+    </tr>
+    <tr>
+      <td>Using CDN</td>
+      <td><a href="/ref-taglib/tagtable.html#cdn">cdn</a></td>
+      <td><a href="/ref-thymeleaf/tmltable.html#dt:cdn">dt:cdn</a></td>
+      <td><a href="/basics/cdn.html" class="btn btn-mini btn-info">More details »</a></td>   
+    </tr>
+    <tr>
+      <td>Changing table's appearing</td>
+      <td><a href="/ref-taglib/tagtable.html#appear">appear</a></td>
+      <td><a href="/ref-thymeleaf/tmltable.html#dt:appear">dt:appear</a></td>
+      <td><a href="/basics/changingappearing.html" class="btn btn-mini btn-info">More details »</a></td>   
+    </tr>
+    <tr>
+      <td>Using implicit objects</td>
+      <td><a href="/ref-taglib/tagtable.html#row">row</a></td>
+      <td>Native support</td>
+      <td><a href="/basics/implicit.html" class="btn btn-mini btn-info">More details »</a></td>   
+    </tr>
+    <tr>
+      <td>Specific column's content</td>
+      <td><a href="/ref-taglib/tagcolumn.html#property">property</a> / <a href="/ref-taglib/tagtable.html#row">row</a></td>
+      <td>Native support</td>
+      <td><a href="/basics/customcontent.html" class="btn btn-mini btn-info">More details »</a></td>   
+    </tr>
+    <tr>
+      <td>Specific column's head</td>
+      <td><a href="/ref-taglib/tagcolumnhead.html#uid">uid (columnHead)</a> / <a href="/ref-taglib/tagcolumn.html#uid">uid (column)</a></td>
+      <td>Native support</td>
+      <td><a href="/basics/customhead.html" class="btn btn-mini btn-info">More details »</a></td>   
+    </tr>
+    
+    <tr>
       <td><h4>Sorting</h4></td>
       <td colspan="3"></td>
     </tr>
@@ -68,6 +105,7 @@ You can find below the full list of features supported by **Dandelion-Datatables
       <td><span class="icon-remove"></span></td>
       <td><a href="/basics/sorting.html#Sorting_direction_control" class="btn btn-mini btn-info">More details »</a></td>   
     </tr>
+    
     <tr>
       <td><h4>Filtering</h4></td>
       <td colspan="3"></td>
@@ -90,6 +128,7 @@ You can find below the full list of features supported by **Dandelion-Datatables
       <td><a href="/ref-thymeleaf/tmlth.html#dt:searchable">dt:searchable</a></td>
       <td><a href="/basics/filtering.html#Exclude_column_from_filtering" class="btn btn-mini btn-info">More details »</a></td>   
     </tr>
+    
     <tr>
       <td><h4>Paging</h4></td>
       <td colspan="3"></td>
@@ -99,52 +138,6 @@ You can find below the full list of features supported by **Dandelion-Datatables
       <td><a href="/ref-taglib/tagtable.html#paginationType">paginationType</a></td>
       <td><span class="icon-remove"></span></td>
       <td><a href="/basics/paging.html#Chaging_pagination_type" class="btn btn-mini btn-info">More details »</a></td>   
-    </tr>
-    <tr>
-      <td><h4>???</h4></td>
-      <td colspan="3"></td>
-    </tr>
-    <tr>
-      <td>Handling default value</td>
-      <td><a href="/ref-taglib/tagcolumn.html#default">default</a></td>
-      <td>Native support</td>
-      <td><a href="/basics/defaultvalues.html" class="btn btn-mini btn-info">More details »</a></td>   
-    </tr>
-    <tr>
-      <td>Using CDN</td>
-      <td><a href="/ref-taglib/tagtable.html#cdn">cdn</a></td>
-      <td><a href="/ref-thymeleaf/tmltable.html#dt:cdn">dt:cdn</a></td>
-      <td><a href="/basics/cdn.html" class="btn btn-mini btn-info">More details »</a></td>   
-    </tr>
-    <tr>
-      <td>Changing table's appearing</td>
-      <td><a href="/ref-taglib/tagtable.html#appear">appear</a></td>
-      <td><a href="/ref-thymeleaf/tmltable.html#dt:appear">dt:appear</a></td>
-      <td><a href="/basics/changingappearing.html" class="btn btn-mini btn-info">More details »</a></td>   
-    </tr>
-    <tr>
-      <td>Multiple tables</td>
-      <td><a href="/ref-taglib/tagtable.html#id">appear</a></td>
-      <td>Just ensure to give a unique native HTML id</td>
-      <td><a href="/basics/multiple.html" class="btn btn-mini btn-info">More details »</a></td>   
-    </tr>
-    <tr>
-      <td>Using implicit objects</td>
-      <td><a href="/ref-taglib/tagtable.html#row">row</a></td>
-      <td>Native support</td>
-      <td><a href="/basics/implicit.html" class="btn btn-mini btn-info">More details »</a></td>   
-    </tr>
-    <tr>
-      <td>Specific column's content</td>
-      <td><a href="/ref-taglib/tagcolumn.html#property">property</a> / <a href="/ref-taglib/tagtable.html#row">row</a></td>
-      <td>Native support</td>
-      <td><a href="/basics/customcontent.html" class="btn btn-mini btn-info">More details »</a></td>   
-    </tr>
-    <tr>
-      <td>Specific column's head</td>
-      <td><a href="/ref-taglib/tagcolumnhead.html#uid">uid (columnHead)</a> / <a href="/ref-taglib/tagcolumn.html#uid">uid (column)</a></td>
-      <td>Native support</td>
-      <td><a href="/basics/customhead.html" class="btn btn-mini btn-info">More details »</a></td>   
     </tr>
     
     <tr>
