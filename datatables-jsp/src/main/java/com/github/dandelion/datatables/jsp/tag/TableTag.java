@@ -57,6 +57,7 @@ import com.github.dandelion.datatables.core.model.HtmlTable;
 import com.github.dandelion.datatables.core.model.JsResource;
 import com.github.dandelion.datatables.core.model.WebResources;
 import com.github.dandelion.datatables.core.properties.PropertiesLoader;
+import com.github.dandelion.datatables.core.util.DandelionUtils;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 import com.github.dandelion.datatables.core.util.ResourceHelper;
 
@@ -220,7 +221,7 @@ public class TableTag extends AbstractTableTag {
 			// First we check if the DataTables configuration already exist in the cache
 			String keyToTest = RequestHelper.getCurrentUrl(request) + "|" + this.table.getId();
 
-			if(!AssetCache.cache.containsKey(keyToTest)){
+			if(DandelionUtils.isDevModeEnabled() || !AssetCache.cache.containsKey(keyToTest)){
 				logger.debug("No asset for the key {}. Generating...", keyToTest);
 				
 				// Init the web resources generator

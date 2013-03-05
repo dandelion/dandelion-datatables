@@ -41,6 +41,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.cache.AssetCache;
 import com.github.dandelion.datatables.core.model.WebResources;
+import com.github.dandelion.datatables.core.util.DandelionUtils;
 
 /**
  * Dandelion-datatables servlet compatible whith the servlet 2.x API.
@@ -74,7 +75,7 @@ logger.debug("DataTables servlet captured GET request {}", request.getRequestURI
 		String mainKey = request.getParameter("c") + "|" + request.getParameter("id");
 		String type = request.getParameter("t");;
 		
-		if(AssetCache.cache.containsKey(mainKey)){
+		if(DandelionUtils.isDevModeEnabled() || AssetCache.cache.containsKey(mainKey)){
 			
 			// Depending on its type, different content is served
 			if(resourceName.endsWith("js")){
