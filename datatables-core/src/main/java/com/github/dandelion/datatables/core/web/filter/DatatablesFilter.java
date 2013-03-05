@@ -81,7 +81,7 @@ public class DatatablesFilter implements Filter {
 			HttpServletRequest request = (HttpServletRequest) servletRequest;
 
 			// Don't filter anything
-			if (request.getParameter(ExportConstants.DT4J_REQUESTPARAM_EXPORT_ID) == null) {
+			if (request.getParameter(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID) == null) {
 
 				chain.doFilter(servletRequest, servletResponse);
 
@@ -89,8 +89,8 @@ public class DatatablesFilter implements Filter {
 
 				// Flag set in request to tell the taglib to export the table
 				// instead of displaying it
-				request.setAttribute(ExportConstants.DT4J_REQUESTPARAM_EXPORT_ID,
-						request.getParameter(ExportConstants.DT4J_REQUESTPARAM_EXPORT_ID));
+				request.setAttribute(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID,
+						request.getParameter(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID));
 
 				HttpServletResponse response = (HttpServletResponse) servletResponse;
 				DatatablesResponseWrapper resWrapper = new DatatablesResponseWrapper(response);
@@ -98,7 +98,7 @@ public class DatatablesFilter implements Filter {
 				chain.doFilter(request, resWrapper);
 
 				ExportProperties exportProperties = (ExportProperties) request
-						.getAttribute(ExportConstants.DT4J_REQUESTATTR_EXPORT_PROPERTIES);
+						.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_PROPERTIES);
 				String fileName = exportProperties.getFileName() + "."
 						+ exportProperties.getCurrentExportType().getExtension();
 
@@ -109,7 +109,7 @@ public class DatatablesFilter implements Filter {
 
 				// Binary exports use an outpuStream 
 				if(exportProperties.isBinaryExport()){
-					byte[] content = (byte[]) servletRequest.getAttribute(ExportConstants.DT4J_REQUESTATTR_EXPORT_CONTENT);
+					byte[] content = (byte[]) servletRequest.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT);
 
 					response.setContentLength(content.length);
 		            OutputStream out = response.getOutputStream();
@@ -120,7 +120,7 @@ public class DatatablesFilter implements Filter {
 				// Exports based in characters just use a writer
 				else{
 					String content = String.valueOf(servletRequest
-							.getAttribute(ExportConstants.DT4J_REQUESTATTR_EXPORT_CONTENT));
+							.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT));
 					
 					PrintWriter out = servletResponse.getWriter();
 					response.setContentLength(content.length());

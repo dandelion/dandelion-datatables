@@ -113,9 +113,9 @@ public class TableExportAttrProcessor extends AbstractDatatableAttrProcessor {
 				if (!htmlTable.getExportConfMap().containsKey(type)) {
 
 					String url = htmlTable.getCurrentUrl() + "?"
-							+ ExportConstants.DT4J_REQUESTPARAM_EXPORT_TYPE + "="
+							+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
 							+ type.getUrlParameter() + "&"
-							+ ExportConstants.DT4J_REQUESTPARAM_EXPORT_ID + "="
+							+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID + "="
 							+ htmlTable.getId();
 
 					ExportConf conf = new ExportConf(type, url);

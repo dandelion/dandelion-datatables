@@ -239,7 +239,7 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 
 		// Get the URL parameter used to identify the export type
 		String exportTypeString = request.getParameter(
-                ExportConstants.DT4J_REQUESTPARAM_EXPORT_TYPE);
+                ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE);
 
 		// Convert it to the corresponding enum
 

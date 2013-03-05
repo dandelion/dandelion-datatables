@@ -44,13 +44,14 @@ public class RequestHelper {
 
 	/**
 	 * <p>
-	 * Return the current URL, used to generate the export links.
+	 * Return the current URL, without query parameters.
 	 * 
 	 * @param request
 	 *            The current request.
 	 * @return a String containing the current URL.
 	 */
 	public static String getCurrentUrl(HttpServletRequest request) {
+		
 		String currentUrl = null;
 		if (request.getAttribute("javax.servlet.forward.request_uri") != null) {
 			currentUrl = (String) request.getAttribute("javax.servlet.forward.request_uri");
@@ -64,6 +65,30 @@ public class RequestHelper {
 		return currentUrl;
 	}
 
+	/**
+	 * <p>
+	 * Return the current URL, with query parameters.
+	 * 
+	 * @param request
+	 *            The current request.
+	 * @return a String containing the current URL.
+	 */
+	public static String getCurrentUrlWithParameters(HttpServletRequest request) {
+		
+		
+		String currentUrl = null;
+		if (request.getAttribute("javax.servlet.forward.request_uri") != null) {
+			currentUrl = (String) request.getAttribute("javax.servlet.forward.request_uri");
+		} else {
+			currentUrl = request.getRequestURL().toString();
+		}
+		if (currentUrl != null
+				&& request.getQueryString() != null) {
+			currentUrl += "?" + request.getQueryString();
+		}
+		return currentUrl;
+	}
+	
 	/**
 	 * <p>
 	 * Computes and returns the data source URL, using the following rules :
@@ -120,8 +145,8 @@ public class RequestHelper {
 	 */
 	public static Boolean isTableBeingExported(ServletRequest servletRequest, HtmlTable table) {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
-		return request.getAttribute(ExportConstants.DT4J_REQUESTPARAM_EXPORT_ID) != null ? request
-				.getAttribute(ExportConstants.DT4J_REQUESTPARAM_EXPORT_ID).toString().toLowerCase()
+		return request.getAttribute(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID) != null ? request
+				.getAttribute(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID).toString().toLowerCase()
 				.equals(table.getId().toLowerCase()) : false;
 	}
 }

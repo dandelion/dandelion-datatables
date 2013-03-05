@@ -39,16 +39,16 @@ public class ExportConstants {
 	/** Request attributes */
 
 	// Export properties
-	public static final String DT4J_REQUESTATTR_EXPORT_PROPERTIES = "dt4j-export-properties";
+	public static final String DDL_DT_REQUESTATTR_EXPORT_PROPERTIES = "ddl-dt-export-properties";
 
 	// Export content
-	public static final String DT4J_REQUESTATTR_EXPORT_CONTENT = "dt4j-export-content";
+	public static final String DDL_DT_REQUESTATTR_EXPORT_CONTENT = "ddl-dt-export-content";
 
 	/** Request parameters */
 
 	// Table'is being exported
-	public static final String DT4J_REQUESTPARAM_EXPORT_ID = "dt4ji";
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_ID = "dti";
 		
 	// Type of current export
-	public static final String DT4J_REQUESTPARAM_EXPORT_TYPE = "dt4jt";
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_TYPE = "dtt";
 }

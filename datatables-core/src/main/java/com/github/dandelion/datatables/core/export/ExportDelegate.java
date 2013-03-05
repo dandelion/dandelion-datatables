@@ -114,7 +114,7 @@ public class ExportDelegate {
 
 				// Fill the request so that the filter will intercept it and
 				// override the response with the export configuration
-				request.setAttribute(ExportConstants.DT4J_REQUESTATTR_EXPORT_CONTENT,
+				request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT,
 						writer.toString());
 
 			} catch (BadConfigurationException e) {
@@ -143,7 +143,7 @@ public class ExportDelegate {
 
 				// Fill the request so that the filter will intercept it and
 				// override the response with the export configuration
-				request.setAttribute(ExportConstants.DT4J_REQUESTATTR_EXPORT_CONTENT,
+				request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT,
 						((ByteArrayOutputStream) stream).toByteArray());
 
 			} catch (BadConfigurationException e) {
@@ -151,6 +151,6 @@ public class ExportDelegate {
 			}
 		}
 
-		request.setAttribute(ExportConstants.DT4J_REQUESTATTR_EXPORT_PROPERTIES, exportProperties);
+		request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_PROPERTIES, exportProperties);
 	}
 }

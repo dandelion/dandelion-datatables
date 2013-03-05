@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.jsp.tag;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
@@ -40,6 +41,7 @@ import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportType;
+import com.github.dandelion.datatables.core.util.RequestHelper;
 
 /**
  * Tag which allows to configure an export type for the current table.
@@ -80,6 +82,8 @@ public class ExportTag extends TagSupport {
 	 */
 	public int doEndTag() throws JspException {
 
+		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+		
 		// Get parent tag
 		AbstractTableTag parent = (AbstractTableTag) getParent();
 
@@ -97,9 +101,18 @@ public class ExportTag extends TagSupport {
 			}
 
 			// Export URL build
-			String url = parent.getTable().getCurrentUrl() + "?" + ExportConstants.DT4J_REQUESTPARAM_EXPORT_TYPE
-					+ "=" + exportType.getUrlParameter() + "&" + ExportConstants.DT4J_REQUESTPARAM_EXPORT_ID
-					+ "=" + parent.getTable().getId();
+			
+			String url = RequestHelper.getCurrentUrlWithParameters(request);
+			if(url.contains("?")){
+				url += "&";
+			}
+			else{
+				url += "?";
+			}
+			url += ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
+					+ exportType.getUrlParameter() + "&"
+					+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID + "="
+					+ parent.getTable().getId();
 
 			ExportConf conf = new ExportConf(exportType, url);
 

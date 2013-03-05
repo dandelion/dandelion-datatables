@@ -386,6 +386,8 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	 */
 	protected void registerExportConfiguration() throws BadConfigurationException {
 
+		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+		
 		if (StringUtils.isNotBlank(this.export)) {
 
 			// Init the exportable flag in order to add export links
@@ -411,10 +413,16 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 				// actives par la balise export=""
 				if (!table.getExportConfMap().containsKey(type)) {
 
-					String url = this.table.getCurrentUrl() + "?"
-							+ ExportConstants.DT4J_REQUESTPARAM_EXPORT_TYPE + "="
+					String url = RequestHelper.getCurrentUrlWithParameters(request);
+					if(url.contains("?")){
+						url += "&";
+					}
+					else{
+						url += "?";
+					}
+					url += ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
 							+ type.getUrlParameter() + "&"
-							+ ExportConstants.DT4J_REQUESTPARAM_EXPORT_ID + "="
+							+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID + "="
 							+ this.table.getId();
 
 					ExportConf conf = new ExportConf(type, url);
@@ -494,7 +502,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 
 		// Get the URL parameter used to identify the export type
 		String exportTypeString = request.getParameter(
-				ExportConstants.DT4J_REQUESTPARAM_EXPORT_TYPE).toString();
+				ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE).toString();
 
 		// Convert it to the corresponding enum
 		ExportType exportType = ExportType.findByUrlParameter(Integer.parseInt(exportTypeString));
