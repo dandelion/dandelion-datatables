@@ -130,17 +130,6 @@ You can find below the full list of features supported by **Dandelion-Datatables
     </tr>
     
     <tr>
-      <td><h4>Paging</h4></td>
-      <td colspan="3"></td>
-    </tr>
-    <tr>
-      <td>Changing pagination type</td>
-      <td><a href="./ref-taglib/tagtable.html#paginationType">paginationType</a></td>
-      <td><span class="icon-remove"></span></td>
-      <td><a href="./basics/paging.html#Chaging_pagination_type" class="btn btn-mini btn-info">More details »</a></td>   
-    </tr>
-    
-    <tr>
       <td><h4>i18n</h4></td>
       <td colspan="3"></td>
     </tr>
