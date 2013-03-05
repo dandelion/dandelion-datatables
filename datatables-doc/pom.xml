@@ -4,7 +4,7 @@
 
    <groupId>com.github.dandelion</groupId>
    <artifactId>datatables-doc</artifactId>
-   <version>0.8.5</version>
+   <version>0.8.6</version>
    
    <name>Dandelion : Datatables :: Documentation</name>
    <url>http://dandelion.github.com/dandelion-datatables/</url>
@@ -21,9 +21,6 @@
       <!-- Configuration -->
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-      <!-- Extras version -->
-      <backwardServlet2Version>0.1.3</backwardServlet2Version>
    </properties>
 
    <build>
