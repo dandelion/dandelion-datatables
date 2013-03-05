@@ -54,7 +54,7 @@ public class Draft extends DomPhantomJsTest {
 		}
 	}
 
-	@Test
+//	@Test
 	public void test1() throws IOException, Exception {
 		goTo("/basicFeatures/table_disable_paging.jsp");
 
@@ -67,7 +67,7 @@ public class Draft extends DomPhantomJsTest {
 		}
 	}
 	
-	@Test
+//	@Test
 	public void test2() throws IOException, Exception {
 		goTo("/basicFeatures/table_disable_paging.jsp");
 
