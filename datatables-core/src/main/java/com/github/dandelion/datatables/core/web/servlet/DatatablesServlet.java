@@ -73,7 +73,7 @@ public class DatatablesServlet extends HttpServlet {
 		String fileContent = null;
 
 		String mainKey = request.getParameter("c") + "|" + request.getParameter("id");
-		String type = request.getParameter("t");;
+		String type = request.getParameter("t");
 		
 		if(DandelionUtils.isDevModeEnabled() || AssetCache.cache.containsKey(mainKey)){
 			

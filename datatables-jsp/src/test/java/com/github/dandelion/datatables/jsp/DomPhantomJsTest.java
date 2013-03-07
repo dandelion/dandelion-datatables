@@ -37,8 +37,6 @@ import org.apache.jasper.servlet.JspServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.testing.HttpTester;
-import org.eclipse.jetty.testing.ServletTester;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.fluentlenium.core.FluentAdapter;
 import org.fluentlenium.core.domain.FluentList;
@@ -57,7 +55,6 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
-import com.github.dandelion.datatables.core.web.servlet.DatatablesServlet;
 import com.github.dandelion.datatables.entity.Person;
 import com.github.dandelion.datatables.utils.Mock;
 
@@ -67,23 +64,23 @@ public abstract class DomPhantomJsTest extends FluentAdapter {
     public static final String TABLE_ID = "myTableId";
     
     protected static WebDriver driver;
-    private static Server webServer;
-    protected ServletTester servletTester;
-    protected HttpTester request;
-    protected HttpTester response;
+    private static Server server;
     protected static WebAppContext context;
     
     @BeforeClass
     public static void configure_server() throws Exception {
-        
-        webServer = new Server();
 
+    	// Add system property to disable asset caching
+    	System.setProperty("dandelion.dev.mode", "true");
+    	
+    	server = new Server();
         SelectChannelConnector connector = new SelectChannelConnector();
         connector.setHost("127.0.0.1");
         connector.setPort(9090);
-        webServer.addConnector(connector);
+        server.addConnector(connector);
 
         context = new WebAppContext("src/test/webapp", "/");
+        context.setClassLoader(Thread.currentThread().getContextClassLoader());
         
         context.setAttribute("persons", Mock.persons);
         context.setAttribute("emptyList", new ArrayList<Person>());
@@ -92,25 +89,15 @@ public abstract class DomPhantomJsTest extends FluentAdapter {
         ServletHolder jsp = context.addServlet(JspServlet.class, "*.jsp");
         jsp.setInitParameter("classpath", context.getClassPath());
         
-        webServer.setHandler(context);
-        webServer.setStopAtShutdown(true);
+        server.setHandler(context);
+        server.setStopAtShutdown(true);
     }
 
     @Before
     public void start_server() {
-        this.servletTester = new ServletTester();
-        this.servletTester.setContextPath("/");
-        this.servletTester.addServlet(DatatablesServlet.class, "/datatablesController");
-        
-        this.request = new HttpTester();
-        this.response = new HttpTester();
-        this.request.setMethod("GET");
-        this.request.setHeader("Host", "tester");
-        this.request.setVersion("HTTP/1.0");
         
     	try {
-            webServer.start();
-            servletTester.start();
+    		server.start();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -119,8 +106,7 @@ public abstract class DomPhantomJsTest extends FluentAdapter {
     @After
     public void stop_server() {
         try {
-        	servletTester.stop();
-            webServer.stop();
+        	server.stop();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

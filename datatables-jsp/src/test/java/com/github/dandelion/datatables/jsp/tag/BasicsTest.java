@@ -16,7 +16,7 @@ import com.github.dandelion.datatables.utils.Mock;
  */
 public class BasicsTest extends DomPhantomJsTest {
 
-//	@Test
+	@Test
 	public void should_disable_paging() throws IOException, Exception {
 		goTo("/basicFeatures/table_disable_paging.jsp");
 
@@ -26,7 +26,7 @@ public class BasicsTest extends DomPhantomJsTest {
 		assertThat(getTable().find("tbody").find("tr")).hasSize(Mock.persons.size());
 	}
 	
-//	@Test
+	@Test
 	public void should_disable_filtering() throws IOException, Exception {
 		goTo("/basicFeatures/table_disable_filtering.jsp");
 
@@ -34,7 +34,7 @@ public class BasicsTest extends DomPhantomJsTest {
 		assertThat(find("#" + TABLE_ID + "_filter")).hasSize(0);
 	}
 	
-//	@Test
+	@Test
 	public void should_disable_info() throws IOException, Exception {
 		goTo("/basicFeatures/table_disable_info.jsp");
 
@@ -42,7 +42,7 @@ public class BasicsTest extends DomPhantomJsTest {
 		assertThat(find("#" + TABLE_ID + "_info")).hasSize(0);
 	}
 	
-//	@Test
+	@Test
 	public void should_disable_length_changing() throws IOException, Exception {
 		goTo("/basicFeatures/table_disable_lengthChange.jsp");
 
@@ -50,7 +50,7 @@ public class BasicsTest extends DomPhantomJsTest {
 		assertThat(find("#" + TABLE_ID + "_length")).hasSize(0);
 	}
 	
-//	@Test
+	@Test
 	public void should_disable_sorting() throws IOException, Exception {
 		goTo("/basicFeatures/table_disable_sorting.jsp");
 

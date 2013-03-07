@@ -3,29 +3,25 @@
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
    version="3.0">
 
-   <!-- Dandelion-datatables servlet definition -->
+   <!-- Dandelion-Datatables servlet definition -->
    <servlet>
       <servlet-name>datatablesController</servlet-name>
       <servlet-class>com.github.dandelion.datatables.core.web.servlet.DatatablesServlet</servlet-class>
-      <init-param>
-         <param-name>debug</param-name>
-         <param-value>true</param-value>
-      </init-param>
    </servlet>
 
-   <!-- Dandelion-datatables servlet mapping -->
+   <!-- Dandelion-Datatables servlet mapping -->
    <servlet-mapping>
       <servlet-name>datatablesController</servlet-name>
       <url-pattern>/datatablesController/*</url-pattern>
    </servlet-mapping>
 
-   <!-- Dandelion-datatables filter definition (export feature) -->
+   <!-- Dandelion-Datatables filter definition (used for export) -->
    <filter>
       <filter-name>datatablesFilter</filter-name>
       <filter-class>com.github.dandelion.datatables.core.web.filter.DatatablesFilter</filter-class>
    </filter>
 
-   <!-- Dandelion-datatables filter mapping (export feature) -->
+   <!-- Dandelion-Datatables filter mapping -->
    <filter-mapping>
       <filter-name>datatablesFilter</filter-name>
       <url-pattern>/*</url-pattern>
