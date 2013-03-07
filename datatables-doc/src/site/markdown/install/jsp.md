@@ -37,6 +37,16 @@ By default, the Javascript libraries are not embedded in <strong>Dandelion-DataT
 
 <p class="alert alert-info"><strong>Info !</strong><br /> Actually, you can bypass the DataTables script and link tags using the <a href="./ref.tagtable.html">cdn</a> attribute of the table tag.</p>
 
+##### Step 4 : Dev mode
+
+By default, **Dandelion-DataTables** generates the web assets (js, css) that are needed by DataTables. Once generated, all files are then stored in a cache for better performance.
+
+Of course, you are advised to disable the cache during the development. This way, all the configuration is generated each time you access a page that uses **Dandelion-DataTables**.
+For that purpose, just set the following system property in your server launch configuration : 
+
+	-Ddandelion.dev.mode=true
+
+
 You can now begin using the taglib ! :-)
 
 <br />

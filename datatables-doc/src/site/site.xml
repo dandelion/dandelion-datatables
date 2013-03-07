@@ -46,6 +46,7 @@
       </head>
 
       <links>
+         <item name="Dandelion" target="_blank" href="/" />
          <item name="DataTables" target="_blank" href="http://datatables.net" />
       </links>
 
