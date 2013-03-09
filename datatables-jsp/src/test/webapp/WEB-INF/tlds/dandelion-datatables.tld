@@ -1,551 +1,578 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_1_2.xsd"
-   version="1.2">
-   <tlib-version>0.8.4</tlib-version>
-   <jsp-version>1.2</jsp-version>
-   <short-name>datatables</short-name>
-   <uri>http://github.com/dandelion/datatables</uri>
-   <display-name>dandelion-datatables</display-name>
-   <description>Set of tags for manipulating HTML table with
-      DataTables.</description>
+<!--
+  ~ [The "BSD licence"]
+  ~ Copyright (c) 2013 Dandelion
+  ~ All rights reserved.
+  ~
+  ~ Redistribution and use in source and binary forms, with or without
+  ~ modification, are permitted provided that the following conditions
+  ~ are met:
+  ~
+  ~ 1. Redistributions of source code must retain the above copyright
+  ~ notice, this list of conditions and the following disclaimer.
+  ~ 2. Redistributions in binary form must reproduce the above copyright
+  ~ notice, this list of conditions and the following disclaimer in the
+  ~ documentation and/or other materials provided with the distribution.
+  ~ 3. Neither the name of Dandelion nor the names of its contributors
+  ~ may be used to endorse or promote products derived from this software
+  ~ without specific prior written permission.
+  ~
+  ~ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+  ~ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+  ~ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+  ~ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+  ~ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+  ~ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  ~ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  ~ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  ~ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+  ~ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  -->
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+    <description>Set of tags for manipulating HTML table with
+        DataTables.</description>
+    <display-name>dandelion-datatables</display-name>
+    <tlib-version>0.87</tlib-version>
+    <short-name>datatables</short-name>
+    <uri>http://github.com/dandelion/datatables</uri>
 
-   <!-- ====================================== -->
-   <!-- Table -->
-   <!-- ====================================== -->
-   <tag>
-      <name>table</name>
-      <tag-class>com.github.dandelion.datatables.jsp.tag.TableTag</tag-class>
-      <tei-class>com.github.dandelion.datatables.jsp.tei.TableTagExtraInfo</tei-class>
-      <body-content>JSP</body-content>
-      <description>Generate a HTML table thanks to the awesome
-         DataTables jQuery plugin.</description>
-      <attribute>
-         <name>id</name>
-         <rtexprvalue>true</rtexprvalue>
-         <required>true</required>
-         <description>(required) DOM id of the HTML table.</description>
-      </attribute>
-      <attribute>
-         <name>data</name>
-         <rtexprvalue>true</rtexprvalue>
-         <type>java.lang.Object</type>
-         <description>Collection of data used to populate the table.
-            (Either data or url attribute is required)</description>
-      </attribute>
-      <attribute>
-         <name>url</name>
-         <rtexprvalue>true</rtexprvalue>
-         <description>Web service URL used to populate the table.
-            (Either data or url attribute is required)</description>
-      </attribute>
-      <attribute>
-         <name>row</name>
-         <rtexprvalue>true</rtexprvalue>
-         <description>Name of the object representing the current
-            row.
-            If
-            data must be displayed without any decoration,
-            use
-            property
-            attribute on column tag.</description>
-      </attribute>
-      <attribute>
-         <name>appear</name>
-         <description>(block|fadein[,duration]) Display mode used when
-            the table has finished loading and must appear in the page.
-            A duration
-            can be set (in milliseconds) if the display mode
-            is set to
-            "fadein". (Default : "fadein")</description>
-      </attribute>
-      <attribute>
-         <name>jsonp</name>
-         <description>(true|false) Allows to retrieve JSON data from any
-            domain name, regardless of XSS protection.</description>
-      </attribute>
-      <attribute>
-         <name>cdn</name>
-         <description>(true|false) Enable the DataTables source files
-            to
-            be loaded
-            from the Microsoft CDN (Content Delivery
-            Framework)
-            preventing you from hosting the files
-            yourself. (Default :
-            false)</description>
-      </attribute>
-      <attribute>
-         <name>cssStyle</name>
-         <description>CSS style applied on the HTML table. (HTML
-            style
-            attribute)</description>
-      </attribute>
-      <attribute>
-         <name>cssClass</name>
-         <description>CSS class(es) applied on the HTML table. (HTML
-            class attribute)</description>
-      </attribute>
-      <attribute>
-         <name>rowIdBase</name>
-         <rtexprvalue>true</rtexprvalue>
-         <description>Useful if you want each row has a DOM id. This
-            attribute is evaluated as a property of the current
-            iterated
-            bean. (Only if DOM datasource)</description>
-      </attribute>
-      <attribute>
-         <name>rowIdPrefix</name>
-         <rtexprvalue>true</rtexprvalue>
-         <description>String which is prepended to the rowIdBase
-            attribute, in order to build row id. (HTML id attribute)</description>
-      </attribute>
-      <attribute>
-         <name>rowIdSufix</name>
-         <rtexprvalue>true</rtexprvalue>
-         <description>String which is appended to the rowIdBase
-            attribute, in order to build row id. (HTML id attribute)</description>
-      </attribute>
-      <attribute>
-         <name>labels</name>
-         <rtexprvalue>true</rtexprvalue>
-         <description>Base URL of an AJAX loaded file which contains
-            all
+    <!-- ====================================== -->
+    <!-- Table -->
+    <!-- ====================================== -->
+    <tag>
+        <description>Generate a HTML table thanks to the awesome
+            DataTables jQuery plugin.</description>
+        <name>table</name>
+        <tag-class>com.github.dandelion.datatables.jsp.tag.TableTag</tag-class>
+        <tei-class>com.github.dandelion.datatables.jsp.tei.TableTagExtraInfo</tei-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <description>(required) DOM id of the HTML table.</description>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Collection of data used to populate the table.
+                (Either data or url attribute is required)</description>
+            <name>data</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.Object</type>
+        </attribute>
+        <attribute>
+            <description>Web service URL used to populate the table.
+                (Either data or url attribute is required)</description>
+            <name>url</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Name of the object representing the current
+                row.
+                If
+                data must be displayed without any decoration,
+                use
+                property
+                attribute on column tag.</description>
+            <name>row</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>(block|fadein[,duration]) Display mode used when
+                the table has finished loading and must appear in the page.
+                A duration
+                can be set (in milliseconds) if the display mode
+                is set to
+                "fadein". (Default : "fadein")</description>
+            <name>appear</name>
+        </attribute>
+        <attribute>
+            <description>(true|false) Allows to retrieve JSON data from any
+                domain name, regardless of XSS protection.</description>
+            <name>jsonp</name>
+        </attribute>
+        <attribute>
+            <description>(true|false) Enable the DataTables source files
+                to
+                be loaded
+                from the Microsoft CDN (Content Delivery
+                Framework)
+                preventing you from hosting the files
+                yourself. (Default :
+                false)</description>
+            <name>cdn</name>
+        </attribute>
+        <attribute>
+            <description>CSS style applied on the HTML table. (HTML
+                style
+                attribute)</description>
+            <name>cssStyle</name>
+        </attribute>
+        <attribute>
+            <description>CSS class(es) applied on the HTML table. (HTML
+                class attribute)</description>
+            <name>cssClass</name>
+        </attribute>
+        <attribute>
+            <description>Useful if you want each row has a DOM id. This
+                attribute is evaluated as a property of the current
+                iterated
+                bean. (Only if DOM datasource)</description>
+            <name>rowIdBase</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>String which is prepended to the rowIdBase
+                attribute, in order to build row id. (HTML id attribute)</description>
+            <name>rowIdPrefix</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>String which is appended to the rowIdBase
+                attribute, in order to build row id. (HTML id attribute)</description>
+            <name>rowIdSufix</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Base URL of an AJAX loaded file which contains
+                all
+                the
+                labels used in tables. (See :
+                http://www.datatables.net/release-datatables/examples/advanced_init/language_file.html)</description>
+            <name>labels</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>(true|false) Defer the creation of the table
+                elements for each row until they are needed for a draw.
+                (Default : false, see
+                http://datatables.net/ref#bDeferRender)</description>
+            <name>deferRender</name>
+        </attribute>
+
+        <!-- ====================================== -->
+        <!-- Basic features -->
+        <!-- ====================================== -->
+        <attribute>
+            <description>(true|false) Enable or disable the table
+                information display. This shows information about the
+                data
+                that is currently visible on the page, including
+                information
+                about filtered data if that action is being
+                performed.
+                (Default : true, see
+                http://datatables.net/ref#bInfo)</description>
+            <name>info</name>
+        </attribute>
+        <attribute>
+            <description>(true|false) Enable or disable pagination.
+                (Default : true, see
+                http://datatables.net/ref#bPaginate)</description>
+            <name>paginate</name>
+        </attribute>
+        <attribute>
+            <description>(true|false) If paginate is enabled, allows the
+                end user to select the size of a formatted page from a
+                select menu (sizes are 10, 25, 50 and 100). (Default :
+                true,
+                see http://datatables.net/ref#bLengthChange)</description>
+            <name>lengthChange</name>
+        </attribute>
+        <attribute>
+            <description>(two_button|full_numbers) Choice between the
+                two
+                different built-in pagination interaction methods
+                ('two_button' or 'full_numbers') which present different
+                page controls to the end user. (Default : two_button,
+                see
+                http://datatables.net/ref#sPaginationType)</description>
+            <name>paginationType</name>
+        </attribute>
+        <attribute>
+            <description>(true|false) Enable or disable filtering of
+                data.
+                (Default : true, see
+                http://datatables.net/ref#bFilter)</description>
+            <name>filter</name>
+        </attribute>
+        <attribute>
+            <description>(true|false) Enable or disable sorting of all
+                columns.
+                Sorting of individual columns can be disabled by
+                the
+                "sortable" attribute of column tag. (Default : true,
+                see
+                http://datatables.net/ref#bSort)</description>
+            <name>sort</name>
+        </attribute>
+        <attribute>
+            <description>(true|false) Enable or disable automatic column
+                width calculation. (Default : true, see
+                http://datatables.net/ref#bAutoWidth)</description>
+            <name>autoWidth</name>
+            <type>java.lang.Boolean</type>
+        </attribute>
+
+        <attribute>
+            <description>(true|false) Enable or disable the display of a
+                'processing' indicator when the table is being processed
+                (e.g. a sort). This is particularly useful for tables
+                with
+                large amounts of data where it can take a noticeable
+                amount
+                of time to sort the entries. (Default : false, see
+                http://datatables.net/ref#bProcessing)</description>
+            <name>processing</name>
+        </attribute>
+        <attribute>
+            <description>Configure DataTables to use server-side processing</description>
+            <name>serverSide</name>
+        </attribute>
+        <attribute>
+            <description>Enable pipelining data for paging when server-side
+                processing is enabled</description>
+            <name>pipelining</name>
+        </attribute>
+        <attribute>
+            <description>Pipe size used when pipelining is enabled, ie
+                times that the user can page before a request must be made
+                of the server. (Default : 5)</description>
+            <name>pipeSize</name>
+        </attribute>
+        <attribute>
+            <description>(true|false) Enable or disable state saving.
+                When
+                enabled a cookie will be used to save table display
+                information such as pagination information, display
+                length,
+                filtering and sorting. As such when the end user
+                reloads the
+                page the display display will match what thy
+                had previously
+                set up. (Default : false, see
+                http://datatables.net/ref#bStateSave)</description>
+            <name>stateSave</name>
+        </attribute>
+        <attribute>
+            <description>(true|false) Enable or disable the export
+                functionality</description>
+            <name>export</name>
+        </attribute>
+        <attribute>
+            <description>(TOP_LEFT|TOP_MIDDLE|TOP_RIGHT|BOTTOM_LEFT|BOTTOM_MIDDLE|BOTTOM_RIGHT)
+                Comma-separated list of positions where the export
+                links will
+                be generated (Default : TOP_RIGHT)</description>
+            <name>exportLinks</name>
+        </attribute>
+        <attribute>
+            <description>(true|false) Enable jQuery UI ThemeRoller
+                support
+                (Default : false, see
+                http://datatables.net/ref#bJQueryUI)</description>
+            <name>jqueryUI</name>
+        </attribute>
+        <attribute>
+            <description>(header) Choose if you want to have the footer
+                appear.
+                (Default : none)</description>
+            <name>footer</name>
+        </attribute>
+        <attribute>
+            <description>Name of a theme to activate for the current table.
+                (Default : none)</description>
+            <name>theme</name>
+        </attribute>
+        <attribute>
+            <description>Name of an option to activate in relation to the
+                current activated theme.</description>
+            <name>themeOption</name>
+        </attribute>
+
+        <!-- ====================================== -->
+        <!-- Extra features -->
+        <!-- ====================================== -->
+
+        <!-- FixedHeader -->
+        <attribute>
+            <description>(true|false) Enable or disable the DataTables
+                FixedHeader plugin. (Default : false) (See :
+                http://datatables.net/extras/fixedheader/)</description>
+            <name>fixedHeader</name>
+        </attribute>
+        <attribute>
+            <description>(top|bottom|left|right) Respectively fix the
+                header, footer, left column, right column. (Default :
+                top)</description>
+            <name>fixedPosition</name>
+        </attribute>
+        <attribute>
+            <description>Offset applied on the top.</description>
+            <name>offsetTop</name>
+            <type>java.lang.Integer</type>
+        </attribute>
+
+        <!-- Scroller -->
+        <attribute>
+            <description>(true|false) Enable or disable the DataTables
+                Scroller plugin. (Default : false) (See :
+                http://datatables.net/extras/scroller/)</description>
+            <name>scroller</name>
+        </attribute>
+        <attribute>
+            <description>Table's height to display in scrolling mode.
+                (default : 300px)</description>
+            <name>scrollY</name>
+        </attribute>
+
+        <!-- ColReorder -->
+        <attribute>
+            <description>(true|false) Enable or disable the DataTables
+                ColReorder plugin. (Default : false) (See :
+                http://datatables.net/extras/colreorder/)</description>
+            <name>colReorder</name>
+        </attribute>
+    </tag>
+
+    <!-- ====================================== -->
+    <!-- Extra features -->
+    <!-- ====================================== -->
+    <tag>
+        <description>Allows to fill a column header with more complex
+            content than a usual title.</description>
+        <name>columnHead</name>
+        <tag-class>com.github.dandelion.datatables.jsp.tag.ColumnHeadTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <description>Unique arbitrary id of the column, used in
+                relation to the column tag.</description>
+            <name>uid</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <description>Describe a column of the HTML table.</description>
+        <name>column</name>
+        <tag-class>com.github.dandelion.datatables.jsp.tag.ColumnTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <description>Unique arbitrary id of the column, used in
+                relation to the columnHead tag</description>
+            <name>uid</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Column title.</description>
+            <name>title</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Name of the attribute of the current object
+                being
+                iterated object on, regardless the data source (DOM
+                or AJAX)</description>
+            <name>property</name>
+        </attribute>
+        <attribute>
+            <description>Default value if the property's value is null
+                (Default : empty string)</description>
+            <name>default</name>
+        </attribute>
+        <attribute>
+            <description>(true|false) Enable or disable sorting on
+                column.
+                (Default : true)</description>
+            <name>sortable</name>
+        </attribute>
+        <attribute>
+            <description>(asc|desc) If sortable is enabled, set the
+                default
+                sorting direction (Default : asc)</description>
+            <name>sortInit</name>
+        </attribute>
+        <attribute>
+            <description>If sortable is enabled, allow to control the
+                sorting direction(s)</description>
+            <name>sortDirection</name>
+        </attribute>
+        <attribute>
+            <description>(true|false) Enable or disable a filtering field in the column's foot. (Default : false)</description>
+            <name>filterable</name>
+        </attribute>
+        <attribute>
+            <description>(true|false) Enable or disable filtering on
+                column. (Default : true)</description>
+            <name>searchable</name>
+        </attribute>
+        <attribute>
+            <description>(SELECT|INPUT) If filterable is enabled, you
+                can
+                choose the filter type between 'SELECT' and 'INPUT',
+                adding
+                either select box or input field in the table's
+                footer
+                (Default : INPUT)</description>
+            <name>filterType</name>
+        </attribute>
+        <attribute>
+            <description>If filterable is enabled and filterType is
+                'INPUT', you can apply a CSS class to the input field
+                with
+                this attribute</description>
+            <name>filterCssClass</name>
+        </attribute>
+        <attribute>
+            <description>If filterable is enabled and filterType is
+                'INPUT', fill in the input field with this attribute
+                (Default : the column's title)</description>
+            <name>filterPlaceholder</name>
+        </attribute>
+        <attribute>
+            <description>CSS style applied on header cell (th HTML tag)</description>
+            <name>cssStyle</name>
+        </attribute>
+        <attribute>
+            <description>CSS style applied on every table cell (td HTML
+                tag)</description>
+            <name>cssCellStyle</name>
+        </attribute>
+        <attribute>
+            <description>CSS class applied on header cell (th HTML tag)</description>
+            <name>cssClass</name>
+        </attribute>
+        <attribute>
+            <description>CSS class applied on every table cell (td HTML
+                tag)</description>
+            <name>cssCellClass</name>
+        </attribute>
+        <attribute>
+            <description>(ALL[,HTML|,XML|,CSV]) Comma-separated list of
+                string which indicates in which view(s) the column's body
+                will be displayed. (Default : ALL)</description>
+            <name>display</name>
+        </attribute>
+    </tag>
+
+    <!-- ====================================== -->
+    <!-- Extra file -->
+    <!-- ====================================== -->
+    <tag>
+        <description></description>
+        <name>extraFile</name>
+        <tag-class>com.github.dandelion.datatables.jsp.tag.ExtraFileTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>Location of the file containing DataTables
+                configuration.</description>
+            <name>src</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>(BEFOREALL|AFTERSTARTDOCUMENTREADY|BEFORENDDOCUMENTREADY|AFTERALL)
+                Specify where the extra file must be inserted. (Default
+                :
+                BEFOREALL)</description>
+            <name>insert</name>
+        </attribute>
+    </tag>
+
+    <!-- ====================================== -->
+    <!-- Extra conf -->
+    <!-- ====================================== -->
+    <tag>
+        <description>Allow to specify the location of a file containing
+            a
+            JSON-formatted DataTables configuration to merge with the
+            generated one.</description>
+        <name>extraConf</name>
+        <tag-class>com.github.dandelion.datatables.jsp.tag.ExtraConfTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>Location of the file containing the extra
+                DataTables configuration</description>
+            <name>src</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <!-- ====================================== -->
+    <!-- Prop -->
+    <!-- ====================================== -->
+    <tag>
+        <description>Allow to override properties normally defined in
             the
-            labels used in tables. (See :
-            http://www.datatables.net/release-datatables/examples/advanced_init/language_file.html)</description>
-      </attribute>
-      <attribute>
-         <name>deferRender</name>
-         <description>(true|false) Defer the creation of the table
-            elements for each row until they are needed for a draw.
-            (Default : false, see
-            http://datatables.net/ref#bDeferRender)</description>
-      </attribute>
+            Dandelion properties file.</description>
+        <name>prop</name>
+        <tag-class>com.github.dandelion.datatables.jsp.tag.PropTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>Property's name to override.</description>
+            <name>name</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <description>Property's value to override.</description>
+            <name>value</name>
+            <required>true</required>
+        </attribute>
+    </tag>
 
-      <!-- ====================================== -->
-      <!-- Basic features -->
-      <!-- ====================================== -->
-      <attribute>
-         <name>info</name>
-         <description>(true|false) Enable or disable the table
-            information display. This shows information about the
-            data
-            that is currently visible on the page, including
-            information
-            about filtered data if that action is being
-            performed.
-            (Default : true, see
-            http://datatables.net/ref#bInfo)</description>
-      </attribute>
-      <attribute>
-         <name>paginate</name>
-         <description>(true|false) Enable or disable pagination.
-            (Default : true, see
-            http://datatables.net/ref#bPaginate)</description>
-      </attribute>
-      <attribute>
-         <name>lengthChange</name>
-         <description>(true|false) If paginate is enabled, allows the
-            end user to select the size of a formatted page from a
-            select menu (sizes are 10, 25, 50 and 100). (Default :
-            true,
-            see http://datatables.net/ref#bLengthChange)</description>
-      </attribute>
-      <attribute>
-         <name>paginationType</name>
-         <description>(two_button|full_numbers) Choice between the
-            two
-            different built-in pagination interaction methods
-            ('two_button' or 'full_numbers') which present different
-            page controls to the end user. (Default : two_button,
-            see
-            http://datatables.net/ref#sPaginationType)</description>
-      </attribute>
-      <attribute>
-         <name>filter</name>
-         <description>(true|false) Enable or disable filtering of
-            data.
-            (Default : true, see
-            http://datatables.net/ref#bFilter)</description>
-      </attribute>
-      <attribute>
-         <name>sort</name>
-         <description>(true|false) Enable or disable sorting of all
-            columns.
-            Sorting of individual columns can be disabled by
-            the
-            "sortable" attribute of column tag. (Default : true,
-            see
-            http://datatables.net/ref#bSort)</description>
-      </attribute>
-      <attribute>
-         <name>autoWidth</name>
-         <type>java.lang.Boolean</type>
-         <description>(true|false) Enable or disable automatic column
-            width calculation. (Default : true, see
-            http://datatables.net/ref#bAutoWidth)</description>
-      </attribute>
-
-      <attribute>
-         <name>processing</name>
-         <description>(true|false) Enable or disable the display of a
-            'processing' indicator when the table is being processed
-            (e.g. a sort). This is particularly useful for tables
-            with
-            large amounts of data where it can take a noticeable
-            amount
-            of time to sort the entries. (Default : false, see
-            http://datatables.net/ref#bProcessing)</description>
-      </attribute>
-      <attribute>
-         <name>serverSide</name>
-         <description>Configure DataTables to use server-side processing</description>
-      </attribute>
-      <attribute>
-         <name>pipelining</name>
-         <description>Enable pipelining data for paging when server-side
-            processing is enabled</description>
-      </attribute>
-      <attribute>
-         <name>pipeSize</name>
-         <description>Pipe size used when pipelining is enabled, ie
-            times that the user can page before a request must be made
-            of the server. (Default : 5)</description>
-      </attribute>
-      <attribute>
-         <name>stateSave</name>
-         <description>(true|false) Enable or disable state saving.
-            When
-            enabled a cookie will be used to save table display
-            information such as pagination information, display
-            length,
-            filtering and sorting. As such when the end user
-            reloads the
-            page the display display will match what thy
-            had previously
-            set up. (Default : false, see
-            http://datatables.net/ref#bStateSave)</description>
-      </attribute>
-      <attribute>
-         <name>export</name>
-         <description>(true|false) Enable or disable the export
-            functionality</description>
-      </attribute>
-      <attribute>
-         <name>exportLinks</name>
-         <description>(TOP_LEFT|TOP_MIDDLE|TOP_RIGHT|BOTTOM_LEFT|BOTTOM_MIDDLE|BOTTOM_RIGHT)
-            Comma-separated list of positions where the export
-            links will
-            be generated (Default : TOP_RIGHT)</description>
-      </attribute>
-      <attribute>
-         <name>jqueryUI</name>
-         <description>(true|false) Enable jQuery UI ThemeRoller
-            support
-            (Default : false, see
-            http://datatables.net/ref#bJQueryUI)</description>
-      </attribute>
-      <attribute>
-         <name>footer</name>
-         <description>(header) Choose if you want to have the footer
-            appear.
-            (Default : none)</description>
-      </attribute>
-      <attribute>
-         <name>theme</name>
-         <description>Name of a theme to activate for the current table.
-            (Default : none)</description>
-      </attribute>
-      <attribute>
-         <name>themeOption</name>
-         <description>Name of an option to activate in relation to the
-            current activated theme.</description>
-      </attribute>
-
-      <!-- ====================================== -->
-      <!-- Extra features -->
-      <!-- ====================================== -->
-
-      <!-- FixedHeader -->
-      <attribute>
-         <name>fixedHeader</name>
-         <description>(true|false) Enable or disable the DataTables
-            FixedHeader plugin. (Default : false) (See :
-            http://datatables.net/extras/fixedheader/)</description>
-      </attribute>
-      <attribute>
-         <name>fixedPosition</name>
-         <description>(top|bottom|left|right) Respectively fix the
-            header, footer, left column, right column. (Default :
-            top)</description>
-      </attribute>
-      <attribute>
-         <name>offsetTop</name>
-         <description>Offset applied on the top.</description>
-         <type>java.lang.Integer</type>
-      </attribute>
-
-      <!-- Scroller -->
-      <attribute>
-         <name>scroller</name>
-         <description>(true|false) Enable or disable the DataTables
-            Scroller plugin. (Default : false) (See :
-            http://datatables.net/extras/scroller/)</description>
-      </attribute>
-      <attribute>
-         <name>scrollY</name>
-         <description>Table's height to display in scrolling mode.
-            (default : 300px)</description>
-      </attribute>
-
-      <!-- ColReorder -->
-      <attribute>
-         <name>colReorder</name>
-         <description>(true|false) Enable or disable the DataTables
-            ColReorder plugin. (Default : false) (See :
-            http://datatables.net/extras/colreorder/)</description>
-      </attribute>
-   </tag>
-
-   <!-- ====================================== -->
-   <!-- Extra features -->
-   <!-- ====================================== -->
-   <tag>
-      <name>columnHead</name>
-      <tag-class>com.github.dandelion.datatables.jsp.tag.ColumnHeadTag</tag-class>
-      <body-content>JSP</body-content>
-      <description>Allows to fill a column header with more complex
-         content than a usual title.</description>
-      <attribute>
-         <name>uid</name>
-         <rtexprvalue>true</rtexprvalue>
-         <description>Unique arbitrary id of the column, used in
-            relation to the column tag.</description>
-      </attribute>
-   </tag>
-   <tag>
-      <name>column</name>
-      <tag-class>com.github.dandelion.datatables.jsp.tag.ColumnTag</tag-class>
-      <body-content>JSP</body-content>
-      <description>Describe a column of the HTML table.</description>
-      <attribute>
-         <name>uid</name>
-         <rtexprvalue>true</rtexprvalue>
-         <description>Unique arbitrary id of the column, used in
-            relation to the columnHead tag</description>
-      </attribute>
-      <attribute>
-         <name>title</name>
-         <rtexprvalue>true</rtexprvalue>
-         <description>Column title.</description>
-      </attribute>
-      <attribute>
-         <name>property</name>
-         <description>Name of the attribute of the current object
-            being
-            iterated object on, regardless the data source (DOM
-            or AJAX)</description>
-      </attribute>
-      <attribute>
-         <name>default</name>
-         <description>Default value if the property's value is null
-            (Default : empty string)</description>
-      </attribute>
-      <attribute>
-         <name>sortable</name>
-         <description>(true|false) Enable or disable sorting on
-            column.
-            (Default : true)</description>
-      </attribute>
-      <attribute>
-         <name>sortInit</name>
-         <description>(asc|desc) If sortable is enabled, set the
-            default
-            sorting direction (Default : asc)</description>
-      </attribute>
-      <attribute>
-         <name>sortDirection</name>
-         <description>If sortable is enabled, allow to control the
-            sorting direction(s)</description>
-      </attribute>
-      <attribute>
-         <name>filterable</name>
-         <description>(true|false) Enable or disable a filtering field in the column's foot. (Default : false)</description>
-      </attribute>
-      <attribute>
-   <name>searchable</name>
-   <description>(true|false) Enable or disable filtering on
-      column. (Default : true)</description>
-</attribute>
-      <attribute>
-         <name>filterType</name>
-         <description>(SELECT|INPUT) If filterable is enabled, you
-            can
-            choose the filter type between 'SELECT' and 'INPUT',
-            adding
-            either select box or input field in the table's
-            footer
-            (Default : INPUT)</description>
-      </attribute>
-      <attribute>
-         <name>filterCssClass</name>
-         <description>If filterable is enabled and filterType is
-            'INPUT', you can apply a CSS class to the input field
-            with
-            this attribute</description>
-      </attribute>
-      <attribute>
-         <name>filterPlaceholder</name>
-         <description>If filterable is enabled and filterType is
-            'INPUT', fill in the input field with this attribute
-            (Default : the column's title)</description>
-      </attribute>
-      <attribute>
-         <name>cssStyle</name>
-         <description>CSS style applied on header cell (th HTML tag)</description>
-      </attribute>
-      <attribute>
-         <name>cssCellStyle</name>
-         <description>CSS style applied on every table cell (td HTML
-            tag)</description>
-      </attribute>
-      <attribute>
-         <name>cssClass</name>
-         <description>CSS class applied on header cell (th HTML tag)</description>
-      </attribute>
-      <attribute>
-         <name>cssCellClass</name>
-         <description>CSS class applied on every table cell (td HTML
-            tag)</description>
-      </attribute>
-      <attribute>
-         <name>display</name>
-         <description>(ALL[,HTML|,XML|,CSV]) Comma-separated list of
-            string which indicates in which view(s) the column's body
-            will be displayed. (Default : ALL)</description>
-      </attribute>
-   </tag>
-
-   <!-- ====================================== -->
-   <!-- Extra file -->
-   <!-- ====================================== -->
-   <tag>
-      <description></description>
-      <name>extraFile</name>
-      <tag-class>com.github.dandelion.datatables.jsp.tag.ExtraFileTag</tag-class>
-      <body-content>empty</body-content>
-      <attribute>
-         <name>src</name>
-         <required>true</required>
-         <rtexprvalue>true</rtexprvalue>
-         <description>Location of the file containing DataTables
-            configuration.</description>
-      </attribute>
-      <attribute>
-         <name>insert</name>
-         <description>(BEFOREALL|AFTERSTARTDOCUMENTREADY|BEFORENDDOCUMENTREADY|AFTERALL)
-            Specify where the extra file must be inserted. (Default
-            :
-            BEFOREALL)</description>
-      </attribute>
-   </tag>
-
-   <!-- ====================================== -->
-   <!-- Extra conf -->
-   <!-- ====================================== -->
-   <tag>
-      <description></description>
-      <name>extraConf</name>
-      <tag-class>com.github.dandelion.datatables.jsp.tag.ExtraConfTag</tag-class>
-      <body-content>empty</body-content>
-      <description>Allow to specify the location of a file containing
-         a
-         JSON-formatted DataTables configuration to merge with the
-         generated one.</description>
-      <attribute>
-         <name>src</name>
-         <required>true</required>
-         <rtexprvalue>true</rtexprvalue>
-         <description>Location of the file containing the extra
-            DataTables configuration</description>
-      </attribute>
-   </tag>
-
-   <!-- ====================================== -->
-   <!-- Prop -->
-   <!-- ====================================== -->
-   <tag>
-      <description>Allow to override properties normally defined in
-         the
-         Dandelion properties file.</description>
-      <name>prop</name>
-      <tag-class>com.github.dandelion.datatables.jsp.tag.PropTag</tag-class>
-      <body-content>empty</body-content>
-      <attribute>
-         <name>name</name>
-         <required>true</required>
-         <description>Property's name to override.</description>
-      </attribute>
-      <attribute>
-         <name>value</name>
-         <required>true</required>
-         <description>Property's value to override.</description>
-      </attribute>
-   </tag>
-
-   <!-- ====================================== -->
-   <!-- Export -->
-   <!-- ====================================== -->
-   <tag>
-      <description></description>
-      <name>export</name>
-      <tag-class>com.github.dandelion.datatables.jsp.tag.ExportTag</tag-class>
-      <body-content>empty</body-content>
-      <description>Configure the HTML link and properties for a given
-         export type.</description>
-      <attribute>
-         <name>type</name>
-         <required>true</required>
-         <description>(XML|CSV) Type of export (Default : XML,CSV)</description>
-      </attribute>
-      <attribute>
-         <name>fileName</name>
-         <rtexprvalue>true</rtexprvalue>
-         <description>Name of the file containing exported data
-            (Default
-            : the export type uppercased)</description>
-      </attribute>
-      <attribute>
-         <name>label</name>
-         <rtexprvalue>true</rtexprvalue>
-         <description>Label of the HTML link</description>
-      </attribute>
-      <attribute>
-         <name>cssStyle</name>
-         <description>CSS style applied to the HTML link</description>
-      </attribute>
-      <attribute>
-         <name>cssClass</name>
-         <description>CSS class applied to the HTML link</description>
-      </attribute>
-      <!-- <attribute> <name>area</name> <description>(list|current) Indicates 
-         how much data should be exported. Choose list for the full list or current 
-         to only export the data that is currently being shown (Default : list)</description> 
-         </attribute> -->
-      <attribute>
-         <name>includeHeader</name>
-         <description>(true|false) Indicated whether headers should
-            be
-            added in export or not (for compatible export)
-            (Default :
-            true)</description>
-      </attribute>
-      <attribute>
-         <name>autoSize</name>
-         <description>(true|false) Indicates whether columns should be
-            auto-sized or not (only for XLS export)
-            (Default : true)</description>
-      </attribute>
-   </tag>
+    <!-- ====================================== -->
+    <!-- Export -->
+    <!-- ====================================== -->
+    <tag>
+        <description>Configure the HTML link and properties for a given
+            export type.</description>
+        <name>export</name>
+        <tag-class>com.github.dandelion.datatables.jsp.tag.ExportTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>(XML|CSV) Type of export (Default : XML,CSV)</description>
+            <name>type</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <description>Name of the file containing exported data
+                (Default
+                : the export type uppercased)</description>
+            <name>fileName</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Label of the HTML link</description>
+            <name>label</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>CSS style applied to the HTML link</description>
+            <name>cssStyle</name>
+        </attribute>
+        <attribute>
+            <description>CSS class applied to the HTML link</description>
+            <name>cssClass</name>
+        </attribute>
+        <!-- <attribute> <name>area</name> <description>(list|current) Indicates
+           how much data should be exported. Choose list for the full list or current
+           to only export the data that is currently being shown (Default : list)</description>
+           </attribute> -->
+        <attribute>
+            <description>(true|false) Indicated whether headers should
+                be
+                added in export or not (for compatible export)
+                (Default :
+                true)</description>
+            <name>includeHeader</name>
+        </attribute>
+        <attribute>
+            <description>(true|false) Indicates whether columns should be
+                auto-sized or not (only for XLS export)
+                (Default : true)</description>
+            <name>autoSize</name>
+        </attribute>
+    </tag>
 </taglib>
