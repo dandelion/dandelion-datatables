@@ -60,6 +60,11 @@ public class ColumnInitializerElProcessor extends AbstractElementProcessor {
 			htmlColumn.setProperty(element.getAttributeValue("dt:property").trim());
 			element.removeAttribute("dt:property");
 		}
+		
+		if(element.hasAttribute("dt:renderFunction")) {
+			htmlColumn.setRenderFunction(element.getAttributeValue("dt:renderFunction").trim());
+			element.removeAttribute("dt:renderFunction");
+		}
 
 		if(element.hasAttribute("dt:default")){
 			htmlColumn.setDefaultValue(element.getAttributeValue("dt:default").trim());

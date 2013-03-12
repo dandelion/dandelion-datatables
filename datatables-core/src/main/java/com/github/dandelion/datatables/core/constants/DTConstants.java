@@ -92,4 +92,5 @@ public class DTConstants {
 	public static final String DT_SORT_INIT = "aaSorting";
 	public static final String DT_SORT_DIR = "asSorting";
 	public static final String DT_DATA = "mData";
+	public static final String DT_COLUMN_RENDERER = "mRender";
 }
