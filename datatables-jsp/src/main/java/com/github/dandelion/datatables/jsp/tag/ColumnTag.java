@@ -97,6 +97,10 @@ public class ColumnTag extends AbstractColumnTag {
 				column.setSortable(this.sortable);
 			}
 
+			if(StringUtils.isNotBlank(this.renderFunction)){
+				column.setRenderFunction(this.renderFunction);
+			}
+			
 			parent.getTable().getLastHeaderRow().addColumn(column);
 			parent.getTable().getLastFooterRow().addColumn(new HtmlColumn());
 			return EVAL_PAGE;

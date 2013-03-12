@@ -454,6 +454,10 @@
             will be displayed. (Default : ALL)</description>
           <name>display</name>
       </attribute>
+      <attribute>
+         <description>Name of an external Javascript function that will be used to render the column (AJAX)</description>
+         <name>renderFunction</name>
+      </attribute>
    </tag>
 
    <!-- ====================================== -->

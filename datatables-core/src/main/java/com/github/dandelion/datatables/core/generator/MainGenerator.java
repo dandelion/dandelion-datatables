@@ -43,6 +43,7 @@ import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.model.DisplayType;
 import com.github.dandelion.datatables.core.model.HtmlColumn;
 import com.github.dandelion.datatables.core.model.HtmlTable;
+import com.github.dandelion.datatables.core.model.JavascriptSnippet;
 
 /**
  * Class in charge of DataTables configuration generation.
@@ -89,14 +90,12 @@ public class MainGenerator {
         		}
         		
         		if (StringUtils.isNotBlank(column.getRenderFunction())) {
-        			tmp.put(DTConstants.DT_COLUMN_RENDERER, new JSFunction(column.getRenderFunction()));
+        			tmp.put(DTConstants.DT_COLUMN_RENDERER, new JavascriptSnippet(column.getRenderFunction()));
         		}
         		
         		if(column.getDefaultValue() != null){
         			tmp.put(DTConstants.DT_S_DEFAULT_CONTENT, column.getDefaultValue());
         		}
-        		
-//        		tmp.put(DTConstants.DT_S_TYPE, "html");
         		
         		// Sorting direction
         		if (StringUtils.isNotBlank(column.getSortDirection())) {
@@ -183,21 +182,5 @@ public class MainGenerator {
         logger.debug("DataTables configuration generated");
 
         return mainConf;
-    }
-    
-    /**
-     * Private class which cause escape avoiding in JSON serialization,
-     * though datatables call it as function no as string (when escaped) 
-     * @author Pavel Janecka
-     */
-    private class JSFunction {
-    	private String functionName;
-    	public JSFunction(String functionName) {
-    		this.functionName = functionName;
-    	}
-		@Override
-		public String toString() {
-			return functionName;
-		}
     }
 }

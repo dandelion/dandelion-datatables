@@ -83,6 +83,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 	protected String filterCssClass = "";
 	protected String filterPlaceholder = "";
 	protected String display;
+	protected String renderFunction;
 
 	/**
 	 * Add a column to the table.
@@ -345,5 +346,13 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 
 	public void setDefault(String defaultValue) {
 		this.defaultValue = defaultValue;
+	}
+	
+	public String getRenderFunction() {
+		return renderFunction;
+	}
+
+	public void setRenderFunction(String renderFunction) {
+		this.renderFunction = renderFunction;
 	}
 }
