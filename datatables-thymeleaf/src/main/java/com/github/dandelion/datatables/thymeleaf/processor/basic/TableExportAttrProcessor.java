@@ -29,10 +29,13 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
+import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
@@ -42,6 +45,7 @@ import com.github.dandelion.datatables.core.exception.DataTableProcessingExcepti
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.model.HtmlTable;
+import com.github.dandelion.datatables.core.util.RequestHelper;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
@@ -80,6 +84,9 @@ public class TableExportAttrProcessor extends AbstractDatatableAttrProcessor {
 			String attributeName) {
 		logger.debug("{} attribute found", attributeName);
 
+		// Get the HTTP request
+		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
+				
 		// Get HtmlTable POJO from the HttpServletRequest
 		HtmlTable htmlTable = Utils.getTable(arguments);
 
@@ -112,8 +119,13 @@ public class TableExportAttrProcessor extends AbstractDatatableAttrProcessor {
 				// actives par la balise export=""
 				if (!htmlTable.getExportConfMap().containsKey(type)) {
 
-					String url = htmlTable.getCurrentUrl() + "?"
-							+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
+					String url = RequestHelper.getCurrentUrlWithParameters(request);
+					if (url.contains("?")) {
+						url += "&";
+					} else {
+						url += "?";
+					}
+					url += ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
 							+ type.getUrlParameter() + "&"
 							+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID + "="
 							+ htmlTable.getId();
@@ -121,32 +133,7 @@ public class TableExportAttrProcessor extends AbstractDatatableAttrProcessor {
 					ExportConf conf = new ExportConf(type, url);
 					htmlTable.getExportConfMap().put(type, conf);
 				}
-
-				// TODO ne pas prendre ne compte le tag ExportTag s'il permet de
-				// customizer un export qui n'est pas specifie dans
-				// export="XXXX"
 			}
-
-//			// Export links position
-//			List<ExportLinkPosition> positionList = new ArrayList<ExportLinkPosition>();
-//			if (StringUtils.isNotBlank(this.exportLinks)) {
-//				String[] positions = this.exportLinks.trim().toUpperCase().split(",");
-//
-//				for (String position : positions) {
-//					try {
-//						positionList.add(ExportLinkPosition.valueOf(position));
-//					} catch (IllegalArgumentException e) {
-//						logger.error("The export cannot be activated for the table {}. ",
-//								table.getId());
-//						logger.error("{} is not a valid value among {}", position,
-//								ExportLinkPosition.values());
-//						throw new BadConfigurationException(e);
-//					}
-//				}
-//			} else {
-//				positionList.add(ExportLinkPosition.TOP_RIGHT);
-//			}
-//			this.table.setExportLinkPositions(positionList);
 		}
 
 		return nonLenientOK(element, attributeName);
