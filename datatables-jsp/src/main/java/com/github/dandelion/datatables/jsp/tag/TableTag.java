@@ -219,7 +219,7 @@ public class TableTag extends AbstractTableTag {
 		try {
 			// First we check if the DataTables configuration already exist in the cache
 			String keyToTest = RequestHelper.getCurrentUrlWithParameters(request) + "|" + this.table.getId();
-			System.out.println("key1:" + keyToTest);
+
 			if(DandelionUtils.isDevModeEnabled() || !AssetCache.cache.containsKey(keyToTest)){
 				logger.debug("No asset for the key {}. Generating...", keyToTest);
 				
