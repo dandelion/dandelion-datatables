@@ -67,6 +67,8 @@ public class WebResources {
 			buffer.append(entry.getKey());
 			buffer.append(",");
 		}
+		buffer.append("|main:");
+		buffer.append(this.mainJsFile);
 		return buffer.toString();
 	}
 

@@ -561,7 +561,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	}
 
 	/**
-	 * TODO
+	 * Generate and write a new HTML link tag.
 	 * 
 	 * @param href
 	 * @throws IOException
@@ -571,7 +571,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	}
 
 	/**
-	 * TODO
+	 * Generate and write a new HTML script tag.
 	 * 
 	 * @param href
 	 * @throws IOException

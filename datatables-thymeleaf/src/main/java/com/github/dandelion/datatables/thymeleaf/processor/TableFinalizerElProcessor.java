@@ -159,7 +159,7 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 		try {
 
 			// First we check if the DataTables configuration already exist in the cache
-			String keyToTest = RequestHelper.getCurrentUrl(request) + "|" + htmlTable.getId();
+			String keyToTest = RequestHelper.getCurrentUrlWithParameters(request) + "|" + htmlTable.getId();
 
 			if(DandelionUtils.isDevModeEnabled() || !AssetCache.cache.containsKey(keyToTest)){
 				logger.debug("No asset for the key {}. Generating...", keyToTest);
@@ -199,8 +199,8 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 						CdnConstants.CDN_DATATABLES_CSS);
 			}
 			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
-				DomUtils.addLinkTag(element, request, Utils.getBaseUrl(request)
-						+ "/datatablesController/" + entry.getKey() + "?id=" + htmlTable.getId() + "&c=" + RequestHelper.getCurrentUrl(request));
+				String src = RequestHelper.getAssetSource(entry.getKey(), htmlTable.getId(), request, false);
+				DomUtils.addLinkTag(element, request, src);
 			}
 
 			// <script> HTML tag generation
@@ -209,12 +209,11 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 						CdnConstants.CDN_DATATABLES_JS_MIN);
 			}
 			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
-				DomUtils.addScriptTag(DomUtils.getParentAsElement(element), request,
-						Utils.getBaseUrl(request) + "/datatablesController/" + entry.getKey() + "?id=" + htmlTable.getId() + "&c=" + RequestHelper.getCurrentUrl(request));
+				String src = RequestHelper.getAssetSource(entry.getKey(), htmlTable.getId(), request, false);
+				DomUtils.addScriptTag(DomUtils.getParentAsElement(element), request, src);
 			}
-			DomUtils.addScriptTag(DomUtils.getParentAsElement(element), request,
-					Utils.getBaseUrl(request) + "/datatablesController/"
-							+ webResources.getMainJsFile().getName() + "?id=" + htmlTable.getId() + "&c=" + RequestHelper.getCurrentUrl(request) + "&t=main");
+			String src = RequestHelper.getAssetSource(webResources.getMainJsFile().getName(), htmlTable.getId(), request, true);
+			DomUtils.addScriptTag(DomUtils.getParentAsElement(element), request, src);
 
 			logger.debug("Web content generated successfully");
 		} catch (CompressionException e) {

@@ -29,10 +29,14 @@
  */
 package com.github.dandelion.datatables.core.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.dandelion.datatables.core.constants.ExportConstants;
+import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.core.model.HtmlTable;
 
 /**
@@ -51,7 +55,7 @@ public class RequestHelper {
 	 * @return a String containing the current URL.
 	 */
 	public static String getCurrentUrl(HttpServletRequest request) {
-		
+
 		String currentUrl = null;
 		if (request.getAttribute("javax.servlet.forward.request_uri") != null) {
 			currentUrl = (String) request.getAttribute("javax.servlet.forward.request_uri");
@@ -74,21 +78,58 @@ public class RequestHelper {
 	 * @return a String containing the current URL.
 	 */
 	public static String getCurrentUrlWithParameters(HttpServletRequest request) {
-		
-		
+
 		String currentUrl = null;
 		if (request.getAttribute("javax.servlet.forward.request_uri") != null) {
 			currentUrl = (String) request.getAttribute("javax.servlet.forward.request_uri");
 		} else {
 			currentUrl = request.getRequestURL().toString();
 		}
-		if (currentUrl != null
-				&& request.getQueryString() != null) {
+		if (currentUrl != null && request.getQueryString() != null) {
 			currentUrl += "?" + request.getQueryString();
 		}
 		return currentUrl;
 	}
-	
+
+	/**
+	 * Generates and returns the asset source that will be displayed HTML-side
+	 * either in a link tag or in a script tag.
+	 * 
+	 * @param resourceName
+	 *            Name of the asset.
+	 * @param tableId
+	 *            Current table id.
+	 * @param request
+	 *            The HTTP request.
+	 * @param isMainFile
+	 *            Boolean used to determine the asset's type.
+	 * @return the path to the asset that will be served by the Dandelion
+	 *         servlet.
+	 */
+	public static String getAssetSource(String resourceName, String tableId,
+			HttpServletRequest request, boolean isMainFile) {
+		StringBuffer buffer = new StringBuffer(getBaseUrl(request));
+		buffer.append("/datatablesController/");
+		buffer.append(resourceName);
+		buffer.append("?id=");
+		buffer.append(tableId);
+		if (isMainFile) {
+			buffer.append("&t=main");
+		}
+		if (request.getQueryString() != null) {
+			buffer.append("&");
+			buffer.append(request.getQueryString());
+		}
+		buffer.append("&c=");
+		try {
+			buffer.append(URLEncoder.encode(RequestHelper.getCurrentUrlWithParameters(request),
+					"UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			throw new DataTableProcessingException();
+		}
+		return buffer.toString();
+	}
+
 	/**
 	 * <p>
 	 * Computes and returns the data source URL, using the following rules :
@@ -134,6 +175,28 @@ public class RequestHelper {
 
 	/**
 	 * <p>
+	 * Return the base URL (context path included) with its parameters.
+	 * 
+	 * <p>
+	 * Example : with an URL like
+	 * http://domain.com:port/context/anything?param1=value1, this function
+	 * returns http://domain.com:port/context.
+	 * 
+	 * @param pageContext
+	 *            Context of the current JSP.
+	 * @return the base URL of the current JSP.
+	 */
+	public static String getBaseUrlWithParameters(ServletRequest servletRequest) {
+		HttpServletRequest request = (HttpServletRequest) servletRequest;
+		String retval = getBaseUrl(request);
+		if (request.getQueryString() != null) {
+			retval += request.getQueryString();
+		}
+		return retval;
+	}
+
+	/**
+	 * <p>
 	 * Test if the table if being exported using the request
 	 * ExportConstants.DT4J_EXPORT_ID attribute.
 	 * 
@@ -146,7 +209,8 @@ public class RequestHelper {
 	public static Boolean isTableBeingExported(ServletRequest servletRequest, HtmlTable table) {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		return request.getAttribute(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID) != null ? request
-				.getAttribute(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID).toString().toLowerCase()
-				.equals(table.getId().toLowerCase()) : false;
+				.getAttribute(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID).toString()
+				.toLowerCase().equals(table.getId().toLowerCase())
+				: false;
 	}
 }

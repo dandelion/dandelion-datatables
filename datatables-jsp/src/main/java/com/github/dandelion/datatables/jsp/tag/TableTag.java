@@ -202,7 +202,6 @@ public class TableTag extends AbstractTableTag {
 	 *             if something went wrong during the processing.
 	 */
 	private int setupHtmlGeneration() throws JspException {
-		String baseUrl = RequestHelper.getBaseUrl(pageContext.getRequest());
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 		WebResources webResources = null;
 		
@@ -219,8 +218,8 @@ public class TableTag extends AbstractTableTag {
 
 		try {
 			// First we check if the DataTables configuration already exist in the cache
-			String keyToTest = RequestHelper.getCurrentUrl(request) + "|" + this.table.getId();
-
+			String keyToTest = RequestHelper.getCurrentUrlWithParameters(request) + "|" + this.table.getId();
+			System.out.println("key1:" + keyToTest);
 			if(DandelionUtils.isDevModeEnabled() || !AssetCache.cache.containsKey(keyToTest)){
 				logger.debug("No asset for the key {}. Generating...", keyToTest);
 				
@@ -262,7 +261,8 @@ public class TableTag extends AbstractTableTag {
 					generateLinkTag(entry.getValue().getLocation());
 				}
 				else{
-					generateLinkTag(baseUrl + "/datatablesController/" + entry.getKey() + "?id=" + this.table.getId() + "&c=" + RequestHelper.getCurrentUrl(request));
+					String src = RequestHelper.getAssetSource(entry.getKey(), this.table.getId(), request, false);
+					generateLinkTag(src);
 				}
 			}
 
@@ -274,10 +274,12 @@ public class TableTag extends AbstractTableTag {
 				generateScriptTag(CdnConstants.CDN_DATATABLES_JS_MIN);
 			}
 			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
-				generateScriptTag(baseUrl + "/datatablesController/" + entry.getKey() + "?id=" + this.table.getId() + "&c=" + RequestHelper.getCurrentUrl(request));
+				String src = RequestHelper.getAssetSource(entry.getKey(), this.table.getId(), request, false);
+				generateScriptTag(src);
 			}
 			// Main Javascript file
-			generateScriptTag(baseUrl + "/datatablesController/" + webResources.getMainJsFile().getName() + "?id=" + this.table.getId() + "&c=" + RequestHelper.getCurrentUrl(request) + "&t=main");
+			String src = RequestHelper.getAssetSource(webResources.getMainJsFile().getName(), this.table.getId(), request, true);
+			generateScriptTag(src);
 
 		} catch (IOException e) {
 			logger.error("Something went wront with the datatables tag");
@@ -295,6 +297,7 @@ public class TableTag extends AbstractTableTag {
 
 		return EVAL_PAGE;
 	}
+
 
 	/**
 	 * TODO
