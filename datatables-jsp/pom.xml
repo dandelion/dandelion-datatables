@@ -10,10 +10,11 @@
 
    <artifactId>datatables-jsp</artifactId>
    <packaging>jar</packaging>
-
    <name>Dandelion : Datatables :: JSP Implementation</name>
+   <description>JSP implementation of Dandelion-DataTables, a Dandelion component that makes HTML table much nicer</description>
 
    <dependencies>
+      <!-- Dandelion-DataTables core -->
       <dependency>
          <groupId>com.github.dandelion</groupId>
          <artifactId>datatables-core</artifactId>
@@ -24,7 +25,6 @@
       <dependency>
          <groupId>javax.servlet</groupId>
          <artifactId>javax.servlet-api</artifactId>
-         <version>${servlet.version}</version>
          <scope>provided</scope>
       </dependency>
 
@@ -91,7 +91,6 @@
          <version>8.1.9.v20130131</version>
          <scope>test</scope>
       </dependency>
-
       <dependency>
          <groupId>junit</groupId>
          <artifactId>junit-dep</artifactId>
@@ -103,12 +102,6 @@
          <artifactId>fest-assert</artifactId>
          <version>1.4</version>
          <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>javax.servlet</groupId>
-         <artifactId>jstl</artifactId>
-         <version>1.2</version>
-         <scope>provided</scope>
       </dependency>
       <dependency>
          <groupId>ch.qos.logback</groupId>
