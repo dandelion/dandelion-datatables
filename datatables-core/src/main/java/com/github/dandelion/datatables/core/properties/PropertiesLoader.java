@@ -53,8 +53,9 @@ public class PropertiesLoader {
 	// Properties files location
 	public final static String DT_DEFAULT_PROPERTIES = "config/datatables-default.properties";
 	public final static String DT_CUSTOM_PROPERTIES = "datatables.properties";
-	
-	/**
+    private static Properties loadedProperties;
+
+    /**
 	 * Load the properties in the table using : <li>first, the global
 	 * Dandelion-datatables properties file <li>second, the project specific properties
 	 * file, if it exists
@@ -63,43 +64,50 @@ public class PropertiesLoader {
 	 *            The table where to load properties.
 	 */
 	public static void load(HtmlTable table) throws BadConfigurationException {
-		
-		// Initialize properties
-		Properties propertiesResource = new Properties();
+        if(loadedProperties == null) {
+            loadProperties();
+        }
 
-		// Get current classloader
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-
-		// Get default file as stream
-		InputStream propertiesStream = classLoader.getResourceAsStream(DT_DEFAULT_PROPERTIES);
-
-		try {
-			// Load all default properties
-			propertiesResource.load(propertiesStream);
-		} catch (IOException e) {
-			throw new BadConfigurationException("Unable to load the default configuration file", e);
-		}
-
-		// Next, try to get the custom properties file
-		propertiesStream = classLoader.getResourceAsStream(DT_CUSTOM_PROPERTIES);
-
-		if (propertiesStream != null) {
-
-			Properties customProperties = new Properties();
-			try {
-				// Load project-specific properties
-				customProperties.load(propertiesStream);
-			} catch (IOException e) {
-				throw new BadConfigurationException("Unable to load the project-specific configuration file", e);
-			}
-
-			// If custom properties have been loaded, we merge the properties
-			// Custom properties will override default ones
-			propertiesResource.putAll(customProperties);
-		} else {
-			logger.info("No custom file datatables.properties has been found. Using default one.");
-		}
-		
-		table.getTableProperties().initProperties(propertiesResource);
+        table.getTableProperties().initProperties(loadedProperties);
 	}
+
+    synchronized private static void loadProperties() throws BadConfigurationException {
+        if(loadedProperties != null) return;
+        // Initialize properties
+        Properties propertiesResource = new Properties();
+
+        // Get current classloader
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+
+        // Get default file as stream
+        InputStream propertiesStream = classLoader.getResourceAsStream(DT_DEFAULT_PROPERTIES);
+
+        try {
+            // Load all default properties
+            propertiesResource.load(propertiesStream);
+        } catch (IOException e) {
+            throw new BadConfigurationException("Unable to load the default configuration file", e);
+        }
+
+        // Next, try to get the custom properties file
+        propertiesStream = classLoader.getResourceAsStream(DT_CUSTOM_PROPERTIES);
+
+        if (propertiesStream != null) {
+
+            Properties customProperties = new Properties();
+            try {
+                // Load project-specific properties
+                customProperties.load(propertiesStream);
+            } catch (IOException e) {
+                throw new BadConfigurationException("Unable to load the project-specific configuration file", e);
+            }
+
+            // If custom properties have been loaded, we merge the properties
+            // Custom properties will override default ones
+            propertiesResource.putAll(customProperties);
+        } else {
+            logger.info("No custom file datatables.properties has been found. Using default one.");
+        }
+        loadedProperties = propertiesResource;
+    }
 }
