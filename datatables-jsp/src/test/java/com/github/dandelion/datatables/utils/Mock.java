@@ -14,7 +14,7 @@ public class Mock {
 	static {
 		persons = new ArrayList<Person>();
 		
-		persons.add(new Person(1L,"Selma","Maldonado","venenatis@Duisvolutpat.com",new Address("Ap #351-1812 Eu, Ave", new Town("Charleston"))));
+		persons.add(new Person(1L,"Selma","Maldonado","venenatis@Duisvolutpat.com", null));
 		persons.add(new Person(2L,"Vanna","Salas","bibendum.fermentum.metus@ante.ca",new Address("947-3605 Feugiat. St.", new Town("Denny"))));
 		persons.add(new Person(3L,"Noble","Rosales","Duis.cursus.diam@dolorelitpellentesque.ca",new Address("1389 Aliquam, St.", new Town("North Las Vegas"))));
 		persons.add(new Person(4L,"Nehru","Gonzalez","tellus.non.magna@pede.edu",new Address("P.O. Box 374, 9474 Lacinia Street", new Town("Enkhuizen"))));

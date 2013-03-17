@@ -58,7 +58,7 @@ import org.openqa.selenium.remote.service.DriverService;
 import com.github.dandelion.datatables.entity.Person;
 import com.github.dandelion.datatables.utils.Mock;
 
-public abstract class DomPhantomJsTest extends FluentAdapter {
+public abstract class ITDomPhantomJs extends FluentAdapter {
     private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(1024, 768);
 
     public static final String TABLE_ID = "myTableId";

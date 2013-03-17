@@ -7,14 +7,14 @@ import java.io.IOException;
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Test;
 
-import com.github.dandelion.datatables.jsp.DomPhantomJsTest;
+import com.github.dandelion.datatables.jsp.ITDomPhantomJs;
 
 /**
  * Test the HTML markup generation.
  *
  * @author Thibault Duchateau
  */
-public class HtmlGenerationTest extends DomPhantomJsTest {
+public class ITHtmlGeneration extends ITDomPhantomJs {
 
 	@Test
 	public void should_generate_table_markup() throws IOException, Exception {
@@ -26,6 +26,13 @@ public class HtmlGenerationTest extends DomPhantomJsTest {
 		
 		// By default, paging is set to 10
 		assertThat(getTable().find("tbody").find("tr")).hasSize(10);
+		
+		// Let's look at the cells in the second tr
+		assertThat(getTable().find("tbody").find("tr", 1).find("td", 0).getText()).isEqualTo("2");
+		assertThat(getTable().find("tbody").find("tr", 1).find("td", 1).getText()).isEqualTo("Vanna");
+		assertThat(getTable().find("tbody").find("tr", 1).find("td", 2).getText()).isEqualTo("Salas");
+		assertThat(getTable().find("tbody").find("tr", 1).find("td", 3).getText()).isEqualTo("Denny");
+		assertThat(getTable().find("tbody").find("tr", 1).find("td", 4).getText()).isEqualTo("bibendum.fermentum.metus@ante.ca");
 	}
 
 	@Test

@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.jsp.DomPhantomJsTest;
+import com.github.dandelion.datatables.jsp.ITDomPhantomJs;
 import com.github.dandelion.datatables.utils.Mock;
 
 /**
@@ -14,7 +14,7 @@ import com.github.dandelion.datatables.utils.Mock;
  *
  * @author Thibault Duchateau
  */
-public class BasicsTest extends DomPhantomJsTest {
+public class ITFeatureEnablement extends ITDomPhantomJs {
 
 	@Test
 	public void should_disable_paging() throws IOException, Exception {
