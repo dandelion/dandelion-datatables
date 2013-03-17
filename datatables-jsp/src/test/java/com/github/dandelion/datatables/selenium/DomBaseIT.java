@@ -75,6 +75,7 @@ public abstract class DomBaseIT extends FluentAdapter {
 		// Add system property to disable asset caching
 		System.setProperty("dandelion.dev.mode", "true");
 
+		// Create a new web server
 		server = new Server();
 		SelectChannelConnector connector = new SelectChannelConnector();
 		connector.setHost(SERVER_HOST);
@@ -82,13 +83,15 @@ public abstract class DomBaseIT extends FluentAdapter {
 		server.addConnector(connector);
 
 		context = new WebAppContext("src/test/webapp", "/");
+		
+		// Add support for JSP
+		ServletHolder jsp = context.addServlet(JspServlet.class, "*.jsp");
+		jsp.setInitParameter("classpath", context.getClassPath());
 
+		// Add new servlet context attributes
 		context.setAttribute("persons", Mock.persons);
 		context.setAttribute("emptyList", new ArrayList<Person>());
 		context.setAttribute("nullList", null);
-
-		ServletHolder jsp = context.addServlet(JspServlet.class, "*.jsp");
-		jsp.setInitParameter("classpath", context.getClassPath());
 
 		server.setHandler(context);
 		server.setStopAtShutdown(true);
