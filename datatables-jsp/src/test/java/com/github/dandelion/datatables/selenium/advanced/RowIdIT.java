@@ -46,9 +46,26 @@ import com.github.dandelion.datatables.selenium.DomBaseIT;
 public class RowIdIT extends DomBaseIT {
 
 	@Test
-	public void should_generate_export_markup() throws IOException, Exception {
-		goTo("/advanced/row_id.jsp");
-
+	public void should_generate_rowid_with_only_base() throws IOException, Exception {
+		goTo("/advanced/row_id_only_base.jsp");
+		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("1");
+	}
+	
+	@Test
+	public void should_generate_rowid_with_prefix() throws IOException, Exception {
+		goTo("/advanced/row_id_with_prefix.jsp");
 		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("id_1");
+	}
+	
+	@Test
+	public void should_generate_rowid_with_sufix() throws IOException, Exception {
+		goTo("/advanced/row_id_with_sufix.jsp");
+		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("1_id");
+	}
+	
+	@Test
+	public void should_generate_rowid_with_prefix_and_sufix() throws IOException, Exception {
+		goTo("/advanced/row_id_with_prefix_and_sufix.jsp");
+		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("id_1_di");
 	}
 }
