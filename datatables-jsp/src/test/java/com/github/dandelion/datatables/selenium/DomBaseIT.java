@@ -59,111 +59,109 @@ import com.github.dandelion.datatables.entity.Person;
 import com.github.dandelion.datatables.utils.Mock;
 
 public abstract class DomBaseIT extends FluentAdapter {
-    private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(1024, 768);
+	private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(1024, 768);
 
-    public static final String TABLE_ID = "myTableId";
-    public static final String SERVER_HOST = "127.0.0.1";
-    public static final int SERVER_PORT = 9190;
-    
-    protected static WebDriver driver;
-    private static Server server;
-    protected static WebAppContext context;
-    
-    @BeforeClass
-    public static void configure_server() throws Exception {
+	public static final String TABLE_ID = "myTableId";
+	public static final String SERVER_HOST = "127.0.0.1";
+	public static final int SERVER_PORT = 9190;
 
-    	// Add system property to disable asset caching
-    	System.setProperty("dandelion.dev.mode", "true");
-    	
-    	server = new Server();
-        SelectChannelConnector connector = new SelectChannelConnector();
-        connector.setHost(SERVER_HOST);
-        connector.setPort(SERVER_PORT);
-        server.addConnector(connector);
+	protected static WebDriver driver;
+	private static Server server;
+	protected static WebAppContext context;
 
-        context = new WebAppContext("src/test/webapp", "/");
-        context.setClassLoader(Thread.currentThread().getContextClassLoader());
-        
-        context.setAttribute("persons", Mock.persons);
-        context.setAttribute("emptyList", new ArrayList<Person>());
-        context.setAttribute("nullList", null);
-        
-        ServletHolder jsp = context.addServlet(JspServlet.class, "*.jsp");
-        jsp.setInitParameter("classpath", context.getClassPath());
-        
-        server.setHandler(context);
-        server.setStopAtShutdown(true);
-    }
+	@BeforeClass
+	public static void configure_server() throws Exception {
 
-    @Before
-    public void start_server() {
-        
-    	try {
-    		server.start();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+		// Add system property to disable asset caching
+		System.setProperty("dandelion.dev.mode", "true");
 
-    @After
-    public void stop_server() {
-        try {
-        	server.stop();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+		server = new Server();
+		SelectChannelConnector connector = new SelectChannelConnector();
+		connector.setHost(SERVER_HOST);
+		connector.setPort(SERVER_PORT);
+		server.addConnector(connector);
 
-    @Rule
-    public TestWatcher lifecycle = new TestWatcher() {
-        @Override
-        protected void starting(Description description) {
-            if (null == driver) {
-                Runtime.getRuntime().addShutdownHook(new Thread() {
-                    @Override
-                    public void run() {
-                        if (driver != null) {
-                            driver.quit();
-                        }
-                    }
-                });
+		context = new WebAppContext("src/test/webapp", "/");
 
-                Capabilities capabilities = new DesiredCapabilities();
-                DriverService service = PhantomJSDriverService.createDefaultService(capabilities);
-                driver = new PhantomJSDriver(service, capabilities);
-            }
+		context.setAttribute("persons", Mock.persons);
+		context.setAttribute("emptyList", new ArrayList<Person>());
+		context.setAttribute("nullList", null);
 
-            driver.manage().deleteAllCookies();
-            driver.manage().window().setSize(DEFAULT_WINDOW_SIZE);
-            initFluent(driver).withDefaultUrl(defaultUrl());
-        }
-        
+		ServletHolder jsp = context.addServlet(JspServlet.class, "*.jsp");
+		jsp.setInitParameter("classpath", context.getClassPath());
 
-        @Override
-        protected void succeeded(Description description) {
-            snapshotFile(description).delete();
-        }
+		server.setHandler(context);
+		server.setStopAtShutdown(true);
+	}
 
-        @Override
-        protected void failed(Throwable e, Description description) {
-            takeScreenShot(snapshotFile(description).getAbsolutePath());
-        }
+	@Before
+	public void start_server() {
 
-        private File snapshotFile(Description description) {
-            return new File("snapshots", description.getMethodName() + ".png");
-        }
-    };
+		try {
+			server.start();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    public String defaultUrl() {
-        return "http://" + SERVER_HOST + ":" + SERVER_PORT;
-    }
-    
-    @SuppressWarnings("unchecked")
-	public FluentList<FluentWebElement> getTable(){
-    	return find("#" + TABLE_ID + "_wrapper").find("table");
-    }
-    
-    public FluentWebElement getHtmlBody(){
-    	return findFirst("body");
-    }
+	@After
+	public void stop_server() {
+		try {
+			server.stop();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Rule
+	public TestWatcher lifecycle = new TestWatcher() {
+		@Override
+		protected void starting(Description description) {
+			if (null == driver) {
+				Runtime.getRuntime().addShutdownHook(new Thread() {
+					@Override
+					public void run() {
+						if (driver != null) {
+							driver.quit();
+						}
+					}
+				});
+
+				Capabilities capabilities = new DesiredCapabilities();
+				DriverService service = PhantomJSDriverService.createDefaultService(capabilities);
+				driver = new PhantomJSDriver(service, capabilities);
+			}
+
+			driver.manage().deleteAllCookies();
+			driver.manage().window().setSize(DEFAULT_WINDOW_SIZE);
+			initFluent(driver).withDefaultUrl(defaultUrl());
+		}
+
+		@Override
+		protected void succeeded(Description description) {
+			snapshotFile(description).delete();
+		}
+
+		@Override
+		protected void failed(Throwable e, Description description) {
+			takeScreenShot(snapshotFile(description).getAbsolutePath());
+		}
+
+		private File snapshotFile(Description description) {
+			return new File("snapshots", description.getMethodName() + ".png");
+		}
+	};
+
+	public String defaultUrl() {
+		return "http://" + SERVER_HOST + ":" + SERVER_PORT;
+	}
+
+	@SuppressWarnings("unchecked")
+	public FluentList<FluentWebElement> getTable() {
+		return find("#" + TABLE_ID + "_wrapper").find("table");
+	}
+
+	public FluentWebElement getHtmlBody() {
+		return findFirst("body");
+	}
 }

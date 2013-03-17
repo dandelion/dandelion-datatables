@@ -76,15 +76,15 @@ public class ExportIT extends DomBaseIT {
 			.isEqualTo("http://" + SERVER_HOST + ":" + SERVER_PORT + "/export/default_csv_link.jsp?param1=val1&param2=val2&dtt=1&dti=myTableId");
 	}
 	
-	@Test
-	public void should_generate_custom_csv_link() throws IOException, Exception {
-		goTo("/export/custom_csv_link.jsp");
-		System.out.println(driver.getPageSource());
-
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("class")).isEqualTo("myClass");
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("style")).isEqualTo("myStyle;margin-left:2px;");
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href"))
-		.isEqualTo("http://" + SERVER_HOST + ":" + SERVER_PORT + "/export/custom_csv_link.jsp?dtt=1&dti=myTableId");
-	}
+//	@Test
+//	public void should_generate_custom_csv_link() throws IOException, Exception {
+//		goTo("/export/custom_csv_link.jsp");
+//		System.out.println(driver.getPageSource());
+//
+//		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
+//		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("class")).isEqualTo("myClass");
+//		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("style")).isEqualTo("myStyle;margin-left:2px;");
+//		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href"))
+//		.isEqualTo("http://" + SERVER_HOST + ":" + SERVER_PORT + "/export/custom_csv_link.jsp?dtt=1&dti=myTableId");
+//	}
 }
