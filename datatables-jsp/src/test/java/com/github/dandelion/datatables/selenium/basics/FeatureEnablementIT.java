@@ -28,7 +28,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.selenium;
+package com.github.dandelion.datatables.selenium.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -36,6 +36,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.selenium.DomBaseIT;
 import com.github.dandelion.datatables.utils.Mock;
 
 /**

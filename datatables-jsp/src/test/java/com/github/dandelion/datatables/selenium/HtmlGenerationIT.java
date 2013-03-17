@@ -38,6 +38,7 @@ import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Test;
 
 
+
 /**
  * Test the HTML markup generation.
  *
@@ -71,12 +72,28 @@ public class HtmlGenerationIT extends DomBaseIT {
 		assertThat(body.find("script")).hasSize(1);
 	}
 	
+	@Test
+	public void should_render_empty_cell() throws IOException, Exception {
+		goTo("/htmlGeneration/table_default.jsp");
+
+		// I know that the 4th cell of the first row must be empty (City is null in the data source)
+		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("");
+	}
+	
+	@Test
+	public void should_render_default_value_in_cell() throws IOException, Exception {
+		goTo("/htmlGeneration/table_default_values.jsp");
+
+		// I know that the 4th cell of the first row must be empty (City is null in the data source)
+		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("default value");
+	}
+	
 //	@Test
 	public void when_emptylist_should_not_generate_anything() {
 		goTo("/htmlGeneration/table_with_empty_collection.jsp");
-		System.out.println(driver.getPageSource());
+//		System.out.println(driver.getPageSource());
 		assertThat(getTable()).hasSize(0);
-		System.out.println(driver.getPageSource());
+//		System.out.println(driver.getPageSource());
 	}
 	
 //	@Test

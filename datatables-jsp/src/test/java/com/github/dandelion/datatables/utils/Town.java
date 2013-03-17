@@ -28,38 +28,48 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.selenium;
-
-import static org.fest.assertions.Assertions.assertThat;
-
-import java.io.IOException;
-
-import org.junit.Test;
+package com.github.dandelion.datatables.utils;
 
 /**
- * Test the CDN activation.
- *
- * @author Thibault Duchateau
+ * A typical Town entity.
+ * 
+ * @author tduchateau
  */
-public class CustomColumnContentIT extends DomBaseIT {
+public class Town {
 
-	@Test
-	public void should_generate_mailto_link() throws IOException, Exception {
-		goTo("/basicFeatures/custom_column_content.jsp");
+	private Long id;
+	private String name;
+	private String postcode;
 
-		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
-		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getAttribute("href")).isEqualTo("mailto:venenatis@Duisvolutpat.com");
-		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getText()).isEqualTo("venenatis@Duisvolutpat.com");
+	public Town() {
+
 	}
-	
-	
-	@Test
-	public void should_not_anything() throws IOException, Exception {
-		goTo("/basicFeatures/wrong_custom_column_content.jsp");
 
-		System.out.println(driver.getPageSource());
-//		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
-//		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getAttribute("href")).isEqualTo("mailto:venenatis@Duisvolutpat.com");
-//		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getText()).isEqualTo("venenatis@Duisvolutpat.com");
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Town(String label) {
+		this.name = label;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String label) {
+		this.name = label;
+	}
+
+	public String getPostcode() {
+		return postcode;
+	}
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
 	}
 }

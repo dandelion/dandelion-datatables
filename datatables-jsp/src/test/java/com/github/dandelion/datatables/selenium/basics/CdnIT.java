@@ -28,84 +28,30 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.entity;
+package com.github.dandelion.datatables.selenium.basics;
+
+import static org.fest.assertions.Assertions.assertThat;
+
+import java.io.IOException;
+
+import org.junit.Test;
+
+import com.github.dandelion.datatables.core.constants.CdnConstants;
+import com.github.dandelion.datatables.selenium.DomBaseIT;
 
 /**
- * A typical Person entity.
- * 
- * @author tduchateau
+ * Test the CDN activation.
+ *
+ * @author Thibault Duchateau
  */
-public class Person {
+public class CdnIT extends DomBaseIT {
 
-	private Long id;
-	private String firstName;
-	private String lastName;
-	private String mail;
-	private Address address;
+	@Test
+	public void should_disable_paging() throws IOException, Exception {
+		goTo("/basicFeatures/table_cdn.jsp");
 
-	public Person() {
-
+		System.out.println(driver.getPageSource());
+		assertThat(getHtmlBody().findFirst("link").getAttribute("href")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_CSS);
+		assertThat(getHtmlBody().findFirst("script").getAttribute("src")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_JS_MIN);
 	}
-
-	public Person(Long id, String firstName, String lastName, String mail, Address address){
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.mail = mail;
-		this.address = address;
-	}
-	public Person(Long id, String firstName, String lastName, String mail) {
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.mail = mail;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getMail() {
-		return mail;
-	}
-
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
-
-	@Override
-	public String toString() {
-		return "Person [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", mail=" + mail + ", address=" + address + "]";
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-	
-	
 }

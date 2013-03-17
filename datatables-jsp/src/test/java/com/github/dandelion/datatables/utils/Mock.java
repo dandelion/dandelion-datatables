@@ -33,9 +33,6 @@ package com.github.dandelion.datatables.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.dandelion.datatables.entity.Address;
-import com.github.dandelion.datatables.entity.Person;
-import com.github.dandelion.datatables.entity.Town;
 
 public class Mock {
 

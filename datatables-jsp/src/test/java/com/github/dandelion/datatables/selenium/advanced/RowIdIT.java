@@ -28,48 +28,27 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.entity;
+package com.github.dandelion.datatables.selenium.advanced;
+
+import static org.fest.assertions.Assertions.assertThat;
+
+import java.io.IOException;
+
+import org.junit.Test;
+
+import com.github.dandelion.datatables.selenium.DomBaseIT;
 
 /**
- * A typical Town entity.
- * 
- * @author tduchateau
+ * Test the RowId feature.
+ *
+ * @author Thibault Duchateau
  */
-public class Town {
+public class RowIdIT extends DomBaseIT {
 
-	private Long id;
-	private String name;
-	private String postcode;
+	@Test
+	public void should_generate_export_markup() throws IOException, Exception {
+		goTo("/advanced/row_id.jsp");
 
-	public Town() {
-
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Town(String label) {
-		this.name = label;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String label) {
-		this.name = label;
-	}
-
-	public String getPostcode() {
-		return postcode;
-	}
-
-	public void setPostcode(String postcode) {
-		this.postcode = postcode;
+		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("id_1");
 	}
 }

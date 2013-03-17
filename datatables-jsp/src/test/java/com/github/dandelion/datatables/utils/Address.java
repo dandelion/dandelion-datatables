@@ -28,7 +28,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.entity;
+package com.github.dandelion.datatables.utils;
+
 
 /**
  * A typical Address entity.

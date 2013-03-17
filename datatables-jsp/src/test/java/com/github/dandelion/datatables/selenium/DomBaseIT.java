@@ -55,8 +55,8 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
-import com.github.dandelion.datatables.entity.Person;
 import com.github.dandelion.datatables.utils.Mock;
+import com.github.dandelion.datatables.utils.Person;
 
 public abstract class DomBaseIT extends FluentAdapter {
 	private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(1024, 768);

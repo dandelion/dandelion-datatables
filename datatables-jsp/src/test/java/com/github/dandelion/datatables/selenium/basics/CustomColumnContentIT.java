@@ -28,7 +28,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.selenium;
+package com.github.dandelion.datatables.selenium.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -36,27 +36,32 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.selenium.DomBaseIT;
 
 /**
- * Test the basic Features of Dandelion-Datatables.
+ * Test the CDN activation.
  *
  * @author Thibault Duchateau
  */
-public class HandlingNullValuesIT extends DomBaseIT {
+public class CustomColumnContentIT extends DomBaseIT {
 
 	@Test
-	public void should_render_empty_cell() throws IOException, Exception {
-		goTo("/htmlGeneration/table_default.jsp");
+	public void should_generate_mailto_link() throws IOException, Exception {
+		goTo("/basicFeatures/custom_column_content.jsp");
 
-		// I know that the 4th cell of the first row must be empty (City is null in the data source)
-		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("");
+		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
+		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getAttribute("href")).isEqualTo("mailto:venenatis@Duisvolutpat.com");
+		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getText()).isEqualTo("venenatis@Duisvolutpat.com");
 	}
 	
+	
 	@Test
-	public void should_render_default_value_in_cell() throws IOException, Exception {
-		goTo("/table_default_values.jsp");
+	public void should_not_anything() throws IOException, Exception {
+		goTo("/basicFeatures/wrong_custom_column_content.jsp");
 
-		// I know that the 4th cell of the first row must be empty (City is null in the data source)
-		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("default value");
+		System.out.println(driver.getPageSource());
+//		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
+//		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getAttribute("href")).isEqualTo("mailto:venenatis@Duisvolutpat.com");
+//		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getText()).isEqualTo("venenatis@Duisvolutpat.com");
 	}
 }
