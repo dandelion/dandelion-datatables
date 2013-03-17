@@ -42,6 +42,12 @@
          <artifactId>phantomjsdriver</artifactId>
          <version>1.0.1</version>
          <scope>test</scope>
+         <exclusions>
+            <exclusion>
+               <groupId>org.seleniumhq.selenium</groupId>
+               <artifactId>selenium-server</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
       <dependency>
          <groupId>org.fluentlenium</groupId>
@@ -58,37 +64,19 @@
       <dependency>
          <groupId>org.eclipse.jetty</groupId>
          <artifactId>jetty-server</artifactId>
-         <version>8.1.9.v20130131</version>
+         <version>8.1.10.v20130312</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>org.eclipse.jetty</groupId>
          <artifactId>jetty-webapp</artifactId>
-         <version>8.1.9.v20130131</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.eclipse.jetty</groupId>
-         <artifactId>jetty-webapp</artifactId>
-         <version>8.1.9.v20130131</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.eclipse.jetty</groupId>
-         <artifactId>jetty-util</artifactId>
-         <version>8.1.9.v20130131</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.eclipse.jetty</groupId>
-         <artifactId>test-jetty-servlet</artifactId>
-         <version>8.1.9.v20130131</version>
+         <version>8.1.10.v20130312</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>org.eclipse.jetty</groupId>
          <artifactId>jetty-jsp</artifactId>
-         <version>8.1.9.v20130131</version>
+         <version>8.1.10.v20130312</version>
          <scope>test</scope>
       </dependency>
       <dependency>
