@@ -1,4 +1,4 @@
-package com.github.dandelion.datatables.jsp.tag;
+package com.github.dandelion.datatables.selenium;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.jsp.ITDomPhantomJs;
 import com.github.dandelion.datatables.utils.Mock;
 
 /**
@@ -14,7 +13,7 @@ import com.github.dandelion.datatables.utils.Mock;
  *
  * @author Thibault Duchateau
  */
-public class ITFeatureEnablement extends ITDomPhantomJs {
+public class FeatureEnablementIT extends DomBaseIT {
 
 	@Test
 	public void should_disable_paging() throws IOException, Exception {

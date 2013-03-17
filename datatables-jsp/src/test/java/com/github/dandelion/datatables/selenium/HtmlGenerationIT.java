@@ -1,4 +1,4 @@
-package com.github.dandelion.datatables.jsp.tag;
+package com.github.dandelion.datatables.selenium;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -7,14 +7,13 @@ import java.io.IOException;
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Test;
 
-import com.github.dandelion.datatables.jsp.ITDomPhantomJs;
 
 /**
  * Test the HTML markup generation.
  *
  * @author Thibault Duchateau
  */
-public class ITHtmlGeneration extends ITDomPhantomJs {
+public class HtmlGenerationIT extends DomBaseIT {
 
 	@Test
 	public void should_generate_table_markup() throws IOException, Exception {

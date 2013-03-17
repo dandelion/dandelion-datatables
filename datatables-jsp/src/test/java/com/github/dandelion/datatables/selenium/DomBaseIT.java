@@ -28,7 +28,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.jsp;
+package com.github.dandelion.datatables.selenium;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ import org.openqa.selenium.remote.service.DriverService;
 import com.github.dandelion.datatables.entity.Person;
 import com.github.dandelion.datatables.utils.Mock;
 
-public abstract class ITDomPhantomJs extends FluentAdapter {
+public abstract class DomBaseIT extends FluentAdapter {
     private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(1024, 768);
 
     public static final String TABLE_ID = "myTableId";
@@ -76,7 +76,7 @@ public abstract class ITDomPhantomJs extends FluentAdapter {
     	server = new Server();
         SelectChannelConnector connector = new SelectChannelConnector();
         connector.setHost("127.0.0.1");
-        connector.setPort(9090);
+        connector.setPort(9190);
         server.addConnector(connector);
 
         context = new WebAppContext("src/test/webapp", "/");
@@ -153,7 +153,7 @@ public abstract class ITDomPhantomJs extends FluentAdapter {
     };
 
     public String defaultUrl() {
-        return "http://127.0.0.1:9090";
+        return "http://127.0.0.1:9190";
     }
     
     @SuppressWarnings("unchecked")
@@ -161,7 +161,7 @@ public abstract class ITDomPhantomJs extends FluentAdapter {
     	return find("#" + TABLE_ID + "_wrapper").find("table");
     }
     
-    public FluentWebElement getBody(){
+    public FluentWebElement getHtmlBody(){
     	return findFirst("body");
     }
 }

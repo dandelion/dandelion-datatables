@@ -1,4 +1,4 @@
-package com.github.dandelion.datatables.jsp.tag;
+package com.github.dandelion.datatables.selenium;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -6,14 +6,13 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.jsp.ITDomPhantomJs;
 
 /**
  * Test the basic Features of Dandelion-Datatables.
  *
  * @author Thibault Duchateau
  */
-public class ITHandlingNullValues extends ITDomPhantomJs {
+public class HandlingNullValuesIT extends DomBaseIT {
 
 	@Test
 	public void should_render_empty_cell() throws IOException, Exception {

@@ -7,7 +7,7 @@
 <%@ include file="../common/head.jsp"%>
 </head>
 <body>
-   <datatables:table id="myTableId" data="${persons}" lengthChange="false">
+   <datatables:table id="myTableId" data="${persons}" cdn="true">
       <datatables:column title="Id" property="id" />
       <datatables:column title="FirstName" property="firstName" />
       <datatables:column title="LastName" property="lastName" />
