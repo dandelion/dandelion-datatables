@@ -204,7 +204,8 @@ public class WebResourceGenerator {
 
 		// Init the wrapping HTML div
 		HtmlDiv divExport = new HtmlDiv();
-
+		divExport.addCssClass("dandelion_dataTables_export");
+		
 		// ExportTag have been added to the TableTag
 		if (table.getExportConfMap() != null && table.getExportConfMap().size() > 0) {
 			logger.debug("Generating export links");
@@ -222,8 +223,11 @@ public class WebResourceGenerator {
 
 				if (conf.getCssStyle() != null) {
 					link.setCssStyle(conf.getCssStyle());
+					link.addCssStyle(";margin-left:2px;");
 				}
-				link.addCssStyle("margin-left:2px;margin-left:2px;");
+				else{
+					link.addCssStyle("margin-left:2px;");
+				}
 
 				link.setHref(conf.getUrl());
 				link.setLabel(conf.getLabel());

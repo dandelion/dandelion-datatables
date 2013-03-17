@@ -62,6 +62,8 @@ public abstract class DomBaseIT extends FluentAdapter {
     private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(1024, 768);
 
     public static final String TABLE_ID = "myTableId";
+    public static final String SERVER_HOST = "127.0.0.1";
+    public static final int SERVER_PORT = 9190;
     
     protected static WebDriver driver;
     private static Server server;
@@ -75,8 +77,8 @@ public abstract class DomBaseIT extends FluentAdapter {
     	
     	server = new Server();
         SelectChannelConnector connector = new SelectChannelConnector();
-        connector.setHost("127.0.0.1");
-        connector.setPort(9190);
+        connector.setHost(SERVER_HOST);
+        connector.setPort(SERVER_PORT);
         server.addConnector(connector);
 
         context = new WebAppContext("src/test/webapp", "/");
@@ -153,7 +155,7 @@ public abstract class DomBaseIT extends FluentAdapter {
     };
 
     public String defaultUrl() {
-        return "http://127.0.0.1:9190";
+        return "http://" + SERVER_HOST + ":" + SERVER_PORT;
     }
     
     @SuppressWarnings("unchecked")
