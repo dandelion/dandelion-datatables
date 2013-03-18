@@ -28,7 +28,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.integration;
+package com.github.dandelion.datatables.integration.html;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -37,7 +37,7 @@ import java.io.IOException;
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Test;
 
-
+import com.github.dandelion.datatables.integration.DomBaseIT;
 
 /**
  * Test the HTML markup generation.
