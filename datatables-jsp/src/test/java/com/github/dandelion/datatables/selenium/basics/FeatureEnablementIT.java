@@ -48,7 +48,7 @@ public class FeatureEnablementIT extends DomBaseIT {
 
 	@Test
 	public void should_disable_paging() throws IOException, Exception {
-		goTo("/basicFeatures/table_disable_paging.jsp");
+		goTo("/basics/table_disable_paging.jsp");
 
 		assertThat(find("#" + TABLE_ID + "_length")).hasSize(0);
 		
@@ -58,7 +58,7 @@ public class FeatureEnablementIT extends DomBaseIT {
 	
 	@Test
 	public void should_disable_filtering() throws IOException, Exception {
-		goTo("/basicFeatures/table_disable_filtering.jsp");
+		goTo("/basics/table_disable_filtering.jsp");
 
 		// If paging is disabled, the entire collection is displayed
 		assertThat(find("#" + TABLE_ID + "_filter")).hasSize(0);
@@ -66,7 +66,7 @@ public class FeatureEnablementIT extends DomBaseIT {
 	
 	@Test
 	public void should_disable_info() throws IOException, Exception {
-		goTo("/basicFeatures/table_disable_info.jsp");
+		goTo("/basics/table_disable_info.jsp");
 
 		// If paging is disabled, the entire collection is displayed
 		assertThat(find("#" + TABLE_ID + "_info")).hasSize(0);
@@ -74,7 +74,7 @@ public class FeatureEnablementIT extends DomBaseIT {
 	
 	@Test
 	public void should_disable_length_changing() throws IOException, Exception {
-		goTo("/basicFeatures/table_disable_lengthChange.jsp");
+		goTo("/basics/table_disable_lengthChange.jsp");
 
 		// If paging is disabled, the entire collection is displayed
 		assertThat(find("#" + TABLE_ID + "_length")).hasSize(0);
@@ -82,7 +82,7 @@ public class FeatureEnablementIT extends DomBaseIT {
 	
 	@Test
 	public void should_disable_sorting() throws IOException, Exception {
-		goTo("/basicFeatures/table_disable_sorting.jsp");
+		goTo("/basics/table_disable_sorting.jsp");
 
 		// If paging is disabled, the entire collection is displayed
 		assertThat(getTable().find("tbody").find(".sorting")).hasSize(0);

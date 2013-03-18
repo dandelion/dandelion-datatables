@@ -47,7 +47,7 @@ public class CustomColumnContentIT extends DomBaseIT {
 
 	@Test
 	public void should_generate_mailto_link() throws IOException, Exception {
-		goTo("/basicFeatures/custom_column_content.jsp");
+		goTo("/basics/custom_column_content.jsp");
 
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getAttribute("href")).isEqualTo("mailto:venenatis@Duisvolutpat.com");
@@ -57,7 +57,7 @@ public class CustomColumnContentIT extends DomBaseIT {
 	
 	@Test
 	public void should_not_anything() throws IOException, Exception {
-		goTo("/basicFeatures/wrong_custom_column_content.jsp");
+		goTo("/basics/wrong_custom_column_content.jsp");
 
 		System.out.println(driver.getPageSource());
 //		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
