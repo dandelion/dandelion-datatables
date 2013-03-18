@@ -32,6 +32,7 @@ package com.github.dandelion.datatables.integration;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import org.apache.jasper.servlet.JspServlet;
 import org.eclipse.jetty.server.Server;
@@ -55,6 +56,9 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
+import com.github.dandelion.datatables.core.cache.AssetCache;
+import com.github.dandelion.datatables.core.model.JsResource;
+import com.github.dandelion.datatables.core.model.WebResources;
 import com.github.dandelion.datatables.utils.Mock;
 import com.github.dandelion.datatables.utils.Person;
 
@@ -167,5 +171,12 @@ public abstract class DomBaseIT extends FluentAdapter {
 
 	public FluentWebElement getHtmlBody() {
 		return findFirst("body");
+	}
+	
+	public JsResource getCurrentMainConfiguration(){
+		for(Entry<String, Object> entry : AssetCache.cache.entrySet()){
+			return ((WebResources)entry.getValue()).getMainJsFile();
+		}
+		return null;
 	}
 }
