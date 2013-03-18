@@ -10,7 +10,7 @@
    <artifactId>datatables-servlet2</artifactId>
    <packaging>jar</packaging>
 
-   <name>Dandelion : Datatables :: Extras :: Servlet 2 compatibility</name>
+   <name>Dandelion :: Datatables :: Extras :: Servlet 2 compatibility</name>
 
    <dependencies>
       <dependency>

@@ -10,7 +10,7 @@
    <artifactId>datatables-spring3</artifactId>
    <packaging>jar</packaging>
 
-   <name>Dandelion : Datatables :: Extras :: Spring3</name>
+   <name>Dandelion :: Datatables :: Extras :: Spring3</name>
 
    <dependencies>
       <dependency>

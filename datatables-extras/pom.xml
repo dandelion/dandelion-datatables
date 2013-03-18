@@ -10,7 +10,7 @@
    <artifactId>datatables-extras</artifactId>
    <packaging>pom</packaging>
 
-   <name>Dandelion : Datatables :: Extras</name>
+   <name>Dandelion :: Datatables :: Extras</name>
 
    <modules>
       <module>datatables-compression-yui</module>

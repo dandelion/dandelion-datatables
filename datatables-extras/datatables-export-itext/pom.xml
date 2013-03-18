@@ -10,7 +10,7 @@
    <artifactId>datatables-export-itext</artifactId>
    <packaging>jar</packaging>
 
-   <name>Dandelion : Datatables :: Extras :: Export PDF using iText</name>
+   <name>Dandelion :: Datatables :: Extras :: Export PDF using iText</name>
 
    <dependencies>
       <dependency>

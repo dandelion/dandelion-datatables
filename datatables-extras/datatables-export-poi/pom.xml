@@ -10,7 +10,7 @@
    <artifactId>datatables-export-poi</artifactId>
    <packaging>jar</packaging>
 
-   <name>Dandelion : Datatables :: Extras :: Export XLS using Apache POI</name>
+   <name>Dandelion :: Datatables :: Extras :: Export XLS using Apache POI</name>
 
    <dependencies>
       <dependency>

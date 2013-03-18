@@ -10,7 +10,7 @@
    <artifactId>datatables-thymeleaf</artifactId>
    <packaging>jar</packaging>
 
-   <name>Dandelion : Datatables :: Thymeleaf Implementation</name>
+   <name>Dandelion :: Datatables :: Thymeleaf Implementation</name>
 
    <dependencies>
       <dependency>

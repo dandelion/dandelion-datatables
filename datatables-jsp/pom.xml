@@ -10,7 +10,7 @@
 
    <artifactId>datatables-jsp</artifactId>
    <packaging>jar</packaging>
-   <name>Dandelion : Datatables :: JSP Implementation</name>
+   <name>Dandelion :: Datatables :: JSP Implementation</name>
    <description>JSP implementation of Dandelion-DataTables, a Dandelion component that makes HTML table much nicer</description>
 
    <dependencies>

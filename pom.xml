@@ -12,7 +12,7 @@
    <version>0.8.8-SNAPSHOT</version>
    <packaging>pom</packaging>
 
-   <name>Dandelion : Datatables :: Parent</name>
+   <name>Dandelion :: Datatables</name>
 
    <modules>
       <module>datatables-core</module>

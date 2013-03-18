@@ -10,7 +10,7 @@
    <artifactId>datatables-core</artifactId>
    <packaging>jar</packaging>
 
-   <name>Dandelion : Datatables :: Core</name>
+   <name>Dandelion :: Datatables :: Core</name>
 
    <dependencies>
 

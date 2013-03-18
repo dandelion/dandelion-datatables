@@ -10,7 +10,7 @@
    <artifactId>datatables-compression-yui</artifactId>
    <packaging>jar</packaging>
 
-   <name>Dandelion : Datatables :: Extras :: Compression YUI</name>
+   <name>Dandelion :: Datatables :: Extras :: Compression YUI</name>
 
    <dependencies>
       <dependency>

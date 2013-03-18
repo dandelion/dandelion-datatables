@@ -10,7 +10,7 @@
    <artifactId>datatables-export-poi-ooxml</artifactId>
    <packaging>jar</packaging>
 
-   <name>Dandelion : Datatables :: Extras :: Export XLSX using POI-OOXML</name>
+   <name>Dandelion :: Datatables :: Extras :: Export XLSX using POI-OOXML</name>
 
    <dependencies>
       <dependency>
