@@ -29,16 +29,13 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatableAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.util.Utils;
+import com.github.dandelion.datatables.thymeleaf.processor.DatatablesAttrProcessor;
 
 /**
  * <p>
@@ -48,11 +45,8 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * @see <a href="http://datatables.net/ref#bInfo">DataTables reference</a>
  * @author Thibault Duchateau
  */
-public class TableInfoAttrProcessor extends AbstractDatatableAttrProcessor {
+public class TableInfoAttrProcessor extends DatatablesAttrProcessor {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(TableInfoAttrProcessor.class);
-		
 	public TableInfoAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
@@ -61,24 +55,19 @@ public class TableInfoAttrProcessor extends AbstractDatatableAttrProcessor {
 	public int getPrecedence() {
 		return 8000;
 	}
-	
+
 	@Override
-	protected ProcessorResult processAttribute(Arguments arguments, Element element,
-			String attributeName) {
-		logger.debug("{} attribute found", attributeName);
-		
-		// Get HtmlTable POJO from the HttpServletRequest
-		HtmlTable htmlTable = Utils.getTable(arguments);
-				
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
+			String attributeName, HtmlTable table) {
+
 		// Get attribute value
 		Boolean attrValue = Boolean.parseBoolean(element.getAttributeValue(attributeName));
-		logger.debug("Extracted value : {}", attrValue);
 
 		// HtmlTable update
-		if(htmlTable != null){
-			htmlTable.setInfo(attrValue);			
+		if (table != null) {
+			table.setInfo(attrValue);
 		}
-		
-        return nonLenientOK(element, attributeName);
+
+		return ProcessorResult.ok();
 	}
 }

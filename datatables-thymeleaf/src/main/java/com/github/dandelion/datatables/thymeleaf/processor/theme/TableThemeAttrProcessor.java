@@ -39,7 +39,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.model.HtmlTable;
 import com.github.dandelion.datatables.core.theme.Bootstrap2Theme;
 import com.github.dandelion.datatables.core.theme.JQueryUITheme;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.DatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
@@ -47,7 +47,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * 
  * @author Thibault Duchateau
  */
-public class TableThemeAttrProcessor extends AbstractDatatableAttrProcessor {
+public class TableThemeAttrProcessor extends DatatablesAttrProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TableThemeAttrProcessor.class);
@@ -62,29 +62,28 @@ public class TableThemeAttrProcessor extends AbstractDatatableAttrProcessor {
 	}
 
 	@Override
-	protected ProcessorResult processAttribute(Arguments arguments, Element element,
-			String attributeName) {
-		logger.debug("{} attribute found", attributeName);
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
+			String attributeName, HtmlTable table) {
 
 		// Get HtmlTable POJO from the HttpServletRequest
 		HtmlTable htmlTable = Utils.getTable(arguments);
 
 		// Get attribute value
 		String attrValue = element.getAttributeValue(attributeName);
-		logger.debug("Extracted value : {}", attrValue);
 
 		// HtmlTable update
 		if (htmlTable != null) {
 			if (attrValue.trim().toLowerCase().equals("bootstrap2")) {
 				htmlTable.setTheme(new Bootstrap2Theme());
 			} else if (attrValue.trim().toLowerCase().equals("jqueryui")) {
-                htmlTable.setTheme(new JQueryUITheme());
-            } else {
-                logger.warn("Theme {} is not recognized. Only 'bootstrap2 and jQueryUI' exists for now.",
-                        attrValue);
-            }
+				htmlTable.setTheme(new JQueryUITheme());
+			} else {
+				logger.warn(
+						"Theme {} is not recognized. Only 'bootstrap2 and jQueryUI' exists for now.",
+						attrValue);
+			}
 		}
 
-		return nonLenientOK(element, attributeName);
+		return ProcessorResult.ok();
 	}
 }

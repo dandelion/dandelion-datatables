@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.thymeleaf.processor.basic;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
@@ -41,7 +39,7 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.DatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
@@ -51,10 +49,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * 
  * @author Thibault Duchateau
  */
-public class TableLabelsAttrProcessor extends AbstractDatatableAttrProcessor {
-
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(TableLabelsAttrProcessor.class);
+public class TableLabelsAttrProcessor extends DatatablesAttrProcessor {
 
 	public TableLabelsAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
@@ -66,25 +61,23 @@ public class TableLabelsAttrProcessor extends AbstractDatatableAttrProcessor {
 	}
 
 	@Override
-	protected ProcessorResult processAttribute(Arguments arguments, Element element,
-			String attributeName) {
-		logger.debug("{} attribute found", attributeName);
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
+			String attributeName, HtmlTable table) {
 
 		// Get the request
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-				
+
 		// Get HtmlTable POJO from the HttpServletRequest
 		HtmlTable htmlTable = Utils.getTable(arguments);
 
 		// Get attribute value
 		String attrValue = element.getAttributeValue(attributeName);
-		logger.debug("Extracted value : {}", attrValue);
 
 		// HtmlTable update
 		if (htmlTable != null && StringUtils.isNotBlank(attrValue)) {
 			htmlTable.setLabels(Utils.getBaseUrl(request) + attrValue);
 		}
 
-		return nonLenientOK(element, attributeName);
+		return ProcessorResult.ok();
 	}
 }

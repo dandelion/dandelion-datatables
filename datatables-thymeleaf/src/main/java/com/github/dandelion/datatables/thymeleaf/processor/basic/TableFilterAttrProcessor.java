@@ -29,16 +29,13 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatableAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.util.Utils;
+import com.github.dandelion.datatables.thymeleaf.processor.DatatablesAttrProcessor;
 
 /**
  * <p>
@@ -52,10 +49,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * @see <a href="http://datatables.net/ref#bFilter">DataTables reference</a>
  * @author Thibault Duchateau
  */
-public class TableFilterAttrProcessor extends AbstractDatatableAttrProcessor {
-
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(TableFilterAttrProcessor.class);
+public class TableFilterAttrProcessor extends DatatablesAttrProcessor {
 
 	public TableFilterAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
@@ -67,22 +61,17 @@ public class TableFilterAttrProcessor extends AbstractDatatableAttrProcessor {
 	}
 
 	@Override
-	protected ProcessorResult processAttribute(Arguments arguments, Element element,
-			String attributeName) {
-		logger.debug("{} attribute found", attributeName);
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
+			String attributeName, HtmlTable table) {
 
-		// Get HtmlTable POJO from the HttpServletRequest
-		HtmlTable htmlTable = Utils.getTable(arguments);
-				
 		// Get attribute value
 		Boolean attrValue = Boolean.parseBoolean(element.getAttributeValue(attributeName));
-		logger.debug("Extracted value : {}", attrValue);
 
 		// HtmlTable update
-		if (htmlTable != null) {
-			htmlTable.setFilterable(attrValue);
+		if (table != null) {
+			table.setFilterable(attrValue);
 		}
 
-		return nonLenientOK(element, attributeName);
+		return ProcessorResult.ok();
 	}
 }

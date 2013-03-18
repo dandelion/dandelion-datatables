@@ -30,16 +30,13 @@
 package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatableAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.util.Utils;
+import com.github.dandelion.datatables.thymeleaf.processor.DatatablesAttrProcessor;
 
 /**
  * <p>
@@ -48,45 +45,37 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * 
  * @author Thibault Duchateau
  */
-public class TableAppearAttrProcessor extends AbstractDatatableAttrProcessor {
+public class TableAppearAttrProcessor extends DatatablesAttrProcessor {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(TableAppearAttrProcessor.class);
-		
 	public TableAppearAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
-
+	
 	@Override
 	public int getPrecedence() {
 		return 8000;
 	}
 	
 	@Override
-	protected ProcessorResult processAttribute(Arguments arguments, Element element,
-			String attributeName) {
-		logger.debug("{} attribute found", attributeName);
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
+			String attributeName, HtmlTable table) {
 		
-		// Get HtmlTable POJO from the HttpServletRequest
-		HtmlTable htmlTable = Utils.getTable(arguments);
-				
 		// Get attribute value
 		String attrValue = element.getAttributeValue(attributeName).toLowerCase().trim();
-		logger.debug("Extracted value : {}", attrValue);
 		
-		if(htmlTable != null && StringUtils.isNotBlank(attrValue)){
+		if(table != null && StringUtils.isNotBlank(attrValue)){
 			if(attrValue.contains(",") || "fadein".equals(attrValue.toLowerCase().trim())){
 				String[] tmp = attrValue.toLowerCase().trim().split(",");
-				htmlTable.setAppear("fadein");
+				table.setAppear("fadein");
 				if(tmp.length > 1){
-					htmlTable.setAppearDuration(tmp[1]);
+					table.setAppearDuration(tmp[1]);
 				}
 			}
 			else{
-				htmlTable.setAppear("block");
+				table.setAppear("block");
 			}
 		}
 		
-        return nonLenientOK(element, attributeName);
+        return ProcessorResult.ok();
 	}
 }

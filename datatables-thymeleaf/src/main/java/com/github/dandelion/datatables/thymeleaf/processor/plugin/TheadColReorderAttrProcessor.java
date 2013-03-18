@@ -29,8 +29,6 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.plugin;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
@@ -38,46 +36,38 @@ import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.model.HtmlTable;
 import com.github.dandelion.datatables.core.plugin.ColReorderPlugin;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatableAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.util.Utils;
+import com.github.dandelion.datatables.thymeleaf.processor.DatatablesAttrProcessor;
 
 /**
+ * Attribute processor applied to the <code>th</code> tag to activate the
+ * ColReorder plugin.
  * 
- *
  * @author Thibault Duchateau
  */
-public class TheadColReorderAttrProcessor extends AbstractDatatableAttrProcessor {
+public class TheadColReorderAttrProcessor extends DatatablesAttrProcessor {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(TheadColReorderAttrProcessor.class);
-		
 	public TheadColReorderAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
-	
+
 	@Override
 	public int getPrecedence() {
 		return 9000;
 	}
 
 	@Override
-	protected ProcessorResult processAttribute(Arguments arguments, Element element,
-			String attributeName) {
-		logger.debug("{} attribute found", attributeName);
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
+			String attributeName, HtmlTable table) {
 
-		// Get HtmlTable POJO from the HttpServletRequest
-		HtmlTable htmlTable = Utils.getTable(arguments);
-		
 		// Get attribute value
 		Boolean attrValue = Boolean.parseBoolean(element.getAttributeValue(attributeName));
-		logger.debug("Extracted value : {}", attrValue);
 
 		// HtmlTable update
-		if(attrValue && htmlTable != null){
-			htmlTable.registerPlugin(new ColReorderPlugin());
-			((Element)element.getParent()).setAttribute("style", "");
+		if (attrValue && table != null) {
+			table.registerPlugin(new ColReorderPlugin());
+			((Element) element.getParent()).setAttribute("style", "");
 		}
 
-		return nonLenientOK(element, attributeName);
+		return ProcessorResult.ok();
 	}
 }

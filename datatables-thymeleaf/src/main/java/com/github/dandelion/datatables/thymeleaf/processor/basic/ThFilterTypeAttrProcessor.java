@@ -38,8 +38,7 @@ import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.constants.FilterType;
 import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatableAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.util.Utils;
+import com.github.dandelion.datatables.thymeleaf.processor.DatatablesAttrProcessor;
 
 /**
  * Attribute processor applied to the <code>th</code> tag for the
@@ -47,7 +46,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * 
  * @author Thibault Duchateau
  */
-public class ThFilterTypeAttrProcessor extends AbstractDatatableAttrProcessor {
+public class ThFilterTypeAttrProcessor extends DatatablesAttrProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(ThFilterTypeAttrProcessor.class);
@@ -62,15 +61,12 @@ public class ThFilterTypeAttrProcessor extends AbstractDatatableAttrProcessor {
 	}
 
 	@Override
-	protected ProcessorResult processAttribute(Arguments arguments, Element element,
-			String attributeName) {
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
+			String attributeName, HtmlTable table) {
 		logger.debug("{} attribute found", attributeName);
 
-		// Get HtmlTable POJO from the HttpServletRequest
-		HtmlTable htmlTable = Utils.getTable(arguments);
-
 		// Override default value with the attribute's one
-		if (htmlTable != null) {
+		if (table != null) {
 
 			FilterType filterType = null;
 
@@ -89,10 +85,10 @@ public class ThFilterTypeAttrProcessor extends AbstractDatatableAttrProcessor {
 			}
 			
 			if(filterType != null){
-				htmlTable.getLastHeaderRow().getLastColumn().setFilterType(filterType);				
+				table.getLastHeaderRow().getLastColumn().setFilterType(filterType);				
 			}
 		}
 
-		return nonLenientOK(element, attributeName);
+		return ProcessorResult.ok();
 	}
 }

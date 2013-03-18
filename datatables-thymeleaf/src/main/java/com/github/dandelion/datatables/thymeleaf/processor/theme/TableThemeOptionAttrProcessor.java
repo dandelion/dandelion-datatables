@@ -39,15 +39,14 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.constants.ThemeOption;
 import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatableAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.util.Utils;
+import com.github.dandelion.datatables.thymeleaf.processor.DatatablesAttrProcessor;
 
 /**
  * Attribute processor for the <code>theme</code> attribute.
  * 
  * @author Thibault Duchateau
  */
-public class TableThemeOptionAttrProcessor extends AbstractDatatableAttrProcessor {
+public class TableThemeOptionAttrProcessor extends DatatablesAttrProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TableThemeOptionAttrProcessor.class);
@@ -62,20 +61,15 @@ public class TableThemeOptionAttrProcessor extends AbstractDatatableAttrProcesso
 	}
 
 	@Override
-	protected ProcessorResult processAttribute(Arguments arguments, Element element,
-			String attributeName) {
-		logger.debug("{} attribute found", attributeName);
-
-		// Get HtmlTable POJO from the HttpServletRequest
-		HtmlTable htmlTable = Utils.getTable(arguments);
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
+			String attributeName, HtmlTable table) {
 
 		// Get attribute value
 		String attrValue = element.getAttributeValue(attributeName);
-		logger.debug("Extracted value : {}", attrValue);
 
 		// HtmlTable update
-		if (htmlTable != null) {
-			
+		if (table != null) {
+
 			ThemeOption themeOption = null;
 
 			try {
@@ -84,10 +78,10 @@ public class TableThemeOptionAttrProcessor extends AbstractDatatableAttrProcesso
 				logger.error("{} is not a valid value among {}", attrValue, ThemeOption.values());
 				throw new DataTableProcessingException(e);
 			}
-			
-			htmlTable.setThemeOption(themeOption);
+
+			table.setThemeOption(themeOption);
 		}
 
-		return nonLenientOK(element, attributeName);
+		return ProcessorResult.ok();
 	}
 }
