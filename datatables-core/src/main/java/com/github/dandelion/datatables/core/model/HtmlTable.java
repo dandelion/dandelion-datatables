@@ -619,7 +619,7 @@ public class HtmlTable extends HtmlTag {
 
 	@Override
 	public String toString() {
-		return "HtmlTable [autoWidth=" + autoWidth + ", deferRender=" + deferRender + ", info="
+		return "HtmlTable [id=" + id + ", autoWidth=" + autoWidth + ", deferRender=" + deferRender + ", info="
 				+ info + ", filterable=" + filterable + ", paginate=" + paginate
 				+ ", paginationType=" + paginationType + ", lengthChange=" + lengthChange
 				+ ", sort=" + sort + ", stateSave=" + stateSave + ", labels=" + labels + ", cdn="
