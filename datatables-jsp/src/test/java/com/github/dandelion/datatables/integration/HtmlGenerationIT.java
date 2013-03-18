@@ -28,7 +28,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.selenium;
+package com.github.dandelion.datatables.integration;
 
 import static org.fest.assertions.Assertions.assertThat;
 

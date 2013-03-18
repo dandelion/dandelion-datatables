@@ -28,7 +28,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.selenium;
+package com.github.dandelion.datatables.integration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -62,6 +62,7 @@ public abstract class DomBaseIT extends FluentAdapter {
 	private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(1024, 768);
 
 	public static final String TABLE_ID = "myTableId";
+	public static final String TABLE_ID2 = "mySecondTableId";
 	public static final String SERVER_HOST = "127.0.0.1";
 	public static final int SERVER_PORT = 9190;
 

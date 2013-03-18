@@ -28,7 +28,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.selenium.export;
+package com.github.dandelion.datatables.integration.export;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -36,7 +36,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.selenium.DomBaseIT;
+import com.github.dandelion.datatables.integration.DomBaseIT;
 
 /**
  * Test the basic Features of Dandelion-Datatables.

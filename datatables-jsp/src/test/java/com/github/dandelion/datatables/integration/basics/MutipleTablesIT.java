@@ -28,7 +28,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.selenium.basics;
+package com.github.dandelion.datatables.integration.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -36,7 +36,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.selenium.DomBaseIT;
+import com.github.dandelion.datatables.integration.DomBaseIT;
 
 /**
  * Test the multiple tables.
@@ -50,6 +50,6 @@ public class MutipleTablesIT extends DomBaseIT {
 		goTo("/basics/multiple_tables.jsp");
 		
 		assertThat(find("#" + TABLE_ID + "_wrapper")).hasSize(1);
-		assertThat(find("#mySecondTableId_wrapper")).hasSize(1);
+		assertThat(find("#" + TABLE_ID2 + "_wrapper")).hasSize(1);
 	}
 }
