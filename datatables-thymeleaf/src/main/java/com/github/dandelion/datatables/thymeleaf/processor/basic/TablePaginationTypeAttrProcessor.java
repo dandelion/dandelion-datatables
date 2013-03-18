@@ -29,22 +29,34 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
+import com.github.dandelion.datatables.core.feature.PaginationTypeBootstrapFeature;
+import com.github.dandelion.datatables.core.feature.PaginationTypeFourButtonFeature;
+import com.github.dandelion.datatables.core.feature.PaginationTypeInputFeature;
+import com.github.dandelion.datatables.core.feature.PaginationTypeListboxFeature;
+import com.github.dandelion.datatables.core.feature.PaginationTypeScrollingFeature;
 import com.github.dandelion.datatables.core.model.HtmlTable;
+import com.github.dandelion.datatables.core.model.PaginationType;
 import com.github.dandelion.datatables.thymeleaf.processor.DatatablesAttrProcessor;
 
 /**
- * Attribute processor for the <code>paginate</code> attribute.
+ * Attribute processor for the <code>paginationtype</code> attribute.
  * 
  * @author Thibault Duchateau
  */
-public class TablePaginateAttrProcessor extends DatatablesAttrProcessor {
+public class TablePaginationTypeAttrProcessor extends DatatablesAttrProcessor {
 
-	public TablePaginateAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	// Logger
+	private static Logger logger = LoggerFactory.getLogger(TablePaginationTypeAttrProcessor.class);
+
+	public TablePaginationTypeAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
@@ -52,17 +64,44 @@ public class TablePaginateAttrProcessor extends DatatablesAttrProcessor {
 	public int getPrecedence() {
 		return 8000;
 	}
-	
+
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
 			String attributeName, HtmlTable table) {
-		
-		// Get attribute value
-		Boolean attrValue = Boolean.parseBoolean(element.getAttributeValue(attributeName));
 
-		// HtmlTable update
-		table.setPaginate(attrValue);
-        
-        return ProcessorResult.ok();
+		// Get attribute value
+		String attrValue = element.getAttributeValue(attributeName).toLowerCase().trim();
+
+		if (StringUtils.isNotBlank(attrValue)) {
+			PaginationType paginationType = null;
+			try {
+				paginationType = PaginationType.valueOf(attrValue);
+			} catch (IllegalArgumentException e) {
+				logger.error("{} is not a valid value among {}", attrValue, PaginationType.values());
+				throw new IllegalArgumentException("Wrong value for PaginationType");
+			}
+
+			switch (paginationType) {
+			case bootstrap:
+				table.registerFeature(new PaginationTypeBootstrapFeature());
+				break;
+			case input:
+				table.registerFeature(new PaginationTypeInputFeature());
+				break;
+			case listbox:
+				table.registerFeature(new PaginationTypeListboxFeature());
+				break;
+			case scrolling:
+				table.registerFeature(new PaginationTypeScrollingFeature());
+				break;
+			case four_button:
+				table.registerFeature(new PaginationTypeFourButtonFeature());
+				break;
+			default:
+				break;
+			}
+		}
+
+		return ProcessorResult.ok();
 	}
 }
