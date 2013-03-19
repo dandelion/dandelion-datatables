@@ -50,7 +50,6 @@ public class CdnIT extends DomBaseIT {
 	public void should_disable_paging() throws IOException, Exception {
 		goTo("/basics/table_cdn.jsp");
 
-		System.out.println(driver.getPageSource());
 		assertThat(getHtmlBody().findFirst("link").getAttribute("href")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_CSS);
 		assertThat(getHtmlBody().findFirst("script").getAttribute("src")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_JS_MIN);
 	}

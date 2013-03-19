@@ -53,15 +53,4 @@ public class CustomColumnContentIT extends DomBaseIT {
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getAttribute("href")).isEqualTo("mailto:venenatis@Duisvolutpat.com");
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getText()).isEqualTo("venenatis@Duisvolutpat.com");
 	}
-	
-	
-	@Test
-	public void should_not_anything() throws IOException, Exception {
-		goTo("/basics/wrong_custom_column_content.jsp");
-
-		System.out.println(driver.getPageSource());
-//		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
-//		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getAttribute("href")).isEqualTo("mailto:venenatis@Duisvolutpat.com");
-//		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getText()).isEqualTo("venenatis@Duisvolutpat.com");
-	}
 }
