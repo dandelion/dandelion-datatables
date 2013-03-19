@@ -51,6 +51,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.basic.TableAppearAttr
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableAutoWidthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableCdnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableExportAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.basic.TableExportLinksAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableFilterAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableInfoAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableLabelsAttrProcessor;
@@ -130,6 +131,7 @@ public class DataTablesDialect extends AbstractDialect {
 		
 		// Feature processors
 		processors.add(new TableExportAttrProcessor(new AttributeNameProcessorMatcher("export", "table")));
+		processors.add(new TableExportLinksAttrProcessor(new AttributeNameProcessorMatcher("exportLinks", "table")));
 		processors.add(new ThExportFilenameAttrProcessor(new AttributeNameProcessorMatcher("filename", "th")));
 		
 		processors.add(new TbodyExportHeaderAttrProcessor(new AttributeNameProcessorMatcher("csv:header", "tbody")));
