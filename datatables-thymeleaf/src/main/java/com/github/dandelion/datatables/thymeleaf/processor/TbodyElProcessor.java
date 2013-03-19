@@ -64,7 +64,6 @@ public class TbodyElProcessor extends AbstractElementProcessor {
 
 						trChildTag.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":data",
 								"internalUse");
-						// trChildTag.setRecomputeProcessorsImmediately(true);
 
 						for (Node grandchild : trChildTag.getChildren()) {
 
@@ -77,7 +76,6 @@ public class TbodyElProcessor extends AbstractElementProcessor {
 								// The td nodes must be processed too (for
 								// HtmlColumn creation)
 								tdChildTag.setProcessable(true);
-								// tdChildTag.setRecomputeProcessorsImmediately(true);
 							}
 						}
 					}
@@ -85,6 +83,6 @@ public class TbodyElProcessor extends AbstractElementProcessor {
 			}
 		}
 
-		return ProcessorResult.OK;
+		return ProcessorResult.ok();
 	}
 }
