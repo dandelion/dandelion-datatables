@@ -43,6 +43,7 @@ import org.fluentlenium.core.FluentAdapter;
 import org.fluentlenium.core.domain.FluentList;
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -88,7 +89,7 @@ public abstract class DomBaseIT extends FluentAdapter {
 		server.addConnector(connector);
 
 		context = new WebAppContext("src/test/webapp", "/");
-		
+
 		// Add support for JSP
 		ServletHolder jsp = context.addServlet(JspServlet.class, "*.jsp");
 		jsp.setInitParameter("classpath", context.getClassPath());
@@ -100,10 +101,6 @@ public abstract class DomBaseIT extends FluentAdapter {
 
 		server.setHandler(context);
 		server.setStopAtShutdown(true);
-	}
-
-	@Before
-	public void start_server() {
 
 		try {
 			server.start();
@@ -112,8 +109,8 @@ public abstract class DomBaseIT extends FluentAdapter {
 		}
 	}
 
-	@After
-	public void stop_server() {
+	@AfterClass
+	public static void stop_server() {
 		try {
 			server.stop();
 		} catch (Exception e) {
@@ -172,10 +169,10 @@ public abstract class DomBaseIT extends FluentAdapter {
 	public FluentWebElement getHtmlBody() {
 		return findFirst("body");
 	}
-	
-	public JsResource getCurrentMainConfiguration(){
-		for(Entry<String, Object> entry : AssetCache.cache.entrySet()){
-			return ((WebResources)entry.getValue()).getMainJsFile();
+
+	public JsResource getCurrentMainConfiguration() {
+		for (Entry<String, Object> entry : AssetCache.cache.entrySet()) {
+			return ((WebResources) entry.getValue()).getMainJsFile();
 		}
 		return null;
 	}
