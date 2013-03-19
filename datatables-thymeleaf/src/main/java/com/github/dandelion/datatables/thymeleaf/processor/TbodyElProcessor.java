@@ -36,13 +36,6 @@ public class TbodyElProcessor extends AbstractElementProcessor {
 		return 4000;
 	}
 
-	/**
-	 * 
-	 * Parler de ça : Ability to precompute the processors to be applied to
-	 * nodes, so that the sequence of operations to be performed at each node
-	 * during template processing can be cached along with the DOM tree itself
-	 * in many scenarios, significantly reducing processing time.
-	 */
 	@Override
 	protected ProcessorResult processElement(Arguments arguments, Element element) {
 		logger.debug("{} element found", element.getNormalizedName());

@@ -101,7 +101,6 @@ public class ExportTag extends TagSupport {
 			}
 
 			// Export URL build
-			
 			String url = RequestHelper.getCurrentUrlWithParameters(request);
 			if(url.contains("?")){
 				url += "&";

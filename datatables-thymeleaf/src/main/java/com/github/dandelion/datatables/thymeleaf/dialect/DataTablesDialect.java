@@ -61,6 +61,12 @@ import com.github.dandelion.datatables.thymeleaf.processor.basic.ThFilterTypeAtt
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThFilterableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSearchableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportAutoSizeAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportFilenameAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportHeaderAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportLinkClassAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportLinkLabelAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportLinkStyleAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.ThExportFilenameAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.plugin.TheadColReorderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.plugin.TheadFixedHeaderAttrProcessor;
@@ -125,6 +131,39 @@ public class DataTablesDialect extends AbstractDialect {
 		// Feature processors
 		processors.add(new TableExportAttrProcessor(new AttributeNameProcessorMatcher("export", "table")));
 		processors.add(new ThExportFilenameAttrProcessor(new AttributeNameProcessorMatcher("filename", "th")));
+		
+		processors.add(new TbodyExportHeaderAttrProcessor(new AttributeNameProcessorMatcher("csv:header", "tbody")));
+		processors.add(new TbodyExportHeaderAttrProcessor(new AttributeNameProcessorMatcher("pdf:header", "tbody")));
+		processors.add(new TbodyExportHeaderAttrProcessor(new AttributeNameProcessorMatcher("xls:header", "tbody")));
+		processors.add(new TbodyExportHeaderAttrProcessor(new AttributeNameProcessorMatcher("xlsx:header", "tbody")));
+		processors.add(new TbodyExportHeaderAttrProcessor(new AttributeNameProcessorMatcher("xml:header", "tbody")));
+		
+		processors.add(new TbodyExportAutoSizeAttrProcessor(new AttributeNameProcessorMatcher("xls:autosize", "tbody")));
+		processors.add(new TbodyExportAutoSizeAttrProcessor(new AttributeNameProcessorMatcher("xlsx:autosize", "tbody")));
+		
+		processors.add(new TbodyExportLinkClassAttrProcessor(new AttributeNameProcessorMatcher("csv:class", "tbody")));
+		processors.add(new TbodyExportLinkClassAttrProcessor(new AttributeNameProcessorMatcher("pdf:class", "tbody")));
+		processors.add(new TbodyExportLinkClassAttrProcessor(new AttributeNameProcessorMatcher("xls:class", "tbody")));
+		processors.add(new TbodyExportLinkClassAttrProcessor(new AttributeNameProcessorMatcher("xlsx:class", "tbody")));
+		processors.add(new TbodyExportLinkClassAttrProcessor(new AttributeNameProcessorMatcher("xml:class", "tbody")));
+		
+		processors.add(new TbodyExportLinkStyleAttrProcessor(new AttributeNameProcessorMatcher("csv:style", "tbody")));
+		processors.add(new TbodyExportLinkStyleAttrProcessor(new AttributeNameProcessorMatcher("pdf:style", "tbody")));
+		processors.add(new TbodyExportLinkStyleAttrProcessor(new AttributeNameProcessorMatcher("xls:style", "tbody")));
+		processors.add(new TbodyExportLinkStyleAttrProcessor(new AttributeNameProcessorMatcher("xlsx:style", "tbody")));
+		processors.add(new TbodyExportLinkStyleAttrProcessor(new AttributeNameProcessorMatcher("xml:style", "tbody")));
+		
+		processors.add(new TbodyExportLinkLabelAttrProcessor(new AttributeNameProcessorMatcher("csv:label", "tbody")));
+		processors.add(new TbodyExportLinkLabelAttrProcessor(new AttributeNameProcessorMatcher("pdf:label", "tbody")));
+		processors.add(new TbodyExportLinkLabelAttrProcessor(new AttributeNameProcessorMatcher("xls:label", "tbody")));
+		processors.add(new TbodyExportLinkLabelAttrProcessor(new AttributeNameProcessorMatcher("xlsx:label", "tbody")));
+		processors.add(new TbodyExportLinkLabelAttrProcessor(new AttributeNameProcessorMatcher("xml:label", "tbody")));
+		
+		processors.add(new TbodyExportFilenameAttrProcessor(new AttributeNameProcessorMatcher("csv:filename", "tbody")));
+		processors.add(new TbodyExportFilenameAttrProcessor(new AttributeNameProcessorMatcher("pdf:filename", "tbody")));
+		processors.add(new TbodyExportFilenameAttrProcessor(new AttributeNameProcessorMatcher("xls:filename", "tbody")));
+		processors.add(new TbodyExportFilenameAttrProcessor(new AttributeNameProcessorMatcher("xlsx:filename", "tbody")));
+		processors.add(new TbodyExportFilenameAttrProcessor(new AttributeNameProcessorMatcher("xml:filename", "tbody")));
 		
 		// AJAX processors
 		processors.add(new TableUrlAttrProcessor(new AttributeNameProcessorMatcher("url", "table")));
