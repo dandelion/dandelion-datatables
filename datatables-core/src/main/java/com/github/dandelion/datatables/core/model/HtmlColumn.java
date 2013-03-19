@@ -74,6 +74,13 @@ public class HtmlColumn extends HtmlTag {
 		this.isHeaderColumn = false;
 	};
 
+	public HtmlColumn(DisplayType displayType) {
+		init();
+		this.enabledDisplayTypes.clear();
+		this.enabledDisplayTypes.add(displayType);
+		this.isHeaderColumn = false;
+	};
+	
 	public HtmlColumn(Boolean isHeader) {
 		init();
 		this.isHeaderColumn = isHeader;
