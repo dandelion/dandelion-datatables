@@ -40,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.model.Callback;
 import com.github.dandelion.datatables.core.model.DisplayType;
 import com.github.dandelion.datatables.core.model.HtmlColumn;
 import com.github.dandelion.datatables.core.model.HtmlTable;
@@ -174,6 +175,13 @@ public class MainGenerator {
 
         	if(StringUtils.isNotBlank(table.getDatasourceUrl())){
         		mainConf.put(DTConstants.DT_S_AJAX_SOURCE, table.getDatasourceUrl());
+        	}
+        }
+        
+        // Callbacks
+        if(table.getCallbacks() != null){
+        	for(Callback callback : table.getCallbacks()){
+        		mainConf.put(callback.getType().getFunction(), new JavascriptSnippet(callback.getFunction()));
         	}
         }
         

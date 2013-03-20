@@ -55,7 +55,6 @@ public class DTConstants {
 	public static final String DT_S_AJAX_SOURCE = "sAjaxSource";
 	public static final String DT_FN_SERVERDATA = "fnServerData";
 	public static final String DT_S_AJAXDATAPROP = "sAjaxDataProp";
-	public static final String DT_FN_INIT_COMPLETE = "fnInitComplete";
 		 
 	// AJAX URL parameters
 	public static final String DT_S_ECHO = "sEcho";
@@ -93,4 +92,16 @@ public class DTConstants {
 	public static final String DT_SORT_DIR = "asSorting";
 	public static final String DT_DATA = "mData";
 	public static final String DT_COLUMN_RENDERER = "mRender";
+	
+	// Callbacks
+	public static final String DT_FN_COOKIE_CBK = "fnCookieCallback";
+	public static final String DT_FN_CREATED_ROW = "fnCreatedRow";
+	public static final String DT_FN_DRAW_CBK = "fnDrawCallback";
+	public static final String DT_FN_FOOTER_CBK = "fnFooterCallback";
+	public static final String DT_FN_FORMAT_NUMBER = "fnFormatNumber";
+	public static final String DT_FN_HEADER_CBK = "fnHeaderCallback";
+	public static final String DT_FN_INFO_CBK = "fnInfoCallback";
+	public static final String DT_FN_INIT_COMPLETE = "fnInitComplete";
+	public static final String DT_FN_PRE_DRAW_CBK = "fnPreDrawCallback";
+	public static final String DT_FN_ROW_CBK = "fnRowCallback";
 }

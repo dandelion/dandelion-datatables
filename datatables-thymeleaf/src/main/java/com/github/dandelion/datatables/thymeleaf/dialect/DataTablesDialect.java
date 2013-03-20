@@ -62,6 +62,16 @@ import com.github.dandelion.datatables.thymeleaf.processor.basic.ThFilterTypeAtt
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThFilterableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSearchableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackCookieProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackCreatedRowProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackDrawProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackFooterProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackFormatNumberProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackHeaderProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackInfoProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackInitProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackPreDrawProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackRowProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportAutoSizeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportFilenameAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportHeaderAttrProcessor;
@@ -177,6 +187,18 @@ public class DataTablesDialect extends AbstractDialect {
 		processors.add(new TableThemeAttrProcessor(new AttributeNameProcessorMatcher("theme", "table")));
 		processors.add(new TableThemeOptionAttrProcessor(new AttributeNameProcessorMatcher("themeOption", "table")));
 
+		// Callbacks
+		processors.add(new TbodyCallbackCookieProcessor(new AttributeNameProcessorMatcher("cbk:cookie", "tbody")));
+		processors.add(new TbodyCallbackCreatedRowProcessor(new AttributeNameProcessorMatcher("cbk:createdrow", "tbody")));
+		processors.add(new TbodyCallbackDrawProcessor(new AttributeNameProcessorMatcher("cbk:draw", "tbody")));
+		processors.add(new TbodyCallbackFooterProcessor(new AttributeNameProcessorMatcher("cbk:footer", "tbody")));
+		processors.add(new TbodyCallbackFormatNumberProcessor(new AttributeNameProcessorMatcher("cbk:format", "tbody")));
+		processors.add(new TbodyCallbackHeaderProcessor(new AttributeNameProcessorMatcher("cbk:header", "tbody")));
+		processors.add(new TbodyCallbackInfoProcessor(new AttributeNameProcessorMatcher("cbk:info", "tbody")));
+		processors.add(new TbodyCallbackInitProcessor(new AttributeNameProcessorMatcher("cbk:init", "tbody")));
+		processors.add(new TbodyCallbackPreDrawProcessor(new AttributeNameProcessorMatcher("cbk:predraw", "tbody")));
+		processors.add(new TbodyCallbackRowProcessor(new AttributeNameProcessorMatcher("cbk:row", "tbody")));
+		
 		return processors;
 	}
 }

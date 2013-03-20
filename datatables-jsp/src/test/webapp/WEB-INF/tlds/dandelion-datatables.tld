@@ -579,4 +579,25 @@
           <name>autoSize</name>
       </attribute>
    </tag>
+   
+   <!-- ====================================== -->
+   <!-- Callback -->
+   <!-- ====================================== -->
+   <tag>
+       <description>Add a DataTables callback.</description>
+       <name>callback</name>
+       <tag-class>com.github.dandelion.datatables.jsp.tag.CallbackTag</tag-class>
+       <body-content>empty</body-content>
+      <attribute>
+          <description>Type of callback</description>
+          <name>type</name>
+          <required>true</required>
+      </attribute>
+      <attribute>
+          <description>Name of the function to execute as a callback</description>
+          <name>function</name>
+          <required>true</required>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+   </tag>
 </taglib>

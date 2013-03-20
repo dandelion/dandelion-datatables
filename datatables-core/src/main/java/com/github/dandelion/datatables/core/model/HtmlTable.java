@@ -77,6 +77,7 @@ public class HtmlTable extends HtmlTag {
 	private String scrollY;
 	private String fixedPosition;
 	private Integer fixedOffsetTop;
+	private List<Callback> callbacks;
 
 	// Internal attributes
 	private List<HtmlRow> head = new LinkedList<HtmlRow>();
@@ -617,6 +618,21 @@ public class HtmlTable extends HtmlTag {
 		this.jsonp = jsonp;
 	}
 
+	public List<Callback> getCallbacks() {
+		return callbacks;
+	}
+
+	public void setCallbacks(List<Callback> callbacks) {
+		this.callbacks = callbacks;
+	}
+	
+	public void registerCallback(Callback callback){
+		if (this.callbacks == null) {
+			this.callbacks = new ArrayList<Callback>();
+		}
+		this.callbacks.add(callback);
+	}
+	
 	@Override
 	public String toString() {
 		return "HtmlTable [id=" + id + ", autoWidth=" + autoWidth + ", deferRender=" + deferRender + ", info="
