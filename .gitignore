@@ -8,3 +8,4 @@ rebel.xml
 /datatables-jsp/snapshots
 /JArchitectOut
 /dandelion_datatables.jdproj
+*.iml

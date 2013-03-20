@@ -111,94 +111,15 @@ public class DataTablesDialect extends AbstractDialect {
 	public Set<IProcessor> getProcessors() {
 		final Set<IProcessor> processors = new HashSet<IProcessor>();
 		
-		// Core processors
-		processors.add(new TableInitializerElProcessor(new ElementNameWithoutPrefixProcessorMatcher("table", DIALECT_PREFIX + ":table", "true")));
-		processors.add(new TableFinalizerElProcessor(new ElementNameWithoutPrefixProcessorMatcher("div", DIALECT_PREFIX + ":tmp", "internalUse")));
-		processors.add(new ColumnInitializerElProcessor(new ElementNameWithoutPrefixProcessorMatcher("th")));
-		processors.add(new TbodyElProcessor(new ElementNameWithoutPrefixProcessorMatcher("tbody")));
-		processors.add(new TrElProcessor(new ElementNameWithoutPrefixProcessorMatcher("tr", DIALECT_PREFIX + ":data", "internalUse")));
-		processors.add(new TdElProcessor(new ElementNameWithoutPrefixProcessorMatcher("td", DIALECT_PREFIX + ":data", "internalUse")));
+		// Element processors
+        for(DataTablesElProcessor processor:DataTablesElProcessor.values()) {
+            processors.add(processor.getProcessor());
+        }
 
-		// Basic processors
-		processors.add(new TableAutoWidthAttrProcessor(new AttributeNameProcessorMatcher("autowidth", "table")));
-		processors.add(new TableCdnAttrProcessor(new AttributeNameProcessorMatcher("cdn", "table")));
-		processors.add(new TableFilterAttrProcessor(new AttributeNameProcessorMatcher("filter", "table")));
-		processors.add(new TableInfoAttrProcessor(new AttributeNameProcessorMatcher("info", "table")));
-		processors.add(new TablePaginateAttrProcessor(new AttributeNameProcessorMatcher("paginate", "table")));
-		processors.add(new TableSortAttrProcessor(new AttributeNameProcessorMatcher("sort", "table")));
-		processors.add(new TableAppearAttrProcessor(new AttributeNameProcessorMatcher("appear", "table")));
-		processors.add(new ThSortableAttrProcessor(new AttributeNameProcessorMatcher("sortable", "th")));
-		processors.add(new ThFilterableAttrProcessor(new AttributeNameProcessorMatcher("filterable", "th")));
-		processors.add(new ThSearchableAttrProcessor(new AttributeNameProcessorMatcher("searchable", "th")));
-		processors.add(new ThFilterTypeAttrProcessor(new AttributeNameProcessorMatcher("filterType", "th")));
-		processors.add(new TableLabelsAttrProcessor(new AttributeNameProcessorMatcher("labels", "table")));
-		processors.add(new TablePaginationTypeAttrProcessor(new AttributeNameProcessorMatcher("paginationtype", "table")));
-		
-		// Plugin processors
-		processors.add(new TheadScrollerAttrProcessor(new AttributeNameProcessorMatcher("scroller", "thead")));
-		processors.add(new TheadColReorderAttrProcessor(new AttributeNameProcessorMatcher("colreorder", "thead")));
-		processors.add(new TheadFixedHeaderAttrProcessor(new AttributeNameProcessorMatcher("fixedheader", "thead")));
-		
-		// Feature processors
-		processors.add(new TableExportAttrProcessor(new AttributeNameProcessorMatcher("export", "table")));
-		processors.add(new TableExportLinksAttrProcessor(new AttributeNameProcessorMatcher("exportLinks", "table")));
-		processors.add(new ThExportFilenameAttrProcessor(new AttributeNameProcessorMatcher("filename", "th")));
-		
-		processors.add(new TbodyExportHeaderAttrProcessor(new AttributeNameProcessorMatcher("csv:header", "tbody")));
-		processors.add(new TbodyExportHeaderAttrProcessor(new AttributeNameProcessorMatcher("pdf:header", "tbody")));
-		processors.add(new TbodyExportHeaderAttrProcessor(new AttributeNameProcessorMatcher("xls:header", "tbody")));
-		processors.add(new TbodyExportHeaderAttrProcessor(new AttributeNameProcessorMatcher("xlsx:header", "tbody")));
-		processors.add(new TbodyExportHeaderAttrProcessor(new AttributeNameProcessorMatcher("xml:header", "tbody")));
-		
-		processors.add(new TbodyExportAutoSizeAttrProcessor(new AttributeNameProcessorMatcher("xls:autosize", "tbody")));
-		processors.add(new TbodyExportAutoSizeAttrProcessor(new AttributeNameProcessorMatcher("xlsx:autosize", "tbody")));
-		
-		processors.add(new TbodyExportLinkClassAttrProcessor(new AttributeNameProcessorMatcher("csv:class", "tbody")));
-		processors.add(new TbodyExportLinkClassAttrProcessor(new AttributeNameProcessorMatcher("pdf:class", "tbody")));
-		processors.add(new TbodyExportLinkClassAttrProcessor(new AttributeNameProcessorMatcher("xls:class", "tbody")));
-		processors.add(new TbodyExportLinkClassAttrProcessor(new AttributeNameProcessorMatcher("xlsx:class", "tbody")));
-		processors.add(new TbodyExportLinkClassAttrProcessor(new AttributeNameProcessorMatcher("xml:class", "tbody")));
-		
-		processors.add(new TbodyExportLinkStyleAttrProcessor(new AttributeNameProcessorMatcher("csv:style", "tbody")));
-		processors.add(new TbodyExportLinkStyleAttrProcessor(new AttributeNameProcessorMatcher("pdf:style", "tbody")));
-		processors.add(new TbodyExportLinkStyleAttrProcessor(new AttributeNameProcessorMatcher("xls:style", "tbody")));
-		processors.add(new TbodyExportLinkStyleAttrProcessor(new AttributeNameProcessorMatcher("xlsx:style", "tbody")));
-		processors.add(new TbodyExportLinkStyleAttrProcessor(new AttributeNameProcessorMatcher("xml:style", "tbody")));
-		
-		processors.add(new TbodyExportLinkLabelAttrProcessor(new AttributeNameProcessorMatcher("csv:label", "tbody")));
-		processors.add(new TbodyExportLinkLabelAttrProcessor(new AttributeNameProcessorMatcher("pdf:label", "tbody")));
-		processors.add(new TbodyExportLinkLabelAttrProcessor(new AttributeNameProcessorMatcher("xls:label", "tbody")));
-		processors.add(new TbodyExportLinkLabelAttrProcessor(new AttributeNameProcessorMatcher("xlsx:label", "tbody")));
-		processors.add(new TbodyExportLinkLabelAttrProcessor(new AttributeNameProcessorMatcher("xml:label", "tbody")));
-		
-		processors.add(new TbodyExportFilenameAttrProcessor(new AttributeNameProcessorMatcher("csv:filename", "tbody")));
-		processors.add(new TbodyExportFilenameAttrProcessor(new AttributeNameProcessorMatcher("pdf:filename", "tbody")));
-		processors.add(new TbodyExportFilenameAttrProcessor(new AttributeNameProcessorMatcher("xls:filename", "tbody")));
-		processors.add(new TbodyExportFilenameAttrProcessor(new AttributeNameProcessorMatcher("xlsx:filename", "tbody")));
-		processors.add(new TbodyExportFilenameAttrProcessor(new AttributeNameProcessorMatcher("xml:filename", "tbody")));
-		
-		// AJAX processors
-		processors.add(new TableUrlAttrProcessor(new AttributeNameProcessorMatcher("url", "table")));
-		processors.add(new TableServerSideAttrProcessor(new AttributeNameProcessorMatcher("serverside", "table")));
-		processors.add(new TablePipeliningAttrProcessor(new AttributeNameProcessorMatcher("pipelining", "table")));
-		processors.add(new TablePipeSizeAttrProcessor(new AttributeNameProcessorMatcher("pipesize", "table")));
-		
-		// Theme processors
-		processors.add(new TableThemeAttrProcessor(new AttributeNameProcessorMatcher("theme", "table")));
-		processors.add(new TableThemeOptionAttrProcessor(new AttributeNameProcessorMatcher("themeOption", "table")));
-
-		// Callbacks
-		processors.add(new TbodyCallbackCookieProcessor(new AttributeNameProcessorMatcher("cbk:cookie", "tbody")));
-		processors.add(new TbodyCallbackCreatedRowProcessor(new AttributeNameProcessorMatcher("cbk:createdrow", "tbody")));
-		processors.add(new TbodyCallbackDrawProcessor(new AttributeNameProcessorMatcher("cbk:draw", "tbody")));
-		processors.add(new TbodyCallbackFooterProcessor(new AttributeNameProcessorMatcher("cbk:footer", "tbody")));
-		processors.add(new TbodyCallbackFormatNumberProcessor(new AttributeNameProcessorMatcher("cbk:format", "tbody")));
-		processors.add(new TbodyCallbackHeaderProcessor(new AttributeNameProcessorMatcher("cbk:header", "tbody")));
-		processors.add(new TbodyCallbackInfoProcessor(new AttributeNameProcessorMatcher("cbk:info", "tbody")));
-		processors.add(new TbodyCallbackInitProcessor(new AttributeNameProcessorMatcher("cbk:init", "tbody")));
-		processors.add(new TbodyCallbackPreDrawProcessor(new AttributeNameProcessorMatcher("cbk:predraw", "tbody")));
-		processors.add(new TbodyCallbackRowProcessor(new AttributeNameProcessorMatcher("cbk:row", "tbody")));
-		
-		return processors;
+        // Attribute processors
+        for(DataTablesAttrProcessor processor:DataTablesAttrProcessor.values()) {
+            processors.add(processor.getProcessor());
+        }
+        return processors;
 	}
 }
