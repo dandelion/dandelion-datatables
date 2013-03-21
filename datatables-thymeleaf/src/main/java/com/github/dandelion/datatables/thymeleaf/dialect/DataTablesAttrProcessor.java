@@ -30,6 +30,7 @@
 
 package com.github.dandelion.datatables.thymeleaf.dialect;
 
+import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.thymeleaf.processor.DatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.ajax.TablePipeSizeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.ajax.TablePipeliningAttrProcessor;
@@ -46,6 +47,11 @@ import org.thymeleaf.processor.AttributeNameProcessorMatcher;
 
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * All attribute processors used by Dandelion-DataTables.
+ *
+ * @since 0.8.9
+ */
 public enum DataTablesAttrProcessor {
     // Basic processors
     BASIC_AUTO_WIDTH(TableAutoWidthAttrProcessor.class, "autowidth", "table"),
@@ -115,7 +121,7 @@ public enum DataTablesAttrProcessor {
     THEME(TableThemeAttrProcessor.class, "theme", "table"),
     THEME_OPTION(TableThemeOptionAttrProcessor.class, "themeOption", "table"),
 
-    // Callbacks
+    // Callbacks processors
     CALLBACK_COOKIE(TbodyCallbackCookieProcessor.class, "cbk:cookie", "tbody"),
     CALLBACK_CREATE_ROW(TbodyCallbackCreatedRowProcessor.class, "cbk:createdrow", "tbody"),
     CALLBACK_DRAW(TbodyCallbackDrawProcessor.class, "cbk:draw", "tbody"),
@@ -143,18 +149,13 @@ public enum DataTablesAttrProcessor {
         try {
             return processorClass.getDeclaredConstructor(AttributeNameProcessorMatcher.class).newInstance(matcher);
         } catch (InstantiationException e) {
-            // TODO add a logger
-            e.printStackTrace();
+        	throw new DataTableProcessingException(e);
         } catch (IllegalAccessException e) {
-            // TODO add a logger
-            e.printStackTrace();
+        	throw new DataTableProcessingException(e);
         } catch (InvocationTargetException e) {
-            // TODO add a logger
-            e.printStackTrace();
+        	throw new DataTableProcessingException(e);
         } catch (NoSuchMethodException e) {
-            // TODO add a logger
-            e.printStackTrace();
+        	throw new DataTableProcessingException(e);
         }
-        return null;
     }
 }

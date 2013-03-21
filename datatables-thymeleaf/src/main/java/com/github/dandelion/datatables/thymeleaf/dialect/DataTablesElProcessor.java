@@ -30,6 +30,7 @@
 
 package com.github.dandelion.datatables.thymeleaf.dialect;
 
+import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.thymeleaf.matcher.ElementNameWithoutPrefixProcessorMatcher;
 import com.github.dandelion.datatables.thymeleaf.processor.*;
 import org.thymeleaf.processor.element.AbstractElementProcessor;
@@ -38,6 +39,11 @@ import java.lang.reflect.InvocationTargetException;
 
 import static com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect.DIALECT_PREFIX;
 
+/**
+ * All element processors used by Dandelion-DataTables.
+ *
+ * @since 0.8.9
+ */
 public enum DataTablesElProcessor {
     TABLE_INITIALIZER(TableInitializerElProcessor.class, "table", DIALECT_PREFIX + ":table", "true"),
     TABLE_FINALIZER(TableFinalizerElProcessor.class, "div", DIALECT_PREFIX + ":tmp", "internalUse"),
@@ -80,18 +86,13 @@ public enum DataTablesElProcessor {
         try {
             return processorClass.getDeclaredConstructor(ElementNameWithoutPrefixProcessorMatcher.class).newInstance(matcher);
         } catch (InstantiationException e) {
-            // TODO add a logger
-            e.printStackTrace();
+        	throw new DataTableProcessingException(e);
         } catch (IllegalAccessException e) {
-            // TODO add a logger
-            e.printStackTrace();
+        	throw new DataTableProcessingException(e);
         } catch (InvocationTargetException e) {
-            // TODO add a logger
-            e.printStackTrace();
+        	throw new DataTableProcessingException(e);
         } catch (NoSuchMethodException e) {
-            // TODO add a logger
-            e.printStackTrace();
+        	throw new DataTableProcessingException(e);
         }
-        return null;
     }
 }
