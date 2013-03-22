@@ -39,7 +39,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.constants.ThemeOption;
 import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.processor.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
 
 /**
  * Attribute processor for the <code>theme</code> attribute.

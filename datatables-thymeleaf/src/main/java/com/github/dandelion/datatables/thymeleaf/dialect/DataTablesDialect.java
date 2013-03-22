@@ -45,7 +45,7 @@ public class DataTablesDialect extends AbstractDialect {
 	public static final String DIALECT_PREFIX = "dt";
 	public static final String LAYOUT_NAMESPACE = "http://www.thymeleaf.org/dandelion/datatables";
 	public static final int DT_HIGHEST_PRECEDENCE = 3500;
-	
+
 	public String getPrefix() {
 		return DIALECT_PREFIX;
 	}
@@ -60,16 +60,16 @@ public class DataTablesDialect extends AbstractDialect {
 	@Override
 	public Set<IProcessor> getProcessors() {
 		final Set<IProcessor> processors = new HashSet<IProcessor>();
-		
-		// Element processors
-        for(DataTablesElProcessor processor:DataTablesElProcessor.values()) {
-            processors.add(processor.getProcessor());
-        }
 
-        // Attribute processors
-        for(DataTablesAttrProcessor processor:DataTablesAttrProcessor.values()) {
-            processors.add(processor.getProcessor());
-        }
-        return processors;
+		// Element processors
+		for (DatatablesElProcessors processor : DatatablesElProcessors.values()) {
+			processors.add(processor.getProcessor());
+		}
+
+		// Attribute processors
+		for (DatatablesAttrProcessors processor : DatatablesAttrProcessors.values()) {
+			processors.add(processor.getProcessor());
+		}
+		return processors;
 	}
 }

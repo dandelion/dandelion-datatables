@@ -37,7 +37,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.model.Callback;
 import com.github.dandelion.datatables.core.model.CallbackType;
 import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.processor.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
 
 /**
  * Attribute processor applied to the <code>tbody</code> tag for the

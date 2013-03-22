@@ -10,18 +10,17 @@ import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Text;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
-import org.thymeleaf.processor.element.AbstractElementProcessor;
 
 import com.github.dandelion.datatables.core.model.HtmlColumn;
 import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.util.Utils;
+import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
 
 /**
  * TODO
  * 
  * @author Thibault Duchateau
  */
-public class ColumnInitializerElProcessor extends AbstractElementProcessor {
+public class ColumnInitializerElProcessor extends DatatablesElProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(ColumnInitializerElProcessor.class);
@@ -36,12 +35,9 @@ public class ColumnInitializerElProcessor extends AbstractElementProcessor {
 	}
 
 	@Override
-	protected ProcessorResult processElement(Arguments arguments, Element element) {
+	protected ProcessorResult doProcessElement(Arguments arguments, Element element, HtmlTable table) {
 		logger.debug("{} element found", element.getNormalizedName());
 
-		// Get HtmlTable POJO from the HttpServletRequest
-		HtmlTable htmlTable = Utils.getTable(arguments);		
-				
 		// Get the TH content
 		String content = null;
 		if(element.getFirstChild() instanceof Text){
@@ -75,8 +71,8 @@ public class ColumnInitializerElProcessor extends AbstractElementProcessor {
 		}
 		
 		// Add it to the table
-		if(htmlTable != null){
-			htmlTable.getLastHeaderRow().addHeaderColumn(htmlColumn);			
+		if(table != null){
+			table.getLastHeaderRow().addHeaderColumn(htmlColumn);			
 		}
 
 		// HtmlColumn POJO is made available during the TH element processing

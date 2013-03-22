@@ -15,7 +15,6 @@ import org.thymeleaf.dom.Node;
 import org.thymeleaf.dom.Text;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
-import org.thymeleaf.processor.element.AbstractElementProcessor;
 
 import com.github.dandelion.datatables.core.aggregator.ResourceAggregator;
 import com.github.dandelion.datatables.core.cache.AssetCache;
@@ -38,8 +37,8 @@ import com.github.dandelion.datatables.core.model.JsResource;
 import com.github.dandelion.datatables.core.model.WebResources;
 import com.github.dandelion.datatables.core.util.DandelionUtils;
 import com.github.dandelion.datatables.core.util.RequestHelper;
+import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.DomUtils;
-import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * <p>
@@ -50,7 +49,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * 
  * @author Thibault Duchateau
  */
-public class TableFinalizerElProcessor extends AbstractElementProcessor {
+public class TableFinalizerElProcessor extends DatatablesElProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TableFinalizerElProcessor.class);
@@ -67,12 +66,12 @@ public class TableFinalizerElProcessor extends AbstractElementProcessor {
 	}
 
 	@Override
-	protected ProcessorResult processElement(Arguments arguments, Element element) {
+	protected ProcessorResult doProcessElement(Arguments arguments, Element element, HtmlTable table) {
 
 		// Get the HTTP request
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 
-        this.htmlTable = Utils.getTable(arguments);
+        this.htmlTable = table;
 
 		if (this.htmlTable != null) {
 

@@ -42,7 +42,7 @@ import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.model.HtmlTable;
 import com.github.dandelion.datatables.core.util.RequestHelper;
-import com.github.dandelion.datatables.thymeleaf.processor.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
 
 /**
  * Attribute processor applied to the <code>tbody</code> tag for the following

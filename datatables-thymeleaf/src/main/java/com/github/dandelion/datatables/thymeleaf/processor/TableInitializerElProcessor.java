@@ -9,7 +9,6 @@ import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
-import org.thymeleaf.processor.element.AbstractElementProcessor;
 
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.model.HtmlTable;
@@ -17,6 +16,7 @@ import com.github.dandelion.datatables.core.properties.PropertiesLoader;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 import com.github.dandelion.datatables.core.util.ResourceHelper;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
+import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
 
 /**
  * <p>
@@ -24,7 +24,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
  * 
  * @author Thibault Duchateau
  */
-public class TableInitializerElProcessor extends AbstractElementProcessor {
+public class TableInitializerElProcessor extends DatatablesElProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TableInitializerElProcessor.class);
@@ -39,7 +39,7 @@ public class TableInitializerElProcessor extends AbstractElementProcessor {
 	}
 
 	@Override
-	protected ProcessorResult processElement(Arguments arguments, Element element) {
+	protected ProcessorResult doProcessElement(Arguments arguments, Element element, HtmlTable table) {
 		String tableId = element.getAttributeValue("id");
 		logger.debug("{} element found with id {}", element.getNormalizedName(), tableId);
 

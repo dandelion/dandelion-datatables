@@ -44,7 +44,7 @@ import com.github.dandelion.datatables.core.feature.PaginationTypeListboxFeature
 import com.github.dandelion.datatables.core.feature.PaginationTypeScrollingFeature;
 import com.github.dandelion.datatables.core.model.HtmlTable;
 import com.github.dandelion.datatables.core.model.PaginationType;
-import com.github.dandelion.datatables.thymeleaf.processor.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
 
 /**
  * Attribute processor for the <code>paginationtype</code> attribute.

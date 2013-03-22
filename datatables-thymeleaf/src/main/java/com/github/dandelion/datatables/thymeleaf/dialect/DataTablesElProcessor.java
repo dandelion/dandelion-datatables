@@ -27,72 +27,45 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package com.github.dandelion.datatables.thymeleaf.dialect;
 
-import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
-import com.github.dandelion.datatables.thymeleaf.matcher.ElementNameWithoutPrefixProcessorMatcher;
-import com.github.dandelion.datatables.thymeleaf.processor.*;
+import org.thymeleaf.Arguments;
+import org.thymeleaf.dom.Element;
+import org.thymeleaf.processor.IElementNameProcessorMatcher;
+import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.element.AbstractElementProcessor;
 
-import java.lang.reflect.InvocationTargetException;
-
-import static com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect.DIALECT_PREFIX;
+import com.github.dandelion.datatables.core.model.HtmlTable;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
- * All element processors used by Dandelion-DataTables.
- *
- * @since 0.8.9
+ * Base for all Datatables Thymeleaf AttrProcessor.
  */
-public enum DataTablesElProcessor {
-    TABLE_INITIALIZER(TableInitializerElProcessor.class, "table", DIALECT_PREFIX + ":table", "true"),
-    TABLE_FINALIZER(TableFinalizerElProcessor.class, "div", DIALECT_PREFIX + ":tmp", "internalUse"),
-    COLUMN_INITIALIZER(ColumnInitializerElProcessor.class, "th"),
-    TBODY(TbodyElProcessor.class, "tbody"),
-    TR(TrElProcessor.class, "tr", DIALECT_PREFIX + ":data", "internalUse"),
-    TD(TdElProcessor.class, "td", DIALECT_PREFIX + ":data", "internalUse");
+public abstract class DatatablesElProcessor extends AbstractElementProcessor {
 
-    private Class<? extends AbstractElementProcessor> processorClass;
-    private String elementName;
-    private String filterAttributeName;
-    private String filterAttributeValue;
-    private boolean withFilter;
 
-    DataTablesElProcessor(Class<? extends AbstractElementProcessor> processorClass,
-                          String elementName) {
-        this.processorClass = processorClass;
-        this.elementName = elementName;
-        this.withFilter = false;
+    public DatatablesElProcessor(IElementNameProcessorMatcher matcher) {
+		super(matcher);
+	}
+
+    @Override
+	protected ProcessorResult processElement(Arguments arguments, Element element) {
+    	// Get HtmlTable POJO from the HttpServletRequest
+    	HtmlTable table = Utils.getTable(arguments);
+    	ProcessorResult processorResult = doProcessElement(arguments, element, table);
+    	return processorResult;
     }
 
-    DataTablesElProcessor(Class<? extends AbstractElementProcessor> processorClass,
-                          String elementName, String filterAttributeName, String filterAttributeValue) {
-        this.processorClass = processorClass;
-        this.elementName = elementName;
-        this.filterAttributeName = filterAttributeName;
-        this.filterAttributeValue = filterAttributeValue;
-        this.withFilter = true;
-    }
+    @Override
+    public abstract int getPrecedence();
 
-    public AbstractElementProcessor getProcessor() {
-        ElementNameWithoutPrefixProcessorMatcher matcher;
-        if(withFilter) {
-            matcher = new ElementNameWithoutPrefixProcessorMatcher(elementName, filterAttributeName, filterAttributeValue);
-        } else {
-            matcher = new ElementNameWithoutPrefixProcessorMatcher(elementName);
-        }
-
-        ;
-        try {
-            return processorClass.getDeclaredConstructor(ElementNameWithoutPrefixProcessorMatcher.class).newInstance(matcher);
-        } catch (InstantiationException e) {
-        	throw new DataTableProcessingException(e);
-        } catch (IllegalAccessException e) {
-        	throw new DataTableProcessingException(e);
-        } catch (InvocationTargetException e) {
-        	throw new DataTableProcessingException(e);
-        } catch (NoSuchMethodException e) {
-        	throw new DataTableProcessingException(e);
-        }
-    }
+    /**
+     * Process the Attribute
+     *
+     * @param arguments Thymeleaf arguments
+     * @param element Element of the attribute
+     * @param attributeName attribute name
+     * @return result of process
+     */
+    protected abstract ProcessorResult doProcessElement(Arguments arguments, Element element, HtmlTable table);
 }

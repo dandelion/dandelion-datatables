@@ -39,7 +39,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.model.HtmlTable;
 import com.github.dandelion.datatables.core.theme.Bootstrap2Theme;
 import com.github.dandelion.datatables.core.theme.JQueryUITheme;
-import com.github.dandelion.datatables.thymeleaf.processor.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**

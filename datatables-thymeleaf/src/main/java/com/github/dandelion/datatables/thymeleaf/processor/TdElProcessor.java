@@ -13,6 +13,7 @@ import com.github.dandelion.datatables.core.model.DisplayType;
 import com.github.dandelion.datatables.core.model.HtmlColumn;
 import com.github.dandelion.datatables.core.model.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
+import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
 
 /**
  * <p>

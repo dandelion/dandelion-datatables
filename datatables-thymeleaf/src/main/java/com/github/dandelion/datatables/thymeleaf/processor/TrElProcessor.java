@@ -4,12 +4,11 @@ import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
-import org.thymeleaf.processor.element.AbstractElementProcessor;
 
 import com.github.dandelion.datatables.core.model.HtmlRow;
 import com.github.dandelion.datatables.core.model.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
-import com.github.dandelion.datatables.thymeleaf.util.Utils;
+import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
 
 /**
  * Element processor applied to the <tt>tr</tt> HTML tag. Whenever Thymeleaf
@@ -18,7 +17,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * 
  * @author Thibault Duchateau
  */
-public class TrElProcessor extends AbstractElementProcessor {
+public class TrElProcessor extends DatatablesElProcessor {
 
 	public TrElProcessor(IElementNameProcessorMatcher matcher) {
 		super(matcher);
@@ -30,13 +29,10 @@ public class TrElProcessor extends AbstractElementProcessor {
 	}
 
 	@Override
-	protected ProcessorResult processElement(Arguments arguments, Element element) {
+	protected ProcessorResult doProcessElement(Arguments arguments, Element element, HtmlTable table) {
 
-		// Get HtmlTable POJO from local variables
-		HtmlTable htmlTable = Utils.getTable(arguments);
-
-		if (htmlTable != null) {
-			htmlTable.getBodyRows().add(new HtmlRow());
+		if (table != null) {
+			table.getBodyRows().add(new HtmlRow());
 		}
 
 		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":data")) {

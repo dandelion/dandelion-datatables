@@ -7,9 +7,10 @@ import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
-import org.thymeleaf.processor.element.AbstractElementProcessor;
 
+import com.github.dandelion.datatables.core.model.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
+import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
 
 /**
  * <p>
@@ -22,7 +23,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
  * 
  * @author Thibault Duchateau
  */
-public class TbodyElProcessor extends AbstractElementProcessor {
+public class TbodyElProcessor extends DatatablesElProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TbodyElProcessor.class);
@@ -37,7 +38,7 @@ public class TbodyElProcessor extends AbstractElementProcessor {
 	}
 
 	@Override
-	protected ProcessorResult processElement(Arguments arguments, Element element) {
+	protected ProcessorResult doProcessElement(Arguments arguments, Element element, HtmlTable table) {
 		logger.debug("{} element found", element.getNormalizedName());
 
 		// All the tbody tag are iterated over
