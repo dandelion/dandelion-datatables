@@ -27,8 +27,33 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.constants;
+package com.github.dandelion.datatables.core.asset;
 
-public enum FilterType {
-	SELECT, INPUT, NUMBER
+
+/**
+ * TODO
+ *
+ * @author Thibault Duchateau
+ */
+public class ExtraFile {
+
+	private String src;
+	private InsertMode insert;
+
+	public ExtraFile(String src, InsertMode insert){
+		this.src = src;
+		this.insert = insert;
+	}
+	public String getSrc() {
+		return src;
+	}
+	public void setSrc(String src) {
+		this.src = src;
+	}
+	public InsertMode getInsert() {
+		return insert;
+	}
+	public void setInsert(InsertMode insert) {
+		this.insert = insert;
+	}
 }

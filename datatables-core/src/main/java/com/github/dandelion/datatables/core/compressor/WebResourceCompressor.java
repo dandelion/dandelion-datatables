@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.compressor;
 
 import com.github.dandelion.datatables.core.exception.CompressionException;
-import com.github.dandelion.datatables.core.model.HtmlTable;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * Compressor for web resources (Javascript, Stylesheets).

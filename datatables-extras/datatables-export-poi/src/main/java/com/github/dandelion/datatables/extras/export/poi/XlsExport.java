@@ -37,14 +37,14 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
+import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.export.AbstractBinaryExport;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.model.DisplayType;
-import com.github.dandelion.datatables.core.model.HtmlColumn;
-import com.github.dandelion.datatables.core.model.HtmlRow;
-import com.github.dandelion.datatables.core.model.HtmlTable;
+import com.github.dandelion.datatables.core.html.HtmlColumn;
+import com.github.dandelion.datatables.core.html.HtmlRow;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * Default Excel export class.

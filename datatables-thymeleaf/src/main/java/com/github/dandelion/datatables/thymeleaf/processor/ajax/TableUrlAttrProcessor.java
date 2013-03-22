@@ -39,7 +39,7 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.feature.AjaxFeature;
-import com.github.dandelion.datatables.core.model.HtmlTable;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 

@@ -27,14 +27,51 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
+package com.github.dandelion.datatables.core.html;
 
 /**
- * TODO
- *
+ * Plain old HTML <code>script</code> tag.
+ * 
  * @author Thibault Duchateau
- * @since 0.7.1
+ * @since 0.8.1
  */
-public enum DisplayType {
-	ALL, HTML, CSV, XML, XLS, XLSX, PDF, RTF, JSON
+public class HtmlScript extends HtmlTag {
+
+	/**
+	 * Plain old HTML <code>src</code> attribute.
+	 */
+	private String src;
+	
+	public HtmlScript(){
+	}
+	
+	public HtmlScript(String src){
+		this.src = src;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public StringBuffer toHtml(){
+		StringBuffer html = new StringBuffer();
+		html.append("<script");
+		
+		if(this.src != null){
+			html.append(" src=\"");
+			html.append(this.src);
+			html.append(" \"");
+		}
+		
+		html.append("></script>");
+		
+		return html;
+	}
+	
+	public String getSrc() {
+		return src;
+	}
+	public void setSrc(String src) {
+		this.src = src;
+	}
 }

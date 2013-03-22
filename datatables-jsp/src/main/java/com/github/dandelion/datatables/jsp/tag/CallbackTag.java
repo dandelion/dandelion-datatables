@@ -35,8 +35,8 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.model.Callback;
-import com.github.dandelion.datatables.core.model.CallbackType;
+import com.github.dandelion.datatables.core.callback.Callback;
+import com.github.dandelion.datatables.core.callback.CallbackType;
 
 /**
  * Tag used to add DataTables' callbacks.

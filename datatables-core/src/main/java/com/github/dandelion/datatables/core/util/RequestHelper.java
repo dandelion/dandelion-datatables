@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
-import com.github.dandelion.datatables.core.model.HtmlTable;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * Helper class used for all HttpServletRequest stuff.

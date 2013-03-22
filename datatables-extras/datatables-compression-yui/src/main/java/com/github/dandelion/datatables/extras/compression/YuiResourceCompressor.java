@@ -40,8 +40,8 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.compressor.WebResourceCompressor;
 import com.github.dandelion.datatables.core.exception.CompressionException;
-import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.core.model.TableProperties;
+import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.properties.TableProperties;
 import com.yahoo.platform.yui.compressor.CssCompressor;
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 

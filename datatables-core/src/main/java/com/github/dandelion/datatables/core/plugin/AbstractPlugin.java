@@ -27,7 +27,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
+package com.github.dandelion.datatables.core.plugin;
+
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
 
 /**
  * Abstract UI plugin. It's just a marker abstract class.

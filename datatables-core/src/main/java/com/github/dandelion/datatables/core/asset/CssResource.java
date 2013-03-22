@@ -27,72 +27,88 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
+package com.github.dandelion.datatables.core.asset;
+
 
 /**
- * Abstract superclass for all HTML tags.
+ * <p>
+ * POJO for a CSS file, which will be served by the Dandelion-datatables servlet to the
+ * client.
  * 
  * @author Thibault Duchateau
+ * @since 0.1.0
  */
-public abstract class HtmlTag {
+public class CssResource {
 
 	/**
-	 * Plain old HTML <code>id</code> attribute.
+	 * Name of the CSS file.
 	 */
-	protected String id;
+	private String name;
 	
 	/**
-	 * Plain old HTML <code>class</code> attribute.
+	 * Content, i.e. CSS code.
 	 */
-	protected StringBuffer cssClass;
-
-	/**
-	 * Plain old HTML <code>style</code> attribute.
-	 */
-	protected StringBuffer cssStyle;
-
-	/**
-	 * Render the tag in HTML code.
-	 * 
-	 * @return the HTML code corresponding to the tag.
-	 */
-	public abstract StringBuffer toHtml();
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
+	private String content;
 	
-	public StringBuffer getCssClass() {
-		return cssClass;
+	/**
+	 * Location of the CSS file. Used if multiple files must be merged (e.g. from
+	 * classpath) before being served by the servlet.
+	 */
+	private String location;
+	
+	/**
+	 * Type of the CSS resource.
+	 */
+	private ResourceType type;
+
+	public CssResource(String name) {
+		this.name = name;
 	}
 
-	public void setCssClass(StringBuffer cssClass) {
-		this.cssClass = cssClass;
+	public CssResource(ResourceType type, String name) {
+		this.type = type;
+		this.name = name;
 	}
 
-	public StringBuffer getCssStyle() {
-		return cssStyle;
+	public CssResource(ResourceType type, String name, String location) {
+		this.type = type;
+		this.name = name;
+		this.location = location;
 	}
 
-	public void setCssStyle(StringBuffer cssStyle) {
-		this.cssStyle = cssStyle;
+	public String getName() {
+		return name;
 	}
 
-	public void addCssClass(String cssClass) {
-		if (this.cssClass == null) {
-			this.cssClass = new StringBuffer();
-		}
-		this.cssClass.append(cssClass);
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void addCssStyle(String cssStyle) {
-		if (this.cssStyle == null) {
-			this.cssStyle = new StringBuffer();
-		}
-		this.cssStyle.append(cssStyle);
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public void updateContent(String newContent) {
+		this.content = this.content + newContent;
+	}
+
+	public ResourceType getType() {
+		return type;
+	}
+
+	public void setType(ResourceType type) {
+		this.type = type;
 	}
 }

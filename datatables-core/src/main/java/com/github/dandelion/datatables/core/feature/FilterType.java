@@ -27,24 +27,8 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.constants;
+package com.github.dandelion.datatables.core.feature;
 
-/**
- * Enum containing the available modes of insertion for extraFile management.
- * 
- * @author Thibault Duchateau
- */
-// TODO MANQUE UNE VALEUR
-public enum InsertMode {
-	// The javascript is inserted before all instruction.
-	BEFOREALL, 
-	
-	// The javascript is inserted after all instruction.
-	AFTERALL, 
-	
-	// The javascript is inserted just after the start of the jQuery $(document).ready(); function.
-	AFTERSTARTDOCUMENTREADY, 
-	
-	// The javascript is inserted just before the end of the jQuery $(document).ready(); function.
-	BEFOREENDDOCUMENTREADY
+public enum FilterType {
+	SELECT, INPUT, NUMBER
 }

@@ -27,89 +27,14 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
-
-import com.github.dandelion.datatables.core.constants.ResourceType;
+package com.github.dandelion.datatables.core.asset;
 
 /**
- * <p>
- * POJO for a CSS file, which will be served by the Dandelion-datatables servlet to the
- * client.
- * 
+ * TODO
+ *
  * @author Thibault Duchateau
- * @since 0.1.0
+ * @since 0.7.1
  */
-public class CssResource {
-
-	/**
-	 * Name of the CSS file.
-	 */
-	private String name;
-	
-	/**
-	 * Content, i.e. CSS code.
-	 */
-	private String content;
-	
-	/**
-	 * Location of the CSS file. Used if multiple files must be merged (e.g. from
-	 * classpath) before being served by the servlet.
-	 */
-	private String location;
-	
-	/**
-	 * Type of the CSS resource.
-	 */
-	private ResourceType type;
-
-	public CssResource(String name) {
-		this.name = name;
-	}
-
-	public CssResource(ResourceType type, String name) {
-		this.type = type;
-		this.name = name;
-	}
-
-	public CssResource(ResourceType type, String name, String location) {
-		this.type = type;
-		this.name = name;
-		this.location = location;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public void updateContent(String newContent) {
-		this.content = this.content + newContent;
-	}
-
-	public ResourceType getType() {
-		return type;
-	}
-
-	public void setType(ResourceType type) {
-		this.type = type;
-	}
+public enum DisplayType {
+	ALL, HTML, CSV, XML, XLS, XLSX, PDF, RTF, JSON
 }

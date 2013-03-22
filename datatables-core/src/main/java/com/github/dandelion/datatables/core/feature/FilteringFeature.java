@@ -29,12 +29,11 @@
  */
 package com.github.dandelion.datatables.core.feature;
 
-import com.github.dandelion.datatables.core.constants.ResourceType;
+import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
-import com.github.dandelion.datatables.core.model.AbstractFeature;
-import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.core.model.JsResource;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * Java implementation of the DataTables Column Filter Add-on written by Jovan Popovic.

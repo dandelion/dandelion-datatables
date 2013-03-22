@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.utils;
 
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import com.github.dandelion.datatables.core.model.JsResource;
+import com.github.dandelion.datatables.core.asset.JsResource;
 
 public class TestUtils {
 

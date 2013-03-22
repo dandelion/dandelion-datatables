@@ -27,29 +27,83 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
+package com.github.dandelion.datatables.core.html;
 
 /**
- * <p>
- * Bean used to hold Javascript code (function or any other Javascript object)
- * that must not be converted into String by the JSON parser.
- * <p>
- * Overriding the toString() method allow the parser to return the Javascript
- * content as an Object, resulting in a non-quoted String in JSON format.
+ * Plain old HTML <code>a</code> tag (link).
  * 
  * @author Thibault Duchateau
- * @since 0.8.2
+ * @since 0.7.0
  */
-public class JavascriptSnippet {
+public class HtmlHyperlink extends HtmlTag {
 
-	private String javascript;
-
-	public JavascriptSnippet(String javascript) {
-		this.javascript = javascript;
+	/**
+	 * Plain old HTML <code>href</code> attribute.
+	 */
+	private String href;
+	
+	/**
+	 * Link's label.
+	 */
+	private String label;
+	
+	public HtmlHyperlink(){
 	}
-
+	
+	public HtmlHyperlink(String href, String label){
+		this.href = href;
+		this.label = label;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public String toString() {
-		return javascript;
+	public StringBuffer toHtml(){
+		StringBuffer html = new StringBuffer();
+		html.append("<a");
+		
+		if(this.id != null){
+			html.append(" id=\"");
+			html.append(this.id);
+			html.append("\"");			
+		}
+		
+		if(this.cssClass != null){
+			html.append(" class=\"");
+			html.append(this.cssClass);
+			html.append("\"");			
+		}
+		
+		if(this.cssStyle != null){
+			html.append(" style=\"");
+			html.append(this.cssStyle);
+			html.append("\"");			
+		}
+		
+		if(this.href != null){
+			html.append(" href=\"");
+			html.append(this.href);
+			html.append("\"");
+		}
+		
+		html.append(">");
+		html.append(this.label);
+		html.append("</a>");
+		
+		return html;
+	}
+	
+	public String getHref() {
+		return href;
+	}
+	public void setHref(String href) {
+		this.href = href;
+	}
+	public String getLabel() {
+		return label;
+	}
+	public void setLabel(String label) {
+		this.label = label;
 	}
 }

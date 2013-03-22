@@ -31,14 +31,14 @@ package com.github.dandelion.datatables.extras.export.itext;
 
 import java.io.OutputStream;
 
+import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.export.AbstractBinaryExport;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.model.DisplayType;
-import com.github.dandelion.datatables.core.model.HtmlColumn;
-import com.github.dandelion.datatables.core.model.HtmlRow;
-import com.github.dandelion.datatables.core.model.HtmlTable;
+import com.github.dandelion.datatables.core.html.HtmlColumn;
+import com.github.dandelion.datatables.core.html.HtmlRow;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Phrase;

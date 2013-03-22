@@ -45,7 +45,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.constants.ExportConstants;
-import com.github.dandelion.datatables.core.constants.ThemeOption;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
@@ -53,6 +52,7 @@ import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.feature.AjaxFeature;
 import com.github.dandelion.datatables.core.feature.FilteringFeature;
 import com.github.dandelion.datatables.core.feature.JsonpFeature;
+import com.github.dandelion.datatables.core.feature.PaginationType;
 import com.github.dandelion.datatables.core.feature.PaginationTypeBootstrapFeature;
 import com.github.dandelion.datatables.core.feature.PaginationTypeFourButtonFeature;
 import com.github.dandelion.datatables.core.feature.PaginationTypeInputFeature;
@@ -60,16 +60,16 @@ import com.github.dandelion.datatables.core.feature.PaginationTypeListboxFeature
 import com.github.dandelion.datatables.core.feature.PaginationTypeScrollingFeature;
 import com.github.dandelion.datatables.core.feature.PipeliningFeature;
 import com.github.dandelion.datatables.core.feature.ServerSideFeature;
-import com.github.dandelion.datatables.core.model.HtmlColumn;
-import com.github.dandelion.datatables.core.model.HtmlLink;
-import com.github.dandelion.datatables.core.model.HtmlScript;
-import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.core.model.PaginationType;
+import com.github.dandelion.datatables.core.html.HtmlColumn;
+import com.github.dandelion.datatables.core.html.HtmlLink;
+import com.github.dandelion.datatables.core.html.HtmlScript;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.plugin.ColReorderPlugin;
 import com.github.dandelion.datatables.core.plugin.FixedHeaderPlugin;
 import com.github.dandelion.datatables.core.plugin.ScrollerPlugin;
 import com.github.dandelion.datatables.core.theme.Bootstrap2Theme;
 import com.github.dandelion.datatables.core.theme.JQueryUITheme;
+import com.github.dandelion.datatables.core.theme.ThemeOption;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 
 /**

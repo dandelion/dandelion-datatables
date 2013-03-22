@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.core.export;
 import java.io.Writer;
 
 import com.github.dandelion.datatables.core.exception.ExportException;
-import com.github.dandelion.datatables.core.model.HtmlTable;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * Contract for every export implementation based on characters.

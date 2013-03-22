@@ -1,4 +1,6 @@
-package com.github.dandelion.datatables.core.constants;
+package com.github.dandelion.datatables.core.theme;
+
+import com.github.dandelion.datatables.core.constants.CdnConstants;
 
 public enum ThemeOption {
 

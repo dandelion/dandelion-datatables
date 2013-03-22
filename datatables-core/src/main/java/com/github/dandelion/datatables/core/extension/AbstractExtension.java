@@ -27,10 +27,14 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
+package com.github.dandelion.datatables.core.extension;
 
+import com.github.dandelion.datatables.core.asset.Configuration;
+import com.github.dandelion.datatables.core.asset.CssResource;
+import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -39,7 +43,7 @@ import java.util.List;
 /**
  * {@inheritDoc}
  */
-abstract class AbstractExtension implements Extension {
+public abstract class AbstractExtension implements Extension {
 
 	protected StringBuffer beforeAll;
 	protected StringBuffer afterAll;

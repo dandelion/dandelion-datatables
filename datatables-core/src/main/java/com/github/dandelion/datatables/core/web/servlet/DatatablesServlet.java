@@ -40,8 +40,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.cache.AssetCache;
-import com.github.dandelion.datatables.core.model.WebResources;
 import com.github.dandelion.datatables.core.util.DandelionUtils;
 
 /**

@@ -36,13 +36,13 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.constants.ResourceType;
+import com.github.dandelion.datatables.core.asset.CssResource;
+import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.datatables.core.asset.ResourceType;
+import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
-import com.github.dandelion.datatables.core.model.CssResource;
-import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.core.model.JsResource;
-import com.github.dandelion.datatables.core.model.WebResources;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.ReflectHelper;
 
 /**

@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import com.github.dandelion.datatables.core.model.ExtraConf;
+import com.github.dandelion.datatables.core.asset.ExtraConf;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 
 /**

@@ -57,9 +57,9 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
+import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.cache.AssetCache;
-import com.github.dandelion.datatables.core.model.JsResource;
-import com.github.dandelion.datatables.core.model.WebResources;
 import com.github.dandelion.datatables.utils.Mock;
 import com.github.dandelion.datatables.utils.Person;
 

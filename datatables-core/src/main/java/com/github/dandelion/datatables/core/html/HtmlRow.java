@@ -27,11 +27,13 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
+package com.github.dandelion.datatables.core.html;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.github.dandelion.datatables.core.asset.DisplayType;
 
 /**
  * Plain old HTML <code>tr</code> tag.

@@ -27,32 +27,51 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.constants;
+package com.github.dandelion.datatables.core.html;
 
 /**
- * Enum containing the different type of resource that Dandelion-datatables can generate. 
- *
+ * Plain old HTML <code>link</code> tag.
+ * 
  * @author Thibault Duchateau
+ * @since 0.8.1
  */
-public enum ResourceType {
+public class HtmlLink extends HtmlTag {
+
+	/**
+	 * Plain old HTML <code>href</code> attribute.
+	 */
+	private String href;
 	
-	// Main DataTables javascript file
-	MAIN, 
+	public HtmlLink(){
+	}
 	
-	EXTENSION, 
-	// DataTables plugin javascript file
-	PLUGIN, 
+	public HtmlLink(String href){
+		this.href = href;
+	}
 	
-	// Dandelion-datatables feature javascript file
-	FEATURE, 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public StringBuffer toHtml(){
+		StringBuffer html = new StringBuffer();
+		html.append("<link rel=\"stylesheet\"");
+		
+		if(this.href != null){
+			html.append(" href=\"");
+			html.append(this.href);
+			html.append(" \"");
+		}
+		
+		html.append("/>");
+		
+		return html;
+	}
 	
-	THEME,
-	
-	// Dandelion-datatables javascript aggregated file
-	AGGREGATE, 
-	
-	// Dandelion-datatables javascript minimified file
-	MINIMIFIED,
-	
-	EXTERNAL
+	public String getHref() {
+		return href;
+	}
+	public void setHref(String href) {
+		this.href = href;
+	}
 }

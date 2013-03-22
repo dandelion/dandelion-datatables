@@ -30,12 +30,11 @@
 package com.github.dandelion.datatables.core.plugin;
 
 
+import com.github.dandelion.datatables.core.asset.Configuration;
+import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.constants.ResourceType;
-import com.github.dandelion.datatables.core.model.AbstractPlugin;
-import com.github.dandelion.datatables.core.model.Configuration;
-import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.core.model.JsResource;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * Java implementation of the DataTables Scroller plugin.

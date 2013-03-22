@@ -27,13 +27,32 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
+package com.github.dandelion.datatables.core.asset;
 
 /**
- * Abstract UI feature. It's just a marker abstract class.
- * 
+ * Enum containing the different type of resource that Dandelion-datatables can generate. 
+ *
  * @author Thibault Duchateau
  */
-public abstract class AbstractFeature extends AbstractExtension {
-
+public enum ResourceType {
+	
+	// Main DataTables javascript file
+	MAIN, 
+	
+	EXTENSION, 
+	// DataTables plugin javascript file
+	PLUGIN, 
+	
+	// Dandelion-datatables feature javascript file
+	FEATURE, 
+	
+	THEME,
+	
+	// Dandelion-datatables javascript aggregated file
+	AGGREGATE, 
+	
+	// Dandelion-datatables javascript minimified file
+	MINIMIFIED,
+	
+	EXTERNAL
 }

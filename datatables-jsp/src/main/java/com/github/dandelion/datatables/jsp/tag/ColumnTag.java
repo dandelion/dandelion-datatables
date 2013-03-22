@@ -33,8 +33,8 @@ import javax.servlet.jsp.JspException;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.github.dandelion.datatables.core.model.DisplayType;
-import com.github.dandelion.datatables.core.model.HtmlColumn;
+import com.github.dandelion.datatables.core.asset.DisplayType;
+import com.github.dandelion.datatables.core.html.HtmlColumn;
 
 /**
  * <p>

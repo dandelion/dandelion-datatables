@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 
-import com.github.dandelion.datatables.core.model.HtmlTable;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 
 public class Utils {
 

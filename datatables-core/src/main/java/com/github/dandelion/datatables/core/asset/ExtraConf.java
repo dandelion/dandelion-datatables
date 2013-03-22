@@ -27,69 +27,21 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
+package com.github.dandelion.datatables.core.asset;
 
-/**
- * Plain old HTML <code>div</code> tag.
- * 
- * @author Thibault Duchateau
- * @since 0.7.0
- */
-public class HtmlDiv extends HtmlTag {
+public class ExtraConf {
 
-	/**
-	 * Content of the div tag.
-	 */
-	private StringBuffer content = new StringBuffer();
+	private String src;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public StringBuffer toHtml() {
-		StringBuffer html = new StringBuffer();
-		html.append("<div");
-
-		if (this.id != null) {
-			html.append(" id=\"");
-			html.append(this.id);
-			html.append("\"");
-		}
-
-		if (this.cssClass != null) {
-			html.append(" class=\"");
-			html.append(this.cssClass);
-			html.append("\"");
-		}
-
-		if (this.cssStyle != null) {
-			html.append(" style=\"");
-			html.append(this.cssStyle);
-			html.append("\"");
-		}
-
-		html.append(">");
-		html.append(this.content);
-		html.append("</div>");
-		return html;
-	}
-	
-	public HtmlDiv() {
+	public ExtraConf(String src) {
+		this.src = src;
 	}
 
-	public HtmlDiv(String id) {
-		this.id = id;
+	public String getSrc() {
+		return src;
 	}
 
-	public StringBuffer getContent() {
-		return content;
-	}
-
-	public void setContent(StringBuffer content) {
-		this.content = content;
-	}
-
-	public void addContent(StringBuffer contentToAdd) {
-		this.content.append(contentToAdd);
+	public void setSrc(String src) {
+		this.src = src;
 	}
 }

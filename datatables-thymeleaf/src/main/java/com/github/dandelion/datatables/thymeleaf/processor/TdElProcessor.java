@@ -9,9 +9,9 @@ import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.standard.expression.StandardExpressionProcessor;
 
-import com.github.dandelion.datatables.core.model.DisplayType;
-import com.github.dandelion.datatables.core.model.HtmlColumn;
-import com.github.dandelion.datatables.core.model.HtmlTable;
+import com.github.dandelion.datatables.core.asset.DisplayType;
+import com.github.dandelion.datatables.core.html.HtmlColumn;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
 

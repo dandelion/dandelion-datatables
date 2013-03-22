@@ -27,51 +27,72 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
+package com.github.dandelion.datatables.core.html;
 
 /**
- * Plain old HTML <code>link</code> tag.
+ * Abstract superclass for all HTML tags.
  * 
  * @author Thibault Duchateau
- * @since 0.8.1
  */
-public class HtmlLink extends HtmlTag {
+public abstract class HtmlTag {
 
 	/**
-	 * Plain old HTML <code>href</code> attribute.
+	 * Plain old HTML <code>id</code> attribute.
 	 */
-	private String href;
-	
-	public HtmlLink(){
-	}
-	
-	public HtmlLink(String href){
-		this.href = href;
-	}
+	protected String id;
 	
 	/**
-	 * {@inheritDoc}
+	 * Plain old HTML <code>class</code> attribute.
 	 */
-	@Override
-	public StringBuffer toHtml(){
-		StringBuffer html = new StringBuffer();
-		html.append("<link rel=\"stylesheet\"");
-		
-		if(this.href != null){
-			html.append(" href=\"");
-			html.append(this.href);
-			html.append(" \"");
-		}
-		
-		html.append("/>");
-		
-		return html;
+	protected StringBuffer cssClass;
+
+	/**
+	 * Plain old HTML <code>style</code> attribute.
+	 */
+	protected StringBuffer cssStyle;
+
+	/**
+	 * Render the tag in HTML code.
+	 * 
+	 * @return the HTML code corresponding to the tag.
+	 */
+	public abstract StringBuffer toHtml();
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 	
-	public String getHref() {
-		return href;
+	public StringBuffer getCssClass() {
+		return cssClass;
 	}
-	public void setHref(String href) {
-		this.href = href;
+
+	public void setCssClass(StringBuffer cssClass) {
+		this.cssClass = cssClass;
+	}
+
+	public StringBuffer getCssStyle() {
+		return cssStyle;
+	}
+
+	public void setCssStyle(StringBuffer cssStyle) {
+		this.cssStyle = cssStyle;
+	}
+
+	public void addCssClass(String cssClass) {
+		if (this.cssClass == null) {
+			this.cssClass = new StringBuffer();
+		}
+		this.cssClass.append(cssClass);
+	}
+
+	public void addCssStyle(String cssStyle) {
+		if (this.cssStyle == null) {
+			this.cssStyle = new StringBuffer();
+		}
+		this.cssStyle.append(cssStyle);
 	}
 }

@@ -27,13 +27,41 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
+package com.github.dandelion.datatables.core.callback;
 
 /**
- * Abstract theme. It's just a marker abstract class.
+ * Callback called by DataTables.
  *
  * @author Thibault Duchateau
  */
-public abstract class AbstractTheme extends AbstractExtension {
+public class Callback {
 
+	private CallbackType type;
+	private String function;
+
+	public Callback(CallbackType type, String function){
+		this.type = type;
+		this.function = function;
+	}
+	
+	public CallbackType getType() {
+		return type;
+	}
+
+	public void setType(CallbackType type) {
+		this.type = type;
+	}
+
+	public String getFunction() {
+		return function;
+	}
+
+	public void setFunction(String function) {
+		this.function = function;
+	}
+
+	@Override
+	public String toString() {
+		return "Callback [type=" + type + ", function=" + function + "]";
+	}
 }

@@ -27,21 +27,15 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
+package com.github.dandelion.datatables.core.theme;
 
-public class ExtraConf {
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
 
-	private String src;
+/**
+ * Abstract theme. It's just a marker abstract class.
+ *
+ * @author Thibault Duchateau
+ */
+public abstract class AbstractTheme extends AbstractExtension {
 
-	public ExtraConf(String src) {
-		this.src = src;
-	}
-
-	public String getSrc() {
-		return src;
-	}
-
-	public void setSrc(String src) {
-		this.src = src;
-	}
 }

@@ -27,7 +27,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
+package com.github.dandelion.datatables.core.html;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,11 +35,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.github.dandelion.datatables.core.constants.ThemeOption;
+import com.github.dandelion.datatables.core.asset.ExtraConf;
+import com.github.dandelion.datatables.core.asset.ExtraFile;
+import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
+import com.github.dandelion.datatables.core.feature.AbstractFeature;
+import com.github.dandelion.datatables.core.feature.PaginationType;
+import com.github.dandelion.datatables.core.plugin.AbstractPlugin;
+import com.github.dandelion.datatables.core.properties.TableProperties;
+import com.github.dandelion.datatables.core.theme.AbstractTheme;
+import com.github.dandelion.datatables.core.theme.ThemeOption;
 
 /**
  * Plain old HTML <code>table</code> tag.

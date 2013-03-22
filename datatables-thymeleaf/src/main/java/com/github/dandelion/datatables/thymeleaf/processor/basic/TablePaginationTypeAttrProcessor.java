@@ -37,13 +37,13 @@ import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
+import com.github.dandelion.datatables.core.feature.PaginationType;
 import com.github.dandelion.datatables.core.feature.PaginationTypeBootstrapFeature;
 import com.github.dandelion.datatables.core.feature.PaginationTypeFourButtonFeature;
 import com.github.dandelion.datatables.core.feature.PaginationTypeInputFeature;
 import com.github.dandelion.datatables.core.feature.PaginationTypeListboxFeature;
 import com.github.dandelion.datatables.core.feature.PaginationTypeScrollingFeature;
-import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.core.model.PaginationType;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
 
 /**

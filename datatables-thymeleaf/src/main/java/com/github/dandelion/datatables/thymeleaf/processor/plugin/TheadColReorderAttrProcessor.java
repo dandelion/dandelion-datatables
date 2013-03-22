@@ -34,7 +34,7 @@ import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.model.HtmlTable;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.plugin.ColReorderPlugin;
 import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
 

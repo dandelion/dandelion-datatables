@@ -27,58 +27,29 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
+package com.github.dandelion.datatables.core.asset;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+/**
+ * <p>
+ * Bean used to hold Javascript code (function or any other Javascript object)
+ * that must not be converted into String by the JSON parser.
+ * <p>
+ * Overriding the toString() method allow the parser to return the Javascript
+ * content as an Object, resulting in a non-quoted String in JSON format.
+ * 
+ * @author Thibault Duchateau
+ * @since 0.8.2
+ */
+public class JavascriptSnippet {
 
-public class WebResources {
+	private String javascript;
 
-	private JsResource mainJsFile;
-	private Map<String, JsResource> javascripts = new LinkedHashMap<String, JsResource>();
-	private Map<String, CssResource> stylesheets = new LinkedHashMap<String, CssResource>();
-
-	public Map<String, JsResource> getJavascripts() {
-		return javascripts;
-	}
-
-	public void setJavascripts(Map<String, JsResource> javascripts) {
-		this.javascripts = javascripts;
-	}
-
-	public Map<String, CssResource> getStylesheets() {
-		return stylesheets;
-	}
-
-	public void setStylesheets(Map<String, CssResource> stylesheets) {
-		this.stylesheets = stylesheets;
+	public JavascriptSnippet(String javascript) {
+		this.javascript = javascript;
 	}
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("JS:");
-		for(Entry<String, JsResource> entry : javascripts.entrySet()){
-			buffer.append(entry.getKey());
-			buffer.append(",");
-		}
-		buffer.append("|CSS:");
-		for(Entry<String, CssResource> entry : stylesheets.entrySet()){
-			buffer.append(entry.getKey());
-			buffer.append(",");
-		}
-		buffer.append("|main:");
-		buffer.append(this.mainJsFile);
-		return buffer.toString();
+		return javascript;
 	}
-
-	public JsResource getMainJsFile() {
-		return mainJsFile;
-	}
-
-	public void setMainJsFile(JsResource mainJsFile) {
-		this.mainJsFile = mainJsFile;
-	}
-
-	
 }

@@ -11,7 +11,7 @@ import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.model.HtmlTable;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.properties.PropertiesLoader;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 import com.github.dandelion.datatables.core.util.ResourceHelper;

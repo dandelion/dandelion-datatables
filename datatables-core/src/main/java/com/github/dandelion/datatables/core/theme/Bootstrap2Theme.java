@@ -29,14 +29,13 @@
  */
 package com.github.dandelion.datatables.core.theme;
 
+import com.github.dandelion.datatables.core.asset.Configuration;
+import com.github.dandelion.datatables.core.asset.CssResource;
+import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
+import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.constants.ResourceType;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.model.AbstractTheme;
-import com.github.dandelion.datatables.core.model.Configuration;
-import com.github.dandelion.datatables.core.model.CssResource;
-import com.github.dandelion.datatables.core.model.HtmlTable;
-import com.github.dandelion.datatables.core.model.JavascriptSnippet;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.ResourceHelper;
 
 /**

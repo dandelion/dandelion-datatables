@@ -27,48 +27,24 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
-
-import com.github.dandelion.datatables.core.constants.DTConstants;
+package com.github.dandelion.datatables.core.asset;
 
 /**
- * Enum containing the different type of callback. 
- *
+ * Enum containing the available modes of insertion for extraFile management.
+ * 
  * @author Thibault Duchateau
  */
-public enum CallbackType {
-
-	COOKIE(DTConstants.DT_FN_COOKIE_CBK),
+// TODO MANQUE UNE VALEUR
+public enum InsertMode {
+	// The javascript is inserted before all instruction.
+	BEFOREALL, 
 	
-	CREATEDROW(DTConstants.DT_FN_CREATED_ROW),
+	// The javascript is inserted after all instruction.
+	AFTERALL, 
 	
-	DRAW(DTConstants.DT_FN_DRAW_CBK),
+	// The javascript is inserted just after the start of the jQuery $(document).ready(); function.
+	AFTERSTARTDOCUMENTREADY, 
 	
-	FOOTER(DTConstants.DT_FN_FOOTER_CBK),
-	
-	FORMAT(DTConstants.DT_FN_FORMAT_NUMBER),
-	
-	HEADER(DTConstants.DT_FN_HEADER_CBK),
-	
-	INFO(DTConstants.DT_FN_INFO_CBK),
-	
-	INIT(DTConstants.DT_FN_INIT_COMPLETE),
-	
-	PREDRAW(DTConstants.DT_FN_PRE_DRAW_CBK),
-	
-	ROW(DTConstants.DT_FN_ROW_CBK);
-	
-	private String function;
-	
-	private CallbackType(String function){
-		this.function = function;
-	}
-
-	public String getFunction() {
-		return function;
-	}
-
-	public void setFunction(String function) {
-		this.function = function;
-	}
+	// The javascript is inserted just before the end of the jQuery $(document).ready(); function.
+	BEFOREENDDOCUMENTREADY
 }

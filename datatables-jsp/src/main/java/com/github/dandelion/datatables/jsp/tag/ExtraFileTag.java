@@ -35,8 +35,8 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.constants.InsertMode;
-import com.github.dandelion.datatables.core.model.ExtraFile;
+import com.github.dandelion.datatables.core.asset.ExtraFile;
+import com.github.dandelion.datatables.core.asset.InsertMode;
 
 /**
  * Tag used to add an extra Javascript configuration file.

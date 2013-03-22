@@ -27,34 +27,48 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.model;
+package com.github.dandelion.datatables.core.callback;
 
-import com.github.dandelion.datatables.core.constants.InsertMode;
+import com.github.dandelion.datatables.core.constants.DTConstants;
 
 /**
- * TODO
+ * Enum containing the different type of callback. 
  *
  * @author Thibault Duchateau
  */
-public class ExtraFile {
+public enum CallbackType {
 
-	private String src;
-	private InsertMode insert;
+	COOKIE(DTConstants.DT_FN_COOKIE_CBK),
+	
+	CREATEDROW(DTConstants.DT_FN_CREATED_ROW),
+	
+	DRAW(DTConstants.DT_FN_DRAW_CBK),
+	
+	FOOTER(DTConstants.DT_FN_FOOTER_CBK),
+	
+	FORMAT(DTConstants.DT_FN_FORMAT_NUMBER),
+	
+	HEADER(DTConstants.DT_FN_HEADER_CBK),
+	
+	INFO(DTConstants.DT_FN_INFO_CBK),
+	
+	INIT(DTConstants.DT_FN_INIT_COMPLETE),
+	
+	PREDRAW(DTConstants.DT_FN_PRE_DRAW_CBK),
+	
+	ROW(DTConstants.DT_FN_ROW_CBK);
+	
+	private String function;
+	
+	private CallbackType(String function){
+		this.function = function;
+	}
 
-	public ExtraFile(String src, InsertMode insert){
-		this.src = src;
-		this.insert = insert;
+	public String getFunction() {
+		return function;
 	}
-	public String getSrc() {
-		return src;
-	}
-	public void setSrc(String src) {
-		this.src = src;
-	}
-	public InsertMode getInsert() {
-		return insert;
-	}
-	public void setInsert(InsertMode insert) {
-		this.insert = insert;
+
+	public void setFunction(String function) {
+		this.function = function;
 	}
 }

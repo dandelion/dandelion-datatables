@@ -42,9 +42,9 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.constants.FilterType;
-import com.github.dandelion.datatables.core.model.DisplayType;
-import com.github.dandelion.datatables.core.model.HtmlColumn;
+import com.github.dandelion.datatables.core.asset.DisplayType;
+import com.github.dandelion.datatables.core.feature.FilterType;
+import com.github.dandelion.datatables.core.html.HtmlColumn;
 
 /**
  * <p>
