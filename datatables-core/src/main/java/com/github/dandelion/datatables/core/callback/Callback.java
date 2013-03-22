@@ -33,6 +33,7 @@ package com.github.dandelion.datatables.core.callback;
  * Callback called by DataTables.
  *
  * @author Thibault Duchateau
+ * @since 0.8.9
  */
 public class Callback {
 

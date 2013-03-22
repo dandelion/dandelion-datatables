@@ -35,6 +35,7 @@ import com.github.dandelion.datatables.core.constants.DTConstants;
  * Enum containing the different type of callback. 
  *
  * @author Thibault Duchateau
+ * @since 0.8.9
  */
 public enum CallbackType {
 
