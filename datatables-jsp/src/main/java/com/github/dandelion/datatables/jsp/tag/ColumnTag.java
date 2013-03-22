@@ -90,7 +90,7 @@ public class ColumnTag extends AbstractColumnTag {
 				column.getEnabledDisplayTypes().add(type);
 			}
 			column.setProperty(this.property);
-
+			column.setFilterable(this.filterable);
 			column.setDefaultValue(StringUtils.isNotBlank(this.defaultValue) ? this.defaultValue : "");
 			
 			if (this.sortable != null) {
