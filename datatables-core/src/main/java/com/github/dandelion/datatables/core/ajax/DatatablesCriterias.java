@@ -35,6 +35,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 
@@ -107,6 +109,18 @@ public final class DatatablesCriterias {
 	}
 
 	/**
+	 * @return true if a column is being filtered, false otherwise.
+	 */
+	public Boolean hasOneFilteredColumn() {
+		for (ColumnDef columnDef : this.columnDefs) {
+			if (StringUtils.isNotBlank(columnDef.getSearch())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * @return true if a column is being sorted, false otherwise.
 	 */
 	public Boolean hasOneSortedColumn() {
@@ -148,6 +162,7 @@ public final class DatatablesCriterias {
 						.getParameter(DTConstants.DT_B_SEARCHABLE + i)));
 				columnDef.setSortable(Boolean.parseBoolean(request
 						.getParameter(DTConstants.DT_B_SORTABLE + i)));
+				
 				columnDef.setSearch(request.getParameter(DTConstants.DT_S_COLUMN_SEARCH + i));
 				columnDefs.add(columnDef);
 			}
