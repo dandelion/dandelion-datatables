@@ -226,13 +226,13 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 			}
 		}
 		
-		// TODO tester si la valeur vaut "header"
-		if (StringUtils.isNotBlank(this.footer)) {
-
-			for (HtmlColumn footerColumn : table.getLastHeaderRow().getColumns()) {
-				table.getLastFooterRow().addColumn(footerColumn);
-			}
-		}
+//		// TODO tester si la valeur vaut "header"
+//		if (StringUtils.isNotBlank(this.footer)) {
+//
+//			for (HtmlColumn footerColumn : table.getLastHeaderRow().getColumns()) {
+//				table.getLastFooterRow().addColumn(footerColumn);
+//			}
+//		}
 	}
 
 	/**
@@ -271,7 +271,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	 */
 	protected void registerPlugins() {
 
-		// Modules activation
+		// Plugins activation
 		if (this.fixedHeader) {
 			logger.info("Internal module detected : fixedHeader");
 			this.table.registerPlugin(new FixedHeaderPlugin());
@@ -287,7 +287,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 			this.table.registerPlugin(new ColReorderPlugin());
 		}
 
-		// Modules configuration
+		// Plugins configuration
 		if (StringUtils.isNotBlank(this.scrollY)) {
 			this.table.setScrollY(this.scrollY);
 		}
@@ -307,22 +307,22 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected void registerFeatures() throws JspException {
 
 		// Si AJAX sans server-side
-		if(StringUtils.isNotBlank(this.url) && (this.serverSide == null || !this.serverSide)){
-			this.table.registerFeature(new AjaxFeature());
+		if(StringUtils.isNotBlank(url) && (serverSide == null || !serverSide)){
+			table.registerFeature(new AjaxFeature());
 		}
 		
+		// Filtering feature activation
 		if (table.hasOneFilterableColumn()) {
-			logger.info("Feature detected : select with filter");
 
 			for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
 				table.getLastFooterRow().addColumn(column);
 			}
 
-			this.table.registerFeature(new FilteringFeature());
+			table.registerFeature(new FilteringFeature());
 		}
 
 		// Only register the feature if the paginationType attribute is set
-		if (StringUtils.isNotBlank(this.paginationType)) {
+		if (StringUtils.isNotBlank(paginationType)) {
 			PaginationType paginationType = null;
 			try {
 				paginationType = PaginationType.valueOf(this.paginationType);
@@ -334,19 +334,19 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 
 			switch (paginationType) {
 			case bootstrap:
-				this.table.registerFeature(new PaginationTypeBootstrapFeature());
+				table.registerFeature(new PaginationTypeBootstrapFeature());
 				break;
 			case input:
-				this.table.registerFeature(new PaginationTypeInputFeature());
+				table.registerFeature(new PaginationTypeInputFeature());
 				break;
 			case listbox:
-				this.table.registerFeature(new PaginationTypeListboxFeature());
+				table.registerFeature(new PaginationTypeListboxFeature());
 				break;
 			case scrolling:
-				this.table.registerFeature(new PaginationTypeScrollingFeature());
+				table.registerFeature(new PaginationTypeScrollingFeature());
 				break;
 			case four_button:
-				this.table.registerFeature(new PaginationTypeFourButtonFeature());
+				table.registerFeature(new PaginationTypeFourButtonFeature());
 				break;
 			default:
 				break;
@@ -354,22 +354,22 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 			}
 		}
 		
-		if(this.serverSide != null && this.serverSide){
-			this.table.registerFeature(new ServerSideFeature());
+		if(serverSide != null && serverSide){
+			table.registerFeature(new ServerSideFeature());
 		}
 		
-		if(this.pipelining != null && this.pipelining){
-			this.table.setPipelining(pipelining);
+		if(pipelining != null && pipelining){
+			table.setPipelining(pipelining);
 			if(pipeSize != null){
-				this.table.setPipeSize(pipeSize);
+				table.setPipeSize(pipeSize);
 			}
-			this.table.registerFeature(new PipeliningFeature());
+			table.registerFeature(new PipeliningFeature());
 		}
 		
-		if(this.jsonp != null){
-			this.table.setJsonp(jsonp);
-			if(this.jsonp){
-				this.table.registerFeature(new JsonpFeature());
+		if(jsonp != null){
+			table.setJsonp(jsonp);
+			if(jsonp){
+				table.registerFeature(new JsonpFeature());
 			}
 		}
 	}

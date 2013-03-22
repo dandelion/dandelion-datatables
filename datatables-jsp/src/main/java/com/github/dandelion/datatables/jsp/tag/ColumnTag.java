@@ -31,11 +31,6 @@ package com.github.dandelion.datatables.jsp.tag;
 
 import javax.servlet.jsp.JspException;
 
-import org.apache.commons.lang.StringUtils;
-
-import com.github.dandelion.datatables.core.asset.DisplayType;
-import com.github.dandelion.datatables.core.html.HtmlColumn;
-
 /**
  * <p>
  * Tag used to generate a HTML table's column.
@@ -66,16 +61,16 @@ public class ColumnTag extends AbstractColumnTag {
 			// The column has a body
 			if (getBodyContent() != null) {
 				String bodyString = getBodyContent().getString().trim().replaceAll("[\n\r]", "");
-				this.addColumn(false, bodyString);
+				addDomColumn(false, bodyString);
 			}
 			// The column doens't have a body but a property is set
 			else{
-				this.addColumn(false, getColumnContent());	
+				addDomColumn(false, getColumnContent());	
 			}
 			
 			// At the first iteration, the header row must filled in too
 			if (parent.isFirstIteration()) {
-				this.addColumn(true, this.title);
+				addDomColumn(true, title);
 			}
 
 			return EVAL_PAGE;
@@ -83,26 +78,8 @@ public class ColumnTag extends AbstractColumnTag {
 		// AJAX source
 		else if ("AJAX".equals(parent.getLoadingType())) {
 
-			HtmlColumn column = new HtmlColumn(true, this.title);
+			addAjaxColumn(true, title);
 
-			// All display types are added
-			for (DisplayType type : DisplayType.values()) {
-				column.getEnabledDisplayTypes().add(type);
-			}
-			column.setProperty(this.property);
-			column.setFilterable(this.filterable);
-			column.setDefaultValue(StringUtils.isNotBlank(this.defaultValue) ? this.defaultValue : "");
-			
-			if (this.sortable != null) {
-				column.setSortable(this.sortable);
-			}
-
-			if(StringUtils.isNotBlank(this.renderFunction)){
-				column.setRenderFunction(this.renderFunction);
-			}
-			
-			parent.getTable().getLastHeaderRow().addColumn(column);
-			parent.getTable().getLastFooterRow().addColumn(new HtmlColumn());
 			return EVAL_PAGE;
 		}
 

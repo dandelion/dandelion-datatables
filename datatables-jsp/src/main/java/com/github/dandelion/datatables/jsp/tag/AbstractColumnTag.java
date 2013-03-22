@@ -86,12 +86,12 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 	protected String renderFunction;
 
 	/**
-	 * Add a column to the table.
+	 * Add a column to the table when using DOM source.
 	 * 
 	 * @param isHeader
 	 * @param content
 	 */
-	protected void addColumn(Boolean isHeader, String content) throws JspException {
+	protected void addDomColumn(Boolean isHeader, String content) throws JspException {
 
 		// Get the parent tag to access the HtmlTable
 		AbstractTableTag parent = (AbstractTableTag) getParent();
@@ -111,7 +111,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 		if (this.sortable != null) {
 			column.setSortable(this.sortable);
 		}
-		
+
 		// Searchable
 		if (this.searchable != null) {
 			column.setSearchable(this.searchable);
@@ -179,6 +179,44 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 		}
 	}
 
+	
+	/**
+	 * Add a column to the table when using AJAX source.
+	 * 
+	 * @param isHeader
+	 * @param content
+	 */
+	protected void addAjaxColumn(Boolean isHeader, String content) throws JspException {
+
+		// Get the parent tag to access the HtmlTable
+		AbstractTableTag parent = (AbstractTableTag) getParent();
+
+		HtmlColumn column = new HtmlColumn(true, this.title);
+
+		// All display types are added
+		for (DisplayType type : DisplayType.values()) {
+			column.getEnabledDisplayTypes().add(type);
+		}
+		column.setProperty(property);
+		column.setFilterable(filterable);
+		if (searchable != null) {
+			column.setSearchable(searchable);
+		}
+		column.setDefaultValue(StringUtils.isNotBlank(defaultValue) ? defaultValue : "");
+		
+		if (this.sortable != null) {
+			column.setSortable(this.sortable);
+		}
+
+		if(StringUtils.isNotBlank(this.renderFunction)){
+			column.setRenderFunction(this.renderFunction);
+		}
+		
+		// Using AJAX source, since there is only one iteration on the body,
+		// we add a column in the header
+		parent.getTable().getLastHeaderRow().addColumn(column);
+	}
+	
 	protected String getColumnContent() throws JspException {
 
 		TableTag parent = (TableTag) getParent();
