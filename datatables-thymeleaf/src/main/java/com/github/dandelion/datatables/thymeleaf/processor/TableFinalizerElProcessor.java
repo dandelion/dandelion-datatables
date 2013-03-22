@@ -37,7 +37,7 @@ import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.DandelionUtils;
 import com.github.dandelion.datatables.core.util.RequestHelper;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesElProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.DomUtils;
 
 /**
@@ -49,7 +49,7 @@ import com.github.dandelion.datatables.thymeleaf.util.DomUtils;
  * 
  * @author Thibault Duchateau
  */
-public class TableFinalizerElProcessor extends DatatablesElProcessor {
+public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TableFinalizerElProcessor.class);

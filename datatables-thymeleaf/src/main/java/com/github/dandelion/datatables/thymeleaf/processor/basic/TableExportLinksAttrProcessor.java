@@ -43,7 +43,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 
 /**
  * <p>
@@ -56,7 +56,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor
  * 
  * @author Thibault Duchateau
  */
-public class TableExportLinksAttrProcessor extends DatatablesAttrProcessor {
+public class TableExportLinksAttrProcessor extends AbstractDatatablesAttrProcessor {
 
 	public TableExportLinksAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);

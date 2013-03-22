@@ -13,14 +13,14 @@ import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesElProcessor;
 
 /**
  * TODO
  * 
  * @author Thibault Duchateau
  */
-public class ColumnInitializerElProcessor extends DatatablesElProcessor {
+public class ColumnInitializerElProcessor extends AbstractDatatablesElProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(ColumnInitializerElProcessor.class);

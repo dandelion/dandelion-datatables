@@ -35,7 +35,7 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 
 /**
  * <p>
@@ -45,7 +45,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor
  * @see <a href="http://datatables.net/ref#bInfo">DataTables reference</a>
  * @author Thibault Duchateau
  */
-public class TableInfoAttrProcessor extends DatatablesAttrProcessor {
+public class TableInfoAttrProcessor extends AbstractDatatablesAttrProcessor {
 
 	public TableInfoAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);

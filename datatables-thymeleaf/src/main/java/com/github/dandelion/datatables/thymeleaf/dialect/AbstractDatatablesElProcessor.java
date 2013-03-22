@@ -31,9 +31,9 @@ package com.github.dandelion.datatables.thymeleaf.dialect;
 
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
-import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
+import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
-import org.thymeleaf.processor.attr.AbstractAttrProcessor;
+import org.thymeleaf.processor.element.AbstractElementProcessor;
 
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
@@ -41,20 +41,19 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
 /**
  * Base for all Datatables Thymeleaf AttrProcessor.
  */
-public abstract class DatatablesAttrProcessor extends AbstractAttrProcessor {
+public abstract class AbstractDatatablesElProcessor extends AbstractElementProcessor {
 
-	public DatatablesAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+
+    public AbstractDatatablesElProcessor(IElementNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
     @Override
-    protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
+	protected ProcessorResult processElement(Arguments arguments, Element element) {
     	// Get HtmlTable POJO from the HttpServletRequest
-    	HtmlTable htmlTable = Utils.getTable(arguments);
-    					
-        ProcessorResult processorResult = doProcessAttribute(arguments, element, attributeName, htmlTable);
-        element.removeAttribute(attributeName);
-        return processorResult;
+    	HtmlTable table = Utils.getTable(arguments);
+    	ProcessorResult processorResult = doProcessElement(arguments, element, table);
+    	return processorResult;
     }
 
     @Override
@@ -68,5 +67,5 @@ public abstract class DatatablesAttrProcessor extends AbstractAttrProcessor {
      * @param attributeName attribute name
      * @return result of process
      */
-    protected abstract ProcessorResult doProcessAttribute(Arguments arguments, Element element, String attributeName, HtmlTable table);
+    protected abstract ProcessorResult doProcessElement(Arguments arguments, Element element, HtmlTable table);
 }

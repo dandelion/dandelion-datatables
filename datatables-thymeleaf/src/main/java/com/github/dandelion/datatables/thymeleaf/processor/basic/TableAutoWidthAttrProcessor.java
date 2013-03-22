@@ -35,7 +35,7 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 
 /**
  * Attribute processor applied to the <tt>table</tt> tag for the
@@ -44,7 +44,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor
  * @see <a href="http://datatables.net/ref#autowidth">DataTables reference</a>
  * @author Thibault Duchateau
  */
-public class TableAutoWidthAttrProcessor extends DatatablesAttrProcessor {
+public class TableAutoWidthAttrProcessor extends AbstractDatatablesAttrProcessor {
 
 	public TableAutoWidthAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);

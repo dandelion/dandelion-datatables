@@ -36,7 +36,7 @@ import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.feature.ServerSideFeature;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 
 /**
  * <p>
@@ -45,7 +45,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor
  * 
  * @author Thibault Duchateau
  */
-public class TableServerSideAttrProcessor extends DatatablesAttrProcessor {
+public class TableServerSideAttrProcessor extends AbstractDatatablesAttrProcessor {
 
 	public TableServerSideAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);

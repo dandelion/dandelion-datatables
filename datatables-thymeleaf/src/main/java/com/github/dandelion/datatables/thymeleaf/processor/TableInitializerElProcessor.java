@@ -16,7 +16,7 @@ import com.github.dandelion.datatables.core.properties.PropertiesLoader;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 import com.github.dandelion.datatables.core.util.ResourceHelper;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesElProcessor;
 
 /**
  * <p>
@@ -24,7 +24,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
  * 
  * @author Thibault Duchateau
  */
-public class TableInitializerElProcessor extends DatatablesElProcessor {
+public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TableInitializerElProcessor.class);

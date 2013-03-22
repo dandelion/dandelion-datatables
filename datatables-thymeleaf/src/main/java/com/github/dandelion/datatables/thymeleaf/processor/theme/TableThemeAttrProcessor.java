@@ -39,7 +39,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.theme.Bootstrap2Theme;
 import com.github.dandelion.datatables.core.theme.JQueryUITheme;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
@@ -47,7 +47,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * 
  * @author Thibault Duchateau
  */
-public class TableThemeAttrProcessor extends DatatablesAttrProcessor {
+public class TableThemeAttrProcessor extends AbstractDatatablesAttrProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TableThemeAttrProcessor.class);

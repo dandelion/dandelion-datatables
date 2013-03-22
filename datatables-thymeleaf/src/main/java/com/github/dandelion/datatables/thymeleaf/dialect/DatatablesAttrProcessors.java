@@ -38,6 +38,7 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.thymeleaf.processor.ajax.TablePipeSizeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.ajax.TablePipeliningAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableProcessingAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableServerSideAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableUrlAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableAppearAttrProcessor;
@@ -147,6 +148,7 @@ public enum DatatablesAttrProcessors {
     AJAX_SERVER_SIDE(TableServerSideAttrProcessor.class, "serverside", "table"),
     AJAX_PIPELINING(TablePipeliningAttrProcessor.class, "pipelining", "table"),
     AJAX_PIPE_SI(TablePipeSizeAttrProcessor.class, "pipesize", "table"),
+    AJAX_PROCESSING(TableProcessingAttrProcessor.class, "processing", "table"),
 
     // Theme processors
     THEME(TableThemeAttrProcessor.class, "theme", "table"),
@@ -165,17 +167,17 @@ public enum DatatablesAttrProcessors {
     CALLBACK_ROW(TbodyCallbackRowProcessor.class, "cbk:row", "tbody");
 
 
-    private Class<? extends DatatablesAttrProcessor> processorClass;
+    private Class<? extends AbstractDatatablesAttrProcessor> processorClass;
     private String attributeName;
     private String elementNameFilter;
 
-    private DatatablesAttrProcessors(Class<? extends DatatablesAttrProcessor> processorClass, String attributeName, String elementNameFilter) {
+    private DatatablesAttrProcessors(Class<? extends AbstractDatatablesAttrProcessor> processorClass, String attributeName, String elementNameFilter) {
         this.processorClass = processorClass;
         this.attributeName = attributeName;
         this.elementNameFilter = elementNameFilter;
     }
 
-    public DatatablesAttrProcessor getProcessor() {
+    public AbstractDatatablesAttrProcessor getProcessor() {
         AttributeNameProcessorMatcher matcher = new AttributeNameProcessorMatcher(attributeName, elementNameFilter);
         try {
             return processorClass.getDeclaredConstructor(IAttributeNameProcessorMatcher.class).newInstance(matcher);

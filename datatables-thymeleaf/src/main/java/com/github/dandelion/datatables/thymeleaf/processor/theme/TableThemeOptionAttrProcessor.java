@@ -39,14 +39,14 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.theme.ThemeOption;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 
 /**
  * Attribute processor for the <code>theme</code> attribute.
  * 
  * @author Thibault Duchateau
  */
-public class TableThemeOptionAttrProcessor extends DatatablesAttrProcessor {
+public class TableThemeOptionAttrProcessor extends AbstractDatatablesAttrProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TableThemeOptionAttrProcessor.class);

@@ -44,14 +44,14 @@ import com.github.dandelion.datatables.core.feature.PaginationTypeInputFeature;
 import com.github.dandelion.datatables.core.feature.PaginationTypeListboxFeature;
 import com.github.dandelion.datatables.core.feature.PaginationTypeScrollingFeature;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 
 /**
  * Attribute processor for the <code>paginationtype</code> attribute.
  * 
  * @author Thibault Duchateau
  */
-public class TablePaginationTypeAttrProcessor extends DatatablesAttrProcessor {
+public class TablePaginationTypeAttrProcessor extends AbstractDatatablesAttrProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TablePaginationTypeAttrProcessor.class);

@@ -67,7 +67,7 @@ public class CallbackTag extends TagSupport {
 	}
 	
 	/**
-	 * Process the tag updating table properties.
+	 * Processes the tag.
 	 */
 	public int doEndTag() throws JspException {
 		

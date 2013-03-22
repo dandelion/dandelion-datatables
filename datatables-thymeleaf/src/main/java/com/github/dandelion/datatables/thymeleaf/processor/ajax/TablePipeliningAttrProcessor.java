@@ -36,7 +36,7 @@ import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.feature.PipeliningFeature;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 
 /**
  * <p>
@@ -45,7 +45,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor
  * 
  * @author Thibault Duchateau
  */
-public class TablePipeliningAttrProcessor extends DatatablesAttrProcessor {
+public class TablePipeliningAttrProcessor extends AbstractDatatablesAttrProcessor {
 
 	public TablePipeliningAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);

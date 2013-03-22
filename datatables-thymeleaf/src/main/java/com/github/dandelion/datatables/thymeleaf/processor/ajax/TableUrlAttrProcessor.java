@@ -40,7 +40,7 @@ import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.feature.AjaxFeature;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
@@ -50,7 +50,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * 
  * @author Thibault Duchateau
  */
-public class TableUrlAttrProcessor extends DatatablesAttrProcessor {
+public class TableUrlAttrProcessor extends AbstractDatatablesAttrProcessor {
 
 	public TableUrlAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);

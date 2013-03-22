@@ -10,7 +10,7 @@ import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesElProcessor;
 
 /**
  * <p>
@@ -23,7 +23,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
  * 
  * @author Thibault Duchateau
  */
-public class TbodyElProcessor extends DatatablesElProcessor {
+public class TbodyElProcessor extends AbstractDatatablesElProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TbodyElProcessor.class);

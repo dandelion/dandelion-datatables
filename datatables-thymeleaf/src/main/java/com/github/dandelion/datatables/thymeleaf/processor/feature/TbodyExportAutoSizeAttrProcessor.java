@@ -42,7 +42,7 @@ import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.RequestHelper;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 
 /**
  * Attribute processor applied to the <code>tbody</code> tag for the following
@@ -55,7 +55,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor
  * @author Thibault Duchateau
  * @since 0.8.8
  */
-public class TbodyExportAutoSizeAttrProcessor extends DatatablesAttrProcessor {
+public class TbodyExportAutoSizeAttrProcessor extends AbstractDatatablesAttrProcessor {
 
 	public TbodyExportAutoSizeAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);

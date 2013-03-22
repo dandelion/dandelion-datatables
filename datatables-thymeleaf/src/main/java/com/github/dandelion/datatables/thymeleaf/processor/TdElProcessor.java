@@ -13,7 +13,7 @@ import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesElProcessor;
 
 /**
  * <p>
@@ -25,7 +25,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
  * 
  * @author Thibault Duchateau
  */
-public class TdElProcessor extends DatatablesElProcessor {
+public class TdElProcessor extends AbstractDatatablesElProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TdElProcessor.class);

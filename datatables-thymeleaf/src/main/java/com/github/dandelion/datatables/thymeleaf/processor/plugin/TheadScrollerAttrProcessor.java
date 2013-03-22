@@ -36,7 +36,7 @@ import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.plugin.ScrollerPlugin;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 
 /**
  * Attribute processor applied to the <code>th</code> tag to activate the
@@ -44,7 +44,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor
  * 
  * @author Thibault Duchateau
  */
-public class TheadScrollerAttrProcessor extends DatatablesAttrProcessor {
+public class TheadScrollerAttrProcessor extends AbstractDatatablesAttrProcessor {
 
 	public TheadScrollerAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);

@@ -8,7 +8,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesElProcessor;
 
 /**
  * Element processor applied to the <tt>tr</tt> HTML tag. Whenever Thymeleaf
@@ -17,7 +17,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesElProcessor;
  * 
  * @author Thibault Duchateau
  */
-public class TrElProcessor extends DatatablesElProcessor {
+public class TrElProcessor extends AbstractDatatablesElProcessor {
 
 	public TrElProcessor(IElementNameProcessorMatcher matcher) {
 		super(matcher);

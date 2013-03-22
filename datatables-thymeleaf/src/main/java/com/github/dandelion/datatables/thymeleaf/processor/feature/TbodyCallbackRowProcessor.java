@@ -37,7 +37,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 
 /**
  * Attribute processor applied to the <code>tbody</code> tag for the
@@ -46,7 +46,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DatatablesAttrProcessor
  * @author Thibault Duchateau
  * @since 0.8.9
  */
-public class TbodyCallbackRowProcessor extends DatatablesAttrProcessor {
+public class TbodyCallbackRowProcessor extends AbstractDatatablesAttrProcessor {
 
 	public TbodyCallbackRowProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
