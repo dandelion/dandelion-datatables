@@ -148,7 +148,7 @@ public final class DatatablesCriterias {
 						.getParameter(DTConstants.DT_B_SEARCHABLE + i)));
 				columnDef.setSortable(Boolean.parseBoolean(request
 						.getParameter(DTConstants.DT_B_SORTABLE + i)));
-
+				columnDef.setSearch(request.getParameter(DTConstants.DT_S_COLUMN_SEARCH + i));
 				columnDefs.add(columnDef);
 			}
 

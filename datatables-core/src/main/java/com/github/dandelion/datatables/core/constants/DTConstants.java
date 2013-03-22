@@ -64,6 +64,7 @@ public class DTConstants {
 	public static final String DT_I_DISPLAY_LENGTH = "iDisplayLength";
 	public static final String DT_M_DATA_PROP= "mDataProp_";
 	public static final String DT_S_SEARCH= "sSearch";
+	public static final String DT_S_COLUMN_SEARCH= "sSearch_";
 	public static final String DT_B_REGEX= "bRegex";
 	public static final String DT_B_SEARCHABLE= "bSearchable_";
 	public static final String DT_B_SORTABLE= "bSortable_";
