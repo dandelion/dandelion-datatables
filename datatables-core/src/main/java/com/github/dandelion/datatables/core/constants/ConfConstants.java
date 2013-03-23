@@ -36,7 +36,7 @@ package com.github.dandelion.datatables.core.constants;
  */
 public class ConfConstants {
 
-	public static final String DT_DATASOURCE_CLASS = "datasource.class";
+	public static final String DT_BASE_URL = "url.base";
 	public static final String DT_AGGREGATOR_ENABLE = "aggregator.enable";
 	public static final String DT_AGGREGATOR_MODE = "aggregator.mode";
 	public static final String DT_COMPRESSOR_ENABLE = "compressor.enable";

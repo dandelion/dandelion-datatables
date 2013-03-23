@@ -89,7 +89,8 @@ public class TableProperties {
 	 */
 	public Boolean isValidProperty(String property) {
 
-		return property.equals(ConfConstants.DT_COMPRESSOR_CLASS)
+		return property.equals(ConfConstants.DT_BASE_URL)
+				|| property.equals(ConfConstants.DT_COMPRESSOR_CLASS)
 				|| property.equals(ConfConstants.DT_COMPRESSOR_ENABLE)
 				|| property.equals(ConfConstants.DT_COMPRESSOR_MODE)
 				|| property.equals(ConfConstants.DT_COMPRESSOR_MUNGE)
@@ -97,7 +98,6 @@ public class TableProperties {
 				|| property.equals(ConfConstants.DT_COMPRESSOR_DISABLE_OPTI)
 				|| property.equals(ConfConstants.DT_AGGREGATOR_ENABLE)
 				|| property.equals(ConfConstants.DT_AGGREGATOR_MODE)
-				|| property.equals(ConfConstants.DT_DATASOURCE_CLASS)
 				|| property.equals(ConfConstants.DT_EXPORT_TYPES)
 				|| property.equals(ConfConstants.DT_EXPORT_XLS_DEFAULT_CLASS)
 				|| property.equals(ConfConstants.DT_EXPORT_XLSX_DEFAULT_CLASS)
@@ -110,10 +110,11 @@ public class TableProperties {
 	}
 
 	/**
-	 * @return The default data source provider class name.
+	 * @return The base URL that will be used to override the scripts,
+	 *         stylesheets and export links.
 	 */
-	public String getDatasourceClassName() {
-		return getProperty(ConfConstants.DT_DATASOURCE_CLASS);
+	public String getBaseUrl() {
+		return getProperty(ConfConstants.DT_BASE_URL);
 	}
 
 	/**

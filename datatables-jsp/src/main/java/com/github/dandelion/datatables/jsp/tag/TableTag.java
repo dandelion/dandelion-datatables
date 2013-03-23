@@ -100,7 +100,7 @@ public class TableTag extends AbstractTableTag {
 			this.table.addHeaderRow();
 			
 			// Same domain AJAX request
-			this.table.setDatasourceUrl(RequestHelper.getDatasourceUrl(url, pageContext.getRequest()));				
+			this.table.setDatasourceUrl(RequestHelper.getDatasourceUrl(url, pageContext.getRequest(), table));				
 					
 			this.table.addRow();
 
@@ -261,7 +261,7 @@ public class TableTag extends AbstractTableTag {
 					generateLinkTag(entry.getValue().getLocation());
 				}
 				else{
-					String src = RequestHelper.getAssetSource(entry.getKey(), this.table.getId(), request, false);
+					String src = RequestHelper.getAssetSource(entry.getKey(), this.table, request, false);
 					generateLinkTag(src);
 				}
 			}
@@ -274,11 +274,11 @@ public class TableTag extends AbstractTableTag {
 				generateScriptTag(CdnConstants.CDN_DATATABLES_JS_MIN);
 			}
 			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
-				String src = RequestHelper.getAssetSource(entry.getKey(), this.table.getId(), request, false);
+				String src = RequestHelper.getAssetSource(entry.getKey(), this.table, request, false);
 				generateScriptTag(src);
 			}
 			// Main Javascript file
-			String src = RequestHelper.getAssetSource(webResources.getMainJsFile().getName(), this.table.getId(), request, true);
+			String src = RequestHelper.getAssetSource(webResources.getMainJsFile().getName(), this.table, request, true);
 			generateScriptTag(src);
 
 		} catch (IOException e) {

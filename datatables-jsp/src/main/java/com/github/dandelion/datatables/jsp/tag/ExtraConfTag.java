@@ -73,7 +73,8 @@ public class ExtraConfTag extends TagSupport {
 	 * @return
 	 */
 	private String getLocation(String src){
-		return RequestHelper.getBaseUrl(pageContext.getRequest()) + src;
+		AbstractTableTag parent = (AbstractTableTag) getParent();
+		return RequestHelper.getBaseUrl(pageContext.getRequest(), parent.getTable()) + src;
 	}
 
 	public String getSrc() {

@@ -198,7 +198,7 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 						CdnConstants.CDN_DATATABLES_CSS);
 			}
 			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
-				String src = RequestHelper.getAssetSource(entry.getKey(), htmlTable.getId(), request, false);
+				String src = RequestHelper.getAssetSource(entry.getKey(), htmlTable, request, false);
 				DomUtils.addLinkTag(element, request, src);
 			}
 
@@ -208,10 +208,10 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 						CdnConstants.CDN_DATATABLES_JS_MIN);
 			}
 			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
-				String src = RequestHelper.getAssetSource(entry.getKey(), htmlTable.getId(), request, false);
+				String src = RequestHelper.getAssetSource(entry.getKey(), htmlTable, request, false);
 				DomUtils.addScriptTag(DomUtils.getParentAsElement(element), request, src);
 			}
-			String src = RequestHelper.getAssetSource(webResources.getMainJsFile().getName(), htmlTable.getId(), request, true);
+			String src = RequestHelper.getAssetSource(webResources.getMainJsFile().getName(), htmlTable, request, true);
 			DomUtils.addScriptTag(DomUtils.getParentAsElement(element), request, src);
 
 			logger.debug("Web content generated successfully");

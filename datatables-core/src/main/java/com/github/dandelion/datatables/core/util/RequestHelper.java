@@ -35,6 +35,8 @@ import java.net.URLEncoder;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -106,13 +108,13 @@ public class RequestHelper {
 	 * @return the path to the asset that will be served by the Dandelion
 	 *         servlet.
 	 */
-	public static String getAssetSource(String resourceName, String tableId,
+	public static String getAssetSource(String resourceName, HtmlTable table,
 			HttpServletRequest request, boolean isMainFile) {
-		StringBuffer buffer = new StringBuffer(getBaseUrl(request));
+		StringBuffer buffer = new StringBuffer(getBaseUrl(request, table));
 		buffer.append("/datatablesController/");
 		buffer.append(resourceName);
 		buffer.append("?id=");
-		buffer.append(tableId);
+		buffer.append(table.getId());
 		if (isMainFile) {
 			buffer.append("&t=main");
 		}
@@ -145,11 +147,11 @@ public class RequestHelper {
 	 *            The HttpServletRequest.
 	 * @return the data source URL.
 	 */
-	public static String getDatasourceUrl(String url, ServletRequest servletRequest) {
+	public static String getDatasourceUrl(String url, ServletRequest servletRequest, HtmlTable table) {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 
 		if (url.startsWith("/")) {
-			return RequestHelper.getBaseUrl(request) + url;
+			return RequestHelper.getBaseUrl(request, table) + url;
 		} else {
 			return url;
 		}
@@ -167,10 +169,18 @@ public class RequestHelper {
 	 *            Context of the current JSP.
 	 * @return the base URL of the current JSP.
 	 */
-	public static String getBaseUrl(ServletRequest servletRequest) {
+	public static String getBaseUrl(ServletRequest servletRequest, HtmlTable table) {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
-		return request.getRequestURL().toString()
-				.replace(request.getRequestURI(), request.getContextPath());
+		String baseUrl = null;
+		
+		if(StringUtils.isNotBlank(table.getTableProperties().getBaseUrl())){
+			String[] url = request.getRequestURL().toString().split("/");
+			baseUrl = url[0] + "//" + table.getTableProperties().getBaseUrl();
+		}
+		else{
+			baseUrl = request.getRequestURL().toString();
+		}
+		return baseUrl.replace(request.getRequestURI(), request.getContextPath());
 	}
 
 	/**
@@ -186,9 +196,9 @@ public class RequestHelper {
 	 *            Context of the current JSP.
 	 * @return the base URL of the current JSP.
 	 */
-	public static String getBaseUrlWithParameters(ServletRequest servletRequest) {
+	public static String getBaseUrlWithParameters(ServletRequest servletRequest, HtmlTable table) {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
-		String retval = getBaseUrl(request);
+		String retval = getBaseUrl(request, table);
 		if (request.getQueryString() != null) {
 			retval += request.getQueryString();
 		}

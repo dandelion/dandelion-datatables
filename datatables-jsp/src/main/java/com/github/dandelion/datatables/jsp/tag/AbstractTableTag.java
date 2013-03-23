@@ -208,7 +208,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 			this.table.setCdn(this.cdn);
 		}
 		if (StringUtils.isNotBlank(this.labels)) {
-			this.table.setLabels(RequestHelper.getBaseUrl(pageContext.getRequest()) + this.labels);
+			this.table.setLabels(RequestHelper.getBaseUrl(pageContext.getRequest(), this.table) + this.labels);
 		}
 		if (this.jqueryUI != null) {
 			this.table.setJqueryUI(this.jqueryUI);
