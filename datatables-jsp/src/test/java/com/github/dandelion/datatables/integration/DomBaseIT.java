@@ -60,6 +60,11 @@ import com.github.dandelion.datatables.core.cache.AssetCache;
 import com.github.dandelion.datatables.utils.Mock;
 import com.github.dandelion.datatables.utils.Person;
 
+/**
+ * Base class for integration tests based on a DOM source.
+ *
+ * @author Thibault Duchateau
+ */
 public abstract class DomBaseIT extends FluentAdapter {
 	private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(1024, 768);
 
