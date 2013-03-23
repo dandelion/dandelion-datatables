@@ -5,9 +5,11 @@
 <head>
 <%@ include file="../common/head.jsp"%>
 <script>
-	function callback(oSettings, json) {
-		console.log(oSettings);
-		console.log(json);
+	function callback(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+		console.log(nRow);
+		console.log(aData);
+		console.log(iDisplayIndex);
+		console.log(iDisplayIndexFull);
 	}
 </script>
 </head>
@@ -18,7 +20,7 @@
       <datatables:column title="LastName" property="lastName" />
       <datatables:column title="City" property="address.town.name" sortable="false" />
       <datatables:column title="Mail" property="mail" />
-      <datatables:callback type="init" function="callback" />
+      <datatables:callback type="row" function="callback" />
    </datatables:table>
 </body>
 </html>

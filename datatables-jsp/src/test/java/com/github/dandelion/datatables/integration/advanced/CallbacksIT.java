@@ -49,6 +49,60 @@ public class CallbacksIT extends DomBaseIT {
 	@Test
 	public void should_generate_initcomplete_callback() throws IOException, Exception {
 		goTo("/advanced/callback_init.jsp");
-		assertThat(getCurrentMainConfiguration().getContent()).contains(DTConstants.DT_FN_INIT_COMPLETE);
+		assertThat(getConfigurationFromPage("advanced/callback_init.jsp").getContent()).contains(DTConstants.DT_FN_INIT_COMPLETE);
+	}
+	
+	@Test
+	public void should_generate_cookie_callback() throws IOException, Exception {
+		goTo("/advanced/callback_cookie.jsp");
+		assertThat(getConfigurationFromPage("advanced/callback_cookie.jsp").getContent()).contains(DTConstants.DT_FN_COOKIE_CBK);
+	}
+	
+	@Test
+	public void should_generate_createdrow_callback() throws IOException, Exception {
+		goTo("/advanced/callback_createdrow.jsp");
+		assertThat(getConfigurationFromPage("advanced/callback_createdrow.jsp").getContent()).contains(DTConstants.DT_FN_CREATED_ROW);
+	}
+	
+	@Test
+	public void should_generate_draw_callback() throws IOException, Exception {
+		goTo("/advanced/callback_draw.jsp");
+		assertThat(getConfigurationFromPage("advanced/callback_draw.jsp").getContent()).contains(DTConstants.DT_FN_DRAW_CBK);
+	}
+	
+	@Test
+	public void should_generate_footer_callback() throws IOException, Exception {
+		goTo("/advanced/callback_footer.jsp");
+		assertThat(getConfigurationFromPage("advanced/callback_footer.jsp").getContent()).contains(DTConstants.DT_FN_FOOTER_CBK);
+	}
+	
+	@Test
+	public void should_generate_format_callback() throws IOException, Exception {
+		goTo("/advanced/callback_format.jsp");
+		assertThat(getConfigurationFromPage("advanced/callback_format.jsp").getContent()).contains(DTConstants.DT_FN_FORMAT_NUMBER);
+	}
+	
+	@Test
+	public void should_generate_header_callback() throws IOException, Exception {
+		goTo("/advanced/callback_header.jsp");
+		assertThat(getConfigurationFromPage("advanced/callback_header.jsp").getContent()).contains(DTConstants.DT_FN_HEADER_CBK);
+	}
+	
+	@Test
+	public void should_generate_info_callback() throws IOException, Exception {
+		goTo("/advanced/callback_info.jsp");
+		assertThat(getConfigurationFromPage("advanced/callback_info.jsp").getContent()).contains(DTConstants.DT_FN_INFO_CBK);
+	}
+	
+	@Test
+	public void should_generate_predraw_callback() throws IOException, Exception {
+		goTo("/advanced/callback_predraw.jsp");
+		assertThat(getConfigurationFromPage("advanced/callback_predraw.jsp").getContent()).contains(DTConstants.DT_FN_PRE_DRAW_CBK);
+	}
+	
+	@Test
+	public void should_generate_row_callback() throws IOException, Exception {
+		goTo("/advanced/callback_row.jsp");
+		assertThat(getConfigurationFromPage("advanced/callback_row.jsp").getContent()).contains(DTConstants.DT_FN_ROW_CBK);
 	}
 }

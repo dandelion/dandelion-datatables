@@ -32,7 +32,6 @@ package com.github.dandelion.datatables.integration;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Map.Entry;
 
 import org.apache.jasper.servlet.JspServlet;
 import org.eclipse.jetty.server.Server;
@@ -42,9 +41,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.fluentlenium.core.FluentAdapter;
 import org.fluentlenium.core.domain.FluentList;
 import org.fluentlenium.core.domain.FluentWebElement;
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.TestWatcher;
@@ -170,10 +167,9 @@ public abstract class DomBaseIT extends FluentAdapter {
 		return findFirst("body");
 	}
 
-	public JsResource getCurrentMainConfiguration() {
-		for (Entry<String, Object> entry : AssetCache.cache.entrySet()) {
-			return ((WebResources) entry.getValue()).getMainJsFile();
-		}
-		return null;
+	public JsResource getConfigurationFromPage(String page){
+		String url = "http://" + SERVER_HOST + ":" + SERVER_PORT + "/" + page + "|myTableId";
+		JsResource jsResource = ((WebResources)AssetCache.cache.get(url)).getMainJsFile();
+		return jsResource;
 	}
 }

@@ -5,10 +5,9 @@
 <head>
 <%@ include file="../common/head.jsp"%>
 <script>
-	function callback(oSettings, json) {
-		console.log(oSettings);
-		console.log(json);
-	}
+function callback(oSettings) {
+	console.log(oSettings);
+}
 </script>
 </head>
 <body>
@@ -18,7 +17,7 @@
       <datatables:column title="LastName" property="lastName" />
       <datatables:column title="City" property="address.town.name" sortable="false" />
       <datatables:column title="Mail" property="mail" />
-      <datatables:callback type="init" function="callback" />
+      <datatables:callback type="draw" function="callback" />
    </datatables:table>
 </body>
 </html>
