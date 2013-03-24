@@ -158,7 +158,7 @@ public enum DatatablesAttrProcessors {
     CALLBACK_COOKIE(TbodyCallbackCookieProcessor.class, "cbk:cookie", "tbody"),
     CALLBACK_CREATE_ROW(TbodyCallbackCreatedRowProcessor.class, "cbk:createdrow", "tbody"),
     CALLBACK_DRAW(TbodyCallbackDrawProcessor.class, "cbk:draw", "tbody"),
-    CALLBACK_Footer(TbodyCallbackFooterProcessor.class, "cbk:footer", "tbody"),
+    CALLBACK_FOOTER(TbodyCallbackFooterProcessor.class, "cbk:footer", "tbody"),
     CALLBACK_FORMAT_NUMBER(TbodyCallbackFormatNumberProcessor.class, "cbk:format", "tbody"),
     CALLBACK_HEADER(TbodyCallbackHeaderProcessor.class, "cbk:header", "tbody"),
     CALLBACK_INFO(TbodyCallbackInfoProcessor.class, "cbk:info", "tbody"),
