@@ -167,6 +167,9 @@ public class RequestHelper {
 	 * 
 	 * @param pageContext
 	 *            Context of the current JSP.
+	 * @param table
+	 *            The table from which the URL may be extracted from the
+	 *            properties.
 	 * @return the base URL of the current JSP.
 	 */
 	public static String getBaseUrl(ServletRequest servletRequest, HtmlTable table) {
