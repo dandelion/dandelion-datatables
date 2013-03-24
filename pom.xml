@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
@@ -11,7 +12,6 @@
    <artifactId>dandelion-datatables</artifactId>
    <version>0.8.9-SNAPSHOT</version>
    <packaging>pom</packaging>
-
    <name>Dandelion :: Datatables</name>
 
    <modules>
@@ -38,10 +38,10 @@
       <commons-lang.version>2.6</commons-lang.version>
       <commons-collection.version>3.2.1</commons-collection.version>
       <commons-beanutils.version>1.8.3</commons-beanutils.version>
-      <jackson.version>1.9.9</jackson.version>
+      <jackson.version>1.9.12</jackson.version>
       <servlet.version>3.0.1</servlet.version>
-      <slf4j.version>1.6.4</slf4j.version>
-      <junit.version>4.10</junit.version>
+      <slf4j.version>1.7.2</slf4j.version>
+      <junit.version>4.11</junit.version>
 
       <!-- Maven plugins -->
       <maven.compiler.version>2.3.2</maven.compiler.version>
@@ -50,6 +50,8 @@
       <maven.project-report-info.version>2.5.1</maven.project-report-info.version>
       <maven.site.version>3.1</maven.site.version>
       <maven.release.version>2.3.2</maven.release.version>
+      <maven.surefire.version>2.13</maven.surefire.version>
+      <maven.failsafe.version>2.13</maven.failsafe.version>
    </properties>
 
    <dependencyManagement>
@@ -106,6 +108,35 @@
    </dependencyManagement>
 
    <build>
+      <pluginManagement>
+         <plugins>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-surefire-plugin</artifactId>
+               <version>2.13</version>
+               <configuration>
+                  <useSystemClassLoader>false</useSystemClassLoader>
+               </configuration>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-failsafe-plugin</artifactId>
+               <version>2.13</version>
+               <executions>
+                  <execution>
+                     <id>verify</id>
+                     <goals>
+                        <goal>integration-test</goal>
+                        <goal>verify</goal>
+                     </goals>
+                  </execution>
+               </executions>
+               <configuration>
+                  <useSystemClassLoader>false</useSystemClassLoader>
+               </configuration>
+            </plugin>
+         </plugins>
+      </pluginManagement>
       <plugins>
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -231,7 +262,7 @@
       <system>GitHub</system>
       <url>https://github.com/dandelion/issues/issues</url>
    </issueManagement>
-   
+
    <scm>
       <connection>scm:git:git://github.com/dandelion/dandelion-datatables.git</connection>
       <developerConnection>scm:git:git@github.com:dandelion/dandelion-datatables.git</developerConnection>

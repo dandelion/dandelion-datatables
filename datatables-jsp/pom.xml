@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
@@ -11,6 +12,24 @@
    <packaging>jar</packaging>
    <name>Dandelion :: Datatables :: JSP Implementation</name>
    <description>JSP implementation of Dandelion-DataTables, a Dandelion component that makes HTML table much nicer</description>
+
+   <properties>
+      <!-- Configuration -->
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+      <!-- Dependencies -->
+      <jsp.api.version>2.2</jsp.api.version>
+
+      <!-- Test dependencies -->
+      <fluentlenium.version>0.7.6</fluentlenium.version>
+      <phantomjsdriver.version>1.0.1</phantomjsdriver.version>
+      <festassert.version>1.4</festassert.version>
+      <junit.dep.version>4.11</junit.dep.version>
+      <spring.test.version>3.2.2.RELEASE</spring.test.version>
+      <logback.classic.version>1.0.9</logback.classic.version>
+      <jetty.test.version>8.1.10.v20130312</jetty.test.version>
+   </properties>
 
    <dependencies>
       <!-- Dandelion-DataTables core -->
@@ -31,7 +50,7 @@
       <dependency>
          <groupId>javax.servlet.jsp</groupId>
          <artifactId>jsp-api</artifactId>
-         <version>2.2</version>
+         <version>${jsp.api.version}</version>
          <scope>provided</scope>
       </dependency>
 
@@ -39,7 +58,7 @@
       <dependency>
          <groupId>com.github.detro.ghostdriver</groupId>
          <artifactId>phantomjsdriver</artifactId>
-         <version>1.0.1</version>
+         <version>${phantomjsdriver.version}</version>
          <scope>test</scope>
          <exclusions>
             <exclusion>
@@ -51,7 +70,7 @@
       <dependency>
          <groupId>org.fluentlenium</groupId>
          <artifactId>fluentlenium-core</artifactId>
-         <version>0.7.6</version>
+         <version>${fluentlenium.version}</version>
          <scope>test</scope>
          <exclusions>
             <exclusion>
@@ -63,43 +82,43 @@
       <dependency>
          <groupId>org.eclipse.jetty</groupId>
          <artifactId>jetty-server</artifactId>
-         <version>8.1.10.v20130312</version>
+         <version>${jetty.test.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>org.eclipse.jetty</groupId>
          <artifactId>jetty-webapp</artifactId>
-         <version>8.1.10.v20130312</version>
+         <version>${jetty.test.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>org.eclipse.jetty</groupId>
          <artifactId>jetty-jsp</artifactId>
-         <version>8.1.10.v20130312</version>
+         <version>${jetty.test.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>junit</groupId>
          <artifactId>junit-dep</artifactId>
-         <version>4.11</version>
+         <version>${junit.dep.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>org.easytesting</groupId>
          <artifactId>fest-assert</artifactId>
-         <version>1.4</version>
+         <version>${festassert.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-test</artifactId>
-         <version>3.2.2.RELEASE</version>
+         <version>${spring.test.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>ch.qos.logback</groupId>
          <artifactId>logback-classic</artifactId>
-         <version>1.0.9</version>
+         <version>${logback.classic.version}</version>
          <scope>test</scope>
       </dependency>
    </dependencies>
@@ -109,26 +128,10 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.13</version>
-            <configuration>
-               <useSystemClassLoader>false</useSystemClassLoader>
-            </configuration>
          </plugin>
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
-            <executions>
-               <execution>
-                  <id>verify</id>
-                  <goals>
-                     <goal>integration-test</goal>
-                     <goal>verify</goal>
-                  </goals>
-               </execution>
-            </executions>
-            <configuration>
-               <useSystemClassLoader>false</useSystemClassLoader>
-            </configuration>
          </plugin>
       </plugins>
    </build>
