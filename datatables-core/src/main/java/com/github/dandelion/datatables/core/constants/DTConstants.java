@@ -47,6 +47,7 @@ public class DTConstants {
 	public static final String DT_STATE_SAVE = "bStateSave";
 	public static final String DT_S_DEFAULT_CONTENT = "sDefaultContent";
 	public static final String DT_S_TYPE = "sType";
+	public static final String DT_A_LENGTH_MENU = "aLengthMenu";
 
 	// AJAX related constants
 	public static final String DT_B_DEFER_RENDER = "bDeferRender";

@@ -49,6 +49,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.basic.TableExportLink
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableFilterAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableInfoAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableLabelsAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.basic.TableLengthMenuAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TablePaginateAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TablePaginationTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableSortAttrProcessor;
@@ -99,6 +100,7 @@ public enum DatatablesAttrProcessors {
     BASIC_FILTER_TYPE(ThFilterTypeAttrProcessor.class, "filterType", "th"),
     BASIC_LABELS(TableLabelsAttrProcessor.class, "labels", "table"),
     BASIC_PAGINATION_TYPE(TablePaginationTypeAttrProcessor.class, "paginationtype", "table"),
+    BASIC_LENGTH_MENU(TableLengthMenuAttrProcessor.class, "lengthmenu", "table"),
 
     // Plugin processors
     PLUGIN_SCROLLER(TheadScrollerAttrProcessor.class, "scroller", "thead"),

@@ -165,6 +165,9 @@ public class MainGenerator {
         if (table.getJqueryUI() != null) {
             mainConf.put(DTConstants.DT_JQUERYUI, table.getJqueryUI());
         }
+        if(StringUtils.isNotBlank(table.getLengthMenu())){
+        	mainConf.put(DTConstants.DT_A_LENGTH_MENU, new JavascriptSnippet(table.getLengthMenu()));
+        }
 
         // AJAX
         if (table.getProcessing() != null) {

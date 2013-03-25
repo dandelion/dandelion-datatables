@@ -72,6 +72,7 @@ public class HtmlTable extends HtmlTag {
 	private Boolean jqueryUI;
 	private String appear;
 	private String appearDuration;
+	private String lengthMenu;
 	
 	// Ajax
 	private Boolean processing;
@@ -640,24 +641,33 @@ public class HtmlTable extends HtmlTag {
 		}
 		this.callbacks.add(callback);
 	}
-	
+
+	public String getLengthMenu() {
+		return lengthMenu;
+	}
+
+	public void setLengthMenu(String lengthMenu) {
+		this.lengthMenu = lengthMenu;
+	}
+
 	@Override
 	public String toString() {
-		return "HtmlTable [id=" + id + ", autoWidth=" + autoWidth + ", deferRender=" + deferRender + ", info="
+		return "HtmlTable [autoWidth=" + autoWidth + ", deferRender=" + deferRender + ", info="
 				+ info + ", filterable=" + filterable + ", paginate=" + paginate
 				+ ", paginationType=" + paginationType + ", lengthChange=" + lengthChange
 				+ ", sort=" + sort + ", stateSave=" + stateSave + ", labels=" + labels + ", cdn="
 				+ cdn + ", jqueryUI=" + jqueryUI + ", appear=" + appear + ", appearDuration="
-				+ appearDuration + ", processing=" + processing + ", serverSide=" + serverSide
-				+ ", ajaxSource=" + ajaxSource + ", pipelining=" + pipelining + ", pipeSize="
-				+ pipeSize + ", jsonp=" + jsonp + ", scrollY=" + scrollY + ", fixedPosition="
-				+ fixedPosition + ", fixedOffsetTop=" + fixedOffsetTop + ", head=" + head
-				+ ", body=" + body + ", foot=" + foot + ", tableProperties=" + tableProperties
-				+ ", datasourceUrl=" + datasourceUrl + ", plugins=" + plugins + ", features="
-				+ features + ", extraFiles=" + extraFiles + ", extraConfs=" + extraConfs
-				+ ", randomId=" + randomId + ", objectType=" + objectType + ", currentUrl="
-				+ currentUrl + ", exportProperties=" + exportProperties + ", exporting="
-				+ exporting + ", exportConfMap=" + exportConfMap + ", exportLinkPositions="
+				+ appearDuration + ", lengthMenu=" + lengthMenu + ", processing=" + processing
+				+ ", serverSide=" + serverSide + ", ajaxSource=" + ajaxSource + ", pipelining="
+				+ pipelining + ", pipeSize=" + pipeSize + ", jsonp=" + jsonp + ", scrollY="
+				+ scrollY + ", fixedPosition=" + fixedPosition + ", fixedOffsetTop="
+				+ fixedOffsetTop + ", callbacks=" + callbacks + ", head=" + head + ", body=" + body
+				+ ", foot=" + foot + ", tableProperties=" + tableProperties + ", datasourceUrl="
+				+ datasourceUrl + ", plugins=" + plugins + ", features=" + features
+				+ ", extraFiles=" + extraFiles + ", extraConfs=" + extraConfs + ", randomId="
+				+ randomId + ", objectType=" + objectType + ", currentUrl=" + currentUrl
+				+ ", exportProperties=" + exportProperties + ", exporting=" + exporting
+				+ ", exportConfMap=" + exportConfMap + ", exportLinkPositions="
 				+ exportLinkPositions + ", isExportable=" + isExportable + ", theme=" + theme
 				+ ", themeOption=" + themeOption + "]";
 	}

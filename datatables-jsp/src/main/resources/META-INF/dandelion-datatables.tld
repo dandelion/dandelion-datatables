@@ -291,7 +291,11 @@
             current activated theme.</description>
           <name>themeOption</name>
       </attribute>
-
+      <attribute>
+         <description>Specify the entries in the length drop down menu that DataTables show when pagination is enabled.</description>
+         <name>lengthMenu</name>
+      </attribute>
+      
       <!-- ====================================== -->
       <!-- Extra features -->
       <!-- ====================================== -->

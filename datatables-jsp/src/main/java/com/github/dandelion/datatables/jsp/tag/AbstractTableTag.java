@@ -114,6 +114,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected Boolean cdn;
 	protected String appear;
 	protected String footer;
+	protected String lengthMenu;
 
 	// Advanced features
 	protected Boolean deferRender;
@@ -225,14 +226,22 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 				this.table.setAppear("block");
 			}
 		}
-		
-//		// TODO tester si la valeur vaut "header"
-//		if (StringUtils.isNotBlank(this.footer)) {
-//
-//			for (HtmlColumn footerColumn : table.getLastHeaderRow().getColumns()) {
-//				table.getLastFooterRow().addColumn(footerColumn);
-//			}
-//		}
+		if(StringUtils.isNotBlank(lengthMenu)){
+			String[] tmp = lengthMenu.split(";");
+			if(tmp.length > 1){
+				String[] tmp2 = tmp[0].split(",");
+				String[] tmp3 = tmp[1].split(",");
+				if(tmp2.length == tmp3.length){
+					table.setLengthMenu("[[" + tmp[0] + "],[" + tmp[1] + "]]");
+				}
+				else{
+					throw new BadConfigurationException("You must provide the exact same number of elements separated by a \";\"");
+				}
+			}
+			else{
+				table.setLengthMenu("[" + lengthMenu + "]");				
+			}
+		}
 	}
 
 	/**
@@ -889,6 +898,14 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	
 	public void setJsonp(Boolean jsonp){
 		this.jsonp = jsonp;
+	}
+	
+	public String getLengthMenu(){
+		return lengthMenu;
+	}
+	
+	public void setLengthMenu(String lengthMenu){
+		this.lengthMenu = lengthMenu;
 	}
 	
 	public void setData(Collection<Object> data) {
