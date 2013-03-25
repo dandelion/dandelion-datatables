@@ -56,6 +56,8 @@ import com.github.dandelion.datatables.thymeleaf.processor.basic.TableSortAttrPr
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThFilterTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThFilterableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSearchableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortDirectionAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortInitAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackCookieProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackCreatedRowProcessor;
@@ -101,6 +103,8 @@ public enum DatatablesAttrProcessors {
     BASIC_LABELS(TableLabelsAttrProcessor.class, "labels", "table"),
     BASIC_PAGINATION_TYPE(TablePaginationTypeAttrProcessor.class, "paginationtype", "table"),
     BASIC_LENGTH_MENU(TableLengthMenuAttrProcessor.class, "lengthmenu", "table"),
+    BASIC_SORT_INIT(ThSortInitAttrProcessor.class, "sortinit", "th"),
+    BASIC_SORT_DIR(ThSortDirectionAttrProcessor.class, "sortdir", "th"),
 
     // Plugin processors
     PLUGIN_SCROLLER(TheadScrollerAttrProcessor.class, "scroller", "thead"),

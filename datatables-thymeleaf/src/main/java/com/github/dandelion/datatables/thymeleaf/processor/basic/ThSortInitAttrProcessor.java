@@ -38,14 +38,16 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 
 /**
- * Attribute processor applied to the <code>th</code> tag for the
- * <code>sortable</code> attribute.
+ * <p>
+ * Attribute processor applied to the <tt>th</tt> tag for the <tt>sortinit</tt>
+ * attribute.
  * 
  * @author Thibault Duchateau
+ * @since 0.8.9
  */
-public class ThSortableAttrProcessor extends AbstractDatatablesAttrProcessor {
+public class ThSortInitAttrProcessor extends AbstractDatatablesAttrProcessor {
 
-	public ThSortableAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	public ThSortInitAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
@@ -57,13 +59,13 @@ public class ThSortableAttrProcessor extends AbstractDatatablesAttrProcessor {
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
 			String attributeName, HtmlTable table) {
-
+		
 		// Get attribute value
-		Boolean attrValue = Boolean.parseBoolean(element.getAttributeValue(attributeName));
+		String attrValue = element.getAttributeValue(attributeName);
 
 		// Override default value with the attribute's one
 		if (table != null) {
-			table.getLastHeaderRow().getLastColumn().setSortable(attrValue);
+			table.getLastHeaderRow().getLastColumn().setSortInit(attrValue);
 		}
 
 		return ProcessorResult.ok();
