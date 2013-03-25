@@ -295,6 +295,10 @@
          <description>Specify the entries in the length drop down menu that DataTables show when pagination is enabled.</description>
          <name>lengthMenu</name>
       </attribute>
+      <attribute>
+         <description>Comma-separated list of CSS classes that should be applied to displayed rows. This array may be of any length, and DataTables will apply each class sequentially, looping when required.</description>
+         <name>cssStripes</name>
+      </attribute>
       
       <!-- ====================================== -->
       <!-- Extra features -->

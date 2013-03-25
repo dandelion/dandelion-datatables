@@ -168,6 +168,9 @@ public class MainGenerator {
         if(StringUtils.isNotBlank(table.getLengthMenu())){
         	mainConf.put(DTConstants.DT_A_LENGTH_MENU, new JavascriptSnippet(table.getLengthMenu()));
         }
+        if(StringUtils.isNotBlank(table.getStripeClasses())){
+        	mainConf.put(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet(table.getStripeClasses()));
+        }
 
         // AJAX
         if (table.getProcessing() != null) {

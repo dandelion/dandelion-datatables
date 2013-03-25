@@ -115,6 +115,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected String appear;
 	protected String footer;
 	protected String lengthMenu;
+	protected String cssStripes;
 
 	// Advanced features
 	protected Boolean deferRender;
@@ -241,6 +242,16 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 			else{
 				table.setLengthMenu("[" + lengthMenu + "]");				
 			}
+		}
+		
+		if(StringUtils.isNotBlank(cssStripes)){
+			String[] tmp = lengthMenu.split(";");
+			String stripeTmp = "[";
+			for(String cssClass : tmp){
+				stripeTmp += "'" + cssClass + "',";
+			}
+			stripeTmp += "]";
+			table.setStripeClasses(stripeTmp);
 		}
 	}
 
@@ -906,6 +917,14 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	
 	public void setLengthMenu(String lengthMenu){
 		this.lengthMenu = lengthMenu;
+	}
+	
+	public String getCssStripes(){
+		return cssStripes;
+	}
+	
+	public void setCssStripes(String cssStripes){
+		this.cssStripes = cssStripes;
 	}
 	
 	public void setData(Collection<Object> data) {

@@ -73,6 +73,7 @@ public class HtmlTable extends HtmlTag {
 	private String appear;
 	private String appearDuration;
 	private String lengthMenu;
+	private String stripeClasses;
 	
 	// Ajax
 	private Boolean processing;
@@ -648,6 +649,14 @@ public class HtmlTable extends HtmlTag {
 
 	public void setLengthMenu(String lengthMenu) {
 		this.lengthMenu = lengthMenu;
+	}
+
+	public String getStripeClasses() {
+		return stripeClasses;
+	}
+
+	public void setStripeClasses(String stripeClasses) {
+		this.stripeClasses = stripeClasses;
 	}
 
 	@Override
