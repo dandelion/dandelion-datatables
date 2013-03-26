@@ -61,7 +61,7 @@ public class DatatablesServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-logger.debug("DataTables servlet captured GET request {}", request.getRequestURI());
+		logger.debug("DataTables servlet captured GET request {}", request.getRequestURI());
 		
 		// Common response header
 		// TODO adapt caching behaviour depending on the file nature (e.g. plugin)
@@ -73,7 +73,7 @@ logger.debug("DataTables servlet captured GET request {}", request.getRequestURI
 		String fileContent = null;
 
 		String mainKey = request.getParameter("c") + "|" + request.getParameter("id");
-		String type = request.getParameter("t");;
+		String type = request.getParameter("t");
 		
 		if(DandelionUtils.isDevModeEnabled() || AssetCache.cache.containsKey(mainKey)){
 			
