@@ -41,7 +41,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrP
 /**
  * <p>
  * Attribute processor applied to the <tt>table</tt> tag for the
- * <tt>stripeClasses</tt> attribute.
+ * <tt>stripeclasses</tt> attribute.
  * 
  * @author Thibault Duchateau
  * @since 0.8.9
