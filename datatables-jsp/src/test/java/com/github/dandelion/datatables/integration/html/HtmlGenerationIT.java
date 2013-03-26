@@ -91,16 +91,12 @@ public class HtmlGenerationIT extends DomBaseIT {
 //	@Test
 	public void when_emptylist_should_not_generate_anything() {
 		goTo("/htmlGeneration/table_with_empty_collection.jsp");
-//		System.out.println(driver.getPageSource());
 		assertThat(getTable()).hasSize(0);
-//		System.out.println(driver.getPageSource());
 	}
 	
 //	@Test
 	public void when_nulllist_should_not_generate_anything() {
 		goTo("/htmlGeneration/table_with_null_collection.jsp");
-		System.out.println(driver.getPageSource());
 		assertThat(getTable()).hasSize(0);
-		System.out.println(driver.getPageSource());
 	}
 }
