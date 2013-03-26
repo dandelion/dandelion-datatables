@@ -39,6 +39,9 @@ import com.github.dandelion.datatables.core.exception.DataTableProcessingExcepti
 import com.github.dandelion.datatables.thymeleaf.processor.ajax.TablePipeSizeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.ajax.TablePipeliningAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableProcessingAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableServerDataAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableServerMethodAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableServerParamsAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableServerSideAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableUrlAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableAppearAttrProcessor;
@@ -155,6 +158,9 @@ public enum DatatablesAttrProcessors {
     AJAX_PIPELINING(TablePipeliningAttrProcessor.class, "pipelining", "table"),
     AJAX_PIPE_SI(TablePipeSizeAttrProcessor.class, "pipesize", "table"),
     AJAX_PROCESSING(TableProcessingAttrProcessor.class, "processing", "table"),
+    AJAX_SERVER_DATA(TableServerDataAttrProcessor.class, "serverdata", "table"),
+    AJAX_SERVER_PARAMS(TableServerParamsAttrProcessor.class, "serverparams", "table"),
+    AJAX_SERVER_METHOD(TableServerMethodAttrProcessor.class, "servermethod", "table"),
 
     // Theme processors
     THEME(TableThemeAttrProcessor.class, "theme", "table"),

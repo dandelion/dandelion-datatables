@@ -56,6 +56,8 @@ public class DTConstants {
 	public static final String DT_B_SERVER_SIDE = "bServerSide";
 	public static final String DT_S_AJAX_SOURCE = "sAjaxSource";
 	public static final String DT_FN_SERVERDATA = "fnServerData";
+	public static final String DT_S_SERVERMETHOD = "sServerMethod";
+	public static final String DT_FN_SERVERPARAMS = "fnServerParams";
 	public static final String DT_S_AJAXDATAPROP = "sAjaxDataProp";
 		 
 	// AJAX URL parameters

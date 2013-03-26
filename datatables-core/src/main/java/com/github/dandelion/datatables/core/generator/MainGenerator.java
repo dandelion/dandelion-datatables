@@ -182,6 +182,15 @@ public class MainGenerator {
         	if(StringUtils.isNotBlank(table.getDatasourceUrl())){
         		mainConf.put(DTConstants.DT_S_AJAX_SOURCE, table.getDatasourceUrl());
         	}
+        	if(StringUtils.isNotBlank(table.getServerData())){
+        		mainConf.put(DTConstants.DT_FN_SERVERDATA, new JavascriptSnippet(table.getServerData()));
+        	}
+        	if(StringUtils.isNotBlank(table.getServerParam())){
+        		mainConf.put(DTConstants.DT_FN_SERVERPARAMS, new JavascriptSnippet(table.getServerParam()));
+        	}
+        	if(StringUtils.isNotBlank(table.getServerMethod())){
+        		mainConf.put(DTConstants.DT_S_SERVERMETHOD, new JavascriptSnippet(table.getServerMethod()));
+        	}
         }
         
         // Callbacks

@@ -129,6 +129,9 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected Boolean pipelining;
 	protected Integer pipeSize;
 	protected Boolean jsonp;
+	protected String serverData;
+	protected String serverParams;
+	protected String serverMethod;
 	
 	// Extra features
 	protected Boolean fixedHeader = false;
@@ -199,6 +202,15 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 		}
 		if (this.serverSide != null) {
 			this.table.setServerSide(this.serverSide);
+		}
+		if(StringUtils.isNotBlank(serverData)){
+			table.setServerData(serverData);
+		}
+		if(StringUtils.isNotBlank(serverMethod)){
+			table.setServerMethod(serverMethod);
+		}
+		if(StringUtils.isNotBlank(serverParams)){
+			table.setServerParam(serverParams);
 		}
 		if (this.sort != null) {
 			this.table.setSort(this.sort);
@@ -927,6 +939,31 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 		this.cssStripes = cssStripes;
 	}
 	
+	
+	public String getServerData() {
+		return serverData;
+	}
+
+	public void setServerData(String serverData) {
+		this.serverData = serverData;
+	}
+
+	public String getServerParams() {
+		return serverParams;
+	}
+
+	public void setServerParams(String serverParams) {
+		this.serverParams = serverParams;
+	}
+
+	public String getServerMethod() {
+		return serverMethod;
+	}
+
+	public void setServerMethod(String serverMethod) {
+		this.serverMethod = serverMethod;
+	}
+
 	public void setData(Collection<Object> data) {
 		this.loadingType = "DOM";
 		this.data = data;

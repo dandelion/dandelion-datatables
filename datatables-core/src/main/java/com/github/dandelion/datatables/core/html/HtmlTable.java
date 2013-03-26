@@ -82,6 +82,9 @@ public class HtmlTable extends HtmlTag {
 	private Boolean pipelining;
 	private int pipeSize;
 	private Boolean jsonp;
+	private String serverData;
+	private String serverParam;
+	private String serverMethod;
 	
 	// Extra features
 	private String scrollY;
@@ -659,6 +662,30 @@ public class HtmlTable extends HtmlTag {
 		this.stripeClasses = stripeClasses;
 	}
 
+	public String getServerData() {
+		return serverData;
+	}
+
+	public void setServerData(String serverData) {
+		this.serverData = serverData;
+	}
+
+	public String getServerParam() {
+		return serverParam;
+	}
+
+	public void setServerParam(String serverParam) {
+		this.serverParam = serverParam;
+	}
+
+	public String getServerMethod() {
+		return serverMethod;
+	}
+
+	public void setServerMethod(String serverMethod) {
+		this.serverMethod = serverMethod;
+	}
+
 	@Override
 	public String toString() {
 		return "HtmlTable [autoWidth=" + autoWidth + ", deferRender=" + deferRender + ", info="
@@ -666,12 +693,14 @@ public class HtmlTable extends HtmlTag {
 				+ ", paginationType=" + paginationType + ", lengthChange=" + lengthChange
 				+ ", sort=" + sort + ", stateSave=" + stateSave + ", labels=" + labels + ", cdn="
 				+ cdn + ", jqueryUI=" + jqueryUI + ", appear=" + appear + ", appearDuration="
-				+ appearDuration + ", lengthMenu=" + lengthMenu + ", processing=" + processing
-				+ ", serverSide=" + serverSide + ", ajaxSource=" + ajaxSource + ", pipelining="
-				+ pipelining + ", pipeSize=" + pipeSize + ", jsonp=" + jsonp + ", scrollY="
-				+ scrollY + ", fixedPosition=" + fixedPosition + ", fixedOffsetTop="
-				+ fixedOffsetTop + ", callbacks=" + callbacks + ", head=" + head + ", body=" + body
-				+ ", foot=" + foot + ", tableProperties=" + tableProperties + ", datasourceUrl="
+				+ appearDuration + ", lengthMenu=" + lengthMenu + ", stripeClasses="
+				+ stripeClasses + ", processing=" + processing + ", serverSide=" + serverSide
+				+ ", ajaxSource=" + ajaxSource + ", pipelining=" + pipelining + ", pipeSize="
+				+ pipeSize + ", jsonp=" + jsonp + ", serverData=" + serverData + ", serverParam="
+				+ serverParam + ", serverMethod=" + serverMethod + ", scrollY=" + scrollY
+				+ ", fixedPosition=" + fixedPosition + ", fixedOffsetTop=" + fixedOffsetTop
+				+ ", callbacks=" + callbacks + ", head=" + head + ", body=" + body + ", foot="
+				+ foot + ", tableProperties=" + tableProperties + ", datasourceUrl="
 				+ datasourceUrl + ", plugins=" + plugins + ", features=" + features
 				+ ", extraFiles=" + extraFiles + ", extraConfs=" + extraConfs + ", randomId="
 				+ randomId + ", objectType=" + objectType + ", currentUrl=" + currentUrl
