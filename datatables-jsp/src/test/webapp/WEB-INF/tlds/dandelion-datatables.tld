@@ -232,6 +232,14 @@
           <name>serverSide</name>
       </attribute>
       <attribute>
+         <description>Allows you to override the default function which obtains the data from the server ($.getJSON) so something more suitable for your application</description>
+          <name>serverData</name>
+      </attribute>
+      <attribute>
+         <description>Allows you to send extra information to the server when using AJAX source</description>
+          <name>serverParams</name>
+      </attribute>
+      <attribute>
          <description>Enable pipelining data for paging when server-side
             processing is enabled</description>
           <name>pipelining</name>
