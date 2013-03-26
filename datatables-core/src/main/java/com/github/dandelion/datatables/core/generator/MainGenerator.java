@@ -189,7 +189,7 @@ public class MainGenerator {
         		mainConf.put(DTConstants.DT_FN_SERVERPARAMS, new JavascriptSnippet(table.getServerParam()));
         	}
         	if(StringUtils.isNotBlank(table.getServerMethod())){
-        		mainConf.put(DTConstants.DT_S_SERVERMETHOD, new JavascriptSnippet(table.getServerMethod()));
+        		mainConf.put(DTConstants.DT_S_SERVERMETHOD, table.getServerMethod());
         	}
         }
         
