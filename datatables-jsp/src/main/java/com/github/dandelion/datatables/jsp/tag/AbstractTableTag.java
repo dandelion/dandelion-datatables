@@ -31,6 +31,7 @@ package com.github.dandelion.datatables.jsp.tag;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -261,7 +262,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 		if(StringUtils.isNotBlank(cssStripes)){
 			String[] tmp = cssStripes.split(",");
 			String stripeTmp = "[";
-			ArrayIterator iterator = new ArrayIterator(tmp);
+			Iterator<String> iterator = Arrays.asList(tmp).iterator();
 			stripeTmp += "'" + iterator.next() + "'";
 			while(iterator.hasNext()){
 				stripeTmp += ",'" + iterator.next() + "'";
