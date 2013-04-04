@@ -20,6 +20,15 @@
 
       <!-- Dependencies -->
       <jsp.api.version>2.2</jsp.api.version>
+      
+      <!-- Test dependencies -->
+      <fluentlenium.version>0.7.6</fluentlenium.version>
+      <phantomjsdriver.version>1.0.1</phantomjsdriver.version>
+      <festassert.version>1.4</festassert.version>
+      <junit.dep.version>4.11</junit.dep.version>
+      <spring.test.version>3.2.2.RELEASE</spring.test.version>
+      <logback.classic.version>1.0.9</logback.classic.version>
+      <jetty.test.version>8.1.10.v20130312</jetty.test.version>
    </properties>
 
    <dependencies>
@@ -45,11 +54,87 @@
          <scope>provided</scope>
       </dependency>
 
-      <!-- Tests -->
+      <!-- Logging -->
       <dependency>
-         <groupId>com.github.dandelion</groupId>
-         <artifactId>datatables-testing-jsp</artifactId>
-         <version>0.8.11-SNAPSHOT</version>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-api</artifactId>
+         <version>1.7.2</version>
+      </dependency>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>jcl-over-slf4j</artifactId>
+         <version>1.6.4</version>
+      </dependency>
+      <dependency>
+         <groupId>ch.qos.logback</groupId>
+         <artifactId>logback-classic</artifactId>
+         <version>1.0.9</version>
+      </dependency>
+      <dependency>
+         <groupId>ch.qos.logback</groupId>
+         <artifactId>logback-access</artifactId>
+         <version>1.0.9</version>
+      </dependency>
+
+      <!-- Test dependencies -->
+      <dependency>
+         <groupId>com.github.detro.ghostdriver</groupId>
+         <artifactId>phantomjsdriver</artifactId>
+         <version>${phantomjsdriver.version}</version>
+         <scope>test</scope>
+         <exclusions>
+            <exclusion>
+               <groupId>org.seleniumhq.selenium</groupId>
+               <artifactId>selenium-server</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <groupId>org.fluentlenium</groupId>
+         <artifactId>fluentlenium-core</artifactId>
+         <version>${fluentlenium.version}</version>
+         <scope>test</scope>
+         <exclusions>
+            <exclusion>
+               <groupId>junit</groupId>
+               <artifactId>junit-dep</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <groupId>org.eclipse.jetty</groupId>
+         <artifactId>jetty-server</artifactId>
+         <version>${jetty.test.version}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.eclipse.jetty</groupId>
+         <artifactId>jetty-webapp</artifactId>
+         <version>${jetty.test.version}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.eclipse.jetty</groupId>
+         <artifactId>jetty-jsp</artifactId>
+         <version>${jetty.test.version}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit-dep</artifactId>
+         <version>${junit.dep.version}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.easytesting</groupId>
+         <artifactId>fest-assert</artifactId>
+         <version>${festassert.version}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-test</artifactId>
+         <version>${spring.test.version}</version>
          <scope>test</scope>
       </dependency>
    </dependencies>

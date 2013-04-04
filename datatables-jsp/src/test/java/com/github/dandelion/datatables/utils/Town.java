@@ -28,43 +28,48 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.jsp.basics;
-
-import static org.fest.assertions.Assertions.assertThat;
-
-import org.junit.Test;
-
-import com.github.dandelion.datatables.jsp.tag.DomBaseTest;
-import com.github.dandelion.datatables.utils.Mock;
-import com.github.dandelion.datatables.utils.TableBuilder;
+package com.github.dandelion.datatables.utils;
 
 /**
- * Default table.
+ * A typical Town entity.
  * 
- * @author Thibault Duchateau
+ * @author tduchateau
  */
-public class DefaultTableTest extends DomBaseTest {
+public class Town {
 
-	@Override
-	public void buildTable() {
-		tableBuilder = new TableBuilder(Mock.persons, "myTableId").context(mockPageContext)
-				.defaultTable();
-	}
-	
-	@Test
-	public void should_fill_the_table() {
-		System.out.println(table);
-		assertThat(table.getHeadRows()).hasSize(1);
-		assertThat(table.getBodyRows()).hasSize(Mock.persons.size());
-		assertThat(table.getBodyRows().get(0).getColumns()).hasSize(tableBuilder.getColumnTags().size());
-		assertThat(table.getBodyRows().get(0).getColumns().get(0).getContent()).isEqualTo(Mock.persons.get(0).getId().toString());
-		assertThat(table.getBodyRows().get(0).getColumns().get(1).getContent()).isEqualTo(Mock.persons.get(0).getFirstName().toString());
+	private Long id;
+	private String name;
+	private String postcode;
+
+	public Town() {
+
 	}
 
-	@Test
-	public void should_generate_a_default_table() {
-		assertThat(table.getFeatures()).isNull();
-		assertThat(table.getPlugins()).isNull();
-		assertThat(table.getTheme()).isNull();
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Town(String label) {
+		this.name = label;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String label) {
+		this.name = label;
+	}
+
+	public String getPostcode() {
+		return postcode;
+	}
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
 	}
 }

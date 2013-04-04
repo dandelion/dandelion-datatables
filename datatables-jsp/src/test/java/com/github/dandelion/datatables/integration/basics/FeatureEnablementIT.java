@@ -37,7 +37,7 @@ import java.io.IOException;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.integration.DomBaseIT;
-import com.github.dandelion.datatables.testing.core.Mock;
+import com.github.dandelion.datatables.utils.Mock;
 
 /**
  * Test the basic Features of Dandelion-Datatables.

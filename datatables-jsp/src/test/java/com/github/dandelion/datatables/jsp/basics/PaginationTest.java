@@ -35,7 +35,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.jsp.tag.DomBaseTest;
-import com.github.dandelion.datatables.testing.core.Mock;
+import com.github.dandelion.datatables.utils.Mock;
 import com.github.dandelion.datatables.utils.TableBuilder;
 
 /**

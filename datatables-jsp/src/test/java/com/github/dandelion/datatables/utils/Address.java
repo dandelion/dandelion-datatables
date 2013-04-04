@@ -28,43 +28,57 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.jsp.basics;
+package com.github.dandelion.datatables.utils;
 
-import static org.fest.assertions.Assertions.assertThat;
-
-import org.junit.Test;
-
-import com.github.dandelion.datatables.jsp.tag.DomBaseTest;
-import com.github.dandelion.datatables.utils.Mock;
-import com.github.dandelion.datatables.utils.TableBuilder;
 
 /**
- * Default table.
+ * A typical Address entity.
  * 
- * @author Thibault Duchateau
+ * @author tduchateau
  */
-public class DefaultTableTest extends DomBaseTest {
+public class Address {
 
-	@Override
-	public void buildTable() {
-		tableBuilder = new TableBuilder(Mock.persons, "myTableId").context(mockPageContext)
-				.defaultTable();
+	private Long id;
+	private String street;
+	private Town town;
+
+	public Address() {
+
 	}
 	
-	@Test
-	public void should_fill_the_table() {
-		System.out.println(table);
-		assertThat(table.getHeadRows()).hasSize(1);
-		assertThat(table.getBodyRows()).hasSize(Mock.persons.size());
-		assertThat(table.getBodyRows().get(0).getColumns()).hasSize(tableBuilder.getColumnTags().size());
-		assertThat(table.getBodyRows().get(0).getColumns().get(0).getContent()).isEqualTo(Mock.persons.get(0).getId().toString());
-		assertThat(table.getBodyRows().get(0).getColumns().get(1).getContent()).isEqualTo(Mock.persons.get(0).getFirstName().toString());
+	public Address(String street, Town town){
+		this.street = street;
+		this.town = town;
 	}
 
-	@Test
-	public void should_generate_a_default_table() {
-		assertThat(table.getFeatures()).isNull();
-		assertThat(table.getPlugins()).isNull();
-		assertThat(table.getTheme()).isNull();
+	public Address(String street) {
+		this.street = street;
 	}
+
+	public Town getTown() {
+		return town;
+	}
+
+	public void setTown(Town town) {
+		this.town = town;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	
+
 }
