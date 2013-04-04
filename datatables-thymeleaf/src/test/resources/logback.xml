@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+         <pattern>%d{HH:mm:ss} %-5level %logger{60} - %msg%n
+         </pattern>
+      </encoder>
+   </appender>
+
+   <logger name="com.github.dandelion" level="INFO" />
+   <logger name="org.eclipe.jetty" level="INFO" />
+
+   <root level="INFO">
+      <appender-ref ref="STDOUT" />
+   </root>
+
+</configuration>

@@ -34,5 +34,13 @@
          <artifactId>thymeleaf</artifactId>
          <version>${thymeleaf.version}</version>
       </dependency>
+      
+      <!-- Tests -->
+      <dependency>
+         <groupId>com.github.dandelion</groupId>
+         <artifactId>datatables-testing-thymeleaf</artifactId>
+         <version>0.8.11-SNAPSHOT</version>
+         <scope>test</scope>
+      </dependency>
    </dependencies>
 </project>
