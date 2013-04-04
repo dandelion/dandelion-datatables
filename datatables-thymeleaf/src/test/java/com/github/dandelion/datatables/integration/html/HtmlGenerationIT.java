@@ -50,7 +50,6 @@ public class HtmlGenerationIT extends DomBaseIT {
 	public void should_generate_table_markup() throws IOException, Exception {
 		goTo("/-htmlGeneration/default");
 		
-		System.out.println(driver.getPageSource());
 		assertThat(getTable()).hasSize(1);
 		assertThat(getTable().find("thead")).hasSize(1);
 		assertThat(getTable().find("tbody")).hasSize(1);
@@ -72,32 +71,32 @@ public class HtmlGenerationIT extends DomBaseIT {
 		FluentWebElement body = findFirst("body");
 		assertThat(body.find("script")).hasSize(1);
 	}
-//	
-//	@Test
-//	public void should_render_empty_cell() throws IOException, Exception {
-//		goTo("/htmlGeneration/table_default.jsp");
-//
-//		// I know that the 4th cell of the first row must be empty (City is null in the data source)
-//		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("");
-//	}
-//	
-//	@Test
-//	public void should_render_default_value_in_cell() throws IOException, Exception {
-//		goTo("/htmlGeneration/table_default_values.jsp");
-//
-//		// I know that the 4th cell of the first row must be empty (City is null in the data source)
-//		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("default value");
-//	}
-//	
-////	@Test
-//	public void when_emptylist_should_not_generate_anything() {
-//		goTo("/htmlGeneration/table_with_empty_collection.jsp");
-//		assertThat(getTable()).hasSize(0);
-//	}
-//	
-////	@Test
-//	public void when_nulllist_should_not_generate_anything() {
-//		goTo("/htmlGeneration/table_with_null_collection.jsp");
-//		assertThat(getTable()).hasSize(0);
-//	}
+	
+	@Test
+	public void should_render_empty_cell() throws IOException, Exception {
+		goTo("/-htmlGeneration/default");
+
+		// I know that the 4th cell of the first row must be empty (City is null in the data source)
+		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("");
+	}
+	
+	@Test
+	public void should_render_default_value_in_cell() throws IOException, Exception {
+		goTo("/-htmlGeneration/default_values");
+
+		// I know that the 4th cell of the first row is empty but is filled with a default value
+		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("Default value");
+	}
+	
+	@Test
+	public void when_emptylist_should_use_static_template() {
+		goTo("/-htmlGeneration/empty_collection");
+		assertThat(getTable().find("tbody").find("tr")).hasSize(1);
+	}
+	
+	@Test
+	public void when_nulllist_should_use_static_template() {
+		goTo("/-htmlGeneration/null_collection");
+		assertThat(getTable().find("tbody").find("tr")).hasSize(1);
+	}
 }

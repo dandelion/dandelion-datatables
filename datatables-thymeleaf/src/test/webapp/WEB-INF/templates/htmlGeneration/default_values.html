@@ -21,7 +21,7 @@
             <td th:text="${person.id}">1</td>
             <td th:text="${person.firstName}">John</td>
             <td th:text="${person.lastName}">Doe</td>
-            <td th:text="${person.address != null and person.address.town != null} ? ${person.address.town.name} : ''">Nobody knows !</td>
+            <td th:text="${person.address != null and person.address.town != null} ? ${person.address.town.name} : 'Default value'">Nobody knows !</td>
             <td th:text="${person.mail}">john@doe.com</td>
          </tr>
       </tbody>
