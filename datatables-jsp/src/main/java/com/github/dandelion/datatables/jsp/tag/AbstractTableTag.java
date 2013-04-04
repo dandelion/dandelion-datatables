@@ -40,6 +40,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.iterators.ArrayIterator;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,6 +117,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected String footer;
 	protected String lengthMenu;
 	protected String cssStripes;
+	protected Integer displayLength;
 
 	// Advanced features
 	protected Boolean deferRender;
@@ -257,13 +259,19 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 		}
 		
 		if(StringUtils.isNotBlank(cssStripes)){
-			String[] tmp = lengthMenu.split(";");
+			String[] tmp = cssStripes.split(",");
 			String stripeTmp = "[";
-			for(String cssClass : tmp){
-				stripeTmp += "'" + cssClass + "',";
+			ArrayIterator iterator = new ArrayIterator(tmp);
+			stripeTmp += "'" + iterator.next() + "'";
+			while(iterator.hasNext()){
+				stripeTmp += ",'" + iterator.next() + "'";
 			}
 			stripeTmp += "]";
 			table.setStripeClasses(stripeTmp);
+		}
+		
+		if(displayLength != null){
+			table.setDisplayLength(displayLength);
 		}
 	}
 
@@ -962,6 +970,14 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 
 	public void setServerMethod(String serverMethod) {
 		this.serverMethod = serverMethod;
+	}
+
+	public Integer getDisplayLength() {
+		return displayLength;
+	}
+
+	public void setDisplayLength(Integer displayLength) {
+		this.displayLength = displayLength;
 	}
 
 	public void setData(Collection<Object> data) {

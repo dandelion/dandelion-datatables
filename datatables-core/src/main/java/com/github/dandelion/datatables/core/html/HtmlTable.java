@@ -74,6 +74,7 @@ public class HtmlTable extends HtmlTag {
 	private String appearDuration;
 	private String lengthMenu;
 	private String stripeClasses;
+	private Integer displayLength;
 	
 	// Ajax
 	private Boolean processing;
@@ -684,6 +685,14 @@ public class HtmlTable extends HtmlTag {
 
 	public void setServerMethod(String serverMethod) {
 		this.serverMethod = serverMethod;
+	}
+
+	public Integer getDisplayLength() {
+		return displayLength;
+	}
+
+	public void setDisplayLength(Integer displayLength) {
+		this.displayLength = displayLength;
 	}
 
 	@Override

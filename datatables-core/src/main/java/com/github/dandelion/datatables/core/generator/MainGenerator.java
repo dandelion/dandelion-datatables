@@ -150,6 +150,9 @@ public class MainGenerator {
         if (table.getPaginate() != null) {
             mainConf.put(DTConstants.DT_PAGINATE, table.getPaginate());
         }
+        if (table.getDisplayLength() != null) {
+            mainConf.put(DTConstants.DT_I_DISPLAY_LENGTH, table.getDisplayLength());
+        }
         if (table.getLengthChange() != null) {
             mainConf.put(DTConstants.DT_LENGTH_CHANGE, table.getLengthChange());
         }
