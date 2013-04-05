@@ -22,7 +22,7 @@
       <jsp.api.version>2.2</jsp.api.version>
       
       <!-- Test dependencies -->
-      <fluentlenium.version>0.7.6</fluentlenium.version>
+      <fluentlenium.version>0.7.7</fluentlenium.version>
       <phantomjsdriver.version>1.0.1</phantomjsdriver.version>
       <festassert.version>1.4</festassert.version>
       <junit.dep.version>4.11</junit.dep.version>
