@@ -36,6 +36,7 @@ import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * <p>
@@ -60,7 +61,7 @@ public class TablePipeSizeAttrProcessor extends AbstractDatatablesAttrProcessor 
 			String attributeName, HtmlTable table) {
 
 		// Get attribute value
-		Integer attrValue = Integer.parseInt(element.getAttributeValue(attributeName));
+		Integer attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, Integer.class);
 
 		if (table != null && attrValue != null) {
 			table.setPipeSize(attrValue);

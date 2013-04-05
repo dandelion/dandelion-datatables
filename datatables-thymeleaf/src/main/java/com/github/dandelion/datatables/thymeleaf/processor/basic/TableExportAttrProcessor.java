@@ -47,6 +47,7 @@ import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * <p>
@@ -82,7 +83,7 @@ public class TableExportAttrProcessor extends AbstractDatatablesAttrProcessor {
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 
 		// Get attribute value
-		String attrValue = element.getAttributeValue(attributeName);
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 		logger.debug("Extracted value : {}", attrValue);
 
 		if (StringUtils.isNotBlank(attrValue) && table != null) {
