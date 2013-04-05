@@ -39,12 +39,13 @@ public class Utils {
 	 * @param value String expression to parse
 	 * @param defaultValue <T> default value
 	 * @param clazz {@link Class} type
-	 * @return <T> result value or default value if result has different class type
+	 * @return <T> result value or default value if result has different class type (or null)
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T parseElementAttribute(Arguments arguments, String value, T defaultValue, Class<T> clazz) {
 		if (value == null) return defaultValue;
 		Object result = StandardExpressionProcessor.processExpression(arguments, value.trim());
+		if (result == null) return defaultValue;
 		T tmpValue = defaultValue;
 		if (clazz.isAssignableFrom(result.getClass())) tmpValue = (T) result;
 		return tmpValue;
