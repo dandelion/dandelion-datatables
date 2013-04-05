@@ -11,7 +11,7 @@
    <logger name="com.github.dandelion" level="INFO" />
    <logger name="org.eclipe.jetty" level="INFO" />
 
-   <root level="DEBUG">
+   <root level="WARN">
       <appender-ref ref="STDOUT" />
    </root>
 
