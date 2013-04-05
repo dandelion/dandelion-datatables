@@ -37,6 +37,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.plugin.FixedHeaderPlugin;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * Attribute processor applied to the <code>th</code> tag to activate the
@@ -60,7 +61,7 @@ public class TheadFixedHeaderAttrProcessor extends AbstractDatatablesAttrProcess
 			String attributeName, HtmlTable table) {
 
 		// Get attribute value
-		Boolean attrValue = Boolean.parseBoolean(element.getAttributeValue(attributeName));
+		Boolean attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), false, Boolean.class);
 
 		// HtmlTable update
 		if (attrValue && table != null) {

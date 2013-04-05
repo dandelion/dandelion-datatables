@@ -43,6 +43,7 @@ import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * Attribute processor applied to the <code>tbody</code> tag for the following
@@ -75,8 +76,8 @@ public class TbodyExportFilenameAttrProcessor extends AbstractDatatablesAttrProc
 
 		// Get the HTTP request
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-				
-		String attrValue = element.getAttributeValue(attributeName);
+
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 		ExportType exportType = ExportType.valueOf(attributeName.split(":")[1].toUpperCase().trim());
 		
 		// The ExportConf already exists

@@ -38,6 +38,7 @@ import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * Attribute processor applied to the <code>tbody</code> tag for the
@@ -61,7 +62,7 @@ public class TbodyCallbackDrawProcessor extends AbstractDatatablesAttrProcessor 
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
 			String attributeName, HtmlTable table) {
 
-		String attrValue = element.getAttributeValue(attributeName);
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
 		if (table != null) {
 			table.registerCallback(new Callback(CallbackType.DRAW, attrValue));
