@@ -36,6 +36,7 @@ import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * <p>
@@ -65,7 +66,7 @@ public class TableCdnAttrProcessor extends AbstractDatatablesAttrProcessor {
 			String attributeName, HtmlTable table) {
 
 		// Get attribute value
-		Boolean attrValue = Boolean.parseBoolean(element.getAttributeValue(attributeName));
+		Boolean attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), false, Boolean.class);
 
 		// HtmlTable update
 		if (table != null) {

@@ -39,6 +39,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.feature.FilterType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * Attribute processor applied to the <code>th</code> tag for the
@@ -70,7 +71,7 @@ public class ThFilterTypeAttrProcessor extends AbstractDatatablesAttrProcessor {
 
 			FilterType filterType = null;
 
-			String attrValue = element.getAttributeValue(attributeName.trim().toUpperCase());
+			String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 			
 			if(attrValue != null){
 				try {

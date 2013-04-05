@@ -71,7 +71,7 @@ public class TableLabelsAttrProcessor extends AbstractDatatablesAttrProcessor {
 		HtmlTable htmlTable = Utils.getTable(arguments);
 
 		// Get attribute value
-		String attrValue = element.getAttributeValue(attributeName);
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
 		// HtmlTable update
 		if (htmlTable != null && StringUtils.isNotBlank(attrValue)) {

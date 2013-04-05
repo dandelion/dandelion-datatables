@@ -44,6 +44,7 @@ import com.github.dandelion.datatables.core.exception.DataTableProcessingExcepti
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * <p>
@@ -75,7 +76,7 @@ public class TableExportLinksAttrProcessor extends AbstractDatatablesAttrProcess
 			String attributeName, HtmlTable table) {
 
 		// Get attribute value
-		String attrValue = element.getAttributeValue(attributeName).toLowerCase().trim();
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
 		// Export links position
 		List<ExportLinkPosition> positionList = new ArrayList<ExportLinkPosition>();

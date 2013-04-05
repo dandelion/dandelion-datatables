@@ -69,7 +69,7 @@ public class TableUrlAttrProcessor extends AbstractDatatablesAttrProcessor {
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 
 		// Get attribute value
-		String attrValue = element.getAttributeValue(attributeName).toLowerCase().trim();
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
 		if (table != null && StringUtils.isNotBlank(attrValue)) {
 			// Same domain AJAX request

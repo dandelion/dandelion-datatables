@@ -38,6 +38,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * Attribute processor applied to the <tt>table</tt> tag for the
@@ -62,7 +63,7 @@ public class TableLengthMenuAttrProcessor extends AbstractDatatablesAttrProcesso
 			String attributeName, HtmlTable table) {
 
 		// Get attribute value
-		String attrValue = element.getAttributeValue(attributeName);
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 		
 		if(StringUtils.isNotBlank(attrValue)){
 			String[] tmp = attrValue.split(";");
