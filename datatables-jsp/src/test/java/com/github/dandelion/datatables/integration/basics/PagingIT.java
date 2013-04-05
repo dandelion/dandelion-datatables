@@ -43,7 +43,7 @@ import com.github.dandelion.datatables.integration.DomBaseIT;
  *
  * @author Thibault Duchateau
  */
-public class PaginationIT extends DomBaseIT {
+public class PagingIT extends DomBaseIT {
 
 	@Test
 	public void should_limit_display_length() throws IOException, Exception {
