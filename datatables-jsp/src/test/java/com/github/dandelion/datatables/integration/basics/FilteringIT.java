@@ -37,7 +37,6 @@ import java.io.IOException;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.integration.DomBaseIT;
-import com.github.dandelion.datatables.utils.Mock;
 
 /**
  * Test the filtering options.
