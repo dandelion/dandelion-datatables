@@ -40,11 +40,11 @@ import org.junit.Test;
 import com.github.dandelion.datatables.integration.DomBaseIT;
 
 /**
- * Test the HTML markup generation.
+ * Test the HTML markup generation using a DOM source.
  *
  * @author Thibault Duchateau
  */
-public class HtmlGenerationIT extends DomBaseIT {
+public class DomSourceIT extends DomBaseIT {
 
 	@Test
 	public void should_generate_table_markup() throws IOException, Exception {
