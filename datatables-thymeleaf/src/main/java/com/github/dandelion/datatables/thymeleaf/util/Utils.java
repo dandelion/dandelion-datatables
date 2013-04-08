@@ -51,7 +51,7 @@ public class Utils {
 	 */
 	public static <T> T parseElementAttribute(Arguments arguments, String value, T defaultValue, Class<T> clazz) {
 		if (value == null) return defaultValue;
-		
+
 		return processStandardExpression(arguments, value, defaultValue, clazz);
 	}
 

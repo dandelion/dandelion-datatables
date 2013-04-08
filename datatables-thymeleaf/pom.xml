@@ -44,12 +44,6 @@
          <version>${thymeleaf.version}</version>
       </dependency>
       
-      <!-- Tests -->
-      <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-test</artifactId>
-      </dependency>
-
       <!-- Logging -->
       <dependency>
          <groupId>org.slf4j</groupId>
@@ -72,65 +66,11 @@
          <version>1.0.9</version>
       </dependency>
 
-      <!-- Test dependencies -->
+      <!-- Test -->
       <dependency>
-         <groupId>com.github.detro.ghostdriver</groupId>
-         <artifactId>phantomjsdriver</artifactId>
-         <version>${phantomjsdriver.version}</version>
-         <scope>test</scope>
-         <exclusions>
-            <exclusion>
-               <groupId>org.seleniumhq.selenium</groupId>
-               <artifactId>selenium-server</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
-         <groupId>org.fluentlenium</groupId>
-         <artifactId>fluentlenium-core</artifactId>
-         <version>${fluentlenium.version}</version>
-         <scope>test</scope>
-         <exclusions>
-            <exclusion>
-               <groupId>junit</groupId>
-               <artifactId>junit-dep</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
-         <groupId>org.eclipse.jetty</groupId>
-         <artifactId>jetty-server</artifactId>
-         <version>${jetty.test.version}</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.eclipse.jetty</groupId>
-         <artifactId>jetty-webapp</artifactId>
-         <version>${jetty.test.version}</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.eclipse.jetty</groupId>
-         <artifactId>jetty-jsp</artifactId>
-         <version>${jetty.test.version}</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>junit</groupId>
-         <artifactId>junit-dep</artifactId>
-         <version>${junit.dep.version}</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.easytesting</groupId>
-         <artifactId>fest-assert</artifactId>
-         <version>${festassert.version}</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-test</artifactId>
-         <version>${spring.test.version}</version>
+         <groupId>com.github.dandelion</groupId>
+         <artifactId>datatables-testing</artifactId>
+         <version>0.8.11-SNAPSHOT</version>
          <scope>test</scope>
       </dependency>
    </dependencies>
