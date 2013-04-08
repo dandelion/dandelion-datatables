@@ -66,5 +66,6 @@ public class DefaultTableTest extends DomBaseTest {
 		assertThat(table.getFeatures()).isNull();
 		assertThat(table.getPlugins()).isNull();
 		assertThat(table.getTheme()).isNull();
+		//TODO more assertions are needed
 	}
 }

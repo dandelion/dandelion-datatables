@@ -36,6 +36,7 @@ import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * <p>
@@ -60,7 +61,7 @@ public class TableServerDataAttrProcessor extends AbstractDatatablesAttrProcesso
 			String attributeName, HtmlTable table) {
 
 		// Get attribute value
-		String attrValue = element.getAttributeValue(attributeName);
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
 		if (table != null) {
 			table.setServerData(attrValue);

@@ -14,6 +14,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesElProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * TODO
@@ -53,17 +54,17 @@ public class ColumnInitializerElProcessor extends AbstractDatatablesElProcessor 
 		// AJAX sources require to set dt:property attribute
 		// This attribute is processed here, before being removed
 		if(element.hasAttribute("dt:property")){
-			htmlColumn.setProperty(element.getAttributeValue("dt:property").trim());
+			htmlColumn.setProperty(Utils.parseElementAttribute(arguments, element.getAttributeValue("dt:property"), null, String.class));
 			element.removeAttribute("dt:property");
 		}
 		
 		if(element.hasAttribute("dt:renderFunction")) {
-			htmlColumn.setRenderFunction(element.getAttributeValue("dt:renderFunction").trim());
+			htmlColumn.setRenderFunction(Utils.parseElementAttribute(arguments, element.getAttributeValue("dt:renderFunction"), null, String.class));
 			element.removeAttribute("dt:renderFunction");
 		}
 
 		if(element.hasAttribute("dt:default")){
-			htmlColumn.setDefaultValue(element.getAttributeValue("dt:default").trim());
+			htmlColumn.setDefaultValue(Utils.parseElementAttribute(arguments, element.getAttributeValue("dt:default"), null, String.class));
 			element.removeAttribute("dt:default");
 		}
 		else{

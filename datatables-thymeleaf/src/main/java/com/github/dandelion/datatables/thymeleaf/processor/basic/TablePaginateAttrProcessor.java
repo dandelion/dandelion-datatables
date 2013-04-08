@@ -36,6 +36,7 @@ import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * Attribute processor for the <code>paginate</code> attribute.
@@ -58,7 +59,7 @@ public class TablePaginateAttrProcessor extends AbstractDatatablesAttrProcessor 
 			String attributeName, HtmlTable table) {
 		
 		// Get attribute value
-		Boolean attrValue = Boolean.parseBoolean(element.getAttributeValue(attributeName));
+		Boolean attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), false, Boolean.class);
 
 		// HtmlTable update
 		table.setPaginate(attrValue);

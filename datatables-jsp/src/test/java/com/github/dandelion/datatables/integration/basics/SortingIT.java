@@ -39,16 +39,41 @@ import org.junit.Test;
 import com.github.dandelion.datatables.integration.DomBaseIT;
 
 /**
- * Test the CDN activation.
+ * Test the sorting options.
  *
  * @author Thibault Duchateau
  */
-public class PaginationIT extends DomBaseIT {
+public class SortingIT extends DomBaseIT {
 
 	@Test
-	public void should_limit_display_length() throws IOException, Exception {
-		goTo("/basics/table_paging.jsp");
+	public void should_disable_sorting_only_on_the_first_column() throws IOException, Exception {
+		goTo("/basics/sorting_disabled.jsp");
 
-		assertThat(getTable().find("tbody").find("tr")).hasSize(40);
+		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_disabled");
+		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).isEqualTo("sorting");
+		assertThat(getTable().find("thead").find("th", 2).getAttribute("class")).isEqualTo("sorting");
+		assertThat(getTable().find("thead").find("th", 3).getAttribute("class")).isEqualTo("sorting");
+		assertThat(getTable().find("thead").find("th", 4).getAttribute("class")).isEqualTo("sorting");
+	}
+	
+	@Test
+	public void should_init_sort() throws IOException, Exception {
+		goTo("/basics/sorting_init.jsp");
+
+		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_desc");
+		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).isEqualTo("sorting_asc");
+	}
+	
+	@Test
+	public void should_control_direction() throws IOException, Exception {
+		goTo("/basics/sorting_direction.jsp");
+		
+		click(getTable().find("thead").find("th", 0));
+		click(getTable().find("thead").find("th", 0));
+		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_desc");
+		
+		click(getTable().find("thead").find("th", 1));
+		click(getTable().find("thead").find("th", 1));
+		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).isEqualTo("sorting_asc");
 	}
 }

@@ -45,6 +45,7 @@ import com.github.dandelion.datatables.core.feature.PaginationTypeListboxFeature
 import com.github.dandelion.datatables.core.feature.PaginationTypeScrollingFeature;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * Attribute processor for the <code>paginationtype</code> attribute.
@@ -70,7 +71,7 @@ public class TablePaginationTypeAttrProcessor extends AbstractDatatablesAttrProc
 			String attributeName, HtmlTable table) {
 
 		// Get attribute value
-		String attrValue = element.getAttributeValue(attributeName).toLowerCase().trim();
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
 		if (StringUtils.isNotBlank(attrValue)) {
 			PaginationType paginationType = null;

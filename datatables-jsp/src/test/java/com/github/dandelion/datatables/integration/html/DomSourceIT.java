@@ -40,15 +40,15 @@ import org.junit.Test;
 import com.github.dandelion.datatables.integration.DomBaseIT;
 
 /**
- * Test the HTML markup generation.
+ * Test the HTML markup generation using a DOM source.
  *
  * @author Thibault Duchateau
  */
-public class HtmlGenerationIT extends DomBaseIT {
+public class DomSourceIT extends DomBaseIT {
 
 	@Test
 	public void should_generate_table_markup() throws IOException, Exception {
-		goTo("/htmlGeneration/table_default.jsp");
+		goTo("/html/table_default.jsp");
 		
 		assertThat(getTable()).hasSize(1);
 		assertThat(getTable().find("thead")).hasSize(1);
@@ -67,14 +67,14 @@ public class HtmlGenerationIT extends DomBaseIT {
 
 	@Test
 	public void should_generate_script_tag() {
-		goTo("/htmlGeneration/table_default.jsp");
+		goTo("/html/table_default.jsp");
 		FluentWebElement body = findFirst("body");
 		assertThat(body.find("script")).hasSize(1);
 	}
 	
 	@Test
 	public void should_render_empty_cell() throws IOException, Exception {
-		goTo("/htmlGeneration/table_default.jsp");
+		goTo("/html/table_default.jsp");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("");
@@ -82,7 +82,7 @@ public class HtmlGenerationIT extends DomBaseIT {
 	
 	@Test
 	public void should_render_default_value_in_cell() throws IOException, Exception {
-		goTo("/htmlGeneration/table_default_values.jsp");
+		goTo("/html/table_default_values.jsp");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("default value");
@@ -90,13 +90,13 @@ public class HtmlGenerationIT extends DomBaseIT {
 	
 //	@Test
 	public void when_emptylist_should_not_generate_anything() {
-		goTo("/htmlGeneration/table_with_empty_collection.jsp");
+		goTo("/html/table_with_empty_collection.jsp");
 		assertThat(getTable()).hasSize(0);
 	}
 	
 //	@Test
 	public void when_nulllist_should_not_generate_anything() {
-		goTo("/htmlGeneration/table_with_null_collection.jsp");
+		goTo("/html/table_with_null_collection.jsp");
 		assertThat(getTable()).hasSize(0);
 	}
 }
