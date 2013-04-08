@@ -44,11 +44,11 @@ import com.github.dandelion.datatables.integration.DomBaseIT;
  *
  * @author Thibault Duchateau
  */
-public class HtmlGenerationIT extends DomBaseIT {
+public class DomSourceIT extends DomBaseIT {
 
 	@Test
 	public void should_generate_table_markup() throws IOException, Exception {
-		goTo("/-htmlGeneration/default");
+		goTo("/-html/default");
 		
 		assertThat(getTable()).hasSize(1);
 		assertThat(getTable().find("thead")).hasSize(1);
@@ -67,14 +67,14 @@ public class HtmlGenerationIT extends DomBaseIT {
 
 	@Test
 	public void should_generate_script_tag() {
-		goTo("/-htmlGeneration/default");
+		goTo("/-html/default");
 		FluentWebElement body = findFirst("body");
 		assertThat(body.find("script")).hasSize(1);
 	}
 	
 	@Test
 	public void should_render_empty_cell() throws IOException, Exception {
-		goTo("/-htmlGeneration/default");
+		goTo("/-html/default");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("");
@@ -82,7 +82,7 @@ public class HtmlGenerationIT extends DomBaseIT {
 	
 	@Test
 	public void should_render_default_value_in_cell() throws IOException, Exception {
-		goTo("/-htmlGeneration/default_values");
+		goTo("/-html/default_values");
 
 		// I know that the 4th cell of the first row is empty but is filled with a default value
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("Default value");
@@ -90,13 +90,13 @@ public class HtmlGenerationIT extends DomBaseIT {
 	
 	@Test
 	public void when_emptylist_should_use_static_template() {
-		goTo("/-htmlGeneration/empty_collection");
+		goTo("/-html/empty_collection");
 		assertThat(getTable().find("tbody").find("tr")).hasSize(1);
 	}
 	
 	@Test
 	public void when_nulllist_should_use_static_template() {
-		goTo("/-htmlGeneration/null_collection");
+		goTo("/-html/null_collection");
 		assertThat(getTable().find("tbody").find("tr")).hasSize(1);
 	}
 }
