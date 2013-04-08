@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.springframework.stereotype.Service;
 
 import com.github.dandelion.datatables.core.ajax.ColumnDef;
 import com.github.dandelion.datatables.core.ajax.DataSet;
@@ -14,6 +15,7 @@ import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
 import com.github.dandelion.datatables.utils.Mock;
 import com.github.dandelion.datatables.utils.Person;
 
+@Service
 public class MockService {
 
 	public DataSet<Person> getData(DatatablesCriterias criterias) {

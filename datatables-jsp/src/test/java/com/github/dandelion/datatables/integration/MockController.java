@@ -18,7 +18,7 @@ import com.github.dandelion.datatables.utils.Mock;
 import com.github.dandelion.datatables.utils.Person;
 
 /**
- * 
+ * Controller used in the Spring web application.
  * 
  * @author Thibault Duchateau
  */
