@@ -28,7 +28,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.utils;
+package com.github.dandelion.datatables.mock;
 
 /**
  * A typical Town entity.

@@ -57,8 +57,8 @@ import org.openqa.selenium.remote.service.DriverService;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.cache.AssetCache;
-import com.github.dandelion.datatables.utils.Mock;
-import com.github.dandelion.datatables.utils.Person;
+import com.github.dandelion.datatables.mock.Mock;
+import com.github.dandelion.datatables.mock.Person;
 
 
 /**
