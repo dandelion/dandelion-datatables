@@ -47,6 +47,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableUrlAttrProc
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableAppearAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableAutoWidthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableCdnAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.basic.TableDisplayLengthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableExportAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableExportLinksAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableFilterAttrProcessor;
@@ -110,6 +111,7 @@ public enum DatatablesAttrProcessors {
     BASIC_SORT_INIT(ThSortInitAttrProcessor.class, "sortinit", "th"),
     BASIC_SORT_DIR(ThSortDirectionAttrProcessor.class, "sortdir", "th"),
     BASIC_STRIP_CLASSES(TableStripeClassesAttrProcessor.class, "stripclasses", "table"),
+    BASIC_DISPLAY_LENGTH(TableDisplayLengthAttrProcessor.class, "displaylength", "table"),
     
     // Plugin processors
     PLUGIN_SCROLLER(TheadScrollerAttrProcessor.class, "scroller", "thead"),
