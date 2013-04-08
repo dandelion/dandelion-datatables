@@ -73,6 +73,12 @@
          <version>0.8.11-SNAPSHOT</version>
          <scope>test</scope>
       </dependency>
+      <dependency>
+         <groupId>org.thymeleaf</groupId>
+         <artifactId>thymeleaf-spring3</artifactId>
+         <version>${thymeleaf.version}</version>
+         <scope>test</scope>
+      </dependency>
    </dependencies>
 
     <build>
