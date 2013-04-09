@@ -47,7 +47,7 @@ public class ExtraFileTag extends TagSupport {
 	private static final long serialVersionUID = -287813095911386884L;
 
 	// Logger
-	private static Logger logger = LoggerFactory.getLogger(AbstractTableTag.class);
+	private static Logger logger = LoggerFactory.getLogger(ExtraFileTag.class);
 
 	// Tag attributes
 	private String src;
