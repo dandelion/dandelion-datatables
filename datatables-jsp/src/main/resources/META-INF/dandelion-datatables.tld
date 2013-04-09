@@ -361,6 +361,20 @@
    <!-- Extra features -->
    <!-- ====================================== -->
    <tag>
+       <description>Allows to fill an HTML caption tag in the table.</description>
+       <name>caption</name>
+       <tag-class>com.github.dandelion.datatables.jsp.tag.CaptionTag</tag-class>
+       <body-content>JSP</body-content>
+       <attribute>
+          <description>"title" attribute of the HTML caption tag.</description>
+          <name>title</name>
+       </attribute>
+       <attribute>
+          <description>value of the HTML caption tag.</description>
+          <name>value</name>
+       </attribute>
+   </tag>
+   <tag>
        <description>Allows to fill a column header with more complex
            content than a usual title.</description>
        <name>columnHead</name>

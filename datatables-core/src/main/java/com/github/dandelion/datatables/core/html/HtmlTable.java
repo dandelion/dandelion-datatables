@@ -94,6 +94,7 @@ public class HtmlTable extends HtmlTag {
 	private List<Callback> callbacks;
 
 	// Internal attributes
+	private HtmlCaption caption;
 	private List<HtmlRow> head = new LinkedList<HtmlRow>();
 	private List<HtmlRow> body = new LinkedList<HtmlRow>();
 	private List<HtmlRow> foot = new LinkedList<HtmlRow>();
@@ -174,6 +175,9 @@ public class HtmlTable extends HtmlTag {
 		}
 
 		html.append(">");
+		if(this.caption != null) {
+			html.append(this.caption.toHtml());
+		}
 		html.append("<thead>");
 
 		for (HtmlRow row : this.head) {
@@ -199,6 +203,14 @@ public class HtmlTable extends HtmlTag {
 		html.append("</table>");
 		
 		return html;
+	}
+
+	public HtmlCaption getCaption(){
+		return caption;
+	}
+
+	public void setCaption(HtmlCaption caption){
+		this.caption = caption;
 	}
 
 	public List<HtmlRow> getHeadRows() {
