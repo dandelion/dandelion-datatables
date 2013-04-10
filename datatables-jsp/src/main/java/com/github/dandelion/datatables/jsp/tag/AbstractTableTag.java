@@ -516,8 +516,9 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 
 			if (row != null) {
 				pageContext.setAttribute(row, object);
+				pageContext.setAttribute(row + "_rowIndex", iterationNumber);
 			}
-
+			
 			String rowId = getRowId();
 			if (StringUtils.isNotBlank(rowId)) {
 				this.table.addRow(rowId);
