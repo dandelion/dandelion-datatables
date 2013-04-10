@@ -86,7 +86,7 @@ public abstract class DomBaseIT extends FluentAdapter {
 		server.addConnector(connector);
 
 		context = new WebAppContext("src/test/webapp", "/");
-		context.addServlet(ThymeleafServlet.class, "/*");
+		context.addServlet(ThymeleafServlet.class, "/thymeleaf/*");
 
 		server.setHandler(context);
 		server.setStopAtShutdown(true);

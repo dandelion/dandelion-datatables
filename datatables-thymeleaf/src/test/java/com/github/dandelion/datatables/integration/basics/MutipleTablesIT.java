@@ -47,7 +47,7 @@ public class MutipleTablesIT extends DomBaseIT {
 
 	@Test
 	public void should_disable_paging() throws IOException, Exception {
-		goTo("/-basics/multiple");
+		goTo("/thymeleaf/basics/multiple");
 		
 		assertThat(find("#" + TABLE_ID + "_wrapper")).hasSize(1);
 		assertThat(find("#" + TABLE_ID2 + "_wrapper")).hasSize(1);

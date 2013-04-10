@@ -46,7 +46,7 @@ public class PaginationIT extends DomBaseIT {
 
 	@Test
 	public void should_limit_display_length() throws IOException, Exception {
-        goTo("/-basics/paging");
+        goTo("/thymeleaf/basics/paging");
 
 		assertThat(getTable().find("tbody").find("tr")).hasSize(45);
 	}

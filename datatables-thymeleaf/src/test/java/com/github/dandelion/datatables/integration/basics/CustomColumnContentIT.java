@@ -47,7 +47,7 @@ public class CustomColumnContentIT extends DomBaseIT {
 
 	@Test
 	public void should_generate_mailto_link() throws IOException, Exception {
-		goTo("/-basics/custom_column_content");
+		goTo("/thymeleaf/basics/custom_column_content");
 
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getAttribute("href")).isEqualTo("mailto:venenatis@Duisvolutpat.com");

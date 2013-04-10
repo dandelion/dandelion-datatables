@@ -17,9 +17,9 @@ public class AjaxSourceIT extends DomBaseIT {
 
 	@Test
 	public void should_generate_table_markup() throws IOException, Exception {
-		goTo("/-ajax/table");
-		System.out.println(driver.getPageSource());
+		goTo("/thymeleaf/ajax/table");
 
+		System.out.println(driver.getPageSource());
 		assertThat(getTable()).hasSize(1);
 		assertThat(getTable().find("thead")).hasSize(1);
 		assertThat(getTable().find("tbody")).hasSize(1);

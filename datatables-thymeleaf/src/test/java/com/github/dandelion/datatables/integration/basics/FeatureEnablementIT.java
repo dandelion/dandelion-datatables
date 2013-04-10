@@ -48,7 +48,7 @@ public class FeatureEnablementIT extends DomBaseIT {
 
 	@Test
 	public void should_disable_paging() throws IOException, Exception {
-		goTo("/-basics/disable_paging");
+		goTo("/thymeleaf/basics/disable_paging");
 
 		assertThat(find("#" + TABLE_ID + "_length")).hasSize(0);
 
@@ -58,7 +58,7 @@ public class FeatureEnablementIT extends DomBaseIT {
 
 	@Test
 	public void should_disable_filtering() throws IOException, Exception {
-		goTo("/-basics/disable_filtering");
+		goTo("/thymeleaf/basics/disable_filtering");
 
 		// If paging is disabled, the entire collection is displayed
 		assertThat(find("#" + TABLE_ID + "_filter")).hasSize(0);
@@ -66,7 +66,7 @@ public class FeatureEnablementIT extends DomBaseIT {
 
 	@Test
 	public void should_disable_info() throws IOException, Exception {
-		goTo("/-basics/disable_info");
+		goTo("/thymeleaf/basics/disable_info");
 
 		// If paging is disabled, the entire collection is displayed
 		assertThat(find("#" + TABLE_ID + "_info")).hasSize(0);
@@ -74,7 +74,7 @@ public class FeatureEnablementIT extends DomBaseIT {
 
 	@Test
 	public void should_disable_sorting() throws IOException, Exception {
-		goTo("/-basics/disable_sorting");
+		goTo("/thymeleaf/basics/disable_sorting");
 
 		// If paging is disabled, the entire collection is displayed
 		assertThat(getTable().find("tbody").find(".sorting")).hasSize(0);

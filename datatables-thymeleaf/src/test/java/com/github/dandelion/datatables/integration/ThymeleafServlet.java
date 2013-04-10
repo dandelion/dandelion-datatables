@@ -60,8 +60,8 @@ public class ThymeleafServlet extends HttpServlet {
 			IOException {
 
 		// Get the template's name to process
-		String templateName = request.getRequestURL().substring(request.getRequestURL().lastIndexOf("-") + 1, request.getRequestURL().length());
-		
+		String templateName = request.getRequestURL().toString().split("/thymeleaf")[1];
+
 		// Adapt the response headers
 		response.setContentType("text/html");
 		response.setStatus(HttpServletResponse.SC_OK);

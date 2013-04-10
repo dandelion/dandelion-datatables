@@ -48,7 +48,7 @@ public class CdnIT extends DomBaseIT {
 
 	@Test
 	public void should_enable_cdn() throws IOException, Exception {
-		goTo("/-basics/cdn");
+		goTo("/thymeleaf/basics/cdn");
 
 		assertThat(getHtmlBody().findFirst("link").getAttribute("href")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_CSS);
 		assertThat(getHtmlBody().findFirst("script").getAttribute("src")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_JS_MIN);
