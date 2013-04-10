@@ -87,7 +87,6 @@ public class FilteringIT extends DomBaseIT {
 		assertThat(getTable().find("tfoot").find("select")).hasSize(2);
 		
 		// All drop down list must contain as many options than the data source, minus duplicates and null values
-		System.out.println(getTable().find("tfoot").find("select", 0).html());
 		assertThat(getTable().find("tfoot").find("select", 0).find("option")).hasSize(688);
 		assertThat(getTable().find("tfoot").find("select", 1).find("option")).hasSize(649);
 		
@@ -102,7 +101,5 @@ public class FilteringIT extends DomBaseIT {
 		goTo("/basics/filtering_with_select.jsp");
 		
 		fill(getTable().find("tfoot").find("select", 0)).with("Aaron");
-		
-		System.out.println(getTable().find("tr").size());
 	}
 }

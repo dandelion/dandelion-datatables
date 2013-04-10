@@ -53,7 +53,6 @@ public class DefaultTableTest extends DomBaseTest {
 	
 	@Test
 	public void should_fill_the_table() {
-		System.out.println(table);
 		assertThat(table.getHeadRows()).hasSize(1);
 		assertThat(table.getBodyRows()).hasSize(Mock.persons.size());
 		assertThat(table.getBodyRows().get(0).getColumns()).hasSize(tableBuilder.getColumnTags().size());
