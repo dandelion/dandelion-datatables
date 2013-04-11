@@ -38,11 +38,13 @@ import java.util.Map;
 import com.github.dandelion.datatables.core.asset.ExtraConf;
 import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.callback.Callback;
+import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.feature.AbstractFeature;
+import com.github.dandelion.datatables.core.feature.FilteringFeature;
 import com.github.dandelion.datatables.core.feature.PaginationType;
 import com.github.dandelion.datatables.core.plugin.AbstractPlugin;
 import com.github.dandelion.datatables.core.properties.TableProperties;
@@ -659,6 +661,25 @@ public class HtmlTable extends HtmlTag {
 		this.callbacks.add(callback);
 	}
 
+	public Boolean hasCallback(CallbackType callbackType){
+		if(this.callbacks != null){
+			for(Callback callback : this.callbacks){
+				if(callback.getType().equals(callbackType)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public Callback getCallback(CallbackType callbackType){
+		for(Callback callback : this.callbacks){
+			if(callback.getType().equals(callbackType)){
+				return callback;
+			}
+		}
+		return null;
+	}
 	public String getLengthMenu() {
 		return lengthMenu;
 	}

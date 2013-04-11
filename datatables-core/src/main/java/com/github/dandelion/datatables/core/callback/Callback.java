@@ -61,6 +61,15 @@ public class Callback {
 		this.function = function;
 	}
 
+	public void addContent(String content){
+		if(function == null || "".equals(function)){
+			function = content;
+		}
+		else{
+			function += content;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "Callback [type=" + type + ", function=" + function + "]";

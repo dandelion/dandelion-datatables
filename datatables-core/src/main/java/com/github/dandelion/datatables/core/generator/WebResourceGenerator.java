@@ -44,6 +44,8 @@ import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.asset.WebResources;
+import com.github.dandelion.datatables.core.callback.Callback;
+import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.DataNotFoundException;
@@ -72,7 +74,7 @@ public class WebResourceGenerator {
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(WebResourceGenerator.class);
 
-	// Custom writer used to pretty JSON
+	// Custom writer used to pretty print JSON
 	private Writer writer = new JsonIndentingWriter();
 
 	/**
@@ -103,6 +105,13 @@ public class WebResourceGenerator {
 		// Bean which stores all needed web resources (js, css)
 		WebResources webResources = new WebResources();
 
+		/**
+		 * Export management
+		 */
+		if (table.isExportable()) {
+			exportManagement(table);
+		}
+		
 		// Init the "configuration" map with the table informations
 		// The configuration may be updated depending on the user's choices
 		configGenerator = new MainGenerator();
@@ -147,15 +156,7 @@ public class WebResourceGenerator {
 		 */
 		// Allways pretty prints the JSON
 		JSONValue.writeJSONString(mainConf, writer);
-					
 		mainJsFile.appendToDataTablesConf(writer.toString());
-
-		/**
-		 * Export management
-		 */
-		if (table.isExportable()) {
-			exportManagement(table, mainJsFile);
-		}
 
 		/**
 		 * Table display
@@ -200,8 +201,69 @@ public class WebResourceGenerator {
 	 * @param mainJsFile
 	 *            The web resource to update
 	 */
-	private void exportManagement(HtmlTable table, JsResource mainJsFile) {
+	private void exportManagement(HtmlTable table) {
 
+		StringBuffer links = new StringBuffer();
+		for (ExportLinkPosition position : table.getExportLinkPositions()) {
+
+			// Init the wrapping HTML div
+			HtmlDiv divExport = initExportDiv(table);
+			
+			switch (position) {
+			case BOTTOM_LEFT:
+				divExport.addCssStyle("float:left;margin-right:10px;");
+				links.append("$('#" + table.getId()
+						+ "_info').before('" + divExport.toHtml() + "');$('#" + table.getId()
+						+ "_info').css('clear', 'none');");
+				break;
+
+			case BOTTOM_MIDDLE:
+				divExport.addCssStyle("float:left;margin-left:10px;");
+				links.append("$('#" + table.getId()
+						+ "_paginate').before('" + divExport.toHtml() + "');");
+				break;
+
+			case BOTTOM_RIGHT:
+				divExport.addCssStyle("float:right;");
+				links.append("$('#" + table.getId()
+						+ "_paginate').before('" + divExport.toHtml() + "');");
+				break;
+
+			case TOP_LEFT:
+				divExport.addCssStyle("float:left;margin-right:10px;");
+				links.append("$('#" + table.getId()
+						+ "_length').before('" + divExport.toHtml() + "');");
+				break;
+
+			case TOP_MIDDLE:
+				divExport.addCssStyle("float:left;margin-left:10px;");
+				links.append("$('#" + table.getId()
+						+ "_filter').before('" + divExport.toHtml() + "');");
+				break;
+
+			case TOP_RIGHT:
+				divExport.addCssStyle("float:right;");
+				links.append("$('#" + table.getId()
+						+ "_filter').before('" + divExport.toHtml() + "');");
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		if(table.hasCallback(CallbackType.INIT)){
+			table.getCallback(CallbackType.INIT).addContent(links.toString());
+		}
+		else{
+			String function = "function(oSettings, json){" + links.toString() + "}";
+			Callback initCallback = new Callback(CallbackType.INIT, function);
+			table.registerCallback(initCallback);
+		}
+	}
+
+	private HtmlDiv initExportDiv(HtmlTable table){
+	
 		// Init the wrapping HTML div
 		HtmlDiv divExport = new HtmlDiv();
 		divExport.addCssClass("dandelion_dataTables_export");
@@ -235,53 +297,10 @@ public class WebResourceGenerator {
 				divExport.addContent(link.toHtml());
 			}
 		}
-
-		for (ExportLinkPosition position : table.getExportLinkPositions()) {
-
-			switch (position) {
-			case BOTTOM_LEFT:
-				divExport.addCssStyle("float:left;margin-right:10px;");
-				mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId()
-						+ "_info').before('" + divExport.toHtml() + "');$('#" + table.getId()
-						+ "_info').css('clear', 'none');");
-				break;
-
-			case BOTTOM_MIDDLE:
-				divExport.addCssStyle("float:left;margin-left:10px;");
-				mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId()
-						+ "_paginate').before('" + divExport.toHtml() + "');");
-				break;
-
-			case BOTTOM_RIGHT:
-				divExport.addCssStyle("float:right;");
-				mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId()
-						+ "_paginate').before('" + divExport.toHtml() + "');");
-				break;
-
-			case TOP_LEFT:
-				divExport.addCssStyle("float:left;margin-right:10px;");
-				mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId()
-						+ "_length').before('" + divExport.toHtml() + "');");
-				break;
-
-			case TOP_MIDDLE:
-				divExport.addCssStyle("float:left;margin-left:10px;");
-				mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId()
-						+ "_filter').before('" + divExport.toHtml() + "');");
-				break;
-
-			case TOP_RIGHT:
-				divExport.addCssStyle("float:right;");
-				mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId()
-						+ "_filter').before('" + divExport.toHtml() + "');");
-				break;
-
-			default:
-				break;
-			}
-		}
+				
+		return divExport;
 	}
-
+	
 	/**
 	 * If extraFile tag have been added, its content must be extracted and merge
 	 * to the main js file.
