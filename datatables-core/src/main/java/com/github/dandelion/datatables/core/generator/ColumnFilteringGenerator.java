@@ -60,7 +60,7 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
      * @return MainConf The main configuration file associated with the HTML
      *         table.
      */
-    public Map<String, Object> generate(HtmlTable table) {
+    public Map<String, Object> generateConfig(HtmlTable table) {
 
         logger.debug("Generating Column Filtering configuration ..");
 

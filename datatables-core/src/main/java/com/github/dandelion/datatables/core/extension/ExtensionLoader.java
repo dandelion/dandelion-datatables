@@ -261,7 +261,7 @@ public class ExtensionLoader {
 
 			Writer writer = new JsonIndentingWriter();
 
-			Map<String, Object> conf = extension.getConfigGenerator().generate(table);
+			Map<String, Object> conf = extension.getConfigGenerator().generateConfig(table);
 
 			// Allways pretty prints the JSON
 			JSONValue.writeJSONString(conf, writer);

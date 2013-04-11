@@ -51,7 +51,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  *
  * @author Thibault Duchateau
  */
-public class MainGenerator {
+public class MainGenerator extends AbstractConfigurationGenerator {
 
     // Logger
     private static Logger logger = LoggerFactory.getLogger(MainGenerator.class);
