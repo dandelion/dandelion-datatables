@@ -6,7 +6,7 @@
 <script src="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"></script>
 </head>
 <body>
-   <table id="myTableId" dt:table="true" dt:export="'csv'" dt:exportlinks="'bottom_left'">
+   <table id="myTableId" dt:table="true" dt:url="'/persons'" dt:theme="bootstrap2" class="table table-striped table-bordered table-condensed">
       <thead>
          <tr>
             <th>Id</th>
@@ -16,15 +16,6 @@
             <th>Mail</th>
          </tr>
       </thead>
-      <tbody th:remove="all-but-first">
-         <tr th:each="person : ${persons}">
-            <td th:text="${person.id}">1</td>
-            <td th:text="${person.firstName}">John</td>
-            <td th:text="${person.lastName}">Doe</td>
-            <td th:text="${person.address != null and person.address.town != null} ? ${person.address.town.name} : ''">Nobody knows !</td>
-            <td th:text="${person.mail}">john@doe.com</td>
-         </tr>
-      </tbody>
    </table>
 </body>
 </html>
