@@ -10,7 +10,14 @@ import com.github.dandelion.datatables.integration.DomBaseIT;
  *
  * @author Gautier Dhordain
  */
-public class CaptionTagIT extends DomBaseIT{
+public class CaptionTagIT extends DomBaseIT {
+
+	@Test
+	public void should_not_generate_caption_tag_by_default() throws IOException, Exception{
+		goTo("/html/table_default.jsp");
+
+		assertThat(getTable().find("caption")).hasSize(0);
+	}
 
 	@Test
 	public void should_generate_caption_tag() throws IOException, Exception{
@@ -20,10 +27,27 @@ public class CaptionTagIT extends DomBaseIT{
 	}
 
 	@Test
-	public void should_populate_caption_tag() throws IOException, Exception{
+	public void should_populate_default_HTML_attribute() throws IOException, Exception{
+		goTo("/html/table_with_caption.jsp");
+		System.out.println(driver.getPageSource());
+
+		assertThat(getTable().find("caption").getId()).isEqualTo("captionId");
+		assertThat(getTable().find("caption").getAttribute("class")).isEqualTo("captionCssClass");
+//		assertThat(getTable().find("caption").getAttribute("style")).isEqualTo("captionCssStyle");
+		assertThat(getTable().find("caption").getAttribute("title")).isEqualTo("captionTitle");
+	}
+
+	@Test
+	public void should_populate_caption_value_with_text() throws IOException, Exception{
 		goTo("/html/table_with_caption.jsp");
 
-		assertThat(getTable().find("caption").getAttribute("title")).isEqualTo("captionTitle");
 		assertThat(getTable().find("caption").getText()).isEqualTo("captionValue");
+	}
+
+	@Test
+	public void should_populate_caption_value_with_evaluated_tag() throws IOException, Exception{
+		goTo("/html/table_with_dynamic_caption.jsp");
+
+		assertThat(getTable().find("caption").getText()).isEqualTo("dynamic with JSP tag");
 	}
 }

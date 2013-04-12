@@ -8,7 +8,9 @@
 </head>
 <body>
    <datatables:table id="myTableId" data="${persons}">
-      <datatables:caption title="captionTitle" id="captionId" cssClass="captionCssClass" cssStyle="captionCssStyle">captionValue</datatables:caption>
+      <datatables:caption title="captionTitle" id="captionId" cssClass="captionCssClass" cssStyle="captionCssStyle">
+         <c:out value="dynamic with JSP tag" />
+      </datatables:caption>
       <datatables:column title="Id" property="id" />
       <datatables:column title="FirstName" property="firstName" />
       <datatables:column title="LastName" property="lastName" />

@@ -370,9 +370,19 @@
           <name>title</name>
        </attribute>
        <attribute>
-          <description>value of the HTML caption tag.</description>
-          <name>value</name>
-       </attribute>
+           <description>(required) DOM id of the HTML table.</description>
+           <name>id</name>
+      </attribute>
+      <attribute>
+         <description>CSS style applied on the HTML table. (HTML style
+            attribute)</description>
+          <name>cssStyle</name>
+      </attribute>
+      <attribute>
+         <description>CSS class(es) applied on the HTML table. (HTML
+            class attribute)</description>
+          <name>cssClass</name>
+      </attribute>
    </tag>
    <tag>
        <description>Allows to fill a column header with more complex

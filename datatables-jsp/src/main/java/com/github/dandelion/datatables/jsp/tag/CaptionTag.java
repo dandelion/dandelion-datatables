@@ -23,7 +23,7 @@
 package com.github.dandelion.datatables.jsp.tag;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
+import javax.servlet.jsp.tagext.BodyTagSupport;
 import com.github.dandelion.datatables.core.html.HtmlCaption;
 
 /**
@@ -32,23 +32,58 @@ import com.github.dandelion.datatables.core.html.HtmlCaption;
  * 
  * @author Gautier Dhordain
  */
-public class CaptionTag extends TagSupport{
+public class CaptionTag extends BodyTagSupport{
 
 	private static final long serialVersionUID = 273025310498552490L;
+	private String id;
+	private String cssClass;
+	private String cssStyle;
 	private String title;
-	private String value;
 
 	@Override
 	public int doStartTag() throws JspException{
+		return EVAL_BODY_BUFFERED;
+	}
+	
+	@Override
+	public int doEndTag() throws JspException {
 		TableTag parent = (TableTag)getParent();
 
 		HtmlCaption caption = new HtmlCaption();
+		caption.setId(id);
+		caption.addCssClass(cssClass);
+		caption.addCssStyle(cssStyle);
 		caption.setTitle(title);
-		caption.setValue(value);
+		caption.setValue(getBodyContent().getString());
 		
 		parent.getTable().setCaption(caption);
-		
-		return SKIP_BODY;
+		// TODO : gerer le body du tag
+		// TODO : inclure les attributs statndard HTML  id, class, style
+		return EVAL_PAGE;
+	}
+
+	public String getId(){
+		return id;
+	}
+
+	public void setId(String id){
+		this.id = id;
+	}
+
+	public String getCssClass(){
+		return cssClass;
+	}
+
+	public void setCssClass(String cssClass){
+		this.cssClass = cssClass;
+	}
+
+	public String getCssStyle(){
+		return cssStyle;
+	}
+
+	public void setCssStyle(String cssStyle){
+		this.cssStyle = cssStyle;
 	}
 
 	public String getTitle(){
@@ -57,13 +92,5 @@ public class CaptionTag extends TagSupport{
 
 	public void setTitle(String title){
 		this.title = title;
-	}
-
-	public String getValue(){
-		return value;
-	}
-
-	public void setValue(String value){
-		this.value = value;
 	}
 }
