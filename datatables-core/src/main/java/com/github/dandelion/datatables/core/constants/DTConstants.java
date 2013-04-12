@@ -49,6 +49,7 @@ public class DTConstants {
 	public static final String DT_S_TYPE = "sType";
 	public static final String DT_A_LENGTH_MENU = "aLengthMenu";
 	public static final String DT_AS_STRIPE_CLASSES = "asStripeClasses";
+	public static final String DT_S_CLASS = "sClass";
 
 	// AJAX related constants
 	public static final String DT_B_DEFER_RENDER = "bDeferRender";

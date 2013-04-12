@@ -71,7 +71,7 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         // Main configuration object
         Map<String, Object> mainConf = new HashMap<String, Object>();
 
-        // Columns configuration
+        // Columns configuration using aoColumn
         Map<String, Object> tmp = null;
         List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
         for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
@@ -103,6 +103,10 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         			List<Object> sortDirection = new ArrayList<Object>();
         			Collections.addAll(sortDirection, column.getSortDirection().trim().toLowerCase().split(","));
         			tmp.put(DTConstants.DT_SORT_DIR, sortDirection);
+        		}
+        		
+        		if(StringUtils.isNotBlank(column.getCssCellClass())){
+        			tmp.put(DTConstants.DT_S_CLASS, column.getCssCellClass());
         		}
         		
         		aoColumnsContent.add(tmp);

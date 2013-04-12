@@ -181,7 +181,10 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 
 	
 	/**
+	 * <p>
 	 * Add a column to the table when using AJAX source.
+	 * <p>
+	 * Column are always marked as "header" using an AJAX source.
 	 * 
 	 * @param isHeader
 	 * @param content
@@ -198,18 +201,30 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 			column.getEnabledDisplayTypes().add(type);
 		}
 		column.setProperty(property);
-		column.setFilterable(filterable);
-		if (searchable != null) {
-			column.setSearchable(searchable);
-		}
+		
 		column.setDefaultValue(StringUtils.isNotBlank(defaultValue) ? defaultValue : "");
 		
-		if (this.sortable != null) {
-			column.setSortable(this.sortable);
-		}
-
 		if(StringUtils.isNotBlank(this.renderFunction)){
 			column.setRenderFunction(this.renderFunction);
+		}
+		// Sorting
+		column.setSortable(this.sortable);
+		column.setSortDirection(this.sortDirection);
+		column.setSortInit(this.sortInit);
+
+		// Filtering
+		column.setFilterable(this.filterable);
+		column.setSearchable(searchable);
+		
+		// Styling
+		if(StringUtils.isNotBlank(cssClass)){
+			column.setCssClass(new StringBuffer(this.cssClass));
+		}
+		if(StringUtils.isNotBlank(cssStyle)){
+			column.setCssStyle(new StringBuffer(this.cssStyle));
+		}
+		if (StringUtils.isNotBlank(this.cssCellClass)) {
+			column.setCssCellClass(this.cssCellClass);
 		}
 		
 		// Using AJAX source, since there is only one iteration on the body,
