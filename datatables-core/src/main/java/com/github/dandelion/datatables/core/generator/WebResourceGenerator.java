@@ -292,7 +292,7 @@ public class WebResourceGenerator {
 				}
 
 				link.setHref(conf.getUrl());
-				link.setLabel(conf.getLabel());
+				link.addContent(conf.getLabel());
 
 				divExport.addContent(link.toHtml());
 			}

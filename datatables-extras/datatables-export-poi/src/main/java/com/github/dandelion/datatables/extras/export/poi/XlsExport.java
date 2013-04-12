@@ -88,7 +88,7 @@ public class XlsExport extends AbstractBinaryExport {
 						if (column.getEnabledDisplayTypes().contains(DisplayType.XLS)) {
 
 							cell = row.createCell(cellnum++);
-							cell.setCellValue(column.getContent());
+							cell.setCellValue(column.getContent().toString());
 
 							if (exportConf.getAutoSize()) {
 								sheet.autoSizeColumn(cellnum);
@@ -109,7 +109,7 @@ public class XlsExport extends AbstractBinaryExport {
 					if (column.getEnabledDisplayTypes().contains(DisplayType.XLS)) {
 
 						cell = row.createCell(cellnum++);
-						cell.setCellValue(column.getContent());
+						cell.setCellValue(column.getContent().toString());
 
 						if (exportConf.getAutoSize()) {
 							sheet.autoSizeColumn(cellnum);

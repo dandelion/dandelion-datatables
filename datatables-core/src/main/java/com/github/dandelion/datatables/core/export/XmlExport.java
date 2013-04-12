@@ -66,7 +66,7 @@ public class XmlExport extends AbstractCharExport {
 		
 		for(HtmlRow row : table.getHeadRows()){
 			for(HtmlColumn column : row.getColumns()){
-				headers.add(StringUtils.uncapitalize(column.getContent()));
+				headers.add(StringUtils.uncapitalize(column.getContent().toString()));
 			}
 		}
 
@@ -84,7 +84,7 @@ public class XmlExport extends AbstractCharExport {
 
 				int i = 0;
 				for (HtmlColumn column : row.getColumns()) {
-					writer.writeAttribute(headers.get(i), column.getContent());
+					writer.writeAttribute(headers.get(i), column.getContent().toString());
 					i++;
 				}
 

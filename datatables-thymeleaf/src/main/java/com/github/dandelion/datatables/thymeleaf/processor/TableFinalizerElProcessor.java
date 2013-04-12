@@ -257,7 +257,7 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		
 		for(HtmlColumn column : htmlTable.getLastHeaderRow().getColumns()){
 			Element th = new Element("th");
-			th.addChild(new Text(column.getContent()));
+			th.addChild(new Text(column.getContent().toString()));
 			tfoot.addChild(th);
 		}
 

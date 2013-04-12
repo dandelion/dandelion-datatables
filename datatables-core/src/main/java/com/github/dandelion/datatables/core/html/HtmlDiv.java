@@ -35,61 +35,14 @@ package com.github.dandelion.datatables.core.html;
  * @author Thibault Duchateau
  * @since 0.7.0
  */
-public class HtmlDiv extends HtmlTag {
-
-	/**
-	 * Content of the div tag.
-	 */
-	private StringBuffer content = new StringBuffer();
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public StringBuffer toHtml() {
-		StringBuffer html = new StringBuffer();
-		html.append("<div");
-
-		if (this.id != null) {
-			html.append(" id=\"");
-			html.append(this.id);
-			html.append("\"");
-		}
-
-		if (this.cssClass != null) {
-			html.append(" class=\"");
-			html.append(this.cssClass);
-			html.append("\"");
-		}
-
-		if (this.cssStyle != null) {
-			html.append(" style=\"");
-			html.append(this.cssStyle);
-			html.append("\"");
-		}
-
-		html.append(">");
-		html.append(this.content);
-		html.append("</div>");
-		return html;
-	}
+public class HtmlDiv extends HtmlTagWithContent {
 	
 	public HtmlDiv() {
+		this.tag = "div"; 
 	}
 
 	public HtmlDiv(String id) {
+		this.tag = "div";
 		this.id = id;
-	}
-
-	public StringBuffer getContent() {
-		return content;
-	}
-
-	public void setContent(StringBuffer content) {
-		this.content = content;
-	}
-
-	public void addContent(StringBuffer contentToAdd) {
-		this.content.append(contentToAdd);
 	}
 }

@@ -30,38 +30,44 @@
 package com.github.dandelion.datatables.core.html;
 
 /**
- * Plain old HTML <code>script</code> tag.
+ * Abstract superclass for all HTML tags with embedded content.
  * 
- * @author Thibault Duchateau
- * @since 0.8.1
+ * @author Gautier Dhordain
  */
-public class HtmlScript extends HtmlTag {
+public abstract class HtmlTagWithContent extends HtmlTag {
 
 	/**
-	 * Plain old HTML <code>src</code> attribute.
+	 * Content of the tag.
 	 */
-	private String src;
-	
-	public HtmlScript(){
-		this.tag = "script";
-	}
-	
-	public HtmlScript(String src){
-		this.tag = "script";
-		this.src = src;
-	}
+	protected StringBuffer content = new StringBuffer();
 
+	/**
+	 * Render the tag in HTML code.
+	 * 
+	 * @return the HTML code corresponding to the tag.
+	 */
 	@Override
-	protected StringBuffer getHtmlAttributes() {
-		StringBuffer html = super.getHtmlAttributes();
-		html.append(writeAttribute("src", this.src));
+	public StringBuffer toHtml() {
+		StringBuffer html = new StringBuffer();
+		html.append(getHtmlOpeningTag());
+		html.append(this.content);
+		html.append(getHtmlClosingTag());
 		return html;
 	}
-	
-	public String getSrc() {
-		return src;
+
+	public StringBuffer getContent() {
+		return content;
 	}
-	public void setSrc(String src) {
-		this.src = src;
+
+	public void setContent(StringBuffer content) {
+		this.content = content;
+	}
+
+	public void addContent(StringBuffer contentToAdd) {
+		this.content.append(contentToAdd);
+	}
+
+	public void addContent(String contentToAdd) {
+		this.content.append(contentToAdd);
 	}
 }

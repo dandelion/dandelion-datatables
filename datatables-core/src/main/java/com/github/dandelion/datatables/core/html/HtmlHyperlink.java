@@ -35,62 +35,27 @@ package com.github.dandelion.datatables.core.html;
  * @author Thibault Duchateau
  * @since 0.7.0
  */
-public class HtmlHyperlink extends HtmlTag {
+public class HtmlHyperlink extends HtmlTagWithContent {
 
 	/**
 	 * Plain old HTML <code>href</code> attribute.
 	 */
 	private String href;
 	
-	/**
-	 * Link's label.
-	 */
-	private String label;
-	
 	public HtmlHyperlink(){
+		this.tag = "href";
 	}
 	
 	public HtmlHyperlink(String href, String label){
+		this.tag = "href";
 		this.href = href;
-		this.label = label;
+		addContent(label);
 	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Override
-	public StringBuffer toHtml(){
-		StringBuffer html = new StringBuffer();
-		html.append("<a");
-		
-		if(this.id != null){
-			html.append(" id=\"");
-			html.append(this.id);
-			html.append("\"");			
-		}
-		
-		if(this.cssClass != null){
-			html.append(" class=\"");
-			html.append(this.cssClass);
-			html.append("\"");			
-		}
-		
-		if(this.cssStyle != null){
-			html.append(" style=\"");
-			html.append(this.cssStyle);
-			html.append("\"");			
-		}
-		
-		if(this.href != null){
-			html.append(" href=\"");
-			html.append(this.href);
-			html.append("\"");
-		}
-		
-		html.append(">");
-		html.append(this.label);
-		html.append("</a>");
-		
+	protected StringBuffer getHtmlAttributes() {
+		StringBuffer html = super.getHtmlAttributes();
+		html.append(writeAttribute("a", this.href));
 		return html;
 	}
 	
@@ -99,11 +64,5 @@ public class HtmlHyperlink extends HtmlTag {
 	}
 	public void setHref(String href) {
 		this.href = href;
-	}
-	public String getLabel() {
-		return label;
-	}
-	public void setLabel(String label) {
-		this.label = label;
 	}
 }

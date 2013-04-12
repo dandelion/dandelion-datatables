@@ -41,13 +41,12 @@ import com.github.dandelion.datatables.core.feature.FilterType;
  * @author Thibault Duchateau
  * @since 0.1.0
  */
-public class HtmlColumn extends HtmlTag {
+public class HtmlColumn extends HtmlTagWithContent {
 
 	private String uid;
 	private Boolean isHeaderColumn;
 	private String cssCellClass;
 	private String cssCellStyle;
-	private String content;
 	private Boolean sortable;
 	private String sortDirection;
 	private String sortInit;
@@ -90,7 +89,7 @@ public class HtmlColumn extends HtmlTag {
 	public HtmlColumn(Boolean isHeader, String content) {
 		init();
 		this.isHeaderColumn = isHeader;
-		this.content = content;
+		setContent(new StringBuffer(content));
 	}
 
 	/**
@@ -167,14 +166,6 @@ public class HtmlColumn extends HtmlTag {
 
 	public Boolean isHeaderColumn() {
 		return isHeaderColumn;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
 	}
 
 	public String getCssCellClass() {

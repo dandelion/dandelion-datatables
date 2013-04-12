@@ -115,7 +115,7 @@ public class PdfExport extends AbstractBinaryExport {
 
 					if (column.getEnabledDisplayTypes().contains(DisplayType.PDF)) {
 						cell = new PdfPCell();
-						cell.setPhrase(new Phrase(column.getContent()));
+						cell.setPhrase(new Phrase(column.getContent().toString()));
 						table.addCell(cell);
 					}
 				}
@@ -128,7 +128,7 @@ public class PdfExport extends AbstractBinaryExport {
 
 				if (column.getEnabledDisplayTypes().contains(DisplayType.PDF)) {
 					cell = new PdfPCell();
-					cell.setPhrase(new Phrase(column.getContent()));
+					cell.setPhrase(new Phrase(column.getContent().toString()));
 					table.addCell(cell);
 				}
 			}

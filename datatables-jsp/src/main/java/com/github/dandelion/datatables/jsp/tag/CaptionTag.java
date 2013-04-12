@@ -54,7 +54,7 @@ public class CaptionTag extends BodyTagSupport{
 		caption.addCssClass(cssClass);
 		caption.addCssStyle(cssStyle);
 		caption.setTitle(title);
-		caption.setValue(getBodyContent().getString());
+		caption.addContent(getBodyContent().getString());
 		
 		parent.getTable().setCaption(caption);
 		// TODO : gerer le body du tag

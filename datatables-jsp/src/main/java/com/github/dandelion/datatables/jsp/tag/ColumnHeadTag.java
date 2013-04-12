@@ -77,7 +77,7 @@ public class ColumnHeadTag extends BodyTagSupport {
 			if (column != null) {
 				// Recuperer la colonne et mettre a jour le contenu avec le
 				// corps
-				column.setContent(getBodyContent().getString());
+				column.addContent(getBodyContent().getString());
 			} else {
 				// Ajouter la colonne
 			}

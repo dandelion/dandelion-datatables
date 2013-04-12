@@ -40,10 +40,15 @@ public abstract class HtmlTag {
 	private static final char CSS_SEPARATOR = ';';
 
 	/**
+	 * Tag label.
+	 */
+	protected String tag;
+
+	/**
 	 * Plain old HTML <code>id</code> attribute.
 	 */
 	protected String id;
-	
+
 	/**
 	 * Plain old HTML <code>class</code> attribute.
 	 */
@@ -59,7 +64,57 @@ public abstract class HtmlTag {
 	 * 
 	 * @return the HTML code corresponding to the tag.
 	 */
-	public abstract StringBuffer toHtml();
+	public StringBuffer toHtml() {
+		StringBuffer html = new StringBuffer();
+		html.append(getHtmlOpeningTag());
+		html.append(getHtmlClosingTag());
+		return html;
+	}
+
+	protected StringBuffer getHtmlOpeningTag() {
+		StringBuffer html = new StringBuffer();
+		html.append('<');
+		html.append(this.tag);
+		html.append(getHtmlAttributes());
+		html.append('>');
+		return html;
+	}
+
+	protected StringBuffer getHtmlAttributes() {
+		StringBuffer html = new StringBuffer();
+		html.append(writeAttribute("id", this.id));
+		html.append(writeAttribute("class", this.cssClass));
+		html.append(writeAttribute("style", this.cssStyle));
+		return html;
+	}
+	
+	protected static StringBuffer writeAttribute(String name, Object data) {
+		StringBuffer html = new StringBuffer();
+		if(data != null) {
+			html.append(' ');
+			html.append(name);
+			html.append("=\"");
+			html.append(data.toString());
+			html.append('"');
+		}
+		return html;
+	}
+
+	protected StringBuffer getHtmlClosingTag() {
+		StringBuffer html = new StringBuffer();
+		html.append("</");
+		html.append(this.tag);
+		html.append('>');
+		return html;
+	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
 
 	public String getId() {
 		return id;
@@ -68,7 +123,7 @@ public abstract class HtmlTag {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 	public StringBuffer getCssClass() {
 		return cssClass;
 	}
@@ -86,7 +141,7 @@ public abstract class HtmlTag {
 	}
 
 	public void addCssClass(String cssClass) {
-		if (this.cssClass == null) {
+		if(this.cssClass == null) {
 			this.cssClass = new StringBuffer();
 		} else {
 			this.cssClass.append(CLASS_SEPARATOR);
@@ -95,7 +150,7 @@ public abstract class HtmlTag {
 	}
 
 	public void addCssStyle(String cssStyle) {
-		if (this.cssStyle == null) {
+		if(this.cssStyle == null) {
 			this.cssStyle = new StringBuffer();
 		} else {
 			this.cssStyle.append(CSS_SEPARATOR);
