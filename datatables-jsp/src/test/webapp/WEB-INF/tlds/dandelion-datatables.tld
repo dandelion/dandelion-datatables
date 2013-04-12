@@ -499,8 +499,13 @@
           <name>display</name>
       </attribute>
       <attribute>
-         <description>Name of an external Javascript function that will be used to render the column (AJAX)</description>
+         <description>Name of an external Javascript function that will be used to render the column (AJAX only)</description>
          <name>renderFunction</name>
+      </attribute>
+      <attribute>
+         <description>A MessageFormat pattern that will be used to format the property. (DOM only)</description>
+         <name>format</name>
+         <rtexprvalue>true</rtexprvalue>
       </attribute>
    </tag>
 

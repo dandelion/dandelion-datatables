@@ -30,6 +30,7 @@
 package com.github.dandelion.datatables.jsp.tag;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,6 +85,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 	protected String filterPlaceholder = "";
 	protected String display;
 	protected String renderFunction;
+	protected String format;
 
 	/**
 	 * Add a column to the table when using DOM source.
@@ -244,15 +246,30 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 
 		if (StringUtils.isNotBlank(property)) {
 
+			
 			try {
 				Object propertyValue = PropertyUtils.getNestedProperty(parent.getCurrentObject(), this.property.trim());
-				if(propertyValue != null){
+
+				// If a format exists, we format the property
+				if(StringUtils.isNotBlank(format) && propertyValue != null){
+					
+					MessageFormat messageFormat = new MessageFormat(format);
+					return messageFormat.format(new Object[]{propertyValue});
+				}
+				else if(StringUtils.isNotBlank(format)){
 					return propertyValue.toString();
 				}
-				else 
+				else{
 					if(StringUtils.isNotBlank(defaultValue)){
-					return defaultValue.trim();
+						return defaultValue.trim();
+					
+					}
 				}
+//				if(propertyValue != null){
+//					return propertyValue.toString();
+//				}
+//				else 
+//				}
 			} catch (NestedNullException e) {
 				if(StringUtils.isNotBlank(defaultValue)){
 					return defaultValue.trim();
@@ -413,5 +430,13 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 
 	public void setRenderFunction(String renderFunction) {
 		this.renderFunction = renderFunction;
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
 	}
 }
