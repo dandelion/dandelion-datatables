@@ -81,7 +81,6 @@ public class SortingIT extends DomBaseIT {
 	public void should_disable_sorting_only_on_the_first_column_using_ajax() throws IOException, Exception {
 		goTo("/basics/sorting_disabled_ajax.jsp");
 
-		System.out.println(driver.getPageSource());
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_disabled");
 		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).isEqualTo("sorting");
 		assertThat(getTable().find("thead").find("th", 2).getAttribute("class")).isEqualTo("sorting");

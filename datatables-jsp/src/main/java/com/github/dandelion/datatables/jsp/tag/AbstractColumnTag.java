@@ -208,9 +208,15 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 			column.setRenderFunction(this.renderFunction);
 		}
 		// Sorting
-		column.setSortable(this.sortable);
-		column.setSortDirection(this.sortDirection);
-		column.setSortInit(this.sortInit);
+		if(sortable != null){
+			column.setSortable(this.sortable);
+		}
+		if(sortDirection != null){
+			column.setSortDirection(this.sortDirection);
+		}
+		if(sortInit != null){
+			column.setSortInit(this.sortInit);
+		}
 
 		// Filtering
 		column.setFilterable(this.filterable);
