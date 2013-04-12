@@ -36,6 +36,9 @@ package com.github.dandelion.datatables.core.html;
  */
 public abstract class HtmlTag {
 
+	private static final char CLASS_SEPARATOR = ' ';
+	private static final char CSS_SEPARATOR = ';';
+
 	/**
 	 * Plain old HTML <code>id</code> attribute.
 	 */
@@ -85,6 +88,8 @@ public abstract class HtmlTag {
 	public void addCssClass(String cssClass) {
 		if (this.cssClass == null) {
 			this.cssClass = new StringBuffer();
+		} else {
+			this.cssClass.append(CLASS_SEPARATOR);
 		}
 		this.cssClass.append(cssClass);
 	}
@@ -92,6 +97,8 @@ public abstract class HtmlTag {
 	public void addCssStyle(String cssStyle) {
 		if (this.cssStyle == null) {
 			this.cssStyle = new StringBuffer();
+		} else {
+			this.cssStyle.append(CSS_SEPARATOR);
 		}
 		this.cssStyle.append(cssStyle);
 	}
