@@ -46,8 +46,8 @@ import com.github.dandelion.datatables.integration.DomBaseIT;
 public class SortingIT extends DomBaseIT {
 
 	@Test
-	public void should_disable_sorting_only_on_the_first_column() throws IOException, Exception {
-		goTo("/basics/sorting_disabled.jsp");
+	public void should_disable_sorting_only_on_the_first_column_using_dom() throws IOException, Exception {
+		goTo("/basics/sorting_disabled_dom.jsp");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_disabled");
 		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).isEqualTo("sorting");
@@ -57,16 +57,49 @@ public class SortingIT extends DomBaseIT {
 	}
 	
 	@Test
-	public void should_init_sort() throws IOException, Exception {
-		goTo("/basics/sorting_init.jsp");
+	public void should_init_sort_using_dom() throws IOException, Exception {
+		goTo("/basics/sorting_init_dom.jsp");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_desc");
 		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).isEqualTo("sorting_asc");
 	}
 	
 	@Test
-	public void should_control_direction() throws IOException, Exception {
-		goTo("/basics/sorting_direction.jsp");
+	public void should_control_direction_using_dom() throws IOException, Exception {
+		goTo("/basics/sorting_direction_dom.jsp");
+		
+		click(getTable().find("thead").find("th", 0));
+		click(getTable().find("thead").find("th", 0));
+		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_desc");
+		
+		click(getTable().find("thead").find("th", 1));
+		click(getTable().find("thead").find("th", 1));
+		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).isEqualTo("sorting_asc");
+	}
+	
+	@Test
+	public void should_disable_sorting_only_on_the_first_column_using_ajax() throws IOException, Exception {
+		goTo("/basics/sorting_disabled_ajax.jsp");
+
+		System.out.println(driver.getPageSource());
+		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_disabled");
+		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).isEqualTo("sorting");
+		assertThat(getTable().find("thead").find("th", 2).getAttribute("class")).isEqualTo("sorting");
+		assertThat(getTable().find("thead").find("th", 3).getAttribute("class")).isEqualTo("sorting");
+		assertThat(getTable().find("thead").find("th", 4).getAttribute("class")).isEqualTo("sorting");
+	}
+	
+	@Test
+	public void should_init_sort_using_ajax() throws IOException, Exception {
+		goTo("/basics/sorting_init_ajax.jsp");
+
+		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_desc");
+		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).isEqualTo("sorting_asc");
+	}
+	
+	@Test
+	public void should_control_direction_using_ajax() throws IOException, Exception {
+		goTo("/basics/sorting_direction_ajax.jsp");
 		
 		click(getTable().find("thead").find("th", 0));
 		click(getTable().find("thead").find("th", 0));
