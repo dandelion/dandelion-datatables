@@ -147,8 +147,9 @@ public final class DatatablesCriterias {
 			Integer iDisplayStart = Integer.parseInt(sDisplayStart);
 			Integer iDisplayLength = Integer.parseInt(sDisplayLength);
 			Integer colNumber = Integer.parseInt(request.getParameter(DTConstants.DT_I_COLUMNS));
-			Integer sortingColNumber = Integer.parseInt(request
-					.getParameter(DTConstants.DT_I_SORTING_COLS));
+			Integer sortingColNumber = request.getParameter(DTConstants.DT_I_SORTING_COLS) != null 
+					? Integer.parseInt(request.getParameter(DTConstants.DT_I_SORTING_COLS)) 
+					: 0;
 
 			List<ColumnDef> columnDefs = new ArrayList<ColumnDef>();
 			List<ColumnDef> sortingColumnDefs = new LinkedList<ColumnDef>();
