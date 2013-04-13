@@ -30,6 +30,9 @@
 
 package com.github.dandelion.datatables.mock;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 
 
 /**
@@ -95,12 +98,6 @@ public class Person {
 		this.mail = mail;
 	}
 
-	@Override
-	public String toString() {
-		return "Person [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", mail=" + mail + ", address=" + address + "]";
-	}
-
 	public Address getAddress() {
 		return address;
 	}
@@ -109,5 +106,13 @@ public class Person {
 		this.address = address;
 	}
 	
+	public Date getDate(){
+		return GregorianCalendar.getInstance().getTime();
+	}	
 	
+	@Override
+	public String toString() {
+		return "Person [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", mail=" + mail + ", address=" + address + "]";
+	}
 }

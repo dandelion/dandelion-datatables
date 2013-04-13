@@ -246,9 +246,9 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 
 		if (StringUtils.isNotBlank(property)) {
 
-			
+			Object propertyValue = null;
 			try {
-				Object propertyValue = PropertyUtils.getNestedProperty(parent.getCurrentObject(), this.property.trim());
+				propertyValue = PropertyUtils.getNestedProperty(parent.getCurrentObject(), this.property.trim());
 
 				// If a format exists, we format the property
 				if(StringUtils.isNotBlank(format) && propertyValue != null){
@@ -284,7 +284,10 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 			} catch (NoSuchMethodException e) {
 				logger.error("Unable to get the value for the given property {}", this.property);
 				throw new JspException(e);
-			}
+			} catch (IllegalArgumentException e) {
+	            logger.error("Wrong MessageFormat pattern : {}", format);
+	            return propertyValue.toString();
+	        }
 		}
 		
 		return "";

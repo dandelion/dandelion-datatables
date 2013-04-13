@@ -39,16 +39,17 @@ import org.junit.Test;
 import com.github.dandelion.datatables.integration.DomBaseIT;
 
 /**
- * Test the RowId feature.
+ * Test the formatting feature.
  *
  * @author Thibault Duchateau
  */
 public class FormatIT extends DomBaseIT {
 
 	@Test
-	public void should_format() throws IOException, Exception {
+	public void should_format_a_mail_column() throws IOException, Exception {
 		goTo("/advanced/format.jsp");
-		System.out.println(driver.getPageSource());
-//		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("1");
+		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
+		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getText()).isEqualTo("venenatis@Duisvolutpat.com");
+		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getAttribute("href")).isEqualTo("mailto:venenatis@Duisvolutpat.com");
 	}
 }
