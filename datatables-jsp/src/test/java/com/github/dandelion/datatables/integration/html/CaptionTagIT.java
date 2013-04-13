@@ -31,10 +31,10 @@ public class CaptionTagIT extends DomBaseIT {
 		goTo("/html/table_with_caption.jsp");
 		System.out.println(driver.getPageSource());
 
-		assertThat(getTable().find("caption").getId()).isEqualTo("captionId");
-		assertThat(getTable().find("caption").getAttribute("class")).isEqualTo("captionCssClass");
-//		assertThat(getTable().find("caption").getAttribute("style")).isEqualTo("captionCssStyle");
-		assertThat(getTable().find("caption").getAttribute("title")).isEqualTo("captionTitle");
+		assertThat(getTable().findFirst("caption").getId()).isEqualTo("captionId");
+		assertThat(getTable().findFirst("caption").getAttribute("class")).isEqualTo("captionCssClass");
+//		assertThat(getTable().findFirst("caption").getAttribute("style")).isEqualTo("captionCssStyle");
+		assertThat(getTable().findFirst("caption").getAttribute("title")).isEqualTo("captionTitle");
 	}
 
 	@Test
