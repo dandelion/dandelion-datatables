@@ -100,6 +100,8 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 
 		// Init the column
 		HtmlColumn column = new HtmlColumn(isHeader, content);
+		
+		// UID
 		if (StringUtils.isNotBlank(this.uid)) {
 			column.setUid(this.uid);
 		}
@@ -198,6 +200,11 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 
 		HtmlColumn column = new HtmlColumn(true, this.title);
 
+		// UID
+		if (StringUtils.isNotBlank(this.uid)) {
+			column.setUid(this.uid);
+		}
+				
 		// All display types are added
 		for (DisplayType type : DisplayType.values()) {
 			column.getEnabledDisplayTypes().add(type);
@@ -233,6 +240,24 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 		}
 		if (StringUtils.isNotBlank(this.cssCellClass)) {
 			column.setCssCellClass(this.cssCellClass);
+		}
+		
+		// Exporting
+		if (StringUtils.isNotBlank(this.display)) {
+			List<DisplayType> enabledDisplayTypes = new ArrayList<DisplayType>();
+			String[] displayTypes = this.display.trim().toUpperCase().split(",");
+
+			for (String displayType : displayTypes) {
+				try {
+					enabledDisplayTypes.add(DisplayType.valueOf(displayType));
+				} catch (IllegalArgumentException e) {
+					logger.error("{} is not a valid value among {}. Please choose a valid one.",
+							displayType, DisplayType.values());
+					throw new JspException(e);
+				}
+			}
+
+			column.setEnabledDisplayTypes(enabledDisplayTypes);
 		}
 		
 		// Using AJAX source, since there is only one iteration on the body,
