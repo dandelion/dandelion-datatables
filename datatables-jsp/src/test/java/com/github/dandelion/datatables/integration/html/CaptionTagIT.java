@@ -29,7 +29,6 @@ public class CaptionTagIT extends DomBaseIT {
 	@Test
 	public void should_populate_default_HTML_attribute() throws IOException, Exception{
 		goTo("/html/table_with_caption.jsp");
-		System.out.println(driver.getPageSource());
 
 		assertThat(getTable().findFirst("caption").getId()).isEqualTo("captionId");
 		assertThat(getTable().findFirst("caption").getAttribute("class")).isEqualTo("captionCssClass");

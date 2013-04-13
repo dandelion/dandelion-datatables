@@ -110,7 +110,7 @@ public enum DatatablesAttrProcessors {
     BASIC_LENGTH_MENU(TableLengthMenuAttrProcessor.class, "lengthmenu", "table"),
     BASIC_SORT_INIT(ThSortInitAttrProcessor.class, "sortinit", "th"),
     BASIC_SORT_DIR(ThSortDirectionAttrProcessor.class, "sortdir", "th"),
-    BASIC_STRIP_CLASSES(TableStripeClassesAttrProcessor.class, "stripclasses", "table"),
+    BASIC_STRIP_CLASSES(TableStripeClassesAttrProcessor.class, "stripeclasses", "table"),
     BASIC_DISPLAY_LENGTH(TableDisplayLengthAttrProcessor.class, "displaylength", "table"),
     
     // Plugin processors

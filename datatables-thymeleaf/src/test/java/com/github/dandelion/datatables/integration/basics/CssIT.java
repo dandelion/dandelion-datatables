@@ -35,7 +35,6 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 
 import org.junit.Test;
-import org.springframework.util.StringUtils;
 
 import com.github.dandelion.datatables.integration.DomBaseIT;
 
@@ -47,36 +46,8 @@ import com.github.dandelion.datatables.integration.DomBaseIT;
 public class CssIT extends DomBaseIT {
 
 	@Test
-	public void should_apply_css_using_dom() throws IOException, Exception {
-		goTo("/basics/css_dom.jsp");
-
-		assertThat(getTable().find("thead").findFirst("th").getAttribute("class")).contains("column1class");
-		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).contains("column2class");
-		assertThat(StringUtils.trimAllWhitespace(getTable().find("thead").find("th", 1).getAttribute("style"))).contains("text-align:center;");
-		assertThat(StringUtils.trimAllWhitespace(getTable().find("thead").find("th", 2).getAttribute("style"))).contains("text-align:center;");
-		
-		for(int i=0 ; i<10 ; i++){
-			assertThat(StringUtils.trimAllWhitespace(getTable().find("tbody").find("tr", i).find("td", 3).getAttribute("class"))).isEqualTo("cityClass");
-		}
-	}
-	
-	@Test
-	public void should_apply_css_using_ajax() throws IOException, Exception {
-		goTo("/basics/css_ajax.jsp");
-
-		assertThat(getTable().find("thead").findFirst("th").getAttribute("class")).contains("column1class");
-		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).contains("column2class");
-		assertThat(StringUtils.trimAllWhitespace(getTable().find("thead").find("th", 1).getAttribute("style"))).contains("text-align:center;");
-		assertThat(StringUtils.trimAllWhitespace(getTable().find("thead").find("th", 2).getAttribute("style"))).contains("text-align:center;");
-		
-		for(int i=0 ; i<10 ; i++){
-			assertThat(StringUtils.trimAllWhitespace(getTable().find("tbody").find("tr", i).find("td", 3).getAttribute("class"))).isEqualTo("cityClass");
-		}
-	}
-	
-	@Test
 	public void should_apply_css_stripe_classes_using_dom() throws IOException, Exception {
-		goTo("/basics/css_stripe_classes.jsp");
+		goTo("/thymeleaf/basics/css_stripe_classes");
 
 		assertThat(getTable().find("tbody").find("tr", 0).getAttribute("class")).isEqualTo("class1");
 		assertThat(getTable().find("tbody").find("tr", 1).getAttribute("class")).isEqualTo("class2");

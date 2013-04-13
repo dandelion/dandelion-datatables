@@ -29,6 +29,9 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
+import java.util.Arrays;
+import java.util.Iterator;
+
 import org.apache.commons.lang.StringUtils;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
@@ -65,11 +68,13 @@ public class TableStripeClassesAttrProcessor extends AbstractDatatablesAttrProce
 		// Get attribute value
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
-		if (StringUtils.isNotBlank(attrValue)) {
-			String[] tmp = attrValue.split(";");
+		if(StringUtils.isNotBlank(attrValue)){
+			String[] tmp = attrValue.split(",");
 			String stripeTmp = "[";
-			for(String cssClass : tmp){
-				stripeTmp += "'" + cssClass + "',";
+			Iterator<String> iterator = Arrays.asList(tmp).iterator();
+			stripeTmp += "'" + iterator.next() + "'";
+			while(iterator.hasNext()){
+				stripeTmp += ",'" + iterator.next() + "'";
 			}
 			stripeTmp += "]";
 			table.setStripeClasses(stripeTmp);

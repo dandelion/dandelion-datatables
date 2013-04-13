@@ -105,7 +105,6 @@ public class Bootstrap2IT extends DomBaseIT {
 	public void should_generate_bottom_middle_link() throws IOException, Exception {
 		goTo("/thymeleaf/themes/bootstrap2_bottom_middle_link");
 		
-		System.out.println(driver.getPageSource());
 		FluentWebElement divExport = find("#" + TABLE_ID + "_wrapper").findFirst("div.span6").findFirst("div");
 		
 		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
