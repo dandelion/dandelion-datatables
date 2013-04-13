@@ -256,7 +256,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 					MessageFormat messageFormat = new MessageFormat(format);
 					return messageFormat.format(new Object[]{propertyValue});
 				}
-				else if(StringUtils.isNotBlank(format)){
+				else if(StringUtils.isBlank(format) && propertyValue != null){
 					return propertyValue.toString();
 				}
 				else{
@@ -265,11 +265,6 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 					
 					}
 				}
-//				if(propertyValue != null){
-//					return propertyValue.toString();
-//				}
-//				else 
-//				}
 			} catch (NestedNullException e) {
 				if(StringUtils.isNotBlank(defaultValue)){
 					return defaultValue.trim();
