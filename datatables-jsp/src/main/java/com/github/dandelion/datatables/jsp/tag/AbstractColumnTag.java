@@ -290,6 +290,11 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 					
 					}
 				}
+//				if(propertyValue != null){
+//					return propertyValue.toString();
+//				}
+//				else 
+//				}
 			} catch (NestedNullException e) {
 				if(StringUtils.isNotBlank(defaultValue)){
 					return defaultValue.trim();
