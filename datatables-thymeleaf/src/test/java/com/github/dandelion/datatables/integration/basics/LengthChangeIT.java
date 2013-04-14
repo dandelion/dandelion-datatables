@@ -37,59 +37,25 @@ import java.io.IOException;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.integration.DomBaseIT;
-import com.github.dandelion.datatables.mock.Mock;
 
 /**
- * Test the basic Features of Dandelion-Datatables.
+ * Test the pagination options.
  *
- * @author Thibault Duchateau
+ * @author Gautier Dhordain
  */
-public class FeatureEnablementIT extends DomBaseIT {
+public class LengthChangeIT extends DomBaseIT {
 
 	@Test
-	public void should_disable_paging() throws IOException, Exception {
-		goTo("/basics/table_disable_paging.jsp");
-
-		assertThat(find("#" + TABLE_ID + "_length")).hasSize(0);
-		
-		// If paging is disabled, the entire collection is displayed
-		assertThat(getTable().find("tbody").find("tr")).hasSize(Mock.persons.size());
-	}
-	
-	@Test
-	public void should_disable_filtering() throws IOException, Exception {
-		goTo("/basics/table_disable_filtering.jsp");
-
-		assertThat(find("#" + TABLE_ID + "_filter")).hasSize(0);
-	}
-	
-	@Test
-	public void should_disable_info() throws IOException, Exception {
-		goTo("/basics/table_disable_info.jsp");
-
-		assertThat(find("#" + TABLE_ID + "_info")).hasSize(0);
-	}
-	
-	@Test
-	public void should_disable_length_changing() throws IOException, Exception {
-		goTo("/basics/table_disable_lengthChange.jsp");
+	public void should_disable_length_change() throws IOException, Exception {
+        goTo("/thymeleaf/basics/disable_length_change");
 
 		assertThat(find("#" + TABLE_ID + "_length")).hasSize(0);
 	}
-	
+
 	@Test
-	public void should_enable_length_changing() throws IOException, Exception {
-		goTo("/basics/table_enable_lengthChange.jsp");
+	public void should_enable_length_change() throws IOException, Exception {
+        goTo("/thymeleaf/basics/enable_length_change");
 
 		assertThat(find("#" + TABLE_ID + "_length")).hasSize(1);
-	}
-	
-	@Test
-	public void should_disable_sorting() throws IOException, Exception {
-		goTo("/basics/table_disable_sorting.jsp");
-
-		assertThat(getTable().find("tbody").find(".sorting")).hasSize(0);
-		assertThat(getTable().find("tbody").find(".sorting_desc")).hasSize(0);
-		assertThat(getTable().find("tbody").find(".sorting_asc")).hasSize(0);
 	}
 }
