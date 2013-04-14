@@ -56,8 +56,8 @@ public class DefaultTableTest extends DomBaseTest {
 		assertThat(table.getHeadRows()).hasSize(1);
 		assertThat(table.getBodyRows()).hasSize(Mock.persons.size());
 		assertThat(table.getBodyRows().get(0).getColumns()).hasSize(tableBuilder.getColumnTags().size());
-		assertThat(table.getBodyRows().get(0).getColumns().get(0).getContent()).isEqualTo(Mock.persons.get(0).getId().toString());
-		assertThat(table.getBodyRows().get(0).getColumns().get(1).getContent()).isEqualTo(Mock.persons.get(0).getFirstName().toString());
+		assertThat(table.getBodyRows().get(0).getColumns().get(0).getContent().toString()).isEqualTo(Mock.persons.get(0).getId().toString());
+		assertThat(table.getBodyRows().get(0).getColumns().get(1).getContent().toString()).isEqualTo(Mock.persons.get(0).getFirstName().toString());
 	}
 
 	@Test
