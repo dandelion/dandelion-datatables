@@ -105,10 +105,6 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         			tmp.put(DTConstants.DT_SORT_DIR, sortDirection);
         		}
         		
-        		if(column.getCssCellClass() != null){
-        			tmp.put(DTConstants.DT_S_CLASS, column.getCssCellClass().toString());
-        		}
-        		
         		aoColumnsContent.add(tmp);
         	}
         }

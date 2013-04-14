@@ -68,10 +68,6 @@ public class CssIT extends DomBaseIT {
 		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).contains("column2class");
 		assertThat(StringUtils.trimAllWhitespace(getTable().find("thead").find("th", 1).getAttribute("style"))).contains("text-align:center;");
 		assertThat(StringUtils.trimAllWhitespace(getTable().find("thead").find("th", 2).getAttribute("style"))).contains("text-align:center;");
-		
-		for(int i=0 ; i<10 ; i++){
-			assertThat(StringUtils.trimAllWhitespace(getTable().find("tbody").find("tr", i).find("td", 3).getAttribute("class"))).isEqualTo("cityClass");
-		}
 	}
 	
 	@Test

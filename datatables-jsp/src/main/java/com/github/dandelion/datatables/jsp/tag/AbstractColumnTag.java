@@ -238,9 +238,6 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 		if(StringUtils.isNotBlank(cssStyle)){
 			column.setCssStyle(new StringBuffer(this.cssStyle));
 		}
-		if (StringUtils.isNotBlank(this.cssCellClass)) {
-			column.addCssCellClass(this.cssCellClass);
-		}
 		
 		// Exporting
 		if (StringUtils.isNotBlank(this.display)) {
