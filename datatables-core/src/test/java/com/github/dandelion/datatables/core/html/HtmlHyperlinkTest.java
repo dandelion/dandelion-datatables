@@ -17,7 +17,7 @@ public class HtmlHyperlinkTest extends HtmlTagWithContentTest {
 	@Test
 	public void should_generate_div_tag_with_id() {
 		tag = hyperlink = new HtmlHyperlink("myHref", "myLabel");
-		assertThat(hyperlink.toHtml().toString()).isEqualTo("<href a=\"myHref\">myLabel</href>");
+		assertThat(hyperlink.toHtml().toString()).isEqualTo("<a href=\"myHref\">myLabel</a>");
 	}
 
 	@Test
@@ -27,6 +27,6 @@ public class HtmlHyperlinkTest extends HtmlTagWithContentTest {
 		hyperlink.addCssStyle("styly");
 		hyperlink.setHref("fullHref");
 		hyperlink.addContent("valued");
-		assertThat(hyperlink.toHtml().toString()).isEqualTo("<href id=\"fullId\" class=\"classy\" style=\"styly\" a=\"fullHref\">valued</href>");
+		assertThat(hyperlink.toHtml().toString()).isEqualTo("<a id=\"fullId\" class=\"classy\" style=\"styly\" href=\"fullHref\">valued</a>");
 	}
 }
