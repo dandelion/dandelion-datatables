@@ -43,11 +43,11 @@ public class HtmlHyperlink extends HtmlTagWithContent {
 	private String href;
 	
 	public HtmlHyperlink(){
-		this.tag = "href";
+		this.tag = "a";
 	}
 	
 	public HtmlHyperlink(String href, String label){
-		this.tag = "href";
+		this.tag = "a";
 		this.href = href;
 		addContent(label);
 	}
@@ -55,7 +55,7 @@ public class HtmlHyperlink extends HtmlTagWithContent {
 	@Override
 	protected StringBuffer getHtmlAttributes() {
 		StringBuffer html = super.getHtmlAttributes();
-		html.append(writeAttribute("a", this.href));
+		html.append(writeAttribute("href", this.href));
 		return html;
 	}
 	
