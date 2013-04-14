@@ -36,8 +36,8 @@ package com.github.dandelion.datatables.core.html;
  */
 public abstract class HtmlTag {
 
-	private static final char CLASS_SEPARATOR = ' ';
-	private static final char CSS_SEPARATOR = ';';
+	protected static final char CLASS_SEPARATOR = ' ';
+	protected static final char CSS_SEPARATOR = ';';
 
 	/**
 	 * Tag label.
@@ -110,10 +110,6 @@ public abstract class HtmlTag {
 
 	public String getTag() {
 		return tag;
-	}
-
-	public void setTag(String tag) {
-		this.tag = tag;
 	}
 
 	public String getId() {

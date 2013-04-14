@@ -9,6 +9,7 @@ public class HtmlCaptionTest extends HtmlTagWithContentTest {
 	private HtmlCaption caption;
 
 	@Before
+	@Override
 	public void createHtmlTag(){
 		tag = caption = new HtmlCaption();
 	}

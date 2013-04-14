@@ -32,7 +32,6 @@ package com.github.dandelion.datatables.core.html;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 import com.github.dandelion.datatables.core.asset.DisplayType;
 
 /**
@@ -50,9 +49,11 @@ public class HtmlRow extends HtmlTag {
 	private List<HtmlColumn> columns = new LinkedList<HtmlColumn>();
 
 	public HtmlRow() {
+		this.tag = "tr";
 	}
 
 	public HtmlRow(String id) {
+		this.tag = "tr";
 		this.id = id;
 	}
 
@@ -61,23 +62,20 @@ public class HtmlRow extends HtmlTag {
 	 */
 	@Override
 	public StringBuffer toHtml() {
-
-		StringBuffer html = new StringBuffer("<tr");
-
-		if (this.id != null) {
-			html.append(" id=\"");
-			html.append(this.id);
-			html.append("\"");
-		}
-		html.append(">");
-
+		StringBuffer html = new StringBuffer();
+		html.append(getHtmlOpeningTag());
+		html.append(getHtmlColumns());
+		html.append(getHtmlClosingTag());
+		return html;
+	}
+	
+	private StringBuffer getHtmlColumns() {
+		StringBuffer html = new StringBuffer();
 		for (HtmlColumn column : this.columns) {
 			if (column.getEnabledDisplayTypes().contains(DisplayType.HTML)) {
 				html.append(column.toHtml());
 			}
 		}
-		html.append("</tr>");
-
 		return html;
 	}
 
@@ -113,7 +111,7 @@ public class HtmlRow extends HtmlTag {
 
 	public HtmlRow addHeaderColumns(String... columns) {
 		for (String columnContent : columns) {
-			this.columns.add(new HtmlColumn(true, columnContent));
+			addHeaderColumn(columnContent);
 		}
 		return this;
 	}
@@ -121,16 +119,16 @@ public class HtmlRow extends HtmlTag {
 	public List<HtmlColumn> getHeaderColumns() {
 		List<HtmlColumn> retval = new ArrayList<HtmlColumn>();
 		for (HtmlColumn column : columns) {
-			if (column.isHeaderColumn()) {
-				retval.add(column);
-			}
+		        if (column.isHeaderColumn()) {
+		                retval.add(column);
+		        }
 		}
 		return retval;
 	}
 
 	public HtmlRow addColumns(String... columns) {
 		for (String columnContent : columns) {
-			this.columns.add(new HtmlColumn(false, columnContent));
+			addColumn(columnContent);
 		}
 		return this;
 	}

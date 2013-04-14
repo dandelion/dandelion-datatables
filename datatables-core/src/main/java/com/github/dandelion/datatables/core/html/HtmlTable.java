@@ -124,6 +124,7 @@ public class HtmlTable extends HtmlTag {
 	private ThemeOption themeOption;
 
 	public HtmlTable(String id, String randomId) {
+		this.tag = "table";
 		init();
 		this.id = id;
 		this.randomId = randomId;
@@ -154,46 +155,39 @@ public class HtmlTable extends HtmlTag {
 	@Override
 	public StringBuffer toHtml() {
 		StringBuffer html = new StringBuffer();
+		html.append(getHtmlOpeningTag());
+		html.append(getHtmlHeader());
+		html.append(getHtmlBody());
+		html.append(getHtmlFooter());
+		html.append(getHtmlClosingTag());
+		return html;
+	}
 
-		if(this.appear != null && !"".equals(this.appear)){
-			html.append("<table style=\"display:none;\" id=\"");
-		}
-		else{
-			html.append("<table id=\"");
-		}
-		html.append(this.id);
-		html.append("\"");
-
-		if (this.cssClass != null) {
-			html.append(" class=\"");
-			html.append(this.cssClass);
-			html.append("\"");
-		}
-
-		if (this.cssStyle != null) {
-			html.append(" style=\"");
-			html.append(this.cssStyle);
-			html.append("\"");
-		}
-
-		html.append(">");
+	private StringBuffer getHtmlHeader() {
+		StringBuffer html = new StringBuffer();
 		if(this.caption != null) {
 			html.append(this.caption.toHtml());
 		}
 		html.append("<thead>");
-
 		for (HtmlRow row : this.head) {
 			html.append(row.toHtml());
 		}
 		html.append("</thead>");
-		html.append("<tbody>");
+		return html;
+	}
 
+	private StringBuffer getHtmlBody() {
+		StringBuffer html = new StringBuffer();
+		html.append("<tbody>");
 		for (HtmlRow row : this.body) {
 			html.append(row.toHtml());
 		}
-
 		html.append("</tbody>");
+		return html;
+	}
 
+	private StringBuffer getHtmlFooter() {
+		StringBuffer html = new StringBuffer();
 		if (!this.foot.isEmpty()) {
 			html.append("<tfoot>");
 			for (HtmlRow row : this.foot) {
@@ -202,10 +196,21 @@ public class HtmlTable extends HtmlTag {
 
 			html.append("</tfoot>");
 		}
-		html.append("</table>");
-		
 		return html;
 	}
+
+	protected StringBuffer getHtmlAttributes() {
+		if(this.appear != null && !"".equals(this.appear)){
+			addCssStyle("display:none");
+		}
+		
+		StringBuffer html = new StringBuffer();
+		html.append(writeAttribute("id", this.id));
+		html.append(writeAttribute("class", this.cssClass));
+		html.append(writeAttribute("style", this.cssStyle));
+		return html;
+	}
+
 
 	public HtmlCaption getCaption(){
 		return caption;

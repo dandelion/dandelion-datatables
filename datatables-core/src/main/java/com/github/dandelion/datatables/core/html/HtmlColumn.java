@@ -45,8 +45,8 @@ public class HtmlColumn extends HtmlTagWithContent {
 
 	private String uid;
 	private Boolean isHeaderColumn;
-	private String cssCellClass;
-	private String cssCellStyle;
+	private StringBuffer cssCellClass;
+	private StringBuffer cssCellStyle;
 	private Boolean sortable;
 	private String sortDirection;
 	private String sortInit;
@@ -71,24 +71,24 @@ public class HtmlColumn extends HtmlTagWithContent {
 
 	public HtmlColumn() {
 		init();
-		this.isHeaderColumn = false;
+		setHeaderColumn(false);
 	};
 
 	public HtmlColumn(DisplayType displayType) {
 		init();
 		this.enabledDisplayTypes.clear();
 		this.enabledDisplayTypes.add(displayType);
-		this.isHeaderColumn = false;
+		setHeaderColumn(false);
 	};
 	
 	public HtmlColumn(Boolean isHeader) {
 		init();
-		this.isHeaderColumn = isHeader;
+		setHeaderColumn(isHeader);
 	};
 
 	public HtmlColumn(Boolean isHeader, String content) {
 		init();
-		this.isHeaderColumn = isHeader;
+		setHeaderColumn(isHeader);
 		setContent(new StringBuffer(content));
 	}
 
@@ -113,73 +113,66 @@ public class HtmlColumn extends HtmlTagWithContent {
 			this.enabledDisplayTypes.add(type);
 		}
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	@Override
-	public StringBuffer toHtml() {
+	protected StringBuffer getHtmlAttributes() {
 		StringBuffer html = new StringBuffer();
+		html.append(writeAttribute("id", this.id));
 		if (this.isHeaderColumn) {
-			html.append("<th");
-
-			if (this.cssClass != null) {
-				html.append(" class=\"");
-				html.append(this.cssClass);
-				html.append("\"");
-			}
-
-			if (this.cssStyle != null) {
-				html.append(" style=\"");
-				html.append(this.cssStyle);
-				html.append("\"");
-			}
+			html.append(writeAttribute("class", this.cssClass));
+			html.append(writeAttribute("style", this.cssStyle));
 		} else {
-			html.append("<td");
-
-			if (this.cssCellClass != null) {
-				html.append(" class=\"");
-				html.append(this.cssCellClass);
-				html.append("\"");
-			}
-
-			if (this.cssCellStyle != null) {
-				html.append(" style=\"");
-				html.append(this.cssCellStyle);
-				html.append("\"");
-			}
+			html.append(writeAttribute("class", this.cssCellClass));
+			html.append(writeAttribute("style", this.cssCellStyle));
 		}
-
-		html.append(">");
-		if (this.content != null) {
-			html.append(content);
-		}
-
-		if (this.isHeaderColumn) {
-			html.append("</th>");
-		} else {
-			html.append("</td>");
-		}
-
 		return html;
+	}
+	
+	private void setHeaderColumn(Boolean isHeaderColumn) {
+		this.isHeaderColumn = isHeaderColumn;
+		if(this.isHeaderColumn) {
+			this.tag = "th";
+		} else {
+			this.tag = "td";
+		}
 	}
 
 	public Boolean isHeaderColumn() {
 		return isHeaderColumn;
 	}
 
-	public String getCssCellClass() {
-		return this.cssCellClass;
+	public StringBuffer getCssCellClass() {
+		return cssClass;
 	}
 
-	public HtmlColumn setCssCellClass(String cssCellClass) {
+	public void setCssCellClass(StringBuffer cssCellClass) {
 		this.cssCellClass = cssCellClass;
-		return this;
 	}
 
-	public HtmlColumn setCssCellStyle(String cssCellStyle) {
+	public StringBuffer getCssCellStyle() {
+		return cssCellStyle;
+	}
+
+	public void setCssCellStyle(StringBuffer cssCellStyle) {
 		this.cssCellStyle = cssCellStyle;
-		return this;
+	}
+
+	public void addCssCellClass(String cssCellClass) {
+		if(this.cssCellClass == null) {
+			this.cssCellClass = new StringBuffer();
+		} else {
+			this.cssCellClass.append(CLASS_SEPARATOR);
+		}
+		this.cssCellClass.append(cssCellClass);
+	}
+
+	public void addCssCellStyle(String cssCellStyle) {
+		if(this.cssCellStyle == null) {
+			this.cssCellStyle = new StringBuffer();
+		} else {
+			this.cssCellStyle.append(CSS_SEPARATOR);
+		}
+		this.cssCellStyle.append(cssCellStyle);
 	}
 
 	public Boolean isSortable() {

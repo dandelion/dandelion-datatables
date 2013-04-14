@@ -142,10 +142,10 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 		// Non-header columns
 		if (!isHeader) {
 			if (StringUtils.isNotBlank(this.cssCellClass)) {
-				column.setCssCellClass(this.cssCellClass);
+				column.addCssCellClass(this.cssCellClass);
 			}
 			if (StringUtils.isNotBlank(this.cssCellStyle)) {
-				column.setCssCellStyle(this.cssCellStyle);
+				column.addCssCellStyle(this.cssCellStyle);
 			}
 
 			parent.getTable().getLastBodyRow().addColumn(column);
@@ -239,7 +239,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 			column.setCssStyle(new StringBuffer(this.cssStyle));
 		}
 		if (StringUtils.isNotBlank(this.cssCellClass)) {
-			column.setCssCellClass(this.cssCellClass);
+			column.addCssCellClass(this.cssCellClass);
 		}
 		
 		// Exporting

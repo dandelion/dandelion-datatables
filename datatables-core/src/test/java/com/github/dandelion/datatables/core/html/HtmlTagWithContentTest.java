@@ -7,6 +7,7 @@ import org.junit.Test;
 public class HtmlTagWithContentTest extends HtmlTagTest {
 
 	@Before
+	@Override
 	public void createHtmlTag() {
 		tag = new HtmlTagWithContent() {
 		};
