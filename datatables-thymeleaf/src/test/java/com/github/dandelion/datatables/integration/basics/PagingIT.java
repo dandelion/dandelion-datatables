@@ -30,19 +30,20 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import com.github.dandelion.datatables.integration.DomBaseIT;
-import org.junit.Test;
+import static org.fest.assertions.Assertions.assertThat;
 
 import java.io.IOException;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.junit.Test;
+
+import com.github.dandelion.datatables.integration.DomBaseIT;
 
 /**
  * Test the pagination options.
  *
  * @author Gautier Dhordain
  */
-public class PaginationIT extends DomBaseIT {
+public class PagingIT extends DomBaseIT {
 
 	@Test
 	public void should_limit_display_length() throws IOException, Exception {
