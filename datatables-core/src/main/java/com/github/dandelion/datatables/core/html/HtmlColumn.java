@@ -89,7 +89,9 @@ public class HtmlColumn extends HtmlTagWithContent {
 	public HtmlColumn(Boolean isHeader, String content) {
 		init();
 		setHeaderColumn(isHeader);
-		setContent(new StringBuffer(content));
+		if(content != null) {
+			setContent(new StringBuffer(content));
+		}
 	}
 
 	/**
