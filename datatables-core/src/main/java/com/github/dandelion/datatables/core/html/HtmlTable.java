@@ -154,8 +154,8 @@ public class HtmlTable extends HtmlTag {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public StringBuffer toHtml() {
-		StringBuffer html = new StringBuffer();
+	public StringBuilder toHtml() {
+		StringBuilder html = new StringBuilder();
 		html.append(getHtmlOpeningTag());
 		html.append(getHtmlHeader());
 		html.append(getHtmlBody());
@@ -164,8 +164,8 @@ public class HtmlTable extends HtmlTag {
 		return html;
 	}
 
-	private StringBuffer getHtmlHeader() {
-		StringBuffer html = new StringBuffer();
+	private StringBuilder getHtmlHeader() {
+		StringBuilder html = new StringBuilder();
 		if(this.caption != null) {
 			html.append(this.caption.toHtml());
 		}
@@ -177,8 +177,8 @@ public class HtmlTable extends HtmlTag {
 		return html;
 	}
 
-	private StringBuffer getHtmlBody() {
-		StringBuffer html = new StringBuffer();
+	private StringBuilder getHtmlBody() {
+		StringBuilder html = new StringBuilder();
 		html.append("<tbody>");
 		for (HtmlRow row : this.body) {
 			html.append(row.toHtml());
@@ -187,8 +187,8 @@ public class HtmlTable extends HtmlTag {
 		return html;
 	}
 
-	private StringBuffer getHtmlFooter() {
-		StringBuffer html = new StringBuffer();
+	private StringBuilder getHtmlFooter() {
+		StringBuilder html = new StringBuilder();
 		if (!this.foot.isEmpty()) {
 			html.append("<tfoot>");
 			for (HtmlRow row : this.foot) {
@@ -200,12 +200,12 @@ public class HtmlTable extends HtmlTag {
 		return html;
 	}
 
-	protected StringBuffer getHtmlAttributes() {
+	protected StringBuilder getHtmlAttributes() {
 		if(this.appear != null && !"".equals(this.appear)){
 			addCssStyle("display:none");
 		}
 		
-		StringBuffer html = new StringBuffer();
+		StringBuilder html = new StringBuilder();
 		html.append(writeAttribute("id", this.id));
 		html.append(writeAttribute("class", this.cssClass));
 		html.append(writeAttribute("style", this.cssStyle));

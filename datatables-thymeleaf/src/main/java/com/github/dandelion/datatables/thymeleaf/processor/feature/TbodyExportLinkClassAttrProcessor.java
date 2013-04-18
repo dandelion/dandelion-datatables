@@ -78,7 +78,7 @@ public class TbodyExportLinkClassAttrProcessor extends AbstractDatatablesAttrPro
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 				
 		String tmpValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
-		StringBuffer attrValue = new StringBuffer(tmpValue);
+		StringBuilder attrValue = new StringBuilder(tmpValue);
 		ExportType exportType = ExportType.valueOf(attributeName.split(":")[1].toUpperCase().trim());
 		
 		// The ExportConf already exists

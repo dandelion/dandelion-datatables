@@ -52,27 +52,27 @@ public abstract class HtmlTag {
 	/**
 	 * Plain old HTML <code>class</code> attribute.
 	 */
-	protected StringBuffer cssClass;
+	protected StringBuilder cssClass;
 
 	/**
 	 * Plain old HTML <code>style</code> attribute.
 	 */
-	protected StringBuffer cssStyle;
+	protected StringBuilder cssStyle;
 
 	/**
 	 * Render the tag in HTML code.
 	 * 
 	 * @return the HTML code corresponding to the tag.
 	 */
-	public StringBuffer toHtml() {
-		StringBuffer html = new StringBuffer();
+	public StringBuilder toHtml() {
+		StringBuilder html = new StringBuilder();
 		html.append(getHtmlOpeningTag());
 		html.append(getHtmlClosingTag());
 		return html;
 	}
 
-	protected StringBuffer getHtmlOpeningTag() {
-		StringBuffer html = new StringBuffer();
+	protected StringBuilder getHtmlOpeningTag() {
+		StringBuilder html = new StringBuilder();
 		html.append('<');
 		html.append(this.tag);
 		html.append(getHtmlAttributes());
@@ -80,16 +80,16 @@ public abstract class HtmlTag {
 		return html;
 	}
 
-	protected StringBuffer getHtmlAttributes() {
-		StringBuffer html = new StringBuffer();
+	protected StringBuilder getHtmlAttributes() {
+		StringBuilder html = new StringBuilder();
 		html.append(writeAttribute("id", this.id));
 		html.append(writeAttribute("class", this.cssClass));
 		html.append(writeAttribute("style", this.cssStyle));
 		return html;
 	}
 	
-	protected static StringBuffer writeAttribute(String name, Object data) {
-		StringBuffer html = new StringBuffer();
+	protected static StringBuilder writeAttribute(String name, Object data) {
+		StringBuilder html = new StringBuilder();
 		if(data != null) {
 			html.append(' ');
 			html.append(name);
@@ -100,8 +100,8 @@ public abstract class HtmlTag {
 		return html;
 	}
 
-	protected StringBuffer getHtmlClosingTag() {
-		StringBuffer html = new StringBuffer();
+	protected StringBuilder getHtmlClosingTag() {
+		StringBuilder html = new StringBuilder();
 		html.append("</");
 		html.append(this.tag);
 		html.append('>');
@@ -120,25 +120,25 @@ public abstract class HtmlTag {
 		this.id = id;
 	}
 
-	public StringBuffer getCssClass() {
+	public StringBuilder getCssClass() {
 		return cssClass;
 	}
 
-	public void setCssClass(StringBuffer cssClass) {
+	public void setCssClass(StringBuilder cssClass) {
 		this.cssClass = cssClass;
 	}
 
-	public StringBuffer getCssStyle() {
+	public StringBuilder getCssStyle() {
 		return cssStyle;
 	}
 
-	public void setCssStyle(StringBuffer cssStyle) {
+	public void setCssStyle(StringBuilder cssStyle) {
 		this.cssStyle = cssStyle;
 	}
 
 	public void addCssClass(String cssClass) {
 		if(this.cssClass == null) {
-			this.cssClass = new StringBuffer();
+			this.cssClass = new StringBuilder();
 		} else {
 			this.cssClass.append(CLASS_SEPARATOR);
 		}
@@ -147,7 +147,7 @@ public abstract class HtmlTag {
 
 	public void addCssStyle(String cssStyle) {
 		if(this.cssStyle == null) {
-			this.cssStyle = new StringBuffer();
+			this.cssStyle = new StringBuilder();
 		} else {
 			this.cssStyle.append(CSS_SEPARATOR);
 		}

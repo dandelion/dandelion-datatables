@@ -17,8 +17,8 @@ public class HtmlCaption extends HtmlTagWithContent {
 	}
 
 	@Override
-	protected StringBuffer getHtmlAttributes() {
-		StringBuffer html = super.getHtmlAttributes();
+	protected StringBuilder getHtmlAttributes() {
+		StringBuilder html = super.getHtmlAttributes();
 		html.append(writeAttribute("title", this.title));
 		return html;
 	}

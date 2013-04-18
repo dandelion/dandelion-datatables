@@ -153,10 +153,10 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 		// Header columns
 		else {
 			if (StringUtils.isNotBlank(this.cssClass)) {
-				column.setCssClass(new StringBuffer(this.cssClass));
+				column.setCssClass(new StringBuilder(this.cssClass));
 			}
 			if (StringUtils.isNotBlank(this.cssStyle)) {
-				column.setCssStyle(new StringBuffer(this.cssStyle));
+				column.setCssStyle(new StringBuilder(this.cssStyle));
 			}
 
 			column.setSortDirection(this.sortDirection);
@@ -233,10 +233,10 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 		
 		// Styling
 		if(StringUtils.isNotBlank(cssClass)){
-			column.setCssClass(new StringBuffer(this.cssClass));
+			column.setCssClass(new StringBuilder(this.cssClass));
 		}
 		if(StringUtils.isNotBlank(cssStyle)){
-			column.setCssStyle(new StringBuffer(this.cssStyle));
+			column.setCssStyle(new StringBuilder(this.cssStyle));
 		}
 		
 		// Exporting

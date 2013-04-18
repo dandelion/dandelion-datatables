@@ -45,11 +45,11 @@ import java.util.List;
  */
 public abstract class AbstractExtension implements Extension {
 
-	protected StringBuffer beforeAll;
-	protected StringBuffer afterAll;
-	protected StringBuffer beforeStartDocumentReady;
-	protected StringBuffer afterStartDocumentReady;
-	protected StringBuffer beforeEndDocumentReady;
+	protected StringBuilder beforeAll;
+	protected StringBuilder afterAll;
+	protected StringBuilder beforeStartDocumentReady;
+	protected StringBuilder afterStartDocumentReady;
+	protected StringBuilder beforeEndDocumentReady;
 	protected List<JsResource> jsResources;
 	protected List<CssResource> cssResources;
 	protected List<Configuration> confs;
@@ -72,19 +72,19 @@ public abstract class AbstractExtension implements Extension {
 	 */
 	public abstract void setup(HtmlTable table) throws BadConfigurationException;
 
-	public StringBuffer getBeforeAll() {
+	public StringBuilder getBeforeAll() {
 		return beforeAll;
 	}
 
-	public StringBuffer getAfterAll() {
+	public StringBuilder getAfterAll() {
 		return afterAll;
 	}
 
-	public StringBuffer getAfterStartDocumentReady() {
+	public StringBuilder getAfterStartDocumentReady() {
 		return afterStartDocumentReady;
 	}
 
-	public StringBuffer getBeforeEndDocumentReady() {
+	public StringBuilder getBeforeEndDocumentReady() {
 		return beforeEndDocumentReady;
 	}
 
@@ -151,35 +151,35 @@ public abstract class AbstractExtension implements Extension {
 
 	public void appendToBeforeAll(String beforeAll) {
 		if (this.beforeAll == null) {
-			this.beforeAll = new StringBuffer();
+			this.beforeAll = new StringBuilder();
 		}
 		this.beforeAll.append(beforeAll);
 	}
 
 	public void appendToBeforeStartDocumentReady(String beforeStartDocumentReady) {
 		if (this.beforeStartDocumentReady == null) {
-			this.beforeStartDocumentReady = new StringBuffer();
+			this.beforeStartDocumentReady = new StringBuilder();
 		}
 		this.beforeStartDocumentReady.append(beforeStartDocumentReady);
 	}
 
 	public void appendToAfterStartDocumentReady(String afterStartDocumentReady) {
 		if (this.afterStartDocumentReady == null) {
-			this.afterStartDocumentReady = new StringBuffer();
+			this.afterStartDocumentReady = new StringBuilder();
 		}
 		this.afterStartDocumentReady.append(afterStartDocumentReady);
 	}
 
 	public void appendToBeforeEndDocumentReady(String beforeEndDocumentReady) {
 		if (this.beforeEndDocumentReady == null) {
-			this.beforeEndDocumentReady = new StringBuffer();
+			this.beforeEndDocumentReady = new StringBuilder();
 		}
 		this.beforeEndDocumentReady.append(beforeEndDocumentReady);
 	}
 
 	public void appendToAfterAll(String afterAll) {
 		if (this.afterAll == null) {
-			this.afterAll = new StringBuffer();
+			this.afterAll = new StringBuilder();
 		}
 		this.afterAll.append(afterAll);
 	}

@@ -122,13 +122,13 @@ public interface Extension {
     void setup(HtmlTable table) throws BadConfigurationException;
 
 
-    public StringBuffer getBeforeAll();
+    public StringBuilder getBeforeAll();
 
-    public StringBuffer getAfterAll();
+    public StringBuilder getAfterAll();
 
-    public StringBuffer getAfterStartDocumentReady();
+    public StringBuilder getAfterStartDocumentReady();
 
-    public StringBuffer getBeforeEndDocumentReady();
+    public StringBuilder getBeforeEndDocumentReady();
 
     public List<JsResource> getJsResources();
 

@@ -58,7 +58,7 @@ public class TdElProcessor extends AbstractDatatablesElProcessor {
 					content =  StandardExpressionProcessor.processExpression(arguments, attrValue).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":csv");
 					column = new HtmlColumn(DisplayType.CSV);
-					column.setContent(new StringBuffer(content));
+					column.setContent(new StringBuilder(content));
 					table.getLastBodyRow().addColumn(column);
 				}
 				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xml")) {
@@ -66,7 +66,7 @@ public class TdElProcessor extends AbstractDatatablesElProcessor {
 					content =  StandardExpressionProcessor.processExpression(arguments, attrValue).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xml");
 					column = new HtmlColumn(DisplayType.XML);
-					column.setContent(new StringBuffer(content));
+					column.setContent(new StringBuilder(content));
 					table.getLastBodyRow().addColumn(column);
 				}
 				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":pdf")) {
@@ -74,7 +74,7 @@ public class TdElProcessor extends AbstractDatatablesElProcessor {
 					content =  StandardExpressionProcessor.processExpression(arguments, attrValue).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":pdf");
 					column = new HtmlColumn(DisplayType.PDF);
-					column.setContent(new StringBuffer(content));
+					column.setContent(new StringBuilder(content));
 					table.getLastBodyRow().addColumn(column);
 				}
 				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xls")) {
@@ -82,7 +82,7 @@ public class TdElProcessor extends AbstractDatatablesElProcessor {
 					content =  StandardExpressionProcessor.processExpression(arguments, attrValue).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xls");
 					column = new HtmlColumn(DisplayType.XLS);
-					column.setContent(new StringBuffer(content));
+					column.setContent(new StringBuilder(content));
 					table.getLastBodyRow().addColumn(column);
 				}
 				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xlsx")) {
@@ -90,7 +90,7 @@ public class TdElProcessor extends AbstractDatatablesElProcessor {
 					content =  StandardExpressionProcessor.processExpression(arguments, attrValue).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xlsx");
 					column = new HtmlColumn(DisplayType.XLSX);
-					column.setContent(new StringBuffer(content));
+					column.setContent(new StringBuilder(content));
 					table.getLastBodyRow().addColumn(column);
 				}
 			}

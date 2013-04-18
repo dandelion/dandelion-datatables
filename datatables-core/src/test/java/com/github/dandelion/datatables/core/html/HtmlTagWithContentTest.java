@@ -15,7 +15,7 @@ public class HtmlTagWithContentTest extends HtmlTagTest {
 
 	@Test
 	public void should_generate_tag_with_content() {
-		((HtmlTagWithContent)tag).setContent(new StringBuffer("dummy value"));
+		((HtmlTagWithContent)tag).setContent(new StringBuilder("dummy value"));
 		assertThat(tag.toHtml().toString()).isEqualTo("<" + tag.getTag() + ">dummy value</" + tag.getTag() + ">");
 	}
 }

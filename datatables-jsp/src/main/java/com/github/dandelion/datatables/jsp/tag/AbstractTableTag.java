@@ -165,10 +165,10 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected void registerBasicConfiguration() throws BadConfigurationException {
 
 		if (StringUtils.isNotBlank(this.cssClass)) {
-			this.table.setCssClass(new StringBuffer(this.cssClass));
+			this.table.setCssClass(new StringBuilder(this.cssClass));
 		}
 		if (StringUtils.isNotBlank(this.cssStyle)) {
-			this.table.setCssStyle(new StringBuffer(this.cssStyle));
+			this.table.setCssStyle(new StringBuilder(this.cssStyle));
 		}
 		if (this.autoWidth != null) {
 			this.table.setAutoWidth(this.autoWidth);
@@ -577,7 +577,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	 */
 	protected String getRowId() throws JspException {
 
-		StringBuffer rowId = new StringBuffer();
+		StringBuilder rowId = new StringBuilder();
 
 		if (StringUtils.isNotBlank(this.rowIdPrefix)) {
 			rowId.append(this.rowIdPrefix);

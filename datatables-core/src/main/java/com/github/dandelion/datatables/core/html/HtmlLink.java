@@ -52,8 +52,8 @@ public class HtmlLink extends HtmlTag {
 	}
 
 	@Override
-	protected StringBuffer getHtmlAttributes() {
-		StringBuffer html = super.getHtmlAttributes();
+	protected StringBuilder getHtmlAttributes() {
+		StringBuilder html = super.getHtmlAttributes();
 		html.append(writeAttribute("href", this.href));
 		return html;
 	}

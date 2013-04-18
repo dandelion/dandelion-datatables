@@ -45,8 +45,8 @@ public class HtmlColumn extends HtmlTagWithContent {
 
 	private String uid;
 	private Boolean isHeaderColumn;
-	private StringBuffer cssCellClass;
-	private StringBuffer cssCellStyle;
+	private StringBuilder cssCellClass;
+	private StringBuilder cssCellStyle;
 	private Boolean sortable;
 	private String sortDirection;
 	private String sortInit;
@@ -90,7 +90,7 @@ public class HtmlColumn extends HtmlTagWithContent {
 		init();
 		setHeaderColumn(isHeader);
 		if(content != null) {
-			setContent(new StringBuffer(content));
+			setContent(new StringBuilder(content));
 		}
 	}
 
@@ -117,8 +117,8 @@ public class HtmlColumn extends HtmlTagWithContent {
 	}
 	
 	@Override
-	protected StringBuffer getHtmlAttributes() {
-		StringBuffer html = new StringBuffer();
+	protected StringBuilder getHtmlAttributes() {
+		StringBuilder html = new StringBuilder();
 		html.append(writeAttribute("id", this.id));
 		if (this.isHeaderColumn) {
 			html.append(writeAttribute("class", this.cssClass));
@@ -143,25 +143,25 @@ public class HtmlColumn extends HtmlTagWithContent {
 		return isHeaderColumn;
 	}
 
-	public StringBuffer getCssCellClass() {
+	public StringBuilder getCssCellClass() {
 		return cssClass;
 	}
 
-	public void setCssCellClass(StringBuffer cssCellClass) {
+	public void setCssCellClass(StringBuilder cssCellClass) {
 		this.cssCellClass = cssCellClass;
 	}
 
-	public StringBuffer getCssCellStyle() {
+	public StringBuilder getCssCellStyle() {
 		return cssCellStyle;
 	}
 
-	public void setCssCellStyle(StringBuffer cssCellStyle) {
+	public void setCssCellStyle(StringBuilder cssCellStyle) {
 		this.cssCellStyle = cssCellStyle;
 	}
 
 	public void addCssCellClass(String cssCellClass) {
 		if(this.cssCellClass == null) {
-			this.cssCellClass = new StringBuffer();
+			this.cssCellClass = new StringBuilder();
 		} else {
 			this.cssCellClass.append(CLASS_SEPARATOR);
 		}
@@ -170,7 +170,7 @@ public class HtmlColumn extends HtmlTagWithContent {
 
 	public void addCssCellStyle(String cssCellStyle) {
 		if(this.cssCellStyle == null) {
-			this.cssCellStyle = new StringBuffer();
+			this.cssCellStyle = new StringBuilder();
 		} else {
 			this.cssCellStyle.append(CSS_SEPARATOR);
 		}

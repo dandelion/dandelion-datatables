@@ -51,7 +51,7 @@ public class Bootstrap2IT extends DomBaseIT {
 	public void should_generate_table_markup_using_dom_source() throws IOException, Exception {
 		goTo("/thymeleaf/themes/bootstrap2_dom");
 	
-		StringBuffer baseHref = new StringBuffer("http://");
+		StringBuilder baseHref = new StringBuilder("http://");
 		baseHref.append(SERVER_HOST);
 		baseHref.append(":");
 		baseHref.append(SERVER_PORT);
@@ -75,7 +75,7 @@ public class Bootstrap2IT extends DomBaseIT {
 	public void should_generate_table_markup_using_ajax_source() throws IOException, Exception {
 		goTo("/thymeleaf/themes/bootstrap2_ajax");
 	
-		StringBuffer baseHref = new StringBuffer("http://");
+		StringBuilder baseHref = new StringBuilder("http://");
 		baseHref.append(SERVER_HOST);
 		baseHref.append(":");
 		baseHref.append(SERVER_PORT);

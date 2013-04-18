@@ -39,7 +39,7 @@ public abstract class HtmlTagWithContent extends HtmlTag {
 	/**
 	 * Content of the tag.
 	 */
-	protected StringBuffer content = new StringBuffer();
+	protected StringBuilder content = new StringBuilder();
 
 	/**
 	 * Render the tag in HTML code.
@@ -47,23 +47,23 @@ public abstract class HtmlTagWithContent extends HtmlTag {
 	 * @return the HTML code corresponding to the tag.
 	 */
 	@Override
-	public StringBuffer toHtml() {
-		StringBuffer html = new StringBuffer();
+	public StringBuilder toHtml() {
+		StringBuilder html = new StringBuilder();
 		html.append(getHtmlOpeningTag());
 		html.append(this.content);
 		html.append(getHtmlClosingTag());
 		return html;
 	}
 
-	public StringBuffer getContent() {
+	public StringBuilder getContent() {
 		return content;
 	}
 
-	public void setContent(StringBuffer content) {
+	public void setContent(StringBuilder content) {
 		this.content = content;
 	}
 
-	public void addContent(StringBuffer contentToAdd) {
+	public void addContent(StringBuilder contentToAdd) {
 		this.content.append(contentToAdd);
 	}
 

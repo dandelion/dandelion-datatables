@@ -61,16 +61,16 @@ public class HtmlRow extends HtmlTag {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public StringBuffer toHtml() {
-		StringBuffer html = new StringBuffer();
+	public StringBuilder toHtml() {
+		StringBuilder html = new StringBuilder();
 		html.append(getHtmlOpeningTag());
 		html.append(getHtmlColumns());
 		html.append(getHtmlClosingTag());
 		return html;
 	}
 	
-	private StringBuffer getHtmlColumns() {
-		StringBuffer html = new StringBuffer();
+	private StringBuilder getHtmlColumns() {
+		StringBuilder html = new StringBuilder();
 		for (HtmlColumn column : this.columns) {
 			if (column.getEnabledDisplayTypes().contains(DisplayType.HTML)) {
 				html.append(column.toHtml());

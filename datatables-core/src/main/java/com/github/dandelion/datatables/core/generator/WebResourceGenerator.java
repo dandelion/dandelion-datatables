@@ -203,7 +203,7 @@ public class WebResourceGenerator {
 	 */
 	private void exportManagement(HtmlTable table) {
 
-		StringBuffer links = new StringBuffer();
+		StringBuilder links = new StringBuilder();
 		for (ExportLinkPosition position : table.getExportLinkPositions()) {
 
 			// Init the wrapping HTML div
@@ -358,7 +358,7 @@ public class WebResourceGenerator {
 			HtmlTable table) throws BadConfigurationException {
 
 		for (ExtraConf conf : table.getExtraConfs()) {
-			StringBuffer extaConf = new StringBuffer();
+			StringBuilder extaConf = new StringBuilder();
 			extaConf.append("$.ajax({url:\"");
 			extaConf.append(conf.getSrc());
 			extaConf.append("\",dataType: \"text\",type: \"GET\", async: false, success: function(extraProperties, xhr, response) {");

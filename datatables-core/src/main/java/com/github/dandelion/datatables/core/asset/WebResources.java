@@ -57,7 +57,7 @@ public class WebResources {
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("JS:");
+		StringBuilder buffer = new StringBuilder("JS:");
 		for(Entry<String, JsResource> entry : javascripts.entrySet()){
 			buffer.append(entry.getKey());
 			buffer.append(",");

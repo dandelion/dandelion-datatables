@@ -97,14 +97,14 @@ public class JsResource {
 	 */
 	private ResourceType type;
 
-	private StringBuffer beforeAll;
-	private StringBuffer beforeStartDocumentReady;
-	private StringBuffer afterStartDocumentReady;
-	private StringBuffer beforeEndDocumentReady;
-	private StringBuffer afterAll;
-	private StringBuffer dataTablesConf;
-	private StringBuffer dataTablesExtra;
-	private StringBuffer dataTablesExtraConf;
+	private StringBuilder beforeAll;
+	private StringBuilder beforeStartDocumentReady;
+	private StringBuilder afterStartDocumentReady;
+	private StringBuilder beforeEndDocumentReady;
+	private StringBuilder afterAll;
+	private StringBuilder dataTablesConf;
+	private StringBuilder dataTablesExtra;
+	private StringBuilder dataTablesExtraConf;
 
 	/**
 	 * Public default constructor.
@@ -132,7 +132,7 @@ public class JsResource {
 	 */
 	public String getContent() {
 
-		StringBuffer retval = new StringBuffer();
+		StringBuilder retval = new StringBuilder();
 
 		switch (type) {
 		case MAIN:
@@ -235,68 +235,68 @@ public class JsResource {
 		this.content = content;
 	}
 
-	public StringBuffer getBeforeAll() {
+	public StringBuilder getBeforeAll() {
 		return beforeAll;
 	}
 
 	public void appendToBeforeAll(String beforeAll) {
 		if (this.beforeAll == null) {
-			this.beforeAll = new StringBuffer();
+			this.beforeAll = new StringBuilder();
 		}
 		this.beforeAll.append(beforeAll);
 	}
 
-	public StringBuffer getBeforeStartDocumentReady() {
+	public StringBuilder getBeforeStartDocumentReady() {
 		return beforeStartDocumentReady;
 	}
 
 	public void appendToBeforeStartDocumentReady(String beforeStartDocumentReady) {
 		if (this.beforeStartDocumentReady == null) {
-			this.beforeStartDocumentReady = new StringBuffer();
+			this.beforeStartDocumentReady = new StringBuilder();
 		}
 		this.beforeStartDocumentReady.append(beforeStartDocumentReady);
 	}
 
-	public StringBuffer getAfterStartDocumentReady() {
+	public StringBuilder getAfterStartDocumentReady() {
 		return afterStartDocumentReady;
 	}
 
 	public void appendToAfterStartDocumentReady(String afterStartDocumentReady) {
 		if (this.afterStartDocumentReady == null) {
-			this.afterStartDocumentReady = new StringBuffer();
+			this.afterStartDocumentReady = new StringBuilder();
 		}
 		this.afterStartDocumentReady.append(afterStartDocumentReady);
 	}
 
-	public StringBuffer getBeforeEndDocumentReady() {
+	public StringBuilder getBeforeEndDocumentReady() {
 		return beforeEndDocumentReady;
 	}
 
 	public void appendToBeforeEndDocumentReady(String beforeEndDocumentReady) {
 		if (this.beforeEndDocumentReady == null) {
-			this.beforeEndDocumentReady = new StringBuffer();
+			this.beforeEndDocumentReady = new StringBuilder();
 		}
 		this.beforeEndDocumentReady.append(beforeEndDocumentReady);
 	}
 
-	public StringBuffer getAfterAll() {
+	public StringBuilder getAfterAll() {
 		return afterAll;
 	}
 
 	public void appendToAfterAll(String afterAll) {
 		if (this.afterAll == null) {
-			this.afterAll = new StringBuffer();
+			this.afterAll = new StringBuilder();
 		}
 		this.afterAll.append(afterAll);
 	}
 
-	public StringBuffer getDataTablesConf() {
+	public StringBuilder getDataTablesConf() {
 		return dataTablesConf;
 	}
 
 	public void appendToDataTablesConf(String dataTablesConf) {
 		if (this.dataTablesConf == null) {
-			this.dataTablesConf = new StringBuffer();
+			this.dataTablesConf = new StringBuilder();
 		}
 		this.dataTablesConf.append(dataTablesConf);
 	}
@@ -309,24 +309,24 @@ public class JsResource {
 		this.type = type;
 	}
 
-	public StringBuffer getDataTablesExtra() {
+	public StringBuilder getDataTablesExtra() {
 		return dataTablesExtra;
 	}
 
 	public void appendToDataTablesExtra(String dataTablesExtra) {
 		if (this.dataTablesExtra == null) {
-			this.dataTablesExtra = new StringBuffer();
+			this.dataTablesExtra = new StringBuilder();
 		}
 		this.dataTablesExtra.append(dataTablesExtra);
 	}
 
-	public StringBuffer getDataTablesExtraConf() {
+	public StringBuilder getDataTablesExtraConf() {
 		return dataTablesExtraConf;
 	}
 
 	public void appendToDataTablesExtraConf(String dataTablesExtraConf) {
 		if (this.dataTablesExtraConf == null) {
-			this.dataTablesExtraConf = new StringBuffer();
+			this.dataTablesExtraConf = new StringBuilder();
 		}
 		this.dataTablesExtraConf.append(dataTablesExtraConf);
 	}

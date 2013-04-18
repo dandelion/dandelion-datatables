@@ -110,7 +110,7 @@ public class RequestHelper {
 	 */
 	public static String getAssetSource(String resourceName, HtmlTable table,
 			HttpServletRequest request, boolean isMainFile) {
-		StringBuffer buffer = new StringBuffer(getBaseUrl(request, table));
+		StringBuilder buffer = new StringBuilder(getBaseUrl(request, table));
 		buffer.append("/datatablesController/");
 		buffer.append(resourceName);
 		buffer.append("?id=");

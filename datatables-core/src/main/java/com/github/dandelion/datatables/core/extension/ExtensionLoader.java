@@ -152,7 +152,7 @@ public class ExtensionLoader {
 			//
 			extensionJsFile = new JsResource(ResourceType.EXTENSION, resourceName);
 
-			StringBuffer jsContent = new StringBuffer();
+			StringBuilder jsContent = new StringBuilder();
 
 			// All JS resources are merged
 			for (JsResource jsResource : extension.getJsResources()) {
@@ -211,7 +211,7 @@ public class ExtensionLoader {
 
 			pluginsSourceCssFile = new CssResource(ResourceType.EXTENSION, resourceName);
 
-			StringBuffer cssContent = new StringBuffer();
+			StringBuilder cssContent = new StringBuilder();
 
 			// Module source loading (stylesheets)
 			for (CssResource cssResource : extension.getCssResources()) {

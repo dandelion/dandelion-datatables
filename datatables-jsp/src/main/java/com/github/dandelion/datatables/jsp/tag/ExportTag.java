@@ -123,10 +123,10 @@ public class ExportTag extends TagSupport {
 				conf.setLabel(label);				
 			}
 			if(StringUtils.isNotBlank(cssClass)){
-				conf.setCssClass(new StringBuffer(cssClass));				
+				conf.setCssClass(new StringBuilder(cssClass));				
 			}
 			if(StringUtils.isNotBlank(cssStyle)){
-				conf.setCssStyle(new StringBuffer(cssStyle));				
+				conf.setCssStyle(new StringBuilder(cssStyle));				
 			}
 			if(includeHeader != null){
 				conf.setIncludeHeader(includeHeader != null ? includeHeader : true);				

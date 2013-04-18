@@ -39,8 +39,8 @@ public class ExportConf {
 	private String fileName;
 	private ExportType type;
 	private String label;
-	private StringBuffer cssStyle;
-	private StringBuffer cssClass;
+	private StringBuilder cssStyle;
+	private StringBuilder cssClass;
 	private Boolean includeHeader;
 	private String area;
 	private String url;
@@ -92,19 +92,19 @@ public class ExportConf {
 		this.label = label;
 	}
 
-	public StringBuffer getCssStyle() {
+	public StringBuilder getCssStyle() {
 		return cssStyle;
 	}
 
-	public void setCssStyle(StringBuffer cssStyle) {
+	public void setCssStyle(StringBuilder cssStyle) {
 		this.cssStyle = cssStyle;
 	}
 
-	public StringBuffer getCssClass() {
+	public StringBuilder getCssClass() {
 		return cssClass;
 	}
 
-	public void setCssClass(StringBuffer cssClass) {
+	public void setCssClass(StringBuilder cssClass) {
 		this.cssClass = cssClass;
 	}
 

@@ -52,8 +52,8 @@ public class HtmlScript extends HtmlTag {
 	}
 
 	@Override
-	protected StringBuffer getHtmlAttributes() {
-		StringBuffer html = super.getHtmlAttributes();
+	protected StringBuilder getHtmlAttributes() {
+		StringBuilder html = super.getHtmlAttributes();
 		html.append(writeAttribute("src", this.src));
 		return html;
 	}
