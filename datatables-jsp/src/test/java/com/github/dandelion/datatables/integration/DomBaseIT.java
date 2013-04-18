@@ -178,4 +178,12 @@ public abstract class DomBaseIT extends FluentAdapter {
 		JsResource jsResource = ((WebResources)AssetCache.cache.get(url)).getMainJsFile();
 		return jsResource;
 	}
+	
+	public void goToAndPrint(String page){
+		goTo(page);
+
+		System.out.println(driver.getPageSource());
+		System.out.println("*****************************************");
+		System.out.println(getConfigurationFromPage(page.replaceFirst("^/", "")).getContent());
+	}
 }
