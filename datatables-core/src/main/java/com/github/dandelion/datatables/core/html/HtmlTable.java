@@ -91,6 +91,7 @@ public class HtmlTable extends HtmlTag {
 	
 	// Extra features
 	private String scrollY;
+	private Boolean scrollCollapse;
 	private String fixedPosition;
 	private Integer fixedOffsetTop;
 	private List<Callback> callbacks;
@@ -443,6 +444,14 @@ public class HtmlTable extends HtmlTag {
 
 	public void setScrollY(String scrollY) {
 		this.scrollY = scrollY;
+	}
+	
+	public Boolean getScrollCollapse() {
+		return scrollCollapse;
+	}
+
+	public void setScrollCollapse(Boolean scrollCollapse) {
+		this.scrollCollapse = scrollCollapse;
 	}
 
 	public List<ExtraFile> getExtraFiles() {

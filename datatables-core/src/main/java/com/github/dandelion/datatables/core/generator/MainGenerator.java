@@ -34,11 +34,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.callback.Callback;
@@ -174,7 +172,13 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         if(StringUtils.isNotBlank(table.getStripeClasses())){
         	mainConf.put(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet(table.getStripeClasses()));
         }
-
+        if(StringUtils.isNotBlank(table.getScrollY())){
+        	mainConf.put(DTConstants.DT_SCROLLY, table.getScrollY());
+        }
+        if(table.getScrollCollapse() != null){
+        	mainConf.put(DTConstants.DT_SCROLLCOLLAPSE, table.getScrollCollapse());
+        }
+        
         // AJAX
         if (table.getProcessing() != null) {
             mainConf.put(DTConstants.DT_B_PROCESSING, table.getProcessing());

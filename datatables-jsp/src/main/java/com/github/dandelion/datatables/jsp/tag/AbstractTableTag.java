@@ -140,7 +140,8 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected String fixedPosition;
 	protected Integer fixedOffsetTop;
 	protected Boolean scroller = false;
-	protected String scrollY = "300px";
+	protected String scrollY;
+	protected Boolean scrollCollapse;
 	protected Boolean colReorder = false;
 
 	// Export
@@ -273,6 +274,14 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 		if(displayLength != null){
 			table.setDisplayLength(displayLength);
 		}
+		
+		if (StringUtils.isNotBlank(this.scrollY)) {
+			this.table.setScrollY(this.scrollY);
+		}
+		
+		if (this.scrollCollapse != null) {
+			this.table.setScrollCollapse(this.scrollCollapse);
+		}
 	}
 
 	/**
@@ -328,10 +337,6 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 		}
 
 		// Plugins configuration
-		if (StringUtils.isNotBlank(this.scrollY)) {
-			this.table.setScrollY(this.scrollY);
-		}
-
 		if (StringUtils.isNotBlank(this.fixedPosition)) {
 			this.table.setFixedPosition(this.fixedPosition);
 		}
@@ -809,6 +814,14 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 
 	public void setScrollY(String scrollY) {
 		this.scrollY = scrollY;
+	}
+
+	public Boolean getScrollCollapse() {
+		return scrollCollapse;
+	}
+
+	public void setScrollCollapse(Boolean scrollCollapse) {
+		this.scrollCollapse = scrollCollapse;
 	}
 
 	public String getFixedPosition() {

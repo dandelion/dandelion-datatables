@@ -27,45 +27,43 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.plugin;
+package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
+import org.thymeleaf.Arguments;
+import org.thymeleaf.dom.Element;
+import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
+import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.asset.Configuration;
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.ResourceType;
-import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
- * Java implementation of the DataTables Scroller plugin.
+ * Attribute processor for the <code>scroll y</code> attribute.
  * 
- * @see <a href="http://datatables.net/extras/scroller/">Reference</a>
- * @author Thibault Duchateau
+ * @author Gautier Dhordain
  */
-public class ScrollerPlugin extends AbstractPlugin {
+public class TableScrollYAttrProcessor extends AbstractDatatablesAttrProcessor {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getName() {
-		return "Scroller";
+	public TableScrollYAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+		super(matcher);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public String getVersion() {
-		return "1.1.0";
+	public int getPrecedence() {
+		return 8000;
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	@Override
-	public void setup(HtmlTable table) {
-		addJsResource(new JsResource(ResourceType.PLUGIN, "Scroller", "datatables/plugins/scroller/scroller.min.js"));
-		addConfiguration(new Configuration(DTConstants.DT_DOM, "S", Configuration.Mode.APPEND));
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
+			String attributeName, HtmlTable table) {
+		
+		// Get attribute value
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), "300px", String.class);
+
+		// HtmlTable update
+		table.setScrollY(attrValue);
+		
+        return ProcessorResult.ok();
 	}
 }

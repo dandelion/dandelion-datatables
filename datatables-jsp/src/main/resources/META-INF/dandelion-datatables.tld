@@ -347,6 +347,17 @@
             (default : 300px)</description>
           <name>scrollY</name>
       </attribute>
+      <attribute>
+         <description> (true|false) When vertical (y) scrolling is enabled, 
+         	DataTables will force the height of the table's viewport to the 
+         	given height at all times (useful for layout). However, this can 
+         	look odd when filtering data down to a small data set, and 
+         	the footer is left "floating" further down. This parameter 
+         	(when enabled) will cause DataTables to collapse the table's 
+         	viewport down when the result set will fit within the given 
+         	Y height. (default : false)</description>
+          <name>scrollCollapse</name>
+      </attribute>
 
       <!-- ColReorder -->
       <attribute>

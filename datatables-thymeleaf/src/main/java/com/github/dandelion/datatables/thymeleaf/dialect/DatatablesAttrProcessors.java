@@ -31,10 +31,8 @@
 package com.github.dandelion.datatables.thymeleaf.dialect;
 
 import java.lang.reflect.InvocationTargetException;
-
 import org.thymeleaf.processor.AttributeNameProcessorMatcher;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
-
 import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.thymeleaf.processor.ajax.TablePipeSizeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.ajax.TablePipeliningAttrProcessor;
@@ -57,6 +55,8 @@ import com.github.dandelion.datatables.thymeleaf.processor.basic.TableLengthChan
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableLengthMenuAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TablePaginateAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TablePaginationTypeAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.basic.TableScrollCollapseAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.basic.TableScrollYAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableSortAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableStripeClassesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThFilterTypeAttrProcessor;
@@ -114,6 +114,8 @@ public enum DatatablesAttrProcessors {
     BASIC_STRIP_CLASSES(TableStripeClassesAttrProcessor.class, "stripeclasses", "table"),
     BASIC_DISPLAY_LENGTH(TableDisplayLengthAttrProcessor.class, "displaylength", "table"),
     BASIC_LENGTH_CHANGE(TableLengthChangeAttrProcessor.class, "lengthchange", "table"),
+    BASIC_SCROLL_Y(TableScrollYAttrProcessor.class, "scrolly", "table"),
+    BASIC_SCROLL_COLLAPSE(TableScrollCollapseAttrProcessor.class, "scrollcollapse", "table"),
     
     // Plugin processors
     PLUGIN_SCROLLER(TheadScrollerAttrProcessor.class, "scroller", "thead"),
