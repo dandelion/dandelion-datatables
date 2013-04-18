@@ -8,10 +8,10 @@
       </encoder>
    </appender>
 
-   <logger name="com.github.dandelion" level="INFO" />
-   <logger name="org.eclipe.jetty" level="INFO" />
+   <logger name="com.github.dandelion" level="ERROR" />
+   <logger name="org.eclipe.jetty" level="ERROR" />
 
-   <root level="INFO">
+   <root level="ERROR">
       <appender-ref ref="STDOUT" />
    </root>
 
