@@ -30,13 +30,15 @@
 package com.github.dandelion.datatables.core.feature;
 
 import com.github.dandelion.datatables.core.asset.Configuration;
-import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
+import com.github.dandelion.datatables.core.asset.Configuration.Mode;
+import com.github.dandelion.datatables.core.asset.JavascriptFunction;
+import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * TODO
+ * Feature automatically added to the table when using AJAX sources.
  * 
  * @author Thibault Duchateau
  * @since 0.8.2
@@ -58,6 +60,10 @@ public class AjaxFeature extends AbstractFeature {
 		addConfiguration(new Configuration(DTConstants.DT_B_DEFER_RENDER, true));
 		addConfiguration(new Configuration(DTConstants.DT_S_AJAXDATAPROP, ""));
 		addConfiguration(new Configuration(DTConstants.DT_S_AJAX_SOURCE, table.getDatasourceUrl()));
-		addConfiguration(new Configuration("fnInitComplete", new JavascriptSnippet("function() { oTable_" + table.getId() + ".fnAdjustColumnSizing(true);}")));
+		addConfiguration(
+				new Configuration(
+						CallbackType.INIT.getName(), 
+						new JavascriptFunction("oTable_" + table.getId() + ".fnAdjustColumnSizing(true);",CallbackType.INIT.getArgs()),
+						Mode.APPEND));
 	}
 }
