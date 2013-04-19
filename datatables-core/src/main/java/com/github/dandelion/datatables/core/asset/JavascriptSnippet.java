@@ -52,4 +52,21 @@ public class JavascriptSnippet {
 	public String toString() {
 		return javascript;
 	}
+	
+	public String getJavascript(){
+		return this.javascript;
+	}
+	
+	public void append(String javascript){
+		if(this.javascript == null){
+			this.javascript = javascript;
+		}
+		else{
+			this.javascript += javascript;
+		}
+	}
+	
+	public void setJavascript(String javascript){
+		this.javascript = javascript;
+	}
 }
