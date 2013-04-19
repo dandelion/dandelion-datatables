@@ -40,6 +40,8 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.asset.Configuration;
 import com.github.dandelion.datatables.core.asset.CssResource;
+import com.github.dandelion.datatables.core.asset.JavascriptFunction;
+import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.asset.WebResources;
@@ -55,8 +57,6 @@ import com.github.dandelion.datatables.core.util.ResourceHelper;
  * <p>
  * Loader for all extensions : features, plugins, themes.
  * <p>
- * teteete
- * 
  * 
  * @author Thibault Duchateau
  */
@@ -284,47 +284,139 @@ public class ExtensionLoader {
 				// The module configuration already exists in the main
 				// configuration
 				if (mainConfig.containsKey(conf.getName())) {
-					String value = null;
-
-					switch (conf.getMode()) {
-					case OVERRIDE:
-						mainConfig.put(conf.getName(), conf.getValue());
-						break;
-
-					case APPEND:
-						value = (String) mainConfig.get(conf.getName());
-						value = value + conf.getValue();
-						mainConfig.put(conf.getName(), value);
-						break;
-
-					case PREPEND:
-						value = (String) mainConfig.get(conf.getName());
-						value = conf.getValue() + value;
-						mainConfig.put(conf.getName(), value);
-						break;
-
-					case APPEND_WITH_SPACE:
-						value = (String) mainConfig.get(conf.getName());
-						value = value + " " + conf.getValue();
-						mainConfig.put(conf.getName(), value);
-						break;
-
-					case PREPEND_WITH_SPACE:
-						value = (String) mainConfig.get(conf.getName());
-						value = conf.getValue() + " " + value;
-						mainConfig.put(conf.getName(), value);
-						break;
-
-					default:
-						break;
+					
+					if(mainConfig.get(conf.getName()) instanceof JavascriptFunction){
+						processJavascriptFunction(conf);
+					}
+					else if(mainConfig.get(conf.getName()) instanceof JavascriptSnippet){
+						processJavascriptSnippet(conf);
+					}
+					else{
+						processString(conf);
 					}
 				}
-				// No existing configuration in the main configuration, just add
-				// it
+				// No existing configuration in the main configuration, so we
+				// just add it
 				else {
 					mainConfig.put(conf.getName(), conf.getValue());
 				}
 			}
+		}
+	}
+	
+	private void processJavascriptFunction(Configuration conf){
+		
+		JavascriptFunction jsFunction = (JavascriptFunction) mainConfig.get(conf.getName());
+		String newValue = null;
+		
+		switch (conf.getMode()) {
+		case OVERRIDE:
+			mainConfig.put(conf.getName(), conf.getValue());
+			break;
+
+		case APPEND:
+			newValue = ((JavascriptFunction)conf.getValue()).getJavascript() + jsFunction.getJavascript();
+			jsFunction.setJavascript(newValue);
+			mainConfig.put(conf.getName(), jsFunction);
+			break;
+
+		case PREPEND:
+			newValue = jsFunction.getJavascript() + ((JavascriptFunction)conf.getValue()).getJavascript();
+			jsFunction.setJavascript(newValue);
+			mainConfig.put(conf.getName(), jsFunction);
+			break;
+
+		case APPEND_WITH_SPACE:
+			newValue = ((JavascriptFunction)conf.getValue()).getJavascript() + " " + jsFunction.getJavascript();
+			jsFunction.setJavascript(newValue);
+			mainConfig.put(conf.getName(), jsFunction);
+			break;
+
+		case PREPEND_WITH_SPACE:
+			newValue = jsFunction.getJavascript() + " " + ((JavascriptFunction)conf.getValue()).getJavascript();
+			jsFunction.setJavascript(newValue);
+			mainConfig.put(conf.getName(), jsFunction);
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	private void processJavascriptSnippet(Configuration conf){
+	
+		JavascriptSnippet jsSnippet = (JavascriptSnippet) mainConfig.get(conf.getName());
+		String newValue = null;
+		
+		switch (conf.getMode()) {
+		case OVERRIDE:
+			mainConfig.put(conf.getName(), conf.getValue());
+			break;
+
+		case APPEND:
+			newValue = ((JavascriptFunction)conf.getValue()).getJavascript() + jsSnippet.getJavascript();
+			jsSnippet.setJavascript(newValue);
+			mainConfig.put(conf.getName(), jsSnippet);
+			break;
+
+		case PREPEND:
+			newValue = jsSnippet.getJavascript() + ((JavascriptFunction)conf.getValue()).getJavascript();
+			jsSnippet.setJavascript(newValue);
+			mainConfig.put(conf.getName(), jsSnippet);
+			break;
+
+		case APPEND_WITH_SPACE:
+			newValue = ((JavascriptFunction)conf.getValue()).getJavascript() + " " + jsSnippet.getJavascript();
+			jsSnippet.setJavascript(newValue);
+			mainConfig.put(conf.getName(), jsSnippet);
+			break;
+
+		case PREPEND_WITH_SPACE:
+			newValue = jsSnippet.getJavascript() + " " + ((JavascriptFunction)conf.getValue()).getJavascript();
+			jsSnippet.setJavascript(newValue);
+			mainConfig.put(conf.getName(), jsSnippet);
+			break;
+
+		default:
+			break;
+		}
+		
+	}
+	
+	private void processString(Configuration conf){
+		String value = null;
+		
+		switch (conf.getMode()) {
+		case OVERRIDE:
+			mainConfig.put(conf.getName(), conf.getValue());
+			break;
+
+		case APPEND:
+			value = (String) mainConfig.get(conf.getName());
+			value = value + conf.getValue();
+			mainConfig.put(conf.getName(), value);
+			break;
+
+		case PREPEND:
+			value = (String) mainConfig.get(conf.getName());
+			value = conf.getValue() + value;
+			mainConfig.put(conf.getName(), value);
+			break;
+
+		case APPEND_WITH_SPACE:
+			value = (String) mainConfig.get(conf.getName());
+			value = value + " " + conf.getValue();
+			mainConfig.put(conf.getName(), value);
+			break;
+
+		case PREPEND_WITH_SPACE:
+			value = (String) mainConfig.get(conf.getName());
+			value = conf.getValue() + " " + value;
+			mainConfig.put(conf.getName(), value);
+			break;
+
+		default:
+			break;
 		}
 	}
 }
