@@ -39,37 +39,47 @@ import com.github.dandelion.datatables.core.constants.DTConstants;
  */
 public enum CallbackType {
 
-	COOKIE(DTConstants.DT_FN_COOKIE_CBK),
+	COOKIE(DTConstants.DT_FN_COOKIE_CBK, "sName", "oData", "sExpires", "sPath"),
 	
-	CREATEDROW(DTConstants.DT_FN_CREATED_ROW),
+	CREATEDROW(DTConstants.DT_FN_CREATED_ROW, "nRow", "aData", "iDataIndex"),
 	
-	DRAW(DTConstants.DT_FN_DRAW_CBK),
+	DRAW(DTConstants.DT_FN_DRAW_CBK, "oSettings"),
 	
-	FOOTER(DTConstants.DT_FN_FOOTER_CBK),
+	FOOTER(DTConstants.DT_FN_FOOTER_CBK, "nFoot", "aData", "iStart", "iEnd", "aiDisplay"),
 	
-	FORMAT(DTConstants.DT_FN_FORMAT_NUMBER),
+	FORMAT(DTConstants.DT_FN_FORMAT_NUMBER, "iIn"),
 	
-	HEADER(DTConstants.DT_FN_HEADER_CBK),
+	HEADER(DTConstants.DT_FN_HEADER_CBK, "nHead", "aData", "iStart", "iEnd", "aiDisplay"),
 	
-	INFO(DTConstants.DT_FN_INFO_CBK),
+	INFO(DTConstants.DT_FN_INFO_CBK, "oSettings", "iStart", "iEnd", "iMax", "iTotal", "sPre"),
 	
-	INIT(DTConstants.DT_FN_INIT_COMPLETE),
+	INIT(DTConstants.DT_FN_INIT_COMPLETE, "oSettings", "json"),
 	
-	PREDRAW(DTConstants.DT_FN_PRE_DRAW_CBK),
+	PREDRAW(DTConstants.DT_FN_PRE_DRAW_CBK, "oSettings"),
 	
-	ROW(DTConstants.DT_FN_ROW_CBK);
+	ROW(DTConstants.DT_FN_ROW_CBK, "nRow", "aData", "iDisplayIndex", "iDisplayIndexFull");
 	
-	private String function;
+	private String name;
+	private String[] args;
 	
-	private CallbackType(String function){
-		this.function = function;
+	private CallbackType(String function, String... args){
+		this.name = function;
+		this.args = args;
 	}
 
-	public String getFunction() {
-		return function;
+	public String getName() {
+		return name;
 	}
 
 	public void setFunction(String function) {
-		this.function = function;
+		this.name = function;
+	}
+
+	public String[] getArgs() {
+		return args;
+	}
+
+	public void setArgs(String[] args) {
+		this.args = args;
 	}
 }

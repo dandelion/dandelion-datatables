@@ -27,57 +27,42 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.callback;
+package com.github.dandelion.datatables.core.asset;
 
 import org.apache.commons.lang.StringUtils;
 
+
 /**
- * Callback called by DataTables.
- *
+ * <p>
+ * Bean used to hold a Javascript function that must not be converted into
+ * String by the JSON parser.
+ * <p>
+ * Overriding the toString() method allow the parser to return the Javascript
+ * content as an Object, resulting in a non-quoted String in JSON format.
+ * 
  * @author Thibault Duchateau
- * @since 0.8.9
+ * @since 0.8.11
  */
-public class Callback {
+public class JavascriptFunction {
 
-	private CallbackType type;
-	private String function;
-
-	public Callback(CallbackType type, String function){
-		this.type = type;
-		this.function = wrapFunction(function);
-	}
+	private String javascript;
+	private String[] args;
 	
-	public CallbackType getType() {
-		return type;
+	public JavascriptFunction(String javascript, String... args) {
+		this.javascript = javascript;
+		this.args = args;
 	}
 
-	public void setType(CallbackType type) {
-		this.type = type;
-	}
-
-	public String getFunction() {
-		return function;
-	}
-
-	public void setFunction(String function) {
-		this.function = function;
-	}
-
-	public void addContent(String content){
-		if(function == null || "".equals(function)){
-			function = content;
-		}
-		else{
-			function += content;
-		}
-	}
-	
 	@Override
 	public String toString() {
-		return "Callback [type=" + type + ", function=" + function + "]";
+		return "function(" + StringUtils.join(args, ",") + "){" + javascript + "}";
 	}
 	
-	private String wrapFunction(String function){
-		return function + "(" + StringUtils.join(this.type.getArgs(), ",") + ");";
+	public String getJavascript(){
+		return this.javascript;
+	}
+	
+	public void setJavascript(String javascript){
+		this.javascript = javascript;
 	}
 }

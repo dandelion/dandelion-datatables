@@ -34,10 +34,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.github.dandelion.datatables.core.asset.DisplayType;
+import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.constants.DTConstants;
@@ -203,7 +206,7 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         // Callbacks
         if(table.getCallbacks() != null){
         	for(Callback callback : table.getCallbacks()){
-        		mainConf.put(callback.getType().getFunction(), new JavascriptSnippet(callback.getFunction()));
+        		mainConf.put(callback.getType().getName(), new JavascriptFunction(callback.getFunction(), callback.getType().getArgs()));
         	}
         }
         
