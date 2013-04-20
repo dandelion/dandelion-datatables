@@ -256,8 +256,7 @@ public class WebResourceGenerator {
 			table.getCallback(CallbackType.INIT).addContent(links.toString());
 		}
 		else{
-			String function = "function(oSettings, json){" + links.toString() + "}";
-			Callback initCallback = new Callback(CallbackType.INIT, function);
+			Callback initCallback = new Callback(CallbackType.INIT, links.toString());
 			table.registerCallback(initCallback);
 		}
 	}
