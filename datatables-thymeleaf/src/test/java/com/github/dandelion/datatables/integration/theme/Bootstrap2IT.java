@@ -48,7 +48,7 @@ import com.github.dandelion.datatables.integration.DomBaseIT;
 public class Bootstrap2IT extends DomBaseIT {
 
 	@Test
-	public void should_generate_table_markup_using_dom_source() throws IOException, Exception {
+	public void should_generate_table_markup_for_bootstrap2_theme_using_dom_source() throws IOException, Exception {
 		goTo("/thymeleaf/themes/bootstrap2_dom");
 	
 		StringBuilder baseHref = new StringBuilder("http://");
@@ -72,7 +72,7 @@ public class Bootstrap2IT extends DomBaseIT {
 	
 	
 	@Test
-	public void should_generate_table_markup_using_ajax_source() throws IOException, Exception {
+	public void should_generate_table_markup_for_bootstrap2_theme_using_ajax_source() throws IOException, Exception {
 		goTo("/thymeleaf/themes/bootstrap2_ajax");
 	
 		StringBuilder baseHref = new StringBuilder("http://");

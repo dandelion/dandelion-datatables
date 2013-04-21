@@ -100,6 +100,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected String id;
 	protected String cssStyle;
 	protected String cssClass;
+	protected String cssStripes;
 	protected String rowIdBase;
 	protected String rowIdPrefix;
 	protected String rowIdSufix;
@@ -116,7 +117,6 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected String appear;
 	protected String footer;
 	protected String lengthMenu;
-	protected String cssStripes;
 	protected Integer displayLength;
 
 	// Advanced features
