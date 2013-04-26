@@ -21,7 +21,7 @@ public class HtmlColumnTest extends HtmlTagWithContentTest {
 
 	@Test
 	public void should_contain_all_display_types() {
-		assertThat(column.getEnabledDisplayTypes()).containsExactly((Object[])DisplayType.values());
+		assertThat(column.getEnabledDisplayTypes()).containsExactly(DisplayType.ALL);
 	}
 
 	@Test

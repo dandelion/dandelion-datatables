@@ -73,7 +73,8 @@ public class HtmlRow extends HtmlTag {
 	private StringBuilder getHtmlColumns() {
 		StringBuilder html = new StringBuilder();
 		for (HtmlColumn column : this.columns) {
-			if (column.getEnabledDisplayTypes().contains(DisplayType.HTML)) {
+			if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
+					|| column.getEnabledDisplayTypes().contains(DisplayType.HTML)) {
 				html.append(column.toHtml());
 			}
 		}
