@@ -30,6 +30,7 @@
 package com.github.dandelion.datatables.core.html;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import com.github.dandelion.datatables.core.asset.DisplayType;
@@ -109,6 +110,13 @@ public class HtmlRow extends HtmlTag {
 		return newColumn;
 	}
 
+	public HtmlColumn addColumn(String columnContent, DisplayType... displayTypes) {
+		HtmlColumn newColumn = new HtmlColumn(false, columnContent);
+		newColumn.setEnabledDisplayTypes(Arrays.asList(displayTypes));
+		this.columns.add(newColumn);
+		return newColumn;
+	}
+	
 	public HtmlRow addHeaderColumns(String... columns) {
 		for (String columnContent : columns) {
 			addHeaderColumn(columnContent);

@@ -111,9 +111,7 @@ public class HtmlColumn extends HtmlTagWithContent {
 		this.filterType = FilterType.INPUT;
 
 		// DisplayType default value : all display types are added
-		for (DisplayType type : DisplayType.values()) {
-			this.enabledDisplayTypes.add(type);
-		}
+		this.enabledDisplayTypes.add(DisplayType.ALL);
 	}
 	
 	@Override

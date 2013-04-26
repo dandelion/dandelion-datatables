@@ -576,6 +576,10 @@ public class HtmlTable extends HtmlTag {
 		return exportConfMap;
 	}
 
+	public void configureExport(ExportType exportType, ExportConf exportConf){
+		this.exportConfMap.put(exportType, exportConf);
+	}
+	
 	public void setExportConfMap(Map<ExportType, ExportConf> exportConfs) {
 		this.exportConfMap = exportConfs;
 	}

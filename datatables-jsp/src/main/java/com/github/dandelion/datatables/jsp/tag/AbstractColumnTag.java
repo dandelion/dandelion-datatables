@@ -205,10 +205,6 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 			column.setUid(this.uid);
 		}
 				
-		// All display types are added
-		for (DisplayType type : DisplayType.values()) {
-			column.getEnabledDisplayTypes().add(type);
-		}
 		column.setProperty(property);
 		
 		column.setDefaultValue(StringUtils.isNotBlank(defaultValue) ? defaultValue : "");

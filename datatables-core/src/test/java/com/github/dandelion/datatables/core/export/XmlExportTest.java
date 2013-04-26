@@ -29,59 +29,35 @@
  */
 package com.github.dandelion.datatables.core.export;
 
-import java.io.IOException;
-import java.io.Writer;
+import static org.fest.assertions.Assertions.assertThat;
 
-import com.github.dandelion.datatables.core.asset.DisplayType;
+import java.util.Scanner;
+
+import org.junit.Test;
+
 import com.github.dandelion.datatables.core.exception.ExportException;
-import com.github.dandelion.datatables.core.html.HtmlColumn;
-import com.github.dandelion.datatables.core.html.HtmlRow;
-import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * Default class used to export in the CSV format.
+ * Test the XML export.
  *
  * @author Thibault Duchateau
  */
-public class CsvExport extends AbstractCharExport {
+public class XmlExportTest extends ExportTest {
 
-	private static final DisplayType CURRENT_DISPLAY_TYPE = DisplayType.CSV;
-	private static final String SEPARATOR_CHAR = ";";
-	private HtmlTable table;
-
-	@Override
-	public void initExport(HtmlTable table) {
-		this.table = table;
-	}
-
-	@Override
-	public void processExport(Writer output) throws ExportException {
-		StringBuilder buffer = new StringBuilder();
-
-		if(table.getExportConfMap().get(ExportType.CSV).getIncludeHeader()){
-			for(HtmlRow row : table.getHeadRows()){
-				for(HtmlColumn column : row.getColumns()){
-					if(column.getEnabledDisplayTypes().contains(DisplayType.ALL) || column.getEnabledDisplayTypes().contains(CURRENT_DISPLAY_TYPE)){
-						buffer.append(column.getContent()).append(SEPARATOR_CHAR);						
-					}
-				}
-				buffer.append("\n");
-			}			
-		}
-		for(HtmlRow row : table.getBodyRows()){
-			for(HtmlColumn column : row.getColumns()){
-				if(column.getEnabledDisplayTypes().contains(DisplayType.ALL) || column.getEnabledDisplayTypes().contains(CURRENT_DISPLAY_TYPE)){
-					buffer.append(column.getContent()).append(SEPARATOR_CHAR);					
-				}
-			}
-			
-			buffer.append("\n");
-		}
+	@Test
+	public void should_generate_full_table() throws ExportException {
 		
-		try {
-			output.write(buffer.toString());
-		} catch (IOException e) {
-			throw new ExportException(e);
-		}
+		initDefaultTable();
+		configureExport(new ExportConfBuilder(ExportType.XML).includeHeader(true));
+		processExport(new XmlExport());
+		
+		// The header must exist
+		Scanner scanner = new Scanner(writer.toString());
+		String firstLine = scanner.nextLine();
+		
+		assertThat(firstLine).contains("<?xml version=\"1.0\"?>");
+		assertThat(firstLine).contains("<persons>");
+		assertThat(firstLine).contains("</persons>");
+		assertThat(firstLine).contains("<person id=\"1\" firstName=\"Selma\" lastName=\"Maldonado\" city=\"\" mail=\"venenatis@Duisvolutpat.com\"></person><person id=\"2\" firstName=\"Vanna\" lastName=\"Salas\" city=\"Denny\" mail=\"bibendum.fermentum.metus@ante.ca\"></person>");
 	}
 }
