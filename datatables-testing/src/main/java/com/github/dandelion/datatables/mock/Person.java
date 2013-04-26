@@ -106,7 +106,7 @@ public class Person {
 		this.address = address;
 	}
 	
-	public Date getDate(){
+	public Date getBirthDate(){
 		return GregorianCalendar.getInstance().getTime();
 	}	
 	
