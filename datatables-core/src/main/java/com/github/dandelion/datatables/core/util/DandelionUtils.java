@@ -11,6 +11,6 @@ import org.apache.commons.lang.StringUtils;
 public class DandelionUtils {
 
 	public static boolean isDevModeEnabled(){
-		return StringUtils.isNotBlank(System.getProperty("dandelion.dev.mode")) && "true".equals(System.getProperty("dandelion.dev.mode")); 
+		return StringUtils.isBlank(System.getProperty("dandelion.dev.mode")) || "true".equals(System.getProperty("dandelion.dev.mode")); 
 	}
 }

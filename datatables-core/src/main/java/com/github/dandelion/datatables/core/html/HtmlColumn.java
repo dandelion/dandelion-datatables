@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
-import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.feature.FilterType;
 
 /**
