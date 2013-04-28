@@ -34,6 +34,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.standard.expression.StandardExpressionProcessor;
+import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
+import com.github.dandelion.datatables.core.export.ExportLinkPosition;
+import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -45,8 +48,34 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class Utils {
 
-	private static Pattern booleanRegex = Pattern.compile("^true|false$");;
-	private static Pattern directionRegex = Pattern.compile("^asc|desc$");;
+	private static Pattern booleanRegex = Pattern.compile("^true|false$");
+	private static Pattern stringRegex;
+	
+	static {
+		stringRegex = generateStringRegexFromEnumerations(//
+				ExportLinkPosition.class, //
+				ExportType.class, //
+				SortDirection.class);
+	}
+
+	private static Pattern generateStringRegexFromEnumerations(Class<?> ... enumClasses) {
+		boolean firstElement = true;
+		StringBuilder stringRegexBuilder = new StringBuilder();
+		stringRegexBuilder.append("^");
+		for(Class<?> enumClass: enumClasses) {
+			for(Object exportLinkPosition: enumClass.getEnumConstants()) {
+				if(firstElement) {
+					firstElement = false;
+				} else {
+					stringRegexBuilder.append('|');
+				}
+				String enumName = ((Enum<?>)exportLinkPosition).name().toLowerCase();
+				stringRegexBuilder.append(enumName);
+			}
+		}
+		stringRegexBuilder.append("$");
+		return Pattern.compile(stringRegexBuilder.toString());
+	}
 
 	/**
 	 * Return the HtmlTable bean that is stored in the REQUEST scope under the
@@ -134,10 +163,7 @@ public class Utils {
 		// Handling null value
 		if (value == null) return defaultValue;
 
-		/** Specific cases here */
-		// ASC / DESC values
-		if (directionRegex.matcher(value.trim().toLowerCase()).find()) return value.trim().toLowerCase();
-		/** End of specific cases */
+		if (stringRegex.matcher(value.trim().toLowerCase()).find()) return value.trim().toLowerCase();
 
 		// Default behaviour
 		return processStandardExpression(arguments, value, defaultValue, clazz);
