@@ -72,7 +72,8 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
         List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
         for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
         	
-        	if(column.getEnabledDisplayTypes().contains(DisplayType.HTML)){
+			if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
+					|| column.getEnabledDisplayTypes().contains(DisplayType.HTML)) {
         		tmp = new HashMap<String, Object>();
         		
         		if(column.isFilterable() != null && column.isFilterable() && column.getFilterType() != null){

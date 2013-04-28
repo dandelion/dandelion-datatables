@@ -30,7 +30,6 @@
 package com.github.dandelion.datatables.core.generator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +76,8 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
         for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
         	
-        	if(column.getEnabledDisplayTypes().contains(DisplayType.HTML)){
+			if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
+					|| column.getEnabledDisplayTypes().contains(DisplayType.HTML)) {
         		tmp = new HashMap<String, Object>();
         		
         		// Sortable
@@ -100,10 +100,8 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         		}
         		
         		// Sorting direction
-        		if (StringUtils.isNotBlank(column.getSortDirection())) {
-        			List<Object> sortDirection = new ArrayList<Object>();
-        			Collections.addAll(sortDirection, column.getSortDirection().trim().toLowerCase().split(","));
-        			tmp.put(DTConstants.DT_SORT_DIR, sortDirection);
+        		if (column.getSortDirections() != null) {
+        			tmp.put(DTConstants.DT_SORT_DIR, column.getSortDirections());
         		}
         		
         		aoColumnsContent.add(tmp);

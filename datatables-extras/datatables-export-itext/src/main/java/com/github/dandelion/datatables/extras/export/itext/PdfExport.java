@@ -95,7 +95,8 @@ public class PdfExport extends AbstractBinaryExport {
 
 			for (HtmlColumn column : htmlRow.getColumns()) {
 
-				if (column.getEnabledDisplayTypes().contains(DisplayType.PDF)) {
+				if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
+						|| column.getEnabledDisplayTypes().contains(DisplayType.PDF)) {
 					columnCount++;
 				}
 			}
@@ -113,7 +114,8 @@ public class PdfExport extends AbstractBinaryExport {
 
 				for (HtmlColumn column : htmlRow.getColumns()) {
 
-					if (column.getEnabledDisplayTypes().contains(DisplayType.PDF)) {
+					if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
+							|| column.getEnabledDisplayTypes().contains(DisplayType.PDF)) {
 						cell = new PdfPCell();
 						cell.setPhrase(new Phrase(column.getContent().toString()));
 						table.addCell(cell);
@@ -126,7 +128,8 @@ public class PdfExport extends AbstractBinaryExport {
 
 			for (HtmlColumn column : htmlRow.getColumns()) {
 
-				if (column.getEnabledDisplayTypes().contains(DisplayType.PDF)) {
+				if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
+						|| column.getEnabledDisplayTypes().contains(DisplayType.PDF)) {
 					cell = new PdfPCell();
 					cell.setPhrase(new Phrase(column.getContent().toString()));
 					table.addCell(cell);
