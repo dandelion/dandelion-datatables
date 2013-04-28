@@ -80,12 +80,12 @@ public class ThSortDirectionAttrProcessor extends AbstractDatatablesAttrProcesso
 			
 			// Sort direction
 			if (StringUtils.isNotBlank(attrValue)) {
-				List<Direction> sortDirections = new ArrayList<Direction>();
+				List<String> sortDirections = new ArrayList<String>();
 				String[] sortDirectionArray = attrValue.trim().toUpperCase().split(",");
 
 				for (String direction : sortDirectionArray) {
 					try {
-						sortDirections.add(Direction.valueOf(direction));
+						sortDirections.add(Direction.valueOf(direction).getValue());
 					} catch (IllegalArgumentException e) {
 						logger.error("{} is not a valid value among {}. Please choose a valid one.",
 								direction, Direction.values());
