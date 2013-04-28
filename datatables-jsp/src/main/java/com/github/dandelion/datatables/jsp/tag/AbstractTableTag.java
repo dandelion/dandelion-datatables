@@ -35,16 +35,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.export.ExportConf;
@@ -68,8 +65,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.plugin.ColReorderPlugin;
 import com.github.dandelion.datatables.core.plugin.FixedHeaderPlugin;
 import com.github.dandelion.datatables.core.plugin.ScrollerPlugin;
-import com.github.dandelion.datatables.core.theme.Bootstrap2Theme;
-import com.github.dandelion.datatables.core.theme.JQueryUITheme;
+import com.github.dandelion.datatables.core.theme.Theme;
 import com.github.dandelion.datatables.core.theme.ThemeOption;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 
@@ -290,11 +286,9 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected void registerTheme() throws JspException {
 
 		if (StringUtils.isNotBlank(this.theme)) {
-			if (this.theme.trim().toLowerCase().equals("bootstrap2")) {
-				this.table.setTheme(new Bootstrap2Theme());
-			} else if (this.theme.trim().toLowerCase().equals("jqueryui")) {
-				this.table.setTheme(new JQueryUITheme());
-			} else {
+			try {
+				this.table.setTheme(Theme.valueOf(this.theme.trim().toUpperCase()).getInstance());
+			} catch (IllegalArgumentException e) {
 				logger.warn(
 						"Theme {} is not recognized. Only 'bootstrap2 and jQueryUI' exists for now.",
 						this.theme);

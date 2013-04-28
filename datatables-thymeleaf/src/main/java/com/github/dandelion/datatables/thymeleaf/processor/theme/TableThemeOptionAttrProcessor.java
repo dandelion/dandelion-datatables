@@ -40,6 +40,7 @@ import com.github.dandelion.datatables.core.exception.DataTableProcessingExcepti
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.theme.ThemeOption;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * Attribute processor for the <code>theme</code> attribute.
@@ -63,13 +64,12 @@ public class TableThemeOptionAttrProcessor extends AbstractDatatablesAttrProcess
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
 			String attributeName, HtmlTable table) {
-
+		
 		// Get attribute value
-		String attrValue = element.getAttributeValue(attributeName);
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
 		// HtmlTable update
 		if (table != null) {
-
 			ThemeOption themeOption = null;
 
 			try {

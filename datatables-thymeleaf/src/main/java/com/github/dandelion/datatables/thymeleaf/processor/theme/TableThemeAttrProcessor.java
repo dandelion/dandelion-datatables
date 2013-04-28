@@ -29,16 +29,15 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.theme;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
-
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.theme.Bootstrap2Theme;
-import com.github.dandelion.datatables.core.theme.JQueryUITheme;
+import com.github.dandelion.datatables.core.theme.Theme;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
@@ -64,23 +63,20 @@ public class TableThemeAttrProcessor extends AbstractDatatablesAttrProcessor {
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
 			String attributeName, HtmlTable table) {
-
-		// Get HtmlTable POJO from the HttpServletRequest
-		HtmlTable htmlTable = Utils.getTable(arguments);
-
+		
 		// Get attribute value
-		String attrValue = element.getAttributeValue(attributeName);
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
 		// HtmlTable update
-		if (htmlTable != null) {
-			if (attrValue.trim().toLowerCase().equals("bootstrap2")) {
-				htmlTable.setTheme(new Bootstrap2Theme());
-			} else if (attrValue.trim().toLowerCase().equals("jqueryui")) {
-				htmlTable.setTheme(new JQueryUITheme());
-			} else {
-				logger.warn(
-						"Theme {} is not recognized. Only 'bootstrap2 and jQueryUI' exists for now.",
-						attrValue);
+		if (table != null) {
+			if (StringUtils.isNotBlank(attrValue)) {
+				try {
+					table.setTheme(Theme.valueOf(attrValue.trim().toUpperCase()).getInstance());
+				} catch (IllegalArgumentException e) {
+					logger.warn(
+							"Theme {} is not recognized. Only 'bootstrap2 and jQueryUI' exists for now.",
+							attrValue);
+				}
 			}
 		}
 

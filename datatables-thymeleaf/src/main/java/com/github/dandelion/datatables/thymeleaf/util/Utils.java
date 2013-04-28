@@ -38,6 +38,8 @@ import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.theme.Theme;
+import com.github.dandelion.datatables.core.theme.ThemeOption;
 
 /**
  * General utility methods used in the Dandelion-Datatables dialect.
@@ -55,7 +57,9 @@ public class Utils {
 		stringRegex = generateStringRegexFromEnumerations(//
 				ExportLinkPosition.class, //
 				ExportType.class, //
-				SortDirection.class);
+				SortDirection.class, //
+				Theme.class, //
+				ThemeOption.class);
 	}
 
 	private static Pattern generateStringRegexFromEnumerations(Class<?> ... enumClasses) {
