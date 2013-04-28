@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
+import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.feature.FilterType;
 
 /**
@@ -48,7 +49,7 @@ public class HtmlColumn extends HtmlTagWithContent {
 	private StringBuilder cssCellClass;
 	private StringBuilder cssCellStyle;
 	private Boolean sortable;
-	private String sortDirection;
+	private List<String> sortDirections;
 	private String sortInit;
 	private String property;
 	private String defaultValue;
@@ -223,12 +224,12 @@ public class HtmlColumn extends HtmlTagWithContent {
 		this.filterPlaceholder = filterPlaceholder;
 	}
 
-	public String getSortDirection() {
-		return sortDirection;
+	public List<String> getSortDirections() {
+		return sortDirections;
 	}
 
-	public void setSortDirection(String sortDirection) {
-		this.sortDirection = sortDirection;
+	public void setSortDirections(List<String> sortDirections) {
+		this.sortDirections = sortDirections;
 	}
 
 	public String getSortInit() {
@@ -267,7 +268,7 @@ public class HtmlColumn extends HtmlTagWithContent {
 	public String toString() {
 		return "HtmlColumn [uid=" + uid + ", isHeaderColumn=" + isHeaderColumn + ", cssCellClass="
 				+ cssCellClass + ", cssCellStyle=" + cssCellStyle + ", content=" + content
-				+ ", sortable=" + sortable + ", sortDirection=" + sortDirection + ", sortInit="
+				+ ", sortable=" + sortable + ", sortDirections=" + sortDirections + ", sortInit="
 				+ sortInit + ", property=" + property + ", defaultValue=" + defaultValue
 				+ ", filterable=" + filterable + ", filterType=" + filterType + ", filterCssClass="
 				+ filterCssClass + ", filterPlaceholder=" + filterPlaceholder

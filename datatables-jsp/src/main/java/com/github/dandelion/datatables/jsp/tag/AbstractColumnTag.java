@@ -44,6 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
+import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.feature.FilterType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 
@@ -159,7 +160,24 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 				column.setCssStyle(new StringBuilder(this.cssStyle));
 			}
 
-			column.setSortDirection(this.sortDirection);
+			// Sort direction
+			if (StringUtils.isNotBlank(sortDirection)) {
+				List<String> sortDirections = new ArrayList<String>();
+				String[] sortDirectionArray = sortDirection.trim().toUpperCase().split(",");
+
+				for (String direction : sortDirectionArray) {
+					try {
+						sortDirections.add(Direction.valueOf(direction).getValue());
+					} catch (IllegalArgumentException e) {
+						logger.error("{} is not a valid value among {}. Please choose a valid one.",
+								direction, Direction.values());
+						throw new JspException(e);
+					}
+				}
+
+				column.setSortDirections(sortDirections);
+			}
+			
 			column.setSortInit(this.sortInit);
 			column.setFilterable(this.filterable);
 
@@ -217,7 +235,24 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 			column.setSortable(this.sortable);
 		}
 		if(sortDirection != null){
-			column.setSortDirection(this.sortDirection);
+			
+			// Sort direction
+			if (StringUtils.isNotBlank(sortDirection)) {
+				List<String> sortDirections = new ArrayList<String>();
+				String[] sortDirectionArray = sortDirection.trim().toUpperCase().split(",");
+
+				for (String direction : sortDirectionArray) {
+					try {
+						sortDirections.add(Direction.valueOf(direction).getValue());
+					} catch (IllegalArgumentException e) {
+						logger.error("{} is not a valid value among {}. Please choose a valid one.",
+								direction, Direction.values());
+						throw new JspException(e);
+					}
+				}
+
+				column.setSortDirections(sortDirections);
+			}
 		}
 		if(sortInit != null){
 			column.setSortInit(this.sortInit);

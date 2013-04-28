@@ -29,11 +29,19 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
+import com.github.dandelion.datatables.core.constants.Direction;
+import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
@@ -48,6 +56,9 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  */
 public class ThSortDirectionAttrProcessor extends AbstractDatatablesAttrProcessor {
 
+	// Logger
+	private static Logger logger = LoggerFactory.getLogger(ThSortDirectionAttrProcessor.class);
+		
 	public ThSortDirectionAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
@@ -66,7 +77,25 @@ public class ThSortDirectionAttrProcessor extends AbstractDatatablesAttrProcesso
 
 		// Override default value with the attribute's one
 		if (table != null) {
-			table.getLastHeaderRow().getLastColumn().setSortDirection(attrValue);
+			
+			// Sort direction
+			if (StringUtils.isNotBlank(attrValue)) {
+				List<Direction> sortDirections = new ArrayList<Direction>();
+				String[] sortDirectionArray = attrValue.trim().toUpperCase().split(",");
+
+				for (String direction : sortDirectionArray) {
+					try {
+						sortDirections.add(Direction.valueOf(direction));
+					} catch (IllegalArgumentException e) {
+						logger.error("{} is not a valid value among {}. Please choose a valid one.",
+								direction, Direction.values());
+						throw new DataTableProcessingException(e);
+					}
+				}
+
+				table.getLastHeaderRow().getLastColumn().setSortDirections(sortDirections);
+			}
+			
 		}
 
 		return ProcessorResult.ok();
