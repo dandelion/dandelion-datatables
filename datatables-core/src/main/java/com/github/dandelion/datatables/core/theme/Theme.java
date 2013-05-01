@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.theme;
 
 public enum Theme {
-	BOOTSTRAP2(Bootstrap2Theme.class), JQUERY(JQueryUITheme.class);
+	BOOTSTRAP2(Bootstrap2Theme.class), JQUERYUI(JQueryUITheme.class);
 	
 	private Class<? extends AbstractTheme> clazz;
 

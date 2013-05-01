@@ -4,12 +4,12 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-public class HtmlLinkTest extends HtmlTagTest {
+public class HtmlLinkTest {
 
+	protected HtmlTag tag;
 	private HtmlLink link;
 
 	@Before
-	@Override
 	public void createHtmlTag() {
 		tag = link = new HtmlLink();
 	}
@@ -17,7 +17,7 @@ public class HtmlLinkTest extends HtmlTagTest {
 	@Test
 	public void should_generate_link_tag_with_href() {
 		tag = link = new HtmlLink("myHref");
-		assertThat(link.toHtml().toString()).isEqualTo("<link href=\"myHref\"></link>");
+		assertThat(link.toHtml().toString()).isEqualTo("<link rel=\"stylesheet\" href=\"myHref\"></link>");
 	}
 
 	@Test
@@ -26,6 +26,6 @@ public class HtmlLinkTest extends HtmlTagTest {
 		link.addCssClass("classy");
 		link.addCssStyle("styly");
 		link.setHref("fullyHref");
-		assertThat(link.toHtml().toString()).isEqualTo("<link id=\"fullId\" class=\"classy\" style=\"styly\" href=\"fullyHref\"></link>");
+		assertThat(link.toHtml().toString()).isEqualTo("<link id=\"fullId\" class=\"classy\" style=\"styly\" rel=\"stylesheet\" href=\"fullyHref\"></link>");
 	}
 }
