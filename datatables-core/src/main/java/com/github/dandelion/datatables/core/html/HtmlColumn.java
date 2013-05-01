@@ -55,7 +55,8 @@ public class HtmlColumn extends HtmlTagWithContent {
 	private Boolean filterable;
 	private Boolean searchable;
 	private String renderFunction;
-
+	private Boolean visible;
+	
 	/**
 	 * <p>
 	 * Type of filtering for the current column.
@@ -106,6 +107,9 @@ public class HtmlColumn extends HtmlTagWithContent {
 
 		// Searchable
 		this.searchable = true;
+		
+		// Visible
+		this.visible = true;
 		
 		// FilterType
 		this.filterType = FilterType.INPUT;
@@ -289,5 +293,13 @@ public class HtmlColumn extends HtmlTagWithContent {
 
 	public void setRenderFunction(String rendererFunction) {
 		this.renderFunction = rendererFunction;
+	}
+
+	public Boolean getVisible() {
+		return visible;
+	}
+
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
 	}
 }

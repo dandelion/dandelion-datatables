@@ -65,6 +65,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSearchableAtt
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortDirectionAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortInitAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.basic.ThVisibleAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackCookieProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackCreatedRowProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackDrawProcessor;
@@ -105,6 +106,7 @@ public enum DatatablesAttrProcessors {
     BASIC_SORTABLE(ThSortableAttrProcessor.class, "sortable", "th"),
     BASIC_FILTERABLE(ThFilterableAttrProcessor.class, "filterable", "th"),
     BASIC_SEARCHABLE(ThSearchableAttrProcessor.class, "searchable", "th"),
+    BASIC_VISIBLE(ThVisibleAttrProcessor.class, "visible", "th"),
     BASIC_FILTER_TYPE(ThFilterTypeAttrProcessor.class, "filterType", "th"),
     BASIC_LABELS(TableLabelsAttrProcessor.class, "labels", "table"),
     BASIC_PAGINATION_TYPE(TablePaginationTypeAttrProcessor.class, "paginationtype", "table"),

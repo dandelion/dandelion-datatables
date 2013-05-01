@@ -81,6 +81,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 	protected String sortInit;
 	protected Boolean filterable = false;
 	protected Boolean searchable;
+	protected Boolean visible;
 	protected String filterType;
 	protected String filterCssClass = "";
 	protected String filterPlaceholder = "";
@@ -122,6 +123,11 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 			column.setSearchable(this.searchable);
 		}
 		
+		// Visible
+		if (this.visible!= null) {
+			column.setVisible(this.visible);
+		}
+				
 		// Enabled display types
 		if (StringUtils.isNotBlank(this.display)) {
 			List<DisplayType> enabledDisplayTypes = new ArrayList<DisplayType>();
@@ -259,8 +265,18 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 		}
 
 		// Filtering
-		column.setFilterable(this.filterable);
-		column.setSearchable(searchable);
+		if(filterable != null){
+			column.setFilterable(filterable);
+		}
+		
+		if(searchable != null){
+			column.setSearchable(searchable);
+		}
+
+		// Visible
+		if (this.visible!= null) {
+			column.setVisible(this.visible);
+		}
 		
 		// Styling
 		if(StringUtils.isNotBlank(cssClass)){
@@ -417,6 +433,14 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 
 	public void setSearchable(Boolean searchable) {
 		this.searchable = searchable;
+	}
+
+	public Boolean getVisible() {
+		return visible;
+	}
+
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
 	}
 	
 	public String getFilterType() {

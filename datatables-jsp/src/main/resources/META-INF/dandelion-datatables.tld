@@ -463,6 +463,10 @@
           <name>searchable</name>
       </attribute>
       <attribute>
+          <description>(true|false) Enable or disable the display of the column. (Default : true)</description>
+          <name>visible</name>
+      </attribute>
+      <attribute>
          <description>(SELECT|INPUT) If filterable is enabled, you
             can
             choose the filter type between 'SELECT' and 'INPUT',

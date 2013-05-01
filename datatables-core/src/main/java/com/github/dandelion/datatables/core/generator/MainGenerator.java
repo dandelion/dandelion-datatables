@@ -86,6 +86,12 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         		// Searchable
         		tmp.put(DTConstants.DT_SEARCHABLE, column.getSearchable());
         		
+        		// Visible
+        		tmp.put(DTConstants.DT_VISIBLE, column.getVisible());
+        		if(column.getVisible() != null && !column.getVisible()){
+        			tmp.put(DTConstants.DT_SEARCHABLE, false);	
+        		}
+        		
         		// Column's content
         		if (StringUtils.isNotBlank(column.getProperty())) {
         			tmp.put(DTConstants.DT_DATA, column.getProperty());

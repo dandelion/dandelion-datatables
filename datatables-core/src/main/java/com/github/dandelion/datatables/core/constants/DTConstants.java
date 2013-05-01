@@ -94,6 +94,7 @@ public class DTConstants {
 	// Column configuration
 	public static final String DT_SORTABLE = "bSortable";
 	public static final String DT_SEARCHABLE = "bSearchable";
+	public static final String DT_VISIBLE = "bVisible";
 	public static final String DT_SORT_INIT = "aaSorting";
 	public static final String DT_SORT_DIR = "asSorting";
 	public static final String DT_DATA = "mData";
