@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,14 +75,20 @@ public class TableTag extends AbstractTableTag {
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TableTag.class);
 
+	private final static char[] DISALLOWED_CHAR = {'-'};
+	
 	/**
-	 * TODO
+	 * {@inheritDoc}
 	 */
 	public int doStartTag() throws JspException {
 		// Just used to identify the first row (header)
 		iterationNumber = 1;
 
 		// Init the table with its DOM id and a generated random number
+		if(StringUtils.containsAny(id, DISALLOWED_CHAR)){
+			throw new JspException("The 'id' attribute cannot contain one of the following characters: " + String.valueOf(DISALLOWED_CHAR));
+		}
+		
 		table = new HtmlTable(id, ResourceHelper.getRamdomNumber());
 		table.setCurrentUrl(RequestHelper.getCurrentUrl((HttpServletRequest) pageContext
 				.getRequest()));
@@ -119,7 +126,7 @@ public class TableTag extends AbstractTableTag {
 	}
 
 	/**
-	 * TODO
+	 * {@inheritDoc}
 	 */
 	public int doAfterBody() throws JspException {
 
@@ -129,7 +136,7 @@ public class TableTag extends AbstractTableTag {
 	}
 
 	/**
-	 * TODO
+	 * {@inheritDoc}
 	 */
 	public int doEndTag() throws JspException {
 
