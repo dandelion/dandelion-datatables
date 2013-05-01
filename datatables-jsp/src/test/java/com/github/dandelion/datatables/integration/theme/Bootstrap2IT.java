@@ -47,7 +47,7 @@ public class Bootstrap2IT extends DomBaseIT {
 
 	@Test
 	public void should_generate_table_markup_using_dom_source() throws IOException, Exception {
-		goTo("/themes/bootstrap2_default.jsp");
+		goTo("/themes/bootstrap2_dom.jsp");
 	
 		StringBuilder baseHref = new StringBuilder("http://");
 		baseHref.append(SERVER_HOST);
@@ -59,7 +59,7 @@ public class Bootstrap2IT extends DomBaseIT {
 		baseHref.append(SERVER_HOST);
 		baseHref.append("%3A");
 		baseHref.append(SERVER_PORT);
-		baseHref.append("%2Fthemes%2Fbootstrap2_default.jsp");
+		baseHref.append("%2Fthemes%2Fbootstrap2_dom.jsp");
 		
 		// Custom Bootstrap CSS must exist
 		assertThat(getHtmlBody().findFirst("link").getAttribute("href")).isEqualTo(baseHref.toString());
