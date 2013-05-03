@@ -4,7 +4,7 @@
    <parent>
       <groupId>com.github.dandelion</groupId>
       <artifactId>datatables-extras</artifactId>
-      <version>0.8.12</version>
+      <version>0.8.13-SNAPSHOT</version>
    </parent>
 
    <artifactId>datatables-export-itext</artifactId>
@@ -24,7 +24,7 @@
       <dependency>
          <groupId>com.github.dandelion</groupId>
          <artifactId>datatables-core</artifactId>
-         <version>0.8.12</version>
+         <version>0.8.13-SNAPSHOT</version>
       </dependency>
 
       <dependency>

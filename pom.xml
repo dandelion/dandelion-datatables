@@ -9,7 +9,7 @@
 
    <groupId>com.github.dandelion</groupId>
    <artifactId>dandelion-datatables</artifactId>
-   <version>0.8.12</version>
+   <version>0.8.13-SNAPSHOT</version>
    <packaging>pom</packaging>
    <name>Dandelion :: Datatables</name>
 
@@ -272,6 +272,6 @@
       <connection>scm:git:git://github.com/dandelion/dandelion-datatables.git</connection>
       <developerConnection>scm:git:git@github.com:dandelion/dandelion-datatables.git</developerConnection>
       <url>http://github.com/dandelion/dandelion-datatables</url>
-     <tag>dandelion-datatables-0.8.12-01</tag>
+     <tag>HEAD</tag>
   </scm>
 </project>
