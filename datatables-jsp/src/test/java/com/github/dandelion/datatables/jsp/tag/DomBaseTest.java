@@ -41,7 +41,7 @@ import org.springframework.mock.web.MockServletContext;
 import com.github.dandelion.datatables.core.generator.MainGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.mock.Mock;
-import com.github.dandelion.datatables.utils.TableBuilder;
+import com.github.dandelion.datatables.utils.TableTagBuilder;
 
 /**
  * Base class used for unit-testing the library using DOM-based source.
@@ -52,7 +52,7 @@ public abstract class DomBaseTest {
 
 	protected MockPageContext mockPageContext;
 	protected TableTag tableTag;
-	protected TableBuilder tableBuilder;
+	protected TableTagBuilder tableBuilder;
 	protected HtmlTable table;
 	protected Map<String, Object> mainConf;
 	

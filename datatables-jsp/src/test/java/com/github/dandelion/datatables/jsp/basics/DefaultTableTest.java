@@ -36,7 +36,7 @@ import org.junit.Test;
 
 import com.github.dandelion.datatables.jsp.tag.DomBaseTest;
 import com.github.dandelion.datatables.mock.Mock;
-import com.github.dandelion.datatables.utils.TableBuilder;
+import com.github.dandelion.datatables.utils.TableTagBuilder;
 
 /**
  * Default table.
@@ -47,7 +47,7 @@ public class DefaultTableTest extends DomBaseTest {
 
 	@Override
 	public void buildTable() {
-		tableBuilder = new TableBuilder(Mock.persons, "myTableId").context(mockPageContext)
+		tableBuilder = new TableTagBuilder(Mock.persons, "myTableId").context(mockPageContext)
 				.defaultTable();
 	}
 	
