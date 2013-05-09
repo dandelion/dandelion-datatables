@@ -29,11 +29,17 @@
  */
 package com.github.dandelion.datatables.core.html;
 
+import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.beanutils.NestedNullException;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.github.dandelion.datatables.core.asset.ExtraConf;
 import com.github.dandelion.datatables.core.asset.ExtraFile;
@@ -768,5 +774,120 @@ public class HtmlTable extends HtmlTag {
 				+ ", exportConfMap=" + exportConfMap + ", exportLinkPositions="
 				+ exportLinkPositions + ", isExportable=" + isExportable + ", theme=" + theme
 				+ ", themeOption=" + themeOption + "]";
+	}
+	
+	
+	public static class Builder<T> {
+
+		private String id;
+		private List<T> data;
+		private LinkedList<HtmlColumn> headerColumns = new LinkedList<HtmlColumn>();
+		
+	    public Builder (String id, List<T> data) {
+	    	this.id = id;
+            this.data = data;
+        }
+	    
+	    public Builder<T> column(String property){
+	    	HtmlColumn column = new HtmlColumn(true, "");
+	    	column.setProperty(property);
+	    	column.setTitle(property);
+	    	headerColumns.add(column);
+	    	return this;
+	    }
+	    
+	    public Builder<T> title(String title){
+	    	headerColumns.getLast().setTitle(title);
+	    	return this;
+	    }
+	    
+	    public Builder<T> format(String pattern){
+	    	headerColumns.getLast().setFormatPattern(pattern);
+	    	return this;
+	    }
+	    
+	    public Builder<T> defaultContent(String defaultContent){
+	    	headerColumns.getLast().setDefaultValue(defaultContent);
+	    	return this;
+	    }
+	    
+	    public Builder<T> endColumn(){
+	    	return this;
+	    }
+	    
+	    public HtmlTable build(){
+	    	return new HtmlTable(this);
+	    }
+	}
+	
+	
+	/**
+	 * Private constructor used by the Builder to build a HtmlTable in a fluent
+	 * way.
+	 * 
+	 * @param builder
+	 */
+	private <T> HtmlTable(Builder<T> builder){
+
+		this.tag = "table";
+		this.id = builder.id;
+		init();
+
+		addHeaderRow();
+		
+		for(HtmlColumn column : builder.headerColumns){
+			column.setContent(new StringBuilder(column.getTitle()));
+			getLastHeaderRow().addColumn(column);
+		}
+		
+		if(builder.data != null){
+			
+			for(T o : builder.data){
+				
+				addRow();
+				for(HtmlColumn headerColumn : builder.headerColumns){
+					
+					Object content;
+					try {
+						content = PropertyUtils.getNestedProperty(o, headerColumn.getContent().toString().trim());
+	
+						// If a format exists, we format the property
+						if(StringUtils.isNotBlank(headerColumn.getFormatPattern()) && content != null){
+							
+							MessageFormat messageFormat = new MessageFormat(headerColumn.getFormatPattern());
+							content = messageFormat.format(new Object[]{ content });
+						}
+						else if(StringUtils.isBlank(headerColumn.getFormatPattern()) && content != null){
+							content = content.toString();
+						}
+						else{
+							if(StringUtils.isNotBlank(headerColumn.getDefaultValue())){
+								content = headerColumn.getDefaultValue().trim();
+							
+							}
+						}
+					} catch (NestedNullException e) {
+						if(StringUtils.isNotBlank(headerColumn.getDefaultValue())){
+							content = headerColumn.getDefaultValue().trim();
+						}
+					} catch (IllegalAccessException e) {
+	//					logger.error("Unable to get the value for the given property {}", this.property);
+	//					throw new JspException(e);
+					} catch (InvocationTargetException e) {
+	//					logger.error("Unable to get the value for the given property {}", this.property);
+	//					throw new JspException(e);
+					} catch (NoSuchMethodException e) {
+	//					logger.error("Unable to get the value for the given property {}", this.property);
+	//					throw new JspException(e);
+					} catch (IllegalArgumentException e) {
+	//		            logger.error("Wrong MessageFormat pattern : {}", format);
+	//		            return propertyValue.toString();
+			        }
+					content = "";
+					
+					getLastBodyRow().addColumn(content.toString());
+				}
+			}
+		}
 	}
 }

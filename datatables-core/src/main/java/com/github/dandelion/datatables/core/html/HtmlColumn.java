@@ -56,6 +56,8 @@ public class HtmlColumn extends HtmlTagWithContent {
 	private Boolean searchable;
 	private String renderFunction;
 	private Boolean visible;
+	private String title;
+	private String formatPattern;
 	
 	/**
 	 * <p>
@@ -301,5 +303,21 @@ public class HtmlColumn extends HtmlTagWithContent {
 
 	public void setVisible(Boolean visible) {
 		this.visible = visible;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getFormatPattern() {
+		return formatPattern;
+	}
+
+	public void setFormatPattern(String formatPattern) {
+		this.formatPattern = formatPattern;
 	}
 }
