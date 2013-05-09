@@ -790,6 +790,7 @@ public class HtmlTable extends HtmlTag {
 	    
 	    public Builder<T> column(String property){
 	    	HtmlColumn column = new HtmlColumn(true, "");
+	    	
 	    	column.setProperty(property);
 	    	column.setTitle(property);
 	    	headerColumns.add(column);
@@ -847,9 +848,10 @@ public class HtmlTable extends HtmlTag {
 				addRow();
 				for(HtmlColumn headerColumn : builder.headerColumns){
 					
-					Object content;
+					Object content = null;
 					try {
-						content = PropertyUtils.getNestedProperty(o, headerColumn.getContent().toString().trim());
+						
+						content = PropertyUtils.getNestedProperty(o, headerColumn.getProperty().toString().trim());
 	
 						// If a format exists, we format the property
 						if(StringUtils.isNotBlank(headerColumn.getFormatPattern()) && content != null){
@@ -871,21 +873,16 @@ public class HtmlTable extends HtmlTag {
 							content = headerColumn.getDefaultValue().trim();
 						}
 					} catch (IllegalAccessException e) {
-	//					logger.error("Unable to get the value for the given property {}", this.property);
-	//					throw new JspException(e);
+						content = "";
 					} catch (InvocationTargetException e) {
-	//					logger.error("Unable to get the value for the given property {}", this.property);
-	//					throw new JspException(e);
+						content = "";
 					} catch (NoSuchMethodException e) {
-	//					logger.error("Unable to get the value for the given property {}", this.property);
-	//					throw new JspException(e);
+						content = "";
 					} catch (IllegalArgumentException e) {
-	//		            logger.error("Wrong MessageFormat pattern : {}", format);
-	//		            return propertyValue.toString();
+						content = "";
 			        }
-					content = "";
 					
-					getLastBodyRow().addColumn(content.toString());
+					getLastBodyRow().addColumn(String.valueOf(content));
 				}
 			}
 		}
