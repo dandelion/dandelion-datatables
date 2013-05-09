@@ -506,26 +506,34 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	 */
 	protected int processIteration() throws JspException {
 
-		if ("DOM".equals(this.loadingType) && iterator != null && iterator.hasNext()) {
+		if ("DOM".equals(this.loadingType)) {
 
-			Object object = iterator.next();
-
-			this.setCurrentObject(object);
-			table.setObjectType(object.getClass().getSimpleName());
-
-			if (row != null) {
-				pageContext.setAttribute(row, object);
-				pageContext.setAttribute(row + "_rowIndex", iterationNumber);
+			if(isFirstIteration()){
+				return EVAL_BODY_BUFFERED;
 			}
 			
-			String rowId = getRowId();
-			if (StringUtils.isNotBlank(rowId)) {
-				this.table.addRow(rowId);
-			} else {
-				this.table.addRow();
-			}
+			if(iterator != null && iterator.hasNext()){
+				Object object = iterator.next();
+				
+				this.setCurrentObject(object);
+				table.setObjectType(object.getClass().getSimpleName());
+				
+				if (row != null) {
+					pageContext.setAttribute(row, object);
+					pageContext.setAttribute(row + "_rowIndex", iterationNumber);
+				}
 
-			return EVAL_BODY_BUFFERED;
+				String rowId = getRowId();
+				if (StringUtils.isNotBlank(rowId)) {
+					this.table.addRow(rowId);
+				} else {
+					this.table.addRow();
+				}
+				return EVAL_BODY_BUFFERED;
+			}
+			else{
+				return SKIP_BODY;
+			}
 		} else {
 			return SKIP_BODY;
 		}

@@ -58,21 +58,23 @@ public class ColumnTag extends AbstractColumnTag {
 		// DOM source
 		if ("DOM".equals(parent.getLoadingType())) {
 
-			// The column has a body
-			if (getBodyContent() != null) {
-				String bodyString = getBodyContent().getString().trim().replaceAll("[\n\r]", "");
-				addDomColumn(false, bodyString);
-			}
-			// The column doens't have a body but a property is set
-			else{
-				addDomColumn(false, getColumnContent());	
-			}
-			
 			// At the first iteration, the header row must filled in too
 			if (parent.isFirstIteration()) {
 				addDomColumn(true, title);
 			}
 
+			if(parent.getCurrentObject() != null){
+				
+				// The column has a body
+				if (getBodyContent() != null) {
+					String bodyString = getBodyContent().getString().trim().replaceAll("[\n\r]", "");
+					addDomColumn(false, bodyString);
+				}
+				// The column doens't have a body but a property is set
+				else{
+					addDomColumn(false, getColumnContent());	
+				}
+			}
 			return EVAL_PAGE;
 		} 
 		// AJAX source

@@ -309,11 +309,17 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 		parent.getTable().getLastHeaderRow().addColumn(column);
 	}
 	
+	
+	/**
+	 * TODO
+	 * @return
+	 * @throws JspException
+	 */
 	protected String getColumnContent() throws JspException {
 
 		TableTag parent = (TableTag) getParent();
 
-		if (StringUtils.isNotBlank(property)) {
+		if (StringUtils.isNotBlank(property) && parent.getCurrentObject() != null) {
 
 			Object propertyValue = null;
 			try {
@@ -352,6 +358,9 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 	            logger.error("Wrong MessageFormat pattern : {}", format);
 	            return propertyValue.toString();
 	        }
+		}
+		else{
+			return "";
 		}
 		
 		return "";
