@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.core.properties;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +38,7 @@ import java.util.Properties;
 import com.github.dandelion.datatables.core.aggregator.AggregatorMode;
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
 import com.github.dandelion.datatables.core.constants.ConfConstants;
+import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.export.ExportType;
 
 /**
@@ -86,27 +88,25 @@ public class TableProperties {
 	 * @param property
 	 *            The property to check.
 	 * @return true if it exists, false otherwise.
+	 * @throws BadConfigurationException 
 	 */
-	public Boolean isValidProperty(String property) {
+	public Boolean isValidProperty(String property) throws BadConfigurationException {
 
-		return property.equals(ConfConstants.DT_BASE_URL)
-				|| property.equals(ConfConstants.DT_COMPRESSOR_CLASS)
-				|| property.equals(ConfConstants.DT_COMPRESSOR_ENABLE)
-				|| property.equals(ConfConstants.DT_COMPRESSOR_MODE)
-				|| property.equals(ConfConstants.DT_COMPRESSOR_MUNGE)
-				|| property.equals(ConfConstants.DT_COMPRESSOR_PRESERVE_SEMI)
-				|| property.equals(ConfConstants.DT_COMPRESSOR_DISABLE_OPTI)
-				|| property.equals(ConfConstants.DT_AGGREGATOR_ENABLE)
-				|| property.equals(ConfConstants.DT_AGGREGATOR_MODE)
-				|| property.equals(ConfConstants.DT_EXPORT_TYPES)
-				|| property.equals(ConfConstants.DT_EXPORT_XLS_DEFAULT_CLASS)
-				|| property.equals(ConfConstants.DT_EXPORT_XLSX_DEFAULT_CLASS)
-				|| property.equals(ConfConstants.DT_EXPORT_PDF_DEFAULT_CLASS)
-				|| property.equals(ConfConstants.DT_EXPORT_CSV_CLASS)
-				|| property.equals(ConfConstants.DT_EXPORT_XML_CLASS)
-				|| property.equals(ConfConstants.DT_EXPORT_XLS_CLASS)
-				|| property.equals(ConfConstants.DT_EXPORT_XLSX_CLASS)
-				|| property.equals(ConfConstants.DT_EXPORT_PDF_CLASS);
+		Field[] confConstants = ConfConstants.class.getDeclaredFields();
+
+		try {
+			for (Field constant : confConstants) {
+				if (property.equals(constant.get(ConfConstants.class))) {
+					return true;
+				}
+			}
+		} catch (IllegalArgumentException e) {
+			throw new BadConfigurationException("Unable to access the ConfConstants class", e);
+		} catch (IllegalAccessException e) {
+			throw new BadConfigurationException("Unable to access the ConfConstants class", e);
+		}
+
+		return false;
 	}
 
 	/**

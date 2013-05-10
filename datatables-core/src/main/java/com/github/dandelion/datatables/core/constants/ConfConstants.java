@@ -29,8 +29,18 @@
  */
 package com.github.dandelion.datatables.core.constants;
 
+import com.github.dandelion.datatables.core.properties.TableProperties;
+
 /**
+ * <p>
  * Dandelion-datatables configuration related constants.
+ * 
+ * <p>
+ * Note to developers: all constants that exist in the
+ * datatables-default.properties file must appear in this class in order to be
+ * checked by the isValidProperty method of.
+ * 
+ * @see TableProperties#isValidProperty
  * 
  * @author Thibault Duchateau
  */

@@ -35,6 +35,8 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+
 /**
  * Tag used to locally override the Dandelion global configuration.
  *
@@ -73,13 +75,18 @@ public class PropTag extends TagSupport {
 		// Evaluate the tag only once using the isFirstRow method
 		if(parent.isFirstIteration()){
 			
-			if(parent.getTable().getTableProperties().isValidProperty(name)){
-				// Override the existing properties with the new one
-				parent.getTable().getTableProperties().setProperty(name, value);
-			}
-			else{
-				logger.error("The property {} doesn't exist. Please visit the documentation.", name);
-				throw new JspException(name + " is not a valid property");
+			try {
+				if(parent.getTable().getTableProperties().isValidProperty(name)){
+					// Override the existing properties with the new one
+					parent.getTable().getTableProperties().setProperty(name, value);
+				}
+				else{
+					logger.error("The property {} doesn't exist. Please visit the documentation.", name);
+					throw new JspException(name + " is not a valid property");
+				}
+			} catch (BadConfigurationException e) {
+				logger.error("An internal error occured. Unable to access the ConfConstants class");
+				throw new JspException(e);
 			}
 		}
 		
