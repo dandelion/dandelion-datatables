@@ -507,10 +507,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected int processIteration() throws JspException {
 
 		if ("DOM".equals(this.loadingType)) {
-
-			if(isFirstIteration()){
-				return EVAL_BODY_BUFFERED;
-			}
+			Integer retval = null;
 			
 			if(iterator != null && iterator.hasNext()){
 				Object object = iterator.next();
@@ -529,11 +526,17 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 				} else {
 					this.table.addRow();
 				}
-				return EVAL_BODY_BUFFERED;
+				retval = EVAL_BODY_BUFFERED;
 			}
 			else{
-				return SKIP_BODY;
+				retval = SKIP_BODY;
 			}
+			
+			if(isFirstIteration()){
+				retval = EVAL_BODY_BUFFERED;
+			}
+			
+			return retval;
 		} else {
 			return SKIP_BODY;
 		}
