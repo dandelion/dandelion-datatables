@@ -812,10 +812,6 @@ public class HtmlTable extends HtmlTag {
 	    	return this;
 	    }
 	    
-	    public Builder<T> endColumn(){
-	    	return this;
-	    }
-	    
 	    public HtmlTable build(){
 	    	return new HtmlTable(this);
 	    }
