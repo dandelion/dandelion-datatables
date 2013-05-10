@@ -58,7 +58,7 @@ public class CustomColumnContentIT extends DomBaseIT {
 	public void should_display_row_index() throws IOException, Exception {
 		goTo("/basics/using_rowindex.jsp");
 
-		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).getText()).isEqualTo("1");
+		assertThat(getTable().find("tbody").find("tr", 0).find("td", 4).getText()).isEqualTo("1");
 		assertThat(getTable().find("tbody").find("tr", 1).find("td", 4).getText()).isEqualTo("2");
 		assertThat(getTable().find("tbody").find("tr", 2).find("td", 4).getText()).isEqualTo("3");
 		assertThat(getTable().find("tbody").find("tr", 3).find("td", 4).getText()).isEqualTo("4");

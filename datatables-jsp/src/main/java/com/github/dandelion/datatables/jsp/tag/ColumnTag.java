@@ -58,7 +58,7 @@ public class ColumnTag extends AbstractColumnTag {
 		// DOM source
 		if ("DOM".equals(parent.getLoadingType())) {
 
-			// At the first iteration, the header row must filled in too
+			// At the first iteration, the header row must filled
 			if (parent.isFirstIteration()) {
 				addDomColumn(true, title);
 			}

@@ -34,7 +34,6 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.io.IOException;
 
-import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.integration.DomBaseIT;
@@ -68,8 +67,7 @@ public class DomSourceIT extends DomBaseIT {
 	@Test
 	public void should_generate_script_tag() {
 		goTo("/html/table_default.jsp");
-		FluentWebElement body = findFirst("body");
-		assertThat(body.find("script")).hasSize(1);
+		assertThat(getHtmlBody().find("script")).hasSize(1);
 	}
 	
 	@Test
