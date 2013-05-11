@@ -465,6 +465,7 @@
       <attribute>
           <description>(true|false) Enable or disable the display of the column. (Default : true)</description>
           <name>visible</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(SELECT|INPUT) If filterable is enabled, you

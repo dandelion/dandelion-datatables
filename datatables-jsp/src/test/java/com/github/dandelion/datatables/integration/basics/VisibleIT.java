@@ -58,4 +58,12 @@ public class VisibleIT extends DomBaseIT {
 		assertThat(getTable().find("thead").find("th")).hasSize(4);
 		assertThat(getTable().find("tbody").findFirst("tr").find("td")).hasSize(4);
 	}
+	
+	@Test
+	public void should_hide_the_last_column_using_runtime_expression() {
+		goTo("/basics/visible_runtime_expression.jsp");
+
+		assertThat(getTable().find("thead").find("th")).hasSize(4);
+		assertThat(getTable().find("tbody").findFirst("tr").find("td")).hasSize(4);
+	}
 }
