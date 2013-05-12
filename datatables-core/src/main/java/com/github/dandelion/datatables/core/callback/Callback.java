@@ -32,8 +32,18 @@ package com.github.dandelion.datatables.core.callback;
 import org.apache.commons.lang.StringUtils;
 
 /**
+ * <p>
  * Callback called by DataTables.
- *
+ * <p>
+ * A callback is composed of:
+ * <ul>
+ * <li>a {@link CallbackType} available among all callbacks proposed by
+ * DataTables</li>
+ * <li>a Javascript function that is executed in the callback</li>
+ * </ul>
+ * 
+ * @see CallbackType
+ * 
  * @author Thibault Duchateau
  * @since 0.8.9
  */
@@ -44,7 +54,7 @@ public class Callback {
 
 	public Callback(CallbackType type, String function){
 		this.type = type;
-		this.function = wrapFunction(function);
+		this.function = build(function);
 	}
 	
 	public CallbackType getType() {
@@ -77,7 +87,13 @@ public class Callback {
 		return "Callback [type=" + type + ", function=" + function + "]";
 	}
 	
-	private String wrapFunction(String function){
+	/**
+	 * Build the callback.
+	 * 
+	 * @param function the Javascript function to execute in the callback.
+	 * @return a String reprensenting the function call.
+	 */
+	private String build(String function){
 		return function + "(" + StringUtils.join(this.type.getArgs(), ",") + ");";
 	}
 }

@@ -53,6 +53,13 @@ public class CallbacksIT extends DomBaseIT {
 	}
 	
 	@Test
+	public void should_avoid_conflict_between_callback() throws IOException, Exception {
+		goTo("/advanced/callback_init_conflict.jsp");
+		String js = getConfigurationFromPage("advanced/callback_init_conflict.jsp").getContent();
+		assertThat(js).contains("function(oSettings,json){oTable_myTableId.fnAdjustColumnSizing(true);callback(oSettings,json);}");
+	}
+	
+	@Test
 	public void should_generate_cookie_callback() throws IOException, Exception {
 		goTo("/advanced/callback_cookie.jsp");
 		assertThat(getConfigurationFromPage("advanced/callback_cookie.jsp").getContent()).contains(DTConstants.DT_FN_COOKIE_CBK);

@@ -31,7 +31,6 @@ package com.github.dandelion.datatables.core.asset;
 
 import org.apache.commons.lang.StringUtils;
 
-
 /**
  * <p>
  * Bean used to hold a Javascript function that must not be converted into
