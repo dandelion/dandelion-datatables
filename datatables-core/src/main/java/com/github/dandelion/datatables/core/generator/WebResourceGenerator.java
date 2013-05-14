@@ -106,18 +106,6 @@ public class WebResourceGenerator {
 		WebResources webResources = new WebResources();
 
 		/**
-		 * Export management
-		 */
-		if (table.isExportable()) {
-			exportManagement(table);
-		}
-		
-		// Init the "configuration" map with the table informations
-		// The configuration may be updated depending on the user's choices
-		configGenerator = new MainGenerator();
-		Map<String, Object> mainConf = configGenerator.generateConfig(table);
-
-		/**
 		 * Main configuration file building
 		 */
 		// We need to append a randomUUID in case of multiple tables exists in
@@ -126,6 +114,18 @@ public class WebResourceGenerator {
 		JsResource mainJsFile = new JsResource(ResourceType.MAIN, NameConstants.DT_MAIN_JS
 				+ tableId + ".js");
 		mainJsFile.setTableId(table.getId());
+		
+		/**
+		 * Export management
+		 */
+		if (table.isExportable()) {
+			exportManagement(table, mainJsFile);
+		}
+		
+		// Init the "configuration" map with the table informations
+		// The configuration may be updated depending on the user's choices
+		configGenerator = new MainGenerator();
+		Map<String, Object> mainConf = configGenerator.generateConfig(table);
 
 		/**
 		 * Extra files management
@@ -201,13 +201,13 @@ public class WebResourceGenerator {
 	 * @param mainJsFile
 	 *            The web resource to update
 	 */
-	private void exportManagement(HtmlTable table) {
+	private void exportManagement(HtmlTable table, JsResource mainJsfile) {
 
 		StringBuilder links = new StringBuilder();
 		for (ExportLinkPosition position : table.getExportLinkPositions()) {
 
 			// Init the wrapping HTML div
-			HtmlDiv divExport = initExportDiv(table);
+			HtmlDiv divExport = initExportDiv(table, mainJsfile);
 			
 			switch (position) {
 			case BOTTOM_LEFT:
@@ -261,7 +261,7 @@ public class WebResourceGenerator {
 		}
 	}
 
-	private HtmlDiv initExportDiv(HtmlTable table){
+	private HtmlDiv initExportDiv(HtmlTable table, JsResource mainJsfile){
 	
 		// Init the wrapping HTML div
 		HtmlDiv divExport = new HtmlDiv();
@@ -290,7 +290,30 @@ public class WebResourceGenerator {
 					link.addCssStyle("margin-left:2px;");
 				}
 
-				link.setHref(conf.getUrl());
+				if(conf.isCustom()){
+					String tableId = "oTable_" + table.getId();
+					
+					StringBuilder exportFunc = new StringBuilder("function dandelion_export_");
+					exportFunc.append(conf.getType().name());
+					exportFunc.append("(){window.location='");
+					exportFunc.append(conf.getUrl());
+					if(conf.getUrl().contains("?")){
+						exportFunc.append("&");
+					}
+					else{
+						exportFunc.append("?");
+					}
+					exportFunc.append("' + $.param(");
+					exportFunc.append(tableId).append(".oApi._fnAjaxParameters(").append(tableId).append(".fnSettings()");
+					exportFunc.append("));}");
+					
+					mainJsfile.appendToBeforeAll(exportFunc.toString());
+					
+					link.setOnclick("dandelion_export_" + conf.getType().name() + "()");
+				}
+				else{
+					link.setHref(conf.getUrl());
+				}
 				link.addContent(conf.getLabel());
 
 				divExport.addContent(link.toHtml());

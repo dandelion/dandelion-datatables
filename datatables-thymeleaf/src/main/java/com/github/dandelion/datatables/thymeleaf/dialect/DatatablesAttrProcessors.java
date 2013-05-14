@@ -84,6 +84,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportHe
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportLinkClassAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportLinkLabelAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportLinkStyleAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportLinkUrlAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.ThExportFilenameAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.plugin.TheadColReorderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.plugin.TheadFixedHeaderAttrProcessor;
@@ -160,6 +161,12 @@ public enum DatatablesAttrProcessors {
     EXPORT_LINK_LABEL_XLSX(TbodyExportLinkLabelAttrProcessor.class, "xlsx:label", "tbody"),
     EXPORT_LINK_LABEL_XML(TbodyExportLinkLabelAttrProcessor.class, "xml:label", "tbody"),
 
+    EXPORT_LINK_URL_CSV(TbodyExportLinkUrlAttrProcessor.class, "csv:url", "tbody"),
+    EXPORT_LINK_URL_PDF(TbodyExportLinkUrlAttrProcessor.class, "pdf:url", "tbody"),
+    EXPORT_LINK_URL_XLS(TbodyExportLinkUrlAttrProcessor.class, "xls:url", "tbody"),
+    EXPORT_LINK_URL_XLSX(TbodyExportLinkUrlAttrProcessor.class, "xlsx:url", "tbody"),
+    EXPORT_LINK_URL_XML(TbodyExportLinkUrlAttrProcessor.class, "xml:url", "tbody"),
+    
     EXPORT_FILENAME_CSV(TbodyExportFilenameAttrProcessor.class, "csv:filename", "tbody"),
     EXPORT_FILENAME_PDF(TbodyExportFilenameAttrProcessor.class, "pdf:filename", "tbody"),
     EXPORT_FILENAME_XLS(TbodyExportFilenameAttrProcessor.class, "xls:filename", "tbody"),

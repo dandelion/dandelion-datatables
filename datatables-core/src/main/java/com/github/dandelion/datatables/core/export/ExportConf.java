@@ -45,6 +45,7 @@ public class ExportConf {
 	private String area;
 	private String url;
 	private Boolean autoSize;
+	private Boolean custom;
 
 	public ExportConf(ExportType type){
 		this.type = type;
@@ -130,6 +131,14 @@ public class ExportConf {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public Boolean isCustom() {
+		return custom;
+	}
+
+	public void setCustom(Boolean custom) {
+		this.custom = custom;
 	}
 
 	@Override

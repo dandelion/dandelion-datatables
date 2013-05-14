@@ -64,6 +64,7 @@ public class ExportTag extends TagSupport {
 	private Boolean includeHeader;
 	private String area;// TODO
 	private Boolean autoSize;
+	private String url;
 
 	/**
 	 * An ExportTag has no body but we test here that it is in the right place.
@@ -101,19 +102,32 @@ public class ExportTag extends TagSupport {
 			}
 
 			// Export URL build
-			String url = RequestHelper.getCurrentUrlWithParameters(request);
-			if(url.contains("?")){
-				url += "&";
+			ExportConf conf = new ExportConf(exportType);
+			
+			// Default mode
+			String exportUrl = null;
+			if(StringUtils.isBlank(url)){
+				exportUrl = RequestHelper.getCurrentUrlWithParameters(request);
+				if(exportUrl.contains("?")){
+					exportUrl += "&";
+				}
+				else{
+					exportUrl += "?";
+				}
+				exportUrl += ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
+						+ exportType.getUrlParameter() + "&"
+						+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID + "="
+						+ parent.getTable().getId();
+				
+				conf.setCustom(false);
 			}
+			// Custom mode
 			else{
-				url += "?";
+				exportUrl = url;
+				conf.setCustom(true);
 			}
-			url += ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
-					+ exportType.getUrlParameter() + "&"
-					+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID + "="
-					+ parent.getTable().getId();
-
-			ExportConf conf = new ExportConf(exportType, url);
+			
+			conf.setUrl(exportUrl);
 
 			// Other fields
 			if(StringUtils.isNotBlank(fileName)){
@@ -137,7 +151,7 @@ public class ExportTag extends TagSupport {
 			if(autoSize != null){
 				conf.setAutoSize(autoSize);				
 			}
-
+			
 			parent.getTable().getExportConfMap().put(exportType, conf);
 
 			logger.debug("Export conf added to table {}", conf);
@@ -216,5 +230,13 @@ public class ExportTag extends TagSupport {
 
 	public void setAutoSize(Boolean autoSize) {
 		this.autoSize = autoSize;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }

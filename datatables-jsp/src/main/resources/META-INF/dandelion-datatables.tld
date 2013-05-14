@@ -652,12 +652,6 @@
           <name>autoSize</name>
       </attribute>
       <attribute>
-         <description>(true|false) Indicates whether export is handled automatically by the framework or by the user (using its proper controller)
-                  (Default : true)</description>
-         <name>auto</name>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
          <description>TODO</description>
          <name>url</name>
          <rtexprvalue>true</rtexprvalue>

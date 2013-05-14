@@ -107,8 +107,9 @@ public abstract class AbstractDatatablesView {
 	 * @throws IOException
 	 *             if writing/flushing failed
 	 */
-	protected void writeToResponse(HttpServletResponse response, ByteArrayOutputStream baos, String title)
+	protected void writeToResponse(HttpServletResponse response, ByteArrayOutputStream baos, String title, String contentType)
 			throws IOException {
+		response.setContentType(contentType);
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + title + "\"");
 		writeToResponse(response, baos);
 	}
