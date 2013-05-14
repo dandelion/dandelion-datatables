@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.core.html;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Plain old HTML <code>a</code> tag (link).
  * 
@@ -41,12 +43,17 @@ public class HtmlHyperlink extends HtmlTagWithContent {
 	 * Plain old HTML <code>href</code> attribute.
 	 */
 	private String href;
-	
-	public HtmlHyperlink(){
+
+	/**
+	 * Plain old HTML <code>onclick</code> attribute.
+	 */
+	private String onclick;
+
+	public HtmlHyperlink() {
 		this.tag = "a";
 	}
-	
-	public HtmlHyperlink(String href, String label){
+
+	public HtmlHyperlink(String href, String label) {
 		this.tag = "a";
 		this.href = href;
 		addContent(label);
@@ -55,14 +62,28 @@ public class HtmlHyperlink extends HtmlTagWithContent {
 	@Override
 	protected StringBuilder getHtmlAttributes() {
 		StringBuilder html = super.getHtmlAttributes();
-		html.append(writeAttribute("href", this.href));
+		if(StringUtils.isNotBlank(this.href)){
+			html.append(writeAttribute("href", this.href));
+		}
+		if(StringUtils.isNotBlank(this.onclick)){
+			html.append(writeAttribute("onclick", this.onclick));
+		}
 		return html;
 	}
-	
+
 	public String getHref() {
 		return href;
 	}
+
 	public void setHref(String href) {
 		this.href = href;
+	}
+
+	public String getOnclick() {
+		return onclick;
+	}
+
+	public void setOnclick(String onclick) {
+		this.onclick = onclick;
 	}
 }
