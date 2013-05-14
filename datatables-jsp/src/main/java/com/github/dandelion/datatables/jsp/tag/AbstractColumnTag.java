@@ -88,6 +88,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 	protected String display;
 	protected String renderFunction;
 	protected String format;
+	protected String selector;
 
 	/**
 	 * Add a column to the table when using DOM source.
@@ -187,6 +188,10 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 			column.setSortInit(this.sortInit);
 			column.setFilterable(this.filterable);
 
+			if(StringUtils.isNotBlank(this.selector)){
+				column.setSelector(this.selector);
+			}
+			
 			if (StringUtils.isNotBlank(this.filterType)) {
 
 				FilterType filterType = null;
@@ -273,6 +278,10 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 			column.setSearchable(searchable);
 		}
 
+		if(StringUtils.isNotBlank(this.selector)){
+			column.setSelector(this.selector);
+		}
+		
 		// Visible
 		if (this.visible!= null) {
 			column.setVisible(this.visible);
@@ -522,5 +531,13 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 
 	public void setFormat(String format) {
 		this.format = format;
+	}
+
+	public String getSelector() {
+		return selector;
+	}
+
+	public void setSelector(String selector) {
+		this.selector = selector;
 	}
 }

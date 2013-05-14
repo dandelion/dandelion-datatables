@@ -58,6 +58,7 @@ public class HtmlColumn extends HtmlTagWithContent {
 	private Boolean visible;
 	private String title;
 	private String formatPattern;
+	private String selector;
 	
 	/**
 	 * <p>
@@ -319,5 +320,13 @@ public class HtmlColumn extends HtmlTagWithContent {
 
 	public void setFormatPattern(String formatPattern) {
 		this.formatPattern = formatPattern;
+	}
+
+	public String getSelector() {
+		return selector;
+	}
+
+	public void setSelector(String selector) {
+		this.selector = selector;
 	}
 }

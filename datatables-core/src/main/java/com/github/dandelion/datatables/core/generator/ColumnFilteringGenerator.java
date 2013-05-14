@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,6 +96,10 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
         		}
         		else{
         			tmp.put(DTConstants.DT_FILTER_TYPE, "null");
+        		}
+        		
+        		if(StringUtils.isNotBlank(column.getSelector())){
+        			tmp.put(DTConstants.DT_S_SELECTOR, column.getSelector());
         		}
         		
         		aoColumnsContent.add(tmp);

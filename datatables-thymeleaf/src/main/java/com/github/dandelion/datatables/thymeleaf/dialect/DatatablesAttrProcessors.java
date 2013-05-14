@@ -63,6 +63,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.basic.TableStripeClas
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThFilterTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThFilterableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSearchableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSelectorAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortDirectionAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortInitAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortableAttrProcessor;
@@ -120,6 +121,7 @@ public enum DatatablesAttrProcessors {
     BASIC_SCROLL_Y(TableScrollYAttrProcessor.class, "scrolly", "table"),
     BASIC_SCROLL_COLLAPSE(TableScrollCollapseAttrProcessor.class, "scrollcollapse", "table"),
     BASIC_DOM(TableDomAttrProcessor.class, "dom", "table"),
+    BASIC_SELECTOR(ThSelectorAttrProcessor.class, "selector", "th"),
     
     // Plugin processors
     PLUGIN_SCROLLER(TheadScrollerAttrProcessor.class, "scroller", "thead"),

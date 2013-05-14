@@ -526,6 +526,11 @@
          <name>format</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
+      <attribute>
+         <description>jQuery selector used to populate a placeholder with a filtering widget.</description>
+         <name>selector</name>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
    </tag>
 
    <!-- ====================================== -->

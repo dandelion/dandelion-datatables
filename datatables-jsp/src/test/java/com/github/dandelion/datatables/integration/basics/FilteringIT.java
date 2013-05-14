@@ -102,4 +102,13 @@ public class FilteringIT extends DomBaseIT {
 		
 		fill(getTable().find("tfoot").find("select", 0)).with("Aaron");
 	}
+	
+	@Test
+	public void should_filter_data_when_using_an_extra_form() throws IOException, Exception {
+		goTo("/basics/filtering_with_extra_form.jsp");
+		
+		fill(find("#cityFilter").findFirst("input")).with("North Las Vegas");
+		
+		assertThat(getTable().find("tbody").find("tr")).hasSize(2);
+	}
 }
