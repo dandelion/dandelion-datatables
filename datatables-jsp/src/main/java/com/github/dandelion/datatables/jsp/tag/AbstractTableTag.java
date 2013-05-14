@@ -114,6 +114,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected String footer;
 	protected String lengthMenu;
 	protected Integer displayLength;
+	protected String dom;
 
 	// Advanced features
 	protected Boolean deferRender;
@@ -183,6 +184,9 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 		}
 		if (this.lengthChange != null) {
 			this.table.setLengthChange(this.lengthChange);
+		}
+		if(StringUtils.isNotBlank(this.dom)){
+			this.table.setDom(dom);
 		}
 		if (StringUtils.isNotBlank(this.paginationType)) {
 			PaginationType paginationType = null;
@@ -997,6 +1001,14 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 
 	public void setDisplayLength(Integer displayLength) {
 		this.displayLength = displayLength;
+	}
+
+	public String getDom() {
+		return dom;
+	}
+
+	public void setDom(String dom) {
+		this.dom = dom;
 	}
 
 	public void setData(Collection<Object> data) {

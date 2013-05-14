@@ -83,6 +83,7 @@ public class HtmlTable extends HtmlTag {
 	private String lengthMenu;
 	private String stripeClasses;
 	private Integer displayLength;
+	private String dom;
 	
 	// Ajax
 	private Boolean processing;
@@ -750,6 +751,14 @@ public class HtmlTable extends HtmlTag {
 
 	public void setDisplayLength(Integer displayLength) {
 		this.displayLength = displayLength;
+	}
+	
+	public String getDom() {
+		return dom;
+	}
+
+	public void setDom(String dom) {
+		this.dom = dom;
 	}
 
 	@Override

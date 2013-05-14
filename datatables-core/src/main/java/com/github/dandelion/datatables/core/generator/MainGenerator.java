@@ -214,7 +214,12 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         	}
         }
         
-        mainConf.put(DTConstants.DT_DOM, "lfrtip");
+        if(StringUtils.isNotBlank(table.getDom())){
+        	mainConf.put(DTConstants.DT_DOM, table.getDom());
+        }
+        else{
+        	mainConf.put(DTConstants.DT_DOM, "lfrtip");
+        }
 
         logger.debug("DataTables configuration generated");
 
