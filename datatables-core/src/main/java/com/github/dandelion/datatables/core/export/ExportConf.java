@@ -45,7 +45,7 @@ public class ExportConf {
 	private String area;
 	private String url;
 	private Boolean autoSize;
-	private Boolean custom;
+	private Boolean custom = false;
 
 	public ExportConf(ExportType type){
 		this.type = type;
