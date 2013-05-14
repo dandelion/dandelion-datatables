@@ -76,7 +76,7 @@ public class XlsExport extends AbstractBinaryExport {
 			int cellnum;
 
 			// Header
-			if (exportConf.getIncludeHeader()) {
+			if (exportConf != null && exportConf.getIncludeHeader()) {
 
 				for (HtmlRow htmlRow : table.getHeadRows()) {
 
@@ -91,7 +91,7 @@ public class XlsExport extends AbstractBinaryExport {
 							cell = row.createCell(cellnum++);
 							cell.setCellValue(column.getContent().toString());
 
-							if (exportConf.getAutoSize()) {
+							if (exportConf != null && exportConf.getAutoSize()) {
 								sheet.autoSizeColumn(cellnum);
 							}
 						}
@@ -113,7 +113,7 @@ public class XlsExport extends AbstractBinaryExport {
 						cell = row.createCell(cellnum++);
 						cell.setCellValue(column.getContent().toString());
 
-						if (exportConf.getAutoSize()) {
+						if (exportConf != null && exportConf.getAutoSize()) {
 							sheet.autoSizeColumn(cellnum);
 						}
 					}
