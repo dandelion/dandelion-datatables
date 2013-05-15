@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.core.theme;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.github.dandelion.datatables.core.asset.Configuration;
 import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
@@ -71,7 +73,9 @@ public class Bootstrap2Theme extends AbstractTheme {
 		addCssResource(new CssResource(ResourceType.THEME, "Bootstrap2Theme", "datatables/themes/bootstrap2/bootstrap.css"));
 
 		// Specific theme configurations
-		addConfiguration(new Configuration(DTConstants.DT_DOM, "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>", Configuration.Mode.OVERRIDE));
+		if(StringUtils.isBlank(table.getDom())){
+			addConfiguration(new Configuration(DTConstants.DT_DOM, "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>", Configuration.Mode.OVERRIDE));
+		}
 		addConfiguration(new Configuration(DTConstants.DT_PAGINATION_TYPE, "bootstrap", Configuration.Mode.OVERRIDE));
 		addConfiguration(new Configuration("asStripeClasses", new JavascriptSnippet("[]")));
 	}
