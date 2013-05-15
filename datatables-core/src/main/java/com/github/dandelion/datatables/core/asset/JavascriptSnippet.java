@@ -52,21 +52,34 @@ public class JavascriptSnippet {
 	public String toString() {
 		return javascript;
 	}
-	
-	public String getJavascript(){
+
+	public String getJavascript() {
 		return this.javascript;
 	}
-	
-	public void append(String javascript){
-		if(this.javascript == null){
+
+	public void append(String javascript) {
+		if(this.javascript == null) {
 			this.javascript = javascript;
-		}
-		else{
+		} else {
 			this.javascript += javascript;
 		}
 	}
-	
-	public void setJavascript(String javascript){
+
+	public void setJavascript(String javascript) {
 		this.javascript = javascript;
+	}
+
+	@Override
+	public boolean equals(Object javascriptSnippet) {
+		if(javascriptSnippet != null && javascriptSnippet instanceof JavascriptSnippet) {
+			return this.javascript.equals(((JavascriptSnippet)javascriptSnippet).getJavascript());
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		return this.javascript.hashCode();
 	}
 }

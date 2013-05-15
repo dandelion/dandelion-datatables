@@ -64,4 +64,19 @@ public class JavascriptFunction {
 	public void setJavascript(String javascript){
 		this.javascript = javascript;
 	}
+
+	@Override
+	public boolean equals(Object javascriptFunction) {
+		if(javascriptFunction != null && javascriptFunction instanceof JavascriptFunction) {
+			JavascriptFunction castedJavascriptFunction = (JavascriptFunction)javascriptFunction;
+			return toString().equals(castedJavascriptFunction.toString());
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		return toString().hashCode();
+	}
 }
