@@ -29,11 +29,8 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.ajax;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.thymeleaf.Arguments;
-import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
@@ -65,21 +62,11 @@ public class TableUrlAttrProcessor extends AbstractDatatablesAttrProcessor {
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
 			String attributeName, HtmlTable table) {
 
-		// Get the request
-		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-
 		// Get attribute value
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
 		if (table != null && StringUtils.isNotBlank(attrValue)) {
-			// Same domain AJAX request
-			if (attrValue.startsWith("/")) {
-				table.setDatasourceUrl(Utils.getBaseUrl(request) + attrValue);
-			}
-			// Cross domain AJAX request
-			else {
-				table.setDatasourceUrl(attrValue);
-			}
+			table.setDatasourceUrl(attrValue);
 
 			// Thanks to the precedence of the serverside attribute processor,
 			// we can already test if the server-side processing has been
