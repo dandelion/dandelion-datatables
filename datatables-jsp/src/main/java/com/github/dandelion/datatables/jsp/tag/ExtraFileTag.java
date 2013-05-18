@@ -32,9 +32,6 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.asset.InsertMode;
 
@@ -45,9 +42,6 @@ import com.github.dandelion.datatables.core.asset.InsertMode;
  */
 public class ExtraFileTag extends TagSupport {
 	private static final long serialVersionUID = -287813095911386884L;
-
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ExtraFileTag.class);
 
 	// Tag attributes
 	private String src;
@@ -79,7 +73,6 @@ public class ExtraFileTag extends TagSupport {
 	 * @return
 	 */
 	private String getRealSource(String tmpSource){
-		logger.debug("getRealSource = {}", pageContext.getServletContext().getRealPath(tmpSource));
 		return pageContext.getServletContext().getRealPath(tmpSource);
 	}
 	

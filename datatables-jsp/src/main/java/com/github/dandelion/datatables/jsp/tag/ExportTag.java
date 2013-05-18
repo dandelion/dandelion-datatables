@@ -107,7 +107,7 @@ public class ExportTag extends TagSupport {
 			// Default mode
 			String exportUrl = null;
 			if(StringUtils.isBlank(url)){
-				exportUrl = RequestHelper.getCurrentUrlWithParameters(request);
+				exportUrl = RequestHelper.getCurrentURIWithParameters(request);
 				if(exportUrl.contains("?")){
 					exportUrl += "&";
 				}

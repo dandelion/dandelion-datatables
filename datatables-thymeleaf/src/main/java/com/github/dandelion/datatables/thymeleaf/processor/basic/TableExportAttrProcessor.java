@@ -111,7 +111,7 @@ public class TableExportAttrProcessor extends AbstractDatatablesAttrProcessor {
 				// actives par la balise export=""
 				if (!table.getExportConfMap().containsKey(type)) {
 
-					String url = RequestHelper.getCurrentUrlWithParameters(request);
+					String url = RequestHelper.getCurrentURIWithParameters(request);
 					if (url.contains("?")) {
 						url += "&";
 					} else {

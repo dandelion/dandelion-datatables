@@ -456,7 +456,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 				// actives par la balise export=""
 				if (!table.getExportConfMap().containsKey(type)) {
 
-					String url = RequestHelper.getCurrentUrlWithParameters(request);
+					String url = RequestHelper.getCurrentURIWithParameters(request);
 					if(url.contains("?")){
 						url += "&";
 					}

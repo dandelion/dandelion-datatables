@@ -118,7 +118,6 @@ public class HtmlTable extends HtmlTag {
 	
 	// Class of the iterated objects. Only used in XML export.
 	private String objectType;
-	private String currentUrl;
 
 	// Export
 	private ExportProperties exportProperties;
@@ -607,14 +606,6 @@ public class HtmlTable extends HtmlTag {
 		this.exportLinkPositions = exportLinkPositions;
 	}
 
-	public String getCurrentUrl() {
-		return currentUrl;
-	}
-
-	public void setCurrentUrl(String currentUrl) {
-		this.currentUrl = currentUrl;
-	}
-
 	public AbstractTheme getTheme() {
 		return theme;
 	}
@@ -763,29 +754,25 @@ public class HtmlTable extends HtmlTag {
 
 	@Override
 	public String toString() {
-		return "HtmlTable [autoWidth=" + autoWidth + ", deferRender=" + deferRender + ", info="
-				+ info + ", filterable=" + filterable + ", paginate=" + paginate
-				+ ", paginationType=" + paginationType + ", lengthChange=" + lengthChange
-				+ ", sort=" + sort + ", stateSave=" + stateSave + ", labels=" + labels + ", cdn="
-				+ cdn + ", jqueryUI=" + jqueryUI + ", appear=" + appear + ", appearDuration="
-				+ appearDuration + ", lengthMenu=" + lengthMenu + ", stripeClasses="
-				+ stripeClasses + ", processing=" + processing + ", serverSide=" + serverSide
-				+ ", ajaxSource=" + ajaxSource + ", pipelining=" + pipelining + ", pipeSize="
-				+ pipeSize + ", jsonp=" + jsonp + ", serverData=" + serverData + ", serverParam="
-				+ serverParam + ", serverMethod=" + serverMethod + ", scrollY=" + scrollY
-				+ ", fixedPosition=" + fixedPosition + ", fixedOffsetTop=" + fixedOffsetTop
-				+ ", callbacks=" + callbacks + ", head=" + head + ", body=" + body + ", foot="
-				+ foot + ", tableProperties=" + tableProperties + ", datasourceUrl="
-				+ datasourceUrl + ", plugins=" + plugins + ", features=" + features
-				+ ", extraFiles=" + extraFiles + ", extraConfs=" + extraConfs + ", randomId="
-				+ randomId + ", objectType=" + objectType + ", currentUrl=" + currentUrl
-				+ ", exportProperties=" + exportProperties + ", exporting=" + exporting
-				+ ", exportConfMap=" + exportConfMap + ", exportLinkPositions="
-				+ exportLinkPositions + ", isExportable=" + isExportable + ", theme=" + theme
-				+ ", themeOption=" + themeOption + "]";
+		return "HtmlTable [autoWidth=" + autoWidth + ", deferRender=" + deferRender + ", info=" + info
+				+ ", filterable=" + filterable + ", paginate=" + paginate + ", paginationType=" + paginationType
+				+ ", lengthChange=" + lengthChange + ", sort=" + sort + ", stateSave=" + stateSave + ", labels="
+				+ labels + ", cdn=" + cdn + ", jqueryUI=" + jqueryUI + ", appear=" + appear + ", appearDuration="
+				+ appearDuration + ", lengthMenu=" + lengthMenu + ", stripeClasses=" + stripeClasses
+				+ ", displayLength=" + displayLength + ", dom=" + dom + ", processing=" + processing + ", serverSide="
+				+ serverSide + ", ajaxSource=" + ajaxSource + ", pipelining=" + pipelining + ", pipeSize=" + pipeSize
+				+ ", jsonp=" + jsonp + ", serverData=" + serverData + ", serverParam=" + serverParam
+				+ ", serverMethod=" + serverMethod + ", scrollY=" + scrollY + ", scrollCollapse=" + scrollCollapse
+				+ ", fixedPosition=" + fixedPosition + ", fixedOffsetTop=" + fixedOffsetTop + ", callbacks="
+				+ callbacks + ", caption=" + caption + ", head=" + head + ", body=" + body + ", foot=" + foot
+				+ ", tableProperties=" + tableProperties + ", datasourceUrl=" + datasourceUrl + ", plugins=" + plugins
+				+ ", features=" + features + ", extraFiles=" + extraFiles + ", extraConfs=" + extraConfs
+				+ ", randomId=" + randomId + ", objectType=" + objectType + ", exportProperties=" + exportProperties
+				+ ", exporting=" + exporting + ", exportConfMap=" + exportConfMap + ", exportLinkPositions="
+				+ exportLinkPositions + ", isExportable=" + isExportable + ", theme=" + theme + ", themeOption="
+				+ themeOption + "]";
 	}
-	
-	
+
 	public static class Builder<T> {
 
 		private String id;

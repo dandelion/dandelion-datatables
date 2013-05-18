@@ -91,7 +91,7 @@ public class TbodyExportLinkUrlAttrProcessor extends AbstractDatatablesAttrProce
 			ExportConf conf = new ExportConf(exportType);
 			String exportUrl = null;
 			if(StringUtils.isBlank(tmpValue)){
-				exportUrl = RequestHelper.getCurrentUrlWithParameters(request);
+				exportUrl = RequestHelper.getCurrentURIWithParameters(request);
 				if(exportUrl.contains("?")){
 					exportUrl += "&";
 				}

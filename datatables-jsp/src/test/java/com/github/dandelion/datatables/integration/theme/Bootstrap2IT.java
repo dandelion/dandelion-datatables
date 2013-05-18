@@ -55,11 +55,7 @@ public class Bootstrap2IT extends DomBaseIT {
 		baseHref.append(SERVER_PORT);
 		baseHref.append("/datatablesController/datatables-bootstrap2.css?id=");
 		baseHref.append(TABLE_ID);
-		baseHref.append("&c=http%3A%2F%2F");
-		baseHref.append(SERVER_HOST);
-		baseHref.append("%3A");
-		baseHref.append(SERVER_PORT);
-		baseHref.append("%2Fthemes%2Fbootstrap2_dom.jsp");
+		baseHref.append("&c=%2Fthemes%2Fbootstrap2_dom.jsp");
 		
 		// Custom Bootstrap CSS must exist
 		assertThat(getHtmlBody().findFirst("link").getAttribute("href")).isEqualTo(baseHref.toString());
@@ -79,11 +75,7 @@ public class Bootstrap2IT extends DomBaseIT {
 		baseHref.append(SERVER_PORT);
 		baseHref.append("/datatablesController/datatables-bootstrap2.css?id=");
 		baseHref.append(TABLE_ID);
-		baseHref.append("&c=http%3A%2F%2F");
-		baseHref.append(SERVER_HOST);
-		baseHref.append("%3A");
-		baseHref.append(SERVER_PORT);
-		baseHref.append("%2Fthemes%2Fbootstrap2_ajax.jsp");
+		baseHref.append("&c=%2Fthemes%2Fbootstrap2_ajax.jsp");
 		
 		// Custom Bootstrap CSS must exist
 		assertThat(getHtmlBody().findFirst("link").getAttribute("href")).isEqualTo(baseHref.toString());

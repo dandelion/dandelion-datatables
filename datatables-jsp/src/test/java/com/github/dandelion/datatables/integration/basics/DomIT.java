@@ -47,7 +47,7 @@ public class DomIT extends DomBaseIT {
 
 	@Test
 	public void should_apply_css_using_dom() throws IOException, Exception {
-		goToAndPrint("/basics/dom_dom.jsp");
+		goTo("/basics/dom_dom.jsp");
 
 		assertThat(find("div.dataTables_wrapper").find("div.dataTables_filter")).hasSize(0);
 	}

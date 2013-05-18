@@ -158,7 +158,7 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		try {
 
 			// First we check if the DataTables configuration already exist in the cache
-			String keyToTest = RequestHelper.getCurrentUrlWithParameters(request) + "|" + htmlTable.getId();
+			String keyToTest = RequestHelper.getCurrentURIWithParameters(request) + "|" + htmlTable.getId();
 
 			if(DandelionUtils.isDevModeEnabled() || !AssetCache.cache.containsKey(keyToTest)){
 				logger.debug("No asset for the key {}. Generating...", keyToTest);

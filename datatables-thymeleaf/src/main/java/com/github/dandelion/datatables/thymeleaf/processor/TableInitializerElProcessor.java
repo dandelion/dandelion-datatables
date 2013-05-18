@@ -13,10 +13,9 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.properties.PropertiesLoader;
-import com.github.dandelion.datatables.core.util.RequestHelper;
 import com.github.dandelion.datatables.core.util.ResourceHelper;
-import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesElProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 
 /**
  * <p>
@@ -50,7 +49,6 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 			throw new IllegalArgumentException();
 		} else {
 			HtmlTable htmlTable = new HtmlTable(tableId, ResourceHelper.getRamdomNumber());
-			htmlTable.setCurrentUrl(RequestHelper.getCurrentUrl(request));
 
 			try {
 				// Load table properties
@@ -75,12 +73,10 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 			// Store the htmlTable POJO as a request attribute, so all the
 			// others following HTML tags can access it and particularly the
 			// "finalizing div"
-			((IWebContext) arguments.getContext()).getHttpServletRequest().setAttribute(
-					"htmlTable", htmlTable);
+			request.setAttribute("htmlTable", htmlTable);
 
 			// The table node is also saved in the request, to be easily accessed later
-			((IWebContext) arguments.getContext()).getHttpServletRequest().setAttribute(
-					"tableNode", element);
+			request.setAttribute("tableNode", element);
 			
 			// Don't forget to remove the attribute
 			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":table");

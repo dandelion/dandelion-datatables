@@ -174,7 +174,7 @@ public abstract class DomBaseIT extends FluentAdapter {
 	}
 
 	public JsResource getConfigurationFromPage(String page){
-		String url = "http://" + SERVER_HOST + ":" + SERVER_PORT + "/" + page + "|myTableId";
+		String url = "/" + page + "|myTableId";
 		JsResource jsResource = ((WebResources)AssetCache.cache.get(url)).getMainJsFile();
 		return jsResource;
 	}

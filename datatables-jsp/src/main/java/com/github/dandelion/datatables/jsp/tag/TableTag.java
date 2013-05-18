@@ -84,14 +84,17 @@ public class TableTag extends AbstractTableTag {
 		// Just used to identify the first row (header)
 		iterationNumber = 1;
 
-		// Init the table with its DOM id and a generated random number
+		// We must ensure that the chosen table id doesn't contain any of the
+		// disallowed character because a Javascript variable will be created
+		// using this name
 		if(StringUtils.containsAny(id, DISALLOWED_CHAR)){
 			throw new JspException("The 'id' attribute cannot contain one of the following characters: " + String.valueOf(DISALLOWED_CHAR));
 		}
 		
+		// Init the table with its DOM id and a generated random number
 		table = new HtmlTable(id, ResourceHelper.getRamdomNumber());
-		table.setCurrentUrl(RequestHelper.getCurrentUrl((HttpServletRequest) pageContext
-				.getRequest()));
+//		table.setCurrentUrl(RequestHelper.getCurrentUrl((HttpServletRequest) pageContext
+//				.getRequest()));
 
 		try {
 			// Load table properties
@@ -107,7 +110,7 @@ public class TableTag extends AbstractTableTag {
 			this.table.addHeaderRow();
 			
 			// Same domain AJAX request
-			this.table.setDatasourceUrl(RequestHelper.getDatasourceUrl(url, pageContext.getRequest(), table));				
+			this.table.setDatasourceUrl(url);
 					
 			this.table.addRow();
 
@@ -225,7 +228,7 @@ public class TableTag extends AbstractTableTag {
 
 		try {
 			// First we check if the DataTables configuration already exist in the cache
-			String keyToTest = RequestHelper.getCurrentUrlWithParameters(request) + "|" + this.table.getId();
+			String keyToTest = RequestHelper.getCurrentURIWithParameters(request) + "|" + this.table.getId();
 
 			if(DandelionUtils.isDevModeEnabled() || !AssetCache.cache.containsKey(keyToTest)){
 				logger.debug("No asset for the key {}. Generating...", keyToTest);

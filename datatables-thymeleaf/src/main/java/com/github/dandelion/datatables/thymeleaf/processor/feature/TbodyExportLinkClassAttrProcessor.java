@@ -88,7 +88,7 @@ public class TbodyExportLinkClassAttrProcessor extends AbstractDatatablesAttrPro
 		// The ExportConf still doesn't exist
 		else{
 			// Export URL build
-			String url = RequestHelper.getCurrentUrlWithParameters(request);
+			String url = RequestHelper.getCurrentURIWithParameters(request);
 			if(url.contains("?")){
 				url += "&";
 			}
