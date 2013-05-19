@@ -816,6 +816,11 @@ public class HtmlTable extends HtmlTag {
 				+ themeOption + "]";
 	}
 
+	/**
+	 * HtmlTable builder, allowing you to build a table in an export controller for example.
+	 *
+	 * @author Thibault Duchateau
+	 */
 	public static class Builder<T> {
 
 		private String id;
