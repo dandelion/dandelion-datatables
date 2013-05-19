@@ -30,13 +30,19 @@
 package com.github.dandelion.datatables.core.util;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.beanutils.MethodUtils;
 import org.apache.commons.lang.ClassUtils;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.feature.AbstractFeature;
+import com.github.dandelion.datatables.core.plugin.AbstractPlugin;
 
 /**
  * Helper class used for all reflection stuff.
@@ -137,15 +143,96 @@ public class ReflectHelper {
 	 * @param className
 	 *            The class to test.
 	 * @return true if the class can be used, false otherwise.
+	 * @throws BadConfigurationException 
 	 */
-	public static Boolean canBeUsed(String className) {
+	public static Boolean canBeUsed(String className) throws BadConfigurationException {
 		Boolean canBeUsed = false;
 		try {
 			ClassUtils.getClass(className);
 			canBeUsed = true;
 		} catch (ClassNotFoundException e) {
 			logger.warn("Unable to get class {}", className);
+			throw new BadConfigurationException(e);
 		}
 		return canBeUsed;
+	}
+	
+	
+	/**
+	 * Scan for custom features.
+	 * 
+	 * @param packageName
+	 *            The package name where to scan classes.
+	 * @return a list of custom AbstractFeature.
+	 * @throws BadConfigurationException
+	 */
+	public static List<AbstractFeature> scanForFeatures(String packageName) throws BadConfigurationException{
+		
+		// Init return value
+		List<AbstractFeature> retval = new ArrayList<AbstractFeature>();
+		
+		// Init the reflection utility
+		Reflections reflections = new Reflections(packageName);
+		
+		// Scan all subtypes of ActractFeature
+		Set<Class<? extends AbstractFeature>> subTypes = reflections.getSubTypesOf(AbstractFeature.class);
+		
+		// Instanciate all found classes
+		for(Class<? extends AbstractFeature> clazz : subTypes){
+			
+			try {
+				retval.add((AbstractFeature) ClassUtils.getClass(clazz.getName()).newInstance());
+			} catch (ClassNotFoundException e) {
+				logger.warn("Unable to get class {}", clazz.getName());
+				throw new BadConfigurationException(e);
+			} catch (InstantiationException e) {
+				logger.warn("Unable to instanciate class {}", clazz.getName());
+				throw new BadConfigurationException(e);
+			} catch (IllegalAccessException e) {
+				logger.warn("Unable to access the class {}", clazz.getName());
+				throw new BadConfigurationException(e);
+			}
+		}
+		
+		return retval;
+	}
+	
+	/**
+	 * Scan for custom plugins.
+	 * 
+	 * @param packageName
+	 *            The package name where to scan classes.
+	 * @return a list of custom AbstractPlugin.
+	 * @throws BadConfigurationException
+	 */
+	public static List<AbstractPlugin> scanForPlugins(String packageName) throws BadConfigurationException{
+		
+		// Init return value
+		List<AbstractPlugin> retval = new ArrayList<AbstractPlugin>();
+		
+		// Init the reflection utility
+		Reflections reflections = new Reflections(packageName);
+		
+		// Scan all subtypes of ActractFeature
+		Set<Class<? extends AbstractPlugin>> subTypes = reflections.getSubTypesOf(AbstractPlugin.class);
+		
+		// Instanciate all found classes
+		for(Class<? extends AbstractPlugin> clazz : subTypes){
+			
+			try {
+				retval.add((AbstractPlugin) ClassUtils.getClass(clazz.getName()).newInstance());
+			} catch (ClassNotFoundException e) {
+				logger.warn("Unable to get class {}", clazz.getName());
+				throw new BadConfigurationException(e);
+			} catch (InstantiationException e) {
+				logger.warn("Unable to instanciate class {}", clazz.getName());
+				throw new BadConfigurationException(e);
+			} catch (IllegalAccessException e) {
+				logger.warn("Unable to access the class {}", clazz.getName());
+				throw new BadConfigurationException(e);
+			}
+		}
+		
+		return retval;
 	}
 }

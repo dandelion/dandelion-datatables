@@ -66,4 +66,5 @@ public class ConfConstants {
 	public static final String DT_EXPORT_XLS_CLASS = "export.xls.class";
 	public static final String DT_EXPORT_XLSX_CLASS = "export.xlsx.class";
 	public static final String DT_EXPORT_PDF_CLASS = "export.pdf.class";
+	public static final String DT_BASE_PACKAGE = "base.package";
 }

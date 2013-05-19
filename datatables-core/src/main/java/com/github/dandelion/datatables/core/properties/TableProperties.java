@@ -205,6 +205,7 @@ public class TableProperties {
 		return exportTypes;
 	}
 
+	
 	/**
 	 * TODO
 	 * @param exportType
@@ -250,5 +251,12 @@ public class TableProperties {
 		}
 		
 		return exportClass;
+	}
+	
+	/**
+	 * @return the default base package where to scan for custom extension.
+	 */
+	public String getBasePackage() {
+		return getProperty(ConfConstants.DT_BASE_PACKAGE);
 	}
 }

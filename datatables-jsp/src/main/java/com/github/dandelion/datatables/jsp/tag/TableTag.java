@@ -93,8 +93,6 @@ public class TableTag extends AbstractTableTag {
 		
 		// Init the table with its DOM id and a generated random number
 		table = new HtmlTable(id, ResourceHelper.getRamdomNumber());
-//		table.setCurrentUrl(RequestHelper.getCurrentUrl((HttpServletRequest) pageContext
-//				.getRequest()));
 
 		try {
 			// Load table properties
@@ -196,6 +194,9 @@ public class TableTag extends AbstractTableTag {
 
 		} catch (ExportException e) {
 			logger.error("Something went wront with the Dandelion export configuration.");
+			throw new JspException(e);
+		} catch (BadConfigurationException e) {
+			logger.error("Something went wront with the Dandelion configuration.");
 			throw new JspException(e);
 		}
 

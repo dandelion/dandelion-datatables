@@ -71,8 +71,9 @@ public class ExportDelegate {
 	 * 
 	 * @throws ExportException
 	 *             if something went wront during export.
+	 * @throws BadConfigurationException 
 	 */
-	public void launchExport() throws ExportException {
+	public void launchExport() throws ExportException, BadConfigurationException {
 
 		OutputStream stream = null;
 		StringWriter writer = null;

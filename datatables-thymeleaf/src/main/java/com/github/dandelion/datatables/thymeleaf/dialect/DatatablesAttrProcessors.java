@@ -68,6 +68,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortDirection
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortInitAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.ThVisibleAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.feature.TableCustomFeaturesProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackCookieProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackCreatedRowProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackDrawProcessor;
@@ -86,6 +87,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportLi
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportLinkStyleAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportLinkUrlAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.feature.ThExportFilenameAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.plugin.TableCustomPluginsProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.plugin.TheadColReorderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.plugin.TheadFixedHeaderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.plugin.TheadScrollerAttrProcessor;
@@ -125,11 +127,13 @@ public enum DatatablesAttrProcessors {
     BASIC_SELECTOR(ThSelectorAttrProcessor.class, "selector", "th"),
     
     // Plugin processors
+    PLUGIN_CUSTOM(TableCustomPluginsProcessor.class, "plugins", "table"),
     PLUGIN_SCROLLER(TheadScrollerAttrProcessor.class, "scroller", "thead"),
     PLUGIN_COLUMN_RECORDER(TheadColReorderAttrProcessor.class, "colreorder", "thead"),
     PLUGIN_FIXED_HEADER(TheadFixedHeaderAttrProcessor.class, "fixedheader", "thead"),
 
     // Feature processors
+    FEATURE_CUSTOM(TableCustomFeaturesProcessor.class, "features", "table"),
     FEATURE_EXPORT(TableExportAttrProcessor.class, "export", "table"),
     FEATURE_EXPORT_LINKS(TableExportLinksAttrProcessor.class, "exportLinks", "table"),
     FEATURE_EXPORT_FILENAME(ThExportFilenameAttrProcessor.class, "filename", "th"),

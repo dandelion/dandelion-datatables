@@ -145,10 +145,12 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected String export;
 	protected String exportLinks;
 
-	// Theme
+	// Extensions
 	protected String theme;
 	protected String themeOption;
-
+	protected String features;
+	protected String plugins;
+	
 	// Internal common attributes
 	protected int iterationNumber;
 	protected HtmlTable table;
@@ -342,6 +344,10 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 		if (this.fixedOffsetTop != null) {
 			this.table.setFixedOffsetTop(this.fixedOffsetTop);
 		}
+		
+		if(StringUtils.isNotBlank(plugins)){
+			table.setCustomPlugins(Arrays.asList(plugins.trim().toLowerCase().split(",")));
+		}
 	}
 
 	/**
@@ -414,6 +420,10 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 			if(jsonp){
 				table.registerFeature(new JsonpFeature());
 			}
+		}
+		
+		if(StringUtils.isNotBlank(features)){
+			table.setCustomFeatures(Arrays.asList(features.trim().toLowerCase().split(",")));
 		}
 	}
 
@@ -1009,6 +1019,22 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 
 	public void setDom(String dom) {
 		this.dom = dom;
+	}
+
+	public String getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(String features) {
+		this.features = features;
+	}
+
+	public String getPlugins() {
+		return plugins;
+	}
+
+	public void setPlugins(String plugins) {
+		this.plugins = plugins;
 	}
 
 	public void setData(Collection<Object> data) {

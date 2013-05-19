@@ -314,6 +314,14 @@
          <description>Number of rows to display on a single page when using pagination.</description>
          <name>displayLength</name>
       </attribute>
+      <attribute>
+         <description>Comma-separated list of custom feature's names to register in the current table</description>
+         <name>features</name>
+      </attribute>
+      <attribute>
+         <description>Comma-separated list of custom plugin's names to register in the current table</description>
+         <name>plugins</name>
+      </attribute>
       
       <!-- ====================================== -->
       <!-- Extra features -->

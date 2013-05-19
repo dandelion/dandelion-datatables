@@ -135,6 +135,9 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		} catch (ExportException e) {
 			logger.error("Something went wront with the Dandelion-datatables export configuration.");
 			e.printStackTrace();
+		} catch (BadConfigurationException e) {
+			logger.error("Something went wront with the Dandelion-datatables configuration.");
+			e.printStackTrace();
 		}
 
 		response.reset();

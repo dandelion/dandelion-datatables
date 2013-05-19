@@ -84,7 +84,7 @@ public class HtmlTable extends HtmlTag {
 	private String stripeClasses;
 	private Integer displayLength;
 	private String dom;
-	
+
 	// Ajax
 	private Boolean processing;
 	private Boolean serverSide;
@@ -95,7 +95,7 @@ public class HtmlTable extends HtmlTag {
 	private String serverData;
 	private String serverParam;
 	private String serverMethod;
-	
+
 	// Extra features
 	private String scrollY;
 	private Boolean scrollCollapse;
@@ -115,7 +115,7 @@ public class HtmlTable extends HtmlTag {
 	private List<ExtraFile> extraFiles;
 	private List<ExtraConf> extraConfs;
 	private String randomId;
-	
+
 	// Class of the iterated objects. Only used in XML export.
 	private String objectType;
 
@@ -126,10 +126,12 @@ public class HtmlTable extends HtmlTag {
 	private List<ExportLinkPosition> exportLinkPositions;
 	private Boolean isExportable = false;
 
-	// Theme
+	// Extension
 	private AbstractTheme theme;
 	private ThemeOption themeOption;
-
+	private List<String> customFeatures;
+	private List<String> customPlugins;
+	
 	public HtmlTable(String id, String randomId) {
 		this.tag = "table";
 		init();
@@ -140,22 +142,22 @@ public class HtmlTable extends HtmlTag {
 	/**
 	 * Initialize the default values.
 	 */
-	private void init(){
+	private void init() {
 		// Basic attributes
 		this.cdn = false;
-		
+
 		// Export
 		this.isExportable = false;
-		
+
 		// Export links position
 		List<ExportLinkPosition> exportLinkPositions = new ArrayList<ExportLinkPosition>();
 		exportLinkPositions.add(ExportLinkPosition.TOP_RIGHT);
 		this.exportLinkPositions = exportLinkPositions;
-		
+
 		// AJAX
 		this.pipeSize = 5;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -172,7 +174,7 @@ public class HtmlTable extends HtmlTag {
 
 	private StringBuilder getHtmlHeader() {
 		StringBuilder html = new StringBuilder();
-		if(this.caption != null) {
+		if (this.caption != null) {
 			html.append(this.caption.toHtml());
 		}
 		html.append("<thead>");
@@ -207,10 +209,10 @@ public class HtmlTable extends HtmlTag {
 	}
 
 	protected StringBuilder getHtmlAttributes() {
-		if(this.appear != null && !"".equals(this.appear)){
+		if (this.appear != null && !"".equals(this.appear)) {
 			addCssStyle("display:none");
 		}
-		
+
 		StringBuilder html = new StringBuilder();
 		html.append(writeAttribute("id", this.id));
 		html.append(writeAttribute("class", this.cssClass));
@@ -218,12 +220,11 @@ public class HtmlTable extends HtmlTag {
 		return html;
 	}
 
-
-	public HtmlCaption getCaption(){
+	public HtmlCaption getCaption() {
 		return caption;
 	}
 
-	public void setCaption(HtmlCaption caption){
+	public void setCaption(HtmlCaption caption) {
 		this.caption = caption;
 	}
 
@@ -292,6 +293,18 @@ public class HtmlTable extends HtmlTag {
 	}
 
 	/**
+	 * Register a list of plugins to the table.
+	 * 
+	 * @param plugins
+	 *            The list of plugins to register.
+	 */
+	public void registerPlugins(List<AbstractPlugin> plugins) {
+		for (AbstractPlugin plugin : plugins) {
+			registerPlugin(plugin);
+		}
+	}
+
+	/**
 	 * Register a feature to the table.
 	 * 
 	 * @param feature
@@ -302,6 +315,18 @@ public class HtmlTable extends HtmlTag {
 			this.features = new ArrayList<AbstractFeature>();
 		}
 		this.features.add(feature);
+	}
+
+	/**
+	 * Register a list of features to the table.
+	 * 
+	 * @param features
+	 *            The list of features to register.
+	 */
+	public void registerFeatures(List<AbstractFeature> features) {
+		for (AbstractFeature feature : features) {
+			registerFeature(feature);
+		}
 	}
 
 	/**
@@ -329,17 +354,18 @@ public class HtmlTable extends HtmlTag {
 	}
 
 	public HtmlColumn getColumnHeadByUid(String uid) {
-		for(HtmlRow row : this.head){
-			for(HtmlColumn column : row.getColumns()){
-				if(column.isHeaderColumn() != null && column.isHeaderColumn() && column.getUid() != null && column.getUid().equals(uid)){
+		for (HtmlRow row : this.head) {
+			for (HtmlColumn column : row.getColumns()) {
+				if (column.isHeaderColumn() != null && column.isHeaderColumn() && column.getUid() != null
+						&& column.getUid().equals(uid)) {
 					return column;
 				}
 			}
-			
+
 		}
 		return null;
 	}
-	
+
 	public Boolean getAutoWidth() {
 		return autoWidth;
 	}
@@ -451,7 +477,7 @@ public class HtmlTable extends HtmlTag {
 	public void setScrollY(String scrollY) {
 		this.scrollY = scrollY;
 	}
-	
+
 	public Boolean getScrollCollapse() {
 		return scrollCollapse;
 	}
@@ -464,8 +490,8 @@ public class HtmlTable extends HtmlTag {
 		return extraFiles;
 	}
 
-	public void addExtraFile(ExtraFile extraFile){
-		if(this.extraFiles == null){
+	public void addExtraFile(ExtraFile extraFile) {
+		if (this.extraFiles == null) {
 			this.extraFiles = new ArrayList<ExtraFile>();
 		}
 		this.extraFiles.add(extraFile);
@@ -475,8 +501,8 @@ public class HtmlTable extends HtmlTag {
 		return extraConfs;
 	}
 
-	public void addExtraConf(ExtraConf extraConf){
-		if(this.extraConfs == null){
+	public void addExtraConf(ExtraConf extraConf) {
+		if (this.extraConfs == null) {
 			this.extraConfs = new ArrayList<ExtraConf>();
 		}
 		this.extraConfs.add(extraConf);
@@ -582,10 +608,10 @@ public class HtmlTable extends HtmlTag {
 		return exportConfMap;
 	}
 
-	public void configureExport(ExportType exportType, ExportConf exportConf){
+	public void configureExport(ExportType exportType, ExportConf exportConf) {
 		this.exportConfMap.put(exportType, exportConf);
 	}
-	
+
 	public void setExportConfMap(Map<ExportType, ExportConf> exportConfs) {
 		this.exportConfMap = exportConfs;
 	}
@@ -621,7 +647,7 @@ public class HtmlTable extends HtmlTag {
 	public void setThemeOption(ThemeOption themeOption) {
 		this.themeOption = themeOption;
 	}
-	
+
 	public String getAppear() {
 		return appear;
 	}
@@ -653,7 +679,7 @@ public class HtmlTable extends HtmlTag {
 	public void setPipeSize(int pipeSize) {
 		this.pipeSize = pipeSize;
 	}
-	
+
 	public Boolean getJsonp() {
 		return jsonp;
 	}
@@ -669,33 +695,34 @@ public class HtmlTable extends HtmlTag {
 	public void setCallbacks(List<Callback> callbacks) {
 		this.callbacks = callbacks;
 	}
-	
-	public void registerCallback(Callback callback){
+
+	public void registerCallback(Callback callback) {
 		if (this.callbacks == null) {
 			this.callbacks = new ArrayList<Callback>();
 		}
 		this.callbacks.add(callback);
 	}
 
-	public Boolean hasCallback(CallbackType callbackType){
-		if(this.callbacks != null){
-			for(Callback callback : this.callbacks){
-				if(callback.getType().equals(callbackType)){
+	public Boolean hasCallback(CallbackType callbackType) {
+		if (this.callbacks != null) {
+			for (Callback callback : this.callbacks) {
+				if (callback.getType().equals(callbackType)) {
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-	
-	public Callback getCallback(CallbackType callbackType){
-		for(Callback callback : this.callbacks){
-			if(callback.getType().equals(callbackType)){
+
+	public Callback getCallback(CallbackType callbackType) {
+		for (Callback callback : this.callbacks) {
+			if (callback.getType().equals(callbackType)) {
 				return callback;
 			}
 		}
 		return null;
 	}
+
 	public String getLengthMenu() {
 		return lengthMenu;
 	}
@@ -743,7 +770,7 @@ public class HtmlTable extends HtmlTag {
 	public void setDisplayLength(Integer displayLength) {
 		this.displayLength = displayLength;
 	}
-	
+
 	public String getDom() {
 		return dom;
 	}
@@ -752,6 +779,22 @@ public class HtmlTable extends HtmlTag {
 		this.dom = dom;
 	}
 
+	public List<String> getCustomFeatures() {
+		return customFeatures;
+	}
+
+	public void setCustomFeatures(List<String> customFeatures) {
+		this.customFeatures = customFeatures;
+	}
+
+	public List<String> getCustomPlugins() {
+		return customPlugins;
+	}
+
+	public void setCustomPlugins(List<String> customPlugins) {
+		this.customPlugins = customPlugins;
+	}
+	
 	@Override
 	public String toString() {
 		return "HtmlTable [autoWidth=" + autoWidth + ", deferRender=" + deferRender + ", info=" + info
@@ -778,90 +821,87 @@ public class HtmlTable extends HtmlTag {
 		private String id;
 		private List<T> data;
 		private LinkedList<HtmlColumn> headerColumns = new LinkedList<HtmlColumn>();
-		
-	    public Builder (String id, List<T> data) {
-	    	this.id = id;
-            this.data = data;
-        }
-	    
-	    public Builder<T> column(String property){
-	    	HtmlColumn column = new HtmlColumn(true, "");
-	    	
-	    	column.setProperty(property);
-	    	column.setTitle(property);
-	    	headerColumns.add(column);
-	    	return this;
-	    }
-	    
-	    public Builder<T> title(String title){
-	    	headerColumns.getLast().setTitle(title);
-	    	return this;
-	    }
-	    
-	    public Builder<T> format(String pattern){
-	    	headerColumns.getLast().setFormatPattern(pattern);
-	    	return this;
-	    }
-	    
-	    public Builder<T> defaultContent(String defaultContent){
-	    	headerColumns.getLast().setDefaultValue(defaultContent);
-	    	return this;
-	    }
-	    
-	    public HtmlTable build(){
-	    	return new HtmlTable(this);
-	    }
+
+		public Builder(String id, List<T> data) {
+			this.id = id;
+			this.data = data;
+		}
+
+		public Builder<T> column(String property) {
+			HtmlColumn column = new HtmlColumn(true, "");
+
+			column.setProperty(property);
+			column.setTitle(property);
+			headerColumns.add(column);
+			return this;
+		}
+
+		public Builder<T> title(String title) {
+			headerColumns.getLast().setTitle(title);
+			return this;
+		}
+
+		public Builder<T> format(String pattern) {
+			headerColumns.getLast().setFormatPattern(pattern);
+			return this;
+		}
+
+		public Builder<T> defaultContent(String defaultContent) {
+			headerColumns.getLast().setDefaultValue(defaultContent);
+			return this;
+		}
+
+		public HtmlTable build() {
+			return new HtmlTable(this);
+		}
 	}
-	
-	
+
 	/**
 	 * Private constructor used by the Builder to build a HtmlTable in a fluent
 	 * way.
 	 * 
 	 * @param builder
 	 */
-	private <T> HtmlTable(Builder<T> builder){
+	private <T> HtmlTable(Builder<T> builder) {
 
 		this.tag = "table";
 		this.id = builder.id;
 		init();
 
 		addHeaderRow();
-		
-		for(HtmlColumn column : builder.headerColumns){
+
+		for (HtmlColumn column : builder.headerColumns) {
 			column.setContent(new StringBuilder(column.getTitle()));
 			getLastHeaderRow().addColumn(column);
 		}
-		
-		if(builder.data != null){
-			
-			for(T o : builder.data){
-				
+
+		if (builder.data != null) {
+
+			for (T o : builder.data) {
+
 				addRow();
-				for(HtmlColumn headerColumn : builder.headerColumns){
-					
+				for (HtmlColumn headerColumn : builder.headerColumns) {
+
 					Object content = null;
 					try {
-						
+
 						content = PropertyUtils.getNestedProperty(o, headerColumn.getProperty().toString().trim());
-	
+
 						// If a format exists, we format the property
-						if(StringUtils.isNotBlank(headerColumn.getFormatPattern()) && content != null){
-							
+						if (StringUtils.isNotBlank(headerColumn.getFormatPattern()) && content != null) {
+
 							MessageFormat messageFormat = new MessageFormat(headerColumn.getFormatPattern());
-							content = messageFormat.format(new Object[]{ content });
-						}
-						else if(StringUtils.isBlank(headerColumn.getFormatPattern()) && content != null){
+							content = messageFormat.format(new Object[] { content });
+						} else if (StringUtils.isBlank(headerColumn.getFormatPattern()) && content != null) {
 							content = content.toString();
-						}
-						else{
-							if(StringUtils.isNotBlank(headerColumn.getDefaultValue())){
+						} else {
+							if (StringUtils.isNotBlank(headerColumn.getDefaultValue())) {
 								content = headerColumn.getDefaultValue().trim();
-							
+
 							}
 						}
 					} catch (NestedNullException e) {
-						if(StringUtils.isNotBlank(headerColumn.getDefaultValue())){
+						if (StringUtils.isNotBlank(headerColumn.getDefaultValue())) {
 							content = headerColumn.getDefaultValue().trim();
 						}
 					} catch (IllegalAccessException e) {
@@ -872,8 +912,8 @@ public class HtmlTable extends HtmlTag {
 						content = "";
 					} catch (IllegalArgumentException e) {
 						content = "";
-			        }
-					
+					}
+
 					getLastBodyRow().addColumn(String.valueOf(content));
 				}
 			}
