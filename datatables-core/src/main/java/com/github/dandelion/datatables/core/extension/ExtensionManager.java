@@ -62,48 +62,50 @@ public class ExtensionManager {
 	 */
 	public void registerCustomExtensions(HtmlTable table) throws BadConfigurationException{
 
-		if(StringUtils.isBlank(table.getTableProperties().getBasePackage())){
-			throw new BadConfigurationException("The 'base.package' property cannot be blank.");
-		}
-		
-		logger.debug("Scanning custom extensions...");
+		if (StringUtils.isNotBlank(table.getTableProperties().getBasePackage())) {
 
-		// Scanning custom extension based on the base.package property
-		List<AbstractFeature> customFeatures = ReflectHelper.scanForFeatures(table.getTableProperties().getBasePackage());
-		
-		// Load custom extension if enabled
-		if(customFeatures != null && !customFeatures.isEmpty() && table.getCustomFeatures() != null){
-			for(String extensionToRegister : table.getCustomFeatures()){
-				for(AbstractFeature customFeature : customFeatures){
-					if(extensionToRegister.equals(customFeature.getName().toLowerCase())){
-						table.registerFeature(customFeature);
-						logger.debug("Feature {} registered", customFeature.getName());
-						continue;
+			logger.debug("Scanning custom extensions...");
+
+			// Scanning custom extension based on the base.package property
+			List<AbstractFeature> customFeatures = ReflectHelper.scanForFeatures(table.getTableProperties()
+					.getBasePackage());
+
+			// Load custom extension if enabled
+			if (customFeatures != null && !customFeatures.isEmpty() && table.getCustomFeatures() != null) {
+				for (String extensionToRegister : table.getCustomFeatures()) {
+					for (AbstractFeature customFeature : customFeatures) {
+						if (extensionToRegister.equals(customFeature.getName().toLowerCase())) {
+							table.registerFeature(customFeature);
+							logger.debug("Feature {} registered", customFeature.getName());
+							continue;
+						}
 					}
 				}
+			} else {
+				logger.debug("No custom feature found");
+			}
+
+			// Scanning custom extension based on the base.package property
+			List<AbstractPlugin> customPlugins = ReflectHelper.scanForPlugins(table.getTableProperties()
+					.getBasePackage());
+
+			// Load custom extension if enabled
+			if (customFeatures != null && !customFeatures.isEmpty() && table.getCustomFeatures() != null) {
+				for (String extensionToRegister : table.getCustomPlugins()) {
+					for (AbstractPlugin customPlugin : customPlugins) {
+						if (extensionToRegister.equals(customPlugin.getName().toLowerCase())) {
+							table.registerPlugin(customPlugin);
+							logger.debug("Plugin {} registered", customPlugin.getName());
+							continue;
+						}
+					}
+				}
+			} else {
+				logger.debug("No custom feature found");
 			}
 		}
 		else{
-			logger.debug("No custom feature found");
-		}
-		
-		// Scanning custom extension based on the base.package property
-		List<AbstractPlugin> customPlugins = ReflectHelper.scanForPlugins(table.getTableProperties().getBasePackage());
-		
-		// Load custom extension if enabled
-		if(customFeatures != null && !customFeatures.isEmpty() && table.getCustomFeatures() != null){
-			for(String extensionToRegister : table.getCustomPlugins()){
-				for(AbstractPlugin customPlugin : customPlugins){
-					if(extensionToRegister.equals(customPlugin.getName().toLowerCase())){
-						table.registerPlugin(customPlugin);
-						logger.debug("Plugin {} registered", customPlugin.getName());
-						continue;
-					}
-				}
-			}
-		}
-		else{
-			logger.debug("No custom feature found");
+			logger.debug("The 'base.package' property is blank. Unable to scan any class.");
 		}
 	}
 }
