@@ -19,9 +19,6 @@
 
       <!-- Dependencies -->
       <jsp.api.version>2.2</jsp.api.version>
-
-      <!-- Test dependencies -->
-      <logback.classic.version>1.0.9</logback.classic.version>
    </properties>
 
    <dependencies>
@@ -51,22 +48,6 @@
       <dependency>
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-api</artifactId>
-         <version>1.7.2</version>
-      </dependency>
-      <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>jcl-over-slf4j</artifactId>
-         <version>1.6.4</version>
-      </dependency>
-      <dependency>
-         <groupId>ch.qos.logback</groupId>
-         <artifactId>logback-classic</artifactId>
-         <version>1.0.9</version>
-      </dependency>
-      <dependency>
-         <groupId>ch.qos.logback</groupId>
-         <artifactId>logback-access</artifactId>
-         <version>1.0.9</version>
       </dependency>
 
       <!-- Test -->

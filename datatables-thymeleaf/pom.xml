@@ -20,7 +20,6 @@
       <festassert.version>1.4</festassert.version>
       <junit.dep.version>4.11</junit.dep.version>
       <spring.test.version>3.2.2.RELEASE</spring.test.version>
-      <logback.classic.version>1.0.9</logback.classic.version>
       <jetty.test.version>8.1.10.v20130312</jetty.test.version>
    </properties>
 
@@ -49,21 +48,6 @@
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-api</artifactId>
          <version>1.7.2</version>
-      </dependency>
-      <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>jcl-over-slf4j</artifactId>
-         <version>1.6.4</version>
-      </dependency>
-      <dependency>
-         <groupId>ch.qos.logback</groupId>
-         <artifactId>logback-classic</artifactId>
-         <version>1.0.9</version>
-      </dependency>
-      <dependency>
-         <groupId>ch.qos.logback</groupId>
-         <artifactId>logback-access</artifactId>
-         <version>1.0.9</version>
       </dependency>
 
       <!-- Test -->
