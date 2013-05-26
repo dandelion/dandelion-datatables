@@ -29,7 +29,7 @@
  */
 package com.github.dandelion.datatables.core.feature;
 
-import com.github.dandelion.datatables.core.asset.Configuration;
+import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
@@ -56,6 +56,6 @@ public class PaginationTypeFourButtonFeature extends AbstractFeature {
 	@Override
 	public void setup(HtmlTable table) {
 		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeExtJs", "datatables/features/paginationType/four_button.js"));
-		addConfiguration(new Configuration(DTConstants.DT_PAGINATION_TYPE, "four_button", Configuration.Mode.OVERRIDE));
+		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "four_button", Parameter.Mode.OVERRIDE));
 	}
 }

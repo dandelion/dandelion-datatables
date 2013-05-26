@@ -49,7 +49,7 @@ import com.github.dandelion.datatables.core.util.ReflectHelper;
 public class ExtensionManager {
 
 	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ExtensionManager.class);
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 		
 
 	/**
@@ -62,21 +62,22 @@ public class ExtensionManager {
 	 */
 	public void registerCustomExtensions(HtmlTable table) throws BadConfigurationException{
 
-		if (StringUtils.isNotBlank(table.getTableProperties().getBasePackage())) {
+		if (StringUtils.isNotBlank(table.getTableConfiguration().getBasePackage())) {
 
 			logger.debug("Scanning custom extensions...");
 
 			// Scanning custom extension based on the base.package property
-			List<AbstractFeature> customFeatures = ReflectHelper.scanForFeatures(table.getTableProperties()
+			List<AbstractFeature> customFeatures = ReflectHelper.scanForFeatures(table.getTableConfiguration()
 					.getBasePackage());
 
 			// Load custom extension if enabled
-			if (customFeatures != null && !customFeatures.isEmpty() && table.getCustomFeatures() != null) {
-				for (String extensionToRegister : table.getCustomFeatures()) {
+			if (customFeatures != null && !customFeatures.isEmpty() && table.getTableConfiguration().getExtraCustomFeatures() != null) {
+				for (String extensionToRegister : table.getTableConfiguration().getExtraCustomFeatures()) {
 					for (AbstractFeature customFeature : customFeatures) {
 						if (extensionToRegister.equals(customFeature.getName().toLowerCase())) {
-							table.registerFeature(customFeature);
-							logger.debug("Feature {} registered", customFeature.getName());
+							table.getTableConfiguration().registerFeature(customFeature);
+							logger.debug("Feature {} (version: {}) registered", customFeature.getName(),
+									customFeature.getVersion());
 							continue;
 						}
 					}
@@ -86,16 +87,17 @@ public class ExtensionManager {
 			}
 
 			// Scanning custom extension based on the base.package property
-			List<AbstractPlugin> customPlugins = ReflectHelper.scanForPlugins(table.getTableProperties()
+			List<AbstractPlugin> customPlugins = ReflectHelper.scanForPlugins(table.getTableConfiguration()
 					.getBasePackage());
 
 			// Load custom extension if enabled
-			if (customFeatures != null && !customFeatures.isEmpty() && table.getCustomFeatures() != null) {
-				for (String extensionToRegister : table.getCustomPlugins()) {
+			if (customPlugins != null && !customPlugins.isEmpty() && table.getTableConfiguration().getExtraCustomPlugins() != null) {
+				for (String extensionToRegister : table.getTableConfiguration().getExtraCustomPlugins()) {
 					for (AbstractPlugin customPlugin : customPlugins) {
 						if (extensionToRegister.equals(customPlugin.getName().toLowerCase())) {
-							table.registerPlugin(customPlugin);
-							logger.debug("Plugin {} registered", customPlugin.getName());
+							table.getTableConfiguration().registerPlugin(customPlugin);
+							logger.debug("Plugin {} (version: {}) registered", customPlugin.getName(),
+									customPlugin.getVersion());
 							continue;
 						}
 					}

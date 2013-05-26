@@ -29,8 +29,8 @@
  */
 package com.github.dandelion.datatables.core.feature;
 
-import com.github.dandelion.datatables.core.asset.Configuration;
-import com.github.dandelion.datatables.core.asset.Configuration.Mode;
+import com.github.dandelion.datatables.core.asset.Parameter;
+import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
@@ -61,8 +61,8 @@ public class ServerSideFeature extends AbstractFeature {
 
 	@Override
 	public void setup(HtmlTable table) throws BadConfigurationException {
-		addConfiguration(
-				new Configuration(
+		addParameter(
+				new Parameter(
 						CallbackType.INIT.getName(), 
 						new JavascriptFunction("oTable_" + table.getId() + ".fnAdjustColumnSizing(true);",CallbackType.INIT.getArgs()),
 						Mode.APPEND));

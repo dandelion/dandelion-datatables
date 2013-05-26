@@ -33,6 +33,7 @@ import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
+import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -56,6 +57,12 @@ public class FilteringFeature extends AbstractFeature {
 
 	@Override
 	public void setup(HtmlTable table) throws BadConfigurationException {
+		
+		// Copy the header in the footer
+		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
+			table.getLastFooterRow().addColumn(column);
+		}
+		
 		setFunction("columnFilter");
 		setConfigGenerator(new ColumnFilteringGenerator());
 		addJsResource(new JsResource(ResourceType.FEATURE, "FilteringAddOn", "datatables/features/filtering/filteringaddon.js"));

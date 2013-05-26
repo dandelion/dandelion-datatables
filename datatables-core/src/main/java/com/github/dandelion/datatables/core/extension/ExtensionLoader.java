@@ -33,12 +33,13 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.asset.Configuration;
+import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
@@ -102,7 +103,7 @@ public class ExtensionLoader {
 	 * @throws BadConfigurationException
 	 * @throws IOException
 	 */
-	public void load(List<? extends Extension> extensions)
+	public void load(Set<? extends Extension> extensions)
 			throws BadConfigurationException, IOException {
 
 		if (extensions != null && !extensions.isEmpty()) {
@@ -279,7 +280,7 @@ public class ExtensionLoader {
 		// Extra configuration setting
 		if (extension.getConfs() != null) {
 
-			for (Configuration conf : extension.getConfs()) {
+			for (Parameter conf : extension.getConfs()) {
 
 				// The module configuration already exists in the main
 				// configuration
@@ -304,7 +305,7 @@ public class ExtensionLoader {
 		}
 	}
 	
-	private void processJavascriptFunction(Configuration conf){
+	private void processJavascriptFunction(Parameter conf){
 		
 		JavascriptFunction jsFunction = (JavascriptFunction) mainConfig.get(conf.getName());
 		String newValue = null;
@@ -343,7 +344,7 @@ public class ExtensionLoader {
 		}
 	}
 	
-	private void processJavascriptSnippet(Configuration conf){
+	private void processJavascriptSnippet(Parameter conf){
 	
 		JavascriptSnippet jsSnippet = (JavascriptSnippet) mainConfig.get(conf.getName());
 		String newValue = null;
@@ -383,7 +384,7 @@ public class ExtensionLoader {
 		
 	}
 	
-	private void processString(Configuration conf){
+	private void processString(Parameter conf){
 		String value = null;
 		
 		switch (conf.getMode()) {

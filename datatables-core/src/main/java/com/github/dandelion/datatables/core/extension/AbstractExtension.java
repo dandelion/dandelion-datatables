@@ -29,22 +29,21 @@
  */
 package com.github.dandelion.datatables.core.extension;
 
-import com.github.dandelion.datatables.core.asset.Configuration;
-import com.github.dandelion.datatables.core.asset.CssResource;
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
-import com.github.dandelion.datatables.core.html.HtmlTable;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.github.dandelion.datatables.core.asset.Parameter;
+import com.github.dandelion.datatables.core.asset.CssResource;
+import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
 
 /**
  * {@inheritDoc}
  */
 public abstract class AbstractExtension implements Extension {
 
+	protected String name;
 	protected StringBuilder beforeAll;
 	protected StringBuilder afterAll;
 	protected StringBuilder beforeStartDocumentReady;
@@ -52,25 +51,10 @@ public abstract class AbstractExtension implements Extension {
 	protected StringBuilder beforeEndDocumentReady;
 	protected List<JsResource> jsResources;
 	protected List<CssResource> cssResources;
-	protected List<Configuration> confs;
+	protected List<Parameter> confs;
 	protected AbstractConfigurationGenerator configGenerator;
 	protected Boolean appendRandomNumber = false;
 	protected String function;
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public abstract String getName();
-
-	/**
-     * {@inheritDoc}
-	 */
-	public abstract String getVersion();
-
-	/**
-     * {@inheritDoc}
-	 */
-	public abstract void setup(HtmlTable table) throws BadConfigurationException;
 
 	public StringBuilder getBeforeAll() {
 		return beforeAll;
@@ -104,11 +88,11 @@ public abstract class AbstractExtension implements Extension {
 		this.cssResources = cssResources;
 	}
 
-	public List<Configuration> getConfs() {
+	public List<Parameter> getConfs() {
 		return confs;
 	}
 
-	public void setConfs(List<Configuration> confs) {
+	public void setConfs(List<Parameter> confs) {
 		this.confs = confs;
 	}
 
@@ -126,11 +110,11 @@ public abstract class AbstractExtension implements Extension {
 		this.cssResources.add(resource);
 	}
 
-	public void addConfiguration(Configuration conf) {
+	public void addParameter(Parameter parameter) {
 		if (this.confs == null) {
-			this.confs = new ArrayList<Configuration>();
+			this.confs = new ArrayList<Parameter>();
 		}
-		this.confs.add(conf);
+		this.confs.add(parameter);
 	}
 
 	public AbstractConfigurationGenerator getConfigGenerator() {
@@ -191,4 +175,70 @@ public abstract class AbstractExtension implements Extension {
 	public void setFunction(String function) {
 		this.function = function;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((afterAll == null) ? 0 : afterAll.hashCode());
+		result = prime * result + ((afterStartDocumentReady == null) ? 0 : afterStartDocumentReady.hashCode());
+		result = prime * result + ((appendRandomNumber == null) ? 0 : appendRandomNumber.hashCode());
+		result = prime * result + ((beforeAll == null) ? 0 : beforeAll.hashCode());
+		result = prime * result + ((beforeEndDocumentReady == null) ? 0 : beforeEndDocumentReady.hashCode());
+		result = prime * result + ((beforeStartDocumentReady == null) ? 0 : beforeStartDocumentReady.hashCode());
+		result = prime * result + ((configGenerator == null) ? 0 : configGenerator.hashCode());
+		result = prime * result + ((confs == null) ? 0 : confs.hashCode());
+		result = prime * result + ((cssResources == null) ? 0 : cssResources.hashCode());
+		result = prime * result + ((function == null) ? 0 : function.hashCode());
+		result = prime * result + ((jsResources == null) ? 0 : jsResources.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		AbstractExtension other = (AbstractExtension) obj;
+		if (afterAll == null) {
+			if (other.afterAll != null) return false;
+		} else if (!afterAll.equals(other.afterAll)) return false;
+		if (afterStartDocumentReady == null) {
+			if (other.afterStartDocumentReady != null) return false;
+		} else if (!afterStartDocumentReady.equals(other.afterStartDocumentReady)) return false;
+		if (appendRandomNumber == null) {
+			if (other.appendRandomNumber != null) return false;
+		} else if (!appendRandomNumber.equals(other.appendRandomNumber)) return false;
+		if (beforeAll == null) {
+			if (other.beforeAll != null) return false;
+		} else if (!beforeAll.equals(other.beforeAll)) return false;
+		if (beforeEndDocumentReady == null) {
+			if (other.beforeEndDocumentReady != null) return false;
+		} else if (!beforeEndDocumentReady.equals(other.beforeEndDocumentReady)) return false;
+		if (beforeStartDocumentReady == null) {
+			if (other.beforeStartDocumentReady != null) return false;
+		} else if (!beforeStartDocumentReady.equals(other.beforeStartDocumentReady)) return false;
+		if (configGenerator == null) {
+			if (other.configGenerator != null) return false;
+		} else if (!configGenerator.equals(other.configGenerator)) return false;
+		if (confs == null) {
+			if (other.confs != null) return false;
+		} else if (!confs.equals(other.confs)) return false;
+		if (cssResources == null) {
+			if (other.cssResources != null) return false;
+		} else if (!cssResources.equals(other.cssResources)) return false;
+		if (function == null) {
+			if (other.function != null) return false;
+		} else if (!function.equals(other.function)) return false;
+		if (jsResources == null) {
+			if (other.jsResources != null) return false;
+		} else if (!jsResources.equals(other.jsResources)) return false;
+		if (name == null) {
+			if (other.name != null) return false;
+		} else if (!name.equals(other.name)) return false;
+		return true;
+	}
+	
+	
 }

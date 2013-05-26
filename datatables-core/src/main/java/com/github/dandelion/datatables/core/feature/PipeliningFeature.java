@@ -29,7 +29,7 @@
  */
 package com.github.dandelion.datatables.core.feature;
 
-import com.github.dandelion.datatables.core.asset.Configuration;
+import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
@@ -66,13 +66,13 @@ public class PipeliningFeature extends AbstractFeature {
 		String adaptedContent = content.replace("oCache", "oCache_" + table.getId());
 		
 		// Adapt the pipe size if it has been overriden
-		if (table.getPipeSize() != 5) {
+		if (table.getTableConfiguration().getAjaxPipeSize() != 5) {
 			appendToBeforeAll(adaptedContent
-					.replace("var iPipe = 5", "var iPipe = " + table.getPipeSize()));
+					.replace("var iPipe = 5", "var iPipe = " + table.getTableConfiguration().getAjaxPipeSize()));
 		} else {
 			appendToBeforeAll(adaptedContent);
 		}
 
-		addConfiguration(new Configuration(DTConstants.DT_FN_SERVERDATA, new JavascriptSnippet("fnDataTablesPipeline")));
+		addParameter(new Parameter(DTConstants.DT_FN_SERVERDATA, new JavascriptSnippet("fnDataTablesPipeline")));
 	}
 }

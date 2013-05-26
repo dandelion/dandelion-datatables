@@ -29,8 +29,8 @@
  */
 package com.github.dandelion.datatables.core.feature;
 
-import com.github.dandelion.datatables.core.asset.Configuration;
-import com.github.dandelion.datatables.core.asset.Configuration.Mode;
+import com.github.dandelion.datatables.core.asset.Parameter;
+import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
@@ -47,7 +47,7 @@ public class AjaxFeature extends AbstractFeature {
 
 	@Override
 	public String getName() {
-		return null;
+		return "AjaxFeature";
 	}
 
 	@Override
@@ -57,11 +57,11 @@ public class AjaxFeature extends AbstractFeature {
 
 	@Override
 	public void setup(HtmlTable table) throws BadConfigurationException {
-		addConfiguration(new Configuration(DTConstants.DT_B_DEFER_RENDER, true));
-		addConfiguration(new Configuration(DTConstants.DT_S_AJAXDATAPROP, ""));
-		addConfiguration(new Configuration(DTConstants.DT_S_AJAX_SOURCE, table.getDatasourceUrl()));
-		addConfiguration(
-				new Configuration(
+		addParameter(new Parameter(DTConstants.DT_B_DEFER_RENDER, true));
+		addParameter(new Parameter(DTConstants.DT_S_AJAXDATAPROP, ""));
+		addParameter(new Parameter(DTConstants.DT_S_AJAX_SOURCE, table.getTableConfiguration().getAjaxSource()));
+		addParameter(
+				new Parameter(
 						CallbackType.INIT.getName(), 
 						new JavascriptFunction("oTable_" + table.getId() + ".fnAdjustColumnSizing(true);",CallbackType.INIT.getArgs()),
 						Mode.APPEND));

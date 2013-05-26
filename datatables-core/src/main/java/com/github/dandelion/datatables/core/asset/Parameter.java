@@ -31,10 +31,10 @@ package com.github.dandelion.datatables.core.asset;
 
 /**
  * <p>
- * A configuration can be seen as a name/value pair in the DataTables
+ * A parameter can be seen as a name/value pair in the DataTables
  * configuration Javascript object.
  * <p>
- * Some extension may need to modify the DataTables configuration object, that's
+ * Some extension may need to modify the DataTables parameters object, that's
  * why there's a Mode attribute, which defines the way the configuration will
  * affect this object.
  * <p>
@@ -52,7 +52,7 @@ package com.github.dandelion.datatables.core.asset;
  * @author Thibault Duchateau
  * @since 0.5.0
  */
-public class Configuration {
+public class Parameter {
 
 	/**
 	 * DataTables parameter's name
@@ -86,13 +86,13 @@ public class Configuration {
 		PREPEND_WITH_SPACE
 	}
 
-	public Configuration(String name, Object value) {
+	public Parameter(String name, Object value) {
 		this.name = name;
 		this.value = value;
 		this.mode = Mode.OVERRIDE;
 	}
 
-	public Configuration(String name, Object value, Configuration.Mode mode) {
+	public Parameter(String name, Object value, Parameter.Mode mode) {
 		this.name = name;
 		this.value = value;
 		this.setMode(mode);

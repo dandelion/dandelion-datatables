@@ -29,7 +29,7 @@
  */
 package com.github.dandelion.datatables.core.feature;
 
-import com.github.dandelion.datatables.core.asset.Configuration;
+import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
@@ -60,7 +60,7 @@ public class JsonpFeature extends AbstractFeature {
 
 	@Override
 	public void setup(HtmlTable table) throws BadConfigurationException {
-		addConfiguration(new Configuration(
+		addParameter(new Parameter(
 				DTConstants.DT_FN_SERVERDATA,
 				new JavascriptSnippet(
 						"function( sUrl, aoData, fnCallback, oSettings ) { oSettings.jqXHR = $.ajax( {\"url\": sUrl,\"data\": aoData,\"success\": fnCallback,\"dataType\": \"jsonp\",\"cache\": false});}")));

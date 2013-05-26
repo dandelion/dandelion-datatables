@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.plugin;
 
 
-import com.github.dandelion.datatables.core.asset.Configuration;
+import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
@@ -66,6 +66,6 @@ public class ScrollerPlugin extends AbstractPlugin {
 	@Override
 	public void setup(HtmlTable table) {
 		addJsResource(new JsResource(ResourceType.PLUGIN, "Scroller", "datatables/plugins/scroller/scroller.min.js"));
-		addConfiguration(new Configuration(DTConstants.DT_DOM, "S", Configuration.Mode.APPEND));
+		addParameter(new Parameter(DTConstants.DT_DOM, "S", Parameter.Mode.APPEND));
 	}
 }

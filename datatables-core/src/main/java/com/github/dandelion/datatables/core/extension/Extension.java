@@ -31,7 +31,7 @@ package com.github.dandelion.datatables.core.extension;
 
 import java.util.List;
 
-import com.github.dandelion.datatables.core.asset.Configuration;
+import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
@@ -58,11 +58,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * <li>a potential Javascript function name that will be called after DataTables
  * initialization. <br>
  * Example : columnFilter <blockquote>
- *
+ * 
  * <pre>
  * oTable_myTableId = $('#myTableId').dataTable(oTable_myTableId_params).columnFilter({...});
  * </pre>
- *
+ * 
  * </blockquote></li>
  * <li>specific Javascript snippets to add in the main JS resource, i.e. the
  * resource that contains the DataTables initilization Javascript code. You can
@@ -77,7 +77,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * </ul>
  * These attributes can be visualized in the following Javascript snippet :
  * <blockquote>
- *
+ * 
  * <pre>
  * => <b>BEFOREALL</b>
  * var oTable_tableId;
@@ -90,10 +90,10 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * });
  * => <b>AFTERALL</b>
  * </pre>
- *
+ * 
  * </blockquote></li>
  * </ul>
- *
+ * 
  * @author Thibault Duchateau
  * @since 0.7.1
  */
@@ -138,15 +138,15 @@ public interface Extension {
 
     public void setCssResources(List<CssResource> cssResources);
 
-    public List<Configuration> getConfs();
+    public List<Parameter> getConfs();
 
-    public void setConfs(List<Configuration> confs);
+    public void setConfs(List<Parameter> confs);
 
     public void addJsResource(JsResource resource);
 
     public void addCssResource(CssResource resource);
 
-    public void addConfiguration(Configuration conf);
+    public void addParameter(Parameter conf);
 
     public AbstractConfigurationGenerator getConfigGenerator();
 

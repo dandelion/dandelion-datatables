@@ -29,7 +29,7 @@
  */
 package com.github.dandelion.datatables.core.theme;
 
-import com.github.dandelion.datatables.core.asset.Configuration;
+import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
@@ -59,13 +59,13 @@ public class JQueryUITheme extends AbstractTheme {
 	@Override
 	public void setup(HtmlTable table) throws BadConfigurationException {
 
-		addConfiguration(new Configuration(DTConstants.DT_JQUERYUI, true));
+		addParameter(new Parameter(DTConstants.DT_JQUERYUI, true));
 		addCssResource(new CssResource(ResourceType.THEME, "JQueryUITheme",
 				"datatables/themes/jqueryui/jqueryui.css"));
 
-		if (table.getThemeOption() != null) {
+		if (table.getTableConfiguration().getExtraThemeOption() != null) {
 			addCssResource(new CssResource(ResourceType.EXTERNAL,
-					table.getThemeOption().toString(), table.getThemeOption().getCssSource()));
+					table.getTableConfiguration().getExtraThemeOption().toString(), table.getTableConfiguration().getExtraThemeOption().getCssSource()));
 		}
 
 		table.addCssClass("display");
