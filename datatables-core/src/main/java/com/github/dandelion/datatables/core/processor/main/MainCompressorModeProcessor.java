@@ -32,19 +32,13 @@ package com.github.dandelion.datatables.core.processor.main;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.aggregator.AggregatorMode;
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 
 public class MainCompressorModeProcessor extends AbstractProcessor {
-
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(MainCompressorModeProcessor.class);
 
 	@Override
 	public Object process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {

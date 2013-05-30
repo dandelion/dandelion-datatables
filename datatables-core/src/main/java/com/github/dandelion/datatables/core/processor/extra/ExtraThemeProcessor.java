@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+import com.github.dandelion.datatables.core.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.theme.Theme;
 
 public class ExtraThemeProcessor extends AbstractProcessor {
@@ -46,11 +47,11 @@ public class ExtraThemeProcessor extends AbstractProcessor {
 	private static Logger logger = LoggerFactory.getLogger(ExtraThemeProcessor.class);
 	
 	@Override
-	public Theme process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
-		Theme theme = null;
+	public AbstractTheme process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+		AbstractTheme theme = null;
 		if (StringUtils.isNotBlank(param)) {
 			try {
-				tableConfiguration.setExtraTheme(Theme.valueOf(param.trim().toUpperCase()).getInstance());
+				theme = Theme.valueOf(param.trim().toUpperCase()).getInstance();
 			} catch (IllegalArgumentException e) {
 				logger.warn("Theme {} is not recognized. Only 'bootstrap2 and jQueryUI' exists for now.", theme);
 			}

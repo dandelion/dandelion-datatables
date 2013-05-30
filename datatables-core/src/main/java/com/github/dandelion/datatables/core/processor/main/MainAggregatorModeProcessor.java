@@ -32,24 +32,13 @@ package com.github.dandelion.datatables.core.processor.main;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.aggregator.AggregatorMode;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.feature.PaginationType;
-import com.github.dandelion.datatables.core.feature.PaginationTypeBootstrapFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeFourButtonFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeInputFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeListboxFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeScrollingFeature;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 
 public class MainAggregatorModeProcessor extends AbstractProcessor {
-
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(MainAggregatorModeProcessor.class);
 
 	@Override
 	public Object process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
