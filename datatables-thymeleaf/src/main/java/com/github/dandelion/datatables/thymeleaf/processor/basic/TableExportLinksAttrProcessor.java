@@ -29,19 +29,14 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
-import com.github.dandelion.datatables.core.export.ExportLinkPosition;
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
@@ -63,9 +58,6 @@ public class TableExportLinksAttrProcessor extends AbstractDatatablesAttrProcess
 		super(matcher);
 	}
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(TableExportLinksAttrProcessor.class);
-
 	@Override
 	public int getPrecedence() {
 		return 8000;
@@ -73,31 +65,13 @@ public class TableExportLinksAttrProcessor extends AbstractDatatablesAttrProcess
 
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table) {
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 
 		// Get attribute value
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
-		// Export links position
-		List<ExportLinkPosition> positionList = new ArrayList<ExportLinkPosition>();
-		if (StringUtils.isNotBlank(attrValue)) {
-			String[] positions = attrValue.trim().split(",");
-
-			for (String position : positions) {
-				try {
-					positionList.add(ExportLinkPosition.valueOf(position.toUpperCase().trim()));
-				} catch (IllegalArgumentException e) {
-					logger.error("The export cannot be activated for the table {}. ", table.getId());
-					logger.error("{} is not a valid value among {}", position,
-							ExportLinkPosition.values());
-					throw new DataTableProcessingException(e);
-				}
-			}
-		} else {
-			positionList.add(ExportLinkPosition.TOP_RIGHT);
-		}
-		table.setExportLinkPositions(positionList);
-
+		localConf.put(Configuration.EXPORT_LINKS, attrValue);
+		
 		return ProcessorResult.ok();
 	}
 }

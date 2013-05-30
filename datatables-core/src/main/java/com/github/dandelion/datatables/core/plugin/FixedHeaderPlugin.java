@@ -96,12 +96,12 @@ public class FixedHeaderPlugin extends AbstractPlugin {
 		Map<String, Object> conf = new HashMap<String, Object>();
 
 		// fixedPosition attribute (default "top")
-		if (StringUtils.isNotBlank(table.getFixedPosition())) {
-			if (table.getFixedPosition().equals("bottom")) {
+		if (StringUtils.isNotBlank(table.getTableConfiguration().getPluginFixedPosition())) {
+			if (table.getTableConfiguration().getPluginFixedPosition().equals("bottom")) {
 				conf.put("bottom", true);
-			} else if (table.getFixedPosition().equals("right")) {
+			} else if (table.getTableConfiguration().getPluginFixedPosition().equals("right")) {
 				conf.put("right", true);
-			} else if (table.getFixedPosition().equals("left")) {
+			} else if (table.getTableConfiguration().getPluginFixedPosition().equals("left")) {
 				conf.put("left", true);
 			} else {
 				appendToBeforeEndDocumentReady("new FixedHeader(oTable_" + table.getId() + ");");
@@ -111,8 +111,8 @@ public class FixedHeaderPlugin extends AbstractPlugin {
 		}
 
 		// offsetTop attribute
-		if (table.getFixedOffsetTop() != null) {
-			conf.put(DTConstants.DT_OFFSETTOP, table.getFixedOffsetTop());
+		if (table.getTableConfiguration().getPluginFixedOffsetTop() != null) {
+			conf.put(DTConstants.DT_OFFSETTOP, table.getTableConfiguration().getPluginFixedOffsetTop());
 		}
 
 		return conf;

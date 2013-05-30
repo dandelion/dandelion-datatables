@@ -30,51 +30,34 @@ package com.github.dandelion.datatables.jsp.tag;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.feature.AjaxFeature;
 import com.github.dandelion.datatables.core.feature.FilteringFeature;
-import com.github.dandelion.datatables.core.feature.JsonpFeature;
-import com.github.dandelion.datatables.core.feature.PaginationType;
-import com.github.dandelion.datatables.core.feature.PaginationTypeBootstrapFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeFourButtonFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeInputFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeListboxFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeScrollingFeature;
-import com.github.dandelion.datatables.core.feature.PipeliningFeature;
-import com.github.dandelion.datatables.core.feature.ServerSideFeature;
-import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlLink;
 import com.github.dandelion.datatables.core.html.HtmlScript;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.plugin.ColReorderPlugin;
-import com.github.dandelion.datatables.core.plugin.FixedHeaderPlugin;
-import com.github.dandelion.datatables.core.plugin.ScrollerPlugin;
-import com.github.dandelion.datatables.core.theme.Theme;
-import com.github.dandelion.datatables.core.theme.ThemeOption;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 
 /**
  * <p>
  * Abstract class which contains :
  * <ul>
- * <li>all the boring technical stuff needed by Java tags (getters and setters
- * for all Table tag attributes)</li>
+ * <li>all the boring technical stuff needed by Java tags (setters for all Table
+ * tag attributes)</li>
  * <li>helper methods used to init the table</li>
  * </ul>
  * 
@@ -88,6 +71,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(AbstractTableTag.class);
 
+	protected Map<Configuration, Object> localConf = null;
 	protected Object data;
 	protected String url;
 	protected String row;
@@ -102,413 +86,48 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected String rowIdSufix;
 
 	// Basic features
-	protected Boolean autoWidth;
-	protected Boolean filter;
-	protected Boolean info;
-	protected Boolean paginate;
-	protected Boolean lengthChange;
-	protected String paginationType;
-	protected Boolean sort;
-	protected Boolean cdn;
-	protected String appear;
 	protected String footer;
-	protected String lengthMenu;
-	protected Integer displayLength;
-	protected String dom;
 
 	// Advanced features
-	protected Boolean deferRender;
-	protected Boolean stateSave;
 	protected String labels;
-	protected Boolean jqueryUI;
 
-	// Ajax
-	protected Boolean processing;
-	protected Boolean serverSide;
-	protected Boolean pipelining;
-	protected Integer pipeSize;
-	protected Boolean jsonp;
-	protected String serverData;
-	protected String serverParams;
-	protected String serverMethod;
-	
-	// Extra features
-	protected Boolean fixedHeader = false;
-	protected String fixedPosition;
-	protected Integer fixedOffsetTop;
-	protected Boolean scroller = false;
-	protected String scrollY;
-	protected Boolean scrollCollapse;
-	protected Boolean colReorder = false;
-
-	// Export
-	protected String export;
-	protected String exportLinks;
-
-	// Extensions
-	protected String theme;
-	protected String themeOption;
-	protected String features;
-	protected String plugins;
-	
 	// Internal common attributes
 	protected int iterationNumber;
 	protected HtmlTable table;
 	protected Iterator<Object> iterator;
 	protected Object currentObject;
 	protected String loadingType;
-
+	protected String confGroup;
+	
 	/**
 	 * Register all common configuration with the table.
 	 */
 	protected void registerBasicConfiguration() throws BadConfigurationException {
 
 		if (StringUtils.isNotBlank(this.cssClass)) {
-			this.table.setCssClass(new StringBuilder(this.cssClass));
+			table.setCssClass(new StringBuilder(this.cssClass));
 		}
 		if (StringUtils.isNotBlank(this.cssStyle)) {
-			this.table.setCssStyle(new StringBuilder(this.cssStyle));
-		}
-		if (this.autoWidth != null) {
-			this.table.setAutoWidth(this.autoWidth);
-		}
-		if (this.deferRender != null) {
-			this.table.setDeferRender(this.deferRender);
-		}
-		if (this.filter != null) {
-			this.table.setFilterable(this.filter);
-		}
-		if (this.info != null) {
-			this.table.setInfo(this.info);
-		}
-		if (this.paginate != null) {
-			this.table.setPaginate(this.paginate);
-		}
-		if (this.lengthChange != null) {
-			this.table.setLengthChange(this.lengthChange);
-		}
-		if(StringUtils.isNotBlank(this.dom)){
-			this.table.setDom(dom);
-		}
-		if (StringUtils.isNotBlank(this.paginationType)) {
-			PaginationType paginationType = null;
-			try {
-				paginationType = PaginationType.valueOf(this.paginationType);
-			} catch (IllegalArgumentException e) {
-				logger.error("{} is not a valid value among {}", this.paginationType,
-						PaginationType.values());
-				throw new BadConfigurationException(e);
-			}
-
-			this.table.setPaginationType(paginationType);
-		}
-		if (this.processing != null) {
-			this.table.setProcessing(this.processing);
-		}
-		if (this.serverSide != null) {
-			this.table.setServerSide(this.serverSide);
-		}
-		if(StringUtils.isNotBlank(serverData)){
-			table.setServerData(serverData);
-		}
-		if(StringUtils.isNotBlank(serverMethod)){
-			table.setServerMethod(serverMethod);
-		}
-		if(StringUtils.isNotBlank(serverParams)){
-			table.setServerParam(serverParams);
-		}
-		if (this.sort != null) {
-			this.table.setSort(this.sort);
-		}
-		if (this.stateSave != null) {
-			this.table.setStateSave(this.stateSave);
-		}
-		if (this.cdn != null) {
-			this.table.setCdn(this.cdn);
+			table.setCssStyle(new StringBuilder(this.cssStyle));
 		}
 		if (StringUtils.isNotBlank(this.labels)) {
-			this.table.setLabels(RequestHelper.getBaseUrl(pageContext.getRequest(), this.table) + this.labels);
-		}
-		if (this.jqueryUI != null) {
-			this.table.setJqueryUI(this.jqueryUI);
-		}
-		if(StringUtils.isNotBlank(this.appear)){
-			if(this.appear.contains(",") || "fadein".equals(this.appear.toLowerCase().trim())){
-				String[] tmp = this.appear.toLowerCase().trim().split(",");
-				this.table.setAppear("fadein");
-				if(tmp.length > 1){
-					this.table.setAppearDuration(tmp[1]);
-				}
-			}
-			else{
-				this.table.setAppear("block");
-			}
-		}
-		if(StringUtils.isNotBlank(lengthMenu)){
-			String[] tmp = lengthMenu.split(";");
-			if(tmp.length > 1){
-				String[] tmp2 = tmp[0].split(",");
-				String[] tmp3 = tmp[1].split(",");
-				if(tmp2.length == tmp3.length){
-					table.setLengthMenu("[[" + tmp[0] + "],[" + tmp[1] + "]]");
-				}
-				else{
-					throw new BadConfigurationException("You must provide the exact same number of elements separated by a \";\"");
-				}
-			}
-			else{
-				table.setLengthMenu("[" + lengthMenu + "]");				
-			}
-		}
-		
-		if(StringUtils.isNotBlank(cssStripes)){
-			String[] tmp = cssStripes.split(",");
-			String stripeTmp = "[";
-			Iterator<String> iterator = Arrays.asList(tmp).iterator();
-			stripeTmp += "'" + iterator.next() + "'";
-			while(iterator.hasNext()){
-				stripeTmp += ",'" + iterator.next() + "'";
-			}
-			stripeTmp += "]";
-			table.setStripeClasses(stripeTmp);
-		}
-		
-		if(displayLength != null){
-			table.setDisplayLength(displayLength);
-		}
-		
-		if (StringUtils.isNotBlank(this.scrollY)) {
-			this.table.setScrollY(this.scrollY);
-		}
-		
-		if (this.scrollCollapse != null) {
-			this.table.setScrollCollapse(this.scrollCollapse);
+			this.table.getTableConfiguration().setLabels(RequestHelper.getBaseUrl(pageContext.getRequest(), this.table) + this.labels);
 		}
 	}
 
-	/**
-	 * Register the theme if activated in the table tag.
-	 */
-	protected void registerTheme() throws JspException {
-
-		if (StringUtils.isNotBlank(this.theme)) {
-			try {
-				this.table.setTheme(Theme.valueOf(this.theme.trim().toUpperCase()).getInstance());
-			} catch (IllegalArgumentException e) {
-				logger.warn(
-						"Theme {} is not recognized. Only 'bootstrap2 and jQueryUI' exists for now.",
-						this.theme);
-			}
-		}
-
-		if (StringUtils.isNotBlank(this.themeOption)) {
-			ThemeOption themeOption = null;
-			try {
-				themeOption = ThemeOption.valueOf(this.themeOption.trim().toUpperCase());
-			} catch (IllegalArgumentException e) {
-				logger.error("{} is not a valid value among {}", this.themeOption,
-						ThemeOption.values());
-				throw new JspException(e);
-			}
-
-			this.table.setThemeOption(themeOption);
-		}
-	}
-
-	/**
-	 * Register activated plugins with the table.
-	 */
-	protected void registerPlugins() {
-
-		// Plugins activation
-		if (this.fixedHeader) {
-			logger.info("Internal module detected : fixedHeader");
-			this.table.registerPlugin(new FixedHeaderPlugin());
-		}
-
-		if (this.scroller) {
-			logger.info("Internal module detected : scroller");
-			this.table.registerPlugin(new ScrollerPlugin());
-		}
-
-		if (this.colReorder) {
-			logger.info("Internal module detected : colReorder");
-			this.table.registerPlugin(new ColReorderPlugin());
-		}
-
-		// Plugins configuration
-		if (StringUtils.isNotBlank(this.fixedPosition)) {
-			this.table.setFixedPosition(this.fixedPosition);
-		}
-
-		if (this.fixedOffsetTop != null) {
-			this.table.setFixedOffsetTop(this.fixedOffsetTop);
-		}
-		
-		if(StringUtils.isNotBlank(plugins)){
-			table.setCustomPlugins(Arrays.asList(plugins.trim().toLowerCase().split(",")));
-		}
-	}
 
 	/**
 	 * Register activated features with the table.
 	 */
 	protected void registerFeatures() throws JspException {
 
-		// Si AJAX sans server-side
-		if(StringUtils.isNotBlank(url) && (serverSide == null || !serverSide)){
-			table.registerFeature(new AjaxFeature());
-		}
-		
 		// Filtering feature activation
 		if (table.hasOneFilterableColumn()) {
 
-			for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
-				table.getLastFooterRow().addColumn(column);
-			}
-
-			table.registerFeature(new FilteringFeature());
-		}
-
-		// Only register the feature if the paginationType attribute is set
-		if (StringUtils.isNotBlank(paginationType)) {
-			PaginationType paginationType = null;
-			try {
-				paginationType = PaginationType.valueOf(this.paginationType);
-			} catch (IllegalArgumentException e) {
-				logger.error("{} is not a valid value among {}", this.paginationType,
-						PaginationType.values());
-				throw new JspException(e);
-			}
-
-			switch (paginationType) {
-			case bootstrap:
-				table.registerFeature(new PaginationTypeBootstrapFeature());
-				break;
-			case input:
-				table.registerFeature(new PaginationTypeInputFeature());
-				break;
-			case listbox:
-				table.registerFeature(new PaginationTypeListboxFeature());
-				break;
-			case scrolling:
-				table.registerFeature(new PaginationTypeScrollingFeature());
-				break;
-			case four_button:
-				table.registerFeature(new PaginationTypeFourButtonFeature());
-				break;
-			default:
-				break;
-
-			}
-		}
-		
-		if(serverSide != null && serverSide){
-			table.registerFeature(new ServerSideFeature());
-		}
-		
-		if(pipelining != null && pipelining){
-			table.setPipelining(pipelining);
-			if(pipeSize != null){
-				table.setPipeSize(pipeSize);
-			}
-			table.registerFeature(new PipeliningFeature());
-		}
-		
-		if(jsonp != null){
-			table.setJsonp(jsonp);
-			if(jsonp){
-				table.registerFeature(new JsonpFeature());
-			}
-		}
-		
-		if(StringUtils.isNotBlank(features)){
-			table.setCustomFeatures(Arrays.asList(features.trim().toLowerCase().split(",")));
+			table.getTableConfiguration().registerFeature(new FilteringFeature());
 		}
 	}
 
-	/**
-	 * <p>
-	 * Register export configuration.
-	 * 
-	 * <p>
-	 * Depending on the export configuration, export links are generated and
-	 * customized around the table.
-	 * 
-	 * @throws BadExportConfigurationException
-	 */
-	protected void registerExportConfiguration() throws BadConfigurationException {
-
-		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-		
-		if (StringUtils.isNotBlank(this.export)) {
-
-			// Init the exportable flag in order to add export links
-			table.setIsExportable(true);
-
-			// Allowed export types
-			String[] exportTypes = this.export.trim().toUpperCase().split(",");
-
-			for (String exportTypeString : exportTypes) {
-				ExportType type = null;
-
-				try {
-					type = ExportType.valueOf(exportTypeString);
-				} catch (IllegalArgumentException e) {
-					logger.error("The export cannot be activated for the table {}. ", table.getId());
-					logger.error("{} is not a valid value among {}", exportTypeString,
-							ExportType.values());
-					throw new BadConfigurationException(e);
-				}
-
-				// ExportConf eventuellement deja charges par le tag ExportTag
-				// Du coup, on va completer ici avec la liste des autres exports
-				// actives par la balise export=""
-				if (!table.getExportConfMap().containsKey(type)) {
-
-					String url = RequestHelper.getCurrentURIWithParameters(request);
-					if(url.contains("?")){
-						url += "&";
-					}
-					else{
-						url += "?";
-					}
-					url += ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
-							+ type.getUrlParameter() + "&"
-							+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID + "="
-							+ this.table.getId();
-
-					ExportConf conf = new ExportConf(type, url);
-					table.getExportConfMap().put(type, conf);
-				}
-
-				// TODO ne pas prendre ne compte le tag ExportTag s'il permet de
-				// customizer un export qui n'est pas specifie dans
-				// export="XXXX"
-			}
-
-			// Export links position
-			List<ExportLinkPosition> positionList = new ArrayList<ExportLinkPosition>();
-			if (StringUtils.isNotBlank(this.exportLinks)) {
-				String[] positions = this.exportLinks.trim().split(",");
-
-				for (String position : positions) {
-					try {
-						positionList.add(ExportLinkPosition.valueOf(position.toUpperCase().trim()));
-					} catch (IllegalArgumentException e) {
-						logger.error("The export cannot be activated for the table {}. ",
-								table.getId());
-						logger.error("{} is not a valid value among {}", position,
-								ExportLinkPosition.values());
-						throw new BadConfigurationException(e);
-					}
-				}
-			} else {
-				positionList.add(ExportLinkPosition.TOP_RIGHT);
-			}
-			this.table.setExportLinkPositions(positionList);
-		}
-	}
 
 	/**
 	 * Process the iteration over the data (only for DOM source).
@@ -527,7 +146,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 				Object object = iterator.next();
 				
 				this.setCurrentObject(object);
-				table.setObjectType(object.getClass().getSimpleName());
+				localConf.put(Configuration.INTERNAL_OBJECTTYPE, object.getClass().getSimpleName());
 				
 				if (row != null) {
 					pageContext.setAttribute(row, object);
@@ -575,14 +194,14 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 		return exportType;
 	}
 
-	/**
-	 * Test if the user want his table to be exported.
-	 * 
-	 * @return true if the table can be exported, false otherwise.
-	 */
-	protected Boolean canBeExported() {
-		return StringUtils.isNotBlank(this.export);
-	}
+//	/**
+//	 * Test if the user want his table to be exported.
+//	 * 
+//	 * @return true if the table can be exported, false otherwise.
+//	 */
+//	protected Boolean canBeExported() {
+//		return StringUtils.isNotBlank(this.export);
+//	}
 
 	/**
 	 * Return the row id using prefix, base and suffix. Prefix and sufix are
@@ -673,380 +292,5 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getCssStyle() {
-		return this.cssStyle;
-	}
-
-	public void setCssStyle(String cssStyle) {
-		this.cssStyle = cssStyle;
-	}
-
-	public String getCssClass() {
-		return this.cssClass;
-	}
-
-	public void setCssClass(String cssClass) {
-		this.cssClass = cssClass;
-	}
-
-	public String getRowIdBase() {
-		return this.rowIdBase;
-	}
-
-	public void setRowIdBase(String rowIdBase) {
-		this.rowIdBase = rowIdBase;
-	}
-
-	public String getRowIdPrefix() {
-		return this.rowIdPrefix;
-	}
-
-	public void setRowIdPrefix(String rowIdPrefix) {
-		this.rowIdPrefix = rowIdPrefix;
-	}
-
-	public String getRowIdSufix() {
-		return this.rowIdSufix;
-	}
-
-	public void setRowIdSufix(String rowIdSufix) {
-		this.rowIdSufix = rowIdSufix;
-	}
-
-	public Boolean getAutoWidth() {
-		return autoWidth;
-	}
-
-	public void setAutoWidth(Boolean autoWidth) {
-		this.autoWidth = autoWidth;
-	}
-
-	public Boolean getDeferRender() {
-		return deferRender;
-	}
-
-	public void setDeferRender(Boolean deferRender) {
-		this.deferRender = deferRender;
-	}
-
-	public Boolean getFilter() {
-		return filter;
-	}
-
-	public void setFilter(Boolean filterable) {
-		this.filter = filterable;
-	}
-
-	public Boolean getInfo() {
-		return info;
-	}
-
-	public void setInfo(Boolean info) {
-		this.info = info;
-	}
-
-	public Boolean getPaginate() {
-		return paginate;
-	}
-
-	public void setPaginate(Boolean paginate) {
-		this.paginate = paginate;
-	}
-
-	public Boolean getLengthChange() {
-		return lengthChange;
-	}
-
-	public void setLengthChange(Boolean lengthChange) {
-		this.lengthChange = lengthChange;
-	}
-
-	public Boolean getProcessing() {
-		return processing;
-	}
-
-	public void setProcessing(Boolean processing) {
-		this.processing = processing;
-	}
-
-	public Boolean getServerSide() {
-		return serverSide;
-	}
-
-	public void setServerSide(Boolean serverSide) {
-		this.serverSide = serverSide;
-	}
-	
-	public String getPaginationType() {
-		return paginationType;
-	}
-
-	public void setPaginationType(String paginationType) {
-		this.paginationType = paginationType;
-	}
-
-	public Boolean getSort() {
-		return sort;
-	}
-
-	public void setSort(Boolean sort) {
-		this.sort = sort;
-	}
-
-	public Boolean getStateSave() {
-		return stateSave;
-	}
-
-	public void setStateSave(Boolean stateSave) {
-		this.stateSave = stateSave;
-	}
-
-	public Boolean getFixedHeader() {
-		return fixedHeader;
-	}
-
-	public void setFixedHeader(Boolean fixedHeader) {
-		this.fixedHeader = fixedHeader;
-	}
-
-	public Boolean getScroller() {
-		return scroller;
-	}
-
-	public void setScroller(Boolean scroller) {
-		this.scroller = scroller;
-	}
-
-	public Boolean getColReorder() {
-		return colReorder;
-	}
-
-	public void setColReorder(Boolean colReorder) {
-		this.colReorder = colReorder;
-	}
-
-	public String getScrollY() {
-		return scrollY;
-	}
-
-	public void setScrollY(String scrollY) {
-		this.scrollY = scrollY;
-	}
-
-	public Boolean getScrollCollapse() {
-		return scrollCollapse;
-	}
-
-	public void setScrollCollapse(Boolean scrollCollapse) {
-		this.scrollCollapse = scrollCollapse;
-	}
-
-	public String getFixedPosition() {
-		return fixedPosition;
-	}
-
-	public void setFixedPosition(String fixedPosition) {
-		this.fixedPosition = fixedPosition;
-	}
-
-	public String getLabels() {
-		return labels;
-	}
-
-	public void setLabels(String labels) {
-		this.labels = labels;
-	}
-
-	public Integer getOffsetTop() {
-		return fixedOffsetTop;
-	}
-
-	public void setOffsetTop(Integer fixedOffsetTop) {
-		this.fixedOffsetTop = fixedOffsetTop;
-	}
-
-	public void setCdn(Boolean cdn) {
-		this.cdn = cdn;
-	}
-
-	public String getExport() {
-		return export;
-	}
-
-	public void setExport(String export) {
-		this.export = export;
-	}
-
-	public String getLoadingType() {
-		return this.loadingType;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.loadingType = "AJAX";
-		this.url = url;
-	}
-
-	public Boolean getJqueryUI() {
-		return jqueryUI;
-	}
-
-	public void setJqueryUI(Boolean jqueryUI) {
-		this.jqueryUI = jqueryUI;
-	}
-
-	public Boolean getPipelining() {
-		return pipelining;
-	}
-
-	public void setPipelining(Boolean pipelining) {
-		this.pipelining = pipelining;
-	}
-	
-	public Integer getPipeSize(){
-		return pipeSize;
-	}
-	
-	public void setPipeSize(Integer pipeSize){
-		this.pipeSize = pipeSize;
-	}
-	
-	public String getExportLinks() {
-		return exportLinks;
-	}
-
-	public void setExportLinks(String exportButtons) {
-		this.exportLinks = exportButtons;
-	}
-
-	public String getTheme() {
-		return theme;
-	}
-
-	public void setTheme(String theme) {
-		this.theme = theme;
-	}
-
-	public String getThemeOption() {
-		return themeOption;
-	}
-
-	public void setThemeOption(String themeOption) {
-		this.themeOption = themeOption;
-	}
-
-	public String getFooter() {
-		return footer;
-	}
-
-	public void setFooter(String footer) {
-		this.footer = footer;
-	}
-
-	public String getAppear() {
-		return appear;
-	}
-
-	public void setAppear(String appear) {
-		this.appear = appear;
-	}
-	
-	public Boolean getJsonp(){
-		return jsonp;
-	}
-	
-	public void setJsonp(Boolean jsonp){
-		this.jsonp = jsonp;
-	}
-	
-	public String getLengthMenu(){
-		return lengthMenu;
-	}
-	
-	public void setLengthMenu(String lengthMenu){
-		this.lengthMenu = lengthMenu;
-	}
-	
-	public String getCssStripes(){
-		return cssStripes;
-	}
-	
-	public void setCssStripes(String cssStripes){
-		this.cssStripes = cssStripes;
-	}
-	
-	
-	public String getServerData() {
-		return serverData;
-	}
-
-	public void setServerData(String serverData) {
-		this.serverData = serverData;
-	}
-
-	public String getServerParams() {
-		return serverParams;
-	}
-
-	public void setServerParams(String serverParams) {
-		this.serverParams = serverParams;
-	}
-
-	public String getServerMethod() {
-		return serverMethod;
-	}
-
-	public void setServerMethod(String serverMethod) {
-		this.serverMethod = serverMethod;
-	}
-
-	public Integer getDisplayLength() {
-		return displayLength;
-	}
-
-	public void setDisplayLength(Integer displayLength) {
-		this.displayLength = displayLength;
-	}
-
-	public String getDom() {
-		return dom;
-	}
-
-	public void setDom(String dom) {
-		this.dom = dom;
-	}
-
-	public String getFeatures() {
-		return features;
-	}
-
-	public void setFeatures(String features) {
-		this.features = features;
-	}
-
-	public String getPlugins() {
-		return plugins;
-	}
-
-	public void setPlugins(String plugins) {
-		this.plugins = plugins;
-	}
-
-	public void setData(Collection<Object> data) {
-		this.loadingType = "DOM";
-		this.data = data;
-
-		Collection<Object> dataTmp = (Collection<Object>) data;
-		if (dataTmp != null && dataTmp.size() > 0) {
-			iterator = dataTmp.iterator();
-		} else {
-			// TODO afficher un message d'erreur
-			// TODO afficher une alerte javascript
-		}
 	}
 }

@@ -72,8 +72,8 @@ public class ResourceCompressor {
 			throws BadConfigurationException, CompressionException {
 
 		logger.debug("Processing compression, using class {} and mode {}", table
-				.getTableProperties().getCompressorClassName(), table.getTableProperties()
-				.getCompressorMode());
+				.getTableConfiguration().getMainCompressorClass(), table.getTableConfiguration()
+				.getMainCompressorMode());
 
 		// Get the compressor helper instance
 		ResourceCompressorDelegate compressorHelper = new ResourceCompressorDelegate(table);
@@ -81,9 +81,9 @@ public class ResourceCompressor {
 		// If Dandelion-datatables has been manually installed, some jar might be
 		// missing
 		// So, first check if the CompressorClass exist in the classpath
-		if (ReflectHelper.canBeUsed(table.getTableProperties().getCompressorClassName())) {
+		if (ReflectHelper.canBeUsed(table.getTableConfiguration().getMainCompressorClass())) {
 
-			switch (table.getTableProperties().getCompressorMode()) {
+			switch (table.getTableConfiguration().getMainCompressorMode()) {
 			case ALL:
 				compressJavascript(webResources, compressorHelper);
 				compressMainJavascript(webResources, compressorHelper);
@@ -106,7 +106,7 @@ public class ResourceCompressor {
 		} else {
 			logger.warn(
 					"The compressor class {} hasn't been found in the classpath. Compression is disabled.",
-					table.getTableProperties().getCompressorClassName());
+					table.getTableConfiguration().getMainCompressorClass());
 		}
 
 	}

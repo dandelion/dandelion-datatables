@@ -30,6 +30,8 @@
 package com.github.dandelion.datatables.jsp.tag;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +49,7 @@ import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.cache.AssetCache;
 import com.github.dandelion.datatables.core.compressor.ResourceCompressor;
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.constants.CdnConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
@@ -57,10 +60,8 @@ import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.properties.PropertiesLoader;
 import com.github.dandelion.datatables.core.util.DandelionUtils;
 import com.github.dandelion.datatables.core.util.RequestHelper;
-import com.github.dandelion.datatables.core.util.ResourceHelper;
 
 /**
  * <p>
@@ -77,13 +78,15 @@ public class TableTag extends AbstractTableTag {
 
 	private final static char[] DISALLOWED_CHAR = {'-'};
 	
+	public TableTag(){
+		localConf = new HashMap<Configuration, Object>();
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	public int doStartTag() throws JspException {
-		// Just used to identify the first row (header)
-		iterationNumber = 1;
-
+		
 		// We must ensure that the chosen table id doesn't contain any of the
 		// disallowed character because a Javascript variable will be created
 		// using this name
@@ -92,14 +95,11 @@ public class TableTag extends AbstractTableTag {
 		}
 		
 		// Init the table with its DOM id and a generated random number
-		table = new HtmlTable(id, ResourceHelper.getRamdomNumber());
-
-		try {
-			// Load table properties
-			PropertiesLoader.load(this.table);
-		} catch (BadConfigurationException e) {
-			throw new JspException("Unable to load Dandelion configuration");
-		}
+		table = new HtmlTable(id, (HttpServletRequest) pageContext.getRequest(), confGroup);
+		Configuration.applyConfiguration(table.getTableConfiguration(), localConf);
+		
+		// Just used to identify the first row (header)
+		iterationNumber = 1;
 
 		// The table data are loaded using AJAX source
 		if ("AJAX".equals(this.loadingType)) {
@@ -107,9 +107,6 @@ public class TableTag extends AbstractTableTag {
 			this.table.addFooterRow();
 			this.table.addHeaderRow();
 			
-			// Same domain AJAX request
-			this.table.setDatasourceUrl(url);
-					
 			this.table.addRow();
 
 			return EVAL_BODY_BUFFERED;
@@ -142,11 +139,10 @@ public class TableTag extends AbstractTableTag {
 	public int doEndTag() throws JspException {
 
 		try{
+			// TODO REMOVE
 			// Update the HtmlTable POJO configuration with the attributes
 			registerBasicConfiguration();			
 
-			// Update the HtmlTable POJO with the export configuration
-			registerExportConfiguration();			
 		}
 		catch (BadConfigurationException e){
 			throw new JspException(e);
@@ -181,11 +177,11 @@ public class TableTag extends AbstractTableTag {
 		ExportType currentExportType = getCurrentExportType();
 
 		exportProperties.setCurrentExportType(currentExportType);
-		exportProperties.setExportConf(table.getExportConfMap().get(currentExportType));
-		exportProperties.setFileName(table.getExportConfMap().get(currentExportType).getFileName());
+		exportProperties.setExportConf(table.getTableConfiguration().getExportConfMap().get(currentExportType));
+		exportProperties.setFileName(table.getTableConfiguration().getExportConfMap().get(currentExportType).getFileName());
 
-		this.table.setExportProperties(exportProperties);
-		this.table.setExporting(true);
+		this.table.getTableConfiguration().setExportProperties(exportProperties);
+		this.table.getTableConfiguration().setExporting(true);
 
 		try {
 			// Call the export delegate
@@ -216,20 +212,15 @@ public class TableTag extends AbstractTableTag {
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 		WebResources webResources = null;
 		
-		this.table.setExporting(false);
+		this.table.getTableConfiguration().setExporting(false);
 
-		// Register all activated modules
-		registerPlugins();
-
+		// TODO retirer cette fonction
 		// Register all activated features
 		registerFeatures();
 
-		// Register theme if activated
-		registerTheme();
-
 		try {
 			// First we check if the DataTables configuration already exist in the cache
-			String keyToTest = RequestHelper.getCurrentURIWithParameters(request) + "|" + this.table.getId();
+			String keyToTest = RequestHelper.getCurrentURIWithParameters(request) + "|" + table.getId();
 
 			if(DandelionUtils.isDevModeEnabled() || !AssetCache.cache.containsKey(keyToTest)){
 				logger.debug("No asset for the key {}. Generating...", keyToTest);
@@ -239,7 +230,7 @@ public class TableTag extends AbstractTableTag {
 	
 				// Generate the web resources (JS, CSS) and wrap them into a
 				// WebResources POJO
-				webResources = contentGenerator.generateWebResources(this.table);
+				webResources = contentGenerator.generateWebResources(table);
 				logger.debug("Web content generated successfully");
 				
 				AssetCache.cache.put(keyToTest, webResources);
@@ -252,19 +243,21 @@ public class TableTag extends AbstractTableTag {
 			}
 
 			// Aggregation
-			if (this.table.getTableProperties().isAggregatorEnable()) {
+			if (table.getTableConfiguration().getMainAggregatorEnable() != null && table.getTableConfiguration().getMainAggregatorEnable()) {
 				logger.debug("Aggregation enabled");
 				ResourceAggregator.processAggregation(webResources, table);
 			}
 
 			// Compression
-			if (this.table.getTableProperties().isCompressorEnable()) {
+			if (table.getTableConfiguration().getMainCompressorEnable() != null && table.getTableConfiguration().getMainCompressorEnable()) {
 				logger.debug("Compression enabled");
 				ResourceCompressor.processCompression(webResources, table);
 			}
 
+			System.out.println("table.getTableConfiguration() = " + table.getTableConfiguration());
+			System.out.println("cdn = " + table.getTableConfiguration().getExtraCdn());
 			// <link> HTML tag generation
-			if (this.table.getCdn()) {
+			if (table.getTableConfiguration().getExtraCdn()) {
 				generateLinkTag(CdnConstants.CDN_DATATABLES_CSS);
 			}
 			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
@@ -281,7 +274,7 @@ public class TableTag extends AbstractTableTag {
 			pageContext.getOut().println(this.table.toHtml());
 
 			// <script> HTML tag generation
-			if (this.table.getCdn()) {
+			if (table.getTableConfiguration().getExtraCdn()) {
 				generateScriptTag(CdnConstants.CDN_DATATABLES_JS_MIN);
 			}
 			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
@@ -318,5 +311,206 @@ public class TableTag extends AbstractTableTag {
 		super.release();
 
 		// TODO
+	}
+	
+	public void setAutoWidth(Boolean autoWidth) {
+		localConf.put(Configuration.FEATURE_AUTOWIDTH, autoWidth);
+	}
+
+	public void setDeferRender(String deferRender) {
+		localConf.put(Configuration.AJAX_DEFERRENDER, deferRender);
+	}
+
+	public void setFilter(Boolean filterable) {
+		localConf.put(Configuration.FEATURE_FILTERABLE, filterable);
+	}
+
+	public void setInfo(Boolean info) {
+		localConf.put(Configuration.FEATURE_INFO, info);
+	}
+
+	public void setPaginate(Boolean paginate) {
+		localConf.put(Configuration.FEATURE_PAGINATE, paginate);
+	}
+
+	public void setLengthChange(Boolean lengthChange) {
+		localConf.put(Configuration.FEATURE_LENGTHCHANGE, lengthChange);
+	}
+
+	public void setProcessing(Boolean processing) {
+		localConf.put(Configuration.AJAX_PROCESSING, processing);
+	}
+
+	public void setServerSide(Boolean serverSide) {
+		localConf.put(Configuration.AJAX_SERVERSIDE, serverSide);
+	}
+	
+	public void setPaginationType(String paginationType) {
+		localConf.put(Configuration.FEATURE_PAGINATIONTYPE, paginationType);
+	}
+
+	public void setSort(Boolean sort) {
+		localConf.put(Configuration.FEATURE_SORT, sort);
+	}
+
+	public void setStateSave(String stateSave) {
+		localConf.put(Configuration.FEATURE_STATESAVE, stateSave);
+	}
+
+	public void setFixedHeader(String fixedHeader) {
+		localConf.put(Configuration.PLUGIN_FIXEDHEADER, fixedHeader);
+	}
+
+	public void setScroller(String scroller) {
+		localConf.put(Configuration.PLUGIN_SCROLLER, scroller);
+	}
+
+	public void setColReorder(String colReorder) {
+		localConf.put(Configuration.PLUGIN_COLREORDER, colReorder);
+	}
+
+	public void setScrollY(String scrollY) {
+		localConf.put(Configuration.FEATURE_SCROLLY, scrollY);
+	}
+
+	public void setScrollCollapse(String scrollCollapse) {
+		localConf.put(Configuration.FEATURE_SCROLLCOLLAPSE, scrollCollapse);
+	}
+
+	public void setFixedPosition(String fixedPosition) {
+		localConf.put(Configuration.PLUGIN_FIXEDPOSITION, fixedPosition);
+	}
+
+	public void setLabels(String labels) {
+		this.labels = labels;
+	}
+
+	public void setOffsetTop(Integer fixedOffsetTop) {
+		localConf.put(Configuration.PLUGIN_FIXEDOFFSETTOP, fixedOffsetTop);
+	}
+
+	public void setCdn(Boolean cdn) {
+		localConf.put(Configuration.EXTRA_CDN, cdn);
+	}
+
+	public void setExport(String export) {
+		localConf.put(Configuration.EXPORT_TYPES, export);
+	}
+
+	public String getLoadingType() {
+		return this.loadingType;
+	}
+
+	public void setUrl(String url) {
+		localConf.put(Configuration.AJAX_SOURCE, url);
+		this.loadingType = "AJAX";
+		this.url = url;
+	}
+
+	public void setJqueryUI(String jqueryUI) {
+		localConf.put(Configuration.FEATURE_JQUERYUI, jqueryUI);
+	}
+
+	public void setPipelining(String pipelining) {
+		localConf.put(Configuration.AJAX_PIPELINING, pipelining);
+	}
+	
+	public void setPipeSize(Integer pipeSize){
+		localConf.put(Configuration.AJAX_PIPESIZE, pipeSize);
+	}
+	
+	public void setExportLinks(String exportLinks) {
+		localConf.put(Configuration.EXPORT_LINKS, exportLinks);
+	}
+
+	public void setTheme(String theme) {
+		localConf.put(Configuration.EXTRA_THEME, theme);
+	}
+
+	public void setThemeOption(String themeOption) {
+		localConf.put(Configuration.EXTRA_THEMEOPTION, themeOption);
+	}
+
+	public void setFooter(String footer) {
+		this.footer = footer;
+	}
+
+	public void setAppear(String appear) {
+		localConf.put(Configuration.EXTRA_APPEAR, appear);
+	}
+	
+	public void setLengthMenu(String lengthMenu){
+		localConf.put(Configuration.FEATURE_LENGTHMENU, lengthMenu);
+	}
+	
+	public void setCssStripes(String cssStripesClasses){
+		localConf.put(Configuration.CSS_STRIPECLASSES, cssStripesClasses);
+	}
+	
+	public void setServerData(String serverData) {
+		localConf.put(Configuration.AJAX_SERVERDATA, serverData);
+	}
+
+	public void setServerParams(String serverParams) {
+		localConf.put(Configuration.AJAX_SERVERPARAM, serverParams);
+	}
+
+	public void setServerMethod(String serverMethod) {
+		localConf.put(Configuration.AJAX_SERVERMETHOD, serverMethod);
+	}
+
+	public void setDisplayLength(Integer displayLength) {
+		localConf.put(Configuration.FEATURE_DISPLAYLENGTH, displayLength);
+	}
+
+	public void setDom(String dom) {
+		localConf.put(Configuration.FEATURE_DOM, dom);
+	}
+
+	public void setFeatures(String customFeatures) {
+		localConf.put(Configuration.EXTRA_CUSTOMFEATURES, customFeatures);
+	}
+
+	public void setPlugins(String customPlugins) {
+		localConf.put(Configuration.EXTRA_CUSTOMPLUGINS, customPlugins);
+	}
+
+	public void setConfGroup(String confGroup) {
+		this.confGroup = confGroup;
+	}
+
+	public void setData(Collection<Object> data) {
+		this.loadingType = "DOM";
+		this.data = data;
+
+		Collection<Object> dataTmp = (Collection<Object>) data;
+		if (dataTmp != null && dataTmp.size() > 0) {
+			iterator = dataTmp.iterator();
+		} else {
+			// TODO afficher un message d'erreur
+			// TODO afficher une alerte javascript
+		}
+	}
+	
+	public void setRowIdBase(String rowIdBase) {
+		this.rowIdBase = rowIdBase;
+	}
+
+	public void setRowIdPrefix(String rowIdPrefix) {
+		this.rowIdPrefix = rowIdPrefix;
+	}
+
+	public void setRowIdSufix(String rowIdSufix) {
+		this.rowIdSufix = rowIdSufix;
+	}
+	
+	public void setCssStyle(String cssStyle) {
+		localConf.put(Configuration.CSS_STYLE, cssStyle);
+		this.cssStyle = cssStyle;
+	}
+
+	public void setCssClass(String cssClass) {
+		localConf.put(Configuration.CSS_CLASS, cssClass);
+		this.cssClass = cssClass;
 	}
 }

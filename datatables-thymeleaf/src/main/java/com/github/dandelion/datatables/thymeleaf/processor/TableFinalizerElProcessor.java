@@ -1,6 +1,7 @@
 package com.github.dandelion.datatables.thymeleaf.processor;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.cache.AssetCache;
 import com.github.dandelion.datatables.core.compressor.ResourceCompressor;
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.constants.CdnConstants;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
@@ -38,6 +40,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.DandelionUtils;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesElProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.util.DomUtils;
 
 /**
@@ -75,6 +78,10 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 
 		if (this.htmlTable != null) {
 
+			@SuppressWarnings("unchecked")
+			Map<Configuration, Object> localConf = (Map<Configuration, Object>) request.getAttribute(DataTablesDialect.INTERNAL_LOCAL_CONF);
+			Configuration.applyConfiguration(htmlTable.getTableConfiguration(), localConf);
+			
 			// The table is being exported
 			if (RequestHelper.isTableBeingExported(request, this.htmlTable)) {
 				setupExport(arguments);
@@ -99,7 +106,7 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 			// Duplicate header row in the footer
 			generateFooter(element, arguments);
 
-			htmlTable.registerFeature(new FilteringFeature());
+			htmlTable.getTableConfiguration().registerFeature(new FilteringFeature());
 		}
 	}
 
@@ -119,12 +126,12 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		ExportType currentExportType = getCurrentExportType(request);
 
 		exportProperties.setCurrentExportType(currentExportType);
-		exportProperties.setExportConf(this.htmlTable.getExportConfMap().get(currentExportType));
-		exportProperties.setFileName(this.htmlTable.getExportConfMap().get(currentExportType)
+		exportProperties.setExportConf(this.htmlTable.getTableConfiguration().getExportConfMap().get(currentExportType));
+		exportProperties.setFileName(this.htmlTable.getTableConfiguration().getExportConfMap().get(currentExportType)
 				.getFileName());
 
-		this.htmlTable.setExportProperties(exportProperties);
-		this.htmlTable.setExporting(true);
+		this.htmlTable.getTableConfiguration().setExportProperties(exportProperties);
+		this.htmlTable.getTableConfiguration().setExporting(true);
 
 		try {
 			// Call the export delegate
@@ -150,7 +157,7 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 			HttpServletRequest request) {
 		WebResources webResources = null;
 		
-		this.htmlTable.setExporting(false);
+		this.htmlTable.getTableConfiguration().setExporting(false);
 
 		// Plugins and themes are activated in their respective attribute
 		// processor
@@ -184,19 +191,19 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 			}
 						
 			// Aggregation
-			if (htmlTable.getTableProperties().isAggregatorEnable()) {
+			if (htmlTable.getTableConfiguration().getMainAggregatorEnable()) {
 				logger.debug("Aggregation enabled");
 				ResourceAggregator.processAggregation(webResources, htmlTable);
 			}
 
 			// Compression
-			if (htmlTable.getTableProperties().isCompressorEnable()) {
+			if (htmlTable.getTableConfiguration().getMainCompressorEnable()) {
 				logger.debug("Compression enabled");
 				ResourceCompressor.processCompression(webResources, htmlTable);
 			}
 
 			// <link> HTML tag generation
-			if (htmlTable.getCdn() != null && htmlTable.getCdn()) {
+			if (htmlTable.getTableConfiguration().getExtraCdn() != null && htmlTable.getTableConfiguration().getExtraCdn()) {
 				DomUtils.addLinkTag(DomUtils.getParentAsElement(element), request,
 						CdnConstants.CDN_DATATABLES_CSS);
 			}
@@ -206,7 +213,7 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 			}
 
 			// <script> HTML tag generation
-			if (htmlTable.getCdn() != null && htmlTable.getCdn()) {
+			if (htmlTable.getTableConfiguration().getExtraCdn() != null && htmlTable.getTableConfiguration().getExtraCdn()) {
 				DomUtils.addScriptTag(DomUtils.getParentAsElement(element), request,
 						CdnConstants.CDN_DATATABLES_JS_MIN);
 			}

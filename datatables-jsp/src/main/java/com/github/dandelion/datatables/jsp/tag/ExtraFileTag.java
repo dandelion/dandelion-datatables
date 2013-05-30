@@ -62,7 +62,7 @@ public class ExtraFileTag extends TagSupport {
 		AbstractTableTag parent = (AbstractTableTag) getParent();
 		
 		if(parent.isFirstIteration()){
-			parent.getTable().addExtraFile(new ExtraFile(getRealSource(this.src), this.insert));
+			parent.getTable().getTableConfiguration().addExtraFile(new ExtraFile(getRealSource(this.src), this.insert));
 		}
 		return EVAL_PAGE;
 	}

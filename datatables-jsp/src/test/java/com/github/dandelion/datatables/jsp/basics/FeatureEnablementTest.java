@@ -54,35 +54,35 @@ public class FeatureEnablementTest extends DomBaseTest {
 
 	@Test
 	public void should_disable_info(){
-		assertThat(table.getInfo()).isEqualTo(false);
+		assertThat(table.getTableConfiguration().getFeatureInfo()).isEqualTo(false);
 		assertThat(mainConf.containsKey(DTConstants.DT_INFO)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_INFO)).isEqualTo(false);
 	}
 	
 	@Test
 	public void should_disable_lengthChange(){
-		assertThat(table.getLengthChange()).isEqualTo(false);
+		assertThat(table.getTableConfiguration().getFeatureLengthChange()).isEqualTo(false);
 		assertThat(mainConf.containsKey(DTConstants.DT_LENGTH_CHANGE)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_LENGTH_CHANGE)).isEqualTo(false);
 	}
 	
 	@Test
 	public void should_disable_sort(){
-		assertThat(table.getSort()).isEqualTo(false);
+		assertThat(table.getTableConfiguration().getFeatureSort()).isEqualTo(false);
 		assertThat(mainConf.containsKey(DTConstants.DT_SORT)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_SORT)).isEqualTo(false);
 	}
 	
 	@Test
 	public void should_enable_filter(){
-		assertThat(table.getFilterable()).isEqualTo(true);
+		assertThat(table.getTableConfiguration().getFeatureFilterable()).isEqualTo(true);
 		assertThat(mainConf.containsKey(DTConstants.DT_FILTER)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_FILTER)).isEqualTo(true);
 	}
 	
 	@Test
 	public void should_enable_paginate(){
-		assertThat(table.getPaginate()).isEqualTo(true);
+		assertThat(table.getTableConfiguration().getFeaturePaginate()).isEqualTo(true);
 		assertThat(mainConf.containsKey(DTConstants.DT_PAGINATE)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_PAGINATE)).isEqualTo(true);
 	}

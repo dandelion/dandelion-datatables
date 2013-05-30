@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
@@ -36,6 +38,7 @@ import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.feature.FilterType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
@@ -63,7 +66,7 @@ public class ThFilterTypeAttrProcessor extends AbstractDatatablesAttrProcessor {
 
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table) {
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 		logger.debug("{} attribute found", attributeName);
 
 		// Override default value with the attribute's one

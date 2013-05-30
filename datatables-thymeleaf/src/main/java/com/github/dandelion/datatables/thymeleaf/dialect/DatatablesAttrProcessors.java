@@ -203,7 +203,6 @@ public enum DatatablesAttrProcessors {
     CALLBACK_PRE_DRAW(TbodyCallbackPreDrawProcessor.class, "cbk:predraw", "tbody"),
     CALLBACK_ROW(TbodyCallbackRowProcessor.class, "cbk:row", "tbody");
 
-
     private Class<? extends AbstractDatatablesAttrProcessor> processorClass;
     private String attributeName;
     private String elementNameFilter;

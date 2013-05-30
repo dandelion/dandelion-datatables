@@ -42,6 +42,7 @@ import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.callback.Callback;
+import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -66,6 +67,7 @@ public class MainGenerator extends AbstractConfigurationGenerator {
      */
     public Map<String, Object> generateConfig(HtmlTable table) {
 
+    	TableConfiguration tableConfiguration = table.getTableConfiguration();
         logger.debug("Generating DataTables configuration ..");
 
         // Main configuration object
@@ -115,7 +117,7 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         }
         mainConf.put(DTConstants.DT_AOCOLUMNS, aoColumnsContent);
 
-        // Column sorting initialisation
+        // Column sorting configuration
         List<Object> aaSortingtmp = null;
         List<Object> aaSortingContent = new ArrayList<Object>();
         Integer columnIndex = 0;
@@ -135,89 +137,88 @@ public class MainGenerator extends AbstractConfigurationGenerator {
             mainConf.put(DTConstants.DT_SORT_INIT, aaSortingContent);
         }
 
-        if (table.getLabels() != null) {
+        if(StringUtils.isNotBlank(tableConfiguration.getFeatureDom())){
+        	mainConf.put(DTConstants.DT_DOM, tableConfiguration.getFeatureDom());
+        }
+        if (tableConfiguration.getLabels() != null) {
             tmp = new HashMap<String, Object>();
-            tmp.put(DTConstants.DT_URL, table.getLabels());
+            tmp.put(DTConstants.DT_URL, tableConfiguration.getLabels());
             mainConf.put(DTConstants.DT_LANGUAGE, tmp);
         }
-        if (table.getAutoWidth() != null) {
-            mainConf.put(DTConstants.DT_AUTO_WIDTH, table.getAutoWidth());
+        if (tableConfiguration.getFeatureAutoWidth() != null) {
+            mainConf.put(DTConstants.DT_AUTO_WIDTH, tableConfiguration.getFeatureAutoWidth());
         }
-        if (table.getDeferRender() != null) {
-            mainConf.put(DTConstants.DT_DEFER_RENDER, table.getDeferRender());
+        if (tableConfiguration.getAjaxDeferRender() != null) {
+            mainConf.put(DTConstants.DT_DEFER_RENDER, tableConfiguration.getAjaxDeferRender());
         }
-        if (table.getFilterable() != null) {
-            mainConf.put(DTConstants.DT_FILTER, table.getFilterable());
+        if (tableConfiguration.getFeatureFilterable() != null) {
+            mainConf.put(DTConstants.DT_FILTER, tableConfiguration.getFeatureFilterable());
         }
-        if (table.getInfo() != null) {
-            mainConf.put(DTConstants.DT_INFO, table.getInfo());
+        if (tableConfiguration.getFeatureInfo() != null) {
+            mainConf.put(DTConstants.DT_INFO, tableConfiguration.getFeatureInfo());
         }
-        if (table.getPaginate() != null) {
-            mainConf.put(DTConstants.DT_PAGINATE, table.getPaginate());
+        if (tableConfiguration.getFeaturePaginate() != null) {
+            mainConf.put(DTConstants.DT_PAGINATE, tableConfiguration.getFeaturePaginate());
         }
-        if (table.getDisplayLength() != null) {
-            mainConf.put(DTConstants.DT_I_DISPLAY_LENGTH, table.getDisplayLength());
+        if (tableConfiguration.getFeatureDisplayLength() != null) {
+            mainConf.put(DTConstants.DT_I_DISPLAY_LENGTH, tableConfiguration.getFeatureDisplayLength());
         }
-        if (table.getLengthChange() != null) {
-            mainConf.put(DTConstants.DT_LENGTH_CHANGE, table.getLengthChange());
+        if (tableConfiguration.getFeatureLengthChange() != null) {
+            mainConf.put(DTConstants.DT_LENGTH_CHANGE, tableConfiguration.getFeatureLengthChange());
         }
-        if (table.getPaginationType() != null) {
-            mainConf.put(DTConstants.DT_PAGINATION_TYPE, table.getPaginationType().toString());
+        if (tableConfiguration.getFeaturePaginationType() != null) {
+            mainConf.put(DTConstants.DT_PAGINATION_TYPE, tableConfiguration.getFeaturePaginationType().toString());
         }
-        if (table.getSort() != null) {
-            mainConf.put(DTConstants.DT_SORT, table.getSort());
+        if (tableConfiguration.getFeatureSort() != null) {
+            mainConf.put(DTConstants.DT_SORT, tableConfiguration.getFeatureSort());
         }
-        if (table.getStateSave() != null) {
-            mainConf.put(DTConstants.DT_STATE_SAVE, table.getStateSave());
+        if (tableConfiguration.getFeatureStateSave() != null) {
+            mainConf.put(DTConstants.DT_STATE_SAVE, tableConfiguration.getFeatureStateSave());
         }
-        if (table.getJqueryUI() != null) {
-            mainConf.put(DTConstants.DT_JQUERYUI, table.getJqueryUI());
+        if (tableConfiguration.getFeatureJqueryUI() != null) {
+            mainConf.put(DTConstants.DT_JQUERYUI, tableConfiguration.getFeatureJqueryUI());
         }
-        if(StringUtils.isNotBlank(table.getLengthMenu())){
-        	mainConf.put(DTConstants.DT_A_LENGTH_MENU, new JavascriptSnippet(table.getLengthMenu()));
+        if(StringUtils.isNotBlank(tableConfiguration.getFeatureLengthMenu())){
+        	mainConf.put(DTConstants.DT_A_LENGTH_MENU, new JavascriptSnippet(tableConfiguration.getFeatureLengthMenu()));
         }
-        if(StringUtils.isNotBlank(table.getStripeClasses())){
-        	mainConf.put(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet(table.getStripeClasses()));
+        if(StringUtils.isNotBlank(tableConfiguration.getCssStripeClasses())){
+        	mainConf.put(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet(tableConfiguration.getCssStripeClasses()));
         }
-        if(StringUtils.isNotBlank(table.getScrollY())){
-        	mainConf.put(DTConstants.DT_SCROLLY, table.getScrollY());
+        if(StringUtils.isNotBlank(tableConfiguration.getFeatureScrollY())){
+        	mainConf.put(DTConstants.DT_SCROLLY, tableConfiguration.getFeatureScrollY());
         }
-        if(table.getScrollCollapse() != null){
-        	mainConf.put(DTConstants.DT_SCROLLCOLLAPSE, table.getScrollCollapse());
+        if(tableConfiguration.getFeatureScrollCollapse() != null){
+        	mainConf.put(DTConstants.DT_SCROLLCOLLAPSE, tableConfiguration.getFeatureScrollCollapse());
         }
         
         // AJAX
-        if (table.getProcessing() != null) {
-            mainConf.put(DTConstants.DT_B_PROCESSING, table.getProcessing());
+        if (tableConfiguration.getAjaxProcessing() != null) {
+            mainConf.put(DTConstants.DT_B_PROCESSING, table.getTableConfiguration().getAjaxProcessing());
         }
-        if(table.getServerSide() != null){
-        	mainConf.put(DTConstants.DT_B_SERVER_SIDE, table.getServerSide());
+        if(tableConfiguration.getAjaxServerSide() != null){
+        	mainConf.put(DTConstants.DT_B_SERVER_SIDE, table.getTableConfiguration().getAjaxServerSide());
 
-        	if(StringUtils.isNotBlank(table.getDatasourceUrl())){
-        		mainConf.put(DTConstants.DT_S_AJAX_SOURCE, table.getDatasourceUrl());
+        	if(StringUtils.isNotBlank(tableConfiguration.getAjaxSource())){
+        		mainConf.put(DTConstants.DT_S_AJAX_SOURCE, tableConfiguration.getAjaxSource());
         	}
-        	if(StringUtils.isNotBlank(table.getServerData())){
-        		mainConf.put(DTConstants.DT_FN_SERVERDATA, new JavascriptSnippet(table.getServerData()));
+        	if(StringUtils.isNotBlank(tableConfiguration.getAjaxServerData())){
+        		mainConf.put(DTConstants.DT_FN_SERVERDATA, new JavascriptSnippet(tableConfiguration.getAjaxServerData()));
         	}
-        	if(StringUtils.isNotBlank(table.getServerParam())){
-        		mainConf.put(DTConstants.DT_FN_SERVERPARAMS, new JavascriptSnippet(table.getServerParam()));
+        	if(StringUtils.isNotBlank(tableConfiguration.getAjaxServerParam())){
+        		mainConf.put(DTConstants.DT_FN_SERVERPARAMS, new JavascriptSnippet(tableConfiguration.getAjaxServerParam()));
         	}
-        	if(StringUtils.isNotBlank(table.getServerMethod())){
-        		mainConf.put(DTConstants.DT_S_SERVERMETHOD, table.getServerMethod());
+        	if(StringUtils.isNotBlank(tableConfiguration.getAjaxServerMethod())){
+        		mainConf.put(DTConstants.DT_S_SERVERMETHOD, tableConfiguration.getAjaxServerMethod());
         	}
         }
         
         // Callbacks
-        if(table.getCallbacks() != null){
-        	for(Callback callback : table.getCallbacks()){
+        if(tableConfiguration.getCallbacks() != null){
+        	for(Callback callback : tableConfiguration.getCallbacks()){
         		mainConf.put(callback.getType().getName(), new JavascriptFunction(callback.getFunction(), callback.getType().getArgs()));
         	}
         }
         
-        if(StringUtils.isNotBlank(table.getDom())){
-        	mainConf.put(DTConstants.DT_DOM, table.getDom());
-        }
-
         logger.debug("DataTables configuration generated");
 
         return mainConf;

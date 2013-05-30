@@ -1,12 +1,19 @@
 package com.github.dandelion.datatables.core.generator;
 
 import static org.fest.assertions.Assertions.assertThat;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mock.web.MockPageContext;
+import org.springframework.mock.web.MockServletContext;
+
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
@@ -25,6 +32,8 @@ public class MainGeneratorTest {
 	private static List<DisplayType> displayTypeHtmlUsedForColumnDefinition = new ArrayList<DisplayType>();
 	private static List<DisplayType> displayTypeNotUsedForColumnDefinition = new ArrayList<DisplayType>();
 	private static Map<String, Object> defaultProperties = new HashMap<String, Object>();
+	private MockServletContext mockServletContext;
+	private MockPageContext mockPageContext;
 
 	static {
 		displayTypeAllUsedForColumnDefinition.add(DisplayType.ALL);
@@ -49,19 +58,21 @@ public class MainGeneratorTest {
 
 	@Before
 	public void createMainGenerator() {
+		mockServletContext = new MockServletContext();
+		mockPageContext = new MockPageContext(mockServletContext);
 		generator = new MainGenerator();
 	}
 
 	@Before
 	public void createTable() {
-		table = new HtmlTable("aTable", "randomId");
+		table = new HtmlTable("aTable", (HttpServletRequest) mockPageContext.getRequest());
 		headerRow = table.addHeaderRow();
 		firstColumn = headerRow.addColumn("firstColumn");
 	}
 
 	@Test
 	public void should_have_default_values() {
-		table = new HtmlTable("aTable", "randomId");
+		table = new HtmlTable("aTable", (HttpServletRequest) mockPageContext.getRequest());
 		headerRow = table.addHeaderRow();
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
@@ -219,7 +230,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_label() {
-		table.setLabels("FR_fr");
+		table.getTableConfiguration().setLabels("FR_fr");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -230,7 +241,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_auto_width() {
-		table.setAutoWidth(true);
+		table.getTableConfiguration().setFeatureAutoWidth(true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -240,7 +251,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_defer_render() {
-		table.setDeferRender(true);
+		table.getTableConfiguration().setAjaxDeferRender(true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -250,7 +261,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_filterable() {
-		table.setFilterable(true);
+		table.getTableConfiguration().setFeatureFilterable(true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -260,7 +271,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_info() {
-		table.setInfo(true);
+		table.getTableConfiguration().setFeatureInfo(true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -270,7 +281,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_paginate() {
-		table.setPaginate(true);
+		table.getTableConfiguration().setFeaturePaginate(true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -280,7 +291,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_display_length() {
-		table.setDisplayLength(10);
+		table.getTableConfiguration().setFeatureDisplayLength(10);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -290,7 +301,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_length_change() {
-		table.setLengthChange(true);
+		table.getTableConfiguration().setFeatureLengthChange(true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -300,7 +311,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_pagination_type() {
-		table.setPaginationType(PaginationType.input);
+		table.getTableConfiguration().setFeaturePaginationType(PaginationType.input);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -310,7 +321,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_sort() {
-		table.setSort(true);
+		table.getTableConfiguration().setFeatureSort(true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -320,7 +331,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_state_save() {
-		table.setStateSave(true);
+		table.getTableConfiguration().setFeatureStateSave(true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -330,7 +341,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_jquery_ui() {
-		table.setJqueryUI(true);
+		table.getTableConfiguration().setFeatureJqueryUi(true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -340,7 +351,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_length_menu() {
-		table.setLengthMenu("[[100px],[200px]]");
+		table.getTableConfiguration().setFeatureLengthMenu("[[100px],[200px]]");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -350,7 +361,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_stripe_classes() {
-		table.setStripeClasses("['oddClass','evenClass']");
+		table.getTableConfiguration().setCssStripeClasses("oddClass,evenClass");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -360,7 +371,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_scroll_y() {
-		table.setScrollY("100px");
+		table.getTableConfiguration().setFeatureScrolly("100px");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -370,7 +381,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_scroll_collapse() {
-		table.setScrollCollapse(true);
+		table.getTableConfiguration().setFeatureScrollCollapse(true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -380,7 +391,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_processing() {
-		table.setProcessing(true);
+		table.getTableConfiguration().setAjaxProcessing(true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -393,10 +404,10 @@ public class MainGeneratorTest {
 		// TODO : should server side properties be triggered by server side
 		// boolean definition ?
 		// table.setServerSide(false);
-		table.setDatasourceUrl("aUrl");
-		table.setServerData("someServerData");
-		table.setServerParam("someServerParam");
-		table.setServerMethod("GET");
+		table.getTableConfiguration().setAjaxSource("aUrl");
+		table.getTableConfiguration().setAjaxServerData("someServerData");
+		table.getTableConfiguration().setAjaxServerParam("someServerParam");
+		table.getTableConfiguration().setAjaxServerMethod("GET");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -405,7 +416,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_server_side() {
-		table.setServerSide(true);
+		table.getTableConfiguration().setAjaxServerSide(true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -415,8 +426,8 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_server_side_and_datasource_url() {
-		table.setServerSide(true);
-		table.setDatasourceUrl("aUrl");
+		table.getTableConfiguration().setAjaxServerSide(true);
+		table.getTableConfiguration().setAjaxSource("aUrl");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -426,8 +437,8 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_server_side_and_server_data_url() {
-		table.setServerSide(true);
-		table.setServerData("someServerData");
+		table.getTableConfiguration().setAjaxServerSide(true);
+		table.getTableConfiguration().setAjaxServerData("someServerData");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -437,8 +448,8 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_server_side_and_server_param_url() {
-		table.setServerSide(true);
-		table.setServerParam("someServerParam");
+		table.getTableConfiguration().setAjaxServerSide(true);
+		table.getTableConfiguration().setAjaxServerParam("someServerParam");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -448,8 +459,8 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_server_side_and_server_method_url() {
-		table.setServerSide(true);
-		table.setServerMethod("GET");
+		table.getTableConfiguration().setAjaxServerSide(true);
+		table.getTableConfiguration().setAjaxServerMethod("GET");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -462,7 +473,7 @@ public class MainGeneratorTest {
 		Callback callback = new Callback(CallbackType.CREATEDROW, "aJavascriptFunction");
 		List<Callback> callbacks = new ArrayList<Callback>();
 		callbacks.add(callback);
-		table.setCallbacks(callbacks);
+		table.getTableConfiguration().setCallbacks(callbacks);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -479,7 +490,7 @@ public class MainGeneratorTest {
 		callbacks.add(callback2);
 		Callback callback3 = new Callback(CallbackType.PREDRAW, "aThirdJavascriptFunction");
 		callbacks.add(callback3);
-		table.setCallbacks(callbacks);
+		table.getTableConfiguration().setCallbacks(callbacks);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -491,7 +502,7 @@ public class MainGeneratorTest {
 	
 	@Test
 	public void should_set_dom() {
-		table.setDom("aDom");
+		table.getTableConfiguration().setFeatureDom("aDom");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 

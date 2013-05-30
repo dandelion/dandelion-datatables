@@ -43,7 +43,7 @@ public class ExportManager {
 	public void exportManagement(HtmlTable table, JsResource mainJsFile) {
 
 		StringBuilder links = new StringBuilder();
-		for (ExportLinkPosition position : table.getExportLinkPositions()) {
+		for (ExportLinkPosition position : table.getTableConfiguration().getExportLinkPositions()) {
 
 			// Init the wrapping HTML div
 			HtmlDiv divExport = initExportDiv(table, mainJsFile);
@@ -91,12 +91,12 @@ public class ExportManager {
 			}
 		}
 
-		if(table.hasCallback(CallbackType.INIT)){
-			table.getCallback(CallbackType.INIT).addContent(links.toString());
+		if(table.getTableConfiguration().hasCallback(CallbackType.INIT)){
+			table.getTableConfiguration().getCallback(CallbackType.INIT).addContent(links.toString());
 		}
 		else{
 			Callback initCallback = new Callback(CallbackType.INIT, links.toString());
-			table.registerCallback(initCallback);
+			table.getTableConfiguration().registerCallback(initCallback);
 		}
 	}
 	
@@ -107,13 +107,13 @@ public class ExportManager {
 		divExport.addCssClass("dandelion_dataTables_export");
 		
 		// ExportTag have been added to the TableTag
-		if (table.getExportConfMap() != null && table.getExportConfMap().size() > 0) {
+		if (table.getTableConfiguration().getExportConfMap() != null && table.getTableConfiguration().getExportConfMap().size() > 0) {
 			logger.debug("Generating export links");
 
 			HtmlHyperlink link = null;
 
 			// A HTML link is generated for each ExportConf bean
-			for (ExportConf conf : table.getExportConfMap().values()) {
+			for (ExportConf conf : table.getTableConfiguration().getExportConfMap().values()) {
 
 				link = new HtmlHyperlink();
 

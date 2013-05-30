@@ -61,7 +61,7 @@ public class StylingTableTest extends DomBaseTest {
 	
 	@Test
 	public void should_set_strip_classes() {
-		assertThat(table.getStripeClasses()).isEqualTo("['myStrip1','myStrip2']");
+		assertThat(table.getTableConfiguration().getCssStripeClasses()).isEqualTo("['myStrip1','myStrip2']");
 	}
 	
 	@Test

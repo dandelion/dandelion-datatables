@@ -62,7 +62,7 @@ public class ExtraConfTag extends TagSupport {
 		AbstractTableTag parent = (AbstractTableTag) getParent();
 
 		if (parent.isFirstIteration()) {
-			parent.getTable().addExtraConf(new ExtraConf(getLocation(this.src)));
+			parent.getTable().getTableConfiguration().addExtraConf(new ExtraConf(getLocation(this.src)));
 		}
 		return EVAL_PAGE;
 	}

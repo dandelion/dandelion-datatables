@@ -27,47 +27,29 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.properties;
+package com.github.dandelion.datatables.core.processor.plugin;
 
-import static org.fest.assertions.Assertions.assertThat;
+import java.util.Map;
 
-import java.lang.reflect.Field;
+import org.apache.commons.lang.StringUtils;
 
-import org.junit.Test;
+import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.plugin.ScrollerPlugin;
+import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 
-import com.github.dandelion.datatables.core.constants.ConfConstants;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.html.HtmlTable;
+public class PluginScrollerProcessor extends AbstractProcessor {
 
-/**
- * Test everything about Datatables properties.
- *
- * @author Thibault Duchateau
- */
-public class PropertiesLoaderTest {
-
-	private HtmlTable table = new HtmlTable("dummyDomId", "dummyId");
-	private TableProperties tableProperties = new TableProperties();
-	
-	@Test
-	public void should_load_properties() throws BadConfigurationException {
-		PropertiesLoader.load(table);
-		assertThat(table.getTableProperties().getAggregatorMode()).isNotNull();
-	}
-	
-	@Test
-	public void should_not_validate_any_wrong_property() throws BadConfigurationException {
-		assertThat(tableProperties.isValidProperty("wrongProperty")).isFalse();
-	}
-	
-	@Test
-	public void should_validate_right_properties() throws IllegalArgumentException, IllegalAccessException, BadConfigurationException {
-
-		Field[] confConstants = ConfConstants.class.getDeclaredFields();
-
-		for (Field constant : confConstants) {
-			constant.setAccessible(true);
-			assertThat(tableProperties.isValidProperty(String.valueOf(constant.get(ConfConstants.class)))).isTrue();
+	@Override
+	public Boolean process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+		Boolean retval = null;
+		if(StringUtils.isNotBlank(param)){
+			retval = Boolean.parseBoolean(param);
+			
+			if (retval != null && retval) {
+				tableConfiguration.registerPlugin(new ScrollerPlugin());
+			}
 		}
+		return retval;
 	}
 }

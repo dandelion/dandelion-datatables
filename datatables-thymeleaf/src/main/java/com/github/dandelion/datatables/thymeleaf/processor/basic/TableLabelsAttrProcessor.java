@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -38,6 +40,7 @@ import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
@@ -60,9 +63,12 @@ public class TableLabelsAttrProcessor extends AbstractDatatablesAttrProcessor {
 		return 8000;
 	}
 
+	/**
+	 * TODO
+	 */
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table) {
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 
 		// Get the request
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
@@ -73,9 +79,11 @@ public class TableLabelsAttrProcessor extends AbstractDatatablesAttrProcessor {
 		// Get attribute value
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
+//		localConf.put(Configuration.FEATURE_INFO, attrValue);
+		
 		// HtmlTable update
 		if (htmlTable != null && StringUtils.isNotBlank(attrValue)) {
-			htmlTable.setLabels(Utils.getBaseUrl(request) + attrValue);
+			htmlTable.getTableConfiguration().setLabels(Utils.getBaseUrl(request) + attrValue);
 		}
 
 		return ProcessorResult.ok();

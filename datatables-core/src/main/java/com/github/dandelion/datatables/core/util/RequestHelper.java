@@ -137,9 +137,9 @@ public class RequestHelper {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		String retval = null;
 
-		if (StringUtils.isNotBlank(table.getTableProperties().getBaseUrl())) {
+		if (StringUtils.isNotBlank(table.getTableConfiguration().getMainUrlBase())) {
 			String[] url = request.getRequestURL().toString().split("/");
-			retval = url[0] + "//" + table.getTableProperties().getBaseUrl() + request.getContextPath();
+			retval = url[0] + "//" + table.getTableConfiguration().getMainUrlBase() + request.getContextPath();
 		} else {
 			retval = request.getRequestURL().toString();
 		}

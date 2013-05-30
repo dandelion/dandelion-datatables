@@ -54,6 +54,6 @@ public class PaginationTest extends DomBaseTest {
 	
 	@Test
 	public void should_limit_display_length() {
-		assertThat(table.getDisplayLength()).isEqualTo(40);
+		assertThat(table.getTableConfiguration().getFeatureDisplayLength()).isEqualTo(40);
 	}
 }

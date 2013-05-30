@@ -85,7 +85,7 @@ public class CallbackTag extends TagSupport {
 						callbackType, CallbackType.values());
 				throw new JspException(e);
 			}
-			parent.getTable().registerCallback(new Callback(callbackType, this.function));
+			parent.getTable().getTableConfiguration().registerCallback(new Callback(callbackType, this.function));
 		}
 		
 		return EVAL_PAGE;

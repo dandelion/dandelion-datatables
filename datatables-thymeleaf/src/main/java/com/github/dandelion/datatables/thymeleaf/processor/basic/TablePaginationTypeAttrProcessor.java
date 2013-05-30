@@ -29,20 +29,14 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Map;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.feature.PaginationType;
-import com.github.dandelion.datatables.core.feature.PaginationTypeBootstrapFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeFourButtonFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeInputFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeListboxFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeScrollingFeature;
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
@@ -53,9 +47,6 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * @author Thibault Duchateau
  */
 public class TablePaginationTypeAttrProcessor extends AbstractDatatablesAttrProcessor {
-
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(TablePaginationTypeAttrProcessor.class);
 
 	public TablePaginationTypeAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
@@ -68,40 +59,12 @@ public class TablePaginationTypeAttrProcessor extends AbstractDatatablesAttrProc
 
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table) {
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 
 		// Get attribute value
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
-		if (StringUtils.isNotBlank(attrValue)) {
-			PaginationType paginationType = null;
-			try {
-				paginationType = PaginationType.valueOf(attrValue);
-			} catch (IllegalArgumentException e) {
-				logger.error("{} is not a valid value among {}", attrValue, PaginationType.values());
-				throw new IllegalArgumentException("Wrong value for PaginationType");
-			}
-
-			switch (paginationType) {
-			case bootstrap:
-				table.registerFeature(new PaginationTypeBootstrapFeature());
-				break;
-			case input:
-				table.registerFeature(new PaginationTypeInputFeature());
-				break;
-			case listbox:
-				table.registerFeature(new PaginationTypeListboxFeature());
-				break;
-			case scrolling:
-				table.registerFeature(new PaginationTypeScrollingFeature());
-				break;
-			case four_button:
-				table.registerFeature(new PaginationTypeFourButtonFeature());
-				break;
-			default:
-				break;
-			}
-		}
+		localConf.put(Configuration.FEATURE_PAGINATIONTYPE, attrValue);
 
 		return ProcessorResult.ok();
 	}

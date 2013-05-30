@@ -76,10 +76,10 @@ public class XmlExport extends AbstractCharExport {
 		try {
 			writer = outputFactory.createXMLStreamWriter(output);
 			writer.writeStartDocument("1.0");
-			writer.writeStartElement(table.getObjectType().toLowerCase() + "s");
+			writer.writeStartElement(table.getTableConfiguration().getInternalObjectType().toLowerCase() + "s");
 
 			for (HtmlRow row : table.getBodyRows()) {
-				writer.writeStartElement(table.getObjectType().toLowerCase());
+				writer.writeStartElement(table.getTableConfiguration().getInternalObjectType().toLowerCase());
 
 				int i = 0;
 				for (HtmlColumn column : row.getColumns()) {

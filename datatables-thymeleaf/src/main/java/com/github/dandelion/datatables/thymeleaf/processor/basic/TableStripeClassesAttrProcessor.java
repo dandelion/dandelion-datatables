@@ -29,15 +29,14 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
@@ -63,22 +62,12 @@ public class TableStripeClassesAttrProcessor extends AbstractDatatablesAttrProce
 
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table) {
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 
 		// Get attribute value
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
-		if(StringUtils.isNotBlank(attrValue)){
-			String[] tmp = attrValue.split(",");
-			String stripeTmp = "[";
-			Iterator<String> iterator = Arrays.asList(tmp).iterator();
-			stripeTmp += "'" + iterator.next() + "'";
-			while(iterator.hasNext()){
-				stripeTmp += ",'" + iterator.next() + "'";
-			}
-			stripeTmp += "]";
-			table.setStripeClasses(stripeTmp);
-		}
+		localConf.put(Configuration.CSS_STRIPECLASSES, attrValue);
 
 		return ProcessorResult.ok();
 	}

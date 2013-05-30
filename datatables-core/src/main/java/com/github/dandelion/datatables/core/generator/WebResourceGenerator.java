@@ -32,6 +32,7 @@ package com.github.dandelion.datatables.core.generator;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -51,6 +52,7 @@ import com.github.dandelion.datatables.core.export.ExportManager;
 import com.github.dandelion.datatables.core.extension.ExtensionLoader;
 import com.github.dandelion.datatables.core.extension.ExtensionManager;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
 import com.github.dandelion.datatables.core.util.NameConstants;
 import com.github.dandelion.datatables.core.util.ResourceHelper;
@@ -121,7 +123,7 @@ public class WebResourceGenerator {
 		/**
 		 * Export management
 		 */
-		if (table.isExportable()) {
+		if (table.getTableConfiguration().isExportable()) {
 			exportManager.exportManagement(table, mainJsFile);
 		}
 		
@@ -133,7 +135,7 @@ public class WebResourceGenerator {
 		/**
 		 * Extra files management
 		 */
-		if (table.getExtraFiles() != null && !table.getExtraFiles().isEmpty()) {
+		if (table.getTableConfiguration().getExtraFiles() != null && !table.getTableConfiguration().getExtraFiles().isEmpty()) {
 			extraFileManagement(mainJsFile, table);
 		}
 
@@ -142,16 +144,16 @@ public class WebResourceGenerator {
 		 */
 		extensionManager.registerCustomExtensions(table);
 		ExtensionLoader extensionLoader = new ExtensionLoader(table, mainJsFile, mainConf, webResources);		
-		extensionLoader.load(table.getPlugins());
-		extensionLoader.load(table.getFeatures());
-		if(table.getTheme() != null){
-			extensionLoader.load(Arrays.asList(table.getTheme()));			
+		extensionLoader.load(table.getTableConfiguration().getExtraPlugins());
+		extensionLoader.load(table.getTableConfiguration().getExtraFeatures());
+		if(table.getTableConfiguration().getExtraTheme() != null){
+			extensionLoader.load(new HashSet<AbstractTheme>(Arrays.asList(table.getTableConfiguration().getExtraTheme())));			
 		}
 		
 		/**
 		 * Extra configuration management
 		 */
-		if(table.getExtraConfs() != null){
+		if(table.getTableConfiguration().getExtraConfs() != null){
 			extraConfManagement(mainJsFile, mainConf, table);			
 		}
 
@@ -165,14 +167,14 @@ public class WebResourceGenerator {
 		/**
 		 * Table display
 		 */
-		if(StringUtils.isNotBlank(table.getAppear())){
+		if(StringUtils.isNotBlank(table.getTableConfiguration().getFeatureAppear())){
 			
-			if("block".equals(table.getAppear())){
+			if("block".equals(table.getTableConfiguration().getFeatureAppear())){
 				mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId() + "').show();");			
 			}
 			else{
-				if(StringUtils.isNotBlank(table.getAppearDuration())){
-					mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn(" + table.getAppearDuration() + ");");
+				if(StringUtils.isNotBlank(table.getTableConfiguration().getFeatureAppearDuration())){
+					mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn(" + table.getTableConfiguration().getFeatureAppearDuration() + ");");
 				}
 				else{
 					mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn();");
@@ -202,7 +204,7 @@ public class WebResourceGenerator {
 
 		logger.info("Extra files found");
 
-		for (ExtraFile file : table.getExtraFiles()) {
+		for (ExtraFile file : table.getTableConfiguration().getExtraFiles()) {
 
 			switch (file.getInsert()) {
 			case BEFOREALL:
@@ -242,7 +244,7 @@ public class WebResourceGenerator {
 	private void extraConfManagement(JsResource mainJsFile, Map<String, Object> mainConf,
 			HtmlTable table) throws BadConfigurationException {
 
-		for (ExtraConf conf : table.getExtraConfs()) {
+		for (ExtraConf conf : table.getTableConfiguration().getExtraConfs()) {
 			StringBuilder extaConf = new StringBuilder();
 			extaConf.append("$.ajax({url:\"");
 			extaConf.append(conf.getSrc());

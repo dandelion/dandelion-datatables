@@ -80,12 +80,12 @@ public class ExportDelegate {
 		String exportClass = null;
 
 		// Get the current export type
-		ExportType exportType = htmlTable.getExportProperties().getCurrentExportType();
+		ExportType exportType = htmlTable.getTableConfiguration().getExportProperties().getCurrentExportType();
 
 		// Get as a string the class to use for the export, either using a
 		// custom class
 		// or using the default one
-		exportClass = htmlTable.getTableProperties().getExportClass(exportType);
+		exportClass = htmlTable.getTableConfiguration().getExportClass(exportType);
 		logger.debug("Export class selected : {}", exportClass);
 
 		// Check that the class can be instanciated

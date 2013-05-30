@@ -29,11 +29,14 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.plugin;
 
+import java.util.Map;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.plugin.ColReorderPlugin;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
@@ -56,16 +59,19 @@ public class TheadColReorderAttrProcessor extends AbstractDatatablesAttrProcesso
 		return 9000;
 	}
 
+	// TODO
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table) {
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 
 		// Get attribute value
 		Boolean attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), false, Boolean.class);
 
+		localConf.put(Configuration.PLUGIN_COLREORDER, attrValue);
+		
 		// HtmlTable update
 		if (attrValue && table != null) {
-			table.registerPlugin(new ColReorderPlugin());
+			table.getTableConfiguration().registerPlugin(new ColReorderPlugin());
 			((Element) element.getParent()).setAttribute("style", "");
 		}
 

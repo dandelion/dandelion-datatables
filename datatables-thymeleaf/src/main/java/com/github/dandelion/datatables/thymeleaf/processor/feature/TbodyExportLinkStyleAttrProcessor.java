@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.feature;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.thymeleaf.Arguments;
@@ -37,6 +39,7 @@ import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportType;
@@ -72,7 +75,7 @@ public class TbodyExportLinkStyleAttrProcessor extends AbstractDatatablesAttrPro
 
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table) {
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 
 		// Get the HTTP request
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
@@ -82,8 +85,8 @@ public class TbodyExportLinkStyleAttrProcessor extends AbstractDatatablesAttrPro
 		ExportType exportType = ExportType.valueOf(attributeName.split(":")[1].toUpperCase().trim());
 		
 		// The ExportConf already exists
-		if(table.getExportConfMap().containsKey(exportType)){
-			table.getExportConfMap().get(exportType).setCssStyle(attrValue);
+		if(table.getTableConfiguration().getExportConfMap().containsKey(exportType)){
+			table.getTableConfiguration().getExportConfMap().get(exportType).setCssStyle(attrValue);
 		}
 		// The ExportConf still doesn't exist
 		else{
@@ -102,7 +105,7 @@ public class TbodyExportLinkStyleAttrProcessor extends AbstractDatatablesAttrPro
 						
 			ExportConf conf = new ExportConf(exportType, url);
 			conf.setCssStyle(attrValue);
-			table.getExportConfMap().put(exportType, conf);
+			table.getTableConfiguration().getExportConfMap().put(exportType, conf);
 		}
 		
 		return ProcessorResult.ok();

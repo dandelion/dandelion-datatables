@@ -86,6 +86,10 @@ public class Parameter {
 		PREPEND_WITH_SPACE
 	}
 
+	public Parameter(String name){
+		this.name = name;
+	}
+	
 	public Parameter(String name, Object value) {
 		this.name = name;
 		this.value = value;

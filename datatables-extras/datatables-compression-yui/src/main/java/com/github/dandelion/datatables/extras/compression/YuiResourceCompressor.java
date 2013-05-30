@@ -39,9 +39,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.compressor.WebResourceCompressor;
+import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.properties.TableProperties;
 import com.yahoo.platform.yui.compressor.CssCompressor;
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 
@@ -63,7 +63,7 @@ public class YuiResourceCompressor implements WebResourceCompressor {
 
 		Writer output = new StringWriter();
 		JavaScriptCompressor compressor = null;
-		TableProperties props = table.getTableProperties();
+		TableConfiguration props = table.getTableConfiguration();
 
 		try {
 			// Instanciate the compressor
@@ -71,8 +71,8 @@ public class YuiResourceCompressor implements WebResourceCompressor {
 					new YuiCompressorErrorReporter());
 
 			// Compress code
-			compressor.compress(output, -1, props.getCompressorMunge(), false,
-					props.getCompressorPreserveSemi(), props.getCompressorDisableOpti());
+			compressor.compress(output, -1, props.getMainCompressorMunge(), false,
+					props.getMainCompressorPreserveSemiColons(), props.getCompressorDisableOpti());
 		} catch (EvaluatorException e) {
 			logger.error("Unable to compress Javascript resource");
 			throw new CompressionException(e);

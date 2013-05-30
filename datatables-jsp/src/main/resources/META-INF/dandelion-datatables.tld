@@ -322,6 +322,10 @@
          <description>Comma-separated list of custom plugin's names to register in the current table</description>
          <name>plugins</name>
       </attribute>
+      <attribute>
+         <description>TODO</description>
+         <name>confGroup</name>
+      </attribute>
       
       <!-- ====================================== -->
       <!-- Extra features -->

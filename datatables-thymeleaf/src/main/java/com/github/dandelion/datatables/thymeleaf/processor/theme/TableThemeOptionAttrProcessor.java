@@ -29,16 +29,15 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.theme;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Map;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.theme.ThemeOption;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
@@ -48,9 +47,6 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * @author Thibault Duchateau
  */
 public class TableThemeOptionAttrProcessor extends AbstractDatatablesAttrProcessor {
-
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(TableThemeOptionAttrProcessor.class);
 
 	public TableThemeOptionAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
@@ -63,25 +59,13 @@ public class TableThemeOptionAttrProcessor extends AbstractDatatablesAttrProcess
 
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table) {
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 		
 		// Get attribute value
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
-		// HtmlTable update
-		if (table != null) {
-			ThemeOption themeOption = null;
-
-			try {
-				themeOption = ThemeOption.valueOf(attrValue.trim().toUpperCase());
-			} catch (IllegalArgumentException e) {
-				logger.error("{} is not a valid value among {}", attrValue, ThemeOption.values());
-				throw new DataTableProcessingException(e);
-			}
-
-			table.setThemeOption(themeOption);
-		}
-
+		localConf.put(Configuration.EXTRA_THEMEOPTION, attrValue);
+		
 		return ProcessorResult.ok();
 	}
 }

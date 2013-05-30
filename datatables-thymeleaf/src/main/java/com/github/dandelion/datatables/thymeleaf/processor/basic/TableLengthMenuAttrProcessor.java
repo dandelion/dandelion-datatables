@@ -29,13 +29,14 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.Map;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
@@ -60,27 +61,12 @@ public class TableLengthMenuAttrProcessor extends AbstractDatatablesAttrProcesso
 
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table) {
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 
 		// Get attribute value
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 		
-		if(StringUtils.isNotBlank(attrValue)){
-			String[] tmp = attrValue.split(";");
-			if(tmp.length > 1){
-				String[] tmp2 = tmp[0].split(",");
-				String[] tmp3 = tmp[1].split(",");
-				if(tmp2.length == tmp3.length){
-					table.setLengthMenu("[[" + tmp[0] + "],[" + tmp[1] + "]]");
-				}
-				else{
-					throw new DataTableProcessingException("You must provide the exact same number of elements separated by a \";\"");
-				}
-			}
-			else{
-				table.setLengthMenu("[" + attrValue + "]");				
-			}
-		}
+		localConf.put(Configuration.FEATURE_LENGTHMENU, attrValue);
 
 		return ProcessorResult.ok();
 	}

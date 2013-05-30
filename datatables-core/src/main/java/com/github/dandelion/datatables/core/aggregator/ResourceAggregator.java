@@ -63,10 +63,10 @@ public class ResourceAggregator {
 	 */
 	public static void processAggregation(WebResources webResources, HtmlTable table) {
 
-		logger.debug("Processing aggregation, using configuration {}", table.getTableProperties()
-				.getAggregatorMode());
+		logger.debug("Processing aggregation, using configuration {}", table.getTableConfiguration()
+				.getMainAggregatorMode());
 
-		switch (table.getTableProperties().getAggregatorMode()) {
+		switch (table.getTableConfiguration().getMainAggregatorMode()) {
 		case ALL:
 			aggregateAll(webResources);
 			break;

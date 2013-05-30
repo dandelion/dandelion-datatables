@@ -2,6 +2,9 @@ package com.github.dandelion.datatables.core.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+
+import com.github.dandelion.datatables.core.configuration.Configuration;
 
 public class CollectionUtils {
 
@@ -37,5 +40,14 @@ public class CollectionUtils {
 			break;
 		}
 		return result;
+	}
+	
+	public static Boolean hasConfigurationWithValue(Map<Configuration, Object> confMap, Configuration configuration, Object value) {
+
+		if(confMap.containsKey(configuration) && confMap.get(configuration).equals(value)){
+			return true;
+		}
+
+		return false;
 	}
 }

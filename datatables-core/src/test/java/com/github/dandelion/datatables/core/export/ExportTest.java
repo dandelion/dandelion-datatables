@@ -31,6 +31,12 @@ package com.github.dandelion.datatables.core.export;
 
 import java.io.StringWriter;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.junit.Before;
+import org.springframework.mock.web.MockPageContext;
+import org.springframework.mock.web.MockServletContext;
+
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -47,11 +53,21 @@ public class ExportTest {
 	protected HtmlTable table;
 	protected StringWriter writer;
 	protected AbstractCharExport abstractExport;
+	private MockServletContext mockServletContext;
+	private MockPageContext mockPageContext;
+	private HttpServletRequest request;
+	
+	@Before
+	public void setup(){
+		mockServletContext = new MockServletContext();
+		mockPageContext = new MockPageContext(mockServletContext);
+		request = (HttpServletRequest) mockPageContext.getRequest();
+	}
 	
 	public void initDefaultTable(){
 		
 		// Data
-		table = new HtmlTable("dummyId", "dummyRandomId");
+		table = new HtmlTable("dummyId", request);
 		table.addFooterRow();
 		table.addHeaderRow();
 		table.getLastHeaderRow().addColumn("Id");
@@ -68,13 +84,13 @@ public class ExportTest {
 			table.getLastBodyRow().addColumn(person.getMail());
 		}
 		
-		table.setObjectType(Mock.persons.get(0).getClass().getSimpleName());
+		table.getTableConfiguration().setInternalObjectType(Mock.persons.get(0).getClass().getSimpleName());
 	}
 	
 	public void initTable(){
 	
 		// Data
-		table = new HtmlTable("dummyId", "dummyRandomId");
+		table = new HtmlTable("dummyId", request);
 		table.addFooterRow();
 		table.addHeaderRow();
 		table.getLastHeaderRow().addColumn("Id");
@@ -91,11 +107,11 @@ public class ExportTest {
 			table.getLastBodyRow().addColumn(person.getMail());
 		}
 		
-		table.setObjectType(Mock.persons.get(0).getClass().getSimpleName());
+		table.getTableConfiguration().setInternalObjectType(Mock.persons.get(0).getClass().getSimpleName());
 	}
 	
 	public void configureExport(ExportConf exportConf){
-		table.configureExport(exportConf.getType(), exportConf);
+		table.getTableConfiguration().configureExport(exportConf.getType(), exportConf);
 	}
 	
 	public void processExport(AbstractCharExport export) throws ExportException{

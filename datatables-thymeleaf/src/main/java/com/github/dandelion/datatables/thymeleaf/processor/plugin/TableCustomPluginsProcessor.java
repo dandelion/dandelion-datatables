@@ -29,13 +29,14 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.plugin;
 
-import java.util.Arrays;
+import java.util.Map;
 
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
@@ -60,13 +61,11 @@ public class TableCustomPluginsProcessor extends AbstractDatatablesAttrProcessor
 
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table) {
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
-		if (table != null) {
-			table.setCustomPlugins(Arrays.asList(attrValue.trim().toLowerCase().split(",")));
-		}
+		localConf.put(Configuration.EXTRA_CUSTOMPLUGINS, attrValue);
 		
 		return ProcessorResult.ok();
 	}

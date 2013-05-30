@@ -2,7 +2,12 @@ package com.github.dandelion.datatables.core.html;
 
 import static org.fest.assertions.Assertions.assertThat;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mock.web.MockPageContext;
+import org.springframework.mock.web.MockServletContext;
 
 import com.github.dandelion.datatables.mock.Mock;
 import com.github.dandelion.datatables.mock.Person;
@@ -15,10 +20,20 @@ import com.github.dandelion.datatables.mock.Person;
 public class HtmlTableBuilderTest {
 
 	private HtmlTable table;
-
+	private MockServletContext mockServletContext;
+	private MockPageContext mockPageContext;
+	private HttpServletRequest request;
+	
+	@Before
+	public void setup(){
+		mockServletContext = new MockServletContext();
+		mockPageContext = new MockPageContext(mockServletContext);
+		request = (HttpServletRequest) mockPageContext.getRequest();
+	}
+	
 	@Test
 	public void should_generate_markup_using_full_source(){
-		table = new HtmlTable.Builder<Person>("tableId", Mock.persons)
+		table = new HtmlTable.Builder<Person>("tableId", Mock.persons, request)
 				.column("id")
 				.column("firstName")
 				.column("lastName")
@@ -32,7 +47,7 @@ public class HtmlTableBuilderTest {
 	
 	@Test
 	public void should_generate_markup_using_null_source(){
-		table = new HtmlTable.Builder<Person>("tableId", null)
+		table = new HtmlTable.Builder<Person>("tableId", null, request)
 				.column("id")
 				.column("firstName")
 				.column("lastName")
@@ -48,7 +63,7 @@ public class HtmlTableBuilderTest {
 	
 	@Test
 	public void should_set_column_title(){
-		table = new HtmlTable.Builder<Person>("tableId", Mock.persons)
+		table = new HtmlTable.Builder<Person>("tableId", Mock.persons, request)
 				.column("id").title("Id")
 				.column("firstName").title("FirstName")
 				.column("lastName").title("LastName")
@@ -65,7 +80,7 @@ public class HtmlTableBuilderTest {
 	
 	@Test
 	public void should_set_default_column_title(){
-		table = new HtmlTable.Builder<Person>("tableId", Mock.persons)
+		table = new HtmlTable.Builder<Person>("tableId", Mock.persons, request)
 				.column("id")
 				.column("firstName")
 				.column("lastName")

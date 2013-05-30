@@ -1,16 +1,27 @@
 package com.github.dandelion.datatables.core.html;
 
 import static org.fest.assertions.Assertions.assertThat;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mock.web.MockPageContext;
+import org.springframework.mock.web.MockServletContext;
 
 public class HtmlTableTest {
 
 	private HtmlTable table;
-
+	private MockServletContext mockServletContext;
+	private MockPageContext mockPageContext;
+	private HttpServletRequest request;
+	
 	@Before
 	public void createHtmlTable() {
-		table = new HtmlTable("tableId", "");
+		mockServletContext = new MockServletContext();
+		mockPageContext = new MockPageContext(mockServletContext);
+		request = (HttpServletRequest) mockPageContext.getRequest();
+		table = new HtmlTable("tableId", request);
 	}
 
 	@Test
@@ -46,20 +57,20 @@ public class HtmlTableTest {
 
 	@Test
 	public void should_generate_table_with_display_none() {
-		table.setAppear("block");
+		table.getTableConfiguration().setExtraAppear("block");
 		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" style=\"display:none\"><thead></thead><tbody></tbody></table>");
 	}
 
 	@Test
 	public void should_generate_table_with_display_none_and_styles() {
-		table.setAppear("block");
+		table.getTableConfiguration().setExtraAppear("block");
 		table.addCssStyle("border:1px");
 		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" style=\"border:1px;display:none\"><thead></thead><tbody></tbody></table>");
 	}
 
 	@Test
 	public void should_generate_table_without_display_none() {
-		table.setAppear("");
+		table.getTableConfiguration().setExtraAppear("");
 		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\"><thead></thead><tbody></tbody></table>");
 	}
 

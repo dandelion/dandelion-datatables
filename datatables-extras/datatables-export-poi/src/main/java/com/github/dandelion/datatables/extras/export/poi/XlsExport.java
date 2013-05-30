@@ -59,8 +59,8 @@ public class XlsExport extends AbstractBinaryExport {
 	@Override
 	public void initExport(HtmlTable table) {
 		this.table = table;
-		if (table.getExportConfMap().containsKey(ExportType.XLS)) {
-			this.exportConf = table.getExportConfMap().get(ExportType.XLS);
+		if (table.getTableConfiguration().getExportConfMap().containsKey(ExportType.XLS)) {
+			this.exportConf = table.getTableConfiguration().getExportConfMap().get(ExportType.XLS);
 		}
 	}
 

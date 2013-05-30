@@ -29,23 +29,15 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
-import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.constants.ExportConstants;
-import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
-import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.export.ExportType;
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.RequestHelper;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
@@ -66,9 +58,6 @@ public class TableExportAttrProcessor extends AbstractDatatablesAttrProcessor {
 		super(matcher);
 	}
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(TableExportAttrProcessor.class);
-
 	@Override
 	public int getPrecedence() {
 		return 8000;
@@ -76,56 +65,12 @@ public class TableExportAttrProcessor extends AbstractDatatablesAttrProcessor {
 
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table) {
-		logger.debug("{} attribute found", attributeName);
-
-		// Get the HTTP request
-		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
+		
 		// Get attribute value
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
-		logger.debug("Extracted value : {}", attrValue);
 
-		if (StringUtils.isNotBlank(attrValue) && table != null) {
-
-			// Init the exportable flag in order to add export links
-			table.setIsExportable(true);
-
-			// Allowed export types
-			String[] exportTypes = attrValue.trim().toUpperCase().split(",");
-
-			for (String exportTypeString : exportTypes) {
-				ExportType type = null;
-
-				try {
-					type = ExportType.valueOf(exportTypeString.trim().toUpperCase());
-				} catch (IllegalArgumentException e) {
-					logger.error("The export cannot be activated for the table {}. ", table.getId());
-					logger.error("{} is not a valid value among {}", exportTypeString,
-							ExportType.values());
-					throw new DataTableProcessingException(e);
-				}
-
-				// ExportConf eventuellement deja charges par le tag ExportTag
-				// Du coup, on va completer ici avec la liste des autres exports
-				// actives par la balise export=""
-				if (!table.getExportConfMap().containsKey(type)) {
-
-					String url = RequestHelper.getCurrentURIWithParameters(request);
-					if (url.contains("?")) {
-						url += "&";
-					} else {
-						url += "?";
-					}
-					url += ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
-							+ type.getUrlParameter() + "&"
-							+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID + "=" + table.getId();
-
-					ExportConf conf = new ExportConf(type, url);
-					table.getExportConfMap().put(type, conf);
-				}
-			}
-		}
+		localConf.put(Configuration.EXPORT_TYPES, attrValue);
 
 		return ProcessorResult.ok();
 	}

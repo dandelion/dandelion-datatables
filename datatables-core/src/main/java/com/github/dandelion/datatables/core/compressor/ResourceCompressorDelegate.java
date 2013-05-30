@@ -59,7 +59,7 @@ public class ResourceCompressorDelegate {
 	public ResourceCompressorDelegate(HtmlTable table) {
 
 		this.table = table;
-		this.compressorClassName = table.getTableProperties().getCompressorClassName();
+		this.compressorClassName = table.getTableConfiguration().getMainCompressorClass();
 
 		logger.debug("ResourceCompressor loaded. About to use {} implementation",
 				this.compressorClassName);

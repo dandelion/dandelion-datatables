@@ -31,31 +31,18 @@ package com.github.dandelion.datatables.core.html;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.NestedNullException;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.github.dandelion.datatables.core.asset.ExtraConf;
-import com.github.dandelion.datatables.core.asset.ExtraFile;
-import com.github.dandelion.datatables.core.callback.Callback;
-import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.export.ExportLinkPosition;
-import com.github.dandelion.datatables.core.export.ExportProperties;
-import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.feature.AbstractFeature;
+import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.feature.FilteringFeature;
-import com.github.dandelion.datatables.core.feature.PaginationType;
-import com.github.dandelion.datatables.core.plugin.AbstractPlugin;
-import com.github.dandelion.datatables.core.properties.TableProperties;
-import com.github.dandelion.datatables.core.theme.AbstractTheme;
-import com.github.dandelion.datatables.core.theme.ThemeOption;
+import com.github.dandelion.datatables.core.util.ResourceHelper;
 
 /**
  * Plain old HTML <code>table</code> tag.
@@ -65,97 +52,34 @@ import com.github.dandelion.datatables.core.theme.ThemeOption;
  */
 public class HtmlTable extends HtmlTag {
 
-	// HTML attributes
-	private Boolean autoWidth;
-	private Boolean deferRender;
-	private Boolean info;
-	private Boolean filterable;
-	private Boolean paginate;
-	private PaginationType paginationType;
-	private Boolean lengthChange;
-	private Boolean sort;
-	private Boolean stateSave;
-	private String labels;
-	private Boolean cdn;
-	private Boolean jqueryUI;
-	private String appear;
-	private String appearDuration;
-	private String lengthMenu;
-	private String stripeClasses;
-	private Integer displayLength;
-	private String dom;
-
-	// Ajax
-	private Boolean processing;
-	private Boolean serverSide;
-	private String ajaxSource;
-	private Boolean pipelining;
-	private int pipeSize;
-	private Boolean jsonp;
-	private String serverData;
-	private String serverParam;
-	private String serverMethod;
-
-	// Extra features
-	private String scrollY;
-	private Boolean scrollCollapse;
-	private String fixedPosition;
-	private Integer fixedOffsetTop;
-	private List<Callback> callbacks;
-
 	// Internal attributes
 	private HtmlCaption caption;
 	private List<HtmlRow> head = new LinkedList<HtmlRow>();
 	private List<HtmlRow> body = new LinkedList<HtmlRow>();
 	private List<HtmlRow> foot = new LinkedList<HtmlRow>();
-	private TableProperties tableProperties = new TableProperties();
-	private String datasourceUrl;
-	private List<AbstractPlugin> plugins;
-	private List<AbstractFeature> features;
-	private List<ExtraFile> extraFiles;
-	private List<ExtraConf> extraConfs;
+	private TableConfiguration tableConfiguration;
 	private String randomId;
 
-	// Class of the iterated objects. Only used in XML export.
-	private String objectType;
-
-	// Export
-	private ExportProperties exportProperties;
-	private Boolean exporting;
-	private Map<ExportType, ExportConf> exportConfMap = new HashMap<ExportType, ExportConf>();
-	private List<ExportLinkPosition> exportLinkPositions;
-	private Boolean isExportable = false;
-
-	// Extension
-	private AbstractTheme theme;
-	private ThemeOption themeOption;
-	private List<String> customFeatures;
-	private List<String> customPlugins;
-	
-	public HtmlTable(String id, String randomId) {
+	public HtmlTable(String id, HttpServletRequest request) {
 		this.tag = "table";
-		init();
+		this.randomId = ResourceHelper.getRamdomNumber();
 		this.id = id;
-		this.randomId = randomId;
+		tableConfiguration = TableConfiguration.getInstance(request);
+		tableConfiguration.setTableId(id);
 	}
 
-	/**
-	 * Initialize the default values.
-	 */
-	private void init() {
-		// Basic attributes
-		this.cdn = false;
+	public HtmlTable(String id, HttpServletRequest request, String groupName) {
+		this.tag = "table";
+		this.randomId = ResourceHelper.getRamdomNumber();
+		this.id = id;
+		tableConfiguration = TableConfiguration.getInstance(request, groupName);
+		tableConfiguration.setTableId(id);
+	}
 
-		// Export
-		this.isExportable = false;
-
-		// Export links position
-		List<ExportLinkPosition> exportLinkPositions = new ArrayList<ExportLinkPosition>();
-		exportLinkPositions.add(ExportLinkPosition.TOP_RIGHT);
-		this.exportLinkPositions = exportLinkPositions;
-
-		// AJAX
-		this.pipeSize = 5;
+	public HtmlTable(String id) {
+		this.tag = "table";
+		this.randomId = ResourceHelper.getRamdomNumber();
+		this.id = id;
 	}
 
 	/**
@@ -209,7 +133,8 @@ public class HtmlTable extends HtmlTag {
 	}
 
 	protected StringBuilder getHtmlAttributes() {
-		if (this.appear != null && !"".equals(this.appear)) {
+		if (this.tableConfiguration.getFeatureAppear() != null
+				&& !"".equals(this.tableConfiguration.getFeatureAppear())) {
 			addCssStyle("display:none");
 		}
 
@@ -280,56 +205,6 @@ public class HtmlTable extends HtmlTag {
 	}
 
 	/**
-	 * Register a plugin to the table.
-	 * 
-	 * @param plugin
-	 *            The plugin to activate.
-	 */
-	public void registerPlugin(AbstractPlugin plugin) {
-		if (this.plugins == null) {
-			this.plugins = new ArrayList<AbstractPlugin>();
-		}
-		this.plugins.add(plugin);
-	}
-
-	/**
-	 * Register a list of plugins to the table.
-	 * 
-	 * @param plugins
-	 *            The list of plugins to register.
-	 */
-	public void registerPlugins(List<AbstractPlugin> plugins) {
-		for (AbstractPlugin plugin : plugins) {
-			registerPlugin(plugin);
-		}
-	}
-
-	/**
-	 * Register a feature to the table.
-	 * 
-	 * @param feature
-	 *            The feature to activate.
-	 */
-	public void registerFeature(AbstractFeature feature) {
-		if (this.features == null) {
-			this.features = new ArrayList<AbstractFeature>();
-		}
-		this.features.add(feature);
-	}
-
-	/**
-	 * Register a list of features to the table.
-	 * 
-	 * @param features
-	 *            The list of features to register.
-	 */
-	public void registerFeatures(List<AbstractFeature> features) {
-		for (AbstractFeature feature : features) {
-			registerFeature(feature);
-		}
-	}
-
-	/**
 	 * Returns <code>true</code> if the table has one filterable column,
 	 * <code>false</code> otherwise. This way, the {@link FilteringFeature} will
 	 * be activated or not.
@@ -366,196 +241,6 @@ public class HtmlTable extends HtmlTag {
 		return null;
 	}
 
-	public Boolean getAutoWidth() {
-		return autoWidth;
-	}
-
-	public void setAutoWidth(Boolean autoWidth) {
-		this.autoWidth = autoWidth;
-	}
-
-	public Boolean getDeferRender() {
-		return deferRender;
-	}
-
-	public void setDeferRender(Boolean deferRender) {
-		this.deferRender = deferRender;
-	}
-
-	public Boolean getInfo() {
-		return info;
-	}
-
-	public void setInfo(Boolean info) {
-		this.info = info;
-	}
-
-	public Boolean getFilterable() {
-		return filterable;
-	}
-
-	public void setFilterable(Boolean filterable) {
-		this.filterable = filterable;
-	}
-
-	public Boolean getPaginate() {
-		return paginate;
-	}
-
-	public void setPaginate(Boolean paginate) {
-		this.paginate = paginate;
-	}
-
-	public PaginationType getPaginationType() {
-		return paginationType;
-	}
-
-	public void setPaginationType(PaginationType paginationStyle) {
-		this.paginationType = paginationStyle;
-	}
-
-	public Boolean getLengthChange() {
-		return lengthChange;
-	}
-
-	public void setLengthChange(Boolean lengthChange) {
-		this.lengthChange = lengthChange;
-	}
-
-	public Boolean getProcessing() {
-		return processing;
-	}
-
-	public void setProcessing(Boolean processing) {
-		this.processing = processing;
-	}
-
-	public Boolean getServerSide() {
-		return serverSide;
-	}
-
-	public void setServerSide(Boolean serverSide) {
-		this.serverSide = serverSide;
-	}
-
-	public String getAjaxSource() {
-		return ajaxSource;
-	}
-
-	public void setAjaxSource(String ajaxSource) {
-		this.ajaxSource = ajaxSource;
-	}
-
-	public Boolean getSort() {
-		return sort;
-	}
-
-	public void setSort(Boolean sort) {
-		this.sort = sort;
-	}
-
-	public Boolean getStateSave() {
-		return stateSave;
-	}
-
-	public void setStateSave(Boolean stateSave) {
-		this.stateSave = stateSave;
-	}
-
-	public String getDatasourceUrl() {
-		return datasourceUrl;
-	}
-
-	public void setDatasourceUrl(String datasourceUrl) {
-		this.datasourceUrl = datasourceUrl;
-	}
-
-	public String getScrollY() {
-		return scrollY;
-	}
-
-	public void setScrollY(String scrollY) {
-		this.scrollY = scrollY;
-	}
-
-	public Boolean getScrollCollapse() {
-		return scrollCollapse;
-	}
-
-	public void setScrollCollapse(Boolean scrollCollapse) {
-		this.scrollCollapse = scrollCollapse;
-	}
-
-	public List<ExtraFile> getExtraFiles() {
-		return extraFiles;
-	}
-
-	public void addExtraFile(ExtraFile extraFile) {
-		if (this.extraFiles == null) {
-			this.extraFiles = new ArrayList<ExtraFile>();
-		}
-		this.extraFiles.add(extraFile);
-	}
-
-	public List<ExtraConf> getExtraConfs() {
-		return extraConfs;
-	}
-
-	public void addExtraConf(ExtraConf extraConf) {
-		if (this.extraConfs == null) {
-			this.extraConfs = new ArrayList<ExtraConf>();
-		}
-		this.extraConfs.add(extraConf);
-	}
-
-	public List<AbstractPlugin> getPlugins() {
-		return plugins;
-	}
-
-	public void setPlugins(List<AbstractPlugin> plugins) {
-		this.plugins = plugins;
-	}
-
-	public List<AbstractFeature> getFeatures() {
-		return features;
-	}
-
-	public void setFeatures(List<AbstractFeature> features) {
-		this.features = features;
-	}
-
-	public String getFixedPosition() {
-		return fixedPosition;
-	}
-
-	public void setFixedPosition(String fixedPosition) {
-		this.fixedPosition = fixedPosition;
-	}
-
-	public Boolean getCdn() {
-		return cdn;
-	}
-
-	public void setCdn(Boolean cdn) {
-		this.cdn = cdn;
-	}
-
-	public Integer getFixedOffsetTop() {
-		return fixedOffsetTop;
-	}
-
-	public void setFixedOffsetTop(Integer fixedOffsetTop) {
-		this.fixedOffsetTop = fixedOffsetTop;
-	}
-
-	public String getLabels() {
-		return labels;
-	}
-
-	public void setLabels(String labels) {
-		this.labels = labels;
-	}
-
 	public String getRandomId() {
 		return randomId;
 	}
@@ -564,261 +249,18 @@ public class HtmlTable extends HtmlTag {
 		this.randomId = randomId;
 	}
 
-	public Boolean getJqueryUI() {
-		return jqueryUI;
+	public TableConfiguration getTableConfiguration() {
+		return tableConfiguration;
 	}
 
-	public void setJqueryUI(Boolean jqueryUI) {
-		this.jqueryUI = jqueryUI;
-	}
-
-	public TableProperties getTableProperties() {
-		return tableProperties;
-	}
-
-	public void setTableProperties(TableProperties tableProperties) {
-		this.tableProperties = tableProperties;
-	}
-
-	public Boolean getExporting() {
-		return exporting;
-	}
-
-	public void setExporting(Boolean exporting) {
-		this.exporting = exporting;
-	}
-
-	public String getObjectType() {
-		return objectType;
-	}
-
-	public void setObjectType(String objectType) {
-		this.objectType = objectType;
-	}
-
-	public ExportProperties getExportProperties() {
-		return exportProperties;
-	}
-
-	public void setExportProperties(ExportProperties exportProperties) {
-		this.exportProperties = exportProperties;
-	}
-
-	public Map<ExportType, ExportConf> getExportConfMap() {
-		return exportConfMap;
-	}
-
-	public void configureExport(ExportType exportType, ExportConf exportConf) {
-		this.exportConfMap.put(exportType, exportConf);
-	}
-
-	public void setExportConfMap(Map<ExportType, ExportConf> exportConfs) {
-		this.exportConfMap = exportConfs;
-	}
-
-	public Boolean isExportable() {
-		return isExportable;
-	}
-
-	public void setIsExportable(Boolean isExportable) {
-		this.isExportable = isExportable;
-	}
-
-	public List<ExportLinkPosition> getExportLinkPositions() {
-		return exportLinkPositions;
-	}
-
-	public void setExportLinkPositions(List<ExportLinkPosition> exportLinkPositions) {
-		this.exportLinkPositions = exportLinkPositions;
-	}
-
-	public AbstractTheme getTheme() {
-		return theme;
-	}
-
-	public void setTheme(AbstractTheme theme) {
-		this.theme = theme;
-	}
-
-	public ThemeOption getThemeOption() {
-		return themeOption;
-	}
-
-	public void setThemeOption(ThemeOption themeOption) {
-		this.themeOption = themeOption;
-	}
-
-	public String getAppear() {
-		return appear;
-	}
-
-	public void setAppear(String appear) {
-		this.appear = appear;
-	}
-
-	public String getAppearDuration() {
-		return appearDuration;
-	}
-
-	public void setAppearDuration(String appearDuration) {
-		this.appearDuration = appearDuration;
-	}
-
-	public Boolean getPipelining() {
-		return pipelining;
-	}
-
-	public void setPipelining(Boolean pipelining) {
-		this.pipelining = pipelining;
-	}
-
-	public int getPipeSize() {
-		return pipeSize;
-	}
-
-	public void setPipeSize(int pipeSize) {
-		this.pipeSize = pipeSize;
-	}
-
-	public Boolean getJsonp() {
-		return jsonp;
-	}
-
-	public void setJsonp(Boolean jsonp) {
-		this.jsonp = jsonp;
-	}
-
-	public List<Callback> getCallbacks() {
-		return callbacks;
-	}
-
-	public void setCallbacks(List<Callback> callbacks) {
-		this.callbacks = callbacks;
-	}
-
-	public void registerCallback(Callback callback) {
-		if (this.callbacks == null) {
-			this.callbacks = new ArrayList<Callback>();
-		}
-		this.callbacks.add(callback);
-	}
-
-	public Boolean hasCallback(CallbackType callbackType) {
-		if (this.callbacks != null) {
-			for (Callback callback : this.callbacks) {
-				if (callback.getType().equals(callbackType)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	public Callback getCallback(CallbackType callbackType) {
-		for (Callback callback : this.callbacks) {
-			if (callback.getType().equals(callbackType)) {
-				return callback;
-			}
-		}
-		return null;
-	}
-
-	public String getLengthMenu() {
-		return lengthMenu;
-	}
-
-	public void setLengthMenu(String lengthMenu) {
-		this.lengthMenu = lengthMenu;
-	}
-
-	public String getStripeClasses() {
-		return stripeClasses;
-	}
-
-	public void setStripeClasses(String stripeClasses) {
-		this.stripeClasses = stripeClasses;
-	}
-
-	public String getServerData() {
-		return serverData;
-	}
-
-	public void setServerData(String serverData) {
-		this.serverData = serverData;
-	}
-
-	public String getServerParam() {
-		return serverParam;
-	}
-
-	public void setServerParam(String serverParam) {
-		this.serverParam = serverParam;
-	}
-
-	public String getServerMethod() {
-		return serverMethod;
-	}
-
-	public void setServerMethod(String serverMethod) {
-		this.serverMethod = serverMethod;
-	}
-
-	public Integer getDisplayLength() {
-		return displayLength;
-	}
-
-	public void setDisplayLength(Integer displayLength) {
-		this.displayLength = displayLength;
-	}
-
-	public String getDom() {
-		return dom;
-	}
-
-	public void setDom(String dom) {
-		this.dom = dom;
-	}
-
-	public List<String> getCustomFeatures() {
-		return customFeatures;
-	}
-
-	public void setCustomFeatures(List<String> customFeatures) {
-		this.customFeatures = customFeatures;
-	}
-
-	public List<String> getCustomPlugins() {
-		return customPlugins;
-	}
-
-	public void setCustomPlugins(List<String> customPlugins) {
-		this.customPlugins = customPlugins;
-	}
-	
-	@Override
-	public String toString() {
-		return "HtmlTable [autoWidth=" + autoWidth + ", deferRender=" + deferRender + ", info=" + info
-				+ ", filterable=" + filterable + ", paginate=" + paginate + ", paginationType=" + paginationType
-				+ ", lengthChange=" + lengthChange + ", sort=" + sort + ", stateSave=" + stateSave + ", labels="
-				+ labels + ", cdn=" + cdn + ", jqueryUI=" + jqueryUI + ", appear=" + appear + ", appearDuration="
-				+ appearDuration + ", lengthMenu=" + lengthMenu + ", stripeClasses=" + stripeClasses
-				+ ", displayLength=" + displayLength + ", dom=" + dom + ", processing=" + processing + ", serverSide="
-				+ serverSide + ", ajaxSource=" + ajaxSource + ", pipelining=" + pipelining + ", pipeSize=" + pipeSize
-				+ ", jsonp=" + jsonp + ", serverData=" + serverData + ", serverParam=" + serverParam
-				+ ", serverMethod=" + serverMethod + ", scrollY=" + scrollY + ", scrollCollapse=" + scrollCollapse
-				+ ", fixedPosition=" + fixedPosition + ", fixedOffsetTop=" + fixedOffsetTop + ", callbacks="
-				+ callbacks + ", caption=" + caption + ", head=" + head + ", body=" + body + ", foot=" + foot
-				+ ", tableProperties=" + tableProperties + ", datasourceUrl=" + datasourceUrl + ", plugins=" + plugins
-				+ ", features=" + features + ", extraFiles=" + extraFiles + ", extraConfs=" + extraConfs
-				+ ", randomId=" + randomId + ", objectType=" + objectType + ", exportProperties=" + exportProperties
-				+ ", exporting=" + exporting + ", exportConfMap=" + exportConfMap + ", exportLinkPositions="
-				+ exportLinkPositions + ", isExportable=" + isExportable + ", theme=" + theme + ", themeOption="
-				+ themeOption + "]";
+	public void setTableConfiguration(TableConfiguration tableConfiguration) {
+		this.tableConfiguration = tableConfiguration;
 	}
 
 	/**
-	 * HtmlTable builder, allowing you to build a table in an export controller for example.
-	 *
+	 * HtmlTable builder, allowing you to build a table in an export controller
+	 * for example.
+	 * 
 	 * @author Thibault Duchateau
 	 */
 	public static class Builder<T> {
@@ -826,10 +268,12 @@ public class HtmlTable extends HtmlTag {
 		private String id;
 		private List<T> data;
 		private LinkedList<HtmlColumn> headerColumns = new LinkedList<HtmlColumn>();
+		private HttpServletRequest request;
 
-		public Builder(String id, List<T> data) {
+		public Builder(String id, List<T> data, HttpServletRequest request) {
 			this.id = id;
 			this.data = data;
+			this.request = request;
 		}
 
 		public Builder<T> column(String property) {
@@ -871,7 +315,8 @@ public class HtmlTable extends HtmlTag {
 
 		this.tag = "table";
 		this.id = builder.id;
-		init();
+		this.tableConfiguration = TableConfiguration
+				.getInstance(builder.request, TableConfiguration.DEFAULT_GROUP_NAME);
 
 		addHeaderRow();
 

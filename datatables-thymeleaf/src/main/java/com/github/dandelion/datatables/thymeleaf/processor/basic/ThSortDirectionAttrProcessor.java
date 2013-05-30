@@ -31,6 +31,7 @@ package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -40,6 +41,7 @@ import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -70,7 +72,7 @@ public class ThSortDirectionAttrProcessor extends AbstractDatatablesAttrProcesso
 
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table) {
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 		
 		// Get attribute value
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);

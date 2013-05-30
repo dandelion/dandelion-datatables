@@ -29,13 +29,14 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.ajax;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.Map;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.feature.AjaxFeature;
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
@@ -60,22 +61,13 @@ public class TableUrlAttrProcessor extends AbstractDatatablesAttrProcessor {
 
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table) {
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 
 		// Get attribute value
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
-		if (table != null && StringUtils.isNotBlank(attrValue)) {
-			table.setDatasourceUrl(attrValue);
-
-			// Thanks to the precedence of the serverside attribute processor,
-			// we can already test if the server-side processing has been
-			// enabled using the htmlTable bean
-			if (table.getServerSide() == null || !table.getServerSide()) {
-				table.registerFeature(new AjaxFeature());
-			}
-		}
-
+		localConf.put(Configuration.AJAX_SOURCE, attrValue);
+		
 		return ProcessorResult.ok();
 	}
 }

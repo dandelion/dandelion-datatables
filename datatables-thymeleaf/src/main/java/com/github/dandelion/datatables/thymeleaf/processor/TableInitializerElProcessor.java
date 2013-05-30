@@ -1,5 +1,7 @@
 package com.github.dandelion.datatables.thymeleaf.processor;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -10,10 +12,8 @@ import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.properties.PropertiesLoader;
-import com.github.dandelion.datatables.core.util.ResourceHelper;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesElProcessor;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 
@@ -48,15 +48,15 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 			logger.error("The 'id' attribute is required.");
 			throw new IllegalArgumentException();
 		} else {
-			HtmlTable htmlTable = new HtmlTable(tableId, ResourceHelper.getRamdomNumber());
+			HtmlTable htmlTable = new HtmlTable(tableId, request);
 
-			try {
-				// Load table properties
-				PropertiesLoader.load(htmlTable);
-			} catch (BadConfigurationException e) {
-				logger.error("Unable to load Dandelion-datatables configuration");
-				e.printStackTrace();
-			}
+//			try {
+//				// Load table properties
+//				PropertiesLoader.load(htmlTable);
+//			} catch (BadConfigurationException e) {
+//				logger.error("Unable to load Dandelion-datatables configuration");
+//				e.printStackTrace();
+//			}
 
 			// Add default footer and header row
 			htmlTable.addHeaderRow();
@@ -77,6 +77,8 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 
 			// The table node is also saved in the request, to be easily accessed later
 			request.setAttribute("tableNode", element);
+			
+			request.setAttribute("localConf", new HashMap<Configuration, Object>());
 			
 			// Don't forget to remove the attribute
 			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":table");
