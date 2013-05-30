@@ -29,66 +29,95 @@
  */
 package com.github.dandelion.datatables.core.configuration;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang.StringUtils;
 
+import com.github.dandelion.datatables.core.constants.SystemConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 
 /**
+ * <p>
  * Specific implementation of {@link ConfigurationLoader} based on properties
- * files located at the root of the classpath.
+ * files.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
 public class ConfigurationPropertiesLoader extends AbstractConfigurationLoader {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ConfigurationPropertiesLoader.class);
-
-	public static final String KEY_SEP = ".";
-
-	// Properties files location
 	public final static String DT_CUSTOM_PROPERTIES = "datatables.properties";
-
-	@Override
-	public void doLoadSpecificConfiguration(String keyPrefix) throws BadConfigurationException {
-//		if (specificProperties == null) {
-
-			// Initialize properties
-			Properties customProperties = new Properties();
-
-			// Get default file as stream
-			InputStream propertiesStream = Thread.currentThread().getContextClassLoader()
-					.getResourceAsStream(DT_CUSTOM_PROPERTIES);
-
-			try {
-				// Load project-specific properties
-				customProperties.load(propertiesStream);
-
-			} catch (IOException e) {
-				throw new BadConfigurationException("Unable to load the project-specific configuration file", e);
-			}
-
-			for(Entry<Object, Object> entry : customProperties.entrySet()){
-				System.out.println("key = " + entry.getKey());
-				System.out.println("processedKey = " + entry.getKey().toString().substring(keyPrefix.length() + 1));
-				Configuration configuration = Configuration.findByName(entry.getKey().toString().substring(keyPrefix.length() + 1));
-				System.out.println("Configuratio = " + configuration);
-				if(configuration == null){
-					throw new BadConfigurationException("The property '" + entry.getKey() + "' is invalid. Please see the documentation.");
-				}
-				else{
-					stagingConf.put(configuration, entry.getValue());
-				}
-			}
+	public final static String KEY_SEP = ".";
 	
-			System.out.println("StagingConf = " + stagingConf);
-//		}
+	private Properties customProperties;
+	
+	@Override
+	public void doLoadSpecificConfiguration() throws BadConfigurationException {
+
+		// Initialize properties
+		customProperties = new Properties();
+					
+		InputStream propertiesStream = null;
+
+		// First try to load the properties using the system property
+		if(StringUtils.isNotBlank(System.getProperty(SystemConstants.DANDELION_DT_CONF))){
+			String propertiesLocation  = System.getProperty(SystemConstants.DANDELION_DT_CONF);
+			
+			try {
+				propertiesStream = new FileInputStream(propertiesLocation);
+				customProperties.load(propertiesStream);
+				loadStagingConfiguration();
+				return;
+			} catch (FileNotFoundException e) {
+				throw new BadConfigurationException("Unable to locate the custom configuration file", e);
+			}
+			catch (IOException e) {
+				throw new BadConfigurationException("Unable to read the custom configuration file", e);
+			}
+			finally {
+				if (propertiesStream != null) {
+					try {
+						propertiesStream.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+
+		// Then, try to load from classpath
+		try {
+			propertiesStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(DT_CUSTOM_PROPERTIES);
+			customProperties.load(propertiesStream);
+			loadStagingConfiguration();
+		} catch (IOException e) {
+			throw new BadConfigurationException("Unable to load the custom configuration file", e);
+		}
+		finally {
+			if (propertiesStream != null) {
+				try {
+					propertiesStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	private void loadStagingConfiguration() throws BadConfigurationException{
+		for(Entry<Object, Object> entry : customProperties.entrySet()){
+			Configuration configuration = Configuration.findByName(entry.getKey().toString().substring(keyPrefix.length() + 1));
+			if(configuration == null){
+				throw new BadConfigurationException("The property '" + entry.getKey() + "' is invalid. Please see the documentation.");
+			}
+			else{
+				stagingConf.put(configuration, entry.getValue().toString());
+			}
+		}
 	}
 }

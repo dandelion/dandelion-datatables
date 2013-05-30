@@ -47,7 +47,7 @@ public interface ConfigurationLoader {
 	 */
 	public void loadDefaultConfiguration() throws BadConfigurationException;
 	
-	public void doLoadSpecificConfiguration(String keyPrefix) throws BadConfigurationException;
+	public void doLoadSpecificConfiguration() throws BadConfigurationException;
 	
 	
 	/**

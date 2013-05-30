@@ -58,6 +58,7 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 	protected static Properties globalProperties;
 	
 	protected Map<Configuration, Object> stagingConf;
+	protected String keyPrefix;
 	
 	/**
 	 * Load the properties in the table using :
@@ -72,7 +73,7 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 	public void loadDefaultConfiguration() throws BadConfigurationException {
 
 		logger.debug("Loading default configuration...");
-	
+
 		stagingConf = new HashMap<Configuration, Object>();
 		
 		if (globalProperties == null) {
@@ -93,14 +94,9 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 			
 			for(Entry<Object, Object> entry : propertiesResource.entrySet()){
 				if(!entry.getKey().toString().equals("groups")){
-					System.out.println("entry.getKey() = " + entry.getKey());
-					System.out.println("processedKey = " + entry.getKey().toString().substring(TableConfiguration.DEFAULT_GROUP_NAME.length() + 1));
-					System.out.println(entry.getKey().toString().substring(TableConfiguration.DEFAULT_GROUP_NAME.length() + 1));
 					Configuration configuration = Configuration.findByName(entry.getKey().toString().substring(TableConfiguration.DEFAULT_GROUP_NAME.length() + 1));
-					System.out.println("Configuration = " + configuration);
-					
 					if(configuration != null){
-						stagingConf.put(configuration, entry.getValue());
+						stagingConf.put(configuration, entry.getValue().toString());
 					}
 				}
 			}
@@ -108,24 +104,27 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 			globalProperties = propertiesResource;
 		}
 		
-		
-		
 		logger.debug("Default configuration loaded");
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void loadSpecificConfiguration(String keyPrefix) throws BadConfigurationException {
+	public void loadSpecificConfiguration(String keyPrefix) {
 
-		logger.debug("Loading specific configuration...");
-		doLoadSpecificConfiguration(keyPrefix);
-		logger.debug("Specific configuration loaded");
+		this.keyPrefix = keyPrefix;
 		
-		System.out.println("stagingConf = " + stagingConf);
+		logger.debug("Loading specific configuration...");
+		try {
+			doLoadSpecificConfiguration();
+		} catch (BadConfigurationException e) {
+			logger.warn("Unable to load the custom configuration. Default will be used.", e);
+		}
+		
+		logger.debug("Specific configuration loaded");
 	}
 
-	public abstract void doLoadSpecificConfiguration(String keyPrefix) throws BadConfigurationException;
+	public abstract void doLoadSpecificConfiguration() throws BadConfigurationException;
 	
 	public Map<Configuration, Object> getStagingConfiguration(){
 		return stagingConf;

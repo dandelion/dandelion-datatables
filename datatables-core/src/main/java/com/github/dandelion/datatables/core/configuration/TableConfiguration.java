@@ -169,17 +169,34 @@ public class TableConfiguration implements Cloneable {
 	private String tableId;
 	private HttpServletRequest request;
 
+	/**
+	 * Return an instance of {@link TableConfiguration} for the
+	 * DEFAULT_GROUP_NAME (global), i.e. containing all global configurations.
+	 * 
+	 * @param request
+	 *            The request is not used yet but will to work with Locale.
+	 * @return an instance of {@link TableConfiguration} that contains all the
+	 *         table configuration.
+	 */
 	public static TableConfiguration getInstance(HttpServletRequest request) {
 		return getInstance(request, DEFAULT_GROUP_NAME);
 	}
 
 	/**
-	 * Return an instance of {@link TableConfiguration} for given groupName. The
-	 * instance is then stored for future use.
+	 * <p>
+	 * Return an instance of {@link TableConfiguration} for the given groupName.
+	 * The instance is retrieved from the cache (configurations) if it exists or
+	 * computed and then stored in it.
+	 * <p>
+	 * If the passed group name doesn't exist, the DEFAULT_GROUP_NAME (global)
+	 * will be used.
 	 * 
 	 * @param request
+	 *            
 	 * @param groupName
-	 * @return
+	 *            Name of the configuration group to load.
+	 * @return an instance of {@link TableConfiguration} that contains all the
+	 *         table configuration.
 	 */
 	public static TableConfiguration getInstance(HttpServletRequest request, String groupName) {
 
@@ -200,15 +217,17 @@ public class TableConfiguration implements Cloneable {
 			tableConfiguration = tableConf;
 		}
 		
-		System.out.println("===> tableConfiguration = " + tableConfiguration);
 		return (TableConfiguration) tableConfiguration.clone();
 	}
 	
 	/**
-	 * 1: chargement des fichiers de proprietes dans l'ordre : d'abord le
-	 * default, ensuite le custom 2: initialisation de la configuration a partir
-	 * des fichiers de proprietes 3: modification par la taglib JSP ou par le
-	 * dialect Thymeleaf
+	 * Private constructor used by the getInstance() methods when the instance
+	 * does not exist in the cache.
+	 * 
+	 * @param request
+	 * 
+	 * @param groupName
+	 *            Name of the configuration group to load.
 	 */
 	private TableConfiguration(HttpServletRequest request, String groupName) {
 		this.request = request;
@@ -232,6 +251,9 @@ public class TableConfiguration implements Cloneable {
 		}
 	}
 
+	/**
+	 * Clone the {@link TableConfiguration} instance to use it in a table.
+	 */
 	public Object clone() {
 		TableConfiguration copy;
 		try {
@@ -1017,7 +1039,7 @@ public class TableConfiguration implements Cloneable {
 				+ ", featurePaginationType=" + featurePaginationType + ", featureLengthChange=" + featureLengthChange
 				+ ", featureSort=" + featureSort + ", featureStateSave=" + featureStateSave + ", featureJqueryUi="
 				+ featureJqueryUi + ", featureLengthMenu=" + featureLengthMenu + ", featureDisplayLength="
-				+ featureDisplayLength + ", featureDom=" + featureDom + ", featureScrollY=" + featureScrolly
+				+ featureDisplayLength + ", featureDom=" + featureDom + ", featureScrolly=" + featureScrolly
 				+ ", featureScrollCollapse=" + featureScrollCollapse + ", cssStyle=" + cssStyle + ", cssClass="
 				+ cssClass + ", cssStripeClasses=" + cssStripeClasses + ", labels=" + labels + ", ajaxProcessing="
 				+ ajaxProcessing + ", ajaxDeferRender=" + ajaxDeferRender + ", ajaxServerSide=" + ajaxServerSide
@@ -1046,6 +1068,4 @@ public class TableConfiguration implements Cloneable {
 				+ ", internalObjectType=" + internalObjectType + ", internalPlugins=" + internalPlugins
 				+ ", internalFeatures=" + internalFeatures + ", tableId=" + tableId + ", request=" + request + "]";
 	}
-	
-	
 }

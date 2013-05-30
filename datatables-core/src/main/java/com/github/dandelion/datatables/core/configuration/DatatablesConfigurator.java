@@ -29,8 +29,13 @@
  */
 package com.github.dandelion.datatables.core.configuration;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.github.dandelion.datatables.core.constants.SystemConstants;
+import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.util.ReflectHelper;
 
 /**
  * TODO
@@ -38,21 +43,30 @@ import org.slf4j.LoggerFactory;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class DatatablesConfigurator {
+public class DatatablesConfigurator implements Configurator {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(DatatablesConfigurator.class);
 		
 	private static DatatablesConfigurator instance;
 	private AbstractConfigurationLoader configurationLoader;
-	private static Boolean isConfLoaded;
 	
 	private DatatablesConfigurator(){
-		// Par defaut, on utilise des properties
-		
-		logger.debug("DatatablesConfigurator is being initialized using the default ConfPropertiesLoader");
 		
 		this.configurationLoader = new ConfigurationPropertiesLoader();
+
+		if(StringUtils.isNotBlank(System.getProperty(SystemConstants.DANDELION_DT_CONF_CLASS))){
+			Class<?> clazz;
+			try {
+				clazz = ReflectHelper.getClass(System.getProperty(SystemConstants.DANDELION_DT_CONF_CLASS));
+				this.configurationLoader = (AbstractConfigurationLoader) ReflectHelper.getNewInstance(clazz);
+			} catch (BadConfigurationException e) {
+				logger.warn("The custom configurator {} has not been found in the classpath. Using default one");
+			}
+		}
+		
+		logger.debug("DatatablesConfigurator is being initialized using the {}", this.configurationLoader.getClass()
+				.getSimpleName());
 	}
 
 	public static DatatablesConfigurator getInstance(){
@@ -68,11 +82,7 @@ public class DatatablesConfigurator {
 		return this.configurationLoader;
 	}
 
-	public Boolean isConfLoaded(){
-		return isConfLoaded;
-	}
-	
-	public static void setConfLoader(Boolean confLoader){
-		isConfLoaded = true;
+	public void setConfLoader(AbstractConfigurationLoader confLoader){
+		this.configurationLoader = confLoader;
 	}
 }
