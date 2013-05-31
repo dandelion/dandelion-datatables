@@ -42,6 +42,7 @@ import com.github.dandelion.datatables.core.feature.PaginationType;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 import com.github.dandelion.datatables.core.processor.BooleanProcessor;
 import com.github.dandelion.datatables.core.processor.IntegerProcessor;
+import com.github.dandelion.datatables.core.processor.StringBuilderProcessor;
 import com.github.dandelion.datatables.core.processor.StringProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxPipeliningProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxServerSideProcessor;
@@ -83,8 +84,8 @@ public enum Configuration {
 	MAIN_AGGREGATORENABLE("main.aggregator.enable", "mainAggregatorEnable", Boolean.class, BooleanProcessor.class),
 	MAIN_AGGREGATORMODE("main.aggregator.mode", "mainAggregatorMode", AggregatorMode.class, MainAggregatorModeProcessor.class),
 	
-	CSS_CLASS("css.class", "cssClass", StringBuilder.class, StringProcessor.class),
-	CSS_STYLE("css.style", "cssStyle", StringBuilder.class, StringProcessor.class),
+	CSS_CLASS("css.class", "cssClass", StringBuilder.class, StringBuilderProcessor.class),
+	CSS_STYLE("css.style", "cssStyle", StringBuilder.class, StringBuilderProcessor.class),
 	CSS_STRIPECLASSES("css.stripeClasses", "cssStripeClasses", String.class, CssStripeClassesProcessor.class),
 	
 	// DataTables features

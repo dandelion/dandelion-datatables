@@ -52,7 +52,7 @@ public abstract class DomBaseTest {
 
 	protected MockPageContext mockPageContext;
 	protected TableTag tableTag;
-	protected TableTagBuilder tableBuilder;
+	protected TableTagBuilder tableTagBuilder;
 	protected HtmlTable table;
 	protected Map<String, Object> mainConf;
 	
@@ -67,16 +67,16 @@ public abstract class DomBaseTest {
 		buildTable();
 		
 		try {
-			tableBuilder.getTableTag().doStartTag();
+			tableTagBuilder.getTableTag().doStartTag();
 			for (int i = 0; i < Mock.persons.size(); i++) {
-				for (ColumnTag columnTag : tableBuilder.getColumnTags()) {
+				for (ColumnTag columnTag : tableTagBuilder.getColumnTags()) {
 					columnTag.doStartTag();
 					columnTag.doEndTag();
 				}
-				tableBuilder.getTableTag().doAfterBody();
+				tableTagBuilder.getTableTag().doAfterBody();
 			}
-			tableBuilder.getTableTag().doEndTag();
-			table = tableBuilder.getTableTag().getTable();
+			tableTagBuilder.getTableTag().doEndTag();
+			table = tableTagBuilder.getTableTag().getTable();
 			
 			MainGenerator configGenerator = new MainGenerator();
 			mainConf = configGenerator.generateConfig(table);

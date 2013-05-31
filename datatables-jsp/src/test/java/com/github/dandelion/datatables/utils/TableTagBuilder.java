@@ -10,17 +10,17 @@ import com.github.dandelion.datatables.jsp.tag.ColumnTag;
 import com.github.dandelion.datatables.jsp.tag.TableTag;
 
 public class TableTagBuilder {
-	private TableTag table = new TableTag();
+	private TableTag tableTag = new TableTag();
 	private LinkedList<ColumnTag> columns = new LinkedList<ColumnTag>();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public TableTagBuilder(Collection<?> data, String id){
-		this.table.setData((Collection) data);
-		this.table.setId(id);
+		this.tableTag.setData((Collection) data);
+		this.tableTag.setId(id);
 	}
 	
 	public TableTagBuilder context(MockPageContext mockPageContext) {
-		table.setPageContext(mockPageContext);
+		tableTag.setPageContext(mockPageContext);
 		return this;
 	}
 	
@@ -34,57 +34,57 @@ public class TableTagBuilder {
 	}
 	
 	public TableTagBuilder cssClass(String cssClass){
-		table.setCssClass(cssClass);
+		tableTag.setCssClass(cssClass);
 		return this;
 	}
 	
 	public TableTagBuilder cssStyle(String cssStyle){
-		table.setCssStyle(cssStyle);
+		tableTag.setCssStyle(cssStyle);
 		return this;
 	}
 	
 	public TableTagBuilder cssStripes(String cssStripes){
-		table.setCssStripes(cssStripes);
+		tableTag.setCssStripes(cssStripes);
 		return this;
 	}
 	
 	public TableTagBuilder appear(String appear){
-		table.setAppear(appear);
+		tableTag.setAppear(appear);
 		return this;
 	}
 	
 	public TableTagBuilder autoWidth(Boolean auto){
-		table.setAutoWidth(auto);
+		tableTag.setAutoWidth(auto);
 		return this;
 	}
 	
 	public TableTagBuilder info(Boolean info){
-		table.setInfo(info);
+		tableTag.setInfo(info);
 		return this;
 	}
 	
 	public TableTagBuilder paginate(Boolean paginate){
-		table.setPaginate(paginate);
+		tableTag.setPaginate(paginate);
 		return this;
 	}
 	
 	public TableTagBuilder filter(Boolean filter){
-		table.setFilter(filter);
+		tableTag.setFilter(filter);
 		return this;
 	}
 	
 	public TableTagBuilder lengthChange(Boolean lengthChange){
-		table.setLengthChange(lengthChange);
+		tableTag.setLengthChange(lengthChange);
 		return this;
 	}
 	
 	public TableTagBuilder sort(Boolean sort){
-		table.setSort(sort);
+		tableTag.setSort(sort);
 		return this;
 	}
 	
 	public TableTagBuilder displayLength(int length){
-		table.setDisplayLength(length);
+		tableTag.setDisplayLength(length);
 		return this;
 	}
 	
@@ -92,14 +92,14 @@ public class TableTagBuilder {
 	
 	public TableTagBuilder column(){
 		ColumnTag columnTag = new ColumnTag();
-		columnTag.setParent(table);
+		columnTag.setParent(tableTag);
 		this.columns.addLast(columnTag);
 		return this;
 	}
 	
 	public TableTagBuilder column(String property){
 		ColumnTag columnTag = new ColumnTag();
-		columnTag.setParent(table);
+		columnTag.setParent(tableTag);
 		columnTag.setProperty(property);
 		this.columns.addLast(columnTag);
 		return this;
@@ -111,7 +111,7 @@ public class TableTagBuilder {
 	}
 	
 	public TableTag getTableTag(){
-		return table;
+		return tableTag;
 	}
 	
 	public List<ColumnTag> getColumnTags(){

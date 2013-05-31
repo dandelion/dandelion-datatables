@@ -43,7 +43,7 @@ public class FeatureEnablementTest extends DomBaseTest {
 
 	@Override
 	public void buildTable() {
-		tableBuilder = new TableTagBuilder(Mock.persons, "myTableId").context(mockPageContext)
+		tableTagBuilder = new TableTagBuilder(Mock.persons, "myTableId").context(mockPageContext)
 				.defaultTable()
 				.info(false)
 				.paginate(true)

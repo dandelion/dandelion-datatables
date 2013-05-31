@@ -47,7 +47,7 @@ public class StylingTableTest extends DomBaseTest {
 
 	@Override
 	public void buildTable() {
-		tableBuilder = new TableTagBuilder(Mock.persons, "myTableId").context(mockPageContext)
+		tableTagBuilder = new TableTagBuilder(Mock.persons, "myTableId").context(mockPageContext)
 				.defaultTable()
 				.cssClass("myClass")
 				.cssStripes("myStrip1,myStrip2")
@@ -56,7 +56,7 @@ public class StylingTableTest extends DomBaseTest {
 	
 	@Test
 	public void should_set_css_style_using_class() {
-		assertThat(table.getCssClass().toString()).isEqualTo("myClass");
+		assertThat(table.getTableConfiguration().getCssClass().toString()).isEqualTo("myClass");
 	}
 	
 	@Test
@@ -66,6 +66,6 @@ public class StylingTableTest extends DomBaseTest {
 	
 	@Test
 	public void should_set_css_style() {
-		assertThat(table.getCssStyle().toString()).isEqualTo("myStyle");
+		assertThat(table.getTableConfiguration().getCssStyle().toString()).isEqualTo("myStyle");
 	}
 }
