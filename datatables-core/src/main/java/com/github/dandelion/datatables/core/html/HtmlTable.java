@@ -133,11 +133,6 @@ public class HtmlTable extends HtmlTag {
 	}
 
 	protected StringBuilder getHtmlAttributes() {
-		if (this.tableConfiguration.getFeatureAppear() != null
-				&& !"".equals(this.tableConfiguration.getFeatureAppear())) {
-			addCssStyle("display:none");
-		}
-
 		StringBuilder html = new StringBuilder();
 		html.append(writeAttribute("id", this.id));
 		html.append(writeAttribute("class", this.tableConfiguration.getCssClass()));
@@ -228,6 +223,26 @@ public class HtmlTable extends HtmlTag {
 		return retval;
 	}
 
+	public void addCssStyle(String cssStyle) {
+		if(this.tableConfiguration.getCssStyle() == null) {
+			this.tableConfiguration.setCssStyle(new StringBuilder());
+		} else {
+			this.tableConfiguration.getCssStyle().append(CSS_SEPARATOR);
+		}
+		
+		this.tableConfiguration.getCssStyle().append(cssStyle);
+	}
+	
+	public void addCssClass(String cssClass) {
+		if(this.tableConfiguration.getCssClass() == null) {
+			this.tableConfiguration.setCssClass(new StringBuilder());
+		} else {
+			this.tableConfiguration.getCssClass().append(CLASS_SEPARATOR);
+		}
+		
+		this.tableConfiguration.getCssClass().append(cssClass);
+	}
+	
 	public HtmlColumn getColumnHeadByUid(String uid) {
 		for (HtmlRow row : this.head) {
 			for (HtmlColumn column : row.getColumns()) {

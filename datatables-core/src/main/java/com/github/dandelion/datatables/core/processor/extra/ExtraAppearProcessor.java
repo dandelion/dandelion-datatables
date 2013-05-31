@@ -27,7 +27,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.feature;
+package com.github.dandelion.datatables.core.processor.extra;
 
 import java.util.Map;
 
@@ -37,20 +37,24 @@ import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 
-
-public class FeatureAppearProcessor extends AbstractProcessor {
+public class ExtraAppearProcessor extends AbstractProcessor {
 
 	@Override
 	public String process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+		
 		String retval = null;
-		if (StringUtils.isNotBlank(param)) {
-			if (param.contains(",") || "fadein".equals(param.toLowerCase().trim())) {
+		
+		if(StringUtils.isNotBlank(param)){
+		
+			if(param.contains(",") || "fadein".equals(param.toLowerCase().trim())){
 				String[] tmp = param.toLowerCase().trim().split(",");
+				
 				retval = "fadein";
-				if (tmp.length > 1) {
+				if(tmp.length > 1){
 					tableConfiguration.setExtraAppearDuration(tmp[1]);
 				}
-			} else {
+			}
+			else{
 				retval = "block";
 			}
 		}

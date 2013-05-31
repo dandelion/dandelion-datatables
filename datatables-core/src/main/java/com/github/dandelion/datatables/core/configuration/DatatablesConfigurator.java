@@ -45,15 +45,14 @@ import com.github.dandelion.datatables.core.util.ReflectHelper;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class DatatablesConfigurator implements Configurator {
+public class DatatablesConfigurator {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(DatatablesConfigurator.class);
 		
-	private static DatatablesConfigurator instance;
 	private AbstractConfigurationLoader configurationLoader;
 	
-	private DatatablesConfigurator(){
+	public DatatablesConfigurator(){
 		
 		this.configurationLoader = new ConfigurationPropertiesLoader();
 
@@ -71,15 +70,6 @@ public class DatatablesConfigurator implements Configurator {
 				.getSimpleName());
 	}
 
-	public static DatatablesConfigurator getInstance(){
-		
-		if(instance == null){
-			instance = new DatatablesConfigurator();
-		}
-		
-		return instance;
-	}
-	
 	public AbstractConfigurationLoader getConfLoader(){
 		return this.configurationLoader;
 	}

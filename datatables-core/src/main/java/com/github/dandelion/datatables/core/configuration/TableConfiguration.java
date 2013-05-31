@@ -55,6 +55,7 @@ import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.feature.AbstractFeature;
 import com.github.dandelion.datatables.core.feature.PaginationType;
+import com.github.dandelion.datatables.core.html.HtmlTag;
 import com.github.dandelion.datatables.core.plugin.AbstractPlugin;
 import com.github.dandelion.datatables.core.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.theme.ThemeOption;
@@ -97,8 +98,8 @@ public class TableConfiguration {
 	private Boolean featureScrollCollapse;
 
 	// CSS parameters
-	private String cssStyle;
-	private String cssClass;
+	private StringBuilder cssStyle;
+	private StringBuilder cssClass;
 	private String cssStripeClasses;
 
 	// DataTables AJAX parameters
@@ -233,7 +234,7 @@ public class TableConfiguration {
 		this.request = request;
 		
 		logger.debug("Getting the ConfigurationLoader...");
-		AbstractConfigurationLoader confLoader = DatatablesConfigurator.getInstance().getConfLoader();
+		AbstractConfigurationLoader confLoader = new DatatablesConfigurator().getConfLoader();
 		logger.debug("The configurationLoader '{}' will be used.", confLoader.getClass().getSimpleName());
 		
 		try {
@@ -318,7 +319,8 @@ public class TableConfiguration {
 		exportProperties = objectToClone.exportProperties;
 		exporting = objectToClone.exporting;
 		exportConfMap = new HashMap<ExportType, ExportConf>(objectToClone.exportConfMap);
-		exportLinkPositions = new ArrayList<ExportLinkPosition>(objectToClone.exportLinkPositions);
+		exportLinkPositions = objectToClone.exportLinkPositions != null ? new ArrayList<ExportLinkPosition>(
+				objectToClone.exportLinkPositions) : null;
 		isExportable = objectToClone.isExportable;
 		exportDefaultXlsClass = objectToClone.exportDefaultXlsClass;
 		exportDefaultXlsxClass = objectToClone.exportDefaultXlsxClass;
@@ -342,8 +344,6 @@ public class TableConfiguration {
 		mainAggregatorEnable = objectToClone.mainAggregatorEnable;
 		mainAggregatorMode = objectToClone.mainAggregatorMode;
 		mainUrlBase = objectToClone.mainUrlBase;
-		
-		System.out.println("nb export type pendant le  clone : " + objectToClone.getExportConfMap().size());
 	}
 	
 	/**
@@ -1045,24 +1045,46 @@ public class TableConfiguration {
 		this.tableId = tableId;
 	}
 
-	public String getCssStyle() {
+	public StringBuilder getCssStyle() {
 		return cssStyle;
 	}
 
-	public TableConfiguration setCssStyle(String cssStyle) {
+	public TableConfiguration setCssStyle(StringBuilder cssStyle) {
 		this.cssStyle = cssStyle;
 		return this;
 	}
 
-	public String getCssClass() {
+	public TableConfiguration addCssStyle(String cssStyle) {
+		if(this.cssStyle == null){
+			this.cssStyle = new StringBuilder();
+		}
+		else{
+			this.cssStyle.append(HtmlTag.CSS_SEPARATOR);
+		}
+		this.cssStyle.append(cssStyle);
+		return this;
+	}
+	
+	public StringBuilder getCssClass() {
 		return cssClass;
 	}
 
-	public TableConfiguration setCssClass(String cssClass) {
+	public TableConfiguration setCssClass(StringBuilder cssClass) {
 		this.cssClass = cssClass;
 		return this;
 	}
 
+	public TableConfiguration addCssClass(String cssClass) {
+		if(this.cssClass == null){
+			this.cssClass = new StringBuilder();
+		}
+		else{
+			this.cssClass.append(HtmlTag.CLASS_SEPARATOR);
+		}
+		this.cssClass.append(cssClass);
+		return this;
+	}
+	
 	public void setExportDefaultXlsClass(String exportDefaultXlsClass) {
 		this.exportDefaultXlsClass = exportDefaultXlsClass;
 	}
@@ -1107,7 +1129,7 @@ public class TableConfiguration {
 		return request;
 	}
 	
-	public Map<String, TableConfiguration> getConfigurations(){
+	public static Map<String, TableConfiguration> getConfigurations(){
 		return configurations;
 	}
 

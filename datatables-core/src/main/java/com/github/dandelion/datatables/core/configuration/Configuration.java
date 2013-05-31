@@ -49,11 +49,11 @@ import com.github.dandelion.datatables.core.processor.ajax.AjaxSourceProcessor;
 import com.github.dandelion.datatables.core.processor.css.CssStripeClassesProcessor;
 import com.github.dandelion.datatables.core.processor.export.ExportLinkPositionsProcessor;
 import com.github.dandelion.datatables.core.processor.export.ExportTypesProcessor;
+import com.github.dandelion.datatables.core.processor.extra.ExtraAppearProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraCustomExtensionProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraLabelProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraThemeOptionProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraThemeProcessor;
-import com.github.dandelion.datatables.core.processor.feature.FeatureAppearProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeatureLengthMenuProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeaturePaginationTypeProcessor;
 import com.github.dandelion.datatables.core.processor.main.MainAggregatorModeProcessor;
@@ -83,8 +83,8 @@ public enum Configuration {
 	MAIN_AGGREGATORENABLE("main.aggregator.enable", "mainAggregatorEnable", Boolean.class, BooleanProcessor.class),
 	MAIN_AGGREGATORMODE("main.aggregator.mode", "mainAggregatorMode", AggregatorMode.class, MainAggregatorModeProcessor.class),
 	
-	CSS_CLASS("css.class", "cssClass", String.class, StringProcessor.class),
-	CSS_STYLE("css.style", "cssStyle", String.class, StringProcessor.class),
+	CSS_CLASS("css.class", "cssClass", StringBuilder.class, StringProcessor.class),
+	CSS_STYLE("css.style", "cssStyle", StringBuilder.class, StringProcessor.class),
 	CSS_STRIPECLASSES("css.stripeClasses", "cssStripeClasses", String.class, CssStripeClassesProcessor.class),
 	
 	// DataTables features
@@ -111,7 +111,7 @@ public enum Configuration {
 //	EXTRA_CONFS("extra.confs", "extraConfs", String.class, StringProcessor.class),
 //	EXTRA_CALLBACKS("extra.callbacks", String.class, StringProcessor.class),
 	EXTRA_CDN("extra.cdn", "extraCdn", Boolean.class, BooleanProcessor.class),
-	EXTRA_APPEAR("extra.appear", "extraAppear", String.class, FeatureAppearProcessor.class),
+	EXTRA_APPEAR("extra.appear", "extraAppear", String.class, ExtraAppearProcessor.class),
 	EXTRA_APPEARDURATION("extra.appearDuration", "extraAppearDuration", String.class, StringProcessor.class),
 	EXTRA_LABELS("extra.labels", "extraLabels", String.class, ExtraLabelProcessor.class),
 	

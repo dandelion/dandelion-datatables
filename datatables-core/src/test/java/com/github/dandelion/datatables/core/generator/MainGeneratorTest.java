@@ -361,7 +361,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_stripe_classes() {
-		table.getTableConfiguration().setCssStripeClasses("oddClass,evenClass");
+		table.getTableConfiguration().setCssStripeClasses("['oddClass','evenClass']");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 

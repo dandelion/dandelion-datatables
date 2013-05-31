@@ -31,47 +31,28 @@ public class HtmlTableTest {
 
 	@Test
 	public void should_generate_table_with_one_class() {
-		table.addCssClass("aClass");
+		table.getTableConfiguration().addCssClass("aClass");
 		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" class=\"aClass\"><thead></thead><tbody></tbody></table>");
 	}
 
 	@Test
 	public void should_generate_table_with_several_classes() {
-		table.addCssClass("oneClass");
-		table.addCssClass("twoClass");
+		table.getTableConfiguration().addCssClass("oneClass");
+		table.getTableConfiguration().addCssClass("twoClass");
 		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" class=\"oneClass twoClass\"><thead></thead><tbody></tbody></table>");
 	}
 
 	@Test
 	public void should_generate_table_with_one_style() {
-		table.addCssStyle("border:1px");
+		table.getTableConfiguration().addCssStyle("border:1px");
 		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" style=\"border:1px\"><thead></thead><tbody></tbody></table>");
 	}
 
 	@Test
 	public void should_generate_table_with_several_styles() {
-		table.addCssStyle("border:1px");
-		table.addCssStyle("align:center");
+		table.getTableConfiguration().addCssStyle("border:1px");
+		table.getTableConfiguration().addCssStyle("align:center");
 		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" style=\"border:1px;align:center\"><thead></thead><tbody></tbody></table>");
-	}
-
-	@Test
-	public void should_generate_table_with_display_none() {
-		table.getTableConfiguration().setExtraAppear("block");
-		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" style=\"display:none\"><thead></thead><tbody></tbody></table>");
-	}
-
-	@Test
-	public void should_generate_table_with_display_none_and_styles() {
-		table.getTableConfiguration().setExtraAppear("block");
-		table.addCssStyle("border:1px");
-		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" style=\"border:1px;display:none\"><thead></thead><tbody></tbody></table>");
-	}
-
-	@Test
-	public void should_generate_table_without_display_none() {
-		table.getTableConfiguration().setExtraAppear("");
-		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\"><thead></thead><tbody></tbody></table>");
 	}
 
 	@Test

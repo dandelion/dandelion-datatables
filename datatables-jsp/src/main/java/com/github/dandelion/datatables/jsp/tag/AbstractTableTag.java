@@ -69,9 +69,26 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(AbstractTableTag.class);
 
+	/**
+	 * Map holding the staging configuration to apply to the table.
+	 */
 	protected Map<Configuration, Object> localConf = null;
+	
+	/**
+	 * First way to populate the table: using a Collection previously set in
+	 * request.
+	 */
 	protected Object data;
+	
+	/**
+	 * Second way to populate the table: using the URL that returns data.
+	 */
 	protected String url;
+	
+	/**
+	 * Name that has been assigned with the <code>row</code> attribute for the
+	 * iterated object set in the page context.
+	 */
 	protected String row;
 
 	// Tag attributes
@@ -84,7 +101,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected String footer;
 
 	// Internal common attributes
-	protected int iterationNumber;
+	protected Integer iterationNumber;
 	protected HtmlTable table;
 	protected Iterator<Object> iterator;
 	protected Object currentObject;
@@ -169,15 +186,6 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 		return exportType;
 	}
 
-//	/**
-//	 * Test if the user want his table to be exported.
-//	 * 
-//	 * @return true if the table can be exported, false otherwise.
-//	 */
-//	protected Boolean canBeExported() {
-//		return StringUtils.isNotBlank(this.export);
-//	}
-
 	/**
 	 * Return the row id using prefix, base and suffix. Prefix and sufix are
 	 * just prepended and appended strings. Base is extracted from the current
@@ -250,7 +258,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	}
 
 	public Boolean isFirstIteration() {
-		return this.iterationNumber == 1;
+		return this.iterationNumber.equals(1);
 	}
 
 	public Integer getIterationNumber() {
