@@ -140,8 +140,8 @@ public class HtmlTable extends HtmlTag {
 
 		StringBuilder html = new StringBuilder();
 		html.append(writeAttribute("id", this.id));
-		html.append(writeAttribute("class", this.cssClass));
-		html.append(writeAttribute("style", this.cssStyle));
+		html.append(writeAttribute("class", this.tableConfiguration.getCssClass()));
+		html.append(writeAttribute("style", this.tableConfiguration.getCssStyle()));
 		return html;
 	}
 

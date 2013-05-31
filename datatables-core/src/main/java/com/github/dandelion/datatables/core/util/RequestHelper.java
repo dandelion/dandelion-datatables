@@ -146,6 +146,20 @@ public class RequestHelper {
 		retval = retval.replace(request.getRequestURI(), request.getContextPath());
 		return retval;
 	}
+	
+	public static String getBaseUrl(ServletRequest servletRequest, String mainUrlBase) {
+		HttpServletRequest request = (HttpServletRequest) servletRequest;
+		String retval = null;
+
+		if (StringUtils.isNotBlank(mainUrlBase)) {
+			String[] url = request.getRequestURL().toString().split("/");
+			retval = url[0] + "//" + mainUrlBase + request.getContextPath();
+		} else {
+			retval = request.getRequestURL().toString();
+		}
+		retval = retval.replace(request.getRequestURI(), request.getContextPath());
+		return retval;
+	}
 
 	/**
 	 * <p>

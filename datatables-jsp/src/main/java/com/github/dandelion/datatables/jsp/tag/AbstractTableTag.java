@@ -44,13 +44,11 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.feature.FilteringFeature;
 import com.github.dandelion.datatables.core.html.HtmlLink;
 import com.github.dandelion.datatables.core.html.HtmlScript;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.RequestHelper;
 
 /**
  * <p>
@@ -78,18 +76,12 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 
 	// Tag attributes
 	protected String id;
-	protected String cssStyle;
-	protected String cssClass;
-	protected String cssStripes;
 	protected String rowIdBase;
 	protected String rowIdPrefix;
 	protected String rowIdSufix;
 
 	// Basic features
 	protected String footer;
-
-	// Advanced features
-	protected String labels;
 
 	// Internal common attributes
 	protected int iterationNumber;
@@ -99,23 +91,6 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected String loadingType;
 	protected String confGroup;
 	
-	/**
-	 * Register all common configuration with the table.
-	 */
-	protected void registerBasicConfiguration() throws BadConfigurationException {
-
-		if (StringUtils.isNotBlank(this.cssClass)) {
-			table.setCssClass(new StringBuilder(this.cssClass));
-		}
-		if (StringUtils.isNotBlank(this.cssStyle)) {
-			table.setCssStyle(new StringBuilder(this.cssStyle));
-		}
-		if (StringUtils.isNotBlank(this.labels)) {
-			this.table.getTableConfiguration().setLabels(RequestHelper.getBaseUrl(pageContext.getRequest(), this.table) + this.labels);
-		}
-	}
-
-
 	/**
 	 * Register activated features with the table.
 	 */

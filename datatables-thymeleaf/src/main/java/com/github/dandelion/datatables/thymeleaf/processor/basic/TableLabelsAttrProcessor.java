@@ -31,11 +31,7 @@ package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 import org.thymeleaf.Arguments;
-import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
@@ -63,29 +59,15 @@ public class TableLabelsAttrProcessor extends AbstractDatatablesAttrProcessor {
 		return 8000;
 	}
 
-	/**
-	 * TODO
-	 */
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
 			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 
-		// Get the request
-		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-
-		// Get HtmlTable POJO from the HttpServletRequest
-		HtmlTable htmlTable = Utils.getTable(arguments);
-
 		// Get attribute value
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
-//		localConf.put(Configuration.FEATURE_INFO, attrValue);
+		localConf.put(Configuration.EXTRA_LABELS, attrValue);
 		
-		// HtmlTable update
-		if (htmlTable != null && StringUtils.isNotBlank(attrValue)) {
-			htmlTable.getTableConfiguration().setLabels(Utils.getBaseUrl(request) + attrValue);
-		}
-
 		return ProcessorResult.ok();
 	}
 }

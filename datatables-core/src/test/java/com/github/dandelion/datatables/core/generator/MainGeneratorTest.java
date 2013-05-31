@@ -230,7 +230,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_label() {
-		table.getTableConfiguration().setLabels("FR_fr");
+		table.getTableConfiguration().setExtraLabels("FR_fr");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 

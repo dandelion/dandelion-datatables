@@ -140,9 +140,9 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         if(StringUtils.isNotBlank(tableConfiguration.getFeatureDom())){
         	mainConf.put(DTConstants.DT_DOM, tableConfiguration.getFeatureDom());
         }
-        if (tableConfiguration.getLabels() != null) {
+        if (tableConfiguration.getExtraLabels() != null) {
             tmp = new HashMap<String, Object>();
-            tmp.put(DTConstants.DT_URL, tableConfiguration.getLabels());
+            tmp.put(DTConstants.DT_URL, tableConfiguration.getExtraLabels());
             mainConf.put(DTConstants.DT_LANGUAGE, tmp);
         }
         if (tableConfiguration.getFeatureAutoWidth() != null) {

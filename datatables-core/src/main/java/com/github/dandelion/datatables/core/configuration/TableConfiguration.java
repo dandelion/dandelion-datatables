@@ -100,7 +100,6 @@ public class TableConfiguration {
 	private String cssStyle;
 	private String cssClass;
 	private String cssStripeClasses;
-	private String labels;
 
 	// DataTables AJAX parameters
 	private Boolean ajaxProcessing;
@@ -131,6 +130,7 @@ public class TableConfiguration {
 	private Boolean extraCdn;
 	private String extraAppear;
 	private String extraAppearDuration;
+	private String extraLabels;
 
 	// Export parameters
 	private ExportProperties exportProperties;
@@ -282,7 +282,7 @@ public class TableConfiguration {
 		cssStyle = objectToClone.cssStyle;
 		cssClass = objectToClone.cssClass;
 		cssStripeClasses = objectToClone.cssStripeClasses;
-		labels = objectToClone.labels;
+		extraLabels = objectToClone.extraLabels;
 
 		// DataTables AJAX parameters
 		ajaxProcessing = objectToClone.ajaxProcessing;
@@ -532,12 +532,12 @@ public class TableConfiguration {
 		return this;
 	}
 
-	public String getLabels() {
-		return labels;
+	public String getExtraLabels() {
+		return extraLabels;
 	}
 
-	public TableConfiguration setLabels(String labels) {
-		this.labels = labels;
+	public TableConfiguration setExtraLabels(String labels) {
+		this.extraLabels = labels;
 		return this;
 	}
 
@@ -1120,7 +1120,7 @@ public class TableConfiguration {
 				+ featureJqueryUi + ", featureLengthMenu=" + featureLengthMenu + ", featureDisplayLength="
 				+ featureDisplayLength + ", featureDom=" + featureDom + ", featureScrolly=" + featureScrolly
 				+ ", featureScrollCollapse=" + featureScrollCollapse + ", cssStyle=" + cssStyle + ", cssClass="
-				+ cssClass + ", cssStripeClasses=" + cssStripeClasses + ", labels=" + labels + ", ajaxProcessing="
+				+ cssClass + ", cssStripeClasses=" + cssStripeClasses + ", labels=" + extraLabels + ", ajaxProcessing="
 				+ ajaxProcessing + ", ajaxDeferRender=" + ajaxDeferRender + ", ajaxServerSide=" + ajaxServerSide
 				+ ", ajaxSource=" + ajaxSource + ", ajaxPipelining=" + ajaxPipelining + ", ajaxPipeSize="
 				+ ajaxPipeSize + ", ajaxServerData=" + ajaxServerData + ", ajaxServerParam=" + ajaxServerParam

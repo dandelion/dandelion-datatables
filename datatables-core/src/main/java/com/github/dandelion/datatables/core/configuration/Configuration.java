@@ -50,6 +50,7 @@ import com.github.dandelion.datatables.core.processor.css.CssStripeClassesProces
 import com.github.dandelion.datatables.core.processor.export.ExportLinkPositionsProcessor;
 import com.github.dandelion.datatables.core.processor.export.ExportTypesProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraCustomExtensionProcessor;
+import com.github.dandelion.datatables.core.processor.extra.ExtraLabelProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraThemeOptionProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraThemeProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeatureAppearProcessor;
@@ -112,6 +113,7 @@ public enum Configuration {
 	EXTRA_CDN("extra.cdn", "extraCdn", Boolean.class, BooleanProcessor.class),
 	EXTRA_APPEAR("extra.appear", "extraAppear", String.class, FeatureAppearProcessor.class),
 	EXTRA_APPEARDURATION("extra.appearDuration", "extraAppearDuration", String.class, StringProcessor.class),
+	EXTRA_LABELS("extra.labels", "extraLabels", String.class, ExtraLabelProcessor.class),
 	
 	// DataTables AJAX features
 	AJAX_PROCESSING("ajax.processing", "ajaxProcessing", Boolean.class, BooleanProcessor.class),

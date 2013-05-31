@@ -138,16 +138,6 @@ public class TableTag extends AbstractTableTag {
 	 */
 	public int doEndTag() throws JspException {
 
-		try{
-			// TODO REMOVE
-			// Update the HtmlTable POJO configuration with the attributes
-			registerBasicConfiguration();			
-
-		}
-		catch (BadConfigurationException e){
-			throw new JspException(e);
-		}
-
 		// The table is being exported
 		if (RequestHelper.isTableBeingExported(pageContext.getRequest(), table)) {
 			return setupExport();
@@ -382,7 +372,7 @@ public class TableTag extends AbstractTableTag {
 	}
 
 	public void setLabels(String labels) {
-		this.labels = labels;
+		localConf.put(Configuration.EXTRA_LABELS, labels);
 	}
 
 	public void setOffsetTop(Integer fixedOffsetTop) {
@@ -506,11 +496,9 @@ public class TableTag extends AbstractTableTag {
 	
 	public void setCssStyle(String cssStyle) {
 		localConf.put(Configuration.CSS_STYLE, cssStyle);
-		this.cssStyle = cssStyle;
 	}
 
 	public void setCssClass(String cssClass) {
 		localConf.put(Configuration.CSS_CLASS, cssClass);
-		this.cssClass = cssClass;
 	}
 }
