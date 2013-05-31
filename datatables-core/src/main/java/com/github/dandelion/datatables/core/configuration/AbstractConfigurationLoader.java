@@ -61,14 +61,11 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 	protected String keyPrefix;
 	
 	/**
-	 * Load the properties in the table using :
+	 * Load the Dandelion-Datatabls configuration from the default properties file.
 	 * <ul>
 	 * <li>first, the global Dandelion-datatables properties file</li>
 	 * <li>second, the project specific properties file, if it exists</li>
 	 * </ul>
-	 * 
-	 * @param table
-	 *            The table where to load properties.
 	 */
 	public void loadDefaultConfiguration() throws BadConfigurationException {
 
@@ -82,14 +79,22 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 			Properties propertiesResource = new Properties();
 
 			// Get default file as stream
-			InputStream propertiesStream = Thread.currentThread().getContextClassLoader()
-					.getResourceAsStream(DT_DEFAULT_PROPERTIES);
+			InputStream propertiesStream = null;
 
 			try {
-				// Load all default properties
+				propertiesStream = Thread.currentThread().getContextClassLoader()
+						.getResourceAsStream(DT_DEFAULT_PROPERTIES);
 				propertiesResource.load(propertiesStream);
 			} catch (IOException e) {
 				throw new BadConfigurationException("Unable to load the default configuration file", e);
+			} finally {
+				if (propertiesStream != null) {
+					try {
+						propertiesStream.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 			
 			for(Entry<Object, Object> entry : propertiesResource.entrySet()){
@@ -109,8 +114,9 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 
 	/**
 	 * {@inheritDoc}
+	 * @throws BadConfigurationException 
 	 */
-	public void loadSpecificConfiguration(String keyPrefix) {
+	public void loadSpecificConfiguration(String keyPrefix) throws BadConfigurationException {
 
 		this.keyPrefix = keyPrefix;
 		
@@ -118,14 +124,23 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 		try {
 			doLoadSpecificConfiguration();
 		} catch (BadConfigurationException e) {
-			logger.warn("Unable to load the custom configuration. Default will be used.", e);
+			throw new BadConfigurationException(
+					"Unable to load the custom configuration. Only the default one will be used.", e);
 		}
 		
 		logger.debug("Specific configuration loaded");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract void doLoadSpecificConfiguration() throws BadConfigurationException;
 	
+	/**
+	 * Only used internally for testing.
+	 * 
+	 * @return the Map containing the stating loaded configuration.
+	 */
 	public Map<Configuration, Object> getStagingConfiguration(){
 		return stagingConf;
 	}

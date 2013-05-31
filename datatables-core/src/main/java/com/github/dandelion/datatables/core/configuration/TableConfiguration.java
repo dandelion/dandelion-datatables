@@ -227,6 +227,7 @@ public class TableConfiguration {
 	 * 
 	 * @param groupName
 	 *            Name of the configuration group to load.
+	 * @throws BadConfigurationException 
 	 */
 	private TableConfiguration(HttpServletRequest request, String groupName) {
 		this.request = request;
@@ -245,12 +246,106 @@ public class TableConfiguration {
 			Configuration.applyConfiguration(this, confLoader.getStagingConfiguration());
 			
 		} catch (BadConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.warn("Configuration could not be loaded.", e);
 		}
 	}
 
+	/**
+	 * Private constructor used to build clones of TableConfiguration.
+	 * 
+	 * @param objectToClone
+	 *            Source object to clone.
+	 * @param request
+	 *            The request attached to the {@link TableConfiguration}
+	 *            instance.
+	 */
+	private TableConfiguration (TableConfiguration objectToClone, HttpServletRequest request){
+		this.request = request;
+		
+		// DataTables global parameters
+		featureInfo = objectToClone.featureInfo;
+		featureAutoWidth = objectToClone.featureAutoWidth;
+		featureFilterable = objectToClone.featureFilterable;
+		featurePaginate = objectToClone.featurePaginate;
+		featurePaginationType = objectToClone.featurePaginationType;
+		featureLengthChange = objectToClone.featureLengthChange;
+		featureSort = objectToClone.featureSort;
+		featureStateSave = objectToClone.featureStateSave;
+		featureJqueryUi = objectToClone.featureJqueryUi;
+		featureLengthMenu = objectToClone.featureLengthMenu;
+		featureDisplayLength = objectToClone.featureDisplayLength;
+		featureDom = objectToClone.featureDom;
+		featureScrolly = objectToClone.featureScrolly;
+		featureScrollCollapse = objectToClone.featureScrollCollapse;
 
+		// CSS parameters
+		cssStyle = objectToClone.cssStyle;
+		cssClass = objectToClone.cssClass;
+		cssStripeClasses = objectToClone.cssStripeClasses;
+		labels = objectToClone.labels;
+
+		// DataTables AJAX parameters
+		ajaxProcessing = objectToClone.ajaxProcessing;
+		ajaxDeferRender = objectToClone.ajaxDeferRender;
+		ajaxServerSide = objectToClone.ajaxServerSide;
+		ajaxSource = objectToClone.ajaxSource;
+		ajaxPipelining = objectToClone.ajaxPipelining;
+		ajaxPipeSize = objectToClone.ajaxPipeSize;
+		ajaxServerData = objectToClone.ajaxServerData;
+		ajaxServerParam = objectToClone.ajaxServerParam;
+		ajaxServerMethod = objectToClone.ajaxServerMethod;
+
+		// DataTables plugin parameters
+		pluginFixedPosition = objectToClone.pluginFixedPosition;
+		pluginFixedOffsetTop = objectToClone.pluginFixedOffsetTop;
+		pluginFixedHeader = objectToClone.pluginFixedHeader;
+		pluginScroller = objectToClone.pluginScroller;
+		pluginColReorder = objectToClone.pluginColReorder;
+
+		// Dandelion-Datatables parameters
+		extraTheme = objectToClone.extraTheme;
+		extraThemeOption = objectToClone.extraThemeOption;
+		extraCustomFeatures = objectToClone.extraCustomFeatures;
+		extraCustomPlugins = objectToClone.extraCustomPlugins;
+		extraFiles = objectToClone.extraFiles;
+		extraConfs = objectToClone.extraConfs;
+		extraCallbacks = objectToClone.extraCallbacks;
+		extraCdn = objectToClone.extraCdn;
+		extraAppear = objectToClone.extraAppear;
+		extraAppearDuration = objectToClone.extraAppearDuration;
+
+		// Export parameters
+		exportProperties = objectToClone.exportProperties;
+		exporting = objectToClone.exporting;
+		exportConfMap = new HashMap<ExportType, ExportConf>(objectToClone.exportConfMap);
+		exportLinkPositions = new ArrayList<ExportLinkPosition>(objectToClone.exportLinkPositions);
+		isExportable = objectToClone.isExportable;
+		exportDefaultXlsClass = objectToClone.exportDefaultXlsClass;
+		exportDefaultXlsxClass = objectToClone.exportDefaultXlsxClass;
+		exportDefaultPdfClass = objectToClone.exportDefaultPdfClass;
+		exportDefaultXmlClass = objectToClone.exportDefaultXmlClass;
+		exportDefaultCsvClass = objectToClone.exportDefaultCsvClass;
+		exportXlsClass = objectToClone.exportXlsClass;
+		exportXlsxClass = objectToClone.exportXlsxClass;
+		exportPdfClass = objectToClone.exportPdfClass;
+		exportXmlClass = objectToClone.exportXmlClass;
+		exportCsvClass = objectToClone.exportCsvClass;
+		
+		// Configuration
+		mainBasePackage = objectToClone.mainBasePackage;
+		mainCompressorEnable = objectToClone.mainCompressorEnable;
+		mainCompressorMode = objectToClone.mainCompressorMode;
+		mainCompressorClass = objectToClone.mainCompressorClass;
+		mainCompressorMunge = objectToClone.mainCompressorMunge;
+		mainCompressorPreserveSemiColons = objectToClone.mainCompressorPreserveSemiColons;
+		mainCompressorDisableOpti = objectToClone.mainCompressorDisableOpti;
+		mainAggregatorEnable = objectToClone.mainAggregatorEnable;
+		mainAggregatorMode = objectToClone.mainAggregatorMode;
+		mainUrlBase = objectToClone.mainUrlBase;
+		
+		System.out.println("nb export type pendant le  clone : " + objectToClone.getExportConfMap().size());
+	}
+	
 	/**
 	 * Check if the parameter exists as a property being part of the
 	 * configuration properties file.
@@ -1051,92 +1146,5 @@ public class TableConfiguration {
 				+ mainAggregatorEnable + ", mainAggregatorMode=" + mainAggregatorMode + ", mainUrlBase=" + mainUrlBase
 				+ ", internalObjectType=" + internalObjectType + ", internalPlugins=" + internalPlugins
 				+ ", internalFeatures=" + internalFeatures + ", tableId=" + tableId + ", request=" + request + "]";
-	}
-	
-	private TableConfiguration (TableConfiguration objectToClone, HttpServletRequest request){
-		this.request = request;
-		
-		// DataTables global parameters
-		featureInfo = objectToClone.featureInfo;
-		featureAutoWidth = objectToClone.featureAutoWidth;
-		featureFilterable = objectToClone.featureFilterable;
-		featurePaginate = objectToClone.featurePaginate;
-		featurePaginationType = objectToClone.featurePaginationType;
-		featureLengthChange = objectToClone.featureLengthChange;
-		featureSort = objectToClone.featureSort;
-		featureStateSave = objectToClone.featureStateSave;
-		featureJqueryUi = objectToClone.featureJqueryUi;
-		featureLengthMenu = objectToClone.featureLengthMenu;
-		featureDisplayLength = objectToClone.featureDisplayLength;
-		featureDom = objectToClone.featureDom;
-		featureScrolly = objectToClone.featureScrolly;
-		featureScrollCollapse = objectToClone.featureScrollCollapse;
-
-		// CSS parameters
-		cssStyle = objectToClone.cssStyle;
-		cssClass = objectToClone.cssClass;
-		cssStripeClasses = objectToClone.cssStripeClasses;
-		labels = objectToClone.labels;
-
-		// DataTables AJAX parameters
-		ajaxProcessing = objectToClone.ajaxProcessing;
-		ajaxDeferRender = objectToClone.ajaxDeferRender;
-		ajaxServerSide = objectToClone.ajaxServerSide;
-		ajaxSource = objectToClone.ajaxSource;
-		ajaxPipelining = objectToClone.ajaxPipelining;
-		ajaxPipeSize = objectToClone.ajaxPipeSize;
-		ajaxServerData = objectToClone.ajaxServerData;
-		ajaxServerParam = objectToClone.ajaxServerParam;
-		ajaxServerMethod = objectToClone.ajaxServerMethod;
-
-		// DataTables plugin parameters
-		pluginFixedPosition = objectToClone.pluginFixedPosition;
-		pluginFixedOffsetTop = objectToClone.pluginFixedOffsetTop;
-		pluginFixedHeader = objectToClone.pluginFixedHeader;
-		pluginScroller = objectToClone.pluginScroller;
-		pluginColReorder = objectToClone.pluginColReorder;
-
-		// Dandelion-Datatables parameters
-		extraTheme = objectToClone.extraTheme;
-		extraThemeOption = objectToClone.extraThemeOption;
-		extraCustomFeatures = objectToClone.extraCustomFeatures;
-		extraCustomPlugins = objectToClone.extraCustomPlugins;
-		extraFiles = objectToClone.extraFiles;
-		extraConfs = objectToClone.extraConfs;
-		extraCallbacks = objectToClone.extraCallbacks;
-		extraCdn = objectToClone.extraCdn;
-		extraAppear = objectToClone.extraAppear;
-		extraAppearDuration = objectToClone.extraAppearDuration;
-
-		// Export parameters
-		exportProperties = objectToClone.exportProperties;
-		exporting = objectToClone.exporting;
-		exportConfMap = new HashMap<ExportType, ExportConf>(objectToClone.exportConfMap);
-		exportLinkPositions = new ArrayList<ExportLinkPosition>(objectToClone.exportLinkPositions);
-		isExportable = objectToClone.isExportable;
-		exportDefaultXlsClass = objectToClone.exportDefaultXlsClass;
-		exportDefaultXlsxClass = objectToClone.exportDefaultXlsxClass;
-		exportDefaultPdfClass = objectToClone.exportDefaultPdfClass;
-		exportDefaultXmlClass = objectToClone.exportDefaultXmlClass;
-		exportDefaultCsvClass = objectToClone.exportDefaultCsvClass;
-		exportXlsClass = objectToClone.exportXlsClass;
-		exportXlsxClass = objectToClone.exportXlsxClass;
-		exportPdfClass = objectToClone.exportPdfClass;
-		exportXmlClass = objectToClone.exportXmlClass;
-		exportCsvClass = objectToClone.exportCsvClass;
-		
-		// Configuration
-		mainBasePackage = objectToClone.mainBasePackage;
-		mainCompressorEnable = objectToClone.mainCompressorEnable;
-		mainCompressorMode = objectToClone.mainCompressorMode;
-		mainCompressorClass = objectToClone.mainCompressorClass;
-		mainCompressorMunge = objectToClone.mainCompressorMunge;
-		mainCompressorPreserveSemiColons = objectToClone.mainCompressorPreserveSemiColons;
-		mainCompressorDisableOpti = objectToClone.mainCompressorDisableOpti;
-		mainAggregatorEnable = objectToClone.mainAggregatorEnable;
-		mainAggregatorMode = objectToClone.mainAggregatorMode;
-		mainUrlBase = objectToClone.mainUrlBase;
-		
-		System.out.println("nb export type pendant le  clone : " + objectToClone.getExportConfMap().size());
 	}
 }

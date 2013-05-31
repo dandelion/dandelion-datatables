@@ -63,7 +63,12 @@ import com.github.dandelion.datatables.core.processor.plugin.PluginScrollerProce
 import com.github.dandelion.datatables.core.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.theme.ThemeOption;
 
-
+/**
+ * Enumeration containing all possible configuration.
+ * 
+ * @author Thibault Duchateau
+ * @since 0.9.0
+ */
 public enum Configuration {
 
 	MAIN_BASE_PACKAGE("main.base.package", "mainBasePackage", String.class, StringProcessor.class),

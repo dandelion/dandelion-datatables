@@ -38,8 +38,10 @@ import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.util.ReflectHelper;
 
 /**
- * TODO
- *
+ * <p>
+ * Configurator used to set the {@link ConfigurationLoader} that will be used to
+ * load specific configuration.
+ * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */

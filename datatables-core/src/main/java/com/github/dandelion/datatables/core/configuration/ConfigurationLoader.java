@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.core.configuration;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 
 /**
- * Common interface for all ConfigurationLoader.
+ * Common interface for all ConfigurationLoaders.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -40,26 +40,26 @@ import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 public interface ConfigurationLoader {
 	
 	/**
-	 * Load the configuration files (properties, json, xml, ...).
+	 * <p>
+	 * Load the default configuration properties into the staging configuration
+	 * Map.
+	 * 
+	 * <p>
+	 * This method is already implemented in the
+	 * {@link AbstractConfigurationLoader} so that it's always called by any of
+	 * custom ConfigurationLoader.
 	 * 
 	 * @throws BadConfigurationException
 	 *             if something went wrong during the loading.
 	 */
 	public void loadDefaultConfiguration() throws BadConfigurationException;
 	
-	public void doLoadSpecificConfiguration() throws BadConfigurationException;
-	
-	
 	/**
-	 * Initialize the table's configuration using the specific implementation
-	 * methods.
+	 * <p>
+	 * Load the specific configuration into the staging configuration Map.
 	 * 
-	 * @param keyPrefix
-	 *            The keyPrefix applied to all elements of the
-	 *            {@link Configuration} enumeration. This key prefix is actually
-	 *            the name of the group used to group configurations.
-	 * @param tableConfiguration
-	 *            The {@link TableConfiguration} to initialize.
+	 * @throws BadConfigurationException
+	 *             if something went wrong during the loading.
 	 */
-//	public void initTableConfiguration(String keyPrefix, TableConfiguration tableConfiguration);
+	public void doLoadSpecificConfiguration() throws BadConfigurationException;
 }
