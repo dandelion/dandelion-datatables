@@ -42,8 +42,8 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 
 /**
- * Common abstract superclass for all {@link ConfigurationLoader}, used to load the
- * Dandelion-Datatables configuration.
+ * Common abstract superclass for all {@link ConfigurationLoader}, used to load
+ * the Dandelion-Datatables configuration.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -54,14 +54,15 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 	private static Logger logger = LoggerFactory.getLogger(AbstractConfigurationLoader.class);
 
 	public final static String DT_DEFAULT_PROPERTIES = "config/datatables-default.properties";
-	
+
 	protected static Properties globalProperties;
-	
+
 	protected Map<Configuration, Object> stagingConf;
 	protected String keyPrefix;
-	
+
 	/**
-	 * Load the Dandelion-Datatabls configuration from the default properties file.
+	 * Load the Dandelion-Datatabls configuration from the default properties
+	 * file.
 	 * <ul>
 	 * <li>first, the global Dandelion-datatables properties file</li>
 	 * <li>second, the project specific properties file, if it exists</li>
@@ -72,7 +73,7 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 		logger.debug("Loading default configuration...");
 
 		stagingConf = new HashMap<Configuration, Object>();
-		
+
 		if (globalProperties == null) {
 
 			// Initialize properties
@@ -87,7 +88,8 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 				propertiesResource.load(propertiesStream);
 			} catch (IOException e) {
 				throw new BadConfigurationException("Unable to load the default configuration file", e);
-			} finally {
+			}
+			finally {
 				if (propertiesStream != null) {
 					try {
 						propertiesStream.close();
@@ -96,17 +98,18 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 					}
 				}
 			}
-			
-			for(Entry<Object, Object> entry : propertiesResource.entrySet()){
-				if(!entry.getKey().toString().equals("groups")){
-					Configuration configuration = Configuration.findByName(entry.getKey().toString().substring(TableConfiguration.DEFAULT_GROUP_NAME.length() + 1));
-					if(configuration != null){
-						stagingConf.put(configuration, entry.getValue().toString());
-					}
+
+			globalProperties = propertiesResource;
+		}
+
+		for (Entry<Object, Object> entry : globalProperties.entrySet()) {
+			if (!entry.getKey().toString().equals("groups")) {
+				Configuration configuration = Configuration.findByName(entry.getKey().toString()
+						.substring(TableConfiguration.DEFAULT_GROUP_NAME.length() + 1));
+				if (configuration != null) {
+					stagingConf.put(configuration, entry.getValue().toString());
 				}
 			}
-			
-			globalProperties = propertiesResource;
 		}
 		
 		logger.debug("Default configuration loaded");
@@ -114,12 +117,13 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 
 	/**
 	 * {@inheritDoc}
-	 * @throws BadConfigurationException 
+	 * 
+	 * @throws BadConfigurationException
 	 */
 	public void loadSpecificConfiguration(String keyPrefix) throws BadConfigurationException {
 
 		this.keyPrefix = keyPrefix;
-		
+
 		logger.debug("Loading specific configuration...");
 		try {
 			doLoadSpecificConfiguration();
@@ -127,7 +131,7 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 			throw new BadConfigurationException(
 					"Unable to load the custom configuration. Only the default one will be used.", e);
 		}
-		
+
 		logger.debug("Specific configuration loaded");
 	}
 
@@ -135,13 +139,13 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 	 * {@inheritDoc}
 	 */
 	public abstract void doLoadSpecificConfiguration() throws BadConfigurationException;
-	
+
 	/**
 	 * Only used internally for testing.
 	 * 
 	 * @return the Map containing the stating loaded configuration.
 	 */
-	public Map<Configuration, Object> getStagingConfiguration(){
+	public Map<Configuration, Object> getStagingConfiguration() {
 		return stagingConf;
 	}
 }
