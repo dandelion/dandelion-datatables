@@ -32,11 +32,7 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 
 /**
  * Tag used to locally override the Dandelion global configuration.
@@ -46,9 +42,6 @@ import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 public class PropTag extends TagSupport {
 	private static final long serialVersionUID = -3453884184847355817L;
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(PropTag.class);
-		
 	// Tag attributes
 	private String name;
 	private String value;
