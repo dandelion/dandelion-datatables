@@ -54,12 +54,12 @@ public class FeatureLengthMenuProcessor extends AbstractProcessor {
 				String[] tmp2 = tmp[0].split(",");
 				String[] tmp3 = tmp[1].split(",");
 				if (tmp2.length == tmp3.length) {
-					tableConfiguration.setFeatureLengthMenu("[[" + tmp[0] + "],[" + tmp[1] + "]]");
+					retval = "[[" + tmp[0] + "],[" + tmp[1] + "]]";
 				} else {
 					logger.warn("You must provide the exact same number of elements separated by a \";\"");
 				}
 			} else {
-				tableConfiguration.setFeatureLengthMenu("[" + param + "]");
+				retval = "[" + param + "]";
 			}
 		}
 		
