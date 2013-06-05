@@ -1,0 +1,12 @@
+%TEMPLATE_MODE HTML5
+%CONTEXT
+person1 = #{ 'id': 1,\
+             'firstName': 'Elvis',\
+             'lastName': 'Presley',\
+             'mail': 'toto@titi.fr'}
+person2 = #{ 'id': 2,\
+             'firstName': 'Tom',\
+             'lastName': 'Cruise',\
+             'mail': 'tutu@tete.com'}
+
+persons = { person1, person2 }
