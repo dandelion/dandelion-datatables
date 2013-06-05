@@ -30,6 +30,7 @@ import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.DataNotFoundException;
 import com.github.dandelion.datatables.core.exception.ExportException;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
@@ -80,7 +81,12 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 
 			@SuppressWarnings("unchecked")
 			Map<Configuration, Object> localConf = (Map<Configuration, Object>) request.getAttribute(DataTablesDialect.INTERNAL_LOCAL_CONF);
-			Configuration.applyConfiguration(htmlTable.getTableConfiguration(), localConf);
+			try {
+				Configuration.applyConfiguration(htmlTable.getTableConfiguration(), localConf);
+			} catch (AttributeProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			// The table is being exported
 			if (RequestHelper.isTableBeingExported(request, this.htmlTable)) {
@@ -126,8 +132,8 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		ExportType currentExportType = getCurrentExportType(request);
 
 		exportProperties.setCurrentExportType(currentExportType);
-		exportProperties.setExportConf(this.htmlTable.getTableConfiguration().getExportConfMap().get(currentExportType));
-		exportProperties.setFileName(this.htmlTable.getTableConfiguration().getExportConfMap().get(currentExportType)
+		exportProperties.setExportConf(this.htmlTable.getTableConfiguration().getExportConf(currentExportType));
+		exportProperties.setFileName(this.htmlTable.getTableConfiguration().getExportConf(currentExportType)
 				.getFileName());
 
 		this.htmlTable.getTableConfiguration().setExportProperties(exportProperties);

@@ -2,10 +2,6 @@ package com.github.dandelion.datatables.core.configuration;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Before;
@@ -46,22 +42,21 @@ public class TableConfigurationTest {
 	public void should_override_global_configuration_with_specific_programmatically() {
 		TableConfiguration tableConfiguration = TableConfiguration.getInstance(request);
 
-		tableConfiguration.setMainCompressorEnable(true).setFeaturePaginationType(PaginationType.input)
+		tableConfiguration.setMainCompressorEnable(true).setFeaturePaginationType(PaginationType.INPUT)
 				.setExtraTheme(new Bootstrap2Theme()).setAjaxPipeSize(12);
 
 		assertThat(tableConfiguration.getFeatureInfo()).isNull();
 		assertThat(tableConfiguration.getMainCompressorEnable()).isEqualTo(true);
-		assertThat(tableConfiguration.getFeaturePaginationType()).isEqualTo(PaginationType.input);
+		assertThat(tableConfiguration.getFeaturePaginationType()).isEqualTo(PaginationType.INPUT);
 		assertThat(tableConfiguration.getExtraTheme()).isEqualTo(Theme.BOOTSTRAP2.getInstance());
 		assertThat(tableConfiguration.getAjaxPipeSize()).isEqualTo(12);
 	}
 
-	@Test
-	public void test() throws IOException {
-		InputStream in = this.getClass().getResourceAsStream("datatables-test.properties");
-		Properties p = new Properties();
-		p.load(in);
-		String mystr = p.getProperty("global.main.base.package");
-		System.out.println(mystr);
-	}
+//	@Test
+//	public void test() throws IOException {
+//		InputStream in = this.getClass().getResourceAsStream("datatables-test.properties");
+//		Properties p = new Properties();
+//		p.load(in);
+//		String mystr = p.getProperty("global.main.base.package");
+//	}
 }

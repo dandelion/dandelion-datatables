@@ -29,9 +29,9 @@
  */
 package com.github.dandelion.datatables.core.processor.export;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 
@@ -49,8 +50,9 @@ public class ExportLinkPositionsProcessor extends AbstractProcessor {
 	private static Logger logger = LoggerFactory.getLogger(ExportLinkPositionsProcessor.class);
 		
 	@Override
-	public List<ExportLinkPosition> process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
-		List<ExportLinkPosition> positionList = new ArrayList<ExportLinkPosition>();
+	public void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
+		Set<ExportLinkPosition> retval = new HashSet<ExportLinkPosition>();
 
 		if(StringUtils.isNotBlank(param)){
 		
@@ -58,17 +60,18 @@ public class ExportLinkPositionsProcessor extends AbstractProcessor {
 
 			for (String position : positions) {
 				try {
-					positionList.add(ExportLinkPosition.valueOf(position.toUpperCase().trim()));
+					retval.add(ExportLinkPosition.valueOf(position.toUpperCase().trim()));
 				} catch (IllegalArgumentException e) {
 					logger.error("The export cannot be activated for the table {}. ", tableConfiguration.getTableId());
 					logger.error("{} is not a valid value among {}", position, ExportLinkPosition.values());
+					throw new AttributeProcessingException(e);
 				}
 			}
 		}
 		else{
-			positionList.add(ExportLinkPosition.TOP_RIGHT);
+			retval.add(ExportLinkPosition.TOP_RIGHT);
 		}
 		
-		return positionList;
+		tableConfiguration.setExportLinkPositions(retval);
 	}
 }

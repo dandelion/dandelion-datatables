@@ -32,21 +32,17 @@ package com.github.dandelion.datatables.core.processor.feature;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
-
 
 public class FeatureLengthMenuProcessor extends AbstractProcessor {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(FeatureLengthMenuProcessor.class);
-		
 	@Override
-	public String process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+	public void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
 		String retval = null;
 		if (StringUtils.isNotBlank(param)) {
 			String[] tmp = param.split(";");
@@ -56,13 +52,14 @@ public class FeatureLengthMenuProcessor extends AbstractProcessor {
 				if (tmp2.length == tmp3.length) {
 					retval = "[[" + tmp[0] + "],[" + tmp[1] + "]]";
 				} else {
-					logger.warn("You must provide the exact same number of elements separated by a \";\"");
+					throw new AttributeProcessingException(
+							"You must provide the exact same number of elements separated by a \";\"");
 				}
 			} else {
 				retval = "[" + param + "]";
 			}
 		}
-		
-		return retval;
+
+		tableConfiguration.setFeatureLengthMenu(retval);
 	}
 }

@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.core.processor;
 
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -38,17 +39,19 @@ import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 
 /**
  * Processor used for all Integer parameters.
- *
+ * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class IntegerProcessor extends AbstractProcessor {
+public class IntegerProcessor extends AbstractGenericProcessor {
 
-	/**
-	 * {@inheritDoc}
-	 */
+	public IntegerProcessor(Method tableConfigurationSetter) {
+		this.tableConfigurationSetter = tableConfigurationSetter;
+	}
+
 	@Override
-	public Integer process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+	protected Integer processAttribute(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) {
 		return StringUtils.isNotBlank(param) ? Integer.parseInt(param) : null;
 	}
 }

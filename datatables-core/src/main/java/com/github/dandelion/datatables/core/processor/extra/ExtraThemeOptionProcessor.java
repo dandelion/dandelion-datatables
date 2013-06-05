@@ -32,30 +32,27 @@ package com.github.dandelion.datatables.core.processor.extra;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 import com.github.dandelion.datatables.core.theme.ThemeOption;
 
 public class ExtraThemeOptionProcessor extends AbstractProcessor {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ExtraThemeOptionProcessor.class);
-
 	@Override
-	public Object process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+	public void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
 		ThemeOption themeOption = null;
 		if (StringUtils.isNotBlank(param)) {
 			try {
 				themeOption = ThemeOption.valueOf(param.trim().toUpperCase());
 			} catch (IllegalArgumentException e) {
-				logger.error("{} is not a valid value among {}", param, ThemeOption.values());
+				throw new AttributeProcessingException(param + " is not a valid value among " + ThemeOption.values());
 			}
 		}
-		return themeOption;
-	}
 
+		tableConfiguration.setExtraThemeOption(themeOption);
+	}
 }

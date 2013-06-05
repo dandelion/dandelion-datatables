@@ -32,30 +32,28 @@ package com.github.dandelion.datatables.core.processor.extra;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 import com.github.dandelion.datatables.core.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.theme.Theme;
 
 public class ExtraThemeProcessor extends AbstractProcessor {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ExtraThemeProcessor.class);
-	
 	@Override
-	public AbstractTheme process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+	public void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
 		AbstractTheme theme = null;
 		if (StringUtils.isNotBlank(param)) {
 			try {
 				theme = Theme.valueOf(param.trim().toUpperCase()).getInstance();
 			} catch (IllegalArgumentException e) {
-				logger.warn("Theme {} is not recognized. Only 'bootstrap2 and jQueryUI' exists for now.", theme);
+				throw new AttributeProcessingException(param + " is not a valid value among " + Theme.values(), e);
 			}
 		}
-		return theme;
+		
+		tableConfiguration.setExtraTheme(theme);
 	}
 }

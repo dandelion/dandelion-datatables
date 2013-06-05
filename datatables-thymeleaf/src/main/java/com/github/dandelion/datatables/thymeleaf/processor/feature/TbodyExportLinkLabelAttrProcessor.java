@@ -84,8 +84,8 @@ public class TbodyExportLinkLabelAttrProcessor extends AbstractDatatablesAttrPro
 		ExportType exportType = ExportType.valueOf(attributeName.split(":")[1].toUpperCase().trim());
 		
 		// The ExportConf already exists
-		if(table.getTableConfiguration().getExportConfMap().containsKey(exportType)){
-			table.getTableConfiguration().getExportConfMap().get(exportType).setLabel(attrValue);
+		if(table.getTableConfiguration().getExportConf(exportType) != null){
+			table.getTableConfiguration().getExportConf(exportType).setLabel(attrValue);
 		}
 		// The ExportConf still doesn't exist
 		else{
@@ -104,7 +104,7 @@ public class TbodyExportLinkLabelAttrProcessor extends AbstractDatatablesAttrPro
 						
 			ExportConf conf = new ExportConf(exportType, url);
 			conf.setLabel(attrValue);
-			table.getTableConfiguration().getExportConfMap().put(exportType, conf);
+			table.getTableConfiguration().getExportConfs().add(conf);
 		}
 		
 		return ProcessorResult.ok();

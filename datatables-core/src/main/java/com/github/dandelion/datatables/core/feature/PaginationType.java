@@ -35,5 +35,5 @@ package com.github.dandelion.datatables.core.feature;
  * @author Thibault Duchateau
  */
 public enum PaginationType {
-	two_button, full_numbers, four_button, scrolling, bootstrap, input, listbox
+	TWO_BUTTON, FULL_NUMBERS, FOUR_BUTTON, SCROLLING, BOOTSTRAP, INPUT, LISTBOX
 }

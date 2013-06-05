@@ -84,8 +84,8 @@ public class TbodyExportHeaderAttrProcessor extends AbstractDatatablesAttrProces
 		ExportType exportType = ExportType.valueOf(attributeName.split(":")[1].toUpperCase().trim());
 		
 		// The ExportConf already exists
-		if(table.getTableConfiguration().getExportConfMap().containsKey(exportType)){
-			table.getTableConfiguration().getExportConfMap().get(exportType).setIncludeHeader(attrValue);
+		if(table.getTableConfiguration().getExportConf(exportType) != null){
+			table.getTableConfiguration().getExportConf(exportType).setIncludeHeader(attrValue);
 		}
 		// The ExportConf still doesn't exist
 		else{
@@ -104,7 +104,7 @@ public class TbodyExportHeaderAttrProcessor extends AbstractDatatablesAttrProces
 						
 			ExportConf conf = new ExportConf(exportType, url);
 			conf.setIncludeHeader(attrValue);
-			table.getTableConfiguration().getExportConfMap().put(exportType, conf);
+			table.getTableConfiguration().getExportConfs().add(conf);
 		}
 		
 		return ProcessorResult.ok();

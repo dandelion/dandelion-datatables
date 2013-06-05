@@ -35,21 +35,24 @@ import org.apache.commons.lang.StringUtils;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.plugin.FixedHeaderPlugin;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 
 public class PluginFixedHeaderProcessor extends AbstractProcessor {
 
 	@Override
-	public Boolean process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+	public void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
 		Boolean retval = null;
-		if(StringUtils.isNotBlank(param)){
+		if (StringUtils.isNotBlank(param)) {
 			retval = Boolean.parseBoolean(param);
-			
+
 			if (retval != null && retval) {
 				tableConfiguration.registerPlugin(new FixedHeaderPlugin());
 			}
 		}
-		return retval;
+
+		tableConfiguration.setPluginFixedHeader(retval);
 	}
 }

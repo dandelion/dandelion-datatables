@@ -29,25 +29,44 @@
  */
 package com.github.dandelion.datatables.core.processor.extra;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import static org.fest.assertions.Assertions.assertThat;
 
-import org.apache.commons.lang.StringUtils;
+import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
+import com.github.dandelion.datatables.core.processor.Processor;
+import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
+import com.github.dandelion.datatables.core.theme.ThemeOption;
 
-public class ExtraCustomExtensionProcessor extends AbstractProcessor {
+public class ExtraThemeOptionProcessorTest extends ProcessorBaseTest {
 
 	@Override
-	public List<String> process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
-		
-		if (StringUtils.isBlank(param)) {
-			return null;
-		} else {
-			return Arrays.asList(param.trim().toLowerCase().split(","));
-		}
+	public Processor getProcessor() {
+		return new ExtraThemeOptionProcessor();
+	}
+	
+	@Test
+	public void should_set_null_when_value_is_null() throws Exception {
+		processor.process(null, tableConfiguration, confToBeApplied);
+		assertThat(tableConfiguration.getExtraThemeOption()).isNull();
+	}
+	
+	@Test
+	public void should_set_null_when_value_is_empty() throws Exception {
+		processor.process("", tableConfiguration, confToBeApplied);
+		assertThat(tableConfiguration.getExtraThemeOption()).isNull();
+	}
+	
+	@Test
+	public void should_set_theme_option() throws Exception {
+		processor.process("blacktie", tableConfiguration, confToBeApplied);
+		assertThat(tableConfiguration.getExtraThemeOption()).isEqualTo(ThemeOption.BLACKTIE);
+		processor.process("BLACKTIE", tableConfiguration, confToBeApplied);
+		assertThat(tableConfiguration.getExtraThemeOption()).isEqualTo(ThemeOption.BLACKTIE);
+	}
+	
+	@Test(expected = AttributeProcessingException.class)
+	public void should_raise_an_exception() throws Exception {
+		processor.process("unknownThemeOption", tableConfiguration, confToBeApplied);
 	}
 }

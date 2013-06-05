@@ -55,6 +55,7 @@ import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.DataNotFoundException;
 import com.github.dandelion.datatables.core.exception.ExportException;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
@@ -96,7 +97,11 @@ public class TableTag extends AbstractTableTag {
 		
 		// Init the table with its DOM id and a generated random number
 		table = new HtmlTable(id, (HttpServletRequest) pageContext.getRequest(), confGroup);
-		Configuration.applyConfiguration(table.getTableConfiguration(), localConf);
+		try {
+			Configuration.applyConfiguration(table.getTableConfiguration(), localConf);
+		} catch (AttributeProcessingException e) {
+			throw new JspException(e);
+		}
 		
 		// Just used to identify the first row (header)
 		iterationNumber = 1;
@@ -167,8 +172,8 @@ public class TableTag extends AbstractTableTag {
 		ExportType currentExportType = getCurrentExportType();
 
 		exportProperties.setCurrentExportType(currentExportType);
-		exportProperties.setExportConf(table.getTableConfiguration().getExportConfMap().get(currentExportType));
-		exportProperties.setFileName(table.getTableConfiguration().getExportConfMap().get(currentExportType).getFileName());
+		exportProperties.setExportConf(table.getTableConfiguration().getExportConf(currentExportType));
+		exportProperties.setFileName(table.getTableConfiguration().getExportConf(currentExportType).getFileName());
 
 		this.table.getTableConfiguration().setExportProperties(exportProperties);
 		this.table.getTableConfiguration().setExporting(true);
@@ -244,8 +249,6 @@ public class TableTag extends AbstractTableTag {
 				ResourceCompressor.processCompression(webResources, table);
 			}
 
-			System.out.println("table.getTableConfiguration() = " + table.getTableConfiguration());
-			System.out.println("cdn = " + table.getTableConfiguration().getExtraCdn());
 			// <link> HTML tag generation
 			if (table.getTableConfiguration().getExtraCdn()) {
 				generateLinkTag(CdnConstants.CDN_DATATABLES_CSS);

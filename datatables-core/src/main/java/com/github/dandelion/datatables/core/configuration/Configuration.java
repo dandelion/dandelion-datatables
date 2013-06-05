@@ -33,25 +33,30 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.aggregator.AggregatorMode;
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.feature.PaginationType;
-import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractGenericProcessor;
 import com.github.dandelion.datatables.core.processor.BooleanProcessor;
 import com.github.dandelion.datatables.core.processor.IntegerProcessor;
+import com.github.dandelion.datatables.core.processor.Processor;
 import com.github.dandelion.datatables.core.processor.StringBuilderProcessor;
 import com.github.dandelion.datatables.core.processor.StringProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxPipeliningProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxServerSideProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxSourceProcessor;
 import com.github.dandelion.datatables.core.processor.css.CssStripeClassesProcessor;
+import com.github.dandelion.datatables.core.processor.export.ExportConfsProcessor;
 import com.github.dandelion.datatables.core.processor.export.ExportLinkPositionsProcessor;
-import com.github.dandelion.datatables.core.processor.export.ExportTypesProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraAppearProcessor;
-import com.github.dandelion.datatables.core.processor.extra.ExtraCustomExtensionProcessor;
+import com.github.dandelion.datatables.core.processor.extra.ExtraCustomFeaturesProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraLabelProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraThemeOptionProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraThemeProcessor;
@@ -106,8 +111,8 @@ public enum Configuration {
 	
 	EXTRA_THEME("extra.theme", "extraTheme", AbstractTheme.class, ExtraThemeProcessor.class),
 	EXTRA_THEMEOPTION("extra.themeOption", "extraThemeOption", ThemeOption.class, ExtraThemeOptionProcessor.class),
-	EXTRA_CUSTOMFEATURES("extra.customFeatures", "extraCustomFeatures", List.class, ExtraCustomExtensionProcessor.class),
-	EXTRA_CUSTOMPLUGINS("extra.customPlugins", "extraCustomPlugins", List.class, ExtraCustomExtensionProcessor.class),
+	EXTRA_CUSTOMFEATURES("extra.customFeatures", "extraCustomFeatures", Set.class, ExtraCustomFeaturesProcessor.class),
+	EXTRA_CUSTOMPLUGINS("extra.customPlugins", "extraCustomPlugins", Set.class, ExtraCustomFeaturesProcessor.class),
 //	EXTRA_FILES("extra.files", "extraFiles", String.class, StringProcessor.class),
 //	EXTRA_CONFS("extra.confs", "extraConfs", String.class, StringProcessor.class),
 //	EXTRA_CALLBACKS("extra.callbacks", String.class, StringProcessor.class),
@@ -133,8 +138,8 @@ public enum Configuration {
 	PLUGIN_SCROLLER("plugin.scroller", "pluginScroller", Boolean.class, PluginScrollerProcessor.class),
 	PLUGIN_COLREORDER("plugin.colReorder", "pluginColReorder", Boolean.class, PluginColReorderProcessor.class),
 	
-	EXPORT_TYPES("export.types", "exportTypes", String.class, ExportTypesProcessor.class),
-	EXPORT_LINKS("export.links", "exportLinkPositions", List.class, ExportLinkPositionsProcessor.class),
+	EXPORT_TYPES("export.types", "exportConfs", Set.class, ExportConfsProcessor.class),
+	EXPORT_LINKS("export.links", "exportLinkPositions", Set.class, ExportLinkPositionsProcessor.class),
 	EXPORT_CSV_DEFAULT_CLASS("export.csv.default.class", "exportDefaultCsvClass", String.class, StringProcessor.class),
 	EXPORT_XML_DEFAULT_CLASS("export.xml.default.class", "exportDefaultXmlClass", String.class, StringProcessor.class),
 	EXPORT_XLS_DEFAULT_CLASS("export.xls.default.class", "exportDefaultXlsClass", String.class, StringProcessor.class),
@@ -148,6 +153,9 @@ public enum Configuration {
 	
 	// For internal use only
 	INTERNAL_OBJECTTYPE("internal.objectType", "internalObjectType", String.class, StringProcessor.class);
+	
+	// Logger
+	private static Logger logger = LoggerFactory.getLogger(Configuration.class);
 	
 	/**
 	 * Name of the configuration in the properties file.
@@ -164,9 +172,9 @@ public enum Configuration {
 	/**
 	 * Processor that has to be applied to update the {@link TableConfiguration}.
 	 */
-	private Class<? extends AbstractProcessor> processor;
+	private Class<?> processor;
 	
-	private Configuration(String name, String property, Class<?> returnType, Class<? extends AbstractProcessor> processor){
+	private Configuration(String name, String property, Class<?> returnType, Class<?> processor){
 		this.name = name;
 		this.property = property;
 		this.returnType = returnType;
@@ -185,15 +193,8 @@ public enum Configuration {
 		return property;
 	}
 
-	public AbstractProcessor getProcessor() {
-		try {
-			return processor.newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public Class<?> getProcessor() {
+		return processor;
 	}
 	
 	public static Configuration findByName(String name) {
@@ -205,44 +206,50 @@ public enum Configuration {
 		return null;
 	}
 	
-	public static void applyConfiguration(TableConfiguration tableConfiguration, Map<Configuration, Object> localConf) {
+	public static void applyConfiguration(TableConfiguration tableConfiguration, Map<Configuration, Object> localConf) throws AttributeProcessingException {
 
 		try {
-			// Appliquer la configuration locale
-			// Pour chaque cle (= nom de la variable d'instance) dans la map, on
-			// va recuperer le setter correspondant et l'invoquer
+			logger.trace("Applying all temporary configurations to the TableConfiguration instance...");
+			
 			for (Map.Entry<Configuration, Object> entry : localConf.entrySet()) {
 				
-				System.out.println("entry.getKey() ="  + entry.getKey());
-				System.out.println("entry.getKey().getProcessor() = " + entry.getKey().getProcessor());
-				System.out.println("entry.getValue() = " + entry.getValue());
-				// Processing de la valeur
-				Object object = entry.getKey().getProcessor().process(entry.getValue().toString(), tableConfiguration, localConf);
+				logger.trace("Processing configuration {}...", entry.getKey());
 				
-//				String tmp = WordUtils.capitalizeFully(entry.getKey().getName(), new char[]{'.'});
-//				String propertyName = entry.getKey().getName().split("\\.")[0].trim() + StringUtils.capitalize(entry.getKey().getName().split("\\.")[1].trim());
-//				propertyName = tmp.replace(".", "");
-//				System.out.println("propertyName = " + propertyName);
 				String propertyName = StringUtils.capitalize(entry.getKey().getProperty());
-				System.out.println("propertyName = " + propertyName);
-				Method method = TableConfiguration.class.getMethod("set" + propertyName, new Class[]{ entry.getKey().getReturnType() });
-//				Method method = MethodUtils.invokeExactMethod(object, methodName, arg)getAccessibleMethod(TableConfiguration.class, "set" + propertyName);
-//				System.out.println("mthod = " + method);
-				if(method != null){
-					method.invoke(tableConfiguration, object);
+				Method setter = TableConfiguration.class.getMethod("set" + propertyName, new Class[]{ entry.getKey().getReturnType() });
+				
+				logger.trace(" --> the {} will be used to process the value {}", setter, entry.getValue().toString());
+				
+				try {
+					Processor processor = null;
+					if (AbstractGenericProcessor.class.isAssignableFrom(entry.getKey().getProcessor())) {
+						processor = (Processor) entry.getKey().getProcessor().getDeclaredConstructor(new Class[]{ Method.class })
+								.newInstance(setter);
+					} else {
+						processor = (Processor) entry.getKey().getProcessor().newInstance();
+					}
+					processor.process(entry.getValue().toString(), tableConfiguration, localConf);
+					
+					logger.trace(" --> Processing completed successfully");
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
+			
+			logger.trace("All configurations have been applied.");
 		} 
 		catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
+		} 
+		catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {

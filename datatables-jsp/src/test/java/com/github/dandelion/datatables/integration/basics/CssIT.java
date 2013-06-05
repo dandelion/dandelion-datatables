@@ -72,7 +72,7 @@ public class CssIT extends DomBaseIT {
 	
 	@Test
 	public void should_apply_css_stripe_classes_using_dom() throws IOException, Exception {
-		goToAndPrint("/basics/css_stripe_classes.jsp");
+		goTo("/basics/css_stripe_classes.jsp");
 
 		assertThat(getTable().find("tbody").find("tr", 0).getAttribute("class")).isEqualTo("class1");
 		assertThat(getTable().find("tbody").find("tr", 1).getAttribute("class")).isEqualTo("class2");

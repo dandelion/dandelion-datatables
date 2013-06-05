@@ -37,25 +37,33 @@ import org.apache.commons.lang.StringUtils;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 
 public class CssStripeClassesProcessor extends AbstractProcessor {
 
 	@Override
-	public String process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+	public void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
 		String retval = null;
 		if (StringUtils.isNotBlank(param)) {
-			String[] tmp = param.split(",");
-			String stripeTmp = "[";
-			Iterator<String> iterator = Arrays.asList(tmp).iterator();
-			stripeTmp += "'" + iterator.next() + "'";
-			while (iterator.hasNext()) {
-				stripeTmp += ",'" + iterator.next() + "'";
+			StringBuilder stripeTmp = new StringBuilder("[");
+			if(param.contains(",")){
+				String[] tmp = param.trim().split(",");
+				Iterator<String> iterator = Arrays.asList(tmp).iterator();
+				stripeTmp.append("'").append(iterator.next().trim()).append("'");
+				while (iterator.hasNext()) {
+					stripeTmp.append(",'").append(iterator.next().trim()).append("'");
+				}
+				retval = stripeTmp.toString();
 			}
-			stripeTmp += "]";
-			retval = stripeTmp;
+			else{
+				stripeTmp.append("'").append(param).append("'");
+			}
+			stripeTmp.append("]");
+			retval = stripeTmp.toString();
 		}
 		
-		return retval;
+		tableConfiguration.setCssStripeClasses(retval);
 	}
 }

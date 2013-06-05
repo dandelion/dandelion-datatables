@@ -35,30 +35,30 @@ import org.apache.commons.lang.StringUtils;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.feature.PipeliningFeature;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 
 /**
  * Processor used when server-side processing is enabled.
- *
+ * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
 public class AjaxPipeliningProcessor extends AbstractProcessor {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public Boolean process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+	public void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
 		Boolean retval = null;
-		if(StringUtils.isNotBlank(param)){
+		if (StringUtils.isNotBlank(param)) {
 			retval = Boolean.parseBoolean(param);
-			
+
 			if (retval != null && retval) {
 				tableConfiguration.registerFeature(new PipeliningFeature());
 			}
 		}
-		return retval;
+
+		tableConfiguration.setAjaxPipelining(retval);
 	}
 }

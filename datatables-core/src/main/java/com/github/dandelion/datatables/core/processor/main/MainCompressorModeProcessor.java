@@ -36,17 +36,19 @@ import org.apache.commons.lang.StringUtils;
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 
 public class MainCompressorModeProcessor extends AbstractProcessor {
 
 	@Override
-	public Object process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+	public void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
 		CompressorMode mode = null;
 		if (StringUtils.isNotBlank(param)) {
-			mode = CompressorMode.valueOf(param);
+			mode = CompressorMode.valueOf(param.trim().toUpperCase());
 		}
-		return mode;
-	}
 
+		tableConfiguration.setMainCompressorMode(mode);
+	}
 }

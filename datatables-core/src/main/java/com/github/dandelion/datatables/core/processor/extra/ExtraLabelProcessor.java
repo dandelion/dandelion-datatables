@@ -35,18 +35,22 @@ import org.apache.commons.lang.StringUtils;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 
 public class ExtraLabelProcessor extends AbstractProcessor {
 
 	@Override
-	public String process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
-		
+	public void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
 		String retval = null;
 		if (StringUtils.isNotBlank(param)) {
-			retval = RequestHelper.getBaseUrl(tableConfiguration.getRequest(), (String) confToBeApplied.get(Configuration.MAIN_BASE_URL)) + param;
+			retval = RequestHelper.getBaseUrl(tableConfiguration.getRequest(),
+					(String) confToBeApplied.get(Configuration.MAIN_BASE_URL))
+					+ param;
 		}
-		return retval;
+
+		tableConfiguration.setExtraLabels(retval);
 	}
 }

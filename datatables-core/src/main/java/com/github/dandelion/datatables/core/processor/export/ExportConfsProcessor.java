@@ -29,7 +29,9 @@
  */
 package com.github.dandelion.datatables.core.processor.export;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -38,66 +40,74 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 
-
-public class ExportTypesProcessor extends AbstractProcessor {
+/**
+ * This processor is particular in the sense that it's returning null. Indeed,
+ * it actually updates the exportConfMap attribute instead of the exportTypes that doesn't
+ * exist.
+ * 
+ * @author Thibault Duchateau
+ */
+public class ExportConfsProcessor extends AbstractProcessor {
 
 	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ExportTypesProcessor.class);
-		
+	private static Logger logger = LoggerFactory.getLogger(ExportConfsProcessor.class);
+
 	@Override
-	public Object process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
-		ExportType type = null;
+	public void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
+		
+		Set<ExportConf> retval = null;
+		
 		if (StringUtils.isNotBlank(param)) {
+
+			retval = new HashSet<ExportConf>();
+			
+			ExportType type = null;
 
 			// Init the exportable flag in order to add export links
 			tableConfiguration.setIsExportable(true);
 
 			// Allowed export types
 			String[] types = param.trim().toUpperCase().split(",");
-
 			for (String exportTypeString : types) {
 
 				try {
 					type = ExportType.valueOf(exportTypeString);
 				} catch (IllegalArgumentException e) {
-//					logger.error("The export cannot be activated for the table {}. ", table.getId());
 					logger.error("{} is not a valid value among {}", exportTypeString,
 							ExportType.values());
-//					throw new BadConfigurationException(e);
+					throw new AttributeProcessingException("Invalid value", e);
 				}
 
-				// ExportConf eventuellement deja charges par le tag ExportTag
-				// Du coup, on va completer ici avec la liste des autres exports
-				// actives par la balise export=""
-				if (!tableConfiguration.getExportConfMap().containsKey(type)) {
+				// The exportConf may already exist due to the ExportTag
+				if (tableConfiguration.getExportConf(type) == null) {
 
-					String url = RequestHelper.getCurrentURIWithParameters(tableConfiguration.getRequest());
-					if(url.contains("?")){
-						url += "&";
+					StringBuilder url = new StringBuilder(RequestHelper.getCurrentURIWithParameters(tableConfiguration
+							.getRequest()));
+					if(url.toString().contains("?")){
+						url.append("&");
 					}
 					else{
-						url += "?";
+						url.append("?");
 					}
-					url += ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
-							+ type.getUrlParameter() + "&"
-							+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID + "="
-							+ tableConfiguration.getTableId();
+					url.append(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE).append("=")
+							.append(type.getUrlParameter());
+					url.append("&");
+					url.append(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID).append("=")
+							.append(tableConfiguration.getTableId());
 
-					ExportConf exportConf = new ExportConf(type, url);
-					tableConfiguration.getExportConfMap().put(type, exportConf);
+					ExportConf exportConf = new ExportConf(type, url.toString());
+					retval.add(exportConf);
 				}
-
-				// TODO ne pas prendre ne compte le tag ExportTag s'il permet de
-				// customizer un export qui n'est pas specifie dans
-				// export="XXXX"
 			}
 		}
 		
-		return null;
+		tableConfiguration.setExportConfs(retval);
 	}
 }

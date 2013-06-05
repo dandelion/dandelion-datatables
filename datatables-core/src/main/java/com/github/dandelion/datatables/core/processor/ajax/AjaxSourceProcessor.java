@@ -35,34 +35,31 @@ import org.apache.commons.lang.StringUtils;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.feature.AjaxFeature;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 import com.github.dandelion.datatables.core.util.CollectionUtils;
 
 /**
  * Processor used when the table uses an AJAX source.
- *
+ * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
 public class AjaxSourceProcessor extends AbstractProcessor {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public String process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
-		if (StringUtils.isNotBlank(param) 
-				&& (!confToBeApplied.containsKey(Configuration.AJAX_SERVERSIDE) 
-						|| !CollectionUtils.hasConfigurationWithValue(confToBeApplied, Configuration.AJAX_SERVERSIDE, true))) {
+	public void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
+
+		String retval = null;
+		if (StringUtils.isNotBlank(param)
+				&& (!confToBeApplied.containsKey(Configuration.AJAX_SERVERSIDE) || !CollectionUtils
+						.hasConfigurationWithValue(confToBeApplied, Configuration.AJAX_SERVERSIDE, true))) {
+			retval = param;
 			tableConfiguration.registerFeature(new AjaxFeature());
 		}
 
-		if(StringUtils.isNotBlank(param)){
-			return param;
-		}
-		else{
-			return null;
-		}
+		tableConfiguration.setAjaxSource(retval);
 	}
 }

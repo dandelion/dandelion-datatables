@@ -152,7 +152,7 @@ public class ExportTag extends TagSupport {
 				conf.setAutoSize(autoSize);				
 			}
 			
-			parent.getTable().getTableConfiguration().getExportConfMap().put(exportType, conf);
+			parent.getTable().getTableConfiguration().getExportConfs().add(conf);
 
 			logger.debug("Export conf added to table {}", conf);
 		}

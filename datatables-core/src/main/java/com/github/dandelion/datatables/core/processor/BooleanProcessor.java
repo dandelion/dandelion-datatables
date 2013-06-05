@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.core.processor;
 
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -42,18 +43,20 @@ import com.github.dandelion.datatables.core.configuration.TableConfiguration;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class BooleanProcessor extends AbstractProcessor {
+public class BooleanProcessor extends AbstractGenericProcessor {
 
-	/**
-	 * {@inheritDoc}
-	 */
+	public BooleanProcessor(Method tableConfigurationSetter) {
+		this.tableConfigurationSetter = tableConfigurationSetter;
+	}
+
 	@Override
-	public Boolean process(String param, TableConfiguration tableConfiguration,
+	protected Boolean processAttribute(String param, TableConfiguration tableConfiguration,
 			Map<Configuration, Object> confToBeApplied) {
+		Boolean retval = null;
 		if (StringUtils.isNotBlank(param)) {
-			return Boolean.parseBoolean(param);
-		} else {
-			return null;
+			retval = Boolean.parseBoolean(param);
 		}
+
+		return retval;
 	}
 }

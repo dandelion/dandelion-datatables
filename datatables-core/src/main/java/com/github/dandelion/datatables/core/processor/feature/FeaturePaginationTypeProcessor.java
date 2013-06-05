@@ -32,11 +32,10 @@ package com.github.dandelion.datatables.core.processor.feature;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.feature.PaginationType;
 import com.github.dandelion.datatables.core.feature.PaginationTypeBootstrapFeature;
 import com.github.dandelion.datatables.core.feature.PaginationTypeFourButtonFeature;
@@ -47,41 +46,39 @@ import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 
 public class FeaturePaginationTypeProcessor extends AbstractProcessor {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(FeaturePaginationTypeProcessor.class);
-	
 	@Override
-	public Object process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+	public void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
 		PaginationType type = null;
 		if (StringUtils.isNotBlank(param)) {
 			try {
-				type = PaginationType.valueOf(param);
+				type = PaginationType.valueOf(param.toUpperCase().trim());
 			} catch (IllegalArgumentException e) {
-				logger.warn("{} is not a valid value among {}", param, PaginationType.values(), e);
+				throw new AttributeProcessingException(
+						param + " is not a valid value among " + PaginationType.values(), e);
 			}
 
 			switch (type) {
-			case bootstrap:
+			case BOOTSTRAP:
 				tableConfiguration.registerFeature(new PaginationTypeBootstrapFeature());
 				break;
-			case input:
+			case INPUT:
 				tableConfiguration.registerFeature(new PaginationTypeInputFeature());
 				break;
-			case listbox:
+			case LISTBOX:
 				tableConfiguration.registerFeature(new PaginationTypeListboxFeature());
 				break;
-			case scrolling:
+			case SCROLLING:
 				tableConfiguration.registerFeature(new PaginationTypeScrollingFeature());
 				break;
-			case four_button:
+			case FOUR_BUTTON:
 				tableConfiguration.registerFeature(new PaginationTypeFourButtonFeature());
 				break;
 			default:
 				break;
-
 			}
 		}
-		return type;
-	}
 
+		tableConfiguration.setFeaturePaginationType(type);
+	}
 }

@@ -35,13 +35,14 @@ import org.apache.commons.lang.StringUtils;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 
 public class ExtraAppearProcessor extends AbstractProcessor {
 
 	@Override
-	public String process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
-		
+	public void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
 		String retval = null;
 		
 		if(StringUtils.isNotBlank(param)){
@@ -59,6 +60,6 @@ public class ExtraAppearProcessor extends AbstractProcessor {
 			}
 		}
 		
-		return retval;
+		tableConfiguration.setExtraAppear(retval);
 	}
 }

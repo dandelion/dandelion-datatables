@@ -36,17 +36,24 @@ import org.apache.commons.lang.StringUtils;
 import com.github.dandelion.datatables.core.aggregator.AggregatorMode;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 
 public class MainAggregatorModeProcessor extends AbstractProcessor {
 
 	@Override
-	public Object process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+	public void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
 		AggregatorMode mode = null;
 		if (StringUtils.isNotBlank(param)) {
-			mode = AggregatorMode.valueOf(param);
+			try {
+				mode = AggregatorMode.valueOf(param.trim().toUpperCase());
+			} catch (IllegalArgumentException e) {
+				throw new AttributeProcessingException(
+						param + " is not a valid value among " + AggregatorMode.values(), e);
+			}
 		}
-		return mode;
-	}
 
+		tableConfiguration.setMainAggregatorMode(mode);
+	}
 }

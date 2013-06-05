@@ -311,12 +311,12 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_pagination_type() {
-		table.getTableConfiguration().setFeaturePaginationType(PaginationType.input);
+		table.getTableConfiguration().setFeaturePaginationType(PaginationType.INPUT);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(2);
-		assertThat(mainConf.get(DTConstants.DT_PAGINATION_TYPE)).isEqualTo(PaginationType.input.toString());
+		assertThat(mainConf.get(DTConstants.DT_PAGINATION_TYPE)).isEqualTo(PaginationType.INPUT.toString());
 	}
 
 	@Test

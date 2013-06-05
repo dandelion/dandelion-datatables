@@ -58,7 +58,7 @@ public class CsvExport extends AbstractCharExport {
 	public void processExport(Writer output) throws ExportException {
 		StringBuilder buffer = new StringBuilder();
 
-		if(table.getTableConfiguration().getExportConfMap().get(ExportType.CSV).getIncludeHeader()){
+		if(table.getTableConfiguration().getExportConf(ExportType.CSV).getIncludeHeader()){
 			for(HtmlRow row : table.getHeadRows()){
 				for(HtmlColumn column : row.getColumns()){
 					if(column.getEnabledDisplayTypes().contains(DisplayType.ALL) || column.getEnabledDisplayTypes().contains(CURRENT_DISPLAY_TYPE)){

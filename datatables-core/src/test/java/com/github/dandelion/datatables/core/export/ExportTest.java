@@ -30,6 +30,7 @@
 package com.github.dandelion.datatables.core.export;
 
 import java.io.StringWriter;
+import java.util.HashSet;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -111,7 +112,10 @@ public class ExportTest {
 	}
 	
 	public void configureExport(ExportConf exportConf){
-		table.getTableConfiguration().configureExport(exportConf.getType(), exportConf);
+		if(table.getTableConfiguration().getExportConfs() == null){
+			table.getTableConfiguration().setExportConfs(new HashSet<ExportConf>());
+		}
+		table.getTableConfiguration().getExportConfs().add(exportConf);
 	}
 	
 	public void processExport(AbstractCharExport export) throws ExportException{

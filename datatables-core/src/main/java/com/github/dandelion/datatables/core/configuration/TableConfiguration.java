@@ -49,6 +49,7 @@ import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportProperties;
@@ -123,8 +124,8 @@ public class TableConfiguration {
 	// Dandelion-Datatables parameters
 	private AbstractTheme extraTheme;
 	private ThemeOption extraThemeOption;
-	private List<String> extraCustomFeatures;
-	private List<String> extraCustomPlugins;
+	private Set<String> extraCustomFeatures;
+	private Set<String> extraCustomPlugins;
 	private List<ExtraFile> extraFiles;
 	private List<ExtraConf> extraConfs;
 	private List<Callback> extraCallbacks;
@@ -136,8 +137,9 @@ public class TableConfiguration {
 	// Export parameters
 	private ExportProperties exportProperties;
 	private Boolean exporting;
-	private Map<ExportType, ExportConf> exportConfMap = new HashMap<ExportType, ExportConf>();
-	private List<ExportLinkPosition> exportLinkPositions;
+	private Set<ExportConf> exportConfs;
+//	private Map<ExportType, ExportConf> exportConfMap = new HashMap<ExportType, ExportConf>();
+	private Set<ExportLinkPosition> exportLinkPositions;
 	private Boolean isExportable = false;
 	private String exportDefaultXlsClass;
 	private String exportDefaultXlsxClass;
@@ -248,6 +250,8 @@ public class TableConfiguration {
 			
 		} catch (BadConfigurationException e) {
 			logger.warn("Configuration could not be loaded.", e);
+		} catch (AttributeProcessingException e) {
+			logger.error("Something went wrong during the configuration processing", e);
 		}
 	}
 
@@ -318,8 +322,9 @@ public class TableConfiguration {
 		// Export parameters
 		exportProperties = objectToClone.exportProperties;
 		exporting = objectToClone.exporting;
-		exportConfMap = new HashMap<ExportType, ExportConf>(objectToClone.exportConfMap);
-		exportLinkPositions = objectToClone.exportLinkPositions != null ? new ArrayList<ExportLinkPosition>(
+		exportConfs = objectToClone.getExportConfs() != null ? new HashSet<ExportConf>(objectToClone.exportConfs) : null;
+//		exportConfMap = new HashMap<ExportType, ExportConf>(objectToClone.exportConfMap));
+		exportLinkPositions = objectToClone.exportLinkPositions != null ? new HashSet<ExportLinkPosition>(
 				objectToClone.exportLinkPositions) : null;
 		isExportable = objectToClone.isExportable;
 		exportDefaultXlsClass = objectToClone.exportDefaultXlsClass;
@@ -559,7 +564,7 @@ public class TableConfiguration {
 		return this;
 	}
 
-	public String getFeatureAppear() {
+	public String getExtraAppear() {
 		return extraAppear;
 	}
 
@@ -568,7 +573,7 @@ public class TableConfiguration {
 		return this;
 	}
 
-	public String getFeatureAppearDuration() {
+	public String getExtraAppearDuration() {
 		return extraAppearDuration;
 	}
 
@@ -845,20 +850,20 @@ public class TableConfiguration {
 		return this;
 	}
 
-	public List<String> getExtraCustomFeatures() {
+	public Set<String> getExtraCustomFeatures() {
 		return extraCustomFeatures;
 	}
 
-	public TableConfiguration setExtraCustomFeatures(List<String> customFeatures) {
+	public TableConfiguration setExtraCustomFeatures(Set<String> customFeatures) {
 		this.extraCustomFeatures = customFeatures;
 		return this;
 	}
 
-	public List<String> getExtraCustomPlugins() {
+	public Set<String> getExtraCustomPlugins() {
 		return extraCustomPlugins;
 	}
 
-	public TableConfiguration setExtraCustomPlugins(List<String> customPlugins) {
+	public TableConfiguration setExtraCustomPlugins(Set<String> customPlugins) {
 		this.extraCustomPlugins = customPlugins;
 		return this;
 	}
@@ -879,17 +884,17 @@ public class TableConfiguration {
 		this.exportProperties = exportProperties;
 	}
 
-	public Map<ExportType, ExportConf> getExportConfMap() {
-		return exportConfMap;
-	}
+//	public Map<ExportType, ExportConf> getExportConfMap() {
+//		return exportConfMap;
+//	}
 
-	public void configureExport(ExportType exportType, ExportConf exportConf) {
-		this.exportConfMap.put(exportType, exportConf);
-	}
+//	public void configureExport(ExportType exportType, ExportConf exportConf) {
+//		this.exportConfMap.put(exportType, exportConf);
+//	}
 
-	public void setExportConfMap(Map<ExportType, ExportConf> exportConfs) {
-		this.exportConfMap = exportConfs;
-	}
+//	public void setExportConfMap(Map<ExportType, ExportConf> exportConfs) {
+//		this.exportConfMap = exportConfs;
+//	}
 
 	public Boolean isExportable() {
 		return isExportable;
@@ -899,11 +904,11 @@ public class TableConfiguration {
 		this.isExportable = isExportable;
 	}
 
-	public List<ExportLinkPosition> getExportLinkPositions() {
+	public Set<ExportLinkPosition> getExportLinkPositions() {
 		return exportLinkPositions;
 	}
 
-	public TableConfiguration setExportLinkPositions(List<ExportLinkPosition> exportLinkPositions) {
+	public TableConfiguration setExportLinkPositions(Set<ExportLinkPosition> exportLinkPositions) {
 		this.exportLinkPositions = exportLinkPositions;
 		return this;
 	}
@@ -1133,6 +1138,27 @@ public class TableConfiguration {
 		return configurations;
 	}
 
+	public Set<ExportConf> getExportConfs() {
+		return exportConfs;
+	}
+
+	public void setExportConfs(Set<ExportConf> exportConfs) {
+		this.exportConfs = exportConfs;
+	}
+
+	public ExportConf getExportConf(ExportType exportType){
+		ExportConf retval = null;
+		if(this.exportConfs != null){
+			for(ExportConf exportConf : this.exportConfs){
+				if(exportConf.getType().equals(exportType)){
+					retval = exportConf;
+					break;
+				}
+			}
+		}
+		return retval;
+	}
+
 	@Override
 	public String toString() {
 		return "TableConfiguration [featureInfo=" + featureInfo + ", featureAutoWidth=" + featureAutoWidth
@@ -1142,19 +1168,19 @@ public class TableConfiguration {
 				+ featureJqueryUi + ", featureLengthMenu=" + featureLengthMenu + ", featureDisplayLength="
 				+ featureDisplayLength + ", featureDom=" + featureDom + ", featureScrolly=" + featureScrolly
 				+ ", featureScrollCollapse=" + featureScrollCollapse + ", cssStyle=" + cssStyle + ", cssClass="
-				+ cssClass + ", cssStripeClasses=" + cssStripeClasses + ", labels=" + extraLabels + ", ajaxProcessing="
-				+ ajaxProcessing + ", ajaxDeferRender=" + ajaxDeferRender + ", ajaxServerSide=" + ajaxServerSide
-				+ ", ajaxSource=" + ajaxSource + ", ajaxPipelining=" + ajaxPipelining + ", ajaxPipeSize="
-				+ ajaxPipeSize + ", ajaxServerData=" + ajaxServerData + ", ajaxServerParam=" + ajaxServerParam
-				+ ", ajaxServerMethod=" + ajaxServerMethod + ", pluginFixedPosition=" + pluginFixedPosition
-				+ ", pluginFixedOffsetTop=" + pluginFixedOffsetTop + ", pluginFixedHeader=" + pluginFixedHeader
-				+ ", pluginScroller=" + pluginScroller + ", pluginColReorder=" + pluginColReorder + ", extraTheme="
-				+ extraTheme + ", extraThemeOption=" + extraThemeOption + ", extraCustomFeatures="
-				+ extraCustomFeatures + ", extraCustomPlugins=" + extraCustomPlugins + ", extraFiles=" + extraFiles
-				+ ", extraConfs=" + extraConfs + ", extraCallbacks=" + extraCallbacks + ", extraCdn=" + extraCdn
-				+ ", extraAppear=" + extraAppear + ", extraAppearDuration=" + extraAppearDuration
-				+ ", exportProperties=" + exportProperties + ", exporting=" + exporting + ", exportConfMap="
-				+ exportConfMap + ", exportLinkPositions=" + exportLinkPositions + ", isExportable=" + isExportable
+				+ cssClass + ", cssStripeClasses=" + cssStripeClasses + ", ajaxProcessing=" + ajaxProcessing
+				+ ", ajaxDeferRender=" + ajaxDeferRender + ", ajaxServerSide=" + ajaxServerSide + ", ajaxSource="
+				+ ajaxSource + ", ajaxPipelining=" + ajaxPipelining + ", ajaxPipeSize=" + ajaxPipeSize
+				+ ", ajaxServerData=" + ajaxServerData + ", ajaxServerParam=" + ajaxServerParam + ", ajaxServerMethod="
+				+ ajaxServerMethod + ", pluginFixedPosition=" + pluginFixedPosition + ", pluginFixedOffsetTop="
+				+ pluginFixedOffsetTop + ", pluginFixedHeader=" + pluginFixedHeader + ", pluginScroller="
+				+ pluginScroller + ", pluginColReorder=" + pluginColReorder + ", extraTheme=" + extraTheme
+				+ ", extraThemeOption=" + extraThemeOption + ", extraCustomFeatures=" + extraCustomFeatures
+				+ ", extraCustomPlugins=" + extraCustomPlugins + ", extraFiles=" + extraFiles + ", extraConfs="
+				+ extraConfs + ", extraCallbacks=" + extraCallbacks + ", extraCdn=" + extraCdn + ", extraAppear="
+				+ extraAppear + ", extraAppearDuration=" + extraAppearDuration + ", extraLabels=" + extraLabels
+				+ ", exportProperties=" + exportProperties + ", exporting=" + exporting + ", exportConfs="
+				+ exportConfs + ", exportLinkPositions=" + exportLinkPositions + ", isExportable=" + isExportable
 				+ ", exportDefaultXlsClass=" + exportDefaultXlsClass + ", exportDefaultXlsxClass="
 				+ exportDefaultXlsxClass + ", exportDefaultPdfClass=" + exportDefaultPdfClass
 				+ ", exportDefaultXmlClass=" + exportDefaultXmlClass + ", exportDefaultCsvClass="

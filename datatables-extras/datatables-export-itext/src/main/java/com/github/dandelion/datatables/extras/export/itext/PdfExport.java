@@ -61,8 +61,8 @@ public class PdfExport extends AbstractBinaryExport {
 		this.htmlTable = table;
 		System.out.println("table = " + table);
 		System.out.println("table.getTableConfiguration() = " + table.getTableConfiguration());
-		if (table.getTableConfiguration().getExportConfMap() != null && table.getTableConfiguration().getExportConfMap().containsKey(ExportType.PDF)) {
-			this.exportConf = table.getTableConfiguration().getExportConfMap().get(ExportType.PDF);
+		if (table.getTableConfiguration().getExportConfs() != null && table.getTableConfiguration().getExportConf(ExportType.PDF) != null) {
+			this.exportConf = table.getTableConfiguration().getExportConf(ExportType.PDF);
 		}
 	}
 

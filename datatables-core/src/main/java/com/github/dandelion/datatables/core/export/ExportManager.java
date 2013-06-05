@@ -107,13 +107,13 @@ public class ExportManager {
 		divExport.addCssClass("dandelion_dataTables_export");
 		
 		// ExportTag have been added to the TableTag
-		if (table.getTableConfiguration().getExportConfMap() != null && table.getTableConfiguration().getExportConfMap().size() > 0) {
+		if (table.getTableConfiguration().getExportConfs() != null && table.getTableConfiguration().getExportConfs().size() > 0) {
 			logger.debug("Generating export links");
 
 			HtmlHyperlink link = null;
 
 			// A HTML link is generated for each ExportConf bean
-			for (ExportConf conf : table.getTableConfiguration().getExportConfMap().values()) {
+			for (ExportConf conf : table.getTableConfiguration().getExportConfs()) {
 
 				link = new HtmlHyperlink();
 

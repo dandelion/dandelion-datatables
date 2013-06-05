@@ -47,7 +47,7 @@ public class DomSourceIT extends DomBaseIT {
 
 	@Test
 	public void should_generate_table_markup() throws IOException, Exception {
-		goToAndPrint("/html/table_default.jsp");
+		goTo("/html/table_default.jsp");
 		
 		assertThat(getTable()).hasSize(1);
 		assertThat(getTable().find("thead")).hasSize(1);
