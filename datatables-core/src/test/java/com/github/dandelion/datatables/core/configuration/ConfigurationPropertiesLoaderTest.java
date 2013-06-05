@@ -2,6 +2,8 @@ package com.github.dandelion.datatables.core.configuration;
 
 import static org.fest.assertions.Assertions.assertThat;
 
+import java.io.File;
+
 import org.junit.AfterClass;
 import org.junit.Test;
 
@@ -28,9 +30,9 @@ public class ConfigurationPropertiesLoaderTest {
 
 	@Test
 	public void should_load_staging_custom_configuration_using_system_property() throws BadConfigurationException {
-		String testPath = Thread.currentThread().getContextClassLoader()
-				.getResource("com/github/dandelion/datatables/core/configuration/datatables-test.properties").getPath();
-		System.setProperty(SystemConstants.DANDELION_DT_CONF, testPath);
+		System.setProperty(SystemConstants.DANDELION_DT_CONF, new File(
+				"src/test/java/com/github/dandelion/datatables/core/configuration/datatables-test.properties")
+				.getAbsolutePath());
 
 		AbstractConfigurationLoader confLoader = new DatatablesConfigurator().getConfLoader();
 		confLoader.loadDefaultConfiguration();
