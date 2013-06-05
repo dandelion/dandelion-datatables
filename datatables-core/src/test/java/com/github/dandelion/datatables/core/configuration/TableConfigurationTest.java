@@ -10,6 +10,7 @@ import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.feature.PaginationType;
 import com.github.dandelion.datatables.core.theme.Bootstrap2Theme;
@@ -33,6 +34,12 @@ public class TableConfigurationTest {
 		assertThat(tableConfiguration.getFeatureInfo()).isNull();
 		assertThat(tableConfiguration.getMainAggregatorEnable()).isEqualTo(false);
 		assertThat(tableConfiguration.getAjaxPipeSize()).isEqualTo(5);
+
+		// Export configurations
+		assertThat(tableConfiguration.getExportConfs()).isNull();
+		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT);
+		assertThat(tableConfiguration.getExportClass(ExportType.XLS)).isEqualTo(
+				"com.github.dandelion.datatables.extras.export.poi.XlsExport");
 		assertThat(tableConfiguration.getExportClass(ExportType.CSV)).isEqualTo(
 				"com.github.dandelion.datatables.core.export.CsvExport");
 		assertThat(tableConfiguration.getPluginFixedHeader()).isEqualTo(false);

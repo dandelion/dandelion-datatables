@@ -28,7 +28,7 @@ public class ConfigurationPropertiesLoaderTest {
 
 	@Test
 	public void should_load_staging_custom_configuration_using_system_property() throws BadConfigurationException {
-		String testPath = this.getClass().getClassLoader()
+		String testPath = Thread.currentThread().getContextClassLoader()
 				.getResource("com/github/dandelion/datatables/core/configuration/datatables-test.properties").getPath();
 		System.setProperty(SystemConstants.DANDELION_DT_CONF, testPath);
 
