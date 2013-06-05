@@ -20,6 +20,7 @@
       <festassert.version>1.4</festassert.version>
       <junit.dep.version>4.11</junit.dep.version>
       <spring.test.version>3.2.2.RELEASE</spring.test.version>
+      <thymeleaf-testing.version>2.0.2</thymeleaf-testing.version>
       <jetty.test.version>8.1.10.v20130312</jetty.test.version>
    </properties>
 
@@ -66,7 +67,7 @@
       <dependency>
          <groupId>org.thymeleaf</groupId>
          <artifactId>thymeleaf-testing</artifactId>
-         <version>2.0.2</version>
+         <version>${thymeleaf-testing.version}</version>
          <scope>test</scope>
       </dependency>
    </dependencies>
