@@ -103,7 +103,7 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 		}
 
 		for (Entry<Object, Object> entry : globalProperties.entrySet()) {
-			if (!entry.getKey().toString().equals("groups")) {
+			if(entry.getKey().toString().startsWith(TableConfiguration.DEFAULT_GROUP_NAME)){
 				Configuration configuration = Configuration.findByName(entry.getKey().toString()
 						.substring(TableConfiguration.DEFAULT_GROUP_NAME.length() + 1));
 				if (configuration != null) {
