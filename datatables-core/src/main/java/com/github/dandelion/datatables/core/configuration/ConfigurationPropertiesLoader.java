@@ -111,12 +111,14 @@ public class ConfigurationPropertiesLoader extends AbstractConfigurationLoader {
 	
 	private void loadStagingConfiguration() throws BadConfigurationException{
 		for(Entry<Object, Object> entry : customProperties.entrySet()){
-			Configuration configuration = Configuration.findByName(entry.getKey().toString().substring(keyPrefix.length() + 1));
-			if(configuration == null){
-				throw new BadConfigurationException("The property '" + entry.getKey() + "' is invalid. Please see the documentation.");
-			}
-			else{
-				stagingConf.put(configuration, entry.getValue().toString());
+			if(entry.getKey().toString().startsWith(keyPrefix)){
+				Configuration configuration = Configuration.findByName(entry.getKey().toString().substring(keyPrefix.length() + 1));
+				if(configuration == null){
+					throw new BadConfigurationException("The property '" + entry.getKey() + "' is invalid. Please see the documentation.");
+				}
+				else{
+					stagingConf.put(configuration, entry.getValue().toString());
+				}
 			}
 		}
 	}
