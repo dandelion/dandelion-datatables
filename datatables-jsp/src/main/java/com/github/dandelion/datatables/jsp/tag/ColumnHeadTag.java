@@ -50,7 +50,6 @@ public class ColumnHeadTag extends BodyTagSupport {
 	private String uid;
 
 	public int doStartTag() throws JspException {
-
 		// Never reached
 		return EVAL_BODY_BUFFERED;
 	}
@@ -73,17 +72,11 @@ public class ColumnHeadTag extends BodyTagSupport {
 
 		if (StringUtils.isNotBlank(this.uid)) {
 			HtmlColumn column = parent.getTable().getColumnHeadByUid(this.uid);
-
 			if (column != null) {
-				// Recuperer la colonne et mettre a jour le contenu avec le
-				// corps
-				column.addContent(getBodyContent().getString());
-			} else {
-				// Ajouter la colonne
+				column.setContent(new StringBuilder(getBodyContent().getString()));
 			}
 		} else {
-			throw new JspException(
-					"The attribute 'uid' is required. Please read the documentation.");
+			throw new JspException("The attribute 'uid' is required. Please read the documentation.");
 		}
 
 		return EVAL_PAGE;
