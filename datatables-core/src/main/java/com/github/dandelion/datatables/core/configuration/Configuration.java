@@ -40,7 +40,6 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.aggregator.AggregatorMode;
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.feature.PaginationType;
 import com.github.dandelion.datatables.core.processor.AbstractGenericProcessor;
 import com.github.dandelion.datatables.core.processor.BooleanProcessor;
@@ -205,55 +204,48 @@ public enum Configuration {
 		return null;
 	}
 	
-	public static void applyConfiguration(TableConfiguration tableConfiguration, Map<Configuration, Object> localConf) throws AttributeProcessingException {
+	public static void applyConfiguration(TableConfiguration tableConfiguration, Map<Configuration, Object> localConf) {
 
-		try {
-			logger.trace("Applying all temporary configurations to the TableConfiguration instance...");
+		logger.trace("Applying all temporary configurations to the TableConfiguration instance...");
+		
+		for (Map.Entry<Configuration, Object> entry : localConf.entrySet()) {
 			
-			for (Map.Entry<Configuration, Object> entry : localConf.entrySet()) {
-				
-				logger.trace("Processing configuration {}...", entry.getKey());
-				
-				String propertyName = StringUtils.capitalize(entry.getKey().getProperty());
-				Method setter = TableConfiguration.class.getMethod("set" + propertyName, new Class[]{ entry.getKey().getReturnType() });
-				
-				logger.trace(" --> the {} will be used to process the value {}", setter, entry.getValue().toString());
-				
-				try {
-					Processor processor = null;
-					if (AbstractGenericProcessor.class.isAssignableFrom(entry.getKey().getProcessor())) {
-						processor = (Processor) entry.getKey().getProcessor().getDeclaredConstructor(new Class[]{ Method.class })
-								.newInstance(setter);
-					} else {
-						processor = (Processor) entry.getKey().getProcessor().newInstance();
-					}
-					processor.process(entry.getValue().toString(), tableConfiguration, localConf);
+			logger.trace("Processing configuration {}...", entry.getKey());
+			
+			try {
+				Processor processor = null;
+				if (AbstractGenericProcessor.class.isAssignableFrom(entry.getKey().getProcessor())) {
+					String propertyName = StringUtils.capitalize(entry.getKey().getProperty());
+					Method setter = TableConfiguration.class.getMethod("set" + propertyName, new Class[]{ entry.getKey().getReturnType() });
 					
-					logger.trace(" --> Processing completed successfully");
-				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.trace(" --> the {} will be used to process the value {}", setter, entry.getValue().toString());
+					
+					processor = (Processor) entry.getKey().getProcessor().getDeclaredConstructor(new Class[]{ Method.class })
+							.newInstance(setter);
+				} else {
+					processor = (Processor) entry.getKey().getProcessor().newInstance();
 				}
+				processor.process(entry.getValue().toString(), tableConfiguration, localConf);
+				
+				logger.trace(" --> Processing completed successfully");
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
-			logger.trace("All configurations have been applied.");
-		} 
-		catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		
+		logger.trace("All configurations have been applied.");
 	}
 }
