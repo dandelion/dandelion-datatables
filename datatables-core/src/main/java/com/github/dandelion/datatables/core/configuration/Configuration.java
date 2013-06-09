@@ -212,37 +212,39 @@ public enum Configuration {
 			
 			logger.trace("Processing configuration {}...", entry.getKey());
 			
-			try {
-				Processor processor = null;
-				if (AbstractGenericProcessor.class.isAssignableFrom(entry.getKey().getProcessor())) {
-					String propertyName = StringUtils.capitalize(entry.getKey().getProperty());
-					Method setter = TableConfiguration.class.getMethod("set" + propertyName, new Class[]{ entry.getKey().getReturnType() });
+			if(StringUtils.isNotBlank(entry.getValue().toString())){
+				try {
+					Processor processor = null;
+					if (AbstractGenericProcessor.class.isAssignableFrom(entry.getKey().getProcessor())) {
+						String propertyName = StringUtils.capitalize(entry.getKey().getProperty());
+						Method setter = TableConfiguration.class.getMethod("set" + propertyName, new Class[]{ entry.getKey().getReturnType() });
+						
+						logger.trace(" --> the {} will be used to process the value {}", setter, entry.getValue().toString());
+						
+						processor = (Processor) entry.getKey().getProcessor().getDeclaredConstructor(new Class[]{ Method.class })
+								.newInstance(setter);
+					} else {
+						processor = (Processor) entry.getKey().getProcessor().newInstance();
+					}
+					processor.process(entry.getValue().toString(), tableConfiguration, localConf);
 					
-					logger.trace(" --> the {} will be used to process the value {}", setter, entry.getValue().toString());
-					
-					processor = (Processor) entry.getKey().getProcessor().getDeclaredConstructor(new Class[]{ Method.class })
-							.newInstance(setter);
-				} else {
-					processor = (Processor) entry.getKey().getProcessor().newInstance();
+					logger.trace(" --> Processing completed successfully");
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				processor.process(entry.getValue().toString(), tableConfiguration, localConf);
-				
-				logger.trace(" --> Processing completed successfully");
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 		
