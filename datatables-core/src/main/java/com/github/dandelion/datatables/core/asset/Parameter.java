@@ -87,13 +87,11 @@ public class Parameter {
 	}
 
 	public Parameter(String name){
-		this.name = name;
+		this(name, null, Mode.OVERRIDE);
 	}
 	
 	public Parameter(String name, Object value) {
-		this.name = name;
-		this.value = value;
-		this.mode = Mode.OVERRIDE;
+		this(name, value, Mode.OVERRIDE);
 	}
 
 	public Parameter(String name, Object value, Parameter.Mode mode) {
