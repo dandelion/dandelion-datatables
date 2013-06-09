@@ -48,8 +48,8 @@ import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
+import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportProperties;
@@ -75,9 +75,6 @@ public class TableConfiguration {
 	public static final String DEFAULT_GROUP_NAME = "global";
 	public static final String KEY_NAME_SEP = ".";
 
-	/**
-	 * Unique instance of TableProperties that will be cloned for each table.
-	 */
 	public static TableConfiguration instance;
 
 	private static Map<String, TableConfiguration> configurations = new HashMap<String, TableConfiguration>();
@@ -138,7 +135,6 @@ public class TableConfiguration {
 	private ExportProperties exportProperties;
 	private Boolean exporting;
 	private Set<ExportConf> exportConfs;
-//	private Map<ExportType, ExportConf> exportConfMap = new HashMap<ExportType, ExportConf>();
 	private Set<ExportLinkPosition> exportLinkPositions;
 	private Boolean isExportable = false;
 	private String exportDefaultXlsClass;
@@ -323,7 +319,6 @@ public class TableConfiguration {
 		exportProperties = objectToClone.exportProperties;
 		exporting = objectToClone.exporting;
 		exportConfs = objectToClone.getExportConfs() != null ? new HashSet<ExportConf>(objectToClone.exportConfs) : null;
-//		exportConfMap = new HashMap<ExportType, ExportConf>(objectToClone.exportConfMap));
 		exportLinkPositions = objectToClone.exportLinkPositions != null ? new HashSet<ExportLinkPosition>(
 				objectToClone.exportLinkPositions) : null;
 		isExportable = objectToClone.isExportable;
@@ -883,18 +878,6 @@ public class TableConfiguration {
 	public void setExportProperties(ExportProperties exportProperties) {
 		this.exportProperties = exportProperties;
 	}
-
-//	public Map<ExportType, ExportConf> getExportConfMap() {
-//		return exportConfMap;
-//	}
-
-//	public void configureExport(ExportType exportType, ExportConf exportConf) {
-//		this.exportConfMap.put(exportType, exportConf);
-//	}
-
-//	public void setExportConfMap(Map<ExportType, ExportConf> exportConfs) {
-//		this.exportConfMap = exportConfs;
-//	}
 
 	public Boolean isExportable() {
 		return isExportable;

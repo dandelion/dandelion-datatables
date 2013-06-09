@@ -103,7 +103,7 @@ public class ExtensionManager {
 					}
 				}
 			} else {
-				logger.debug("No custom feature found");
+				logger.debug("No custom plugin found");
 			}
 		}
 		else{
