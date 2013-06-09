@@ -141,13 +141,6 @@ public class ExportConf {
 		this.custom = custom;
 	}
 
-	@Override
-	public String toString() {
-		return "ExportConf [fileName=" + fileName + ", type=" + type + ", label=" + label
-				+ ", cssStyle=" + cssStyle + ", cssClass=" + cssClass + ", includeHeader="
-				+ includeHeader + ", area=" + area + ", url=" + url + "]";
-	}
-
 	public Boolean getAutoSize() {
 		return autoSize;
 	}
@@ -176,5 +169,12 @@ public class ExportConf {
 		if (type != other.type)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "ExportConf [fileName=" + fileName + ", type=" + type + ", label=" + label + ", cssStyle=" + cssStyle
+				+ ", cssClass=" + cssClass + ", includeHeader=" + includeHeader + ", area=" + area + ", url=" + url
+				+ ", autoSize=" + autoSize + ", custom=" + custom + "]";
 	}
 }

@@ -102,7 +102,15 @@ public class ExportTag extends TagSupport {
 			}
 
 			// Export URL build
-			ExportConf conf = new ExportConf(exportType);
+			ExportConf conf = null;
+			
+			if (parent.getTable().getTableConfiguration().getExportConf(exportType) != null) {
+				conf = parent.getTable().getTableConfiguration().getExportConf(exportType);
+			}
+			else{
+				conf = new ExportConf(exportType);
+				parent.getTable().getTableConfiguration().getExportConfs().add(conf);
+			}
 			
 			// Default mode
 			String exportUrl = null;
@@ -152,9 +160,7 @@ public class ExportTag extends TagSupport {
 				conf.setAutoSize(autoSize);				
 			}
 			
-			parent.getTable().getTableConfiguration().getExportConfs().add(conf);
-
-			logger.debug("Export conf added to table {}", conf);
+			logger.debug("Export configuration for the type {} has been updated", exportType);
 		}
 
 		return EVAL_PAGE;
