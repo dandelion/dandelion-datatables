@@ -51,39 +51,34 @@ public class ExportManager {
 			switch (position) {
 			case BOTTOM_LEFT:
 				divExport.addCssStyle("float:left;margin-right:10px;");
-				links.append("$('#" + table.getId()
-						+ "_info').before('" + divExport.toHtml() + "');$('#" + table.getId()
-						+ "_info').css('clear', 'none');");
+				links.append("$('#" + table.getId() + "').after('" + divExport.toHtml() + "');");
+				links.append("$('#" + table.getId() + "_info').css('clear', 'none');");
 				break;
 
 			case BOTTOM_MIDDLE:
 				divExport.addCssStyle("float:left;margin-left:10px;");
-				links.append("$('#" + table.getId()
-						+ "_paginate').before('" + divExport.toHtml() + "');");
+				links.append("$('#" + table.getId() + "_wrapper').append('" + divExport.toHtml() + "');");
 				break;
 
 			case BOTTOM_RIGHT:
 				divExport.addCssStyle("float:right;");
-				links.append("$('#" + table.getId()
-						+ "_paginate').before('" + divExport.toHtml() + "');");
+				links.append("$('#" + table.getId()	+ "').after('" + divExport.toHtml() + "');");
+				links.append("$('#" + table.getId() + "_info').css('clear', 'none');");
 				break;
 
 			case TOP_LEFT:
 				divExport.addCssStyle("float:left;margin-right:10px;");
-				links.append("$('#" + table.getId()
-						+ "_length').before('" + divExport.toHtml() + "');");
+				links.append("$('#" + table.getId() + "_wrapper').prepend('" + divExport.toHtml() + "');");
 				break;
 
 			case TOP_MIDDLE:
 				divExport.addCssStyle("float:left;margin-left:10px;");
-				links.append("$('#" + table.getId()
-						+ "_filter').before('" + divExport.toHtml() + "');");
+				links.append("$('#" + table.getId()	+ "').before('" + divExport.toHtml() + "');");
 				break;
 
 			case TOP_RIGHT:
 				divExport.addCssStyle("float:right;");
-				links.append("$('#" + table.getId()
-						+ "_filter').before('" + divExport.toHtml() + "');");
+				links.append("$('#" + table.getId()	+ "_wrapper').prepend('" + divExport.toHtml() + "');");
 				break;
 
 			default:
