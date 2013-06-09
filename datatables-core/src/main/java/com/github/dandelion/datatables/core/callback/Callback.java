@@ -29,7 +29,7 @@
  */
 package com.github.dandelion.datatables.core.callback;
 
-import org.apache.commons.lang.StringUtils;
+import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 
 /**
  * <p>
@@ -39,7 +39,7 @@ import org.apache.commons.lang.StringUtils;
  * <ul>
  * <li>a {@link CallbackType} available among all callbacks proposed by
  * DataTables</li>
- * <li>a Javascript function that is executed in the callback</li>
+ * <li>a {@link JavascriptFunction} that is executed in the callback</li>
  * </ul>
  * 
  * @see CallbackType
@@ -50,11 +50,16 @@ import org.apache.commons.lang.StringUtils;
 public class Callback {
 
 	private CallbackType type;
-	private String function;
+	private JavascriptFunction function;
 
-	public Callback(CallbackType type, String function){
+	public Callback(CallbackType type, String functionContent){
 		this.type = type;
-		this.function = build(function);
+		this.function = new JavascriptFunction(functionContent, this.type.getArgs());
+	}
+	
+	public Callback(CallbackType type, JavascriptFunction function){
+		this.type = type;
+		this.function = function;
 	}
 	
 	public CallbackType getType() {
@@ -65,35 +70,20 @@ public class Callback {
 		this.type = type;
 	}
 
-	public String getFunction() {
+	public JavascriptFunction getFunction() {
 		return function;
 	}
 
-	public void setFunction(String function) {
+	public void setFunction(JavascriptFunction function) {
 		this.function = function;
 	}
 
-	public void addContent(String content){
-		if(function == null || "".equals(function)){
-			function = content;
-		}
-		else{
-			function += content;
-		}
+	public void appendCode(String code){
+		this.function.appendCode(code);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Callback [type=" + type + ", function=" + function + "]";
-	}
-	
-	/**
-	 * Build the callback.
-	 * 
-	 * @param function the Javascript function to execute in the callback.
-	 * @return a String reprensenting the function call.
-	 */
-	private String build(String function){
-		return function + "(" + StringUtils.join(this.type.getArgs(), ",") + ");";
 	}
 }

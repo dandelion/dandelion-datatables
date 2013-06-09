@@ -478,7 +478,7 @@ public class MainGeneratorTest {
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(2);
-		assertThat(mainConf.get(CallbackType.CREATEDROW.getName())).isEqualTo(new JavascriptFunction(callback.getFunction(), CallbackType.CREATEDROW.getArgs()));
+		assertThat(mainConf.get(CallbackType.CREATEDROW.getName())).isEqualTo(new JavascriptFunction(callback.getFunction().getCode(), CallbackType.CREATEDROW.getArgs()));
 	}
 
 	@Test
@@ -495,9 +495,9 @@ public class MainGeneratorTest {
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(4);
-		assertThat(mainConf.get(CallbackType.CREATEDROW.getName())).isEqualTo(new JavascriptFunction(callback.getFunction(), CallbackType.CREATEDROW.getArgs()));
-		assertThat(mainConf.get(CallbackType.COOKIE.getName())).isEqualTo(new JavascriptFunction(callback2.getFunction(), CallbackType.COOKIE.getArgs()));
-		assertThat(mainConf.get(CallbackType.PREDRAW.getName())).isEqualTo(new JavascriptFunction(callback3.getFunction(), CallbackType.PREDRAW.getArgs()));
+		assertThat(mainConf.get(CallbackType.CREATEDROW.getName())).isEqualTo(new JavascriptFunction(callback.getFunction().getCode(), CallbackType.CREATEDROW.getArgs()));
+		assertThat(mainConf.get(CallbackType.COOKIE.getName())).isEqualTo(new JavascriptFunction(callback2.getFunction().getCode(), CallbackType.COOKIE.getArgs()));
+		assertThat(mainConf.get(CallbackType.PREDRAW.getName())).isEqualTo(new JavascriptFunction(callback3.getFunction().getCode(), CallbackType.PREDRAW.getArgs()));
 	}
 	
 	@Test

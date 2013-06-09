@@ -316,26 +316,26 @@ public class ExtensionLoader {
 			break;
 
 		case APPEND:
-			newValue = ((JavascriptFunction)conf.getValue()).getJavascript() + jsFunction.getJavascript();
-			jsFunction.setJavascript(newValue);
+			newValue = ((JavascriptFunction)conf.getValue()).getCode() + jsFunction.getCode();
+			jsFunction.setCode(newValue);
 			mainConfig.put(conf.getName(), jsFunction);
 			break;
 
 		case PREPEND:
-			newValue = jsFunction.getJavascript() + ((JavascriptFunction)conf.getValue()).getJavascript();
-			jsFunction.setJavascript(newValue);
+			newValue = jsFunction.getCode() + ((JavascriptFunction)conf.getValue()).getCode();
+			jsFunction.setCode(newValue);
 			mainConfig.put(conf.getName(), jsFunction);
 			break;
 
 		case APPEND_WITH_SPACE:
-			newValue = ((JavascriptFunction)conf.getValue()).getJavascript() + " " + jsFunction.getJavascript();
-			jsFunction.setJavascript(newValue);
+			newValue = ((JavascriptFunction)conf.getValue()).getCode() + " " + jsFunction.getCode();
+			jsFunction.setCode(newValue);
 			mainConfig.put(conf.getName(), jsFunction);
 			break;
 
 		case PREPEND_WITH_SPACE:
-			newValue = jsFunction.getJavascript() + " " + ((JavascriptFunction)conf.getValue()).getJavascript();
-			jsFunction.setJavascript(newValue);
+			newValue = jsFunction.getCode() + " " + ((JavascriptFunction)conf.getValue()).getCode();
+			jsFunction.setCode(newValue);
 			mainConfig.put(conf.getName(), jsFunction);
 			break;
 

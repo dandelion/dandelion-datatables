@@ -44,27 +44,32 @@ import org.apache.commons.lang.StringUtils;
  */
 public class JavascriptFunction {
 
-	private String javascript;
+	private String code;
 	private String[] args;
 	
-	public JavascriptFunction(String javascript, String... args) {
-		this.javascript = javascript;
+	public JavascriptFunction(String code, String... args) {
+		this.code = code;
 		this.args = args;
 	}
 
 	@Override
 	public String toString() {
-		return "function(" + StringUtils.join(args, ",") + "){" + javascript + "}";
+		System.out.println("function(" + StringUtils.join(args, ",") + "){" + code + "}");
+		return "function(" + StringUtils.join(args, ",") + "){" + code + "}";
 	}
 	
-	public String getJavascript(){
-		return this.javascript;
+	public String getCode(){
+		return this.code;
 	}
 	
-	public void setJavascript(String javascript){
-		this.javascript = javascript;
+	public void setCode(String code){
+		this.code = code;
 	}
 
+	public void appendCode(String code){
+		this.code += code;
+	}
+	
 	@Override
 	public boolean equals(Object javascriptFunction) {
 		if(javascriptFunction != null && javascriptFunction instanceof JavascriptFunction) {

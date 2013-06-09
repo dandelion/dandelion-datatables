@@ -3,6 +3,7 @@ package com.github.dandelion.datatables.core.export;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
@@ -87,10 +88,11 @@ public class ExportManager {
 		}
 
 		if(table.getTableConfiguration().hasCallback(CallbackType.INIT)){
-			table.getTableConfiguration().getCallback(CallbackType.INIT).addContent(links.toString());
+			table.getTableConfiguration().getCallback(CallbackType.INIT).appendCode(links.toString());
 		}
 		else{
-			Callback initCallback = new Callback(CallbackType.INIT, links.toString());
+			Callback initCallback = new Callback(CallbackType.INIT, new JavascriptFunction(links.toString(),
+					CallbackType.INIT.getArgs()));
 			table.getTableConfiguration().registerCallback(initCallback);
 		}
 	}

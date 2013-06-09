@@ -39,7 +39,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
-import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
@@ -215,7 +214,8 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         // Callbacks
         if(tableConfiguration.getCallbacks() != null){
         	for(Callback callback : tableConfiguration.getCallbacks()){
-        		mainConf.put(callback.getType().getName(), new JavascriptFunction(callback.getFunction(), callback.getType().getArgs()));
+//        		mainConf.put(callback.getType().getName(), new JavascriptFunction(callback.getFunction(), callback.getType().getArgs()));
+        		mainConf.put(callback.getType().getName(), callback.getFunction());
         	}
         }
         
