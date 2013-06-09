@@ -58,59 +58,8 @@ public class ExportLinksIT extends DomBaseIT {
 		goTo("/export/default_csv_link.jsp");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href")).isEqualTo("http://" + SERVER_HOST + ":" + SERVER_PORT + "/export/default_csv_link.jsp?dtt=1&dti=myTableId");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("style"))).isEqualTo("float:right;");
-	}
-	
-	@Test
-	public void should_generate_bottom_right_link() throws IOException, Exception {
-		goTo("/export/bottom_right_link.jsp");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("style"))).isEqualTo("float:right;");
-	}
-	
-	@Test
-	public void should_generate_bottom_middle_link() throws IOException, Exception {
-		goTo("/export/bottom_middle_link.jsp");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("style"))).isEqualTo("float:left;margin-left:10px;");
-	}
-	
-	@Test
-	public void should_generate_bottom_left_link() throws IOException, Exception {
-		goTo("/export/bottom_left_link.jsp");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("style"))).isEqualTo("float:left;margin-right:10px;");
-	}
-	
-	@Test
-	public void should_generate_top_right_link() throws IOException, Exception {
-		goTo("/export/top_right_link.jsp");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("style"))).isEqualTo("float:right;");
-	}
-	
-	@Test
-	public void should_generate_top_middle_link() throws IOException, Exception {
-		goTo("/export/top_middle_link.jsp");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("style"))).isEqualTo("float:left;margin-left:10px;");
-	}
-	
-	@Test
-	public void should_generate_top_left_link() throws IOException, Exception {
-		goTo("/export/top_left_link.jsp");
 		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("style"))).isEqualTo("float:left;margin-right:10px;");
-	}
-	
-	@Test
-	public void should_generate_top_and_bottom_right_links() throws IOException, Exception {
-		goTo("/export/top_and_bottom_right_links.jsp");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("style"))).isEqualTo("float:right;");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("style"))).isEqualTo("float:right;");
+		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("style"))).isEqualTo("float:right;");
 	}
 	
 	@Test

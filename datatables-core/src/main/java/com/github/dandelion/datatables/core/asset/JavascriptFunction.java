@@ -54,7 +54,6 @@ public class JavascriptFunction {
 
 	@Override
 	public String toString() {
-		System.out.println("function(" + StringUtils.join(args, ",") + "){" + code + "}");
 		return "function(" + StringUtils.join(args, ",") + "){" + code + "}";
 	}
 	
