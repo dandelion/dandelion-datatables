@@ -32,6 +32,7 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,7 +86,20 @@ public class CallbackTag extends TagSupport {
 						callbackType, CallbackType.values());
 				throw new JspException(e);
 			}
-			parent.getTable().getTableConfiguration().registerCallback(new Callback(callbackType, this.function));
+
+			// The callback has already been registered
+			if(parent.getTable().getTableConfiguration().hasCallback(callbackType)){
+				parent.getTable().getTableConfiguration().getCallback(callbackType)
+						.appendCode(function + "(" + StringUtils.join(callbackType.getArgs(), ",") + ");");
+			}
+			// The callback hasn't been registered yet
+			else{
+				parent.getTable()
+						.getTableConfiguration()
+						.registerCallback(
+								new Callback(callbackType, function + "("
+										+ StringUtils.join(callbackType.getArgs(), ",") + ");"));
+			}
 		}
 		
 		return EVAL_PAGE;

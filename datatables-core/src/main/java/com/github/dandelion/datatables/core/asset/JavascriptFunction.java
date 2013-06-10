@@ -47,6 +47,11 @@ public class JavascriptFunction {
 	private String code;
 	private String[] args;
 	
+	public JavascriptFunction(String code){
+		this.code = code;
+		this.args = null;
+	}
+	
 	public JavascriptFunction(String code, String... args) {
 		this.code = code;
 		this.args = args;
@@ -54,7 +59,7 @@ public class JavascriptFunction {
 
 	@Override
 	public String toString() {
-		return "function(" + StringUtils.join(args, ",") + "){" + code + "}";
+		return "function(" + (args != null ? StringUtils.join(args, ",") : "") + "){" + code + "}";
 	}
 	
 	public String getCode(){

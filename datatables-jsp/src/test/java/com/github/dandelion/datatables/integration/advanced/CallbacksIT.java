@@ -53,10 +53,17 @@ public class CallbacksIT extends DomBaseIT {
 	}
 	
 	@Test
-	public void should_avoid_conflict_between_callback() throws IOException, Exception {
-		goTo("/advanced/callback_init_conflict.jsp");
-		String js = getConfigurationFromPage("advanced/callback_init_conflict.jsp").getContent();
+	public void should_avoid_conflict_between_feature_and_callback() throws IOException, Exception {
+		goToAndPrint("/advanced/callback_init_conflict_with_feature.jsp");
+		String js = getConfigurationFromPage("advanced/callback_init_conflict_with_feature.jsp").getContent();
 		assertThat(js).contains("function(oSettings,json){oTable_myTableId.fnAdjustColumnSizing(true);callback(oSettings,json);}");
+	}
+	
+	@Test
+	public void should_avoid_conflict_between_multiple_callback() throws IOException, Exception {
+		goToAndPrint("/advanced/callback_init_conflict_with_other_callback.jsp");
+		String js = getConfigurationFromPage("advanced/callback_init_conflict_with_other_callback.jsp").getContent();
+		assertThat(js).contains("function(oSettings,json){oTable_myTableId.fnAdjustColumnSizing(true);callback1(oSettings,json);callback2(oSettings,json);}");
 	}
 	
 	@Test
