@@ -35,21 +35,27 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.JspContextRunner;
+import com.github.dandelion.datatables.testing.BaseIT;
+import com.github.dandelion.datatables.testing.utils.Constants;
+import com.github.dandelion.datatables.testing.utils.JspTest;
 
 /**
  * Test the multiple tables.
  *
  * @author Thibault Duchateau
  */
-public class MutipleTablesIT extends DomBaseIT {
+@RunWith(JspContextRunner.class)
+@JspTest
+public class MutipleTablesIT extends BaseIT {
 
 	@Test
 	public void should_disable_paging() throws IOException, Exception {
 		goTo("/basics/multiple_tables.jsp");
 		
-		assertThat(find("#" + TABLE_ID + "_wrapper")).hasSize(1);
-		assertThat(find("#" + TABLE_ID2 + "_wrapper")).hasSize(1);
+		assertThat(find("#" + Constants.TABLE_ID + "_wrapper")).hasSize(1);
+		assertThat(find("#" + Constants.TABLE_ID2 + "_wrapper")).hasSize(1);
 	}
 }

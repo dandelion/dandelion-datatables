@@ -35,19 +35,24 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.JspContextRunner;
+import com.github.dandelion.datatables.testing.BaseIT;
+import com.github.dandelion.datatables.testing.utils.JspTest;
 
 /**
  * Test the HTML markup generation using a DOM source.
  *
  * @author Thibault Duchateau
  */
-public class DomSourceIT extends DomBaseIT {
+@RunWith(JspContextRunner.class)
+@JspTest
+public class DomSourceIT extends BaseIT {
 
 	@Test
 	public void should_generate_table_markup() throws IOException, Exception {
-		goTo("/html/table_default.jsp");
+		goToPage("html/table_default");
 		
 		assertThat(getTable()).hasSize(1);
 		assertThat(getTable().find("thead")).hasSize(1);
@@ -66,13 +71,13 @@ public class DomSourceIT extends DomBaseIT {
 
 	@Test
 	public void should_generate_script_tag() {
-		goTo("/html/table_default.jsp");
+		goToPage("html/table_default");
 		assertThat(getHtmlBody().find("script")).hasSize(1);
 	}
 	
 	@Test
 	public void should_render_empty_cell() throws IOException, Exception {
-		goTo("/html/table_default.jsp");
+		goToPage("html/table_default");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("");
@@ -80,7 +85,7 @@ public class DomSourceIT extends DomBaseIT {
 	
 	@Test
 	public void should_render_default_value_in_cell() throws IOException, Exception {
-		goTo("/html/table_default_values.jsp");
+		goToPage("html/table_default_values");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("default value");
@@ -88,13 +93,13 @@ public class DomSourceIT extends DomBaseIT {
 	
 //	@Test
 	public void when_emptylist_should_not_generate_anything() {
-		goTo("/html/table_with_empty_collection.jsp");
+		goToPage("html/table_with_empty_collection");
 		assertThat(getTable()).hasSize(0);
 	}
 	
 //	@Test
 	public void when_nulllist_should_not_generate_anything() {
-		goTo("/html/table_with_null_collection.jsp");
+		goToPage("html/table_with_null_collection");
 		assertThat(getTable()).hasSize(0);
 	}
 }

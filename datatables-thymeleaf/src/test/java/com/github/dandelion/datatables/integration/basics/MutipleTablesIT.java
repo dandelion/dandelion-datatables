@@ -30,26 +30,19 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.junit.runner.RunWith;
 
-import java.io.IOException;
-
-import org.junit.Test;
-
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
+import com.github.dandelion.datatables.testing.basics.MultipleTablesBaseIT;
+import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
 /**
  * Test the multiple tables.
  *
  * @author Thibault Duchateau
  */
-public class MutipleTablesIT extends DomBaseIT {
+@RunWith(ThymeleafContextRunner.class)
+@ThymeleafTest
+public class MutipleTablesIT extends MultipleTablesBaseIT {
 
-	@Test
-	public void should_disable_paging() throws IOException, Exception {
-		goTo("/thymeleaf/basics/multiple");
-		
-		assertThat(find("#" + TABLE_ID + "_wrapper")).hasSize(1);
-		assertThat(find("#" + TABLE_ID2 + "_wrapper")).hasSize(1);
-	}
 }

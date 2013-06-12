@@ -35,19 +35,24 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.JspContextRunner;
+import com.github.dandelion.datatables.testing.BaseIT;
+import com.github.dandelion.datatables.testing.utils.JspTest;
 
 /**
  * Test the CDN activation.
  *
  * @author Thibault Duchateau
  */
-public class CustomColumnContentIT extends DomBaseIT {
+@RunWith(JspContextRunner.class)
+@JspTest
+public class CustomColumnContentIT extends BaseIT {
 
 	@Test
 	public void should_generate_mailto_link() throws IOException, Exception {
-		goTo("/basics/custom_column_content.jsp");
+		goToPage("basics/custom_column_content");
 
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getAttribute("href")).isEqualTo("mailto:venenatis@Duisvolutpat.com");
@@ -56,7 +61,7 @@ public class CustomColumnContentIT extends DomBaseIT {
 	
 	@Test
 	public void should_display_row_index() throws IOException, Exception {
-		goTo("/basics/using_rowindex.jsp");
+		goToPage("basics/using_rowindex");
 
 		assertThat(getTable().find("tbody").find("tr", 0).find("td", 4).getText()).isEqualTo("1");
 		assertThat(getTable().find("tbody").find("tr", 1).find("td", 4).getText()).isEqualTo("2");

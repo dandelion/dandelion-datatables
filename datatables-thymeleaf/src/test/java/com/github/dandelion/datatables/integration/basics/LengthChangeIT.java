@@ -32,30 +32,34 @@ package com.github.dandelion.datatables.integration.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
+import com.github.dandelion.datatables.testing.BaseIT;
+import com.github.dandelion.datatables.testing.utils.Constants;
+import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
 /**
  * Test the pagination options.
  *
  * @author Gautier Dhordain
  */
-public class LengthChangeIT extends DomBaseIT {
+@RunWith(ThymeleafContextRunner.class)
+@ThymeleafTest
+public class LengthChangeIT extends BaseIT {
 
 	@Test
-	public void should_disable_length_change() throws IOException, Exception {
-        goTo("/thymeleaf/basics/disable_length_change");
+	public void should_disable_length_change() throws Exception {
+        goToPage("basics/disable_length_change");
 
-		assertThat(find("#" + TABLE_ID + "_length")).hasSize(0);
+		assertThat(find("#" + Constants.TABLE_ID + "_length")).hasSize(0);
 	}
 
 	@Test
-	public void should_enable_length_change() throws IOException, Exception {
-        goTo("/thymeleaf/basics/enable_length_change");
+	public void should_enable_length_change() throws Exception {
+        goToPage("basics/enable_length_change");
 
-		assertThat(find("#" + TABLE_ID + "_length")).hasSize(1);
+		assertThat(find("#" + Constants.TABLE_ID + "_length")).hasSize(1);
 	}
 }

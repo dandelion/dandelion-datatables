@@ -30,32 +30,19 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.junit.runner.RunWith;
 
-import org.junit.Test;
-
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
+import com.github.dandelion.datatables.testing.basics.VisibleBaseIT;
+import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
 /**
  * Test the visibility feature on columns.
  *
  * @author Thibault Duchateau
  */
-public class VisibleIT extends DomBaseIT {
+@RunWith(ThymeleafContextRunner.class)
+@ThymeleafTest
+public class VisibleIT extends VisibleBaseIT {
 
-	@Test
-	public void should_hide_the_last_column_using_dom() {
-		goTo("/thymeleaf/basics/visible_dom");
-		
-		assertThat(getTable().find("thead").find("th")).hasSize(4);
-		assertThat(getTable().find("tbody").findFirst("tr").find("td")).hasSize(4);
-	}
-	
-	@Test
-	public void should_hide_the_last_column_using_ajax() {
-		goTo("/thymeleaf/basics/visible_ajax");
-		
-		assertThat(getTable().find("thead").find("th")).hasSize(4);
-		assertThat(getTable().find("tbody").findFirst("tr").find("td")).hasSize(4);
-	}
 }

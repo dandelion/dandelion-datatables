@@ -30,30 +30,19 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import static org.fest.assertions.Assertions.assertThat;
-import org.junit.Test;
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import org.junit.runner.RunWith;
+
+import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
+import com.github.dandelion.datatables.testing.basics.ScrollCollapseBaseIT;
+import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
 /**
  * Test the scroll collapse option.
  *
  * @author Gautier Dhordain
  */
-public class ScrollCollapseIT extends DomBaseIT {
+@RunWith(ThymeleafContextRunner.class)
+@ThymeleafTest
+public class ScrollCollapseIT extends ScrollCollapseBaseIT {
 
-	@Test
-	public void should_disable_scroll_collapse() {
-		goTo("/thymeleaf/basics/disable_scroll_collapse");
-
-		assertThat(find("#" + TABLE_ID + "_wrapper").find(".dataTables_scrollBody").getAttribute("style")).contains("height: 1000px");
-	}
-	
-	@Test
-	public void should_enable_scroll_collapse() {
-		goTo("/thymeleaf/basics/enable_scroll_collapse");
-
-		assertThat(find("#" + TABLE_ID + "_wrapper").find(".dataTables_scrollBody").getAttribute("style"))//
-			.matches(".*height: [0-9]*px.*")//
-			.doesNotContain("height: 1000px");
-	}
 }

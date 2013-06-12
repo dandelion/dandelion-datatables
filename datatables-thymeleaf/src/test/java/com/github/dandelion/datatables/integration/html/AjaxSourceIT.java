@@ -5,19 +5,24 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
+import com.github.dandelion.datatables.testing.BaseIT;
+import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
 /**
  * Test the HTML markup generation using an AJAX source.
  *
  * @author Thibault Duchateau
  */
-public class AjaxSourceIT extends DomBaseIT {
+@RunWith(ThymeleafContextRunner.class)
+@ThymeleafTest
+public class AjaxSourceIT extends BaseIT {
 
 	@Test
 	public void should_generate_table_markup() throws IOException, Exception {
-		goTo("/thymeleaf/ajax/table");
+		goToPage("ajax/table");
 
 		assertThat(getTable()).hasSize(1);
 		assertThat(getTable().find("thead")).hasSize(1);

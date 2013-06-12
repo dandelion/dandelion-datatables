@@ -35,19 +35,24 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
+import com.github.dandelion.datatables.testing.BaseIT;
+import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
 /**
  * Test the CDN activation.
  *
  * @author Thibault Duchateau
  */
-public class CustomColumnContentIT extends DomBaseIT {
+@RunWith(ThymeleafContextRunner.class)
+@ThymeleafTest
+public class CustomColumnContentIT extends BaseIT {
 
 	@Test
 	public void should_generate_mailto_link() throws IOException, Exception {
-		goTo("/thymeleaf/basics/custom_column_content");
+		goToPage("basics/custom_column_content");
 
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getAttribute("href")).isEqualTo("mailto:venenatis@Duisvolutpat.com");

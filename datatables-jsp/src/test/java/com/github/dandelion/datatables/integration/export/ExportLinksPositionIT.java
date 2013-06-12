@@ -30,122 +30,19 @@
 
 package com.github.dandelion.datatables.integration.export;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.junit.runner.RunWith;
 
-import java.io.IOException;
-
-import org.junit.Test;
-import org.springframework.util.StringUtils;
-
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.JspContextRunner;
+import com.github.dandelion.datatables.testing.export.ExportLinksPositionBaseIT;
+import com.github.dandelion.datatables.testing.utils.JspTest;
 
 /**
  * Test the possible export link positions.
  *
  * @author Thibault Duchateau
  */
-public class ExportLinksPositionIT extends DomBaseIT {
+@RunWith(JspContextRunner.class)
+@JspTest
+public class ExportLinksPositionIT extends ExportLinksPositionBaseIT {
 
-	@Test
-	public void should_generate_bottom_right_link() throws IOException, Exception {
-		goTo("/export/bottom_right_link.jsp");
-		
-		// Div position inside the Datatables' wrapper
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dandelion_dataTables_export");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_info");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_paginate");
-		
-		// Div style
-		assertThat(StringUtils.trimAllWhitespace(find("div.dandelion_dataTables_export").getAttribute("style"))).contains("float:right;");
-	}
-	
-	@Test
-	public void should_generate_bottom_middle_link() throws IOException, Exception {
-		goTo("/export/bottom_middle_link.jsp");
-		
-		// Div position inside the Datatables' wrapper
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dataTables_info");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_paginate");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dandelion_dataTables_export");
-		
-		// Div style
-		assertThat(StringUtils.trimAllWhitespace(find("div.dandelion_dataTables_export").getAttribute("style"))).contains("float:left;margin-left:10px;");
-	}
-	
-	@Test
-	public void should_generate_bottom_left_link() throws IOException, Exception {
-		goTo("/export/bottom_left_link.jsp");
-		
-		// Div position inside the Datatables' wrapper
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dandelion_dataTables_export");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_info");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_paginate");
-				
-		// Div style
-		assertThat(StringUtils.trimAllWhitespace(find("div.dandelion_dataTables_export").getAttribute("style"))).contains("float:left;margin-right:10px;");		
-	}
-	
-	@Test
-	public void should_generate_top_right_link() throws IOException, Exception {
-		goTo("/export/top_right_link.jsp");
-		
-		// Div position inside the Datatables' wrapper
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dandelion_dataTables_export");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_length");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dataTables_filter");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_info");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_paginate");
-				
-		// Div style
-		assertThat(StringUtils.trimAllWhitespace(find("div.dandelion_dataTables_export").getAttribute("style"))).contains("float:right");
-	}
-	
-	@Test
-	public void should_generate_top_middle_link() throws IOException, Exception {
-		goTo("/export/top_middle_link.jsp");
-		
-		// Div position inside the Datatables' wrapper
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dandelion_dataTables_export");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_info");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_paginate");
-				
-		// Div style
-		assertThat(StringUtils.trimAllWhitespace(find("div.dandelion_dataTables_export").getAttribute("style"))).contains("float:left;margin-left:10px;");
-	}
-	
-	@Test
-	public void should_generate_top_left_link() throws IOException, Exception {
-		goTo("/export/top_left_link.jsp");
-		
-		// Div position inside the Datatables' wrapper
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dandelion_dataTables_export");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_length");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dataTables_filter");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_info");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_paginate");
-				
-		// Div style
-		assertThat(StringUtils.trimAllWhitespace(find("div.dandelion_dataTables_export").getAttribute("style"))).contains("float:left;margin-right:10px;");
-	}
-	
-	@Test
-	public void should_generate_top_and_bottom_right_links() throws IOException, Exception {
-		goTo("/export/top_and_bottom_right_links.jsp");
-		
-		// Div position inside the Datatables' wrapper
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dandelion_dataTables_export");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_length");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dataTables_filter");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dandelion_dataTables_export");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_info");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 5).getAttribute("class")).contains("dataTables_paginate");
-	}
 }

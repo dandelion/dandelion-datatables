@@ -30,27 +30,18 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.junit.runner.RunWith;
 
-import java.io.IOException;
-
-import org.junit.Test;
-
-import com.github.dandelion.datatables.core.constants.CdnConstants;
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
+import com.github.dandelion.datatables.testing.basics.CdnBaseIT;
+import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
 /**
  * Test the CDN activation.
- *
+ * 
  * @author Thibault Duchateau
  */
-public class CdnIT extends DomBaseIT {
-
-	@Test
-	public void should_enable_cdn() throws IOException, Exception {
-		goTo("/thymeleaf/basics/cdn");
-
-		assertThat(getHtmlBody().findFirst("link").getAttribute("href")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_CSS);
-		assertThat(getHtmlBody().findFirst("script").getAttribute("src")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_JS_MIN);
-	}
+@RunWith(ThymeleafContextRunner.class)
+@ThymeleafTest
+public class CdnIT extends CdnBaseIT {
 }

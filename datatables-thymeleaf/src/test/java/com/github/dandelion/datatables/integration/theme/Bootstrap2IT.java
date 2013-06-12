@@ -35,108 +35,77 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 
 import org.fluentlenium.core.domain.FluentWebElement;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.util.StringUtils;
 
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
+import com.github.dandelion.datatables.testing.theme.Bootstrap2BaseIT;
+import com.github.dandelion.datatables.testing.utils.Constants;
+import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
 /**
  * Test the Bootstrap2 theme feature.
  *
  * @author Thibault Duchateau
  */
-public class Bootstrap2IT extends DomBaseIT {
+@RunWith(ThymeleafContextRunner.class)
+@ThymeleafTest
+@Ignore
+public class Bootstrap2IT extends Bootstrap2BaseIT {
 
-	@Test
-	public void should_generate_table_markup_for_bootstrap2_theme_using_dom_source() throws IOException, Exception {
-		goTo("/thymeleaf/themes/bootstrap2_dom");
-	
-		StringBuilder baseHref = new StringBuilder("http://");
-		baseHref.append(SERVER_HOST);
-		baseHref.append(":");
-		baseHref.append(SERVER_PORT);
-		baseHref.append("/datatablesController/datatables-bootstrap2.css?id=");
-		baseHref.append(TABLE_ID);
-		baseHref.append("&c=%2Fthymeleaf%2Fthemes%2Fbootstrap2_dom");
-		
-		// Custom Bootstrap CSS must exist
-		assertThat(getHtmlBody().findFirst("link").getAttribute("href")).isEqualTo(baseHref.toString());
-		
-		// Looking for the paging div
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div.paging_bootstrap ")).hasSize(1);
-	}
-	
-	
-	@Test
-	public void should_generate_table_markup_for_bootstrap2_theme_using_ajax_source() throws IOException, Exception {
-		goTo("/thymeleaf/themes/bootstrap2_ajax");
-	
-		StringBuilder baseHref = new StringBuilder("http://");
-		baseHref.append(SERVER_HOST);
-		baseHref.append(":");
-		baseHref.append(SERVER_PORT);
-		baseHref.append("/datatablesController/datatables-bootstrap2.css?id=");
-		baseHref.append(TABLE_ID);
-		baseHref.append("&c=%2Fthymeleaf%2Fthemes%2Fbootstrap2_ajax");
-		
-		// Custom Bootstrap CSS must exist
-		assertThat(getHtmlBody().findFirst("link").getAttribute("href")).isEqualTo(baseHref.toString());
-		
-		// Looking for the paging div
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div.paging_bootstrap ")).hasSize(1);
-	}
-	
 //	@Test
 	public void should_generate_bottom_right_link() throws IOException, Exception {
-		goTo("/thymeleaf/themes/bootstrap2_bottom_right_link");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("style"))).isEqualTo("float:right;");
+		goToPage("themes/bootstrap2_bottom_right_link");
+		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
+		assertThat(StringUtils.trimAllWhitespace(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("style"))).isEqualTo("float:right;");
 	}
 	
 //	@Test
 	public void should_generate_bottom_middle_link() throws IOException, Exception {
-		goTo("/thymeleaf/themes/bootstrap2_bottom_middle_link");
+		goToPage("themes/bootstrap2_bottom_middle_link");
 		
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("style"))).isEqualTo("float:left;margin-left:10px;");
+		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
+		assertThat(StringUtils.trimAllWhitespace(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("style"))).isEqualTo("float:left;margin-left:10px;");
 	}
 	
 //	@Test
 	public void should_generate_bottom_left_link() throws IOException, Exception {
-		goTo("/thymeleaf/themes/bootstrap2_bottom_left_link");
+		goToPage("themes/bootstrap2_bottom_left_link");
 		
-		FluentWebElement divExport = find("#" + TABLE_ID + "_wrapper").findFirst("div.span6").findFirst("div");
+		FluentWebElement divExport = find("#" + Constants.TABLE_ID + "_wrapper").findFirst("div.span6").findFirst("div");
 		
 		
 		assertThat(divExport.getAttribute("class")).isEqualTo("dandelion_dataTables_export");
 		assertThat(StringUtils.trimAllWhitespace(divExport.getAttribute("style"))).isEqualTo("float:left;margin-right:10px;");
 	}
 	
-	@Test
+	@Ignore
 	public void should_generate_top_right_link() throws IOException, Exception {
-		goTo("/thymeleaf/themes/bootstrap2_top_right_link");
+		goToPage("themes/bootstrap2_top_right_link", true);
 		
-		FluentWebElement divExport = find("#" + TABLE_ID + "_wrapper").find("div.span6", 1).findFirst("div");
+		FluentWebElement divExport = find("#" + Constants.TABLE_ID + "_wrapper").find("div.span6", 1).findFirst("div");
 		
 		assertThat(divExport.getAttribute("class")).isEqualTo("dandelion_dataTables_export");
 		assertThat(StringUtils.trimAllWhitespace(divExport.getAttribute("style"))).isEqualTo("float:right;");
 	}
 	
-	@Test
+	@Ignore
 	public void should_generate_top_middle_link() throws IOException, Exception {
-		goTo("/thymeleaf/themes/bootstrap2_top_middle_link");
+		goToPage("themes/bootstrap2_top_middle_link");
 		
-		FluentWebElement divExport = find("#" + TABLE_ID + "_wrapper").find("div.span6", 1).findFirst("div");
+		FluentWebElement divExport = find("#" + Constants.TABLE_ID + "_wrapper").find("div.span6", 1).findFirst("div");
 		
 		assertThat(divExport.getAttribute("class")).isEqualTo("dandelion_dataTables_export");
 		assertThat(StringUtils.trimAllWhitespace(divExport.getAttribute("style"))).isEqualTo("float:left;margin-left:10px;");
 	}
 	
-	@Test
+	@Ignore
 	public void should_generate_top_left_link() throws IOException, Exception {
-		goTo("/thymeleaf/themes/bootstrap2_top_left_link");
+		goToPage("themes/bootstrap2_top_left_link");
 		
-		FluentWebElement divExport = find("#" + TABLE_ID + "_wrapper").findFirst("div.span6").findFirst("div");
+		FluentWebElement divExport = find("#" + Constants.TABLE_ID + "_wrapper").findFirst("div.span6").findFirst("div");
 		
 		assertThat(divExport.getAttribute("class")).isEqualTo("dandelion_dataTables_export");
 		assertThat(StringUtils.trimAllWhitespace(divExport.getAttribute("style"))).isEqualTo("float:left;margin-right:10px;");

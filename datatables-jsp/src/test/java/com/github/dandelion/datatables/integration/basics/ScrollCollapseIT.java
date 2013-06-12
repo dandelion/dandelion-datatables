@@ -30,31 +30,19 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import static org.fest.assertions.Assertions.assertThat;
-import java.io.IOException;
-import org.junit.Test;
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import org.junit.runner.RunWith;
+
+import com.github.dandelion.datatables.integration.JspContextRunner;
+import com.github.dandelion.datatables.testing.basics.ScrollCollapseBaseIT;
+import com.github.dandelion.datatables.testing.utils.JspTest;
 
 /**
  * Test the scroller plugin.
  *
  * @author Gautier Dhordain
  */
-public class ScrollCollapseIT extends DomBaseIT {
+@RunWith(JspContextRunner.class)
+@JspTest
+public class ScrollCollapseIT extends ScrollCollapseBaseIT {
 	
-	@Test
-	public void should_disable_scroll_collapse() throws IOException, Exception {
-		goTo("/basics/table_disable_scroll_collapse.jsp");
-
-		assertThat(find("#" + TABLE_ID + "_wrapper").find(".dataTables_scrollBody").getAttribute("style")).contains("height: 1000px");
-	}
-
-	@Test
-	public void should_enable_scroll_collapse() throws IOException, Exception {
-		goTo("/basics/table_enable_scroll_collapse.jsp");
-
-		assertThat(find("#" + TABLE_ID + "_wrapper").find(".dataTables_scrollBody").getAttribute("style"))//
-			.matches(".*height: [0-9]*px.*")//
-			.doesNotContain("height: 1000px");
-	}
 }

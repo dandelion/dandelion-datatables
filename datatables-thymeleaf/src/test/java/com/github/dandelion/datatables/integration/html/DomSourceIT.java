@@ -36,19 +36,24 @@ import java.io.IOException;
 
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
+import com.github.dandelion.datatables.testing.BaseIT;
+import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
 /**
  * Test the HTML markup generation.
  *
  * @author Thibault Duchateau
  */
-public class DomSourceIT extends DomBaseIT {
+@RunWith(ThymeleafContextRunner.class)
+@ThymeleafTest
+public class DomSourceIT extends BaseIT {
 
 	@Test
 	public void should_generate_table_markup() throws IOException, Exception {
-		goTo("/thymeleaf/html/default");
+		goToPage("html/default");
 		
 		assertThat(getTable()).hasSize(1);
 		assertThat(getTable().find("thead")).hasSize(1);
@@ -67,14 +72,14 @@ public class DomSourceIT extends DomBaseIT {
 
 	@Test
 	public void should_generate_script_tag() {
-		goTo("/thymeleaf/html/default");
+		goToPage("html/default");
 		FluentWebElement body = findFirst("body");
 		assertThat(body.find("script")).hasSize(1);
 	}
 	
 	@Test
 	public void should_render_empty_cell() throws IOException, Exception {
-		goTo("/thymeleaf/html/default");
+		goToPage("html/default");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("");
@@ -82,7 +87,7 @@ public class DomSourceIT extends DomBaseIT {
 	
 	@Test
 	public void should_render_default_value_in_cell() throws IOException, Exception {
-		goTo("/thymeleaf/html/default_values");
+		goToPage("html/default_values");
 
 		// I know that the 4th cell of the first row is empty but is filled with a default value
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("Default value");
@@ -90,13 +95,13 @@ public class DomSourceIT extends DomBaseIT {
 	
 	@Test
 	public void when_emptylist_should_use_static_template() {
-		goTo("/thymeleaf/html/empty_collection");
+		goToPage("html/empty_collection");
 		assertThat(getTable().find("tbody").find("tr")).hasSize(1);
 	}
 	
 	@Test
 	public void when_nulllist_should_use_static_template() {
-		goTo("/thymeleaf/html/null_collection");
+		goToPage("html/null_collection");
 		assertThat(getTable().find("tbody").find("tr")).hasSize(1);
 	}
 }

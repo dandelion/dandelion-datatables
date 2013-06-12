@@ -30,25 +30,18 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.junit.runner.RunWith;
 
-import java.io.IOException;
-
-import org.junit.Test;
-
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.JspContextRunner;
+import com.github.dandelion.datatables.testing.basics.PagingBaseIT;
+import com.github.dandelion.datatables.testing.utils.JspTest;
 
 /**
  * Test the CDN activation.
  *
  * @author Thibault Duchateau
  */
-public class PagingIT extends DomBaseIT {
-
-	@Test
-	public void should_limit_display_length() throws IOException, Exception {
-		goTo("/basics/table_paging.jsp");
-
-		assertThat(getTable().find("tbody").find("tr")).hasSize(40);
-	}
+@RunWith(JspContextRunner.class)
+@JspTest
+public class PagingIT extends PagingBaseIT {
 }

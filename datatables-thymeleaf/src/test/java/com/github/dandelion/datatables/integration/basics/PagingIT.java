@@ -30,25 +30,18 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.junit.runner.RunWith;
 
-import java.io.IOException;
-
-import org.junit.Test;
-
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
+import com.github.dandelion.datatables.testing.basics.PagingBaseIT;
+import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
 /**
  * Test the pagination options.
  *
  * @author Gautier Dhordain
  */
-public class PagingIT extends DomBaseIT {
-
-	@Test
-	public void should_limit_display_length() throws IOException, Exception {
-        goTo("/thymeleaf/basics/paging");
-
-		assertThat(getTable().find("tbody").find("tr")).hasSize(45);
-	}
+@RunWith(ThymeleafContextRunner.class)
+@ThymeleafTest
+public class PagingIT extends PagingBaseIT {
 }

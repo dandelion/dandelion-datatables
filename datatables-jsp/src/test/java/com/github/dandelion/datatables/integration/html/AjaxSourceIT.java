@@ -5,19 +5,24 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.JspContextRunner;
+import com.github.dandelion.datatables.testing.BaseIT;
+import com.github.dandelion.datatables.testing.utils.JspTest;
 
 /**
  * Test the HTML markup generation using an AJAX source.
  *
  * @author Thibault Duchateau
  */
-public class AjaxSourceIT extends DomBaseIT {
+@RunWith(JspContextRunner.class)
+@JspTest
+public class AjaxSourceIT extends BaseIT {
 
 	@Test
 	public void should_generate_table_markup() throws IOException, Exception {
-		goTo("/ajax/table.jsp");
+		goToPage("ajax/table");
 
 		assertThat(getTable()).hasSize(1);
 		assertThat(getTable().find("thead")).hasSize(1);
@@ -40,7 +45,7 @@ public class AjaxSourceIT extends DomBaseIT {
 
 	@Test
 	public void should_render_empty_cell() throws IOException, Exception {
-		goTo("/ajax/table.jsp");
+		goToPage("ajax/table");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("");
@@ -48,7 +53,7 @@ public class AjaxSourceIT extends DomBaseIT {
 	
 	@Test
 	public void should_render_default_value_in_cell() throws IOException, Exception {
-		goTo("/ajax/table_default_values.jsp");
+		goToPage("ajax/table_default_values");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("default value");

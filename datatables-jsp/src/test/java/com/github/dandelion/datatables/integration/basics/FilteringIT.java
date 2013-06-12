@@ -35,15 +35,20 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.JspContextRunner;
+import com.github.dandelion.datatables.testing.BaseIT;
+import com.github.dandelion.datatables.testing.utils.JspTest;
 
 /**
  * Test the filtering options.
  *
  * @author Thibault Duchateau
  */
-public class FilteringIT extends DomBaseIT {
+@RunWith(JspContextRunner.class)
+@JspTest
+public class FilteringIT extends BaseIT {
 
 	@Test
 	public void should_generate_input_field_in_the_footer() throws IOException, Exception {

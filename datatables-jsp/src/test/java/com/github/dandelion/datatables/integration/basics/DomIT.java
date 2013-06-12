@@ -30,25 +30,19 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.junit.runner.RunWith;
 
-import java.io.IOException;
-
-import org.junit.Test;
-
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.JspContextRunner;
+import com.github.dandelion.datatables.testing.basics.DomBaseIT;
+import com.github.dandelion.datatables.testing.utils.JspTest;
 
 /**
  * Test the DOM attribute.
  *
  * @author Thibault Duchateau
  */
+@RunWith(JspContextRunner.class)
+@JspTest
 public class DomIT extends DomBaseIT {
 
-	@Test
-	public void should_apply_css_using_dom() throws IOException, Exception {
-		goTo("/basics/dom_dom.jsp");
-
-		assertThat(find("div.dataTables_wrapper").find("div.dataTables_filter")).hasSize(0);
-	}
 }

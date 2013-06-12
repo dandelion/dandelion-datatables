@@ -35,19 +35,24 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.JspContextRunner;
+import com.github.dandelion.datatables.testing.BaseIT;
+import com.github.dandelion.datatables.testing.utils.JspTest;
 
 /**
  * Test ColumnHead tag.
  *
  * @author Thibault Duchateau
  */
-public class CustomColumnHeadIT extends DomBaseIT {
+@RunWith(JspContextRunner.class)
+@JspTest
+public class CustomColumnHeadIT extends BaseIT {
 
 	@Test
 	public void should_generate_mailto_link() throws IOException, Exception {
-		goTo("/basics/custom_column_head.jsp");
+		goToPage("basics/custom_column_head");
 
 		assertThat(getTable().find("thead").find("th")).hasSize(6);
 		assertThat(getTable().find("thead").find("th", 5).find("input")).hasSize(1);

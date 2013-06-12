@@ -35,19 +35,24 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.JspContextRunner;
+import com.github.dandelion.datatables.testing.BaseIT;
+import com.github.dandelion.datatables.testing.utils.JspTest;
 
 /**
  * Test the formatting feature.
  *
  * @author Thibault Duchateau
  */
-public class FormatIT extends DomBaseIT {
+@RunWith(JspContextRunner.class)
+@JspTest
+public class FormatIT extends BaseIT {
 
 	@Test
 	public void should_format_a_mail_column() throws IOException, Exception {
-		goTo("/advanced/format.jsp");
+		goToPage("advanced/format");
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getText()).isEqualTo("venenatis@Duisvolutpat.com");
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getAttribute("href")).isEqualTo("mailto:venenatis@Duisvolutpat.com");

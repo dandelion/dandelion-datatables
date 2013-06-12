@@ -32,102 +32,37 @@ package com.github.dandelion.datatables.integration.export;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
-import org.springframework.util.StringUtils;
+import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
+import com.github.dandelion.datatables.testing.export.ExportLinksBaseIT;
+import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
 /**
  * Test the export link generation.
  *
  * @author Thibault Duchateau
  */
-public class ExportLinksIT extends DomBaseIT {
+@RunWith(ThymeleafContextRunner.class)
+@ThymeleafTest
+public class ExportLinksIT extends ExportLinksBaseIT {
 
 	@Test
-	public void should_generate_export_markup() throws IOException, Exception {
-		goTo("/thymeleaf/export/default_csv_link");
-
-		assertThat(find("div.dandelion_dataTables_export")).hasSize(1);
-	}
-	
-	@Test
-	public void should_generate_default_csv_link() throws IOException, Exception {
-		goTo("/thymeleaf/export/default_csv_link");
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href")).isEqualTo("http://" + SERVER_HOST + ":" + SERVER_PORT + "/thymeleaf/export/default_csv_link?dtt=1&dti=myTableId");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("style"))).isEqualTo("float:right;");
-	}
-	
-	@Test
-	public void should_generate_bottom_right_link() throws IOException, Exception {
-		goTo("/thymeleaf/export/bottom_right_link");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("style"))).isEqualTo("float:right;");
-	}
-	
-	@Test
-	public void should_generate_bottom_middle_link() throws IOException, Exception {
-		goTo("/thymeleaf/export/bottom_middle_link");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("style"))).isEqualTo("float:left;margin-left:10px;");
-	}
-	
-	@Test
-	public void should_generate_bottom_left_link() throws IOException, Exception {
-		goTo("/thymeleaf/export/bottom_left_link");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("style"))).isEqualTo("float:left;margin-right:10px;");
-	}
-	
-	@Test
-	public void should_generate_top_right_link() throws IOException, Exception {
-		goTo("/thymeleaf/export/top_right_link");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("style"))).isEqualTo("float:right;");
-	}
-	
-	@Test
-	public void should_generate_top_middle_link() throws IOException, Exception {
-		goTo("/thymeleaf/export/top_middle_link");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("style"))).isEqualTo("float:left;margin-left:10px;");
-	}
-	
-	@Test
-	public void should_generate_top_left_link() throws IOException, Exception {
-		goTo("/thymeleaf/export/top_left_link");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("style"))).isEqualTo("float:left;margin-right:10px;");
-	}
-	
-	@Test
-	public void should_generate_top_and_bottom_right_links() throws IOException, Exception {
-		goTo("/thymeleaf/export/top_and_bottom_right_links");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("style"))).isEqualTo("float:right;");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("style"))).isEqualTo("float:right;");
-	}
-	
-	@Test
-	public void should_generate_csv_link_with_one_existing_url_parameter() throws IOException, Exception {
-		goTo("/thymeleaf/export/default_csv_link?param1=val1");
+	public void should_generate_csv_link_with_one_existing_url_parameter() throws Exception {
+		goToPage("export/default_csv_link?param1=val1");
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href"))
-			.isEqualTo("http://" + SERVER_HOST + ":" + SERVER_PORT + "/thymeleaf/export/default_csv_link?param1=val1&dtt=1&dti=myTableId");
+			.isEqualTo(getDefaultBaseUrl() + "/thymeleaf/export/default_csv_link?param1=val1&dtt=1&dti=myTableId");
 	}
 	
 	@Test
-	public void should_generate_csv_link_with_multiple_existing_url_parameters() throws IOException, Exception {
-		goTo("/thymeleaf/export/default_csv_link?param1=val1&param2=val2");
+	public void should_generate_csv_link_with_multiple_existing_url_parameters() throws Exception {
+		goToPage("export/default_csv_link?param1=val1&param2=val2");
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href"))
-			.isEqualTo("http://" + SERVER_HOST + ":" + SERVER_PORT + "/thymeleaf/export/default_csv_link?param1=val1&param2=val2&dtt=1&dti=myTableId");
+			.isEqualTo(getDefaultBaseUrl() + "/thymeleaf/export/default_csv_link?param1=val1&param2=val2&dtt=1&dti=myTableId");
 	}
 }

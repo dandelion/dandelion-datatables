@@ -34,32 +34,32 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.io.IOException;
 
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.util.StringUtils;
 
-import com.github.dandelion.datatables.integration.DomBaseIT;
+import com.github.dandelion.datatables.integration.JspContextRunner;
+import com.github.dandelion.datatables.testing.export.ExportLinksBaseIT;
+import com.github.dandelion.datatables.testing.utils.Constants;
+import com.github.dandelion.datatables.testing.utils.JspTest;
 
 /**
  * Test the basic Features of Dandelion-Datatables.
  *
  * @author Thibault Duchateau
  */
-public class ExportLinksIT extends DomBaseIT {
+@RunWith(JspContextRunner.class)
+@JspTest
+public class ExportLinksIT extends ExportLinksBaseIT {
 
-	@Test
-	public void should_generate_export_markup() throws IOException, Exception {
-		goTo("/export/default_csv_link.jsp");
-
-		assertThat(find("div.dandelion_dataTables_export")).hasSize(1);
-	}
-	
 	@Test
 	public void should_generate_default_csv_link() throws IOException, Exception {
-		goTo("/export/default_csv_link.jsp");
+		goToPage("export/default_csv_link", true);
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href")).isEqualTo("http://" + SERVER_HOST + ":" + SERVER_PORT + "/export/default_csv_link.jsp?dtt=1&dti=myTableId");
-		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("style"))).isEqualTo("float:right;");
+		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href")).isEqualTo(getDefaultBaseUrl() + "/export/default_csv_link.jsp?dtt=1&dti=myTableId");
+		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
+		assertThat(StringUtils.trimAllWhitespace(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 0).getAttribute("style"))).isEqualTo("float:right;");
 	}
 	
 	@Test
@@ -68,7 +68,7 @@ public class ExportLinksIT extends DomBaseIT {
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href"))
-			.isEqualTo("http://" + SERVER_HOST + ":" + SERVER_PORT + "/export/default_csv_link.jsp?param1=val1&dtt=1&dti=myTableId");
+			.isEqualTo(getDefaultBaseUrl() + "/export/default_csv_link.jsp?param1=val1&dtt=1&dti=myTableId");
 	}
 	
 	@Test
@@ -77,10 +77,10 @@ public class ExportLinksIT extends DomBaseIT {
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href"))
-			.isEqualTo("http://" + SERVER_HOST + ":" + SERVER_PORT + "/export/default_csv_link.jsp?param1=val1&param2=val2&dtt=1&dti=myTableId");
+			.isEqualTo(getDefaultBaseUrl() + "/export/default_csv_link.jsp?param1=val1&param2=val2&dtt=1&dti=myTableId");
 	}
 	
-//	@Test
+	@Ignore
 	public void should_generate_custom_csv_link(){
 		goTo("/export/custom_csv_link.jsp");
 		
