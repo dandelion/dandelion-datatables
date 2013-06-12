@@ -52,12 +52,13 @@ public class AjaxSourceProcessor extends AbstractProcessor {
 	public void doProcess(String param, TableConfiguration tableConfiguration,
 			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
 
-		if (StringUtils.isNotBlank(param)
-				&& (!confToBeApplied.containsKey(Configuration.AJAX_SERVERSIDE) || !CollectionUtils
-						.hasConfigurationWithValue(confToBeApplied, Configuration.AJAX_SERVERSIDE, true))) {
-			tableConfiguration.registerFeature(new AjaxFeature());
-		}
+		if (StringUtils.isNotBlank(param)) {
+			if (!confToBeApplied.containsKey(Configuration.AJAX_SERVERSIDE)
+					|| !CollectionUtils.hasConfigurationWithValue(confToBeApplied, Configuration.AJAX_SERVERSIDE, true)) {
+				tableConfiguration.registerFeature(new AjaxFeature());
+			}
 
-		tableConfiguration.setAjaxSource(param);
+			tableConfiguration.setAjaxSource(param);
+		}
 	}
 }

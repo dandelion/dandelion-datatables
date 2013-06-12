@@ -70,7 +70,7 @@ public class AjaxSourceProcessorTest extends ProcessorBaseTest {
 	public void should_set_the_source_and_not_register_a_feature_when_serverside_is_enabled() throws Exception {
 		confToBeApplied.put(Configuration.AJAX_SERVERSIDE, true);
 		processor.process("/myAjaxSource", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getAjaxSource()).isNull();
+		assertThat(tableConfiguration.getAjaxSource()).isEqualTo("/myAjaxSource");
 		assertThat(tableConfiguration.getExtraFeatures()).isNull();
 	}
 }
