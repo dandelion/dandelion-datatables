@@ -49,8 +49,6 @@ public class FeatureEnablementBaseIT extends BaseIT {
 	public void should_disable_paging() throws Exception {
 		goToPage("basics/disable_paging");
 
-		System.out.println("currentUrl = " + driver.getCurrentUrl());
-		System.out.println(driver.getPageSource());
 		assertThat(find("#" + Constants.TABLE_ID + "_length")).hasSize(0);
 
 		// If paging is disabled, the entire collection is displayed
