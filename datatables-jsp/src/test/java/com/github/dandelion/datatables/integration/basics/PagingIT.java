@@ -30,6 +30,11 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
+import static org.fest.assertions.Assertions.assertThat;
+
+import java.io.IOException;
+
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.github.dandelion.datatables.integration.JspContextRunner;
@@ -44,4 +49,11 @@ import com.github.dandelion.datatables.testing.utils.JspTest;
 @RunWith(JspContextRunner.class)
 @JspTest
 public class PagingIT extends PagingBaseIT {
+	
+	@Test
+	public void should_limit_display_length_using_rtex() throws Exception {
+        goToPage("basics/display_length_rtex");
+
+		assertThat(getTable().find("tbody").find("tr")).hasSize(40);
+	}
 }

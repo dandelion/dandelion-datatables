@@ -35,7 +35,7 @@
     <description>Set of tags for manipulating HTML table with
         DataTables.</description>
     <display-name>dandelion-datatables</display-name>
-   <tlib-version>0.87</tlib-version>
+   <tlib-version>0.90</tlib-version>
    <short-name>datatables</short-name>
    <uri>http://github.com/dandelion/datatables</uri>
 
@@ -313,6 +313,7 @@
       <attribute>
          <description>Number of rows to display on a single page when using pagination.</description>
          <name>displayLength</name>
+         <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Comma-separated list of custom feature's names to register in the current table</description>
