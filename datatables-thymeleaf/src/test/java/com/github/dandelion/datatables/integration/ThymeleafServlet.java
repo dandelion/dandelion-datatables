@@ -42,8 +42,8 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import com.github.dandelion.datatables.mock.Mock;
-import com.github.dandelion.datatables.mock.Person;
+import com.github.dandelion.datatables.core.mock.Mock;
+import com.github.dandelion.datatables.core.mock.Person;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 
 public class ThymeleafServlet extends HttpServlet {

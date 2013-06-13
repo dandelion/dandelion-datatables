@@ -37,7 +37,7 @@ import org.junit.Test;
 import org.springframework.util.StringUtils;
 
 import com.github.dandelion.datatables.core.exception.ExportException;
-import com.github.dandelion.datatables.mock.Mock;
+import com.github.dandelion.datatables.core.mock.Mock;
 
 /**
  * Test the CSV export.

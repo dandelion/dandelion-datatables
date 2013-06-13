@@ -62,11 +62,16 @@
       
       <!-- Test -->
       <dependency>
-         <groupId>com.github.dandelion</groupId>
-         <artifactId>datatables-testing</artifactId>
-         <version>${project.version}</version>
+         <groupId>org.easytesting</groupId>
+         <artifactId>fest-assert</artifactId>
+         <version>${festassert.version}</version>
          <scope>test</scope>
       </dependency>
-
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-test</artifactId>
+         <version>${spring.version}</version>
+         <scope>test</scope>
+      </dependency>
    </dependencies>
 </project>

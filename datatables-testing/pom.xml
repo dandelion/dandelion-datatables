@@ -30,6 +30,13 @@
    </properties>
 
    <dependencies>
+      <!-- Internal dependency -->
+      <dependency>
+         <groupId>com.github.dandelion</groupId>
+         <artifactId>datatables-core</artifactId>
+         <version>0.9.0-SNAPSHOT</version>
+      </dependency>
+      
       <!-- Apache Commons -->
       <dependency>
          <groupId>commons-lang</groupId>

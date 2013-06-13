@@ -41,8 +41,8 @@ import org.springframework.mock.web.MockServletContext;
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.mock.Mock;
-import com.github.dandelion.datatables.mock.Person;
+import com.github.dandelion.datatables.core.mock.Mock;
+import com.github.dandelion.datatables.core.mock.Person;
 
 /**
  * Base class used to unit test export.

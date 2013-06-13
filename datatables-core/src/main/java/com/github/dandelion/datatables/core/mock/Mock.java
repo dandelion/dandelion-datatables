@@ -28,7 +28,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.mock;
+package com.github.dandelion.datatables.core.mock;
 
 import java.util.ArrayList;
 import java.util.List;

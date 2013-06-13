@@ -9,8 +9,8 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.datatables.mock.Mock;
-import com.github.dandelion.datatables.mock.Person;
+import com.github.dandelion.datatables.core.mock.Mock;
+import com.github.dandelion.datatables.core.mock.Person;
 
 /**
  * >> builder <<

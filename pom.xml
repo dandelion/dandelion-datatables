@@ -43,8 +43,18 @@
       <jackson.version>1.9.12</jackson.version>
       <servlet.version>3.0.1</servlet.version>
       <slf4j.version>1.7.2</slf4j.version>
+   
+      <!-- Test dependencies -->
+      <fluentlenium.version>0.7.7</fluentlenium.version>
+      <phantomjsdriver.version>1.0.1</phantomjsdriver.version>
+      <festassert.version>1.4</festassert.version>
       <junit.version>4.11</junit.version>
-
+      <!-- <junit.dep.version>4.11</junit.dep.version> -->
+      <spring.version>3.2.2.RELEASE</spring.version>
+      <logback.classic.version>1.0.9</logback.classic.version>
+      <jetty.test.version>8.1.10.v20130312</jetty.test.version>
+      <!-- <jackson.version>2.1.2</jackson.version> -->
+      
       <!-- Maven plugins -->
       <maven.compiler.version>2.3.2</maven.compiler.version>
       <maven.javadoc.version>2.8.1</maven.javadoc.version>

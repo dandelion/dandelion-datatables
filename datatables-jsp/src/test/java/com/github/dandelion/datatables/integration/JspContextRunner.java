@@ -11,8 +11,8 @@ import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
 
-import com.github.dandelion.datatables.mock.Mock;
-import com.github.dandelion.datatables.mock.Person;
+import com.github.dandelion.datatables.core.mock.Mock;
+import com.github.dandelion.datatables.core.mock.Person;
 import com.github.dandelion.datatables.testing.utils.Constants;
 
 public class JspContextRunner extends BlockJUnit4ClassRunner {

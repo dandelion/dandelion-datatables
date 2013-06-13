@@ -55,7 +55,7 @@ public class ExportLinksIT extends ExportLinksBaseIT {
 
 	@Test
 	public void should_generate_default_csv_link() throws IOException, Exception {
-		goToPage("export/default_csv_link", true);
+		goToPage("export/default_csv_link");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href")).isEqualTo(getDefaultBaseUrl() + "/export/default_csv_link.jsp?dtt=1&dti=myTableId");
 		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).isEqualTo("dandelion_dataTables_export");

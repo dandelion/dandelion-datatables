@@ -28,40 +28,42 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.mock;
+package com.github.dandelion.datatables.core.mock;
+
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 
 /**
- * A typical Address entity.
+ * A typical Person entity.
  * 
  * @author tduchateau
  */
-public class Address {
+public class Person {
 
 	private Long id;
-	private String street;
-	private Town town;
+	private String firstName;
+	private String lastName;
+	private String mail;
+	private Address address;
 
-	public Address() {
+	public Person() {
 
 	}
-	
-	public Address(String street, Town town){
-		this.street = street;
-		this.town = town;
-	}
 
-	public Address(String street) {
-		this.street = street;
+	public Person(Long id, String firstName, String lastName, String mail, Address address){
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.mail = mail;
+		this.address = address;
 	}
-
-	public Town getTown() {
-		return town;
-	}
-
-	public void setTown(Town town) {
-		this.town = town;
+	public Person(Long id, String firstName, String lastName, String mail) {
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.mail = mail;
 	}
 
 	public Long getId() {
@@ -72,14 +74,45 @@ public class Address {
 		this.id = id;
 	}
 
-	public String getStreet() {
-		return street;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setStreet(String street) {
-		this.street = street;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 	
-
+	public Date getBirthDate(){
+		return GregorianCalendar.getInstance().getTime();
+	}	
+	
+	@Override
+	public String toString() {
+		return "Person [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", mail=" + mail + ", address=" + address + "]";
+	}
 }
