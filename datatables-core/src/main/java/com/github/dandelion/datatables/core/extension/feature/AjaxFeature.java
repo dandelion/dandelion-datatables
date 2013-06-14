@@ -27,35 +27,43 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.feature;
+package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.ResourceType;
+import com.github.dandelion.datatables.core.asset.Parameter.Mode;
+import com.github.dandelion.datatables.core.asset.JavascriptFunction;
+import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * TODO
+ * Feature automatically added to the table when using AJAX sources.
  * 
- * @see http://www.datatables.net/plug-ins/pagination
  * @author Thibault Duchateau
+ * @since 0.8.2
  */
-public class PaginationTypeBootstrapFeature extends AbstractFeature {
+public class AjaxFeature extends AbstractFeature {
 
 	@Override
 	public String getName() {
-		return "PaginationTypeBootstrap";
+		return "AjaxFeature";
 	}
 
 	@Override
 	public String getVersion() {
-		return "1.0.0";
+		return null;
 	}
 
 	@Override
-	public void setup(HtmlTable table) {
-		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeBootstrap", "datatables/features/paginationType/bootstrap.js"));
-		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "bootstrap", Parameter.Mode.OVERRIDE));
+	public void setup(HtmlTable table) throws BadConfigurationException {
+		addParameter(new Parameter(DTConstants.DT_B_DEFER_RENDER, true));
+		addParameter(new Parameter(DTConstants.DT_S_AJAXDATAPROP, ""));
+		addParameter(new Parameter(DTConstants.DT_S_AJAX_SOURCE, table.getTableConfiguration().getAjaxSource()));
+		addParameter(
+				new Parameter(
+						CallbackType.INIT.getName(), 
+						new JavascriptFunction("oTable_" + table.getId() + ".fnAdjustColumnSizing(true);",CallbackType.INIT.getArgs()),
+						Mode.APPEND));
 	}
 }

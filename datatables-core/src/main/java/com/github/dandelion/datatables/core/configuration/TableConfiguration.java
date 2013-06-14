@@ -54,12 +54,12 @@ import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.feature.AbstractFeature;
-import com.github.dandelion.datatables.core.feature.PaginationType;
+import com.github.dandelion.datatables.core.extension.feature.AbstractFeature;
+import com.github.dandelion.datatables.core.extension.feature.PaginationType;
+import com.github.dandelion.datatables.core.extension.plugin.AbstractPlugin;
+import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
+import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.html.HtmlTag;
-import com.github.dandelion.datatables.core.plugin.AbstractPlugin;
-import com.github.dandelion.datatables.core.theme.AbstractTheme;
-import com.github.dandelion.datatables.core.theme.ThemeOption;
 
 /**
  * POJO that contains all the table-specific properties.

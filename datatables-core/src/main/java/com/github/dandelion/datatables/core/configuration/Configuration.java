@@ -40,7 +40,9 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.aggregator.AggregatorMode;
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
-import com.github.dandelion.datatables.core.feature.PaginationType;
+import com.github.dandelion.datatables.core.extension.feature.PaginationType;
+import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
+import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.processor.AbstractGenericProcessor;
 import com.github.dandelion.datatables.core.processor.BooleanProcessor;
 import com.github.dandelion.datatables.core.processor.IntegerProcessor;
@@ -65,8 +67,6 @@ import com.github.dandelion.datatables.core.processor.main.MainCompressorModePro
 import com.github.dandelion.datatables.core.processor.plugin.PluginColReorderProcessor;
 import com.github.dandelion.datatables.core.processor.plugin.PluginFixedHeaderProcessor;
 import com.github.dandelion.datatables.core.processor.plugin.PluginScrollerProcessor;
-import com.github.dandelion.datatables.core.theme.AbstractTheme;
-import com.github.dandelion.datatables.core.theme.ThemeOption;
 
 /**
  * Enumeration containing all possible configuration.

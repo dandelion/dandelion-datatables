@@ -39,7 +39,7 @@ import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
 
 /**
- * {@inheritDoc}
+ * 
  */
 public abstract class AbstractExtension implements Extension {
 

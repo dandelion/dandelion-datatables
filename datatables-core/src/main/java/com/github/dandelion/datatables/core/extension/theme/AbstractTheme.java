@@ -27,43 +27,15 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.feature;
+package com.github.dandelion.datatables.core.extension.theme;
 
-import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.Parameter.Mode;
-import com.github.dandelion.datatables.core.asset.JavascriptFunction;
-import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
 
 /**
- * Feature automatically added to the table when using AJAX sources.
- * 
+ * Abstract theme. It's just a marker abstract class.
+ *
  * @author Thibault Duchateau
- * @since 0.8.2
  */
-public class AjaxFeature extends AbstractFeature {
+public abstract class AbstractTheme extends AbstractExtension {
 
-	@Override
-	public String getName() {
-		return "AjaxFeature";
-	}
-
-	@Override
-	public String getVersion() {
-		return null;
-	}
-
-	@Override
-	public void setup(HtmlTable table) throws BadConfigurationException {
-		addParameter(new Parameter(DTConstants.DT_B_DEFER_RENDER, true));
-		addParameter(new Parameter(DTConstants.DT_S_AJAXDATAPROP, ""));
-		addParameter(new Parameter(DTConstants.DT_S_AJAX_SOURCE, table.getTableConfiguration().getAjaxSource()));
-		addParameter(
-				new Parameter(
-						CallbackType.INIT.getName(), 
-						new JavascriptFunction("oTable_" + table.getId() + ".fnAdjustColumnSizing(true);",CallbackType.INIT.getArgs()),
-						Mode.APPEND));
-	}
 }

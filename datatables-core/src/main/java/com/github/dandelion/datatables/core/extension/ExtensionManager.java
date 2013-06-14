@@ -36,9 +36,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.feature.AbstractFeature;
+import com.github.dandelion.datatables.core.extension.feature.AbstractFeature;
+import com.github.dandelion.datatables.core.extension.plugin.AbstractPlugin;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.plugin.AbstractPlugin;
 import com.github.dandelion.datatables.core.util.ReflectHelper;
 
 /**

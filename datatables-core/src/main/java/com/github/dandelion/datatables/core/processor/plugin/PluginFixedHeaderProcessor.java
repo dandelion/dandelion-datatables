@@ -36,7 +36,7 @@ import org.apache.commons.lang.StringUtils;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
-import com.github.dandelion.datatables.core.plugin.FixedHeaderPlugin;
+import com.github.dandelion.datatables.core.extension.plugin.FixedHeaderPlugin;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 
 public class PluginFixedHeaderProcessor extends AbstractProcessor {

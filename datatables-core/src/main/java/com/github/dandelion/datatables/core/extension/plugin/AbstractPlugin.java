@@ -27,44 +27,15 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.feature;
+package com.github.dandelion.datatables.core.extension.plugin;
 
-import com.github.dandelion.datatables.core.asset.JavascriptFunction;
-import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.Parameter.Mode;
-import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
 
 /**
- * <p>
- * Feature that is always enabled when server-side processing has been
- * activated.
- * <p>
- * Removing the fnAddjustColumnSizing will cause strange column's width at each
- * interaction with the table (paging, sorting, filtering ...)
+ * Abstract UI plugin. It's just a marker abstract class.
  * 
  * @author Thibault Duchateau
- * @since 0.8.2
  */
-public class ServerSideFeature extends AbstractFeature {
+public abstract class AbstractPlugin extends AbstractExtension {
 
-	@Override
-	public String getName() {
-		return null;
-	}
-
-	@Override
-	public String getVersion() {
-		return null;
-	}
-
-	@Override
-	public void setup(HtmlTable table) throws BadConfigurationException {
-		addParameter(
-				new Parameter(
-						CallbackType.INIT.getName(), 
-						new JavascriptFunction("oTable_" + table.getId() + ".fnAdjustColumnSizing(true);",CallbackType.INIT.getArgs()),
-						Mode.APPEND));
-	}
 }

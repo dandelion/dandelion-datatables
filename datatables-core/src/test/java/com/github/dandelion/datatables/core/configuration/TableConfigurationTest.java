@@ -12,9 +12,9 @@ import org.springframework.mock.web.MockServletContext;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.feature.PaginationType;
-import com.github.dandelion.datatables.core.theme.Bootstrap2Theme;
-import com.github.dandelion.datatables.core.theme.Theme;
+import com.github.dandelion.datatables.core.extension.feature.PaginationType;
+import com.github.dandelion.datatables.core.extension.theme.Bootstrap2Theme;
+import com.github.dandelion.datatables.core.extension.theme.Theme;
 
 public class TableConfigurationTest {
 

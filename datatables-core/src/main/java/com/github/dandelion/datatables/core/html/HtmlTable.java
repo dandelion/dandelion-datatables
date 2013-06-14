@@ -41,7 +41,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.feature.FilteringFeature;
+import com.github.dandelion.datatables.core.extension.feature.FilteringFeature;
 import com.github.dandelion.datatables.core.util.ResourceHelper;
 
 /**

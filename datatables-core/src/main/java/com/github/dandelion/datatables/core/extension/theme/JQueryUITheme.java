@@ -27,54 +27,47 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.plugin;
+package com.github.dandelion.datatables.core.extension.theme;
 
-import org.apache.commons.lang.StringUtils;
-
-import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
+import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * Java implementation of the DataTables Scroller plugin.
+ * JQueryUI DataTables theme.
  * 
- * @see <a href="http://datatables.net/extras/scroller/">Reference</a>
- * @author Thibault Duchateau
+ * @since 0.7.1
  */
-public class ScrollerPlugin extends AbstractPlugin {
+public class JQueryUITheme extends AbstractTheme {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getName() {
-		return "Scroller";
+		return "jQueryUI";
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getVersion() {
-		return "1.1.0";
+		return "1.0.0";
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setup(HtmlTable table) {
-		addJsResource(new JsResource(ResourceType.PLUGIN, "Scroller", "datatables/plugins/scroller/scroller.min.js"));
-		if (StringUtils.isNotBlank(table.getTableConfiguration().getFeatureDom())) {
-			addParameter(new Parameter(DTConstants.DT_DOM, "S", Parameter.Mode.APPEND));
-		} else {
-			if (table.getTableConfiguration().getFeatureJqueryUI() != null && table.getTableConfiguration().getFeatureJqueryUI()) {
-				addParameter(new Parameter(DTConstants.DT_DOM, "<\"H\"lfr>t<\"F\"ip>S", Parameter.Mode.OVERRIDE));
-			} else {
-				addParameter(new Parameter(DTConstants.DT_DOM, "frtiS", Parameter.Mode.OVERRIDE));
-			}
+	public void setup(HtmlTable table) throws BadConfigurationException {
+
+		addParameter(new Parameter(DTConstants.DT_JQUERYUI, true));
+		addCssResource(new CssResource(ResourceType.THEME, "JQueryUITheme",
+				"datatables/themes/jqueryui/jqueryui.css"));
+
+		if (table.getTableConfiguration().getExtraThemeOption() != null) {
+			addCssResource(new CssResource(ResourceType.EXTERNAL,
+					table.getTableConfiguration().getExtraThemeOption().toString(), table.getTableConfiguration().getExtraThemeOption().getCssSource()));
 		}
+
+		table.addCssClass("display");
 	}
 }

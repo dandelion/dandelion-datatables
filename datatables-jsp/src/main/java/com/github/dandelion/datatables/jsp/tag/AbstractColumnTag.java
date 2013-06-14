@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.constants.Direction;
-import com.github.dandelion.datatables.core.feature.FilterType;
+import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 
 /**

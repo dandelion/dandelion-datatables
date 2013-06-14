@@ -27,30 +27,25 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.theme;
-
-import org.apache.commons.lang.StringUtils;
+package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.CssResource;
-import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
+import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.ResourceHelper;
 
 /**
- * Bootstrap v2 DataTables theme.
- *
+ * TODO
+ * 
+ * @see http://www.datatables.net/plug-ins/pagination
  * @author Thibault Duchateau
- * @since 0.7.1
  */
-public class Bootstrap2Theme extends AbstractTheme {
+public class PaginationTypeScrollingFeature extends AbstractFeature {
 
 	@Override
 	public String getName() {
-		return "bootstrap2";
+		return "PaginationTypeScrolling";
 	}
 
 	@Override
@@ -58,25 +53,9 @@ public class Bootstrap2Theme extends AbstractTheme {
 		return "1.0.0";
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public void setup(HtmlTable table) throws BadConfigurationException {
-		// Specific theme javascript		
-		appendToBeforeAll(ResourceHelper.getFileContentFromClasspath("datatables/themes/bootstrap2/bootstrap.js"));
-		
-		// Custom pagination type
-		appendToBeforeAll(ResourceHelper.getFileContentFromClasspath("datatables/features/paginationType/bootstrap.js")); 
-		
-		// Specific theme css
-		addCssResource(new CssResource(ResourceType.THEME, "Bootstrap2Theme", "datatables/themes/bootstrap2/bootstrap.css"));
-
-		// Specific theme configurations
-		if(StringUtils.isBlank(table.getTableConfiguration().getFeatureDom())){
-			addParameter(new Parameter(DTConstants.DT_DOM, "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>", Parameter.Mode.OVERRIDE));
-		}
-		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "bootstrap", Parameter.Mode.OVERRIDE));
-		addParameter(new Parameter("asStripeClasses", new JavascriptSnippet("[]")));
+	public void setup(HtmlTable table) {
+		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeExtJs", "datatables/features/paginationType/scrolling.js"));
+		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "scrolling", Parameter.Mode.OVERRIDE));
 	}
 }

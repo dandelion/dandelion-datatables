@@ -27,8 +27,54 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.feature;
+package com.github.dandelion.datatables.core.extension.plugin;
 
-public enum FilterType {
-	SELECT, INPUT, NUMBER
+import org.apache.commons.lang.StringUtils;
+
+import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.datatables.core.asset.Parameter;
+import com.github.dandelion.datatables.core.asset.ResourceType;
+import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.html.HtmlTable;
+
+/**
+ * Java implementation of the DataTables Scroller plugin.
+ * 
+ * @see <a href="http://datatables.net/extras/scroller/">Reference</a>
+ * @author Thibault Duchateau
+ */
+public class ScrollerPlugin extends AbstractPlugin {
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getName() {
+		return "Scroller";
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getVersion() {
+		return "1.1.0";
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setup(HtmlTable table) {
+		addJsResource(new JsResource(ResourceType.PLUGIN, "Scroller", "datatables/plugins/scroller/scroller.min.js"));
+		if (StringUtils.isNotBlank(table.getTableConfiguration().getFeatureDom())) {
+			addParameter(new Parameter(DTConstants.DT_DOM, "S", Parameter.Mode.APPEND));
+		} else {
+			if (table.getTableConfiguration().getFeatureJqueryUI() != null && table.getTableConfiguration().getFeatureJqueryUI()) {
+				addParameter(new Parameter(DTConstants.DT_DOM, "<\"H\"lfr>t<\"F\"ip>S", Parameter.Mode.OVERRIDE));
+			} else {
+				addParameter(new Parameter(DTConstants.DT_DOM, "frtiS", Parameter.Mode.OVERRIDE));
+			}
+		}
+	}
 }

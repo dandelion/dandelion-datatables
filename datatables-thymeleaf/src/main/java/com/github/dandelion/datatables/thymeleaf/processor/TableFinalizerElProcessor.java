@@ -34,7 +34,7 @@ import com.github.dandelion.datatables.core.exception.AttributeProcessingExcepti
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.feature.FilteringFeature;
+import com.github.dandelion.datatables.core.extension.feature.FilteringFeature;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;

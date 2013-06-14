@@ -62,7 +62,7 @@ public abstract class AbstractProcessor implements Processor {
 	 *            The global configuration to be applied on the
 	 *            {@link TableConfiguration} may be useful to initialize linked
 	 *            configurations. For example, the
-	 *            {@link com.github.dandelion.datatables.core.feature.AjaxFeature}
+	 *            {@link com.github.dandelion.datatables.core.extension.feature.AjaxFeature}
 	 *            must be registered in the TableConfiguration only if
 	 *            server-side processing in not enabled.
 	 */

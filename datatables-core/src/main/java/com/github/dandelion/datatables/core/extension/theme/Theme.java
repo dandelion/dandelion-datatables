@@ -27,7 +27,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.theme;
+package com.github.dandelion.datatables.core.extension.theme;
 
 public enum Theme {
 	BOOTSTRAP2(Bootstrap2Theme.class), JQUERYUI(JQueryUITheme.class);

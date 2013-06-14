@@ -32,15 +32,17 @@ package com.github.dandelion.datatables.core.util;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.beanutils.MethodUtils;
 import org.apache.commons.lang.ClassUtils;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.feature.AbstractFeature;
-import com.github.dandelion.datatables.core.plugin.AbstractPlugin;
+import com.github.dandelion.datatables.core.extension.feature.AbstractFeature;
+import com.github.dandelion.datatables.core.extension.plugin.AbstractPlugin;
 
 /**
  * Helper class used for all reflection stuff.
@@ -174,28 +176,28 @@ public class ReflectHelper {
 		// Init return value
 		List<AbstractFeature> retval = new ArrayList<AbstractFeature>();
 		
-//		// Init the reflection utility
-//		Reflections reflections = new Reflections(packageName);
-//		
-//		// Scan all subtypes of ActractFeature
-//		Set<Class<? extends AbstractFeature>> subTypes = reflections.getSubTypesOf(AbstractFeature.class);
-//		
-//		// Instanciate all found classes
-//		for(Class<? extends AbstractFeature> clazz : subTypes){
-//			
-//			try {
-//				retval.add((AbstractFeature) ClassUtils.getClass(clazz.getName()).newInstance());
-//			} catch (ClassNotFoundException e) {
-//				logger.warn("Unable to get class {}", clazz.getName());
-//				throw new BadConfigurationException(e);
-//			} catch (InstantiationException e) {
-//				logger.warn("Unable to instanciate class {}", clazz.getName());
-//				throw new BadConfigurationException(e);
-//			} catch (IllegalAccessException e) {
-//				logger.warn("Unable to access the class {}", clazz.getName());
-//				throw new BadConfigurationException(e);
-//			}
-//		}
+		// Init the reflection utility
+		Reflections reflections = new Reflections(packageName);
+		
+		// Scan all subtypes of ActractFeature
+		Set<Class<? extends AbstractFeature>> subTypes = reflections.getSubTypesOf(AbstractFeature.class);
+		
+		// Instanciate all found classes
+		for(Class<? extends AbstractFeature> clazz : subTypes){
+			
+			try {
+				retval.add((AbstractFeature) ClassUtils.getClass(clazz.getName()).newInstance());
+			} catch (ClassNotFoundException e) {
+				logger.warn("Unable to get class {}", clazz.getName());
+				throw new BadConfigurationException(e);
+			} catch (InstantiationException e) {
+				logger.warn("Unable to instanciate class {}", clazz.getName());
+				throw new BadConfigurationException(e);
+			} catch (IllegalAccessException e) {
+				logger.warn("Unable to access the class {}", clazz.getName());
+				throw new BadConfigurationException(e);
+			}
+		}
 		
 		return retval;
 	}
@@ -215,28 +217,28 @@ public class ReflectHelper {
 		// Init return value
 		List<AbstractPlugin> retval = new ArrayList<AbstractPlugin>();
 		
-//		// Init the reflection utility
-//		Reflections reflections = new Reflections(packageName);
-//		
-//		// Scan all subtypes of ActractFeature
-//		Set<Class<? extends AbstractPlugin>> subTypes = reflections.getSubTypesOf(AbstractPlugin.class);
-//		
-//		// Instanciate all found classes
-//		for(Class<? extends AbstractPlugin> clazz : subTypes){
-//			
-//			try {
-//				retval.add((AbstractPlugin) ClassUtils.getClass(clazz.getName()).newInstance());
-//			} catch (ClassNotFoundException e) {
-//				logger.warn("Unable to get class {}", clazz.getName());
-//				throw new BadConfigurationException(e);
-//			} catch (InstantiationException e) {
-//				logger.warn("Unable to instanciate class {}", clazz.getName());
-//				throw new BadConfigurationException(e);
-//			} catch (IllegalAccessException e) {
-//				logger.warn("Unable to access the class {}", clazz.getName());
-//				throw new BadConfigurationException(e);
-//			}
-//		}
+		// Init the reflection utility
+		Reflections reflections = new Reflections(packageName);
+		
+		// Scan all subtypes of ActractFeature
+		Set<Class<? extends AbstractPlugin>> subTypes = reflections.getSubTypesOf(AbstractPlugin.class);
+		
+		// Instanciate all found classes
+		for(Class<? extends AbstractPlugin> clazz : subTypes){
+			
+			try {
+				retval.add((AbstractPlugin) ClassUtils.getClass(clazz.getName()).newInstance());
+			} catch (ClassNotFoundException e) {
+				logger.warn("Unable to get class {}", clazz.getName());
+				throw new BadConfigurationException(e);
+			} catch (InstantiationException e) {
+				logger.warn("Unable to instanciate class {}", clazz.getName());
+				throw new BadConfigurationException(e);
+			} catch (IllegalAccessException e) {
+				logger.warn("Unable to access the class {}", clazz.getName());
+				throw new BadConfigurationException(e);
+			}
+		}
 		
 		return retval;
 	}

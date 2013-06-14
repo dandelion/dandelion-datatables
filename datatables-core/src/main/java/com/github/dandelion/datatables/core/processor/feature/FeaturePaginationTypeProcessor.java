@@ -36,12 +36,12 @@ import org.apache.commons.lang.StringUtils;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
-import com.github.dandelion.datatables.core.feature.PaginationType;
-import com.github.dandelion.datatables.core.feature.PaginationTypeBootstrapFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeFourButtonFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeInputFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeListboxFeature;
-import com.github.dandelion.datatables.core.feature.PaginationTypeScrollingFeature;
+import com.github.dandelion.datatables.core.extension.feature.PaginationType;
+import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFeature;
+import com.github.dandelion.datatables.core.extension.feature.PaginationTypeFourButtonFeature;
+import com.github.dandelion.datatables.core.extension.feature.PaginationTypeInputFeature;
+import com.github.dandelion.datatables.core.extension.feature.PaginationTypeListboxFeature;
+import com.github.dandelion.datatables.core.extension.feature.PaginationTypeScrollingFeature;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
 
 public class FeaturePaginationTypeProcessor extends AbstractProcessor {

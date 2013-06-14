@@ -40,17 +40,17 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * <p>
- * Abstract superclass for all extensions. An extension can be a plugin (e.g.
- * Scroller, ColReorder), a feature (e.g. Bootstrap pagination type, filtering
- * add-on) or a theme (e.g. Bootstrap 2 theme).
+ * Common abstract superclass for all extensions. An extension can be a plugin
+ * (e.g. Scroller, ColReorder), a feature (e.g. Bootstrap pagination type,
+ * filtering add-on) or a theme (e.g. Bootstrap 2 theme).
  * <p>
  * An extension can be composed of :
  * <ul>
  * <li>one or more JsResource, i.e. Javascript code externalized in a file</li>
  * <li>one or more CssResource, i.e. CSS code externalized in a file</li>
- * <li>one or more Configuration, i.e. one or more specific DataTables
- * parameters that will be used during the DataTables initialization</li>
- * <li>an AbstractConfigurationGenerator if the extension needs its proper
+ * <li>one or more Parameter, i.e. one or more specific DataTables parameters
+ * that will be used during the DataTables initialization</li>
+ * <li>an AbstractConfigurationGenerator if the extension needs its own
  * configuration generator. The one used for the main DataTables configuration
  * is the {@link MainGenerator}. You can also take a look at the
  * {@link ColumnFilteringGenerator} to see the configuration generated for the

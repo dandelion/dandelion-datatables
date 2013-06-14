@@ -27,47 +27,42 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.theme;
+package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.CssResource;
-import com.github.dandelion.datatables.core.asset.ResourceType;
+import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * JQueryUI DataTables theme.
+ * <p>
+ * Feature that is always enabled when server-side processing has been
+ * activated.
+ * <p>
+ * Removing the fnAddjustColumnSizing will cause strange column's width at each
+ * interaction with the table (paging, sorting, filtering ...)
  * 
- * @since 0.7.1
+ * @author Thibault Duchateau
+ * @since 0.8.3
  */
-public class JQueryUITheme extends AbstractTheme {
+public class JsonpFeature extends AbstractFeature {
 
 	@Override
 	public String getName() {
-		return "jQueryUI";
+		return null;
 	}
 
 	@Override
 	public String getVersion() {
-		return "1.0.0";
+		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setup(HtmlTable table) throws BadConfigurationException {
-
-		addParameter(new Parameter(DTConstants.DT_JQUERYUI, true));
-		addCssResource(new CssResource(ResourceType.THEME, "JQueryUITheme",
-				"datatables/themes/jqueryui/jqueryui.css"));
-
-		if (table.getTableConfiguration().getExtraThemeOption() != null) {
-			addCssResource(new CssResource(ResourceType.EXTERNAL,
-					table.getTableConfiguration().getExtraThemeOption().toString(), table.getTableConfiguration().getExtraThemeOption().getCssSource()));
-		}
-
-		table.addCssClass("display");
+		addParameter(new Parameter(
+				DTConstants.DT_FN_SERVERDATA,
+				new JavascriptSnippet(
+						"function( sUrl, aoData, fnCallback, oSettings ) { oSettings.jqXHR = $.ajax( {\"url\": sUrl,\"data\": aoData,\"success\": fnCallback,\"dataType\": \"jsonp\",\"cache\": false});}")));
 	}
 }

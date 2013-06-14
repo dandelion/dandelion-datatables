@@ -27,15 +27,13 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.theme;
-
-import com.github.dandelion.datatables.core.extension.AbstractExtension;
+package com.github.dandelion.datatables.core.extension.feature;
 
 /**
- * Abstract theme. It's just a marker abstract class.
+ * TODO
  *
  * @author Thibault Duchateau
  */
-public abstract class AbstractTheme extends AbstractExtension {
-
+public enum PaginationType {
+	TWO_BUTTON, FULL_NUMBERS, FOUR_BUTTON, SCROLLING, BOOTSTRAP, INPUT, LISTBOX
 }

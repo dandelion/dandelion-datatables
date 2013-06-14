@@ -1,4 +1,4 @@
-package com.github.dandelion.datatables.core.theme;
+package com.github.dandelion.datatables.core.extension.theme;
 
 import com.github.dandelion.datatables.core.constants.CdnConstants;
 

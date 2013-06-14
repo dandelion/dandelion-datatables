@@ -27,7 +27,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.feature;
+package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.JsResource;
@@ -41,11 +41,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * @see http://www.datatables.net/plug-ins/pagination
  * @author Thibault Duchateau
  */
-public class PaginationTypeScrollingFeature extends AbstractFeature {
+public class PaginationTypeListboxFeature extends AbstractFeature {
 
 	@Override
 	public String getName() {
-		return "PaginationTypeScrolling";
+		return "PaginationTypeListbox";
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class PaginationTypeScrollingFeature extends AbstractFeature {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeExtJs", "datatables/features/paginationType/scrolling.js"));
-		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "scrolling", Parameter.Mode.OVERRIDE));
+		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeExtJs", "datatables/features/paginationType/listbox.js"));
+		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "listbox", Parameter.Mode.OVERRIDE));
 	}
 }

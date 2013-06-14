@@ -36,7 +36,7 @@
          <artifactId>datatables-core</artifactId>
          <version>0.9.0-SNAPSHOT</version>
       </dependency>
-      
+
       <!-- Apache Commons -->
       <dependency>
          <groupId>commons-lang</groupId>
@@ -128,6 +128,12 @@
          <groupId>org.codehaus.jackson</groupId>
          <artifactId>jackson-mapper-asl</artifactId>
          <version>1.9.12</version>
+      </dependency>
+
+      <dependency>
+         <groupId>xml-apis</groupId>
+         <artifactId>xml-apis</artifactId>
+         <version>1.4.01</version>
       </dependency>
    </dependencies>
 </project>

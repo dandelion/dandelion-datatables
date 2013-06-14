@@ -34,7 +34,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.feature.AjaxFeature;
+import com.github.dandelion.datatables.core.extension.feature.AjaxFeature;
 import com.github.dandelion.datatables.core.processor.Processor;
 import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
 

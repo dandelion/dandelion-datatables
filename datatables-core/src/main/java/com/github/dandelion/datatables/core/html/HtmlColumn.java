@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
-import com.github.dandelion.datatables.core.feature.FilterType;
+import com.github.dandelion.datatables.core.extension.feature.FilterType;
 
 /**
  * Plain old HTML <code>td</code> and <code>th</code> tags.

@@ -27,52 +27,35 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.feature;
+package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
+import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.ResourceHelper;
 
 /**
- * <p>Pipelining feature that may be used if server-side processing has been
- * enabled.
+ * TODO
  * 
+ * @see http://www.datatables.net/plug-ins/pagination
  * @author Thibault Duchateau
- * @since 0.8.2
- * @see ServerSideFeature
  */
-public class PipeliningFeature extends AbstractFeature {
+public class PaginationTypeBootstrapFeature extends AbstractFeature {
 
 	@Override
 	public String getName() {
-		return null;
+		return "PaginationTypeBootstrap";
 	}
 
 	@Override
 	public String getVersion() {
-		return null;
+		return "1.0.0";
 	}
 
 	@Override
-	public void setup(HtmlTable table) throws BadConfigurationException {
-		String content = ResourceHelper
-				.getFileContentFromClasspath("datatables/ajax/pipelining.js");
-
-		// Add the table id to avoid conflict if several tables use pipelining
-		// in the same page
-		String adaptedContent = content.replace("oCache", "oCache_" + table.getId());
-		
-		// Adapt the pipe size if it has been overriden
-		if (table.getTableConfiguration().getAjaxPipeSize() != 5) {
-			appendToBeforeAll(adaptedContent
-					.replace("var iPipe = 5", "var iPipe = " + table.getTableConfiguration().getAjaxPipeSize()));
-		} else {
-			appendToBeforeAll(adaptedContent);
-		}
-
-		addParameter(new Parameter(DTConstants.DT_FN_SERVERDATA, new JavascriptSnippet("fnDataTablesPipeline")));
+	public void setup(HtmlTable table) {
+		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeBootstrap", "datatables/features/paginationType/bootstrap.js"));
+		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "bootstrap", Parameter.Mode.OVERRIDE));
 	}
 }

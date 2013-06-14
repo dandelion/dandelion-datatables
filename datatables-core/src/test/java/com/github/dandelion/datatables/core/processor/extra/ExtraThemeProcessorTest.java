@@ -34,10 +34,10 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
+import com.github.dandelion.datatables.core.extension.theme.Bootstrap2Theme;
+import com.github.dandelion.datatables.core.extension.theme.JQueryUITheme;
 import com.github.dandelion.datatables.core.processor.Processor;
 import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
-import com.github.dandelion.datatables.core.theme.Bootstrap2Theme;
-import com.github.dandelion.datatables.core.theme.JQueryUITheme;
 
 public class ExtraThemeProcessorTest extends ProcessorBaseTest {
 
