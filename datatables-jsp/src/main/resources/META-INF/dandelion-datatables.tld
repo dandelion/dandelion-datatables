@@ -89,11 +89,6 @@
            <name>appear</name>
       </attribute>
       <attribute>
-          <description>(true|false) Allows to retrieve JSON data from any
-              domain name, regardless of XSS protection.</description>
-          <name>jsonp</name>
-      </attribute>
-      <attribute>
           <description>(true|false) Enable the DataTables source files
               to
               be loaded
