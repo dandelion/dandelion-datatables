@@ -27,9 +27,8 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.extras.export.itext;
+package com.github.dandelion.datatables.core.view;
 
-import com.github.dandelion.datatables.core.view.AbstractDatatablesView;
 
 /**
  * <p>
