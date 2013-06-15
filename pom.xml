@@ -36,7 +36,7 @@
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
       <!-- Dependencies -->
-      <thymeleaf.version>2.0.16</thymeleaf.version>
+      <thymeleaf.version>2.0.17</thymeleaf.version>
       <commons-lang.version>2.6</commons-lang.version>
       <commons-collection.version>3.2.1</commons-collection.version>
       <commons-beanutils.version>1.8.3</commons-beanutils.version>

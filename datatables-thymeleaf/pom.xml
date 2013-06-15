@@ -12,8 +12,6 @@
    <name>Dandelion :: Datatables :: Thymeleaf Implementation</name>
 
    <properties>
-      <thymeleaf.version>2.0.16</thymeleaf.version>
-      
       <!-- Test dependencies -->
       <fluentlenium.version>0.7.6</fluentlenium.version>
       <phantomjsdriver.version>1.0.1</phantomjsdriver.version>
