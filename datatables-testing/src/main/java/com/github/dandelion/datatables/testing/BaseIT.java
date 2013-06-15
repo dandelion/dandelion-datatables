@@ -154,9 +154,9 @@ public abstract class BaseIT extends FluentAdapter {
 		}
 	}
 	
-	public JsResource getConfigurationFromPage(String page){
+	public JsResource getConfigurationFromPage(String page) {
 		String url = "/" + page + "|myTableId";
-		JsResource jsResource = ((WebResources)AssetCache.cache.get(url)).getMainJsFile();
-		return jsResource;
+		WebResources webResources = ((WebResources) AssetCache.cache.get(url));
+		return webResources.getMainJsFile() != null ? webResources.getMainJsFile() : null;
 	}
 }

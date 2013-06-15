@@ -2,8 +2,6 @@ package com.github.dandelion.datatables.integration.html;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -21,8 +19,8 @@ import com.github.dandelion.datatables.testing.utils.JspTest;
 public class AjaxSourceIT extends BaseIT {
 
 	@Test
-	public void should_generate_table_markup() throws IOException, Exception {
-		goToPage("ajax/table");
+	public void should_generate_table_markup() throws Exception {
+		goToPage("html/ajax/table");
 
 		assertThat(getTable()).hasSize(1);
 		assertThat(getTable().find("thead")).hasSize(1);
@@ -44,16 +42,16 @@ public class AjaxSourceIT extends BaseIT {
 	
 
 	@Test
-	public void should_render_empty_cell() throws IOException, Exception {
-		goToPage("ajax/table");
+	public void should_render_empty_cell() throws Exception {
+		goToPage("html/ajax/table");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("");
 	}
 	
 	@Test
-	public void should_render_default_value_in_cell() throws IOException, Exception {
-		goToPage("ajax/table_default_values");
+	public void should_render_default_value_in_cell() throws Exception {
+		goToPage("html/ajax/table_default_values");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("default value");

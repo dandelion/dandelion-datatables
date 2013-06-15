@@ -51,8 +51,8 @@ import com.github.dandelion.datatables.testing.utils.JspTest;
 public class DomSourceIT extends BaseIT {
 
 	@Test
-	public void should_generate_table_markup() throws IOException, Exception {
-		goToPage("html/table_default");
+	public void should_generate_table_markup() throws Exception {
+		goToPage("html/dom/table");
 		
 		assertThat(getTable()).hasSize(1);
 		assertThat(getTable().find("thead")).hasSize(1);
@@ -71,13 +71,13 @@ public class DomSourceIT extends BaseIT {
 
 	@Test
 	public void should_generate_script_tag() {
-		goToPage("html/table_default");
+		goToPage("html/dom/table");
 		assertThat(getHtmlBody().find("script")).hasSize(1);
 	}
 	
 	@Test
-	public void should_render_empty_cell() throws IOException, Exception {
-		goToPage("html/table_default");
+	public void should_render_empty_cell() throws Exception {
+		goToPage("html/dom/table");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("");
@@ -85,21 +85,27 @@ public class DomSourceIT extends BaseIT {
 	
 	@Test
 	public void should_render_default_value_in_cell() throws IOException, Exception {
-		goToPage("html/table_default_values");
+		goToPage("html/dom/table_default_values");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 3).getText()).isEqualTo("default value");
 	}
 	
-//	@Test
+	@Test
 	public void when_emptylist_should_not_generate_anything() {
-		goToPage("html/table_with_empty_collection");
-		assertThat(getTable()).hasSize(0);
+		goToPage("html/dom/table_with_empty_collection");
+		assertThat(getTable().find("thead").find("tr")).hasSize(1);
+		assertThat(getTable().find("thead").find("th")).hasSize(5);
+		assertThat(getTable().find("tbody").find("tr")).hasSize(1);
+		assertThat(getTable().find("td").getText()).isEqualTo("No data available in table");
 	}
 	
-//	@Test
+	@Test
 	public void when_nulllist_should_not_generate_anything() {
-		goToPage("html/table_with_null_collection");
-		assertThat(getTable()).hasSize(0);
+		goToPage("html/dom/table_with_null_collection");
+		assertThat(getTable().find("thead").find("tr")).hasSize(1);
+		assertThat(getTable().find("thead").find("th")).hasSize(5);
+		assertThat(getTable().find("tbody").find("tr")).hasSize(1);
+		assertThat(getTable().find("td").getText()).isEqualTo("No data available in table");
 	}
 }
