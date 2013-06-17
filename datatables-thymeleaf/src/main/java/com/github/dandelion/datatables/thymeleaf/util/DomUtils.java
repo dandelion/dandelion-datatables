@@ -29,8 +29,6 @@
  */
 package com.github.dandelion.datatables.thymeleaf.util;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Node;
 
@@ -41,20 +39,19 @@ import org.thymeleaf.dom.Node;
  */
 public class DomUtils {
 
-	public static void addScriptTag(Element element, HttpServletRequest request,
-			String jsResourceName) {
+	public static void insertScriptTag(String src, Element element){
 		Element script = new Element("script");
-		script.setAttribute("src", jsResourceName);
-		element.getParent().addChild(script);
+		script.setAttribute("src", src);
+		element.insertChild(element.getChildren().size(), script);
 	}
-
-	public static void addLinkTag(Element element, HttpServletRequest request,
-			String cssResourceName) {
+	
+	public static void insertLinkTag(String src, Element element){
 		Element link = new Element("link");
-		link.setAttribute("href", cssResourceName);
+		link.setAttribute("href", src);
 		link.setAttribute("rel", "stylesheet");
-		element.getParent().addChild(link);
+		element.insertChild(element.getChildren().size(), link);
 	}
+	
 
 	public static Element getParentAsElement(Element element) {
 		return (Element) element.getParent();
@@ -97,5 +94,31 @@ public class DomUtils {
 		}
 
 		return retval;
+	}
+	
+	
+	/**
+	 * Recursive search for an element within the given node in the DOM tree.
+	 * Many thanks to Emanuel Rabina :-)
+	 * 
+	 * @param element
+	 *            Node to initiate the search from.
+	 * @param name
+	 *            Name of the element to look for.
+	 * @return Element with the given name, or <tt>null</tt> if the element
+	 *         could not be found.
+	 */
+	public static Element findElement(Element element, String name) {
+
+		if (element.getOriginalName().equals(name)) {
+			return element;
+		}
+		for (Element child: element.getElementChildren()) {
+			Element result = findElement(child, name);
+			if (result != null) {
+				return result;
+			}
+		}
+		return null;
 	}
 }

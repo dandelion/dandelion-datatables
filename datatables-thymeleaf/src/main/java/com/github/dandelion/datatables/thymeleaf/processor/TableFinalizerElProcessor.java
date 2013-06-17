@@ -26,11 +26,11 @@ import com.github.dandelion.datatables.core.compressor.ResourceCompressor;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.constants.CdnConstants;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.DataNotFoundException;
 import com.github.dandelion.datatables.core.exception.ExportException;
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
@@ -208,27 +208,30 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 				ResourceCompressor.processCompression(webResources, htmlTable);
 			}
 
+			
+			Element rootElement = arguments.getDocument().getFirstElementChild();
+			Element head = DomUtils.findElement(rootElement, "head");
+			Element body = DomUtils.findElement(rootElement, "body");
+			
 			// <link> HTML tag generation
 			if (htmlTable.getTableConfiguration().getExtraCdn() != null && htmlTable.getTableConfiguration().getExtraCdn()) {
-				DomUtils.addLinkTag(DomUtils.getParentAsElement(element), request,
-						CdnConstants.CDN_DATATABLES_CSS);
+				DomUtils.insertLinkTag(CdnConstants.CDN_DATATABLES_CSS, head);
 			}
 			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
 				String src = RequestHelper.getAssetSource(entry.getKey(), htmlTable, request, false);
-				DomUtils.addLinkTag(element, request, src);
+				DomUtils.insertLinkTag(src, head);
 			}
 
 			// <script> HTML tag generation
 			if (htmlTable.getTableConfiguration().getExtraCdn() != null && htmlTable.getTableConfiguration().getExtraCdn()) {
-				DomUtils.addScriptTag(DomUtils.getParentAsElement(element), request,
-						CdnConstants.CDN_DATATABLES_JS_MIN);
+				DomUtils.insertScriptTag(CdnConstants.CDN_DATATABLES_JS_MIN, body);
 			}
 			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
 				String src = RequestHelper.getAssetSource(entry.getKey(), htmlTable, request, false);
-				DomUtils.addScriptTag(DomUtils.getParentAsElement(element), request, src);
+				DomUtils.insertScriptTag(src, body);
 			}
 			String src = RequestHelper.getAssetSource(webResources.getMainJsFile().getName(), htmlTable, request, true);
-			DomUtils.addScriptTag(DomUtils.getParentAsElement(element), request, src);
+			DomUtils.insertScriptTag(src, body);
 
 			logger.debug("Web content generated successfully");
 		} catch (CompressionException e) {

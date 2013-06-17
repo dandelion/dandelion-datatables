@@ -50,14 +50,6 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 		} else {
 			HtmlTable htmlTable = new HtmlTable(tableId, request);
 
-//			try {
-//				// Load table properties
-//				PropertiesLoader.load(htmlTable);
-//			} catch (BadConfigurationException e) {
-//				logger.error("Unable to load Dandelion-datatables configuration");
-//				e.printStackTrace();
-//			}
-
 			// Add default footer and header row
 			htmlTable.addHeaderRow();
 			htmlTable.addFooterRow();
