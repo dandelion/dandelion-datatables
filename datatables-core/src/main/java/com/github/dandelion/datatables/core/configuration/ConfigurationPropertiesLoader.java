@@ -37,6 +37,8 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.constants.SystemConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
@@ -51,6 +53,9 @@ import com.github.dandelion.datatables.core.exception.BadConfigurationException;
  */
 public class ConfigurationPropertiesLoader extends AbstractConfigurationLoader {
 
+	// Logger
+	private static Logger logger = LoggerFactory.getLogger(ConfigurationPropertiesLoader.class);
+		
 	public final static String DT_CUSTOM_PROPERTIES = "datatables.properties";
 	public final static String KEY_SEP = ".";
 	
@@ -67,6 +72,7 @@ public class ConfigurationPropertiesLoader extends AbstractConfigurationLoader {
 		// First try to load the properties using the system property
 		if(StringUtils.isNotBlank(System.getProperty(SystemConstants.DANDELION_DT_CONF))){
 			String propertiesLocation  = System.getProperty(SystemConstants.DANDELION_DT_CONF);
+			logger.info("Loading specific configuration using the system property");
 			
 			try {
 				propertiesStream = new FileInputStream(propertiesLocation);
@@ -121,5 +127,6 @@ public class ConfigurationPropertiesLoader extends AbstractConfigurationLoader {
 				}
 			}
 		}
+		logger.debug("Specific configuration loaded");
 	}
 }

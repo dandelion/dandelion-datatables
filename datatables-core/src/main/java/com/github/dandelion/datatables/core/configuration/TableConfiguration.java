@@ -231,9 +231,7 @@ public class TableConfiguration {
 	private TableConfiguration(HttpServletRequest request, String groupName) {
 		this.request = request;
 		
-		logger.debug("Getting the ConfigurationLoader...");
 		AbstractConfigurationLoader confLoader = new DatatablesConfigurator().getConfLoader();
-		logger.debug("The configurationLoader '{}' will be used.", confLoader.getClass().getSimpleName());
 		
 		try {
 			// Loading default configuration (from properties file)

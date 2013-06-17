@@ -124,7 +124,7 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 
 		this.keyPrefix = keyPrefix;
 
-		logger.debug("Loading specific configuration...");
+		logger.debug("Trying to load specific configuration...");
 		try {
 			doLoadSpecificConfiguration();
 		} catch (BadConfigurationException e) {
@@ -132,7 +132,6 @@ public abstract class AbstractConfigurationLoader implements ConfigurationLoader
 					"Unable to load the custom configuration. Only the default one will be used.", e);
 		}
 
-		logger.debug("Specific configuration loaded");
 	}
 
 	/**

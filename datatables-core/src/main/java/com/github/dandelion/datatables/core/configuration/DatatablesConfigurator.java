@@ -54,6 +54,8 @@ public class DatatablesConfigurator {
 	
 	public DatatablesConfigurator(){
 		
+		logger.debug("Getting the ConfigurationLoader...");
+		
 		this.configurationLoader = new ConfigurationPropertiesLoader();
 
 		if(StringUtils.isNotBlank(System.getProperty(SystemConstants.DANDELION_DT_CONF_CLASS))){
