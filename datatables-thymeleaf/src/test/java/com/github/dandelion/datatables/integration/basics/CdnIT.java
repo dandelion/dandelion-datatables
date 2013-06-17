@@ -30,10 +30,14 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
+import static org.fest.assertions.Assertions.assertThat;
+
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.github.dandelion.datatables.core.constants.CdnConstants;
 import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.basics.CdnBaseIT;
+import com.github.dandelion.datatables.testing.BaseIT;
 import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
 /**
@@ -43,5 +47,22 @@ import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
  */
 @RunWith(ThymeleafContextRunner.class)
 @ThymeleafTest
-public class CdnIT extends CdnBaseIT {
+public class CdnIT extends BaseIT {
+
+
+	@Test
+	public void should_generate_html_markup_when_using_dom_source() throws Exception {
+		goToPage("basics/cdn_dom");
+
+		assertThat(find("head").find("link", 0).getAttribute("href")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_CSS);
+		assertThat(getHtmlBody().findFirst("script").getAttribute("src")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_JS_MIN);
+	}
+	
+	@Test
+	public void should_generate_html_markup_when_using_ajax_source() throws Exception {
+		goToPage("basics/cdn_ajax");
+
+		assertThat(find("head").find("link", 0).getAttribute("href")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_CSS);
+		assertThat(getHtmlBody().findFirst("script").getAttribute("src")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_JS_MIN);
+	}
 }
