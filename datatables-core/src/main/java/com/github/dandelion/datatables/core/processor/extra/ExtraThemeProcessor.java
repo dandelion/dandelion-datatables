@@ -31,14 +31,13 @@ package com.github.dandelion.datatables.core.processor.extra;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.extension.theme.Theme;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+import com.github.dandelion.datatables.core.util.StringUtils;
 
 public class ExtraThemeProcessor extends AbstractProcessor {
 

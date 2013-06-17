@@ -42,7 +42,7 @@ import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.ReflectHelper;
+import com.github.dandelion.datatables.core.util.ClassUtils;
 
 /**
  * Delegate class in charge of launching export.
@@ -89,7 +89,7 @@ public class ExportDelegate {
 		logger.debug("Export class selected : {}", exportClass);
 
 		// Check that the class can be instanciated
-		if (!ReflectHelper.canBeUsed(exportClass)) {
+		if (!ClassUtils.canBeUsed(exportClass)) {
 			logger.error("Did you forget to add a dependency ?");
 			throw new ExportException("Unable to export in " + exportType.toString() + " format");
 		}
@@ -104,14 +104,14 @@ public class ExportDelegate {
 			try {
 
 				// Get the class
-				Class<?> klass = ReflectHelper.getClass(exportClass);
+				Class<?> klass = ClassUtils.getClass(exportClass);
 
 				// Get new instance of this class
-				Object obj = ReflectHelper.getNewInstance(klass);
+				Object obj = ClassUtils.getNewInstance(klass);
 
 				// Invoke methods that update the writer
-				ReflectHelper.invokeMethod(obj, "initExport", new Object[] { htmlTable });
-				ReflectHelper.invokeMethod(obj, "processExport", new Object[] { writer });
+				ClassUtils.invokeMethod(obj, "initExport", new Object[] { htmlTable });
+				ClassUtils.invokeMethod(obj, "processExport", new Object[] { writer });
 
 				// Fill the request so that the filter will intercept it and
 				// override the response with the export configuration
@@ -133,14 +133,14 @@ public class ExportDelegate {
 			try {
 
 				// Get the class
-				Class<?> klass = ReflectHelper.getClass(exportClass);
+				Class<?> klass = ClassUtils.getClass(exportClass);
 
 				// Get new instance of this class
-				Object obj = ReflectHelper.getNewInstance(klass);
+				Object obj = ClassUtils.getNewInstance(klass);
 
 				// Invoke methods that update the stream
-				ReflectHelper.invokeMethod(obj, "initExport", new Object[] { htmlTable });
-				ReflectHelper.invokeMethod(obj, "processExport", new Object[] { stream });
+				ClassUtils.invokeMethod(obj, "initExport", new Object[] { htmlTable });
+				ClassUtils.invokeMethod(obj, "processExport", new Object[] { stream });
 
 				// Fill the request so that the filter will intercept it and
 				// override the response with the export configuration

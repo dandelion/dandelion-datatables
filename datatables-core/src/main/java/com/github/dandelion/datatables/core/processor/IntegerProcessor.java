@@ -32,10 +32,9 @@ package com.github.dandelion.datatables.core.processor;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Processor used for all Integer parameters.

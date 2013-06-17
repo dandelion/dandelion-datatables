@@ -31,13 +31,12 @@ package com.github.dandelion.datatables.core.processor.plugin;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.extension.plugin.FixedHeaderPlugin;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+import com.github.dandelion.datatables.core.util.StringUtils;
 
 public class PluginFixedHeaderProcessor extends AbstractProcessor {
 

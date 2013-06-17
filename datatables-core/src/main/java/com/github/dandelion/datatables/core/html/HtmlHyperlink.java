@@ -29,7 +29,8 @@
  */
 package com.github.dandelion.datatables.core.html;
 
-import org.apache.commons.lang.StringUtils;
+import com.github.dandelion.datatables.core.util.StringUtils;
+
 
 /**
  * Plain old HTML <code>a</code> tag (link).

@@ -31,7 +31,6 @@ package com.github.dandelion.datatables.core.extension;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +38,8 @@ import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.extension.feature.AbstractFeature;
 import com.github.dandelion.datatables.core.extension.plugin.AbstractPlugin;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.ReflectHelper;
+import com.github.dandelion.datatables.core.util.ClassUtils;
+import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Extension manager.
@@ -67,7 +67,7 @@ public class ExtensionManager {
 			logger.debug("Scanning custom extensions...");
 
 			// Scanning custom extension based on the base.package property
-			List<AbstractFeature> customFeatures = ReflectHelper.scanForFeatures(table.getTableConfiguration()
+			List<AbstractFeature> customFeatures = ClassUtils.scanForFeatures(table.getTableConfiguration()
 					.getBasePackage());
 
 			// Load custom extension if enabled
@@ -87,7 +87,7 @@ public class ExtensionManager {
 			}
 
 			// Scanning custom extension based on the base.package property
-			List<AbstractPlugin> customPlugins = ReflectHelper.scanForPlugins(table.getTableConfiguration()
+			List<AbstractPlugin> customPlugins = ClassUtils.scanForPlugins(table.getTableConfiguration()
 					.getBasePackage());
 
 			// Load custom extension if enabled

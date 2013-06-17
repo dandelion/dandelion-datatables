@@ -29,13 +29,13 @@
  */
 package com.github.dandelion.datatables.core.configuration;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.constants.SystemConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.util.ReflectHelper;
+import com.github.dandelion.datatables.core.util.ClassUtils;
+import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * <p>
@@ -61,8 +61,8 @@ public class DatatablesConfigurator {
 		if(StringUtils.isNotBlank(System.getProperty(SystemConstants.DANDELION_DT_CONF_CLASS))){
 			Class<?> clazz;
 			try {
-				clazz = ReflectHelper.getClass(System.getProperty(SystemConstants.DANDELION_DT_CONF_CLASS));
-				this.configurationLoader = (AbstractConfigurationLoader) ReflectHelper.getNewInstance(clazz);
+				clazz = ClassUtils.getClass(System.getProperty(SystemConstants.DANDELION_DT_CONF_CLASS));
+				this.configurationLoader = (AbstractConfigurationLoader) ClassUtils.getNewInstance(clazz);
 			} catch (BadConfigurationException e) {
 				logger.warn("The custom configurator {} has not been found in the classpath. Using default one");
 			}

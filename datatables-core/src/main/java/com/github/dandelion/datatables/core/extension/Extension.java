@@ -31,11 +31,13 @@ package com.github.dandelion.datatables.core.extension;
 
 import java.util.List;
 
-import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
+import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
+import com.github.dandelion.datatables.core.generator.MainGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**

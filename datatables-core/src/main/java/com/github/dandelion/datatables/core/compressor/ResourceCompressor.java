@@ -43,7 +43,7 @@ import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.ReflectHelper;
+import com.github.dandelion.datatables.core.util.ClassUtils;
 
 /**
  * Web resources compressor.
@@ -81,7 +81,7 @@ public class ResourceCompressor {
 		// If Dandelion-datatables has been manually installed, some jar might be
 		// missing
 		// So, first check if the CompressorClass exist in the classpath
-		if (ReflectHelper.canBeUsed(table.getTableConfiguration().getMainCompressorClass())) {
+		if (ClassUtils.canBeUsed(table.getTableConfiguration().getMainCompressorClass())) {
 
 			switch (table.getTableConfiguration().getMainCompressorMode()) {
 			case ALL:

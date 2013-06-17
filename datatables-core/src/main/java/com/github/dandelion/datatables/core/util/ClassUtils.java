@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.beanutils.MethodUtils;
-import org.apache.commons.lang.ClassUtils;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,10 +48,10 @@ import com.github.dandelion.datatables.core.extension.plugin.AbstractPlugin;
  * 
  * @author Thibault Duchateau
  */
-public class ReflectHelper {
+public class ClassUtils {
 
 	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ReflectHelper.class);
+	private static Logger logger = LoggerFactory.getLogger(ClassUtils.class);
 
 	/**
 	 * <p>
@@ -68,7 +67,7 @@ public class ReflectHelper {
 		Class<?> klass = null;
 
 		try {
-			klass = ClassUtils.getClass(className);
+			klass = Class.forName(className);
 		} catch (ClassNotFoundException e) {
 			logger.error("Unable to get class {}", className);
 			throw new BadConfigurationException(e);
@@ -116,8 +115,7 @@ public class ReflectHelper {
 	 * @throws BadConfigurationException
 	 *             if the methodName doesn't exist for the given object.
 	 */
-	public static Object invokeMethod(Object obj, String methodName, Object[] args)
-			throws BadConfigurationException {
+	public static Object invokeMethod(Object obj, String methodName, Object[] args) throws BadConfigurationException {
 		Object retval = null;
 
 		try {
@@ -136,10 +134,10 @@ public class ReflectHelper {
 		return retval;
 	}
 
-	public static String getGetterFromSetter(String setterName){
+	public static String getGetterFromSetter(String setterName) {
 		return "get" + setterName.substring(setterName.indexOf("set") + 1, setterName.length());
 	}
-	
+
 	/**
 	 * <p>
 	 * Test if a class exists in the classPath, trying to load it with its name.
@@ -147,21 +145,20 @@ public class ReflectHelper {
 	 * @param className
 	 *            The class to test.
 	 * @return true if the class can be used, false otherwise.
-	 * @throws BadConfigurationException 
+	 * @throws BadConfigurationException
 	 */
-	public static Boolean canBeUsed(String className) throws BadConfigurationException {
+	public static Boolean canBeUsed(String className) {
 		Boolean canBeUsed = false;
 		try {
 			ClassUtils.getClass(className);
 			canBeUsed = true;
-		} catch (ClassNotFoundException e) {
-			logger.warn("Unable to get class {}", className);
-			throw new BadConfigurationException(e);
+		} catch (BadConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return canBeUsed;
 	}
-	
-	
+
 	/**
 	 * Scan for custom features.
 	 * 
@@ -170,26 +167,24 @@ public class ReflectHelper {
 	 * @return a list of custom AbstractFeature.
 	 * @throws BadConfigurationException
 	 */
-	public static List<AbstractFeature> scanForFeatures(String packageName) throws BadConfigurationException{
-		
-		// TODO temporary removed due to a classpath conflict with xml-api, brought by reflections
+	public static List<AbstractFeature> scanForFeatures(String packageName) throws BadConfigurationException {
+
+		// TODO temporary removed due to a classpath conflict with xml-api,
+		// brought by reflections
 		// Init return value
 		List<AbstractFeature> retval = new ArrayList<AbstractFeature>();
-		
+
 		// Init the reflection utility
 		Reflections reflections = new Reflections(packageName);
-		
+
 		// Scan all subtypes of ActractFeature
 		Set<Class<? extends AbstractFeature>> subTypes = reflections.getSubTypesOf(AbstractFeature.class);
-		
+
 		// Instanciate all found classes
-		for(Class<? extends AbstractFeature> clazz : subTypes){
-			
+		for (Class<? extends AbstractFeature> clazz : subTypes) {
+
 			try {
 				retval.add((AbstractFeature) ClassUtils.getClass(clazz.getName()).newInstance());
-			} catch (ClassNotFoundException e) {
-				logger.warn("Unable to get class {}", clazz.getName());
-				throw new BadConfigurationException(e);
 			} catch (InstantiationException e) {
 				logger.warn("Unable to instanciate class {}", clazz.getName());
 				throw new BadConfigurationException(e);
@@ -198,10 +193,10 @@ public class ReflectHelper {
 				throw new BadConfigurationException(e);
 			}
 		}
-		
+
 		return retval;
 	}
-	
+
 	/**
 	 * Scan for custom plugins.
 	 * 
@@ -210,27 +205,25 @@ public class ReflectHelper {
 	 * @return a list of custom AbstractPlugin.
 	 * @throws BadConfigurationException
 	 */
-	public static List<AbstractPlugin> scanForPlugins(String packageName) throws BadConfigurationException{
-		
-		// TODO temporary removed due to a classpath conflict with xml-api, brought by reflections
-		
+	public static List<AbstractPlugin> scanForPlugins(String packageName) throws BadConfigurationException {
+
+		// TODO temporary removed due to a classpath conflict with xml-api,
+		// brought by reflections
+
 		// Init return value
 		List<AbstractPlugin> retval = new ArrayList<AbstractPlugin>();
-		
+
 		// Init the reflection utility
 		Reflections reflections = new Reflections(packageName);
-		
+
 		// Scan all subtypes of ActractFeature
 		Set<Class<? extends AbstractPlugin>> subTypes = reflections.getSubTypesOf(AbstractPlugin.class);
-		
+
 		// Instanciate all found classes
-		for(Class<? extends AbstractPlugin> clazz : subTypes){
-			
+		for (Class<? extends AbstractPlugin> clazz : subTypes) {
+
 			try {
 				retval.add((AbstractPlugin) ClassUtils.getClass(clazz.getName()).newInstance());
-			} catch (ClassNotFoundException e) {
-				logger.warn("Unable to get class {}", clazz.getName());
-				throw new BadConfigurationException(e);
 			} catch (InstantiationException e) {
 				logger.warn("Unable to instanciate class {}", clazz.getName());
 				throw new BadConfigurationException(e);
@@ -239,40 +232,37 @@ public class ReflectHelper {
 				throw new BadConfigurationException(e);
 			}
 		}
-		
+
 		return retval;
 	}
-	
-	
+
 	/**
-     * Tries to load a class with more classloaders. Can be useful in J2EE applications if jar is loaded from a
-     * different classloader than user classes. If class is not found using the standard classloader, tries whit the
-     * thread classloader.
-     * @param className class name
-     * @return Class loaded class
-     * @throws ClassNotFoundException if none of the ClassLoaders is able to found the reuested class
-     */
-    public static Class< ? > classForName(String className) throws ClassNotFoundException
-    {
-        try
-        {
-            // trying with the default ClassLoader
-            return Class.forName(className);
-        }
-        catch (ClassNotFoundException cnfe)
-        {
-            try
-            {
-                // trying with thread ClassLoader
-                Thread thread = Thread.currentThread();
-                ClassLoader threadClassLoader = thread.getContextClassLoader();
-                return Class.forName(className, false, threadClassLoader);
-            }
-            catch (ClassNotFoundException cnfe2)
-            {
-                throw cnfe2;
-            }
-        }
-    }
+	 * Tries to load a class with more classloaders. Can be useful in J2EE
+	 * applications if jar is loaded from a different classloader than user
+	 * classes. If class is not found using the standard classloader, tries whit
+	 * the thread classloader.
+	 * 
+	 * @param className
+	 *            class name
+	 * @return Class loaded class
+	 * @throws ClassNotFoundException
+	 *             if none of the ClassLoaders is able to found the reuested
+	 *             class
+	 */
+	public static Class<?> classForName(String className) throws ClassNotFoundException {
+		try {
+			// trying with the default ClassLoader
+			return Class.forName(className);
+		} catch (ClassNotFoundException cnfe) {
+			try {
+				// trying with thread ClassLoader
+				Thread thread = Thread.currentThread();
+				ClassLoader threadClassLoader = thread.getContextClassLoader();
+				return Class.forName(className, false, threadClassLoader);
+			} catch (ClassNotFoundException cnfe2) {
+				throw cnfe2;
+			}
+		}
+	}
 
 }

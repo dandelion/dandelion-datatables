@@ -34,7 +34,6 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,6 +66,7 @@ import com.github.dandelion.datatables.core.processor.main.MainCompressorModePro
 import com.github.dandelion.datatables.core.processor.plugin.PluginColReorderProcessor;
 import com.github.dandelion.datatables.core.processor.plugin.PluginFixedHeaderProcessor;
 import com.github.dandelion.datatables.core.processor.plugin.PluginScrollerProcessor;
+import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Enumeration containing all possible configuration.

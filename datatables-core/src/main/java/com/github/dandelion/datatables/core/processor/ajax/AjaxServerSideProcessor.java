@@ -31,13 +31,12 @@ package com.github.dandelion.datatables.core.processor.ajax;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.ServerSideFeature;
 import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Processor used when server-side processing is enabled.

@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.ReflectHelper;
+import com.github.dandelion.datatables.core.util.ClassUtils;
 
 /**
  * Helper class in charge of the instanciation of the compressor implementation
@@ -80,14 +80,14 @@ public class ResourceCompressorDelegate {
 	public String getCompressedJavascript(String input) throws BadConfigurationException,
 			CompressionException {
 
-		Class<?> compressorClass = ReflectHelper.getClass(this.compressorClassName);
+		Class<?> compressorClass = ClassUtils.getClass(this.compressorClassName);
 
 		logger.debug("Instancing the compressor class {}", compressorClass);
-		Object obj = ReflectHelper.getNewInstance(compressorClass);
+		Object obj = ClassUtils.getNewInstance(compressorClass);
 
 		logger.debug("Invoking method getCompressedJavascript");
 		try {
-			return (String) ReflectHelper.invokeMethod(obj, "getCompressedJavascript",
+			return (String) ClassUtils.invokeMethod(obj, "getCompressedJavascript",
 					new Object[] { table, input });
 		} catch (BadConfigurationException e) {
 			if (e.getCause() instanceof InvocationTargetException) {
@@ -113,12 +113,12 @@ public class ResourceCompressorDelegate {
 	public String getCompressedCss(String input) throws BadConfigurationException,
 			CompressionException {
 
-		Class<?> compressorClass = ReflectHelper.getClass(this.compressorClassName);
+		Class<?> compressorClass = ClassUtils.getClass(this.compressorClassName);
 
-		Object obj = ReflectHelper.getNewInstance(compressorClass);
+		Object obj = ClassUtils.getNewInstance(compressorClass);
 
 		try {
-			return (String) ReflectHelper.invokeMethod(obj, "getCompressedCss",
+			return (String) ClassUtils.invokeMethod(obj, "getCompressedCss",
 					new Object[] { input });
 		} catch (BadConfigurationException e) {
 			if (e.getCause() instanceof InvocationTargetException) {

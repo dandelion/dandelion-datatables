@@ -37,8 +37,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 
-import org.apache.commons.lang.RandomStringUtils;
-
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 
 /**
@@ -142,6 +140,6 @@ public class ResourceHelper {
 	 * @return
 	 */
 	public static String getRamdomNumber(){
-		return RandomStringUtils.randomNumeric(5);
+		return StringUtils.randomNumeric(5);
 	}
 }

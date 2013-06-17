@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.core.asset;
 
+import com.github.dandelion.datatables.core.extension.plugin.ScrollerPlugin;
+
 /**
  * <p>
  * A parameter can be seen as a name/value pair in the DataTables

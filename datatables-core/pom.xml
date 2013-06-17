@@ -26,13 +26,6 @@
          <artifactId>reflections</artifactId>
          <version>0.9.9-RC1</version>
       </dependency>
-            
-      <!-- Commons -->
-      <dependency>
-         <groupId>commons-lang</groupId>
-         <artifactId>commons-lang</artifactId>
-         <scope>compile</scope>
-      </dependency>
 
       <dependency>
          <groupId>commons-beanutils</groupId>
