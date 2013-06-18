@@ -37,8 +37,8 @@ import java.io.IOException;
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
-import org.springframework.util.StringUtils;
 
+import com.github.dandelion.datatables.core.util.StringUtils;
 import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
 import com.github.dandelion.datatables.testing.theme.Bootstrap2BaseIT;
 import com.github.dandelion.datatables.testing.utils.Constants;
@@ -54,14 +54,14 @@ import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 @Ignore
 public class Bootstrap2IT extends Bootstrap2BaseIT {
 
-//	@Test
+	@Ignore
 	public void should_generate_bottom_right_link() throws IOException, Exception {
 		goToPage("themes/bootstrap2_bottom_right_link");
 		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
 		assertThat(StringUtils.trimAllWhitespace(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("style"))).isEqualTo("float:right;");
 	}
 	
-//	@Test
+	@Ignore
 	public void should_generate_bottom_middle_link() throws IOException, Exception {
 		goToPage("themes/bootstrap2_bottom_middle_link");
 		
@@ -69,7 +69,7 @@ public class Bootstrap2IT extends Bootstrap2BaseIT {
 		assertThat(StringUtils.trimAllWhitespace(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("style"))).isEqualTo("float:left;margin-left:10px;");
 	}
 	
-//	@Test
+	@Ignore
 	public void should_generate_bottom_left_link() throws IOException, Exception {
 		goToPage("themes/bootstrap2_bottom_left_link");
 		

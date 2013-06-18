@@ -37,7 +37,6 @@
 
       <!-- Dependencies -->
       <thymeleaf.version>2.0.17</thymeleaf.version>
-      <commons-lang.version>2.6</commons-lang.version>
       <commons-collection.version>3.2.1</commons-collection.version>
       <commons-beanutils.version>1.8.3</commons-beanutils.version>
       <jackson.version>1.9.12</jackson.version>
@@ -72,13 +71,6 @@
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
             <version>${jackson.version}</version>
-            <scope>compile</scope>
-         </dependency>
-
-         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>${commons-lang.version}</version>
             <scope>compile</scope>
          </dependency>
 
@@ -122,7 +114,6 @@
             <artifactId>thymeleaf</artifactId>
             <version>${thymeleaf.version}</version>
          </dependency>
-
       </dependencies>
    </dependencyManagement>
 

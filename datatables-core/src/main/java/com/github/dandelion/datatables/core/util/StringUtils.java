@@ -179,4 +179,100 @@ public class StringUtils {
 		}
 		return strBuilder.toString();
 	}
+
+	/**
+	 * <p>
+	 * Checks if the String contains any character in the given set of
+	 * characters.
+	 * </p>
+	 * 
+	 * <p>
+	 * A <code>null</code> String will return <code>false</code>. A
+	 * <code>null</code> or zero length search array will return
+	 * <code>false</code>.
+	 * </p>
+	 * 
+	 * <pre>
+	 * StringUtils.containsAny(null, *)                = false
+	 * StringUtils.containsAny("", *)                  = false
+	 * StringUtils.containsAny(*, null)                = false
+	 * StringUtils.containsAny(*, [])                  = false
+	 * StringUtils.containsAny("zzabyycdxx",['z','a']) = true
+	 * StringUtils.containsAny("zzabyycdxx",['b','y']) = true
+	 * StringUtils.containsAny("aba", ['z'])           = false
+	 * </pre>
+	 * 
+	 * @param str
+	 *            the String to check, may be null
+	 * @param searchChars
+	 *            the chars to search for, may be null
+	 * @return the <code>true</code> if any of the chars are found,
+	 *         <code>false</code> if no match or null input
+	 * @since 2.4
+	 */
+	public static boolean containsAny(String str, char[] searchChars) {
+		int csLength = str.length();
+		int searchLength = searchChars.length;
+		for (int i = 0; i < csLength; i++) {
+			char ch = str.charAt(i);
+			for (int j = 0; j < searchLength; j++) {
+				if (searchChars[j] == ch) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Trim <i>all</i> whitespace from the given String:
+	 * leading, trailing, and inbetween characters.
+	 * @param str the String to check
+	 * @return the trimmed String
+	 * @see java.lang.Character#isWhitespace
+	 */
+	public static String trimAllWhitespace(String str) {
+		if (!hasLength(str)) {
+			return str;
+		}
+		StringBuilder sb = new StringBuilder(str);
+		int index = 0;
+		while (sb.length() > index) {
+			if (Character.isWhitespace(sb.charAt(index))) {
+				sb.deleteCharAt(index);
+			}
+			else {
+				index++;
+			}
+		}
+		return sb.toString();
+	}
+	
+	/**
+	 * Check that the given CharSequence is neither {@code null} nor of length 0.
+	 * Note: Will return {@code true} for a CharSequence that purely consists of whitespace.
+	 * <p><pre>
+	 * StringUtils.hasLength(null) = false
+	 * StringUtils.hasLength("") = false
+	 * StringUtils.hasLength(" ") = true
+	 * StringUtils.hasLength("Hello") = true
+	 * </pre>
+	 * @param str the CharSequence to check (may be {@code null})
+	 * @return {@code true} if the CharSequence is not null and has length
+	 * @see #hasText(String)
+	 */
+	public static boolean hasLength(CharSequence str) {
+		return (str != null && str.length() > 0);
+	}
+
+	/**
+	 * Check that the given String is neither {@code null} nor of length 0.
+	 * Note: Will return {@code true} for a String that purely consists of whitespace.
+	 * @param str the String to check (may be {@code null})
+	 * @return {@code true} if the String is not null and has length
+	 * @see #hasLength(CharSequence)
+	 */
+	public static boolean hasLength(String str) {
+		return hasLength((CharSequence) str);
+	}
 }
