@@ -482,8 +482,6 @@ public class TableTag extends AbstractTableTag {
 		} else {
 			// TODO afficher un message d'erreur
 			// TODO afficher une alerte javascript
-			iterator = null;
-			currentObject = null;
 		}
 	}
 	
