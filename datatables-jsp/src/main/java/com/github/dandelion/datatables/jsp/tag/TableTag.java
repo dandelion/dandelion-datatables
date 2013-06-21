@@ -96,7 +96,7 @@ public class TableTag extends AbstractTableTag {
 		}
 		
 		// Init the table with its DOM id and a generated random number
-		table = new HtmlTable(id, (HttpServletRequest) pageContext.getRequest(), confGroup);
+		table = new HtmlTable(id, (HttpServletRequest) pageContext.getRequest(), confGroup, dynamicAttributes);
 		try {
 			Configuration.applyConfiguration(table.getTableConfiguration(), localConf);
 		} catch (AttributeProcessingException e) {

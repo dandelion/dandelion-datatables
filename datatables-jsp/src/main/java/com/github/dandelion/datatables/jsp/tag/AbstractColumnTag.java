@@ -32,10 +32,13 @@ package com.github.dandelion.datatables.jsp.tag;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+import javax.servlet.jsp.tagext.DynamicAttributes;
 
 import org.apache.commons.beanutils.NestedNullException;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -60,7 +63,7 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  * @author Thibault Duchateau
  * @since 0.1.0
  */
-public abstract class AbstractColumnTag extends BodyTagSupport {
+public abstract class AbstractColumnTag extends BodyTagSupport implements DynamicAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -89,6 +92,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 	protected String renderFunction;
 	protected String format;
 	protected String selector;
+	protected Map<String, String> dynamicAttributes;
 
 	/**
 	 * Add a column to the table when using DOM source.
@@ -102,7 +106,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 		AbstractTableTag parent = (AbstractTableTag) getParent();
 
 		// Init the column
-		HtmlColumn column = new HtmlColumn(isHeader, content);
+		HtmlColumn column = new HtmlColumn(isHeader, content, dynamicAttributes);
 		
 		// UID
 		if (StringUtils.isNotBlank(this.uid)) {
@@ -227,7 +231,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 		// Get the parent tag to access the HtmlTable
 		AbstractTableTag parent = (AbstractTableTag) getParent();
 
-		HtmlColumn column = new HtmlColumn(true, this.title);
+		HtmlColumn column = new HtmlColumn(true, this.title, dynamicAttributes);
 
 		// UID
 		if (StringUtils.isNotBlank(this.uid)) {
@@ -539,5 +543,39 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 
 	public void setSelector(String selector) {
 		this.selector = selector;
+	}
+
+	/**
+	 * Get the map of dynamic attributes.
+	 */
+	protected Map<String, String> getDynamicAttributes() {
+		return this.dynamicAttributes;
+        }
+
+	/** {@inheritDoc} */
+	public void setDynamicAttribute(String uri, String localName, Object value ) 
+		throws JspException {
+		if (this.dynamicAttributes == null) {
+			this.dynamicAttributes = new HashMap<String, String>();
+		}
+		if (!isValidDynamicAttribute(localName, value)) {
+			throw new IllegalArgumentException("Attribute "
+				.concat(localName).concat("=\"")
+				.concat(String.valueOf(value))
+				.concat("\" is not allowed"));
+		}
+
+		// Accept String values only, because we haven't knowledge
+		// about how to transform Object to String
+		if(value instanceof String) {
+		    dynamicAttributes.put(localName, (String) value);
+		}
+	}
+
+	/**
+	 * Whether the given name-value pair is a valid dynamic attribute.
+	 */
+	protected boolean isValidDynamicAttribute(String localName, Object value) {
+		return true;
 	}
 }
