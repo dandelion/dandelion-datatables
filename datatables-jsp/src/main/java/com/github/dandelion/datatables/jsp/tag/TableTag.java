@@ -480,6 +480,8 @@ public class TableTag extends AbstractTableTag {
 		if (dataTmp != null && dataTmp.size() > 0) {
 			iterator = dataTmp.iterator();
 		} else {
+			iterator = null;
+			currentObject = null;
 			// TODO afficher un message d'erreur
 			// TODO afficher une alerte javascript
 		}
