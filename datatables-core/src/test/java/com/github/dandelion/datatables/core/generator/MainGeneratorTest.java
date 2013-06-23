@@ -229,17 +229,6 @@ public class MainGeneratorTest {
 	}
 
 	@Test
-	public void should_set_label() {
-		table.getTableConfiguration().setExtraLabels("FR_fr");
-
-		Map<String, Object> mainConf = generator.generateConfig(table);
-
-		Map<String, Object> languageLabels = (Map<String, Object>)mainConf.get(DTConstants.DT_LANGUAGE);
-		assertThat(languageLabels).hasSize(1);
-		assertThat(languageLabels.get(DTConstants.DT_URL)).isEqualTo("FR_fr");
-	}
-
-	@Test
 	public void should_set_auto_width() {
 		table.getTableConfiguration().setFeatureAutoWidth(true);
 

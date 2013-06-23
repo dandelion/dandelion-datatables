@@ -45,7 +45,7 @@
          <artifactId>javax.servlet-api</artifactId>
          <scope>provided</scope>
       </dependency>
-
+      
       <!-- Logging -->
       <dependency>
          <groupId>org.slf4j</groupId>
@@ -64,6 +64,12 @@
          <groupId>org.springframework</groupId>
          <artifactId>spring-test</artifactId>
          <version>${spring.version}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>javax.servlet.jsp</groupId>
+         <artifactId>jsp-api</artifactId>
+         <version>${jsp.api.version}</version>
          <scope>test</scope>
       </dependency>
    </dependencies>

@@ -125,4 +125,11 @@ public class ConfigurationStore {
 	public static Map<Locale, Map<String, TableConfiguration>> getConfigurationStore(){
 		return configurationStore;
 	}
+	
+	/**
+	 * <b>FOR INTERNAL USE ONLY</b>
+	 */
+	public static void clear(){
+		configurationStore.clear();
+	}
 }

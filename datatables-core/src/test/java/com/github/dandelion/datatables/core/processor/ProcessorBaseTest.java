@@ -5,11 +5,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.junit.After;
 import org.junit.Before;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.ConfigurationStore;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 
 public abstract class ProcessorBaseTest {
@@ -27,6 +29,11 @@ public abstract class ProcessorBaseTest {
 		request = (HttpServletRequest) mockPageContext.getRequest();
 		tableConfiguration = TableConfiguration.getInstance(request);
 		confToBeApplied = new HashMap<Configuration, Object>();
+	}
+	
+	@After
+	public void after(){
+		ConfigurationStore.clear();
 	}
 	
 	public abstract Processor getProcessor() throws Exception;
