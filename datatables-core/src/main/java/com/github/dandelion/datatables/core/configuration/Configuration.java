@@ -170,7 +170,7 @@ public enum Configuration {
 			
 	// For internal use only
 	INTERNAL_OBJECTTYPE("internal.objectType", "internalObjectType", String.class, StringProcessor.class),
-	INTERNAL_MESSAGE_RESOLVER("internal.messageResolver", "internalMessageResolver", MessageResolver.class, MessageResolverProcessor.class);
+	INTERNAL_MESSAGE_RESOLVER("i18n.message.resolver", "internalMessageResolver", MessageResolver.class, MessageResolverProcessor.class);
 	
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(Configuration.class);

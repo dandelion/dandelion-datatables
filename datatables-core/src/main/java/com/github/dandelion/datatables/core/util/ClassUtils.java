@@ -249,7 +249,7 @@ public class ClassUtils {
 	 *             if none of the ClassLoaders is able to found the reuested
 	 *             class
 	 */
-	public static Class<?> classForName(String className) throws ClassNotFoundException {
+	public static Class<?> classForName(String className) throws BadConfigurationException {
 		try {
 			// trying with the default ClassLoader
 			return Class.forName(className);
@@ -260,7 +260,7 @@ public class ClassUtils {
 				ClassLoader threadClassLoader = thread.getContextClassLoader();
 				return Class.forName(className, false, threadClassLoader);
 			} catch (ClassNotFoundException cnfe2) {
-				throw cnfe2;
+				throw new BadConfigurationException(cnfe2);
 			}
 		}
 	}

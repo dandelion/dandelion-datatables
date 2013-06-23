@@ -34,42 +34,94 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 
 /**
- * Interface for configuration loaders.
- *
+ * <p>
+ * Interface for all configuration loaders.
+ * 
+ * <p>
+ * The default implementation is the {@link StandardConfigurationLoader} class
+ * but it can be replaced by another class that implements this interface thanks
+ * to the {@link DatatablesConfigurator}.
+ * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
 public interface ConfigurationLoader {
 
+	public final static String DT_DEFAULT_PROPERTIES = "config/datatables-default.properties";
+	public final static String DT_USER_PROPERTIES = "datatables";
+	public static final String DEFAULT_GROUP_NAME = "global";
+	
 	/**
 	 * <p>
-	 * Load the default configuration properties into the staging configuration
-	 * Map.
+	 * Load the default configuration from the internal properties file and
+	 * both:
+	 * <ul>
+	 * <li>stores the properties inside a class field</li>
+	 * <li>returns the properties if they need to be used outside of the class</li>
+	 * </ul>
 	 * 
-	 * <p>
-	 * This method is already implemented in the
-	 * {@link AbstractConfigurationLoader} so that it's always called by any of
-	 * custom ConfigurationLoader.
-	 * 
-	 * @throws BadConfigurationException
-	 *             if something went wrong during the loading.
+	 * @return the default properties
+	 * @throws ConfigurationLoadingException
+	 *             if the default properties cannot be loader.
 	 */
 	public Properties loadDefaultConfiguration() throws ConfigurationLoadingException;
-	
+
 	/**
+	 * <p>
+	 * Load the user configuration which can be localized thanks to the given
 	 * 
 	 * @param locale
-	 * @throws BadConfigurationException
+	 *            The current locale used to load the right properties file.
+	 * @return the ResourceBundle containing the user configuration.
 	 */
-	public ResourceBundle loadUserConfiguration(Locale locale) throws ConfigurationLoadingException;
-	
+	public ResourceBundle loadUserConfiguration(Locale locale);
+
 	/**
+	 * <p>
+	 * Resolve configuration groups for the given locale.
+	 * <p>
+	 * The default properties file (datatables-default.properties) already
+	 * contains the 'global' group: this is the group of configuration that is
+	 * used for all tables in the application.
+	 * <p>
+	 * Inside the user properties files (datatables_XX.properties), users can:
+	 * <ul>
+	 * <li>Override some properties of the 'global' group, by prefixing the
+	 * property name with <code>global.</code></li>
+	 * <li>Create configuration groups, by prefixing the property name with the
+	 * name of the group to create</li>
+	 * </ul>
+	 * </p>
+	 * <p>
+	 * 
+	 * <p>
+	 * For example, if the user properties file contains:<br />
+	 * <code>
+	 * group1.msg.search=My label<br/>
+	 * group1.msg.processing=My other label<br/>
+	 * </code> <br/>
+	 * the {@link ConfigurationLoader} must create a group called 'group1'
+	 * containing all properties present in the 'global' group but where
+	 * <code>msg.search</code> and <code>msg.processing</code> are overriden
+	 * with the user's ones.
+	 * 
+	 * <p>
+	 * Note that:
+	 * <ul>
+	 * <li>A configuration group can be enabled locally in a table thanks to an
+	 * tag attribute.</li>
+	 * <li>A configuration group always extends the 'global' group.</li>
+	 * </ul>
 	 * 
 	 * @param map
+	 *            The map to update after the resolution of the configuration
+	 *            groups.
+	 * @param locale
+	 *            The current locale used to get the right properties file from
+	 *            the resource bundle.
 	 */
-	public void resolveGroups(Map<String, TableConfiguration> map);
+	public void resolveGroups(Map<String, TableConfiguration> map, Locale locale);
 }

@@ -35,7 +35,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -51,22 +50,25 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.constants.SystemConstants;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
+import com.github.dandelion.datatables.core.util.BundleUtils;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
- * Common abstract superclass for all {@link ConfigurationLoaderOld}, used to
- * load the Dandelion-Datatables configuration.
+ * <p>
+ * Default implementation of the {@link ConfigurationLoader}.
+ * 
+ * <p>
+ * Note that a custom ConfigurationLoader can be used thanks to the
+ * {@link DatatablesConfigurator}.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
+ * @see DatatablesConfigurator
  */
 public class StandardConfigurationLoader implements ConfigurationLoader {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(StandardConfigurationLoader.class);
-
-	public final static String DT_DEFAULT_PROPERTIES = "config/datatables-default.properties";
-	public final static String DT_USER_PROPERTIES = "datatables";
 
 	protected static Properties defaultProperties;
 	private ResourceBundle userProperties;
@@ -107,40 +109,39 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		}
 
 		logger.debug("Default configuration loaded");
-		
+
 		return defaultProperties;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public ResourceBundle loadUserConfiguration(Locale locale) throws ConfigurationLoadingException {
+	public ResourceBundle loadUserConfiguration(Locale locale) {
 
 		// First check if the resource bundle is externalized
-		if(StringUtils.isNotBlank(System.getProperty(SystemConstants.DANDELION_DT_CONFIGURATION))){
-			
+		if (StringUtils.isNotBlank(System.getProperty(SystemConstants.DANDELION_DT_CONFIGURATION))) {
+
 			String path = System.getProperty(SystemConstants.DANDELION_DT_CONFIGURATION);
-			
+
 			try {
 				URL resourceURL = new File(path).toURI().toURL();
 				URLClassLoader urlLoader = new URLClassLoader(new URL[] { resourceURL });
 				userProperties = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale, urlLoader);
-			} 
-			catch (MalformedURLException e) {
+			} catch (MalformedURLException e) {
 				logger.warn("Wrong path to the externalized bundle", e);
-			}
-			catch (MissingResourceException e) {
+			} catch (MissingResourceException e) {
 				logger.info("No *.properties file in {}. Trying to lookup in classpath...");
-			} 
-			
+			}
+
 		}
 
 		// No system property is set, retrieves the bundle from the classpath
-		if(userProperties == null){
+		if (userProperties == null) {
 			try {
 				userProperties = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale);
 			} catch (MissingResourceException e) {
-				// if no resource bundle is found, try using the context classloader
+				// if no resource bundle is found, try using the context
+				// classloader
 				try {
 					userProperties = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale, Thread.currentThread()
 							.getContextClassLoader());
@@ -149,50 +150,75 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 				}
 			}
 		}
-		
+
 		return userProperties;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void resolveGroups(Map<String, TableConfiguration> map) {
+	public void resolveGroups(Map<String, TableConfiguration> map, Locale locale) {
 
-		Enumeration<String> keys = userProperties.getKeys();
+		logger.debug("Resolving groups for the locale {}...", locale);
+
+		// Convert userProperties from ResourceBundle to Properties
+		Properties userProps = BundleUtils.toProperties(userProperties);
 
 		// Get all group names
 		Set<String> groups = new HashSet<String>();
-		while (keys.hasMoreElements()) {
-			String key = keys.nextElement();
+		for (Entry<Object, Object> entry : userProps.entrySet()) {
+			String key = entry.getKey().toString();
 			groups.add(key.substring(0, key.indexOf(".")));
 		}
 
-		// Merge default and user properties
-		Properties defaultProps = new Properties();
-		defaultProps.putAll(defaultProperties);
-		keys = userProperties.getKeys();
-		while (keys.hasMoreElements()) {
-			String key = keys.nextElement();
-			defaultProps.setProperty(key, userProperties.getString(key));
+		// Retrieve the configuration for the 'global' group
+		// The 'global' group contains all defaut properties, some of which may
+		// have been overriden by user
+		// The group information is removed before storing the property in the
+		// Properties file
+		Properties globalProperties = new Properties();
+		for (Entry<Object, Object> entry : defaultProperties.entrySet()) {
+			String key = entry.getKey().toString();
+			globalProperties.put(key.substring(key.indexOf(".") + 1), entry.getValue());
+		}
+		for (Entry<Object, Object> entry : userProps.entrySet()) {
+			String key = entry.getKey().toString();
+			if (key.startsWith("global")) {
+				globalProperties.put(key.substring(key.indexOf(".") + 1), entry.getValue());
+			}
 		}
 
 		// Compute configuration to apply on each group
 		Map<Configuration, Object> stagingConf = null;
 		for (String groupName : groups) {
-			stagingConf = new HashMap<Configuration, Object>();
-			for (Entry<Object, Object> entry : defaultProps.entrySet()) {
+
+			// groupedProperties = globalProperties + current group
+			Properties groupedProperties = new Properties();
+			groupedProperties.putAll(globalProperties);
+			for (Entry<Object, Object> entry : userProps.entrySet()) {
 				String key = entry.getKey().toString();
 				if (key.startsWith(groupName)) {
-					Configuration configuration = Configuration.findByName(key.substring(groupName.length() + 1));
-					if (configuration != null) {
-						stagingConf.put(configuration, entry.getValue().toString());
-					} else {
-						logger.warn("The property {} (inside the {} group) doesn't exist",
-								key.substring(groupName.length() + 1), groupName);
-					}
+					groupedProperties.put(key.substring(key.indexOf(".") + 1), entry.getValue());
 				}
 			}
+			logger.debug("The group '{}' is initialized and contains {} properties", groupName,
+					groupedProperties.size());
+
+			stagingConf = new HashMap<Configuration, Object>();
+
+			for (Entry<Object, Object> entry : groupedProperties.entrySet()) {
+				String key = entry.getKey().toString();
+				Configuration configuration = Configuration.findByName(key);
+				if (configuration != null) {
+					stagingConf.put(configuration, entry.getValue().toString());
+				} else {
+					logger.warn("The property '{}' (inside the '{}' group) doesn't exist",
+							key.substring(groupName.length() + 1), groupName);
+				}
+			}
+
 			map.put(groupName, new TableConfiguration(stagingConf));
 		}
+		logger.debug("Groups resolved");
 	}
 }

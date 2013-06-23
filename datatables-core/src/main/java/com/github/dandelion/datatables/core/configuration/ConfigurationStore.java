@@ -52,8 +52,6 @@ public class ConfigurationStore {
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(ConfigurationStore.class);
 	
-	public static final String DEFAULT_GROUP_NAME = "global";
-	
 	/**
 	 * Static map containing all configurations
 	 */
@@ -74,7 +72,7 @@ public class ConfigurationStore {
 	public static TableConfiguration getPrototype(HttpServletRequest request, String groupName) {
 		
 		Locale locale = null;
-		String group = StringUtils.isBlank(groupName) ? DEFAULT_GROUP_NAME : groupName;
+		String group = StringUtils.isBlank(groupName) ? ConfigurationLoader.DEFAULT_GROUP_NAME : groupName;
 		
 		// Retrieve the locale either from a configured LocaleResolver or using the default locale
 		if (request != null) {
@@ -108,7 +106,7 @@ public class ConfigurationStore {
 			confLoader.loadUserConfiguration(locale);
 			
 			// 3: extraction des groupes s'il y en a
-			confLoader.resolveGroups(map);		
+			confLoader.resolveGroups(map, locale);		
 					
 		} catch (ConfigurationLoadingException e) {
 			logger.error("Unable to load Datatables configuration", e);

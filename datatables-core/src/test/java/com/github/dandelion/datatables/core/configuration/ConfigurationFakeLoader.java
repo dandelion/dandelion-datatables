@@ -16,13 +16,13 @@ public class ConfigurationFakeLoader implements ConfigurationLoader {
 	}
 
 	@Override
-	public ResourceBundle loadUserConfiguration(Locale locale) throws ConfigurationLoadingException {
+	public ResourceBundle loadUserConfiguration(Locale locale) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void resolveGroups(Map<String, TableConfiguration> map) {
+	public void resolveGroups(Map<String, TableConfiguration> map, Locale locale) {
 		// TODO Auto-generated method stub
 		
 	}

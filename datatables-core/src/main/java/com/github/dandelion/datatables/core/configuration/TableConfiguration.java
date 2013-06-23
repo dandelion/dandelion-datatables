@@ -1168,6 +1168,8 @@ public class TableConfiguration {
 				+ ", mainCompressorDisableOpti=" + mainCompressorDisableOpti + ", mainAggregatorEnable="
 				+ mainAggregatorEnable + ", mainAggregatorMode=" + mainAggregatorMode + ", mainUrlBase=" + mainUrlBase
 				+ ", internalObjectType=" + internalObjectType + ", internalPlugins=" + internalPlugins
-				+ ", internalFeatures=" + internalFeatures + ", tableId=" + tableId + ", request=" + request + "]";
+				+ ", internalFeatures=" + internalFeatures + ", tableId=" + tableId + ", request=" + request
+				+ ", internalMessages=" + internalMessages + ", messages=" + messages + ", internalMessageResolver="
+				+ internalMessageResolver + "]";
 	}
 }
