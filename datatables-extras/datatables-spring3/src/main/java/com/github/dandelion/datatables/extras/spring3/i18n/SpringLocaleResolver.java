@@ -27,18 +27,29 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.generator;
+package com.github.dandelion.datatables.extras.spring3.i18n;
 
-import java.util.Map;
+import java.util.Locale;
 
-import com.github.dandelion.datatables.core.html.HtmlTable;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.servlet.support.RequestContextUtils;
+
+import com.github.dandelion.datatables.core.i18n.LocaleResolver;
 
 /**
- * Abstract superclass for all configuration generators.
- * 
+ * <p>Spring implementation of the {@link LocaleResolver}.
+ *
  * @author Thibault Duchateau
+ * @since 0.9.0
  */
-public abstract class AbstractConfigurationGenerator {
+public class SpringLocaleResolver implements LocaleResolver {
 
-	public abstract Map<String, Object> generateConfig(HtmlTable table);
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Locale resolveLocale(HttpServletRequest request) {
+		return RequestContextUtils.getLocale(request);
+	}
 }

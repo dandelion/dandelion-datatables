@@ -27,18 +27,39 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.generator;
+package com.github.dandelion.datatables.jsp.i18n;
 
-import java.util.Map;
+import java.util.Locale;
 
-import com.github.dandelion.datatables.core.html.HtmlTable;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.jstl.core.Config;
+
+import com.github.dandelion.datatables.core.i18n.LocaleResolver;
 
 /**
- * Abstract superclass for all configuration generators.
+ * <p>
+ * JSTL implementation of the {@link LocaleResolver}.
+ * <p>
+ * The locale is retrieved first from the request scope and then from the
+ * session scope.
  * 
  * @author Thibault Duchateau
+ * @since 0.9.0
  */
-public abstract class AbstractConfigurationGenerator {
+public class JstlLocaleResolver implements LocaleResolver {
 
-	public abstract Map<String, Object> generateConfig(HtmlTable table);
+	@Override
+	public Locale resolveLocale(HttpServletRequest request) {
+
+		Object locale = Config.get(request, Config.FMT_LOCALE);
+		if (locale == null) {
+			HttpSession session = request.getSession(false);
+			if (session != null) {
+				locale = Config.get(session, Config.FMT_LOCALE);
+			}
+		}
+
+		return (locale instanceof Locale ? (Locale) locale : null);
+	}
 }

@@ -27,18 +27,47 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.generator;
+package com.github.dandelion.datatables.core.processor.internal;
 
 import java.util.Map;
 
-import com.github.dandelion.datatables.core.html.HtmlTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * Abstract superclass for all configuration generators.
- * 
- * @author Thibault Duchateau
- */
-public abstract class AbstractConfigurationGenerator {
+import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.i18n.MessageResolver;
+import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+import com.github.dandelion.datatables.core.util.ClassUtils;
 
-	public abstract Map<String, Object> generateConfig(HtmlTable table);
+public class MessageResolverProcessor extends AbstractProcessor {
+
+	// Logger
+	private static Logger logger = LoggerFactory.getLogger(MessageResolverProcessor.class);
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) {
+
+		MessageResolver resourceProvider = null;
+
+		if (param != null) {
+			try {
+
+				Class<MessageResolver> classProperty = (Class<MessageResolver>) ClassUtils
+						.classForName(param);
+				resourceProvider = classProperty.newInstance();
+
+				logger.info("MessageResolver initialized with {}", resourceProvider.getClass().getSimpleName());
+			} catch (Throwable e) {
+				logger.warn("Unable to instantiate the configured {} due to a {} exception", param, e.getClass()
+						.getName(), e);
+			}
+		} else {
+			logger.info("No {} configured", MessageResolver.class.getSimpleName());
+		}
+
+		tableConfiguration.setInternalMessageResolver(resourceProvider);
+	}
 }

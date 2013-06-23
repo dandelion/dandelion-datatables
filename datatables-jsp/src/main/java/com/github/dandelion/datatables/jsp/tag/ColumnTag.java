@@ -31,6 +31,8 @@ package com.github.dandelion.datatables.jsp.tag;
 
 import javax.servlet.jsp.JspException;
 
+import com.github.dandelion.datatables.core.util.StringUtils;
+
 /**
  * <p>
  * Tag used to generate a HTML table's column.
@@ -55,12 +57,20 @@ public class ColumnTag extends AbstractColumnTag {
 	public int doEndTag() throws JspException {
 		TableTag parent = (TableTag) getParent();
 
+		String columnTitle = title;
+		if(columnTitle == null && StringUtils.isNotBlank(titleKey)){
+			columnTitle = parent.getTable().getTableConfiguration().getInternalMessageResolver()
+					.getResource(titleKey, title, this, pageContext);
+//			columnTitle = parent.getTable().getTableConfiguration().getMessage(titleKey);
+		}
+		
 		// DOM source
 		if ("DOM".equals(parent.getLoadingType())) {
 
 			// At the first iteration, the header row must filled
 			if (parent.isFirstIteration()) {
-				addDomColumn(true, title);
+				System.out.println("columnTitle = " + columnTitle);
+				addDomColumn(true, columnTitle);
 			}
 
 			if(parent.getCurrentObject() != null){
@@ -80,11 +90,27 @@ public class ColumnTag extends AbstractColumnTag {
 		// AJAX source
 		else if ("AJAX".equals(parent.getLoadingType())) {
 
-			addAjaxColumn(true, title);
+			addAjaxColumn(true, columnTitle);
 
 			return EVAL_PAGE;
 		}
 
 		return SKIP_PAGE;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String titleKey) {
+		this.title = titleKey;
+	}
+	
+	public String getTitleKey() {
+		return titleKey;
+	}
+
+	public void setTitleKey(String titleKey) {
+		this.titleKey = titleKey;
 	}
 }

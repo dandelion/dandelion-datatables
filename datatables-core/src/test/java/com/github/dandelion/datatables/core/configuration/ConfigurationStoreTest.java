@@ -27,18 +27,52 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.generator;
+package com.github.dandelion.datatables.core.configuration;
 
+import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.MapAssert.entry;
+
+import java.util.HashMap;
 import java.util.Map;
 
-import com.github.dandelion.datatables.core.html.HtmlTable;
+import javax.servlet.http.HttpServletRequest;
 
-/**
- * Abstract superclass for all configuration generators.
- * 
- * @author Thibault Duchateau
- */
-public abstract class AbstractConfigurationGenerator {
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.springframework.mock.web.MockPageContext;
+import org.springframework.mock.web.MockServletContext;
 
-	public abstract Map<String, Object> generateConfig(HtmlTable table);
+public class ConfigurationStoreTest {
+
+	private HttpServletRequest request;
+
+	@Before
+	public void setup() {
+		MockServletContext mockServletContext = new MockServletContext();
+		MockPageContext mockPageContext = new MockPageContext(mockServletContext);
+		request = (HttpServletRequest) mockPageContext.getRequest();
+	}
+	
+	@Test
+	public void should_store_global_configuration_only(){
+		TableConfiguration tc = ConfigurationStore.getPrototype(request, "global");
+		
+		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
+		map.put("global", tc);
+			
+		assertThat(ConfigurationStore.getConfigurationStore())
+			.hasSize(1)
+			.includes(entry(request.getLocale(), map));
+		
+		assertThat(ConfigurationStore.getConfigurationStore().get(request.getLocale()))
+			.hasSize(1)
+			.includes(entry("global", tc));
+		
+		assertThat(ConfigurationStore.getPrototype(request, "group1")).isNull();
+	}
+	
+	@Ignore
+	public void should_store_global_and_group1_configurations(){
+	}
 }

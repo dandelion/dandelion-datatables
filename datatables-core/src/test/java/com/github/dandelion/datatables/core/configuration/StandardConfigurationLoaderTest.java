@@ -27,18 +27,8 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.generator;
+package com.github.dandelion.datatables.core.configuration;
 
-import java.util.Map;
+public class StandardConfigurationLoaderTest {
 
-import com.github.dandelion.datatables.core.html.HtmlTable;
-
-/**
- * Abstract superclass for all configuration generators.
- * 
- * @author Thibault Duchateau
- */
-public abstract class AbstractConfigurationGenerator {
-
-	public abstract Map<String, Object> generateConfig(HtmlTable table);
 }

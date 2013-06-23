@@ -42,6 +42,7 @@ import com.github.dandelion.datatables.core.compressor.CompressorMode;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
+import com.github.dandelion.datatables.core.i18n.MessageResolver;
 import com.github.dandelion.datatables.core.processor.AbstractGenericProcessor;
 import com.github.dandelion.datatables.core.processor.BooleanProcessor;
 import com.github.dandelion.datatables.core.processor.IntegerProcessor;
@@ -61,6 +62,9 @@ import com.github.dandelion.datatables.core.processor.extra.ExtraThemeOptionProc
 import com.github.dandelion.datatables.core.processor.extra.ExtraThemeProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeatureLengthMenuProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeaturePaginationTypeProcessor;
+import com.github.dandelion.datatables.core.processor.i18n.AbstractMessageProcessor;
+import com.github.dandelion.datatables.core.processor.i18n.MessageProcessor;
+import com.github.dandelion.datatables.core.processor.internal.MessageResolverProcessor;
 import com.github.dandelion.datatables.core.processor.main.MainAggregatorModeProcessor;
 import com.github.dandelion.datatables.core.processor.main.MainCompressorModeProcessor;
 import com.github.dandelion.datatables.core.processor.plugin.PluginColReorderProcessor;
@@ -91,7 +95,6 @@ public enum Configuration {
 	CSS_STYLE("css.style", "cssStyle", StringBuilder.class, StringBuilderProcessor.class),
 	CSS_STRIPECLASSES("css.stripeClasses", "cssStripeClasses", String.class, CssStripeClassesProcessor.class),
 	
-	// DataTables features
 	FEATURE_INFO("feature.info", "featureInfo", Boolean.class, BooleanProcessor.class),
 	FEATURE_AUTOWIDTH("feature.autoWidth", "featureAutoWidth", Boolean.class, BooleanProcessor.class),
 	FEATURE_FILTERABLE("feature.filterable", "featureFilterable", Boolean.class, BooleanProcessor.class),
@@ -119,7 +122,6 @@ public enum Configuration {
 	EXTRA_APPEARDURATION("extra.appearDuration", "extraAppearDuration", String.class, StringProcessor.class),
 	EXTRA_LABELS("extra.labels", "extraLabels", String.class, ExtraLabelProcessor.class),
 	
-	// DataTables AJAX features
 	AJAX_PROCESSING("ajax.processing", "ajaxProcessing", Boolean.class, BooleanProcessor.class),
 	AJAX_DEFERRENDER("ajax.deferRender", "ajaxDeferRender", Boolean.class, BooleanProcessor.class),
 	AJAX_SERVERSIDE("ajax.serverSide", "ajaxServerSide", Boolean.class, AjaxServerSideProcessor.class),
@@ -148,9 +150,27 @@ public enum Configuration {
 	EXPORT_XLS_CLASS("export.xls.class", "exportXlsClass", String.class, StringProcessor.class),
 	EXPORT_XLSX_CLASS("export.xlsx.class", "exportXlsxClass", String.class, StringProcessor.class),
 	EXPORT_PDF_CLASS("export.pdf.class", "exportPdfClass", String.class, StringProcessor.class),
-	
+
+	MSG_PROCESSING("msg.processing", "msgProcessing", null, MessageProcessor.class),
+	MSG_SEARCH("msg.search", "msgSearch", null, MessageProcessor.class),
+	MSG_LENGTHMENU("msg.lengthmenu", "msgLengthmenu", null, MessageProcessor.class),
+	MSG_INFO("msg.info", "msgInfo", null, MessageProcessor.class),
+	MSG_INFOEMPTY("msg.info.empty", "msgInfoEmpty", null, MessageProcessor.class),
+	MSG_INFOFILTERED("msg.info.filtered", "msgInfoFiltered", null, MessageProcessor.class),
+	MSG_INFOPOSTFIX("msg.info.postfix", "msgInfoPostfix", null, MessageProcessor.class),
+	MSG_LOADINGRECORDS("msg.loadingrecords", "msgLoadingRecords", null, MessageProcessor.class),
+	MSG_ZERORECORDS("msg.zerorecords", "msgZeroRecords", null, MessageProcessor.class),
+	MSG_EMPTYTABLE("msg.emptytable", "msgEmptyTable", null, MessageProcessor.class),
+	MSG_PAGINATE_FIRST("msg.paginate.first", "msgPaginateFirst", null, MessageProcessor.class),
+	MSG_PAGINATE_PREVIOUS("msg.paginate.previous", "msgPaginatePrevious", null, MessageProcessor.class),
+	MSG_PAGINATE_NEXT("msg.paginate.next", "msgPaginateNext", null, MessageProcessor.class),
+	MSG_PAGINATE_LAST("msg.paginate.last", "msgPaginateLast", null, MessageProcessor.class),
+	MSG_ARIA_SORTASC("msg.aria.sortasc", "msgAriaSortAsc", null, MessageProcessor.class),
+	MSG_ARIA_SORTDESC("msg.aria.sortdesc", "msgAriaSortDesc", null, MessageProcessor.class),
+			
 	// For internal use only
-	INTERNAL_OBJECTTYPE("internal.objectType", "internalObjectType", String.class, StringProcessor.class);
+	INTERNAL_OBJECTTYPE("internal.objectType", "internalObjectType", String.class, StringProcessor.class),
+	INTERNAL_MESSAGE_RESOLVER("internal.messageResolver", "internalMessageResolver", MessageResolver.class, MessageResolverProcessor.class);
 	
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(Configuration.class);
@@ -160,15 +180,20 @@ public enum Configuration {
 	 */
 	private String name;
 	
+	/**
+	 * Name of the configuration in the {@link TableConfiguration} instance.
+	 */
 	private String property;
 	
 	/**
-	 * 
+	 * Return type of the setter method that is called when using subclass of
+	 * {@link AbstractGenericProcessor}.
 	 */
 	private Class<?> returnType;
 	
 	/**
-	 * Processor that has to be applied to update the {@link TableConfiguration}.
+	 * Processor that has to be applied to update the {@link TableConfiguration}
+	 * instance.
 	 */
 	private Class<?> processor;
 	
@@ -223,7 +248,12 @@ public enum Configuration {
 						
 						processor = (Processor) entry.getKey().getProcessor().getDeclaredConstructor(new Class[]{ Method.class })
 								.newInstance(setter);
-					} else {
+					}
+					else if(AbstractMessageProcessor.class.isAssignableFrom(entry.getKey().getProcessor())){
+						processor = (Processor) entry.getKey().getProcessor().getDeclaredConstructor(new Class[]{ String.class })
+								.newInstance(entry.getKey().getName());
+					}
+					else {
 						processor = (Processor) entry.getKey().getProcessor().newInstance();
 					}
 					processor.process(entry.getValue().toString(), tableConfiguration, localConf);

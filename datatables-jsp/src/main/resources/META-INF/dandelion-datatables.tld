@@ -436,6 +436,10 @@
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
+          <description>Column title (TODO)</description>
+          <name>titleKey</name>
+      </attribute>
+      <attribute>
           <description>Name of the attribute of the current object
               being
               iterated object on, regardless the data source (DOM

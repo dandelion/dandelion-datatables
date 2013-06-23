@@ -1,14 +1,29 @@
 package com.github.dandelion.datatables.core.configuration;
 
-import com.github.dandelion.datatables.core.configuration.AbstractConfigurationLoader;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.ResourceBundle;
 
-public class ConfigurationFakeLoader extends AbstractConfigurationLoader {
+import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
+
+public class ConfigurationFakeLoader implements ConfigurationLoader {
 
 	@Override
-	public void doLoadSpecificConfiguration() throws BadConfigurationException {
+	public Properties loadDefaultConfiguration() throws ConfigurationLoadingException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResourceBundle loadUserConfiguration(Locale locale) throws ConfigurationLoadingException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void resolveGroups(Map<String, TableConfiguration> map) {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

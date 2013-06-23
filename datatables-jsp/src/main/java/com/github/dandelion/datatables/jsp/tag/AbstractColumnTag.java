@@ -70,6 +70,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 	// Tag attributes
 	protected String uid;
 	protected String title;
+	protected String titleKey;
 	protected String property;
 	protected String defaultValue;
 	protected String cssStyle;
@@ -387,14 +388,6 @@ public abstract class AbstractColumnTag extends BodyTagSupport {
 
 	public void setProperty(String property) {
 		this.property = property;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 	public String getCssStyle() {

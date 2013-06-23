@@ -27,18 +27,31 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.generator;
+package com.github.dandelion.datatables.core.processor.i18n;
 
 import java.util.Map;
 
-import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+
 
 /**
- * Abstract superclass for all configuration generators.
+ * <p>
+ * Common abstract superclass for all processors.
+ * <p>
+ * All processors contain the actual processing applied on each Datatables
+ * configuration.
  * 
  * @author Thibault Duchateau
+ * @since 0.9.0
  */
-public abstract class AbstractConfigurationGenerator {
+public abstract class AbstractMessageProcessor extends AbstractProcessor {
 
-	public abstract Map<String, Object> generateConfig(HtmlTable table);
+	protected String messageKey;
+
+	protected void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied){
+		tableConfiguration.getMessages().setProperty(messageKey, param);
+	}
 }

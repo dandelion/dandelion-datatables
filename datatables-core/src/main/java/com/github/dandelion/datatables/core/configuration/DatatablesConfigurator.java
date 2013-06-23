@@ -29,18 +29,25 @@
  */
 package com.github.dandelion.datatables.core.configuration;
 
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.Properties;
+import java.util.ResourceBundle;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.constants.SystemConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
+import com.github.dandelion.datatables.core.i18n.LocaleResolver;
 import com.github.dandelion.datatables.core.util.ClassUtils;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * <p>
- * Configurator used to set the {@link ConfigurationLoader} that will be used to
- * load specific configuration.
+ * Configurator used to set the {@link ConfigurationLoaderOld} that will be used
+ * to load specific configuration.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -49,34 +56,102 @@ public class DatatablesConfigurator {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(DatatablesConfigurator.class);
-		
-	private AbstractConfigurationLoader configurationLoader;
-	
-	public DatatablesConfigurator(){
-		
-		logger.debug("Getting the ConfigurationLoader...");
-		
-		this.configurationLoader = new ConfigurationPropertiesLoader();
 
-		if(StringUtils.isNotBlank(System.getProperty(SystemConstants.DANDELION_DT_CONF_CLASS))){
-			Class<?> clazz;
-			try {
-				clazz = ClassUtils.getClass(System.getProperty(SystemConstants.DANDELION_DT_CONF_CLASS));
-				this.configurationLoader = (AbstractConfigurationLoader) ClassUtils.getNewInstance(clazz);
-			} catch (BadConfigurationException e) {
-				logger.warn("The custom configurator {} has not been found in the classpath. Using default one");
+	public final static String DT_USER_PROPERTIES = "datatables";
+
+	private static ConfigurationLoader confLoader;
+	private static LocaleResolver localeResolver;
+
+	/**
+	 * <p>Return an instance of {@link ConfigurationLoader} using the following
+	 * strategy:
+	 * <ul>
+	 * <li>Check first if the <code>dandelion.datatables.confloader.class</code>
+	 * system property is set and tries to instantiate it</li>
+	 * <li>Instantiate the {@link StandardConfigurationLoader}</li>
+	 * </ul>
+	 * 
+	 * @return an instance of {@link ConfigurationLoader}.
+	 */
+	public static ConfigurationLoader getConfigurationLoader() {
+
+		if(confLoader == null){
+		
+			logger.debug("Initializing the configuration loader...");
+	
+			if (StringUtils.isNotBlank(System.getProperty(SystemConstants.DANDELION_DT_CONFLOADER_CLASS))) {
+				Class<?> clazz;
+				try {
+					clazz = ClassUtils.getClass(System.getProperty(SystemConstants.DANDELION_DT_CONFLOADER_CLASS));
+					confLoader = (ConfigurationLoader) ClassUtils.getNewInstance(clazz);
+				} catch (BadConfigurationException e) {
+					logger.warn("The custom configuration loader {} has not been found in the classpath. Falling back to the default one");
+				}
+			}
+			
+			if(confLoader == null){
+				confLoader = new StandardConfigurationLoader();
 			}
 		}
 		
-		logger.debug("DatatablesConfigurator is being initialized using the {}", this.configurationLoader.getClass()
-				.getSimpleName());
+		return confLoader;
 	}
 
-	public AbstractConfigurationLoader getConfLoader(){
-		return this.configurationLoader;
+
+	/**
+	 * Return an instance of {@link LocaleResolver}.
+	 * 
+	 * @return an instance of {@link LocaleResolver}.
+	 * @throws ConfigurationLoadingException
+	 *             if the class that implements {@link LocaleResolver} cannot be
+	 *             instantiated.
+	 */
+	@SuppressWarnings("unchecked")
+	public static LocaleResolver getLocaleResolver() {
+		ResourceBundle userProperties = null;
+		String className = null;
+		ConfigurationLoader configurationLoader = new StandardConfigurationLoader();
+		
+		if (localeResolver == null) {
+
+			try {
+				userProperties = configurationLoader.loadUserConfiguration(Locale.getDefault());
+
+				try{
+					className = userProperties.getString("i18n.locale.resolver");
+				}
+				catch (MissingResourceException e){
+					
+					logger.debug("No custom LocaleResolver has been configured. Using default one.");
+					Properties defaultProperties = configurationLoader.loadDefaultConfiguration(); 
+					className = defaultProperties.getProperty("i18n.locale.resolver");
+				}
+				
+				if(className != null){
+					try {
+						Class<LocaleResolver> classProperty = (Class<LocaleResolver>) ClassUtils
+								.classForName(className);
+						localeResolver = classProperty.newInstance();
+					} catch (Throwable e) {
+						//		                    log.warn(Messages.getString("TableProperties.errorloading", //$NON-NLS-1$
+						// new Object[]{
+						// ClassUtils.getShortClassName(LocaleResolver.class),
+						// e.getClass().getName(),
+						// e.getMessage()}));
+					}
+				}
+			} catch (ConfigurationLoadingException e) {
+				logger.error("Unable to retrieve the LocaleResolver using the class {}", className);
+			}
+		}
+		return localeResolver;
 	}
 
-	public void setConfLoader(AbstractConfigurationLoader confLoader){
-		this.configurationLoader = confLoader;
+	/**
+	 * <b>FOR INTERNAL USE ONLY</b>
+	 */
+	public static void clear(){
+		confLoader = null;
+		localeResolver = null;
 	}
 }

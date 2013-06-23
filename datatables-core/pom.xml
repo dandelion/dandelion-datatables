@@ -52,7 +52,7 @@
          <artifactId>slf4j-api</artifactId>
          <scope>compile</scope>
       </dependency>
-
+            
       <!-- Test -->
       <dependency>
          <groupId>org.easytesting</groupId>
@@ -64,12 +64,6 @@
          <groupId>org.springframework</groupId>
          <artifactId>spring-test</artifactId>
          <version>${spring.version}</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>javax.servlet</groupId>
-         <artifactId>jsp-api</artifactId>
-         <version>2.0</version>
          <scope>test</scope>
       </dependency>
    </dependencies>

@@ -27,18 +27,24 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.generator;
+package com.github.dandelion.datatables.core.i18n;
 
-import java.util.Map;
-
-import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * Abstract superclass for all configuration generators.
- * 
+ * <p>Interface for all MessageResolvers.
+ *
  * @author Thibault Duchateau
+ * @since 0.9.0
  */
-public abstract class AbstractConfigurationGenerator {
+public interface MessageResolver {
 
-	public abstract Map<String, Object> generateConfig(HtmlTable table);
+	/**
+	 * 
+	 * @param resourceKey
+	 * @param defaultValue
+	 * @param tag
+	 * @param context
+	 * @return
+	 */
+	String getResource(String resourceKey, String defaultValue, Object... objects);
 }

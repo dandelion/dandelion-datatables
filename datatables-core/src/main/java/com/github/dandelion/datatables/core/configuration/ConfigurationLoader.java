@@ -29,16 +29,22 @@
  */
 package com.github.dandelion.datatables.core.configuration;
 
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.ResourceBundle;
+
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 
 /**
- * Common interface for all ConfigurationLoaders.
- * 
+ * Interface for configuration loaders.
+ *
  * @author Thibault Duchateau
  * @since 0.9.0
  */
 public interface ConfigurationLoader {
-	
+
 	/**
 	 * <p>
 	 * Load the default configuration properties into the staging configuration
@@ -52,14 +58,18 @@ public interface ConfigurationLoader {
 	 * @throws BadConfigurationException
 	 *             if something went wrong during the loading.
 	 */
-	public void loadDefaultConfiguration() throws BadConfigurationException;
+	public Properties loadDefaultConfiguration() throws ConfigurationLoadingException;
 	
 	/**
-	 * <p>
-	 * Load the specific configuration into the staging configuration Map.
 	 * 
+	 * @param locale
 	 * @throws BadConfigurationException
-	 *             if something went wrong during the loading.
 	 */
-	public void doLoadSpecificConfiguration() throws BadConfigurationException;
+	public ResourceBundle loadUserConfiguration(Locale locale) throws ConfigurationLoadingException;
+	
+	/**
+	 * 
+	 * @param map
+	 */
+	public void resolveGroups(Map<String, TableConfiguration> map);
 }

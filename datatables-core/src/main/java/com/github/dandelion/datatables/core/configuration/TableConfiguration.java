@@ -30,10 +30,11 @@
 package com.github.dandelion.datatables.core.configuration;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +48,6 @@ import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
@@ -59,10 +59,11 @@ import com.github.dandelion.datatables.core.extension.plugin.AbstractPlugin;
 import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.html.HtmlTag;
+import com.github.dandelion.datatables.core.i18n.MessageResolver;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
- * POJO that contains all the table-specific properties.
+ * Contains all the table configuration.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -72,12 +73,9 @@ public class TableConfiguration {
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TableConfiguration.class);
 
+	public final static String DT_USER_PROPERTIES = "datatables";
 	public static final String DEFAULT_GROUP_NAME = "global";
 	public static final String KEY_NAME_SEP = ".";
-
-	public static TableConfiguration instance;
-
-	private static Map<String, TableConfiguration> configurations = new HashMap<String, TableConfiguration>();
 
 	// DataTables global parameters
 	private Boolean featureInfo;
@@ -159,13 +157,16 @@ public class TableConfiguration {
 	private Boolean mainAggregatorEnable;
 	private AggregatorMode mainAggregatorMode;
 	private String mainUrlBase;
-			
+
 	// Class of the iterated objects. Only used in XML export.
 	private String internalObjectType;
 	private Set<AbstractPlugin> internalPlugins;
 	private Set<AbstractFeature> internalFeatures;
 	private String tableId;
 	private HttpServletRequest request;
+	private ResourceBundle internalMessages;
+	private Properties messages = new Properties();
+	private MessageResolver internalMessageResolver;
 
 	/**
 	 * Return an instance of {@link TableConfiguration} for the
@@ -180,74 +181,40 @@ public class TableConfiguration {
 		return getInstance(request, DEFAULT_GROUP_NAME);
 	}
 
+	
 	/**
 	 * <p>
 	 * Return an instance of {@link TableConfiguration} for the given groupName.
-	 * The instance is retrieved from the cache (configurations) if it exists or
-	 * computed and then stored in it.
+	 * The instance is retrieved from the {@link ConfigurationStore}.
 	 * <p>
 	 * If the passed group name doesn't exist, the DEFAULT_GROUP_NAME (global)
 	 * will be used.
 	 * 
 	 * @param request
-	 *            
+	 * 
 	 * @param groupName
 	 *            Name of the configuration group to load.
 	 * @return an instance of {@link TableConfiguration} that contains all the
 	 *         table configuration.
 	 */
 	public static TableConfiguration getInstance(HttpServletRequest request, String groupName) {
-
-		String group = groupName;
-
-		if (groupName == null || groupName.length() == 0) {
-			group = DEFAULT_GROUP_NAME;
-		}
-
-		logger.debug("Trying to retrieve the TableConfiguration for the group {}", group);
 		
-		TableConfiguration tableConfiguration = configurations.get(group);
-
-		if (tableConfiguration == null) {
-			logger.debug("No TableConfiguration was found. Creating one...");
-			TableConfiguration tableConf = new TableConfiguration(request, group);
-			configurations.put(group, tableConf);
-			tableConfiguration = tableConf;
-		}
-
-		return new TableConfiguration(tableConfiguration, request);
+		// Retrieve the TableConfiguration prototype from the store
+		TableConfiguration prototype = ConfigurationStore.getPrototype(request, groupName);
+		
+		// Clone the TableConfiguration for the local use
+		return new TableConfiguration(prototype, request);
 	}
 	
 	/**
-	 * Private constructor used by the getInstance() methods when the instance
-	 * does not exist in the cache.
 	 * 
-	 * @param request
-	 * 
-	 * @param groupName
-	 *            Name of the configuration group to load.
-	 * @throws BadConfigurationException 
+	 * <b>FOR INTERNAL USE ONLY</b>
+	 * @param stagingConf
 	 */
-	private TableConfiguration(HttpServletRequest request, String groupName) {
-		this.request = request;
-		
-		AbstractConfigurationLoader confLoader = new DatatablesConfigurator().getConfLoader();
-		
-		try {
-			// Loading default configuration (from properties file)
-			confLoader.loadDefaultConfiguration();
-			
-			// Loading specific configuration (using the specificConfLoader)
-			confLoader.loadSpecificConfiguration(groupName);
-
-			Configuration.applyConfiguration(this, confLoader.getStagingConfiguration());
-			
-		} catch (BadConfigurationException e) {
-			logger.warn("Configuration could not be loaded.", e);
-		} catch (AttributeProcessingException e) {
-			logger.error("Something went wrong during the configuration processing", e);
-		}
+	public TableConfiguration(Map<Configuration, Object> stagingConf){
+		Configuration.applyConfiguration(this, stagingConf);
 	}
+	
 
 	/**
 	 * Private constructor used to build clones of TableConfiguration.
@@ -342,6 +309,9 @@ public class TableConfiguration {
 		mainAggregatorEnable = objectToClone.mainAggregatorEnable;
 		mainAggregatorMode = objectToClone.mainAggregatorMode;
 		mainUrlBase = objectToClone.mainUrlBase;
+		
+		internalMessageResolver = objectToClone.internalMessageResolver;
+		messages = objectToClone.messages;
 	}
 	
 	/**
@@ -1115,10 +1085,6 @@ public class TableConfiguration {
 		return request;
 	}
 	
-	public static Map<String, TableConfiguration> getConfigurations(){
-		return configurations;
-	}
-
 	public Set<ExportConf> getExportConfs() {
 		return exportConfs;
 	}
@@ -1138,6 +1104,34 @@ public class TableConfiguration {
 			}
 		}
 		return retval;
+	}
+	
+	public ResourceBundle getInternalMessages() {
+		return internalMessages;
+	}
+
+	public void setInternalMessages(ResourceBundle internalMessages) {
+		this.internalMessages = internalMessages;
+	}
+
+	public Properties getMessages() {
+		return messages;
+	}
+
+	public void setMessages(Properties messages) {
+		this.messages = messages;
+	}
+	
+	public void setInternalMessageResolver(MessageResolver internalResourceProvider) {
+		this.internalMessageResolver = internalResourceProvider;
+	}
+
+	public MessageResolver getInternalMessageResolver() {
+		return internalMessageResolver;
+	}
+	
+	public String getMessage(String key){
+		return this.messages.getProperty(key);
 	}
 
 	@Override

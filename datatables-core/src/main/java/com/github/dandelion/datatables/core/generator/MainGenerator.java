@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,7 @@ import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.constants.DatatableMsg;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.StringUtils;
@@ -139,11 +141,9 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         if(StringUtils.isNotBlank(tableConfiguration.getFeatureDom())){
         	mainConf.put(DTConstants.DT_DOM, tableConfiguration.getFeatureDom());
         }
-        if (tableConfiguration.getExtraLabels() != null) {
-            tmp = new HashMap<String, Object>();
-            tmp.put(DTConstants.DT_URL, tableConfiguration.getExtraLabels());
-            mainConf.put(DTConstants.DT_LANGUAGE, tmp);
-        }
+        
+        handleI18n(mainConf, tableConfiguration);
+        
         if (tableConfiguration.getFeatureAutoWidth() != null) {
             mainConf.put(DTConstants.DT_AUTO_WIDTH, tableConfiguration.getFeatureAutoWidth());
         }
@@ -214,7 +214,6 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         // Callbacks
         if(tableConfiguration.getCallbacks() != null){
         	for(Callback callback : tableConfiguration.getCallbacks()){
-//        		mainConf.put(callback.getType().getName(), new JavascriptFunction(callback.getFunction(), callback.getType().getArgs()));
         		mainConf.put(callback.getType().getName(), callback.getFunction());
         	}
         }
@@ -222,5 +221,51 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         logger.debug("DataTables configuration generated");
 
         return mainConf;
+    }
+    
+	/**
+	 * Build the map that will generate the oLanguage object and update the main
+	 * configuration.
+	 * 
+	 * @param mainConf
+	 *            The mainConfiguration to update.
+	 * @param tableConfiguration
+	 *            The {@link TableConfiguration} to read configuration from.
+	 */
+    private void handleI18n(Map<String, Object> mainConf, TableConfiguration tableConfiguration){
+    	Map<String, Object> languageMap = new HashMap<String, Object>();
+    	Map<String, Object> languagePaginateMap = new HashMap<String, Object>();
+    	Map<String, Object> languageAriaMap = new HashMap<String, Object>();
+        
+    	if(tableConfiguration.getMessages() != null && tableConfiguration.getMessages().size() > 0){
+    		for(Entry<Object, Object> entry : tableConfiguration.getMessages().entrySet()){
+    			for(DatatableMsg conf : DatatableMsg.values()){
+    				if(entry.getKey().equals(conf.getPropertyName()) && StringUtils.isNotBlank(entry.getValue().toString())){
+    					if(entry.getKey().toString().contains("paginate")){
+    						languagePaginateMap.put(conf.getRealName(), entry.getValue());
+    					}
+    					else if(entry.getKey().toString().contains("aria")){
+    						languageAriaMap.put(conf.getRealName(), entry.getValue());
+    					}
+    					else{
+    						languageMap.put(conf.getRealName(), entry.getValue());
+    					}
+    					break;
+    				}
+    			}
+    		}
+    	}
+
+        if(languagePaginateMap.size() > 0){
+        	languageMap.put(DatatableMsg.PAGINATE.getRealName(), languagePaginateMap);
+        }
+
+        if(languageAriaMap.size() > 0){
+        	languageMap.put(DatatableMsg.ARIA.getRealName(), languageAriaMap);
+        }
+        
+        if(languageMap.size() > 0){
+        	mainConf.put(DTConstants.DT_LANGUAGE, languageMap);
+        }
     }
 }

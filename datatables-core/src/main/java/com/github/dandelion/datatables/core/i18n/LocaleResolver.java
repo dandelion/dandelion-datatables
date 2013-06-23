@@ -27,18 +27,31 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.generator;
+package com.github.dandelion.datatables.core.i18n;
 
-import java.util.Map;
+import java.util.Locale;
 
-import com.github.dandelion.datatables.core.html.HtmlTable;
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * Abstract superclass for all configuration generators.
+ * <p>
+ * Interface for all LocaleResolvers.
+ * 
+ * <p>
+ * The locale is defaultly retrieved from the request in the
+ * {@link StandardLocaleResolver} which is the default implementation.
  * 
  * @author Thibault Duchateau
+ * @since 0.9.0
  */
-public abstract class AbstractConfigurationGenerator {
+public interface LocaleResolver {
 
-	public abstract Map<String, Object> generateConfig(HtmlTable table);
+	/**
+	 * Resolve the current locale with the given request.
+	 * 
+	 * @param request
+	 *            The request used to resolve the locale.
+	 * @return the current Locale.
+	 */
+	public Locale resolveLocale(HttpServletRequest request);
 }

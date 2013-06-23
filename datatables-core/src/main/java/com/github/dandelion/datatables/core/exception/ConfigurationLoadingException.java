@@ -27,18 +27,30 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.generator;
-
-import java.util.Map;
-
-import com.github.dandelion.datatables.core.html.HtmlTable;
+package com.github.dandelion.datatables.core.exception;
 
 /**
- * Abstract superclass for all configuration generators.
+ * Raised if there's something wrong in the Dandelion-datatables configuration file
+ * (datatables(-default).properties).
  * 
  * @author Thibault Duchateau
  */
-public abstract class AbstractConfigurationGenerator {
+public class ConfigurationLoadingException extends Exception {
 
-	public abstract Map<String, Object> generateConfig(HtmlTable table);
+	private static final long serialVersionUID = 3243845798907773547L;
+
+	public ConfigurationLoadingException() {
+	};
+
+	public ConfigurationLoadingException(String message) {
+		super(message);
+	}
+
+	public ConfigurationLoadingException(Throwable cause) {
+		super(cause);
+	}
+
+	public ConfigurationLoadingException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

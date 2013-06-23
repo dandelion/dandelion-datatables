@@ -27,18 +27,28 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.generator;
+package com.github.dandelion.datatables.core.processor.internal;
 
-import java.util.Map;
+import static org.fest.assertions.Assertions.assertThat;
 
-import com.github.dandelion.datatables.core.html.HtmlTable;
+import org.junit.Test;
 
-/**
- * Abstract superclass for all configuration generators.
- * 
- * @author Thibault Duchateau
- */
-public abstract class AbstractConfigurationGenerator {
+import com.github.dandelion.datatables.core.constants.DatatableMsg;
+import com.github.dandelion.datatables.core.processor.Processor;
+import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.i18n.MessageProcessor;
 
-	public abstract Map<String, Object> generateConfig(HtmlTable table);
+public class MessageProcessorTest extends ProcessorBaseTest {
+
+	@Override
+	public Processor getProcessor() {
+		String messageKey = DatatableMsg.INFO.getPropertyName();
+		return new MessageProcessor(messageKey);
+	}
+	
+	@Test
+	public void should_add_a_message() throws Exception {
+		processor.process("myInfo", tableConfiguration, confToBeApplied);
+		assertThat(tableConfiguration.getMessages().getProperty(DatatableMsg.INFO.getPropertyName())).isEqualTo("myInfo");
+	}
 }
