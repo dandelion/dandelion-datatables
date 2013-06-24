@@ -481,7 +481,7 @@ public class TableTag extends AbstractTableTag {
 			iterator = dataTmp.iterator();
 		} else {
 			iterator = null;
-			currentObject = null;
+			currentObject = null; 
 		}
 	}
 	
