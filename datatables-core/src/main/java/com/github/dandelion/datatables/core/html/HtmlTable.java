@@ -33,6 +33,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -80,6 +81,15 @@ public class HtmlTable extends HtmlTag {
 		this.tag = "table";
 		this.randomId = ResourceHelper.getRamdomNumber();
 		this.id = id;
+	}
+
+	public HtmlTable(String id, HttpServletRequest request, String groupName, Map<String, String> dynamicAttributes) {
+		this.tag = "table";
+		this.randomId = ResourceHelper.getRamdomNumber();
+		this.id = id;
+		this.dynamicAttributes = dynamicAttributes;
+		tableConfiguration = TableConfiguration.getInstance(request, groupName);
+		tableConfiguration.setTableId(id);
 	}
 
 	/**

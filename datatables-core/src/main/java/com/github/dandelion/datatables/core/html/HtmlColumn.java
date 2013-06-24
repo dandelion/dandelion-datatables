@@ -31,6 +31,7 @@ package com.github.dandelion.datatables.core.html;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
@@ -96,6 +97,15 @@ public class HtmlColumn extends HtmlTagWithContent {
 		if(content != null) {
 			setContent(new StringBuilder(content));
 		}
+	}
+
+	public HtmlColumn(Boolean isHeader, String content, Map<String, String> dynamicAttributes) {
+		init();
+		setHeaderColumn(isHeader);
+		if(content != null) {
+			setContent(new StringBuilder(content));
+		}
+		this.dynamicAttributes = dynamicAttributes;
 	}
 
 	/**

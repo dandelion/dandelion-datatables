@@ -35,5 +35,10 @@ package com.github.dandelion.datatables.core.extension.feature;
  * @author Thibault Duchateau
  */
 public enum PaginationType {
-	TWO_BUTTON, FULL_NUMBERS, FOUR_BUTTON, SCROLLING, BOOTSTRAP, INPUT, LISTBOX
+	TWO_BUTTON, FULL_NUMBERS, FOUR_BUTTON, SCROLLING, BOOTSTRAP, INPUT, LISTBOX;
+
+	@Override
+	public String toString() {
+	    return this.name().toLowerCase();
+	}
 }

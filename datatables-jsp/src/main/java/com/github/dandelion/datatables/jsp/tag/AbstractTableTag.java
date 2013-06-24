@@ -30,12 +30,14 @@ package com.github.dandelion.datatables.jsp.tag;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+import javax.servlet.jsp.tagext.DynamicAttributes;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -62,7 +64,7 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  * @author Thibault Duchateau
  * @since 0.1.0
  */
-public abstract class AbstractTableTag extends BodyTagSupport {
+public abstract class AbstractTableTag extends BodyTagSupport implements DynamicAttributes {
 
 	private static final long serialVersionUID = 4788079931487986884L;
 
@@ -96,6 +98,7 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 	protected String rowIdBase;
 	protected String rowIdPrefix;
 	protected String rowIdSufix;
+	protected Map<String, String> dynamicAttributes;
 
 	// Basic features
 	protected String footer;
@@ -275,5 +278,39 @@ public abstract class AbstractTableTag extends BodyTagSupport {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * Get the map of dynamic attributes.
+	 */
+	protected Map<String, String> getDynamicAttributes() {
+		return this.dynamicAttributes;
+        }
+
+	/** {@inheritDoc} */
+	public void setDynamicAttribute(String uri, String localName, Object value ) 
+		throws JspException {
+		if (this.dynamicAttributes == null) {
+			this.dynamicAttributes = new HashMap<String, String>();
+		}
+		if (!isValidDynamicAttribute(localName, value)) {
+			throw new IllegalArgumentException("Attribute "
+				.concat(localName).concat("=\"")
+				.concat(String.valueOf(value))
+				.concat("\" is not allowed"));
+		}
+
+		// Accept String values only, because we haven't knowledge
+		// about how to transform Object to String
+		if(value instanceof String) {
+		    dynamicAttributes.put(localName, (String) value);
+		}
+	}
+
+	/**
+	 * Whether the given name-value pair is a valid dynamic attribute.
+	 */
+	protected boolean isValidDynamicAttribute(String localName, Object value) {
+		return true;
 	}
 }

@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.core.html;
 
+import java.util.Map;
+
 /**
  * Abstract superclass for all HTML tags.
  * 
@@ -60,6 +62,11 @@ public abstract class HtmlTag {
 	protected StringBuilder cssStyle;
 
 	/**
+	 * Dynamic native HTML attributes.
+	 */
+	protected Map<String, String> dynamicAttributes;
+
+        /**
 	 * Render the tag in HTML code.
 	 * 
 	 * @return the HTML code corresponding to the tag.
@@ -76,6 +83,7 @@ public abstract class HtmlTag {
 		html.append('<');
 		html.append(this.tag);
 		html.append(getHtmlAttributes());
+		html.append(getDynamicHtmlAttributes());
 		html.append('>');
 		return html;
 	}
@@ -85,6 +93,19 @@ public abstract class HtmlTag {
 		html.append(writeAttribute("id", this.id));
 		html.append(writeAttribute("class", this.cssClass));
 		html.append(writeAttribute("style", this.cssStyle));
+		return html;
+	}
+
+	protected StringBuilder getDynamicHtmlAttributes() {
+
+		// If no dynamicAttributes set, return empty StringBuilder
+		if(dynamicAttributes == null) {
+			return new StringBuilder();
+		}
+		StringBuilder html = new StringBuilder();
+		for(Map.Entry<String, String> attribute : dynamicAttributes.entrySet()) {
+			html.append(writeAttribute(attribute.getKey(), attribute.getValue()));
+		}
 		return html;
 	}
 	
@@ -134,6 +155,14 @@ public abstract class HtmlTag {
 
 	public void setCssStyle(StringBuilder cssStyle) {
 		this.cssStyle = cssStyle;
+	}
+
+	public Map<String, String> getDynamicAttributes() {
+		return dynamicAttributes;
+	}
+
+	public void setDynamicAttributes(Map<String, String> dynamicAttributes) {
+		this.dynamicAttributes = dynamicAttributes;
 	}
 
 	public void addCssClass(String cssClass) {
