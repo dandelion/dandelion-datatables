@@ -29,7 +29,15 @@
  */
 package com.github.dandelion.datatables.core.i18n;
 
+import javax.servlet.http.HttpServletRequest;
+
 public abstract class AbstractMessageResolver implements MessageResolver {
 
+	protected HttpServletRequest request;
+	
+	public AbstractMessageResolver(HttpServletRequest request){
+		this.request = request;
+	}
+	
 	public static final String UNDEFINED_KEY = "???";
 }

@@ -32,6 +32,7 @@ package com.github.dandelion.datatables.jsp.i18n;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.jstl.fmt.LocalizationContext;
 import javax.servlet.jsp.tagext.Tag;
@@ -58,6 +59,10 @@ import com.github.dandelion.datatables.jsp.tag.ColumnTag;
  * @since 0.9.0
  */
 public class JstlMessageResolver extends AbstractMessageResolver {
+
+	public JstlMessageResolver(HttpServletRequest request) {
+		super(request);
+	}
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(JstlMessageResolver.class);

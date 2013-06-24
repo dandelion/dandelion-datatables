@@ -31,6 +31,8 @@ package com.github.dandelion.datatables.core.processor.internal;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,10 +56,10 @@ public class MessageResolverProcessor extends AbstractProcessor {
 
 		if (param != null) {
 			try {
-
 				Class<MessageResolver> classProperty = (Class<MessageResolver>) ClassUtils
 						.classForName(param);
-				resourceProvider = classProperty.newInstance();
+				resourceProvider = classProperty.getDeclaredConstructor(new Class[] { HttpServletRequest.class })
+						.newInstance(tableConfiguration.getRequest());
 
 				logger.info("MessageResolver initialized with {}", resourceProvider.getClass().getSimpleName());
 			} catch (Throwable e) {

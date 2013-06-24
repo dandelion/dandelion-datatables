@@ -51,6 +51,7 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.datatables.core.constants.SystemConstants;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.util.BundleUtils;
+import com.github.dandelion.datatables.core.util.ClassUtils;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
@@ -78,9 +79,9 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 	 */
 	public Properties loadDefaultConfiguration() throws ConfigurationLoadingException {
 
-		logger.debug("Loading default configuration...");
-
 		if (defaultProperties == null) {
+
+			logger.debug("Loading default configuration...");
 
 			// Initialize properties
 			Properties propertiesResource = new Properties();
@@ -106,9 +107,9 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 			}
 
 			defaultProperties = propertiesResource;
-		}
 
-		logger.debug("Default configuration loaded");
+			logger.debug("Default configuration loaded");
+		}
 
 		return defaultProperties;
 	}
@@ -164,18 +165,16 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		// Convert userProperties from ResourceBundle to Properties
 		Properties userProps = BundleUtils.toProperties(userProperties);
 
+		loadTemplateEngineRelatedConfiguration(userProps);
+		
 		// Get all group names
-		Set<String> groups = new HashSet<String>();
-		for (Entry<Object, Object> entry : userProps.entrySet()) {
-			String key = entry.getKey().toString();
-			groups.add(key.substring(0, key.indexOf(".")));
-		}
+		Set<String> groups = getAllGroups(userProps);
 
 		// Retrieve the configuration for the 'global' group
 		// The 'global' group contains all defaut properties, some of which may
 		// have been overriden by user
-		// The group information is removed before storing the property in the
-		// Properties file
+		// The group information is removed from the key before storing the
+		// property in the properties file
 		Properties globalProperties = new Properties();
 		for (Entry<Object, Object> entry : defaultProperties.entrySet()) {
 			String key = entry.getKey().toString();
@@ -219,6 +218,47 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 
 			map.put(groupName, new TableConfiguration(stagingConf));
 		}
-		logger.debug("Groups resolved");
+		
+		logger.debug("{} group(s) resolved ({}) for the locale {}", groups.size(), groups.toString(), locale);
+	}
+	
+	/**
+	 * Retrieve all the existing configuration groups from the user properties
+	 * if they exist, or just a Set containing the DEFAULT_GROUP_NAME if there
+	 * is no user properties.
+	 * 
+	 * @param userProps
+	 *            The user properties.
+	 * @return a set containing all existing groups.
+	 */
+	private Set<String> getAllGroups(Properties userProps){
+		Set<String> groups = new HashSet<String>();
+
+		if(!userProps.isEmpty()){
+			for (Entry<Object, Object> entry : userProps.entrySet()) {
+				String key = entry.getKey().toString();
+				groups.add(key.substring(0, key.indexOf(".")));
+			}
+		}
+		else{
+			groups.add(DEFAULT_GROUP_NAME);
+		}
+		
+		return groups;
+	}
+	
+	private void loadTemplateEngineRelatedConfiguration(Properties userProps){
+		
+		boolean jstlPresent = ClassUtils.isPresent("javax.servlet.jsp.jstl.core.Config");
+
+		if(jstlPresent && userProps != null){
+			for(Entry<Object, Object> entry : userProps.entrySet()){
+				String key = entry.getKey().toString();
+				if (key.contains(Configuration.INTERNAL_MESSAGE_RESOLVER.getName())
+						&& StringUtils.isBlank(entry.getValue().toString())) {
+					userProps.put(entry.getKey(), "com.github.dandelion.datatables.jsp.i18n.JstlMessageResolver");
+				}
+			}
+		}
 	}
 }

@@ -48,7 +48,7 @@ import com.github.dandelion.datatables.core.util.StringUtils;
 /**
  * <p>
  * The {@link DatatablesConfigurator} is used to pick up different classes in
- * charge of the configuration loading, instantiate and cache them.
+ * charge of the configuration loading, instantiate them and cache them.
  * 
  * <ul>
  * <li>The locale resolver, in charge of retrieving the current locale from
@@ -91,18 +91,23 @@ public class DatatablesConfigurator {
 	public static LocaleResolver getLocaleResolver() {
 		ResourceBundle userProperties = null;
 		String className = null;
-		ConfigurationLoader configurationLoader = new StandardConfigurationLoader();
+		ConfigurationLoader configurationLoader = getConfigurationLoader();
 
 		if (localeResolver == null) {
 
 			try {
 				userProperties = configurationLoader.loadUserConfiguration(Locale.getDefault());
 
-				try {
-					className = userProperties.getString("i18n.locale.resolver");
-				} catch (MissingResourceException e) {
+				if(userProperties != null){
+					try {
+							className = userProperties.getString("i18n.locale.resolver");
+					} catch (MissingResourceException e) {
+	
+						logger.debug("No custom LocaleResolver has been configured. Using default one.");
+					}
+				}
 
-					logger.debug("No custom LocaleResolver has been configured. Using default one.");
+				if(className == null){
 					Properties defaultProperties = configurationLoader.loadDefaultConfiguration();
 					className = defaultProperties.getProperty("i18n.locale.resolver");
 				}

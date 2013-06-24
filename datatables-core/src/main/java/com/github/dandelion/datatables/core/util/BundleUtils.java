@@ -8,11 +8,14 @@ public class BundleUtils {
 
 	public static Properties toProperties(ResourceBundle bundle){
 		Properties properties = new Properties();
-        Enumeration<String> keys = bundle.getKeys();
-        while (keys.hasMoreElements()) {
-            String key = keys.nextElement();
-            properties.put(key, bundle.getString(key));
-        }
+		
+		if(bundle != null){
+			Enumeration<String> keys = bundle.getKeys();
+			while (keys.hasMoreElements()) {
+				String key = keys.nextElement();
+				properties.put(key, bundle.getString(key));
+			}
+		}
         return properties;
 	}
 }

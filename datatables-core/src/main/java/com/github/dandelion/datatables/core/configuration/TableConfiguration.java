@@ -34,13 +34,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.aggregator.AggregatorMode;
 import com.github.dandelion.datatables.core.asset.ExtraConf;
@@ -69,9 +65,6 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  * @since 0.9.0
  */
 public class TableConfiguration {
-
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(TableConfiguration.class);
 
 	public final static String DT_USER_PROPERTIES = "datatables";
 	public static final String DEFAULT_GROUP_NAME = "global";
@@ -158,15 +151,16 @@ public class TableConfiguration {
 	private AggregatorMode mainAggregatorMode;
 	private String mainUrlBase;
 
+	// I18n
+	private Properties messages = new Properties();
+	private MessageResolver internalMessageResolver;
+
 	// Class of the iterated objects. Only used in XML export.
 	private String internalObjectType;
 	private Set<AbstractPlugin> internalPlugins;
 	private Set<AbstractFeature> internalFeatures;
 	private String tableId;
 	private HttpServletRequest request;
-	private ResourceBundle internalMessages;
-	private Properties messages = new Properties();
-	private MessageResolver internalMessageResolver;
 
 	/**
 	 * Return an instance of {@link TableConfiguration} for the
@@ -1105,14 +1099,6 @@ public class TableConfiguration {
 		}
 		return retval;
 	}
-	
-	public ResourceBundle getInternalMessages() {
-		return internalMessages;
-	}
-
-	public void setInternalMessages(ResourceBundle internalMessages) {
-		this.internalMessages = internalMessages;
-	}
 
 	public Properties getMessages() {
 		return messages;
@@ -1167,9 +1153,8 @@ public class TableConfiguration {
 				+ ", mainCompressorPreserveSemiColons=" + mainCompressorPreserveSemiColons
 				+ ", mainCompressorDisableOpti=" + mainCompressorDisableOpti + ", mainAggregatorEnable="
 				+ mainAggregatorEnable + ", mainAggregatorMode=" + mainAggregatorMode + ", mainUrlBase=" + mainUrlBase
+				+ ", messages=" + messages + ", internalMessageResolver=" + internalMessageResolver
 				+ ", internalObjectType=" + internalObjectType + ", internalPlugins=" + internalPlugins
-				+ ", internalFeatures=" + internalFeatures + ", tableId=" + tableId + ", request=" + request
-				+ ", internalMessages=" + internalMessages + ", messages=" + messages + ", internalMessageResolver="
-				+ internalMessageResolver + "]";
+				+ ", internalFeatures=" + internalFeatures + ", tableId=" + tableId + ", request=" + request + "]";
 	}
 }
