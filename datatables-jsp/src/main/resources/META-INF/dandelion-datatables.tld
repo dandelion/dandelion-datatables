@@ -377,6 +377,7 @@
             http://datatables.net/extras/colreorder/)</description>
           <name>colReorder</name>
       </attribute>
+      <dynamic-attributes>true</dynamic-attributes>
    </tag>
 
    <!-- ====================================== -->
@@ -543,6 +544,7 @@
          <name>selector</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
+      <dynamic-attributes>true</dynamic-attributes>
    </tag>
 
    <!-- ====================================== -->
