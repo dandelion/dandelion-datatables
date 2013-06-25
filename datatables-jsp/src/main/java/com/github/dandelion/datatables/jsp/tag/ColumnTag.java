@@ -31,6 +31,8 @@ package com.github.dandelion.datatables.jsp.tag;
 
 import javax.servlet.jsp.JspException;
 
+import com.github.dandelion.datatables.core.html.HtmlColumn;
+import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
@@ -52,50 +54,55 @@ public class ColumnTag extends AbstractColumnTag {
 	}
 
 	/**
-	 * TODO
+	 * <p>
+	 * Configure the current {@link HtmlColumn}.
+	 * <p>
+	 * Note that when using an AJAX source, since there is only one iteration,
+	 * it just adds a header column to the last header {@link HtmlRow} added.
+	 * When using a DOM source, first a header {@link HtmlColumn} is added at
+	 * first iteration and a {@link HtmlColumn} is added for each iteration.
 	 */
 	public int doEndTag() throws JspException {
 		TableTag parent = (TableTag) getParent();
 
-		String columnTitle = title;
-		if(columnTitle == null && StringUtils.isNotBlank(titleKey)){
-			columnTitle = parent.getTable().getTableConfiguration().getInternalMessageResolver()
-					.getResource(titleKey, title, this, pageContext);
-//			columnTitle = parent.getTable().getTableConfiguration().getMessage(titleKey);
-		}
-		
-		// DOM source
-		if ("DOM".equals(parent.getLoadingType())) {
+		// A header column must be added at first iteration
+		if(parent.isFirstIteration()){
 
-			// At the first iteration, the header row must filled
-			if (parent.isFirstIteration()) {
-				System.out.println("columnTitle = " + columnTitle);
+			// The 'title' attribute has precendence over 'titleKey'
+			String columnTitle = title;
+			
+			// If the 'titleKey' attribute is used, the column's title must be
+			// retrieved from the current ResourceBundle
+			if(columnTitle == null && StringUtils.isNotBlank(titleKey)){
+				columnTitle = parent.getTable().getTableConfiguration().getInternalMessageResolver()
+						.getResource(titleKey, title, this, pageContext);
+			}
+			
+			if ("DOM".equals(parent.getLoadingType())) {
 				addDomColumn(true, columnTitle);
 			}
-
-			if(parent.getCurrentObject() != null){
-				
-				// The column has a body
-				if (getBodyContent() != null) {
-					String bodyString = getBodyContent().getString().trim().replaceAll("[\n\r]", "");
-					addDomColumn(false, bodyString);
-				}
-				// The column doens't have a body but a property is set
-				else{
-					addDomColumn(false, getColumnContent());	
-				}
+			else if ("AJAX".equals(parent.getLoadingType())) {
+				addAjaxColumn(true, columnTitle);
+				return EVAL_PAGE;
 			}
-			return EVAL_PAGE;
-		} 
-		// AJAX source
-		else if ("AJAX".equals(parent.getLoadingType())) {
-
-			addAjaxColumn(true, columnTitle);
-
-			return EVAL_PAGE;
 		}
 
-		return SKIP_PAGE;
+		// At this point, only DOM sources are concerned 
+		if(parent.getCurrentObject() != null){
+			
+			// The 'property' attribute has precedence over the body of the
+			// column tag
+			if (getBodyContent() == null) {
+				addDomColumn(false, getColumnContent());	
+			}
+			// No 'property' attribute is used but a body is set instead
+			else{
+				String bodyString = getBodyContent().getString().trim().replaceAll("[\n\r]", "");
+				addDomColumn(false, bodyString);
+			}
+		}
+
+		return EVAL_PAGE;
 	}
 	
 	public String getTitle() {
