@@ -31,10 +31,18 @@ package com.github.dandelion.datatables.core.i18n;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Abstract superclass for all {@link MessageResolver}.
+ *
+ * @author Thibault Duchateau
+ * @since 0.9.0
+ */
 public abstract class AbstractMessageResolver implements MessageResolver {
 
 	protected HttpServletRequest request;
 	
+	public AbstractMessageResolver(){
+	}
 	public AbstractMessageResolver(HttpServletRequest request){
 		this.request = request;
 	}

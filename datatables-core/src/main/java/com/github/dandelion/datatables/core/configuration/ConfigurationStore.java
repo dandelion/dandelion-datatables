@@ -83,7 +83,7 @@ public class ConfigurationStore {
         
 		if(!configurationStore.containsKey(locale)){
 			// resolution complete des configuration pour la locale (=> regarder tous les groupes)
-			resolveGroupsForLocale(locale);
+			resolveGroupsForLocale(locale, request);
 		}
 			
 		return configurationStore.get(locale).get(group);
@@ -93,7 +93,7 @@ public class ConfigurationStore {
 	 * 
 	 * @param locale
 	 */
-	public static void resolveGroupsForLocale(Locale locale) {
+	public static void resolveGroupsForLocale(Locale locale, HttpServletRequest request) {
 		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
 		
 		ConfigurationLoader confLoader = DatatablesConfigurator.getConfigurationLoader();
@@ -106,7 +106,7 @@ public class ConfigurationStore {
 			confLoader.loadUserConfiguration(locale);
 			
 			// 3: extraction des groupes s'il y en a
-			confLoader.resolveGroups(map, locale);		
+			confLoader.resolveGroups(map, locale, request);		
 					
 		} catch (ConfigurationLoadingException e) {
 			logger.error("Unable to load Datatables configuration", e);

@@ -27,40 +27,46 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.i18n;
+package com.github.dandelion.datatables.extras.spring3.i18n;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.context.MessageSource;
+import org.springframework.web.servlet.support.RequestContextUtils;
+
+import com.github.dandelion.datatables.core.i18n.AbstractMessageResolver;
+import com.github.dandelion.datatables.core.i18n.MessageResolver;
 
 /**
- * <p>
- * Interface for all MessageResolvers.
- * 
- * <p>
- * A MessageResolver uses the <code>messageKey</code> to lookup in the
- * ResourceBundle. If the <code>defaultValue</code> is present and no message is
- * found for the given key, it will be used as a result.
- * 
- * <p>
- * By default, if the JSTL jar is present in the classpath and no
- * MessageResolver has been configured in the datatables.properties (thanks to
- * the <code>i18n.message.resolver</code> property), the JstlMessageResolver
- * will be used. It is also possible to use different {@link MessageResolver} in
- * different configuration groups.
- * 
+ * Spring implementation of the {@link MessageResolver}.
+ *
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public interface MessageResolver {
+public class SpringMessageResolver extends AbstractMessageResolver {
 
+	private MessageSource messageSource;
+
+	public SpringMessageResolver(HttpServletRequest request) {
+		super(request);
+
+		// Retrieve the Spring messageSource bean
+		messageSource = RequestContextUtils.getWebApplicationContext(request);
+	}
+	
 	/**
-	 * Return a localized String.
-	 * 
-	 * @param messageKey
-	 *            The key used to lookup in the configured ResourceBundle.
-	 * @param defaultValue
-	 *            The default value to used if no key is found.
-	 * @param objects
-	 *            Different objects that may be needed to access the
-	 *            ResourceBundle, depending on the present JARs.
-	 * @return a localized String.
+	 * {@inheritDoc}
 	 */
-	String getResource(String messageKey, String defaultValue, Object... objects);
+	@Override
+	public String getResource(String messageKey, String defaultValue, Object... objects) {
+
+		// if resourceKey isn't defined either, use defaultValue
+        String key = (messageKey != null) ? messageKey : defaultValue;
+
+        String message = null;
+
+        message = messageSource.getMessage(key, null, defaultValue, RequestContextUtils.getLocale(request));
+        
+		return message;
+	}
 }

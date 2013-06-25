@@ -45,6 +45,8 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -158,7 +160,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void resolveGroups(Map<String, TableConfiguration> map, Locale locale) {
+	public void resolveGroups(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request) {
 
 		logger.debug("Resolving groups for the locale {}...", locale);
 
@@ -216,7 +218,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 				}
 			}
 
-			map.put(groupName, new TableConfiguration(stagingConf));
+			map.put(groupName, new TableConfiguration(stagingConf, request));
 		}
 		
 		logger.debug("{} group(s) resolved ({}) for the locale {}", groups.size(), groups.toString(), locale);
@@ -246,7 +248,11 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		
 		return groups;
 	}
-	
+
+	/**
+	 * TODO
+	 * @param userProps
+	 */
 	private void loadTemplateEngineRelatedConfiguration(Properties userProps){
 		
 		boolean jstlPresent = ClassUtils.isPresent("javax.servlet.jsp.jstl.core.Config");

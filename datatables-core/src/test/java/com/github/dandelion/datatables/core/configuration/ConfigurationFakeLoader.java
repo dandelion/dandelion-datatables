@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 
 public class ConfigurationFakeLoader implements ConfigurationLoader {
@@ -22,7 +24,7 @@ public class ConfigurationFakeLoader implements ConfigurationLoader {
 	}
 
 	@Override
-	public void resolveGroups(Map<String, TableConfiguration> map, Locale locale) {
+	public void resolveGroups(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -205,7 +205,8 @@ public class TableConfiguration {
 	 * <b>FOR INTERNAL USE ONLY</b>
 	 * @param stagingConf
 	 */
-	public TableConfiguration(Map<Configuration, Object> stagingConf){
+	public TableConfiguration(Map<Configuration, Object> stagingConf, HttpServletRequest request){
+		this.request = request;
 		Configuration.applyConfiguration(this, stagingConf);
 	}
 	

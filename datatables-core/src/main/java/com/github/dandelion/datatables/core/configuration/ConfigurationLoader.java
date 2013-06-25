@@ -34,6 +34,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 
 /**
@@ -122,6 +124,8 @@ public interface ConfigurationLoader {
 	 * @param locale
 	 *            The current locale used to get the right properties file from
 	 *            the resource bundle.
+	 * @param request
+	 *            The request sent by the browser.
 	 */
-	public void resolveGroups(Map<String, TableConfiguration> map, Locale locale);
+	public void resolveGroups(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request);
 }
