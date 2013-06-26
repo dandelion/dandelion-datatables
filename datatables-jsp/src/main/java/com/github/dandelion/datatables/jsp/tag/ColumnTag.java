@@ -68,7 +68,7 @@ public class ColumnTag extends AbstractColumnTag {
 		// A header column must be added at first iteration
 		if(parent.isFirstIteration()){
 
-			// The 'title' attribute has precendence over 'titleKey'
+			// The 'title' attribute has precedence over 'titleKey'
 			String columnTitle = title;
 			
 			// If the 'titleKey' attribute is used, the column's title must be
