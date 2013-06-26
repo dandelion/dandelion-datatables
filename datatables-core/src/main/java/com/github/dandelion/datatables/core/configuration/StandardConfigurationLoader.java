@@ -216,9 +216,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 				if (configuration != null) {
 					stagingConf.put(configuration, entry.getValue().toString());
 				} else {
-					System.out.println("key = " + key);
-					logger.warn("The property '{}' (inside the '{}' group) doesn't exist",
-							key.substring(groupName.length() + 1), groupName);
+					logger.warn("The property '{}' (inside the '{}' group) doesn't exist", key, groupName);
 				}
 			}
 
