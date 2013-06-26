@@ -47,6 +47,9 @@ public class SpringMessageResolver extends AbstractMessageResolver {
 
 	private MessageSource messageSource;
 
+	public SpringMessageResolver(){
+	}
+	
 	public SpringMessageResolver(HttpServletRequest request) {
 		super(request);
 
