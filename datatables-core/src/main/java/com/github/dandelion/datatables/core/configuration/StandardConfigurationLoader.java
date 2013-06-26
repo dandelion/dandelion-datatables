@@ -245,9 +245,9 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 				groups.add(key.substring(0, key.indexOf(".")));
 			}
 		}
-		else{
-			groups.add(DEFAULT_GROUP_NAME);
-		}
+
+		// The 'global' group is always added
+		groups.add(DEFAULT_GROUP_NAME);
 		
 		return groups;
 	}

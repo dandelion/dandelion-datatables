@@ -138,4 +138,33 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.get("group2").getCssStyle().toString()).isEqualTo("group2-style"); // Overriden value
 		assertThat(map.get("group2").getMainBasePackage()).isEqualTo("my.custom.package"); // Overriden value from global
 	}
+	
+	@Test
+	public void should_resolve_group1_only_from_user_properties() throws Exception {
+		String path = new File("src/test/resources/loadingTest/test3/").getAbsolutePath();
+		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
+		
+		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
+
+		loader.loadUserConfiguration(request.getLocale());
+		loader.resolveGroups(map, request.getLocale(), request);
+		
+		assertThat(map).hasSize(2);
+		assertThat(map.containsKey("global")).isTrue();
+		assertThat(map.containsKey("group1")).isTrue();
+		
+		// Global group
+		assertThat(map.get("global").getMainCompressorEnable()).isFalse(); // Default value
+		assertThat(map.get("global").getFeatureInfo()).isNull(); // Default value
+		assertThat(map.get("global").getCssClass()).isNull(); // Default value
+		assertThat(map.get("global").getCssStyle()).isNull(); // Default value
+		assertThat(map.get("global").getMainBasePackage()).isNull(); // Default value
+
+		// Group1 group
+		assertThat(map.get("group1").getMainCompressorEnable()).isFalse(); // Default value
+		assertThat(map.get("group1").getFeatureInfo()).isNull(); // Default value
+		assertThat(map.get("group1").getCssClass().toString()).isEqualTo("group1-class"); // Overriden value
+		assertThat(map.get("group1").getCssStyle()).isNull(); // Overriden value
+		assertThat(map.get("group1").getMainBasePackage()).isNull(); // Default value
+	}
 }
