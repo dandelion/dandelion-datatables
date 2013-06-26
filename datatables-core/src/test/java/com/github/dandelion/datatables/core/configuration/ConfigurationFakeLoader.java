@@ -3,7 +3,6 @@ package com.github.dandelion.datatables.core.configuration;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,7 +17,7 @@ public class ConfigurationFakeLoader implements ConfigurationLoader {
 	}
 
 	@Override
-	public ResourceBundle loadUserConfiguration(Locale locale) {
+	public Properties loadUserConfiguration(Locale locale) {
 		// TODO Auto-generated method stub
 		return null;
 	}

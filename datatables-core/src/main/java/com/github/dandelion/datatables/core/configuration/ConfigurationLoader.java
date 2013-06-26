@@ -32,7 +32,6 @@ package com.github.dandelion.datatables.core.configuration;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -73,13 +72,15 @@ public interface ConfigurationLoader {
 
 	/**
 	 * <p>
-	 * Load the user configuration which can be localized thanks to the given
+	 * Load the user configuration which can be localized thanks to the given.
+	 * <p>
+	 * Once the bundle loaded, it is converted into Properties.
 	 * 
 	 * @param locale
 	 *            The current locale used to load the right properties file.
 	 * @return the ResourceBundle containing the user configuration.
 	 */
-	public ResourceBundle loadUserConfiguration(Locale locale);
+	public Properties loadUserConfiguration(Locale locale);
 
 	/**
 	 * <p>

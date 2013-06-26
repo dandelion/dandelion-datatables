@@ -32,7 +32,6 @@ package com.github.dandelion.datatables.core.configuration;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Properties;
-import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,7 +88,7 @@ public class DatatablesConfigurator {
 	 */
 	@SuppressWarnings("unchecked")
 	public static LocaleResolver getLocaleResolver() {
-		ResourceBundle userProperties = null;
+		Properties userProperties = null;
 		String className = null;
 		ConfigurationLoader configurationLoader = getConfigurationLoader();
 
@@ -100,7 +99,7 @@ public class DatatablesConfigurator {
 
 				if(userProperties != null){
 					try {
-							className = userProperties.getString("i18n.locale.resolver");
+							className = userProperties.getProperty("i18n.locale.resolver");
 					} catch (MissingResourceException e) {
 	
 						logger.debug("No custom LocaleResolver has been configured. Using default one.");

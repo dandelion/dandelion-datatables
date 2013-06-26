@@ -61,7 +61,7 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  * Default implementation of the {@link ConfigurationLoader}.
  * 
  * <p>
- * Note that a custom ConfigurationLoader can be used thanks to the
+ * Note that a custom {@link ConfigurationLoader} can be used thanks to the
  * {@link DatatablesConfigurator}.
  * 
  * @author Thibault Duchateau
@@ -74,7 +74,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 	private static Logger logger = LoggerFactory.getLogger(StandardConfigurationLoader.class);
 
 	protected static Properties defaultProperties;
-	private ResourceBundle userProperties;
+	private Properties userProperties;
 
 	/**
 	 * {@inheritDoc}
@@ -119,8 +119,10 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 	/**
 	 * {@inheritDoc}
 	 */
-	public ResourceBundle loadUserConfiguration(Locale locale) {
+	public Properties loadUserConfiguration(Locale locale) {
 
+		ResourceBundle userBundle = null;
+		
 		// First check if the resource bundle is externalized
 		if (StringUtils.isNotBlank(System.getProperty(SystemConstants.DANDELION_DT_CONFIGURATION))) {
 
@@ -129,24 +131,24 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 			try {
 				URL resourceURL = new File(path).toURI().toURL();
 				URLClassLoader urlLoader = new URLClassLoader(new URL[] { resourceURL });
-				userProperties = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale, urlLoader);
+				userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale, urlLoader);
 			} catch (MalformedURLException e) {
 				logger.warn("Wrong path to the externalized bundle", e);
 			} catch (MissingResourceException e) {
-				logger.info("No *.properties file in {}. Trying to lookup in classpath...");
+				logger.info("No *.properties file in {}. Trying to lookup in classpath...", path);
 			}
 
 		}
 
 		// No system property is set, retrieves the bundle from the classpath
-		if (userProperties == null) {
+		if (userBundle == null) {
 			try {
-				userProperties = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale);
+				userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale);
 			} catch (MissingResourceException e) {
 				// if no resource bundle is found, try using the context
 				// classloader
 				try {
-					userProperties = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale, Thread.currentThread()
+					userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale, Thread.currentThread()
 							.getContextClassLoader());
 				} catch (MissingResourceException mre) {
 					logger.debug("No custom configuration. Using default one.");
@@ -154,6 +156,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 			}
 		}
 
+		userProperties = BundleUtils.toProperties(userBundle);
 		return userProperties;
 	}
 
@@ -164,13 +167,10 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 
 		logger.debug("Resolving groups for the locale {}...", locale);
 
-		// Convert userProperties from ResourceBundle to Properties
-		Properties userProps = BundleUtils.toProperties(userProperties);
-
-		loadTemplateEngineRelatedConfiguration(userProps);
+		loadTemplateEngineRelatedConfiguration(userProperties);
 		
 		// Get all group names
-		Set<String> groups = getAllGroups(userProps);
+		Set<String> groups = getAllGroups(userProperties);
 
 		// Retrieve the configuration for the 'global' group
 		// The 'global' group contains all defaut properties, some of which may
@@ -182,7 +182,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 			String key = entry.getKey().toString();
 			globalProperties.put(key.substring(key.indexOf(".") + 1), entry.getValue());
 		}
-		for (Entry<Object, Object> entry : userProps.entrySet()) {
+		for (Entry<Object, Object> entry : userProperties.entrySet()) {
 			String key = entry.getKey().toString();
 			if (key.startsWith("global")) {
 				globalProperties.put(key.substring(key.indexOf(".") + 1), entry.getValue());
@@ -196,7 +196,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 			// groupedProperties = globalProperties + current group
 			Properties groupedProperties = new Properties();
 			groupedProperties.putAll(globalProperties);
-			for (Entry<Object, Object> entry : userProps.entrySet()) {
+			for (Entry<Object, Object> entry : userProperties.entrySet()) {
 				String key = entry.getKey().toString();
 				if (key.startsWith(groupName)) {
 					groupedProperties.put(key.substring(key.indexOf(".") + 1), entry.getValue());
@@ -236,7 +236,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 	private Set<String> getAllGroups(Properties userProps){
 		Set<String> groups = new HashSet<String>();
 
-		if(!userProps.isEmpty()){
+		if(userProps != null && !userProps.isEmpty()){
 			for (Entry<Object, Object> entry : userProps.entrySet()) {
 				String key = entry.getKey().toString();
 				groups.add(key.substring(0, key.indexOf(".")));

@@ -38,7 +38,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
@@ -55,7 +54,7 @@ public class ConfigurationStoreTest {
 	}
 	
 	@Test
-	public void should_store_global_configuration_only(){
+	public void should_store_and_return_global_configuration_when_using_global_group(){
 		TableConfiguration tc = ConfigurationStore.getPrototype(request, "global");
 		
 		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
@@ -68,11 +67,21 @@ public class ConfigurationStoreTest {
 		assertThat(ConfigurationStore.getConfigurationStore().get(request.getLocale()))
 			.hasSize(1)
 			.includes(entry("global", tc));
-		
-		assertThat(ConfigurationStore.getPrototype(request, "group1")).isNull();
 	}
 	
-	@Ignore
-	public void should_store_global_and_group1_configurations(){
+	@Test
+	public void should_store_and_return_global_configuration_when_using_empty_group(){
+		TableConfiguration tc = ConfigurationStore.getPrototype(request, "");
+		
+		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
+		map.put("global", tc);
+			
+		assertThat(ConfigurationStore.getConfigurationStore())
+			.hasSize(1)
+			.includes(entry(request.getLocale(), map));
+		
+		assertThat(ConfigurationStore.getConfigurationStore().get(request.getLocale()))
+			.hasSize(1)
+			.includes(entry("global", tc));
 	}
 }
