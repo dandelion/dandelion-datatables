@@ -69,7 +69,6 @@ public class DatatablesConfiguratorTest {
 	
 	@After
 	public void after(){
-		System.clearProperty(SystemConstants.DANDELION_DT_CONFLOADER_CLASS);
 		DatatablesConfigurator.clear();
 	}
 }

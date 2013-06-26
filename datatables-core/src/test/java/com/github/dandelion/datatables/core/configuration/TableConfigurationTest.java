@@ -87,12 +87,4 @@ public class TableConfigurationTest {
 		assertThat(tableConfiguration.getExtraTheme()).isEqualTo(Theme.BOOTSTRAP2.getInstance());
 		assertThat(tableConfiguration.getAjaxPipeSize()).isEqualTo(12);
 	}
-
-//	@Test
-//	public void test() throws IOException {
-//		InputStream in = this.getClass().getResourceAsStream("datatables-test.properties");
-//		Properties p = new Properties();
-//		p.load(in);
-//		String mystr = p.getProperty("global.main.base.package");
-//	}
 }

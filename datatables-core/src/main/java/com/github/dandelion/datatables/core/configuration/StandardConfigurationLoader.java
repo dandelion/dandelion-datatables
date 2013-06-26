@@ -180,11 +180,13 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		Properties globalProperties = new Properties();
 		for (Entry<Object, Object> entry : defaultProperties.entrySet()) {
 			String key = entry.getKey().toString();
-			globalProperties.put(key.substring(key.indexOf(".") + 1), entry.getValue());
+			if(!key.equals("i18n.locale.resolver")){
+				globalProperties.put(key.substring(key.indexOf(".") + 1), entry.getValue());
+			}
 		}
 		for (Entry<Object, Object> entry : userProperties.entrySet()) {
 			String key = entry.getKey().toString();
-			if (key.startsWith("global")) {
+			if (key.startsWith(DEFAULT_GROUP_NAME)) {
 				globalProperties.put(key.substring(key.indexOf(".") + 1), entry.getValue());
 			}
 		}
@@ -202,6 +204,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 					groupedProperties.put(key.substring(key.indexOf(".") + 1), entry.getValue());
 				}
 			}
+			
 			logger.debug("The group '{}' is initialized and contains {} properties", groupName,
 					groupedProperties.size());
 
@@ -213,6 +216,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 				if (configuration != null) {
 					stagingConf.put(configuration, entry.getValue().toString());
 				} else {
+					System.out.println("key = " + key);
 					logger.warn("The property '{}' (inside the '{}' group) doesn't exist",
 							key.substring(groupName.length() + 1), groupName);
 				}
@@ -237,6 +241,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		Set<String> groups = new HashSet<String>();
 
 		if(userProps != null && !userProps.isEmpty()){
+			userProps.remove("i18n.locale.resolver");
 			for (Entry<Object, Object> entry : userProps.entrySet()) {
 				String key = entry.getKey().toString();
 				groups.add(key.substring(0, key.indexOf(".")));
