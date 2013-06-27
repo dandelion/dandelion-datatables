@@ -43,17 +43,19 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
+import com.github.dandelion.datatables.core.constants.DatatableMsg;
 import com.github.dandelion.datatables.core.constants.SystemConstants;
 
 public class StandardConfigurationLoaderTest {
 
 	HttpServletRequest request;
+	MockPageContext mockPageContext;
 	StandardConfigurationLoader loader;
 	
 	@Before
 	public void setup() throws Exception {
 		MockServletContext mockServletContext = new MockServletContext();
-		MockPageContext mockPageContext = new MockPageContext(mockServletContext);
+		mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
 		loader = new StandardConfigurationLoader();
 		loader.loadDefaultConfiguration();
@@ -123,13 +125,15 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.get("global").getCssClass()).isNull(); // Default value
 		assertThat(map.get("global").getCssStyle()).isNull(); // Default value
 		assertThat(map.get("global").getMainBasePackage()).isEqualTo("my.custom.package"); // Overriden value from global
-
+		assertThat(map.get("global").getMessage(DatatableMsg.INFO.getPropertyName())).isNull(); // Default value
+		
 		// Group1 group
 		assertThat(map.get("group1").getMainCompressorEnable()).isFalse(); // Default value
 		assertThat(map.get("group1").getFeatureInfo()).isNull(); // Default value
 		assertThat(map.get("group1").getCssClass().toString()).isEqualTo("group1-class"); // Overriden value
 		assertThat(map.get("group1").getCssStyle().toString()).isEqualTo("group1-style"); // Overriden value
 		assertThat(map.get("group1").getMainBasePackage()).isEqualTo("my.custom.package"); // Overriden value from global
+		assertThat(map.get("group1").getMessage(DatatableMsg.INFO.getPropertyName())).isNull(); // Default value
 		
 		// Group2 group
 		assertThat(map.get("group2").getMainCompressorEnable()).isFalse(); // Default value
@@ -137,6 +141,7 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.get("group2").getCssClass().toString()).isEqualTo("group2-class"); // Overriden value
 		assertThat(map.get("group2").getCssStyle().toString()).isEqualTo("group2-style"); // Overriden value
 		assertThat(map.get("group2").getMainBasePackage()).isEqualTo("my.custom.package"); // Overriden value from global
+		assertThat(map.get("group2").getMessage(DatatableMsg.INFO.getPropertyName())).isNull(); // Default value
 	}
 	
 	@Test
@@ -159,6 +164,7 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.get("global").getCssClass()).isNull(); // Default value
 		assertThat(map.get("global").getCssStyle()).isNull(); // Default value
 		assertThat(map.get("global").getMainBasePackage()).isNull(); // Default value
+		assertThat(map.get("global").getMessage(DatatableMsg.INFO.getPropertyName())).isNull(); // Default value
 
 		// Group1 group
 		assertThat(map.get("group1").getMainCompressorEnable()).isFalse(); // Default value
@@ -166,5 +172,29 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.get("group1").getCssClass().toString()).isEqualTo("group1-class"); // Overriden value
 		assertThat(map.get("group1").getCssStyle()).isNull(); // Overriden value
 		assertThat(map.get("group1").getMainBasePackage()).isNull(); // Default value
+		assertThat(map.get("group1").getMessage(DatatableMsg.INFO.getPropertyName())).isNull(); // Default value
+	}
+	
+	@Test
+	public void should_use_en_properties_first() throws Exception {
+		String path = new File("src/test/resources/loadingTest/test4/").getAbsolutePath();
+		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
+		
+		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
+
+		loader.loadUserConfiguration(request.getLocale());
+		loader.resolveGroups(map, request.getLocale(), request);
+		
+		assertThat(map).hasSize(1);
+		assertThat(map.containsKey("global")).isTrue();
+		
+		// Global group
+		assertThat(map.get("global").getMainCompressorEnable()).isFalse(); // Default value
+		assertThat(map.get("global").getFeatureInfo()).isNull(); // Default value
+		assertThat(map.get("global").getCssClass()).isNull(); // Default value
+		assertThat(map.get("global").getCssStyle()).isNull(); // Default value
+		assertThat(map.get("global").getMainBasePackage()).isNull(); // Default value
+		assertThat(map.get("global").getMessage(DatatableMsg.INFO.getPropertyName())).isEqualTo(
+				"Showing _START_ to _END_ of _TOTAL_ entries"); // Overriden value
 	}
 }
