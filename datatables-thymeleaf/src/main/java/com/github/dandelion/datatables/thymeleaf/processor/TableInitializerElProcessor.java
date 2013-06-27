@@ -52,7 +52,6 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 
 			// Add default footer and header row
 			htmlTable.addHeaderRow();
-			htmlTable.addFooterRow();
 
 			// Add a "finalizing div" after the HTML table tag in order to
 			// finalize the Dandelion-datatables configuration generation

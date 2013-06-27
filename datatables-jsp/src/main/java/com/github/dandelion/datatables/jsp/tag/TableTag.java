@@ -109,7 +109,7 @@ public class TableTag extends AbstractTableTag {
 		// The table data are loaded using AJAX source
 		if ("AJAX".equals(this.loadingType)) {
 
-			this.table.addFooterRow();
+//			this.table.addFooterRow();
 			this.table.addHeaderRow();
 			
 			this.table.addRow();
@@ -118,7 +118,7 @@ public class TableTag extends AbstractTableTag {
 		}
 		// The table data are loaded using a DOM source (Collection)
 		else if ("DOM".equals(this.loadingType)) {
-			this.table.addFooterRow();
+//			this.table.addFooterRow();
 			this.table.addHeaderRow();
 
 			return processIteration();
@@ -208,10 +208,6 @@ public class TableTag extends AbstractTableTag {
 		WebResources webResources = null;
 		
 		this.table.getTableConfiguration().setExporting(false);
-
-		// TODO retirer cette fonction
-		// Register all activated features
-		registerFeatures();
 
 		try {
 			// First we check if the DataTables configuration already exist in the cache

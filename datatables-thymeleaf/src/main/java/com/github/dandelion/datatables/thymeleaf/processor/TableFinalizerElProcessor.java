@@ -107,6 +107,7 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 	private void registerFeatures(Element element, Arguments arguments, HtmlTable htmlTable) {
 		
 		if (htmlTable.hasOneFilterableColumn()) {
+			htmlTable.addFooterRow();
 			logger.info("Feature detected : select with filter");
 
 			// Duplicate header row in the footer
@@ -159,14 +160,10 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 	/**
 	 * Set up the HTML table generation.
 	 */
-	private void setupHtmlGeneration(Arguments arguments, Element element,
-			HttpServletRequest request) {
+	private void setupHtmlGeneration(Arguments arguments, Element element, HttpServletRequest request) {
 		WebResources webResources = null;
 		
 		this.htmlTable.getTableConfiguration().setExporting(false);
-
-		// Plugins and themes are activated in their respective attribute
-		// processor
 
 		// Register all activated features
 		registerFeatures(element, arguments, this.htmlTable);
@@ -208,7 +205,6 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 				ResourceCompressor.processCompression(webResources, htmlTable);
 			}
 
-			
 			Element rootElement = arguments.getDocument().getFirstElementChild();
 			Element head = DomUtils.findElement(rootElement, "head");
 			Element body = DomUtils.findElement(rootElement, "body");

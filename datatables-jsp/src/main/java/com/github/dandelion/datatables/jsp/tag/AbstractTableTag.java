@@ -46,7 +46,6 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.extension.feature.FilteringFeature;
 import com.github.dandelion.datatables.core.html.HtmlLink;
 import com.github.dandelion.datatables.core.html.HtmlScript;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -111,19 +110,6 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 	protected String loadingType;
 	protected String confGroup;
 	
-	/**
-	 * Register activated features with the table.
-	 */
-	protected void registerFeatures() throws JspException {
-
-		// Filtering feature activation
-		if (table.hasOneFilterableColumn()) {
-
-			table.getTableConfiguration().registerFeature(new FilteringFeature());
-		}
-	}
-
-
 	/**
 	 * Process the iteration over the data (only for DOM source).
 	 * 

@@ -31,8 +31,6 @@ package com.github.dandelion.datatables.testing.export;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
 import org.springframework.util.StringUtils;
 
@@ -48,7 +46,7 @@ import com.github.dandelion.datatables.testing.utils.Constants;
 public class ExportLinksPositionBaseIT extends BaseIT {
 
 	@Test
-	public void should_generate_bottom_right_link() throws IOException, Exception {
+	public void should_generate_bottom_right_link() throws Exception {
 		goToPage("export/bottom_right_link");
 		
 		// Div position inside the Datatables' wrapper
@@ -63,7 +61,7 @@ public class ExportLinksPositionBaseIT extends BaseIT {
 	}
 	
 	@Test
-	public void should_generate_bottom_middle_link() throws IOException, Exception {
+	public void should_generate_bottom_middle_link() throws Exception {
 		goToPage("export/bottom_middle_link");
 		
 		// Div position inside the Datatables' wrapper
@@ -78,7 +76,7 @@ public class ExportLinksPositionBaseIT extends BaseIT {
 	}
 	
 	@Test
-	public void should_generate_bottom_left_link() throws IOException, Exception {
+	public void should_generate_bottom_left_link() throws Exception {
 		goToPage("export/bottom_left_link");
 		
 		// Div position inside the Datatables' wrapper
@@ -93,7 +91,7 @@ public class ExportLinksPositionBaseIT extends BaseIT {
 	}
 	
 	@Test
-	public void should_generate_top_right_link() throws IOException, Exception {
+	public void should_generate_top_right_link() throws Exception {
 		goToPage("export/top_right_link");
 		
 		// Div position inside the Datatables' wrapper
@@ -108,7 +106,7 @@ public class ExportLinksPositionBaseIT extends BaseIT {
 	}
 	
 	@Test
-	public void should_generate_top_middle_link() throws IOException, Exception {
+	public void should_generate_top_middle_link() throws Exception {
 		goToPage("export/top_middle_link");
 		
 		// Div position inside the Datatables' wrapper
@@ -123,7 +121,29 @@ public class ExportLinksPositionBaseIT extends BaseIT {
 	}
 	
 	@Test
-	public void should_generate_top_left_link() throws IOException, Exception {
+	public void should_generate_top_middle_link_when_using_scrollY() throws Exception {
+		goToPage("export/top_middle_link_with_scrollY");
+
+		System.out.println(driver.getPageSource());
+		// Div position inside the Datatables' wrapper
+		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
+		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
+		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dandelion_dataTables_export");
+		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_scroll");
+		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_scrollHead");
+		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 5).getAttribute("class")).contains("dataTables_scrollHeadInner");
+		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 6).getAttribute("class")).contains("dataTables_scrollBody");
+//		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 7).getAttribute("class")).contains("dataTables_scrollFoot");
+//		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 8).getAttribute("class")).contains("dataTables_scrollFootInner");
+		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 7).getAttribute("class")).contains("dataTables_info");
+		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 8).getAttribute("class")).contains("dataTables_paginate");
+				
+		// Div style
+		assertThat(StringUtils.trimAllWhitespace(find("div.dandelion_dataTables_export").getAttribute("style"))).contains("float:left;margin-left:10px;");
+	}
+	
+	@Test
+	public void should_generate_top_left_link() throws Exception {
 		goToPage("export/top_left_link");
 		
 		// Div position inside the Datatables' wrapper
@@ -138,7 +158,7 @@ public class ExportLinksPositionBaseIT extends BaseIT {
 	}
 	
 	@Test
-	public void should_generate_top_and_bottom_right_links() throws IOException, Exception {
+	public void should_generate_top_and_bottom_right_links() throws Exception {
 		goToPage("export/top_and_bottom_right_links");
 		
 		// Div position inside the Datatables' wrapper

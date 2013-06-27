@@ -58,6 +58,9 @@ public class FilteringFeature extends AbstractFeature {
 	@Override
 	public void setup(HtmlTable table) throws BadConfigurationException {
 		
+		// The footer row is only used when using the JSP implementation
+		table.addFooterRow();
+		
 		// Copy the header in the footer
 		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
 			table.getLastFooterRow().addColumn(column);

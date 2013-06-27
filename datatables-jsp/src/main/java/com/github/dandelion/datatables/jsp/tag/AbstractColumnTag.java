@@ -48,6 +48,7 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
+import com.github.dandelion.datatables.core.extension.feature.FilteringFeature;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
@@ -192,6 +193,9 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 			
 			column.setSortInit(this.sortInit);
 			column.setFilterable(this.filterable);
+			if(filterable != null && filterable){
+				parent.getTable().getTableConfiguration().registerFeature(new FilteringFeature());
+			}
 
 			if(StringUtils.isNotBlank(this.selector)){
 				column.setSelector(this.selector);
