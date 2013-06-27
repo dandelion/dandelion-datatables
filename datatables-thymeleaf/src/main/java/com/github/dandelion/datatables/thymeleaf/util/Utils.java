@@ -40,6 +40,7 @@ import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.extension.theme.Theme;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 
 /**
  * General utility methods used in the Dandelion-Datatables dialect.
@@ -90,7 +91,7 @@ public class Utils {
 	 * @return the HtmlTable bean.
 	 */
 	public static HtmlTable getTable(Arguments arguments) {
-		return (HtmlTable) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute("htmlTable");
+		return (HtmlTable) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(DataTablesDialect.INTERNAL_TABLE_BEAN);
 	}
 
 	/**

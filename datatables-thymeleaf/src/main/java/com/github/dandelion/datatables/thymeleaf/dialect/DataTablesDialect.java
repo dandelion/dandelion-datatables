@@ -46,7 +46,9 @@ public class DataTablesDialect extends AbstractDialect {
 	public static final String LAYOUT_NAMESPACE = "http://www.thymeleaf.org/dandelion/datatables";
 	public static final int DT_HIGHEST_PRECEDENCE = 3500;
 
-	public static final String INTERNAL_TABLE_NAME = "htmlTable";
+	public static final String INTERNAL_TABLE_BEAN = "htmlTable";
+	public static final String INTERNAL_TABLE_NODE = "tableNode";
+	public static final String INTERNAL_CONF_GROUP = "confGroup";
 	public static final String INTERNAL_LOCAL_CONF = "localConf";
 	
 	public String getPrefix() {

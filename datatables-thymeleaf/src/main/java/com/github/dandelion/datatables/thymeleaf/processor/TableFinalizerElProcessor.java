@@ -26,7 +26,6 @@ import com.github.dandelion.datatables.core.compressor.ResourceCompressor;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.constants.CdnConstants;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.DataNotFoundException;
@@ -40,6 +39,7 @@ import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.DandelionUtils;
 import com.github.dandelion.datatables.core.util.RequestHelper;
+import com.github.dandelion.datatables.core.util.StringUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesElProcessor;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.util.DomUtils;
@@ -81,12 +81,10 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 
 			@SuppressWarnings("unchecked")
 			Map<Configuration, Object> localConf = (Map<Configuration, Object>) request.getAttribute(DataTablesDialect.INTERNAL_LOCAL_CONF);
-			try {
-				Configuration.applyConfiguration(htmlTable.getTableConfiguration(), localConf);
-			} catch (AttributeProcessingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
+			Configuration.applyConfiguration(htmlTable.getTableConfiguration(), localConf);
+
+			applyCssConfiguration(arguments);
 			
 			// The table is being exported
 			if (RequestHelper.isTableBeingExported(request, this.htmlTable)) {
@@ -104,6 +102,39 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		return ProcessorResult.OK;
 	}
 
+	private void applyCssConfiguration(Arguments arguments){
+		
+		// CSS class
+		if(htmlTable.getTableConfiguration().getCssClass() != null){
+			Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(
+					DataTablesDialect.INTERNAL_TABLE_NODE);
+			
+			String cssClass = ((Element) tableNode).getAttributeValue("class");
+			if(StringUtils.isNotBlank(cssClass)){
+				cssClass += " " + htmlTable.getTableConfiguration().getCssClass();
+				((Element) tableNode).setAttribute("class", cssClass);
+			}
+			else{
+				((Element) tableNode).setAttribute("class", htmlTable.getTableConfiguration().getCssClass().toString());
+			}
+		}
+		
+		// CSS style
+		if(htmlTable.getTableConfiguration().getCssStyle() != null){
+			Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(
+					DataTablesDialect.INTERNAL_TABLE_NODE);
+			
+			String cssStyle = ((Element) tableNode).getAttributeValue("style");
+			if(StringUtils.isNotBlank(cssStyle)){
+				cssStyle += ";" + htmlTable.getTableConfiguration().getCssStyle();
+				((Element) tableNode).setAttribute("style", cssStyle);
+			}
+			else{
+				((Element) tableNode).setAttribute("style", htmlTable.getTableConfiguration().getCssStyle().toString());
+			}
+		}
+	}
+	
 	private void registerFeatures(Element element, Arguments arguments, HtmlTable htmlTable) {
 		
 		if (htmlTable.hasOneFilterableColumn()) {
@@ -268,7 +299,8 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 	private void generateFooter(Element element, Arguments arguments) {
 		Element tfoot = new Element("tfoot");
 
-		Node tableNode = (Node)((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute("tableNode");
+		Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(
+				DataTablesDialect.INTERNAL_TABLE_NODE);
 		
 		for(HtmlColumn column : htmlTable.getLastHeaderRow().getColumns()){
 			Element th = new Element("th");

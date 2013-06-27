@@ -45,6 +45,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableUrlAttrProc
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableAppearAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableAutoWidthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableCdnAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.basic.TableConfGroupAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableDisplayLengthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableDomAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableExportAttrProcessor;
@@ -100,6 +101,9 @@ import com.github.dandelion.datatables.thymeleaf.processor.theme.TableThemeOptio
  * @since 0.8.9
  */
 public enum DatatablesAttrProcessors {
+	// Configuration
+	CONF_GROUP(TableConfGroupAttrProcessor.class, "confGroup", "table"),
+	
     // Basic processors
     BASIC_AUTO_WIDTH(TableAutoWidthAttrProcessor.class, "autowidth", "table"),
     BASIC_CDN(TableCdnAttrProcessor.class, "cdn", "table"),

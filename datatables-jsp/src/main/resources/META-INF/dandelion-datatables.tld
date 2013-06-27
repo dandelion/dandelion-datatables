@@ -319,7 +319,7 @@
          <name>plugins</name>
       </attribute>
       <attribute>
-         <description>TODO</description>
+         <description>Active a configuration group in the current table.</description>
          <name>confGroup</name>
       </attribute>
       

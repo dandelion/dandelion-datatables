@@ -109,9 +109,7 @@ public class TableTag extends AbstractTableTag {
 		// The table data are loaded using AJAX source
 		if ("AJAX".equals(this.loadingType)) {
 
-//			this.table.addFooterRow();
 			this.table.addHeaderRow();
-			
 			this.table.addRow();
 
 			return EVAL_BODY_BUFFERED;

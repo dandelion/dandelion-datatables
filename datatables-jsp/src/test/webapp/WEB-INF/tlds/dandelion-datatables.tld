@@ -319,7 +319,7 @@
          <name>plugins</name>
       </attribute>
       <attribute>
-         <description>TODO</description>
+         <description>Active a configuration group in the current table.</description>
          <name>confGroup</name>
       </attribute>
       
@@ -377,6 +377,7 @@
             http://datatables.net/extras/colreorder/)</description>
           <name>colReorder</name>
       </attribute>
+      <dynamic-attributes>true</dynamic-attributes>
    </tag>
 
    <!-- ====================================== -->
@@ -543,6 +544,7 @@
          <name>selector</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
+      <dynamic-attributes>true</dynamic-attributes>
    </tag>
 
    <!-- ====================================== -->

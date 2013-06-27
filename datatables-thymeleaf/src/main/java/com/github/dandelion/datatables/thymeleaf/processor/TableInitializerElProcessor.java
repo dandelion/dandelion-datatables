@@ -48,7 +48,10 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 			logger.error("The 'id' attribute is required.");
 			throw new IllegalArgumentException();
 		} else {
-			HtmlTable htmlTable = new HtmlTable(tableId, request);
+			
+			String confGroup = (String) request.getAttribute(DataTablesDialect.INTERNAL_CONF_GROUP);
+			
+			HtmlTable htmlTable = new HtmlTable(tableId, request, confGroup);
 
 			// Add default footer and header row
 			htmlTable.addHeaderRow();
@@ -64,12 +67,13 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 			// Store the htmlTable POJO as a request attribute, so all the
 			// others following HTML tags can access it and particularly the
 			// "finalizing div"
-			request.setAttribute("htmlTable", htmlTable);
+			request.setAttribute(DataTablesDialect.INTERNAL_TABLE_BEAN, htmlTable);
 
 			// The table node is also saved in the request, to be easily accessed later
-			request.setAttribute("tableNode", element);
+			request.setAttribute(DataTablesDialect.INTERNAL_TABLE_NODE, element);
 			
-			request.setAttribute("localConf", new HashMap<Configuration, Object>());
+			// Map used to store the table local configuration
+			request.setAttribute(DataTablesDialect.INTERNAL_LOCAL_CONF, new HashMap<Configuration, Object>());
 			
 			// Don't forget to remove the attribute
 			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":table");
