@@ -61,6 +61,7 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  * </ul>
  * 
  * @author Thibault Duchateau
+ * @author Enrique Ruiz
  * @since 0.1.0
  */
 public abstract class AbstractTableTag extends BodyTagSupport implements DynamicAttributes {
@@ -271,19 +272,16 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 	 */
 	protected Map<String, String> getDynamicAttributes() {
 		return this.dynamicAttributes;
-        }
+    }
 
 	/** {@inheritDoc} */
 	public void setDynamicAttribute(String uri, String localName, Object value ) 
 		throws JspException {
+		
+		validDynamicAttribute(localName, value);
+
 		if (this.dynamicAttributes == null) {
 			this.dynamicAttributes = new HashMap<String, String>();
-		}
-		if (!isValidDynamicAttribute(localName, value)) {
-			throw new IllegalArgumentException("Attribute "
-				.concat(localName).concat("=\"")
-				.concat(String.valueOf(value))
-				.concat("\" is not allowed"));
 		}
 
 		// Accept String values only, because we haven't knowledge
@@ -296,7 +294,14 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 	/**
 	 * Whether the given name-value pair is a valid dynamic attribute.
 	 */
-	protected boolean isValidDynamicAttribute(String localName, Object value) {
-		return true;
+	protected void validDynamicAttribute(String localName, Object value) {
+		if(localName.equals("class")){
+			throw new IllegalArgumentException(
+					"The 'class' attribute is not allowed. Please use the 'cssClass' instead.");
+		}
+		if(localName.equals("style")){
+			throw new IllegalArgumentException(
+					"The 'style' attribute is not allowed. Please use the 'cssStyle' instead.");
+		}
 	}
 }
