@@ -45,7 +45,7 @@ import com.github.dandelion.datatables.testing.BaseIT;
  * 
  * <p>
  * Of course, this can work only if all tests extends the {@link BaseIT} and if
- * they are annotated with this annotation of with the {@link ThymeleafTest}
+ * they are annotated with this annotation or with the {@link ThymeleafTest}
  * one.
  * 
  * @author Thibault Duchateau
