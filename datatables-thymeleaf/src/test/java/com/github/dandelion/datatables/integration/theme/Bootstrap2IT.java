@@ -82,7 +82,7 @@ public class Bootstrap2IT extends Bootstrap2BaseIT {
 	
 	@Ignore
 	public void should_generate_top_right_link() throws IOException, Exception {
-		goToPage("themes/bootstrap2_top_right_link", true);
+		goToPage("themes/bootstrap2_top_right_link");
 		
 		FluentWebElement divExport = find("#" + Constants.TABLE_ID + "_wrapper").find("div.span6", 1).findFirst("div");
 		
