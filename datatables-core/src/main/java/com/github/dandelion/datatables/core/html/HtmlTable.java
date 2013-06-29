@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.beanutils.NestedNullException;
 import org.apache.commons.beanutils.PropertyUtils;
 
+import com.github.dandelion.datatables.core.configuration.ConfigurationLoader;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.extension.feature.FilteringFeature;
 import com.github.dandelion.datatables.core.util.ResourceHelper;
@@ -341,7 +342,7 @@ public class HtmlTable extends HtmlTag {
 		this.tag = "table";
 		this.id = builder.id;
 		this.tableConfiguration = TableConfiguration
-				.getInstance(builder.request, TableConfiguration.DEFAULT_GROUP_NAME);
+				.getInstance(builder.request, ConfigurationLoader.DEFAULT_GROUP_NAME);
 
 		addHeaderRow();
 
