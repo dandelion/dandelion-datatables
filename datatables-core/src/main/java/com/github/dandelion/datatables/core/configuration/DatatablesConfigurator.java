@@ -130,12 +130,13 @@ public class DatatablesConfigurator {
 
 	/**
 	 * <p>
-	 * Return a unique implementation of {@link ConfigurationLoader} using the
+	 * Returns an implementation of {@link ConfigurationLoader} using the
 	 * following strategy:
 	 * <ol>
 	 * <li>Check first if the <code>dandelion.datatables.confloader.class</code>
 	 * system property is set and tries to instantiate it</li>
-	 * <li>Otherwise, instantiate the {@link StandardConfigurationLoader}</li>
+	 * <li>Otherwise, instantiate the {@link StandardConfigurationLoader} based
+	 * on property files</li>
 	 * </ol>
 	 * 
 	 * @return an implementation of {@link ConfigurationLoader}.

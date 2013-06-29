@@ -65,7 +65,7 @@ public class ConfigurationStore {
 	 * @param request
 	 *            The request sent by the user.
 	 * @param groupName
-	 *            The group name request by the user to active the corresponding
+	 *            The group name requested by the user to active the corresponding
 	 *            configuration.
 	 * @return the stored proptotype of a {@link TableConfiguration}.
 	 */
@@ -90,6 +90,8 @@ public class ConfigurationStore {
 	}
 
 	/**
+	 * Resolves configurations groups for the given locale and stores them in
+	 * the {@link ConfigurationStore}.
 	 * 
 	 * @param locale
 	 */
@@ -99,15 +101,10 @@ public class ConfigurationStore {
 		ConfigurationLoader confLoader = DatatablesConfigurator.getConfigurationLoader();
 		
 		try {
-			// 1: chargement de la configuration par defaut
 			confLoader.loadDefaultConfiguration();
-				
-			// 2: chargement du bundle correspondant à la locale
 			confLoader.loadUserConfiguration(locale);
-			
-			// 3: extraction des groupes s'il y en a
-			confLoader.resolveGroups(map, locale, request);		
-					
+			confLoader.resolveGroups(locale);		
+			confLoader.resolveConfigurations(map, locale, request);
 		} catch (ConfigurationLoadingException e) {
 			logger.error("Unable to load Datatables configuration", e);
 		}
@@ -116,7 +113,7 @@ public class ConfigurationStore {
 	}
 	
 	/**
-	 * FOR INTERNAL USE ONLY
+	 * <b>FOR INTERNAL USE ONLY</b>
 	 * 
 	 * @return
 	 */

@@ -66,10 +66,6 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  */
 public class TableConfiguration {
 
-	public final static String DT_USER_PROPERTIES = "datatables";
-	public static final String DEFAULT_GROUP_NAME = "global";
-	public static final String KEY_NAME_SEP = ".";
-
 	// DataTables global parameters
 	private Boolean featureInfo;
 	private Boolean featureAutoWidth;
@@ -172,7 +168,7 @@ public class TableConfiguration {
 	 *         table configuration.
 	 */
 	public static TableConfiguration getInstance(HttpServletRequest request) {
-		return getInstance(request, DEFAULT_GROUP_NAME);
+		return getInstance(request, ConfigurationLoader.DEFAULT_GROUP_NAME);
 	}
 
 	

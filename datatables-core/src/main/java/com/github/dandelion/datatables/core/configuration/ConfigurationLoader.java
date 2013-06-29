@@ -32,6 +32,7 @@ package com.github.dandelion.datatables.core.configuration;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -84,6 +85,19 @@ public interface ConfigurationLoader {
 
 	/**
 	 * <p>
+	 * Return a set containing all configuration groups.
+	 * <p>
+	 * Note that the <code>i18n.locale.resolver</code> is a special property
+	 * that must not be taken into account because it is group-independent.
+	 * 
+	 * @param locale
+	 *            The current locale.
+	 * @return the resolved groups.
+	 */
+	public Set<String> resolveGroups(Locale locale);
+	
+	/**
+	 * <p>
 	 * Resolve configuration groups for the given locale.
 	 * <p>
 	 * The default properties file (datatables-default.properties) already
@@ -128,5 +142,5 @@ public interface ConfigurationLoader {
 	 * @param request
 	 *            The request sent by the browser.
 	 */
-	public void resolveGroups(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request);
+	public void resolveConfigurations(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request);
 }

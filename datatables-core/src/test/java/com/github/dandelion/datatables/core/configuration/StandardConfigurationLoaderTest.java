@@ -91,7 +91,8 @@ public class StandardConfigurationLoaderTest {
 		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
 
 		loader.loadUserConfiguration(request.getLocale());
-		loader.resolveGroups(map, request.getLocale(), request);
+		loader.resolveGroups(request.getLocale());
+		loader.resolveConfigurations(map, request.getLocale(), request);
 		
 		assertThat(map).hasSize(1);
 		assertThat(map.containsKey("global")).isTrue();
@@ -112,7 +113,8 @@ public class StandardConfigurationLoaderTest {
 		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
 
 		loader.loadUserConfiguration(request.getLocale());
-		loader.resolveGroups(map, request.getLocale(), request);
+		loader.resolveGroups(request.getLocale());
+		loader.resolveConfigurations(map, request.getLocale(), request);
 		
 		assertThat(map).hasSize(3);
 		assertThat(map.containsKey("global")).isTrue();
@@ -152,7 +154,8 @@ public class StandardConfigurationLoaderTest {
 		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
 
 		loader.loadUserConfiguration(request.getLocale());
-		loader.resolveGroups(map, request.getLocale(), request);
+		loader.resolveGroups(request.getLocale());
+		loader.resolveConfigurations(map, request.getLocale(), request);
 		
 		assertThat(map).hasSize(2);
 		assertThat(map.containsKey("global")).isTrue();
@@ -183,7 +186,8 @@ public class StandardConfigurationLoaderTest {
 		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
 
 		loader.loadUserConfiguration(request.getLocale());
-		loader.resolveGroups(map, request.getLocale(), request);
+		loader.resolveGroups(request.getLocale());
+		loader.resolveConfigurations(map, request.getLocale(), request);
 		
 		assertThat(map).hasSize(1);
 		assertThat(map.containsKey("global")).isTrue();

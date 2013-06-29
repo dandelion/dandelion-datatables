@@ -75,6 +75,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 
 	protected static Properties defaultProperties;
 	private Properties userProperties;
+	private Set<String> groups;
 
 	/**
 	 * {@inheritDoc}
@@ -163,15 +164,40 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void resolveGroups(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request) {
+	public Set<String> resolveGroups(Locale locale) {
 
 		logger.debug("Resolving groups for the locale {}...", locale);
 
+		Set<String> groups = new HashSet<String>();
+
+		if(userProperties != null && !userProperties.isEmpty()){
+			for (Entry<Object, Object> entry : userProperties.entrySet()) {
+				String key = entry.getKey().toString();
+				if(!key.contains("i18n.locale.resolver")){
+					groups.add(key.substring(0, key.indexOf(".")));
+				}
+			}
+		}
+
+		// The 'global' group is always added
+		groups.add(DEFAULT_GROUP_NAME);
+		
+		logger.debug("{} groups resolved ({}).", groups.size(), groups.toString());
+		
+		this.groups = groups;
+		
+		return this.groups;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public void resolveConfigurations(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request) {
+
+		logger.debug("Resolving configurations for the locale {}...", locale);
+
 		loadTemplateEngineRelatedConfiguration(userProperties);
 		
-		// Get all group names
-		Set<String> groups = getAllGroups(userProperties);
-
 		// Retrieve the configuration for the 'global' group
 		// The 'global' group contains all defaut properties, some of which may
 		// have been overriden by user
@@ -194,7 +220,9 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		// Compute configuration to apply on each group
 		Map<Configuration, Object> stagingConf = null;
 		for (String groupName : groups) {
-
+			
+			logger.debug("Resolving configurations for the group {}...", groupName);
+			
 			// groupedProperties = globalProperties + current group
 			Properties groupedProperties = new Properties();
 			groupedProperties.putAll(globalProperties);
@@ -226,31 +254,6 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		logger.debug("{} group(s) resolved ({}) for the locale {}", groups.size(), groups.toString(), locale);
 	}
 	
-	/**
-	 * Retrieve all the existing configuration groups from the user properties
-	 * if they exist, or just a Set containing the DEFAULT_GROUP_NAME if there
-	 * is no user properties.
-	 * 
-	 * @param userProps
-	 *            The user properties.
-	 * @return a set containing all existing groups.
-	 */
-	private Set<String> getAllGroups(Properties userProps){
-		Set<String> groups = new HashSet<String>();
-
-		if(userProps != null && !userProps.isEmpty()){
-			userProps.remove("i18n.locale.resolver");
-			for (Entry<Object, Object> entry : userProps.entrySet()) {
-				String key = entry.getKey().toString();
-				groups.add(key.substring(0, key.indexOf(".")));
-			}
-		}
-
-		// The 'global' group is always added
-		groups.add(DEFAULT_GROUP_NAME);
-		
-		return groups;
-	}
 
 	/**
 	 * TODO
@@ -261,12 +264,18 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		boolean jstlPresent = ClassUtils.isPresent("javax.servlet.jsp.jstl.core.Config");
 
 		if(jstlPresent && userProps != null){
-			for(Entry<Object, Object> entry : userProps.entrySet()){
-				String key = entry.getKey().toString();
-				if (key.contains(Configuration.INTERNAL_MESSAGE_RESOLVER.getName())
-						&& StringUtils.isBlank(entry.getValue().toString())) {
-					userProps.put(entry.getKey(), "com.github.dandelion.datatables.jsp.i18n.JstlMessageResolver");
+			if(!userProps.isEmpty()){
+				for(Entry<Object, Object> entry : userProps.entrySet()){
+					String key = entry.getKey().toString();
+					if (key.contains(Configuration.INTERNAL_MESSAGE_RESOLVER.getName())
+							&& StringUtils.isBlank(entry.getValue().toString())) {
+						userProps.put(entry.getKey(), "com.github.dandelion.datatables.jsp.i18n.JstlMessageResolver");
+					}
 				}
+			}
+			else{
+				userProps.put("global." + Configuration.INTERNAL_MESSAGE_RESOLVER.getName(),
+						"com.github.dandelion.datatables.jsp.i18n.JstlMessageResolver");
 			}
 		}
 	}
