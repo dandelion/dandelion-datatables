@@ -66,9 +66,7 @@ public class SpringMessageResolver extends AbstractMessageResolver {
 		// if resourceKey isn't defined either, use defaultValue
         String key = (messageKey != null) ? messageKey : defaultValue;
 
-        String message = null;
-
-        message = messageSource.getMessage(key, null, defaultValue, RequestContextUtils.getLocale(request));
+        String message = messageSource.getMessage(key, null, defaultValue, RequestContextUtils.getLocale(request));
         
 		return message;
 	}

@@ -52,6 +52,7 @@ public class DynamicAttributesIT extends BaseIT {
 	@Test
 	public void should_accept_allowed_dynamic_attributes(){
 		goToPage("advanced/dynamic_allowed_attributes");
+		
 		assertThat(getTable().getAttribute("name")).isEqualTo("myName");
 		assertThat(getTable().getAttribute("border")).isEqualTo("2px solid black");
 	}
@@ -59,6 +60,7 @@ public class DynamicAttributesIT extends BaseIT {
 	@Test
 	public void should_not_accept_class_as_a_dynamic_attribute(){
 		goToPage("advanced/dynamic_disallowed_class_attribute");
+		
 		assertThat(find("#" + Constants.TABLE_ID + "_wrapper")).hasSize(0);
 		assertThat(driver.getPageSource())
 				.contains(
@@ -68,6 +70,7 @@ public class DynamicAttributesIT extends BaseIT {
 	@Test
 	public void should_not_accept_style_as_a_dynamic_attribute(){
 		goToPage("advanced/dynamic_disallowed_style_attribute");
+		
 		assertThat(find("#" + Constants.TABLE_ID + "_wrapper")).hasSize(0);
 		assertThat(driver.getPageSource())
 				.contains(
