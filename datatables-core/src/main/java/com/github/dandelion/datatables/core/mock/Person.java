@@ -31,9 +31,6 @@
 package com.github.dandelion.datatables.core.mock;
 
 import java.util.Date;
-import java.util.GregorianCalendar;
-
-
 
 /**
  * A typical Person entity.
@@ -47,6 +44,7 @@ public class Person {
 	private String lastName;
 	private String mail;
 	private Address address;
+	private Date birthDate;
 
 	public Person() {
 
@@ -105,14 +103,18 @@ public class Person {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
-	public Date getBirthDate(){
-		return GregorianCalendar.getInstance().getTime();
-	}	
-	
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
 	@Override
 	public String toString() {
-		return "Person [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", mail=" + mail + ", address=" + address + "]";
+		return "Person [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", mail=" + mail
+				+ ", address=" + address + ", birthDate=" + birthDate + "]";
 	}
 }

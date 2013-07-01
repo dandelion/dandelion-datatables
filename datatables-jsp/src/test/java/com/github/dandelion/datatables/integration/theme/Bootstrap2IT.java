@@ -30,6 +30,8 @@
 
 package com.github.dandelion.datatables.integration.theme;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 import java.io.IOException;
 
 import org.junit.Test;
@@ -39,8 +41,6 @@ import com.github.dandelion.datatables.integration.JspContextRunner;
 import com.github.dandelion.datatables.testing.theme.Bootstrap2BaseIT;
 import com.github.dandelion.datatables.testing.utils.Constants;
 import com.github.dandelion.datatables.testing.utils.JspTest;
-
-import static org.fest.assertions.Assertions.assertThat;
 
 /**
  * Test the Bootstrap2 theme feature.
