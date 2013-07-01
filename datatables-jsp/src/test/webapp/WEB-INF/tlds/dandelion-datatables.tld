@@ -322,6 +322,10 @@
          <description>Active a configuration group in the current table.</description>
          <name>confGroup</name>
       </attribute>
+      <attribute>
+         <description>TODO</description>
+         <name>filterPlaceholder</name>
+      </attribute>
       
       <!-- ====================================== -->
       <!-- Extra features -->
@@ -542,6 +546,11 @@
       <attribute>
          <description>jQuery selector used to populate a placeholder with a filtering widget.</description>
          <name>selector</name>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <description>TODO</description>
+         <name>sortType</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <dynamic-attributes>true</dynamic-attributes>

@@ -30,5 +30,5 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 public enum FilterType {
-	SELECT, INPUT, NUMBER
+	SELECT, INPUT, NUMBER, NUMBER_RANGE
 }

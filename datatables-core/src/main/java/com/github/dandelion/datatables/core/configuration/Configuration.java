@@ -98,6 +98,7 @@ public enum Configuration {
 	FEATURE_INFO("feature.info", "featureInfo", Boolean.class, BooleanProcessor.class),
 	FEATURE_AUTOWIDTH("feature.autoWidth", "featureAutoWidth", Boolean.class, BooleanProcessor.class),
 	FEATURE_FILTERABLE("feature.filterable", "featureFilterable", Boolean.class, BooleanProcessor.class),
+	FEATURE_FILTER_PLACEHOLDER("feature.filterplaceholder", "featureFilterPlaceholder", String.class, StringProcessor.class),
 	FEATURE_PAGINATE("feature.paginate", "featurePaginate", Boolean.class, BooleanProcessor.class),
 	FEATURE_PAGINATIONTYPE("feature.paginationType", "featurePaginationType", PaginationType.class, FeaturePaginationTypeProcessor.class),
 	FEATURE_LENGTHCHANGE("feature.lengthChange", "featureLengthChange", Boolean.class, BooleanProcessor.class),

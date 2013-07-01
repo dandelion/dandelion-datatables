@@ -35,6 +35,7 @@ import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Java implementation of the DataTables Column Filter Add-on written by Jovan Popovic.
@@ -57,17 +58,38 @@ public class FilteringFeature extends AbstractFeature {
 
 	@Override
 	public void setup(HtmlTable table) throws BadConfigurationException {
-		
-		// The footer row is only used when using the JSP implementation
-		table.addFooterRow();
-		
-		// Copy the header in the footer
-		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
-			table.getLastFooterRow().addColumn(column);
+
+		if(StringUtils.isNotBlank(table.getTableConfiguration().getFeatureFilterPlaceholder())){
+			if("head:before".equalsIgnoreCase(table.getTableConfiguration().getFeatureFilterPlaceholder())){
+				updateHeader(table);
+			}
+			else if("head:after".equalsIgnoreCase(table.getTableConfiguration().getFeatureFilterPlaceholder())){
+				updateHeader(table);
+			}
+			else if("foot".equalsIgnoreCase(table.getTableConfiguration().getFeatureFilterPlaceholder())){
+				updateFooter(table);
+			}
+		}
+		else{
+			updateFooter(table);
 		}
 		
 		setFunction("columnFilter");
 		setConfigGenerator(new ColumnFilteringGenerator());
 		addJsResource(new JsResource(ResourceType.FEATURE, "FilteringAddOn", "datatables/features/filtering/filteringaddon.js"));
+	}
+	
+	private void updateHeader(HtmlTable table){
+		table.addHeaderRow();
+		for (HtmlColumn column : table.getFirstHeaderRow().getColumns()) {
+			table.getLastHeaderRow().addColumn(column);
+		}
+	}
+	
+	private void updateFooter(HtmlTable table){
+		table.addFooterRow();
+		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
+			table.getLastFooterRow().addColumn(column);
+		}
 	}
 }

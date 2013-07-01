@@ -118,7 +118,7 @@ public class TableTag extends AbstractTableTag {
 		else if ("DOM".equals(this.loadingType)) {
 //			this.table.addFooterRow();
 			this.table.addHeaderRow();
-
+			
 			return processIteration();
 		}
 
@@ -497,5 +497,9 @@ public class TableTag extends AbstractTableTag {
 
 	public void setCssClass(String cssClass) {
 		localConf.put(Configuration.CSS_CLASS, cssClass);
+	}
+	
+	public void setFilterPlaceholder(String filterPlaceholder) {
+		localConf.put(Configuration.FEATURE_FILTER_PLACEHOLDER, filterPlaceholder);
 	}
 }

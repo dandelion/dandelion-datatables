@@ -202,6 +202,10 @@ public class HtmlTable extends HtmlTag {
 		return ((LinkedList<HtmlRow>) this.foot).getLast();
 	}
 
+	public HtmlRow getFirstHeaderRow() {
+		return ((LinkedList<HtmlRow>) this.head).getFirst();
+	}
+	
 	public HtmlRow getLastHeaderRow() {
 		return ((LinkedList<HtmlRow>) this.head).getLast();
 	}

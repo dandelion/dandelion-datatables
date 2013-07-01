@@ -70,6 +70,7 @@ public class TableConfiguration {
 	private Boolean featureInfo;
 	private Boolean featureAutoWidth;
 	private Boolean featureFilterable;
+	private String featureFilterPlaceholder;
 	private Boolean featurePaginate;
 	private PaginationType featurePaginationType;
 	private Boolean featureLengthChange;
@@ -223,6 +224,7 @@ public class TableConfiguration {
 		featureInfo = objectToClone.featureInfo;
 		featureAutoWidth = objectToClone.featureAutoWidth;
 		featureFilterable = objectToClone.featureFilterable;
+		featureFilterPlaceholder = objectToClone.featureFilterPlaceholder;
 		featurePaginate = objectToClone.featurePaginate;
 		featurePaginationType = objectToClone.featurePaginationType;
 		featureLengthChange = objectToClone.featureLengthChange;
@@ -1115,6 +1117,14 @@ public class TableConfiguration {
 	
 	public String getMessage(String key){
 		return this.messages.getProperty(key);
+	}
+
+	public String getFeatureFilterPlaceholder() {
+		return featureFilterPlaceholder;
+	}
+
+	public void setFeatureFilterPlaceholder(String featureFilterPlaceholder) {
+		this.featureFilterPlaceholder = featureFilterPlaceholder;
 	}
 
 	@Override

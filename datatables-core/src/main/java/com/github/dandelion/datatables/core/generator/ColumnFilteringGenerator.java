@@ -44,8 +44,9 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
+ * <p>
  * Class in charge of Column Filtering widget configuration generation.
- *
+ * 
  * @author Thibault Duchateau
  */
 public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
@@ -53,21 +54,17 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
     // Logger
     private static Logger logger = LoggerFactory.getLogger(ColumnFilteringGenerator.class);
 
-    /**
-     * If no custom config is specified with table attributes, DataTables
-     * will internally use default one.
-     *
-     * @param table The POJO containing the HTML table.
-     * @return MainConf The main configuration file associated with the HTML
-     *         table.
-     */
     public Map<String, Object> generateConfig(HtmlTable table) {
 
-        logger.debug("Generating Column Filtering configuration ..");
+        logger.debug("Generating Column Filtering configuration...");
 
-        // Main configuration object
-        Map<String, Object> conf = new HashMap<String, Object>();
+        // Filtering configuration object
+        Map<String, Object> filteringConf = new HashMap<String, Object>();
 
+        if(StringUtils.isNotBlank(table.getTableConfiguration().getFeatureFilterPlaceholder())){
+        	filteringConf.put(DTConstants.DT_S_PLACEHOLDER, table.getTableConfiguration().getFeatureFilterPlaceholder());
+        }
+        
         // Columns configuration
         Map<String, Object> tmp = null;
         List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
@@ -89,6 +86,9 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
 					case SELECT:
 						tmp.put(DTConstants.DT_FILTER_TYPE, "select");        				
 						break;
+					case NUMBER_RANGE:
+						tmp.put(DTConstants.DT_FILTER_TYPE, "number-range");        				
+						break;
 					default:
 						tmp.put(DTConstants.DT_FILTER_TYPE, "text");
 						break;
@@ -105,10 +105,10 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
         		aoColumnsContent.add(tmp);
         	}
         }
-        conf.put(DTConstants.DT_AOCOLUMNS, aoColumnsContent);
+        filteringConf.put(DTConstants.DT_AOCOLUMNS, aoColumnsContent);
 
         logger.debug("Column filtering configuration generated");
 
-        return conf;
+        return filteringConf;
     }
 }

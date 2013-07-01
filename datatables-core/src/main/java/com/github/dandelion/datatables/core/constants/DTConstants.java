@@ -90,6 +90,7 @@ public class DTConstants {
 	public static final String DT_SCROLLCOLLAPSE = "bScrollCollapse";
 	public static final String DT_OFFSETTOP = "offsetTop";
 	public static final String DT_FILTER_TYPE = "type";
+	public static final String DT_S_PLACEHOLDER = "sPlaceHolder";
 	public static final String DT_S_SELECTOR = "sSelector";
 	
 	// Column configuration
