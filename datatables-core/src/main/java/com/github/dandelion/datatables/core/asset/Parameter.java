@@ -46,7 +46,7 @@ import com.github.dandelion.datatables.core.extension.plugin.ScrollerPlugin;
  * find among others :
  * 
  * <pre>
- * addConfiguration(new Configuration(DTConstants.DT_DOM, &quot;S&quot;, Configuration.Mode.APPEND));
+ * addParameter(new Configuration(DTConstants.DT_DOM, &quot;S&quot;, Configuration.Mode.APPEND));
  * </pre>
  * <p>
  * So the final value of the <tt>sDom</tt> parameter will be <tt>lfrtipS</tt>
