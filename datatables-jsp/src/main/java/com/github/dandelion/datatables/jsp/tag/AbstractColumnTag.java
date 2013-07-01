@@ -49,6 +49,8 @@ import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.extension.feature.FilteringFeature;
+import com.github.dandelion.datatables.core.extension.feature.SortType;
+import com.github.dandelion.datatables.core.extension.feature.SortingFeature;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
@@ -84,6 +86,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	protected Boolean sortable;
 	protected String sortDirection;
 	protected String sortInit;
+	protected String sortType;
 	protected Boolean filterable = false;
 	protected Boolean searchable;
 	protected Boolean visible;
@@ -214,6 +217,20 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 				column.setFilterType(filterType);
 			}
 
+			if (StringUtils.isNotBlank(this.sortType)) {
+				
+				SortType sortType = null;
+				try {
+					sortType = SortType.valueOf(this.sortType.toUpperCase().trim());
+				} catch (IllegalArgumentException e) {
+					logger.error("{} is not a valid value among {}. Please choose a valid one.",
+							sortType, SortType.values());
+					throw new JspException(e);
+				}
+				column.setSortType(sortType);
+				parent.getTable().getTableConfiguration().registerFeature(new SortingFeature());
+			}
+			
 			column.setFilterCssClass(this.filterCssClass);
 			column.setFilterPlaceholder(this.filterPlaceholder);
 
@@ -540,6 +557,10 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 
 	public void setSelector(String selector) {
 		this.selector = selector;
+	}
+
+	public void setSortType(String sortType) {
+		this.sortType = sortType;
 	}
 
 	/**

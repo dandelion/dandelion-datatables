@@ -113,6 +113,11 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         			tmp.put(DTConstants.DT_SORT_DIR, column.getSortDirections());
         		}
         		
+        		// Sorting type
+        		if(column.getSortType() != null){
+        			tmp.put(DTConstants.DT_S_TYPE, column.getSortType().getName());
+        		}
+        		
         		aoColumnsContent.add(tmp);
         	}
         }

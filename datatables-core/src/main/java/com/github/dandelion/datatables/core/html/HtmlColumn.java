@@ -35,6 +35,7 @@ import java.util.Map;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
+import com.github.dandelion.datatables.core.extension.feature.SortType;
 
 /**
  * Plain old HTML <code>td</code> and <code>th</code> tags.
@@ -60,6 +61,7 @@ public class HtmlColumn extends HtmlTagWithContent {
 	private String title;
 	private String formatPattern;
 	private String selector;
+	private SortType sortType;
 	
 	/**
 	 * <p>
@@ -338,5 +340,13 @@ public class HtmlColumn extends HtmlTagWithContent {
 
 	public void setSelector(String selector) {
 		this.selector = selector;
+	}
+
+	public SortType getSortType() {
+		return sortType;
+	}
+
+	public void setSortType(SortType sortType) {
+		this.sortType = sortType;
 	}
 }
