@@ -295,6 +295,21 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 			column.setSortInit(this.sortInit);
 		}
 
+		if (StringUtils.isNotBlank(this.sortType)) {
+			
+			SortType sortType = null;
+			try {
+				sortType = SortType.valueOf(this.sortType.toUpperCase().trim());
+			} catch (IllegalArgumentException e) {
+				logger.error("{} is not a valid value among {}. Please choose a valid one.",
+						sortType, SortType.values());
+				throw new JspException(e);
+			}
+			column.setSortType(sortType);
+			parent.getTable().getTableConfiguration().registerFeature(new SortingFeature());
+		}
+
+		
 		// Filtering
 		if(filterable != null){
 			column.setFilterable(filterable);
@@ -401,158 +416,80 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		return "";
 	}
 
-	/** Getters and setters */
-
 	public void setUid(String uid) {
 		this.uid = uid;
-	}
-
-	public String getUid(String uid) {
-		return this.uid;
 	}
 
 	public void setProperty(String property) {
 		this.property = property;
 	}
 
-	public String getCssStyle() {
-		return cssStyle;
-	}
-
 	public void setCssStyle(String cssStyle) {
 		this.cssStyle = cssStyle;
-	}
-
-	public String getCssClass() {
-		return cssClass;
 	}
 
 	public void setCssClass(String cssClass) {
 		this.cssClass = cssClass;
 	}
 
-	public Boolean getSortable() {
-		return sortable;
-	}
-
 	public void setSortable(Boolean sortable) {
 		this.sortable = sortable;
-	}
-
-	public String getCssCellStyle() {
-		return cssCellStyle;
 	}
 
 	public void setCssCellStyle(String cssCellStyle) {
 		this.cssCellStyle = cssCellStyle;
 	}
 
-	public String getCssCellClass() {
-		return cssCellClass;
-	}
-
 	public void setCssCellClass(String cssCellClass) {
 		this.cssCellClass = cssCellClass;
-	}
-
-	public Boolean getFilterable() {
-		return filterable;
 	}
 
 	public void setFilterable(Boolean filterable) {
 		this.filterable = filterable;
 	}
 
-	public Boolean getSearchable() {
-		return searchable;
-	}
-
 	public void setSearchable(Boolean searchable) {
 		this.searchable = searchable;
-	}
-
-	public Boolean getVisible() {
-		return visible;
 	}
 
 	public void setVisible(Boolean visible) {
 		this.visible = visible;
 	}
 	
-	public String getFilterType() {
-		return filterType;
-	}
-
 	public void setFilterType(String filterType) {
 		this.filterType = filterType;
-	}
-
-	public String getFilterCssClass() {
-		return filterCssClass;
 	}
 
 	public void setFilterCssClass(String filterCssClass) {
 		this.filterCssClass = filterCssClass;
 	}
 
-	public String getFilterPlaceholder() {
-		return filterPlaceholder;
-	}
-
 	public void setFilterPlaceholder(String filterPlaceholder) {
 		this.filterPlaceholder = filterPlaceholder;
-	}
-
-	public String getSortDirection() {
-		return sortDirection;
 	}
 
 	public void setSortDirection(String sortDirection) {
 		this.sortDirection = sortDirection;
 	}
 
-	public String getSortInit() {
-		return sortInit;
-	}
-
 	public void setSortInit(String sortInit) {
 		this.sortInit = sortInit;
-	}
-
-	public String getDisplay() {
-		return display;
 	}
 
 	public void setDisplay(String display) {
 		this.display = display;
 	}
 
-	public String getDefault() {
-		return defaultValue;
-	}
-
 	public void setDefault(String defaultValue) {
 		this.defaultValue = defaultValue;
 	}
 	
-	public String getRenderFunction() {
-		return renderFunction;
-	}
-
 	public void setRenderFunction(String renderFunction) {
 		this.renderFunction = renderFunction;
 	}
 
-	public String getFormat() {
-		return format;
-	}
-
 	public void setFormat(String format) {
 		this.format = format;
-	}
-
-	public String getSelector() {
-		return selector;
 	}
 
 	public void setSelector(String selector) {
@@ -568,7 +505,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	 */
 	protected Map<String, String> getDynamicAttributes() {
 		return this.dynamicAttributes;
-        }
+	}
 
 	/** {@inheritDoc} */
 	public void setDynamicAttribute(String uri, String localName, Object value ) 
