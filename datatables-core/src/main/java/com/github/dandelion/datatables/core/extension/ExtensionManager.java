@@ -29,14 +29,22 @@
  */
 package com.github.dandelion.datatables.core.extension;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.feature.AbstractFeature;
-import com.github.dandelion.datatables.core.extension.plugin.AbstractPlugin;
+import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.ClassUtils;
 import com.github.dandelion.datatables.core.util.StringUtils;
@@ -51,7 +59,23 @@ public class ExtensionManager {
 	// Logger
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 		
-
+	private HtmlTable table;
+	
+	public ExtensionManager(HtmlTable table){
+		this.table = table;
+	}
+	
+	public void loadExtensions(JsResource mainJsFile, Map<String, Object> mainConf, WebResources webResources) throws ExtensionLoadingException {
+		
+		registerCustomExtensions(table);
+		
+		ExtensionLoader extensionLoader = new ExtensionLoader(table, mainJsFile, mainConf, webResources);
+		extensionLoader.load(table.getTableConfiguration().getInternalExtensions());
+		if(table.getTableConfiguration().getExtraTheme() != null){
+			extensionLoader.load(new HashSet<AbstractTheme>(Arrays.asList(table.getTableConfiguration().getExtraTheme())));			
+		}
+	}
+	
 	/**
 	 * Add custom extensions (for now features and plugins) to the current table
 	 * if they're activated.
@@ -60,54 +84,72 @@ public class ExtensionManager {
 	 *            the HtmlTable to update with custom extensions.
 	 * @throws BadConfigurationException
 	 */
-	public void registerCustomExtensions(HtmlTable table) throws BadConfigurationException{
+	public void registerCustomExtensions(HtmlTable table) throws ExtensionLoadingException {
 
 		if (StringUtils.isNotBlank(table.getTableConfiguration().getBasePackage())) {
 
 			logger.debug("Scanning custom extensions...");
 
 			// Scanning custom extension based on the base.package property
-			List<AbstractFeature> customFeatures = ClassUtils.scanForFeatures(table.getTableConfiguration()
+			List<AbstractExtension> customExtensions = scanCustomExtensions(table.getTableConfiguration()
 					.getBasePackage());
 
 			// Load custom extension if enabled
-			if (customFeatures != null && !customFeatures.isEmpty() && table.getTableConfiguration().getExtraCustomFeatures() != null) {
-				for (String extensionToRegister : table.getTableConfiguration().getExtraCustomFeatures()) {
-					for (AbstractFeature customFeature : customFeatures) {
-						if (extensionToRegister.equals(customFeature.getName().toLowerCase())) {
-							table.getTableConfiguration().registerFeature(customFeature);
-							logger.debug("Feature {} (version: {}) registered", customFeature.getName(),
-									customFeature.getVersion());
+			if (customExtensions != null && !customExtensions.isEmpty() && table.getTableConfiguration().getExtraCustomExtensions() != null) {
+				for (String extensionToRegister : table.getTableConfiguration().getExtraCustomExtensions()) {
+					for (AbstractExtension customExtension : customExtensions) {
+						if (extensionToRegister.equals(customExtension.getName().toLowerCase())) {
+							table.getTableConfiguration().registerExtension(customExtension);
+							logger.debug("Extension {} (version: {}) registered", customExtension.getName(),
+									customExtension.getVersion());
 							continue;
 						}
 					}
 				}
 			} else {
-				logger.debug("No custom feature found");
-			}
-
-			// Scanning custom extension based on the base.package property
-			List<AbstractPlugin> customPlugins = ClassUtils.scanForPlugins(table.getTableConfiguration()
-					.getBasePackage());
-
-			// Load custom extension if enabled
-			if (customPlugins != null && !customPlugins.isEmpty() && table.getTableConfiguration().getExtraCustomPlugins() != null) {
-				for (String extensionToRegister : table.getTableConfiguration().getExtraCustomPlugins()) {
-					for (AbstractPlugin customPlugin : customPlugins) {
-						if (extensionToRegister.equals(customPlugin.getName().toLowerCase())) {
-							table.getTableConfiguration().registerPlugin(customPlugin);
-							logger.debug("Plugin {} (version: {}) registered", customPlugin.getName(),
-									customPlugin.getVersion());
-							continue;
-						}
-					}
-				}
-			} else {
-				logger.debug("No custom plugin found");
+				logger.warn("No custom extension found");
 			}
 		}
 		else{
 			logger.debug("The 'base.package' property is blank. Unable to scan any class.");
 		}
+	}
+	
+	/**
+	 * 
+	 * @param packageName
+	 * @return
+	 * @throws ExtensionLoadingException
+	 */
+	public List<AbstractExtension> scanCustomExtensions(String packageName) throws ExtensionLoadingException {
+
+		// Init return value
+		List<AbstractExtension> retval = new ArrayList<AbstractExtension>();
+
+		List<Class<?>> customExtensionClassList = null;
+		
+		try {
+			customExtensionClassList = ClassUtils.getSubClassesInPackage(packageName, AbstractExtension.class);
+		} catch (ClassNotFoundException e) {
+			throw new ExtensionLoadingException("Unable to load custom extensions", e);
+		} catch (IOException e) {
+			throw new ExtensionLoadingException("Unable to access the package '" + packageName + "'", e);
+		}
+		
+		// Instanciate all found classes
+		for (Class<?> clazz : customExtensionClassList) {
+
+			try {
+				retval.add((AbstractFeature) ClassUtils.getClass(clazz.getName()).newInstance());
+			} catch (InstantiationException e) {
+				throw new ExtensionLoadingException("Unable to instanciate the class " + clazz.getName(), e);
+			} catch (IllegalAccessException e) {
+				throw new ExtensionLoadingException("Unable to access the class " + clazz.getName(), e);
+			} catch (ClassNotFoundException e) {
+				throw new ExtensionLoadingException("Unable to load the class " + clazz.getName(), e);
+			}
+		}
+
+		return retval;
 	}
 }

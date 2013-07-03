@@ -47,6 +47,7 @@ import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.CollectionUtils;
 import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
@@ -104,7 +105,7 @@ public class ExtensionLoader {
 	 * @throws IOException
 	 */
 	public void load(Set<? extends Extension> extensions)
-			throws BadConfigurationException, IOException {
+			throws ExtensionLoadingException {
 
 		if (extensions != null && !extensions.isEmpty()) {
 
@@ -139,7 +140,7 @@ public class ExtensionLoader {
 	 *            The extension to load.
 	 * @throws BadConfigurationException
 	 */
-	private void loadJsResources(Extension extension) throws BadConfigurationException {
+	private void loadJsResources(Extension extension) throws ExtensionLoadingException {
 
 		JsResource extensionJsFile = null;
 		String resourceName = null;
@@ -157,8 +158,13 @@ public class ExtensionLoader {
 
 			// All JS resources are merged
 			for (JsResource jsResource : extension.getJsResources()) {
-				jsContent.append(ResourceHelper.getFileContentFromClasspath(jsResource
-						.getLocation()));
+				try {
+					jsContent.append(ResourceHelper.getFileContentFromClasspath(jsResource
+							.getLocation()));
+				} catch (IOException e) {
+					throw new ExtensionLoadingException("Unable to read the content of the file "
+							+ jsResource.getLocation(), e);
+				}
 			}
 
 			extensionJsFile.setContent(jsContent.toString());
@@ -198,7 +204,7 @@ public class ExtensionLoader {
 	 *            The extension to load.
 	 * @throws BadConfigurationException
 	 */
-	private void loadCssResources(HtmlTable table, Extension extension) throws BadConfigurationException {
+	private void loadCssResources(HtmlTable table, Extension extension) throws ExtensionLoadingException {
 
 		CssResource pluginsSourceCssFile = null;
 		String resourceName = null;
@@ -218,8 +224,13 @@ public class ExtensionLoader {
 			for (CssResource cssResource : extension.getCssResources()) {
 				// Most of CSS resource have a type different from EXTERNAL, which is theme-specific
 				if(!cssResource.getType().equals(ResourceType.EXTERNAL)){
-					cssContent.append(ResourceHelper.getFileContentFromClasspath(cssResource
-							.getLocation()));					
+					try {
+						cssContent.append(ResourceHelper.getFileContentFromClasspath(cssResource
+								.getLocation()));
+					} catch (IOException e) {
+						throw new ExtensionLoadingException("Unable to read the content of the file "
+								+ cssResource.getLocation(), e);
+					}					
 				}
 			}
 
@@ -231,9 +242,9 @@ public class ExtensionLoader {
 	/**
 	 * 
 	 * @param extension
-	 * @throws IOException
+	 * @throws ExtensionLoadingException 
 	 */
-	private void injectIntoMainJsFile(Extension extension) throws IOException {
+	private void injectIntoMainJsFile(Extension extension) throws ExtensionLoadingException {
 
 		// Extension configuration loading
 		if (extension.getBeforeAll() != null) {
@@ -265,7 +276,11 @@ public class ExtensionLoader {
 			Map<String, Object> conf = extension.getConfigGenerator().generateConfig(table);
 
 			// Allways pretty prints the JSON
-			JSONValue.writeJSONString(conf, writer);
+			try {
+				JSONValue.writeJSONString(conf, writer);
+			} catch (IOException e) {
+				throw new ExtensionLoadingException("Unable to convert the configuration into JSON", e);
+			}
 
 			mainJsFile.appendToDataTablesExtraConf(writer.toString());
 		}

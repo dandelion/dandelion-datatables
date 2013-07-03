@@ -29,19 +29,22 @@
  */
 package com.github.dandelion.datatables.core.util;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
-import java.util.Set;
+import java.util.TreeSet;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import org.apache.commons.beanutils.MethodUtils;
-import org.reflections.Reflections;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.extension.feature.AbstractFeature;
-import com.github.dandelion.datatables.core.extension.plugin.AbstractPlugin;
 
 /**
  * Helper class used for all reflection stuff.
@@ -50,9 +53,6 @@ import com.github.dandelion.datatables.core.extension.plugin.AbstractPlugin;
  */
 public class ClassUtils {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ClassUtils.class);
-
 	/**
 	 * <p>
 	 * Get a Java class from its name.
@@ -60,20 +60,32 @@ public class ClassUtils {
 	 * @param className
 	 *            The class name.
 	 * @return The corresponding class.
+	 * @throws ClassNotFoundException 
 	 * @throws BadConfigurationException
 	 *             if the class doesn't exist.
+	 *             
+	 * Tries to load a class with more classloaders. Can be useful in J2EE
+	 * applications if jar is loaded from a different classloader than user
+	 * classes. If class is not found using the standard classloader, tries whit
+	 * the thread classloader.
+	 * 
+	 * @param className
+	 *            class name
+	 * @return Class loaded class
+	 * @throws ClassNotFoundException
+	 *             if none of the ClassLoaders is able to found the reuested
+	 *             class
 	 */
-	public static Class<?> getClass(String className) throws BadConfigurationException {
-		Class<?> klass = null;
-
+	public static Class<?> getClass(String className) throws ClassNotFoundException {
 		try {
-			klass = Class.forName(className);
-		} catch (ClassNotFoundException e) {
-			logger.error("Unable to get class {}", className);
-			throw new BadConfigurationException(e);
+			// trying with the default ClassLoader
+			return Class.forName(className);
+		} catch (ClassNotFoundException cnfe) {
+			// trying with thread ClassLoader
+			Thread thread = Thread.currentThread();
+			ClassLoader threadClassLoader = thread.getContextClassLoader();
+			return Class.forName(className, false, threadClassLoader);
 		}
-
-		return klass;
 	}
 
 	/**
@@ -83,22 +95,13 @@ public class ClassUtils {
 	 * @param klass
 	 *            The class to instanciate.
 	 * @return a new instance of the given class.
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
 	 * @throws BadConfigurationException
 	 *             if the class is not instanciable.
 	 */
-	public static Object getNewInstance(Class<?> klass) throws BadConfigurationException {
-		Object retval = null;
-		try {
-			retval = klass.newInstance();
-		} catch (InstantiationException e) {
-			logger.error("Unable to get instance of {}", klass);
-			throw new BadConfigurationException(e);
-		} catch (IllegalAccessException e) {
-			logger.error("Unable to get instance of {}", klass);
-			throw new BadConfigurationException(e);
-		}
-
-		return retval;
+	public static Object getNewInstance(Class<?> klass) throws InstantiationException, IllegalAccessException {
+		return klass.newInstance();
 	}
 
 	/**
@@ -112,30 +115,15 @@ public class ClassUtils {
 	 * @param args
 	 *            The potential args used in the method.
 	 * @return An object returned by the invoked method.
+	 * @throws InvocationTargetException 
+	 * @throws IllegalAccessException 
+	 * @throws NoSuchMethodException 
 	 * @throws BadConfigurationException
 	 *             if the methodName doesn't exist for the given object.
 	 */
-	public static Object invokeMethod(Object obj, String methodName, Object[] args) throws BadConfigurationException {
-		Object retval = null;
-
-		try {
-			retval = MethodUtils.invokeMethod(obj, methodName, args);
-		} catch (NoSuchMethodException e) {
-			logger.error("Unable to invoke method {}", methodName);
-			throw new BadConfigurationException(e);
-		} catch (IllegalAccessException e) {
-			logger.error("Unable to invoke method {}", methodName);
-			throw new BadConfigurationException(e);
-		} catch (InvocationTargetException e) {
-			logger.error("Unable to invoke method {}", methodName);
-			throw new BadConfigurationException(e);
-		}
-
-		return retval;
-	}
-
-	public static String getGetterFromSetter(String setterName) {
-		return "get" + setterName.substring(setterName.indexOf("set") + 1, setterName.length());
+	public static Object invokeMethod(Object obj, String methodName, Object[] args) throws NoSuchMethodException,
+			IllegalAccessException, InvocationTargetException {
+		return MethodUtils.invokeMethod(obj, methodName, args);
 	}
 
 	/**
@@ -152,137 +140,112 @@ public class ClassUtils {
 		try {
 			ClassUtils.getClass(className);
 			canBeUsed = true;
-		} catch (BadConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} 
+		catch (ClassNotFoundException e) {
+			// do nothing
 		}
 		return canBeUsed;
 	}
 
 	/**
-	 * Scan for custom features.
-	 * 
-	 * @param packageName
-	 *            The package name where to scan classes.
-	 * @return a list of custom AbstractFeature.
-	 * @throws BadConfigurationException
-	 */
-	public static List<AbstractFeature> scanForFeatures(String packageName) throws BadConfigurationException {
-
-		// TODO temporary removed due to a classpath conflict with xml-api,
-		// brought by reflections
-		// Init return value
-		List<AbstractFeature> retval = new ArrayList<AbstractFeature>();
-
-		// Init the reflection utility
-		Reflections reflections = new Reflections(packageName);
-
-		// Scan all subtypes of ActractFeature
-		Set<Class<? extends AbstractFeature>> subTypes = reflections.getSubTypesOf(AbstractFeature.class);
-
-		// Instanciate all found classes
-		for (Class<? extends AbstractFeature> clazz : subTypes) {
-
-			try {
-				retval.add((AbstractFeature) ClassUtils.getClass(clazz.getName()).newInstance());
-			} catch (InstantiationException e) {
-				logger.warn("Unable to instanciate class {}", clazz.getName());
-				throw new BadConfigurationException(e);
-			} catch (IllegalAccessException e) {
-				logger.warn("Unable to access the class {}", clazz.getName());
-				throw new BadConfigurationException(e);
-			}
-		}
-
-		return retval;
-	}
-
-	/**
-	 * Scan for custom plugins.
-	 * 
-	 * @param packageName
-	 *            The package name where to scan classes.
-	 * @return a list of custom AbstractPlugin.
-	 * @throws BadConfigurationException
-	 */
-	public static List<AbstractPlugin> scanForPlugins(String packageName) throws BadConfigurationException {
-
-		// TODO temporary removed due to a classpath conflict with xml-api,
-		// brought by reflections
-
-		// Init return value
-		List<AbstractPlugin> retval = new ArrayList<AbstractPlugin>();
-
-		// Init the reflection utility
-		Reflections reflections = new Reflections(packageName);
-
-		// Scan all subtypes of ActractFeature
-		Set<Class<? extends AbstractPlugin>> subTypes = reflections.getSubTypesOf(AbstractPlugin.class);
-
-		// Instanciate all found classes
-		for (Class<? extends AbstractPlugin> clazz : subTypes) {
-
-			try {
-				retval.add((AbstractPlugin) ClassUtils.getClass(clazz.getName()).newInstance());
-			} catch (InstantiationException e) {
-				logger.warn("Unable to instanciate class {}", clazz.getName());
-				throw new BadConfigurationException(e);
-			} catch (IllegalAccessException e) {
-				logger.warn("Unable to access the class {}", clazz.getName());
-				throw new BadConfigurationException(e);
-			}
-		}
-
-		return retval;
-	}
-
-	/**
-	 * Tries to load a class with more classloaders. Can be useful in J2EE
-	 * applications if jar is loaded from a different classloader than user
-	 * classes. If class is not found using the standard classloader, tries whit
-	 * the thread classloader.
+	 * Determine whether the {@link Class} identified by the supplied name is
+	 * present and can be loaded. Will return {@code false} if either the class
+	 * or one of its dependencies is not present or cannot be loaded.
 	 * 
 	 * @param className
-	 *            class name
-	 * @return Class loaded class
-	 * @throws ClassNotFoundException
-	 *             if none of the ClassLoaders is able to found the reuested
-	 *             class
-	 */
-	public static Class<?> classForName(String className) throws BadConfigurationException {
-		try {
-			// trying with the default ClassLoader
-			return Class.forName(className);
-		} catch (ClassNotFoundException cnfe) {
-			try {
-				// trying with thread ClassLoader
-				Thread thread = Thread.currentThread();
-				ClassLoader threadClassLoader = thread.getContextClassLoader();
-				return Class.forName(className, false, threadClassLoader);
-			} catch (ClassNotFoundException cnfe2) {
-				throw new BadConfigurationException(cnfe2);
-			}
-		}
-	}
-
-
-	/**
-	 * Determine whether the {@link Class} identified by the supplied name is present
-	 * and can be loaded. Will return {@code false} if either the class or
-	 * one of its dependencies is not present or cannot be loaded.
-	 * @param className the name of the class to check
-	 * @param classLoader the class loader to use
-	 * (may be {@code null}, which indicates the default class loader)
+	 *            the name of the class to check
+	 * @param classLoader
+	 *            the class loader to use (may be {@code null}, which indicates
+	 *            the default class loader)
 	 * @return whether the specified class is present
 	 */
 	public static boolean isPresent(String className) {
 		try {
 			Class.forName(className);
 			return true;
-		}
-		catch (Throwable ex) {
+		} catch (Throwable ex) {
 			// Class or one of its dependencies is not present...
 			return false;
 		}
+	}
+
+	public static List<Class<?>> getSubClassesInPackage(String packageName, Class<?> superClass) throws ClassNotFoundException, IOException {
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+
+		String path = packageName.replace('.', '/');
+		Enumeration<URL> resources = classLoader.getResources(path);
+		List<String> dirs = new ArrayList<String>();
+		while (resources.hasMoreElements()) {
+			URL resource = resources.nextElement();
+			dirs.add(URLDecoder.decode(resource.getFile(), "UTF-8"));
+		}
+		
+		TreeSet<String> classes = new TreeSet<String>();
+		for (String directory : dirs) {
+			classes.addAll(findClasses(directory, packageName));
+		}
+		
+		ArrayList<Class<?>> classList = new ArrayList<Class<?>>();
+		for (String clazz : classes) {
+			Class<?> clazzz = Class.forName(clazz);
+			if(superClass.isAssignableFrom(clazzz)){
+				classList.add(clazzz);
+			}
+		}
+		return classList;
+	}
+	
+	public static List<Class<?>> getAllClassesInPackage(String packageName) throws ClassNotFoundException, IOException {
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		String path = packageName.replace('.', '/');
+		Enumeration<URL> resources = classLoader.getResources(path);
+		List<String> dirs = new ArrayList<String>();
+		while (resources.hasMoreElements()) {
+			URL resource = resources.nextElement();
+			dirs.add(URLDecoder.decode(resource.getFile(), "UTF-8"));
+		}
+		TreeSet<String> classes = new TreeSet<String>();
+		for (String directory : dirs) {
+			classes.addAll(findClasses(directory, packageName));
+		}
+		ArrayList<Class<?>> classList = new ArrayList<Class<?>>();
+		for (String clazz : classes) {
+			classList.add(Class.forName(clazz));
+		}
+		return classList;
+	}
+	
+	private static TreeSet<String> findClasses(String path, String packageName) throws MalformedURLException, IOException {
+		TreeSet<String> classes = new TreeSet<String>();
+		if (path.startsWith("file:") && path.contains("!")) {
+			String[] split = path.split("!");
+			URL jar = new URL(split[0]);
+			ZipInputStream zip = new ZipInputStream(jar.openStream());
+			ZipEntry entry;
+			while ((entry = zip.getNextEntry()) != null) {
+				if (entry.getName().endsWith(".class")) {
+					String className = entry.getName().replaceAll("[$].*", "").replaceAll("[.]class", "").replace('/', '.');
+					if (className.startsWith(packageName)) {
+						classes.add(className);
+					}
+				}
+			}
+		}
+		File dir = new File(path);
+		if (!dir.exists()) {
+			return classes;
+		}
+		File[] files = dir.listFiles();
+		for (File file : files) {
+			if (file.isDirectory()) {
+				classes.addAll(findClasses(file.getAbsolutePath(), packageName + "." + file.getName()));
+			} else if (file.getName().endsWith(".class")) {
+				// Build the class name with the package name and the file after
+				// removing the .class extension
+				String className = packageName + '.' + file.getName().substring(0, file.getName().length() - 6);
+				classes.add(className);
+			}
+		}
+		return classes;
 	}
 }

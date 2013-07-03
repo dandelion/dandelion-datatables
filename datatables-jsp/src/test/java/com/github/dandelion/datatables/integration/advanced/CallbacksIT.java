@@ -54,13 +54,13 @@ public class CallbacksIT extends BaseIT {
 	@Test
 	public void should_generate_initcomplete_callback() throws IOException, Exception {
 		goToPage("advanced/callback_init");
-		assertThat(getConfigurationFromPage("advanced/callback_init.jsp").getContent()).contains(DTConstants.DT_FN_INIT_COMPLETE);
+		assertThat(getConfigurationFromPage("advanced/callback_init").getContent()).contains(DTConstants.DT_FN_INIT_COMPLETE);
 	}
 	
 	@Test
 	public void should_avoid_conflict_between_feature_and_callback() throws IOException, Exception {
 		goToPage("advanced/callback_init_conflict_with_feature");
-		String js = getConfigurationFromPage("advanced/callback_init_conflict_with_feature.jsp").getContent();
+		String js = getConfigurationFromPage("advanced/callback_init_conflict_with_feature").getContent();
 		assertThat(js).contains("function(oSettings,json){oTable_myTableId.fnAdjustColumnSizing(true);callback(oSettings,json);}");
 	}
 	
