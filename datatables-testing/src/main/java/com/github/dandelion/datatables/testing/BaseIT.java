@@ -155,7 +155,13 @@ public abstract class BaseIT extends FluentAdapter {
 	}
 	
 	public JsResource getConfigurationFromPage(String page) {
-		String url = "/" + page + "|myTableId";
+		String url = null;
+		if(this.getClass().isAnnotationPresent(JspTest.class)){
+			url = "/" + page + ".jsp|myTableId";
+		}
+		else if(this.getClass().isAnnotationPresent(ThymeleafTest.class)) {
+			url = "/thymeleaf/" + page + "|myTableId";
+		}
 		WebResources webResources = ((WebResources) AssetCache.cache.get(url));
 		return webResources.getMainJsFile() != null ? webResources.getMainJsFile() : null;
 	}

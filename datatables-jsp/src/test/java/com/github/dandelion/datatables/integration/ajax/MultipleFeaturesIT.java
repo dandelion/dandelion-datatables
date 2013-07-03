@@ -23,7 +23,7 @@ public class MultipleFeaturesIT extends BaseIT {
 	public void should_generate_table_with_ajax_source_and_callback() throws Exception {
 		goToPage("ajax/table_with_callback");
 
-		String js = getConfigurationFromPage("ajax/table_with_callback.jsp").getContent();
+		String js = getConfigurationFromPage("ajax/table_with_callback").getContent();
 
 		assertThat(js).contains("\"fnInitComplete\":function(oSettings,json){oTable_myTableId.fnAdjustColumnSizing(true);myInitCallback(oSettings,json);},");
 	}
