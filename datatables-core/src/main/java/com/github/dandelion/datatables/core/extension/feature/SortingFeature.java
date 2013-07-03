@@ -29,10 +29,11 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.ResourceHelper;
@@ -61,7 +62,7 @@ public class SortingFeature extends AbstractFeature {
 	}
 
 	@Override
-	public void setup(HtmlTable table) throws BadConfigurationException {
+	public void setup(HtmlTable table) throws ExtensionLoadingException {
 		Set<SortType> enabledSortTypes = new HashSet<SortType>();
 		
 		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
@@ -71,33 +72,38 @@ public class SortingFeature extends AbstractFeature {
 		}
 		
 		String content = null;
-		for(SortType sortType : enabledSortTypes){
-			switch (sortType) {
-			case DATE:
-				content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/date-uk.js");
-				break;
-			case NATURAL:
-				content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/naturalSort.js");
-				break;
-			case ALT_STRING:
-				content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/alt-string.js");
-				break;
-			case ANTI_THE:
-				content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/anti-the.js");
-				break;
-			case CURRENCY:
-				content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/currency.js");
-				break;
-			case FILESIZE:
-				content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/filesize.js");
-				break;
-			case FORMATTED_NUMBERS:
-				content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/formatted-numbers.js");
-				break;
-			default:
-				break;
+		
+		try {
+			for(SortType sortType : enabledSortTypes){
+				switch (sortType) {
+				case DATE:
+						content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/date-uk.js");
+					break;
+				case NATURAL:
+					content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/naturalSort.js");
+					break;
+				case ALT_STRING:
+					content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/alt-string.js");
+					break;
+				case ANTI_THE:
+					content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/anti-the.js");
+					break;
+				case CURRENCY:
+					content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/currency.js");
+					break;
+				case FILESIZE:
+					content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/filesize.js");
+					break;
+				case FORMATTED_NUMBERS:
+					content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/formatted-numbers.js");
+					break;
+				default:
+					break;
+				}
+				appendToBeforeAll(content);
 			}
-			appendToBeforeAll(content);
+		} catch (IOException e) {
+			throw new ExtensionLoadingException("Unable to read the content of the file 'pipelining.js'", e);
 		}
 	}
 }

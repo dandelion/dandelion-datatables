@@ -56,7 +56,7 @@ import com.github.dandelion.datatables.core.processor.css.CssStripeClassesProces
 import com.github.dandelion.datatables.core.processor.export.ExportConfsProcessor;
 import com.github.dandelion.datatables.core.processor.export.ExportLinkPositionsProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraAppearProcessor;
-import com.github.dandelion.datatables.core.processor.extra.ExtraCustomFeaturesProcessor;
+import com.github.dandelion.datatables.core.processor.extra.ExtraCustomExtensionsProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraLabelProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraThemeOptionProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraThemeProcessor;
@@ -113,8 +113,7 @@ public enum Configuration {
 	
 	EXTRA_THEME("extra.theme", "extraTheme", AbstractTheme.class, ExtraThemeProcessor.class),
 	EXTRA_THEMEOPTION("extra.themeOption", "extraThemeOption", ThemeOption.class, ExtraThemeOptionProcessor.class),
-	EXTRA_CUSTOMFEATURES("extra.customFeatures", "extraCustomFeatures", Set.class, ExtraCustomFeaturesProcessor.class),
-	EXTRA_CUSTOMPLUGINS("extra.customPlugins", "extraCustomPlugins", Set.class, ExtraCustomFeaturesProcessor.class),
+	EXTRA_CUSTOM_EXTENSIONS("extra.customExtensions", "extraCustomExtensions", Set.class, ExtraCustomExtensionsProcessor.class),
 	EXTRA_CDN("extra.cdn", "extraCdn", Boolean.class, BooleanProcessor.class),
 	EXTRA_APPEAR("extra.appear", "extraAppear", String.class, ExtraAppearProcessor.class),
 	EXTRA_APPEARDURATION("extra.appearDuration", "extraAppearDuration", String.class, StringProcessor.class),

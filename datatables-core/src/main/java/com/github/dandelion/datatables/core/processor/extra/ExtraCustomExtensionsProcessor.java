@@ -27,46 +27,35 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.thymeleaf.processor.feature;
+package com.github.dandelion.datatables.core.processor.extra;
 
+import java.util.HashSet;
 import java.util.Map;
-
-import org.thymeleaf.Arguments;
-import org.thymeleaf.dom.Element;
-import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
-import org.thymeleaf.processor.ProcessorResult;
+import java.util.Set;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.util.Utils;
+import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
+import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+import com.github.dandelion.datatables.core.util.StringUtils;
 
-/**
- * Attribute processor applied to the <code>table</code> tag for the
- * <code>features</code> attribute.
- * 
- * @author Thibault Duchateau
- * @since 0.9.0
- */
-public class TableCustomFeaturesProcessor extends AbstractDatatablesAttrProcessor {
-
-	public TableCustomFeaturesProcessor(IAttributeNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+public class ExtraCustomExtensionsProcessor extends AbstractProcessor {
 
 	@Override
-	public int getPrecedence() {
-		return 8000;
-	}
+	public void doProcess(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
 
-	@Override
-	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
+		Set<String> retval = null;
+		if (StringUtils.isNotBlank(param)) {
+			retval = new HashSet<String>();
+			
+			String[] customFeatures = param.trim().split(",");
 
-		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
+			for (String feature : customFeatures) {
+				retval.add(feature.trim().toLowerCase());
+			}
+		}
 
-		localConf.put(Configuration.EXTRA_CUSTOMFEATURES, attrValue);
-		
-		return ProcessorResult.ok();
+		tableConfiguration.setExtraCustomExtensions(retval);
 	}
 }

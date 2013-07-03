@@ -59,19 +59,19 @@ public class FeaturePaginationTypeProcessor extends AbstractProcessor {
 
 			switch (type) {
 			case BOOTSTRAP:
-				tableConfiguration.registerFeature(new PaginationTypeBootstrapFeature());
+				tableConfiguration.registerExtension(new PaginationTypeBootstrapFeature());
 				break;
 			case INPUT:
-				tableConfiguration.registerFeature(new PaginationTypeInputFeature());
+				tableConfiguration.registerExtension(new PaginationTypeInputFeature());
 				break;
 			case LISTBOX:
-				tableConfiguration.registerFeature(new PaginationTypeListboxFeature());
+				tableConfiguration.registerExtension(new PaginationTypeListboxFeature());
 				break;
 			case SCROLLING:
-				tableConfiguration.registerFeature(new PaginationTypeScrollingFeature());
+				tableConfiguration.registerExtension(new PaginationTypeScrollingFeature());
 				break;
 			case FOUR_BUTTON:
-				tableConfiguration.registerFeature(new PaginationTypeFourButtonFeature());
+				tableConfiguration.registerExtension(new PaginationTypeFourButtonFeature());
 				break;
 			default:
 				break;

@@ -1,21 +1,21 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright
  * notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
- * 3. Neither the name of Dandelion nor the names of its contributors 
- * may be used to endorse or promote products derived from this software 
+ * 3. Neither the name of Dandelion nor the names of its contributors
+ * may be used to endorse or promote products derived from this software
  * without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -27,35 +27,22 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.extra;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+package com.github.dandelion.datatables.integration.advanced;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
-import com.github.dandelion.datatables.core.processor.AbstractProcessor;
-import com.github.dandelion.datatables.core.util.StringUtils;
+import org.junit.runner.RunWith;
 
-public class ExtraCustomPluginsProcessor extends AbstractProcessor {
+import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
+import com.github.dandelion.datatables.testing.advanced.CustomExtensionsBaseIT;
+import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
-	@Override
-	public void doProcess(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
+/**
+ * Test the enablement of custom extensions.
+ *
+ * @author Thibault Duchateau
+ */
+@RunWith(ThymeleafContextRunner.class)
+@ThymeleafTest
+public class CustomExtensionsIT extends CustomExtensionsBaseIT {
 
-		Set<String> retval = null;
-		if (StringUtils.isNotBlank(param)) {
-			retval = new HashSet<String>();
-			
-			String[] customPlugins = param.trim().split(",");
-
-			for (String plugin : customPlugins) {
-				retval.add(plugin.trim().toLowerCase());
-			}
-		}
-
-		tableConfiguration.setExtraCustomPlugins(retval);
-	}
 }

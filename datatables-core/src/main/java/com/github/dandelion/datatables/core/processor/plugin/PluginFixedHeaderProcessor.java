@@ -48,7 +48,7 @@ public class PluginFixedHeaderProcessor extends AbstractProcessor {
 			retval = Boolean.parseBoolean(param);
 
 			if (retval != null && retval) {
-				tableConfiguration.registerPlugin(new FixedHeaderPlugin());
+				tableConfiguration.registerExtension(new FixedHeaderPlugin());
 			}
 		}
 

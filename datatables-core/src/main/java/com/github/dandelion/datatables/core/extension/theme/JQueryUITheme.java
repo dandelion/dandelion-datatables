@@ -33,7 +33,7 @@ import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -57,7 +57,7 @@ public class JQueryUITheme extends AbstractTheme {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setup(HtmlTable table) throws BadConfigurationException {
+	public void setup(HtmlTable table) throws ExtensionLoadingException {
 
 		addParameter(new Parameter(DTConstants.DT_JQUERYUI, true));
 		addCssResource(new CssResource(ResourceType.THEME, "JQueryUITheme",

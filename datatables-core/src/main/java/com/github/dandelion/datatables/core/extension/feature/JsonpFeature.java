@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.core.extension.feature;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -59,7 +59,7 @@ public class JsonpFeature extends AbstractFeature {
 	}
 
 	@Override
-	public void setup(HtmlTable table) throws BadConfigurationException {
+	public void setup(HtmlTable table) throws ExtensionLoadingException {
 		addParameter(new Parameter(
 				DTConstants.DT_FN_SERVERDATA,
 				new JavascriptSnippet(

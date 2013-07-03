@@ -34,7 +34,7 @@ import java.util.List;
 import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
 import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
 import com.github.dandelion.datatables.core.generator.MainGenerator;
@@ -121,8 +121,7 @@ public interface Extension {
      * @param table
      *            The HTML table.
      */
-    void setup(HtmlTable table) throws BadConfigurationException;
-
+    void setup(HtmlTable table) throws ExtensionLoadingException;
 
     public StringBuilder getBeforeAll();
 

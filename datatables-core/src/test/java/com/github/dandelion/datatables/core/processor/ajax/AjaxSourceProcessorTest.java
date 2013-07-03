@@ -62,8 +62,8 @@ public class AjaxSourceProcessorTest extends ProcessorBaseTest {
 		confToBeApplied.put(Configuration.AJAX_SERVERSIDE, false);
 		processor.process("/myAjaxSource", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxSource()).isEqualTo("/myAjaxSource");
-		assertThat(tableConfiguration.getExtraFeatures()).hasSize(1);
-		assertThat(new AjaxFeature()).isIn(tableConfiguration.getExtraFeatures());
+		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
+		assertThat(new AjaxFeature()).isIn(tableConfiguration.getInternalExtensions());
 	}
 	
 	@Test
@@ -71,6 +71,6 @@ public class AjaxSourceProcessorTest extends ProcessorBaseTest {
 		confToBeApplied.put(Configuration.AJAX_SERVERSIDE, true);
 		processor.process("/myAjaxSource", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxSource()).isEqualTo("/myAjaxSource");
-		assertThat(tableConfiguration.getExtraFeatures()).isNull();
+		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}
 }

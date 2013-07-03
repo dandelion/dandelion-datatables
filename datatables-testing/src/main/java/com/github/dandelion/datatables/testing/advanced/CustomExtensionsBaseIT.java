@@ -27,47 +27,32 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.extra;
+package com.github.dandelion.datatables.testing.advanced;
 
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.processor.Processor;
-import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
+import com.github.dandelion.datatables.testing.BaseIT;
 
-public class ExtraCustomPluginsProcessorTest extends ProcessorBaseTest {
-
-	@Override
-	public Processor getProcessor() {
-		return new ExtraCustomPluginsProcessor();
-	}
+/**
+ * Base integration test for the custom extensions enablement.
+ *
+ * @author Thibault Duchateau
+ * @since 0.9.0
+ */
+public class CustomExtensionsBaseIT extends BaseIT {
 
 	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
-		processor.process(null, tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExtraCustomPlugins()).isNull();
+	public void should_enable_myCustomFeature() throws Exception {
+		goToPage("advanced/custom_extensions");
+		assertThat(getConfigurationFromPage("advanced/custom_extensions").getContent()).contains("\"bStateSave\":true");
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.process("", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExtraCustomPlugins()).isNull();
-	}
-	
-	@Test
-	public void should_set_a_set_containing_only_one_plugin() throws Exception{
-		processor.process("plugin1", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExtraCustomPlugins()).contains("plugin1");
-		processor.process("PLUGIN1 ", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExtraCustomPlugins()).contains("plugin1");
-	}
-	
-	@Test
-	public void should_set_a_set_containing_multiple_plugins() throws Exception{
-		processor.process("plugin1,plugin2", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExtraCustomPlugins()).contains("plugin1","plugin2");
-		processor.process(" plugin1, Plugin2", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExtraCustomPlugins()).contains("plugin1","plugin2");
+	public void should_enable_myCustomFeature_and_myOtherCustomFeature() throws Exception {
+		goToPage("advanced/custom_extensions2");
+		assertThat(getConfigurationFromPage("advanced/custom_extensions2").getContent()).contains("\"bStateSave\":true");
+		assertThat(getConfigurationFromPage("advanced/custom_extensions2").getContent()).contains("\"bAutoWidth\":true");
 	}
 }

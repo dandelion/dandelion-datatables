@@ -29,12 +29,14 @@
  */
 package com.github.dandelion.datatables.core.extension.theme;
 
+import java.io.IOException;
+
 import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.ResourceHelper;
 import com.github.dandelion.datatables.core.util.StringUtils;
@@ -61,12 +63,24 @@ public class Bootstrap2Theme extends AbstractTheme {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setup(HtmlTable table) throws BadConfigurationException {
-		// Specific theme javascript		
-		appendToBeforeAll(ResourceHelper.getFileContentFromClasspath("datatables/themes/bootstrap2/bootstrap.js"));
+	public void setup(HtmlTable table) throws ExtensionLoadingException {
 		
+		// Specific theme javascript
+		try {
+			appendToBeforeAll(ResourceHelper.getFileContentFromClasspath("datatables/themes/bootstrap2/bootstrap.js"));
+		} catch (IOException e) {
+			throw new ExtensionLoadingException(
+					"Unable to read the content of the file 'datatables/themes/bootstrap2/bootstrap.js'", e);
+		}
+
 		// Custom pagination type
-		appendToBeforeAll(ResourceHelper.getFileContentFromClasspath("datatables/features/paginationType/bootstrap.js")); 
+		try {
+			appendToBeforeAll(ResourceHelper
+					.getFileContentFromClasspath("datatables/features/paginationType/bootstrap.js"));
+		} catch (IOException e) {
+			throw new ExtensionLoadingException(
+					"Unable to read the content of the file 'datatables/features/paginationType/bootstrap.js'", e);
+		}
 		
 		// Specific theme css
 		addCssResource(new CssResource(ResourceType.THEME, "Bootstrap2Theme", "datatables/themes/bootstrap2/bootstrap.css"));

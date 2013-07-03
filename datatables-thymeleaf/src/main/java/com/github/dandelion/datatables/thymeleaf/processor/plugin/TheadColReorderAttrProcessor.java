@@ -71,7 +71,7 @@ public class TheadColReorderAttrProcessor extends AbstractDatatablesAttrProcesso
 		
 		// HtmlTable update
 		if (attrValue && table != null) {
-			table.getTableConfiguration().registerPlugin(new ColReorderPlugin());
+			table.getTableConfiguration().registerExtension(new ColReorderPlugin());
 			((Element) element.getParent()).setAttribute("style", "");
 		}
 

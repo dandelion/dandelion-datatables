@@ -52,16 +52,12 @@ public class ResourceHelper {
 	 * TODO
 	 * @param pathToFile
 	 * @return
+	 * @throws FileNotFoundException 
 	 * @throws BadConfigurationException 
 	 */
-	public static InputStream getFileFromWebapp(String pathToFile) throws BadConfigurationException{
+	public static InputStream getFileFromWebapp(String pathToFile) throws FileNotFoundException {
 		File file = new File(pathToFile);
-		InputStream inputStream = null;
-		try {
-			inputStream = new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			throw new BadConfigurationException(e);
-		}
+		InputStream inputStream = new FileInputStream(file);
 		return inputStream;
 	}
 	
@@ -84,15 +80,8 @@ public class ResourceHelper {
 	 * @throws BadConfigurationException 
 	 * @throws IOException
 	 */
-	public static String getFileContentFromClasspath(String pathToFile) throws BadConfigurationException {
-		String retval = null;
-		try {
-			retval = toString(getFileFromClasspath(pathToFile));
-		} catch (IOException e) {
-			throw new BadConfigurationException(e);
-		}
-
-		return retval;
+	public static String getFileContentFromClasspath(String pathToFile) throws IOException {
+		return toString(getFileFromClasspath(pathToFile));
 	}
 	
 	
@@ -100,22 +89,17 @@ public class ResourceHelper {
 	 * TODO
 	 * @param pathToFile
 	 * @return
+	 * @throws IOException 
 	 * @throws BadConfigurationException 
 	 */
-	public static String getFileContentFromWebapp(String pathToFile) throws BadConfigurationException{
-		String retval = null;
-		try {
-			retval = toString(getFileFromWebapp(pathToFile));
-		} catch (IOException e) {
-			throw new BadConfigurationException(e);
-		}
-		
-		return retval;
+	public static String getFileContentFromWebapp(String pathToFile) throws IOException {
+		return toString(getFileFromWebapp(pathToFile));
 	}
 	
 	
 	/**
 	 * TODO
+	 * 
 	 * @param input
 	 * @return
 	 * @throws IOException
@@ -123,8 +107,8 @@ public class ResourceHelper {
 	public static String toString(InputStream input) throws IOException {
 		StringWriter sw = new StringWriter();
 
-		InputStreamReader   in = new InputStreamReader  (input);
-		 
+		InputStreamReader in = new InputStreamReader(input);
+
 		char[] buffer = new char[DEFAULT_BUFFER_SIZE];
 		int n = 0;
 		while (-1 != (n = in.read(buffer))) {

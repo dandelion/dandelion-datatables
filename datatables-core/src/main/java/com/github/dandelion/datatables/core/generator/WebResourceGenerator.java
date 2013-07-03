@@ -31,8 +31,6 @@ package com.github.dandelion.datatables.core.generator;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 
 import org.json.simple.JSONValue;
@@ -47,10 +45,9 @@ import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.DataNotFoundException;
+import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.export.ExportManager;
-import com.github.dandelion.datatables.core.extension.ExtensionLoader;
 import com.github.dandelion.datatables.core.extension.ExtensionManager;
-import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
 import com.github.dandelion.datatables.core.util.NameConstants;
@@ -75,6 +72,8 @@ public class WebResourceGenerator {
 	// Custom writer used to pretty print JSON
 	private Writer writer = new JsonIndentingWriter();
 
+	private HtmlTable table;
+	
 	/**
 	 * The DataTables configuration generator.
 	 */
@@ -83,9 +82,14 @@ public class WebResourceGenerator {
 	/**
 	 * All managers used to generate web resources.
 	 */
-	private ExtensionManager extensionManager = new ExtensionManager();
+	private ExtensionManager extensionManager;
 	private ExportManager exportManager = new ExportManager();
 
+	public WebResourceGenerator(HtmlTable table){
+		this.table = table;
+		this.extensionManager = new ExtensionManager(table);
+	}
+	
 	/**
 	 * <p>
 	 * Main method which generated the web resources (js and css files).
@@ -101,10 +105,11 @@ public class WebResourceGenerator {
 	 * @throws IOException
 	 * @throws CompressionException
 	 * @throws BadConfigurationException
+	 * @throws ExtensionLoadingException 
 	 */
-	public WebResources generateWebResources(HtmlTable table)
+	public WebResources generateWebResources()
 			throws DataNotFoundException, CompressionException, IOException,
-			BadConfigurationException {
+			BadConfigurationException, ExtensionLoadingException {
 
 		// Bean which stores all needed web resources (js, css)
 		WebResources webResources = new WebResources();
@@ -118,7 +123,6 @@ public class WebResourceGenerator {
 		JsResource mainJsFile = new JsResource(ResourceType.MAIN, NameConstants.DT_MAIN_JS
 				+ tableId + ".js");
 		mainJsFile.setTableId(table.getId());
-		
 		
 		/**
 		 * Export management
@@ -142,13 +146,7 @@ public class WebResourceGenerator {
 		/**
 		 * Extension loading
 		 */
-		extensionManager.registerCustomExtensions(table);
-		ExtensionLoader extensionLoader = new ExtensionLoader(table, mainJsFile, mainConf, webResources);		
-		extensionLoader.load(table.getTableConfiguration().getExtraPlugins());
-		extensionLoader.load(table.getTableConfiguration().getExtraFeatures());
-		if(table.getTableConfiguration().getExtraTheme() != null){
-			extensionLoader.load(new HashSet<AbstractTheme>(Arrays.asList(table.getTableConfiguration().getExtraTheme())));			
-		}
+		extensionManager.loadExtensions(mainJsFile, mainConf, webResources);
 		
 		/**
 		 * Extra configuration management

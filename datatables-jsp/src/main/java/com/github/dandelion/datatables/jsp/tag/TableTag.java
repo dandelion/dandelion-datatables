@@ -55,6 +55,7 @@ import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.DataNotFoundException;
 import com.github.dandelion.datatables.core.exception.ExportException;
+import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
@@ -215,11 +216,11 @@ public class TableTag extends AbstractTableTag {
 				logger.debug("No asset for the key {}. Generating...", keyToTest);
 				
 				// Init the web resources generator
-				WebResourceGenerator contentGenerator = new WebResourceGenerator();
+				WebResourceGenerator contentGenerator = new WebResourceGenerator(table);
 	
 				// Generate the web resources (JS, CSS) and wrap them into a
 				// WebResources POJO
-				webResources = contentGenerator.generateWebResources(table);
+				webResources = contentGenerator.generateWebResources();
 				logger.debug("Web content generated successfully");
 				
 				AssetCache.cache.put(keyToTest, webResources);
@@ -282,7 +283,10 @@ public class TableTag extends AbstractTableTag {
 			logger.error("Something went wront with the Dandelion configuration. Please check your Dandelion.properties file");
 			throw new JspException(e);
 		} catch (DataNotFoundException e) {
-			logger.error("Something went wront with the data provider.");
+			logger.error("Something went wront with the data provider");
+			throw new JspException(e);
+		} catch (ExtensionLoadingException e) {
+			logger.error("Something went wront during the extension loading");
 			throw new JspException(e);
 		}
 
@@ -454,14 +458,10 @@ public class TableTag extends AbstractTableTag {
 		localConf.put(Configuration.FEATURE_DOM, dom);
 	}
 
-	public void setFeatures(String customFeatures) {
-		localConf.put(Configuration.EXTRA_CUSTOMFEATURES, customFeatures);
+	public void setExt(String extensions){
+		localConf.put(Configuration.EXTRA_CUSTOM_EXTENSIONS, extensions);	
 	}
-
-	public void setPlugins(String customPlugins) {
-		localConf.put(Configuration.EXTRA_CUSTOMPLUGINS, customPlugins);
-	}
-
+	
 	public void setConfGroup(String confGroup) {
 		this.confGroup = confGroup;
 	}

@@ -54,7 +54,7 @@ public class AjaxSourceProcessor extends AbstractProcessor {
 		if (StringUtils.isNotBlank(param)) {
 			if (!confToBeApplied.containsKey(Configuration.AJAX_SERVERSIDE)
 					|| !CollectionUtils.hasConfigurationWithValue(confToBeApplied, Configuration.AJAX_SERVERSIDE, true)) {
-				tableConfiguration.registerFeature(new AjaxFeature());
+				tableConfiguration.registerExtension(new AjaxFeature());
 			}
 
 			tableConfiguration.setAjaxSource(param);

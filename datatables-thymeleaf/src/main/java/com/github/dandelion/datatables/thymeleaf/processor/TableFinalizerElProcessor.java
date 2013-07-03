@@ -30,6 +30,7 @@ import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.DataNotFoundException;
 import com.github.dandelion.datatables.core.exception.ExportException;
+import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
@@ -144,7 +145,7 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 			// Duplicate header row in the footer
 			generateFooter(element, arguments);
 
-			htmlTable.getTableConfiguration().registerFeature(new FilteringFeature());
+			htmlTable.getTableConfiguration().registerExtension(new FilteringFeature());
 		}
 	}
 
@@ -208,11 +209,11 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 				logger.debug("No asset for the key {}. Generating...", keyToTest);
 				
 				// Init the web resources generator
-				WebResourceGenerator contentGenerator = new WebResourceGenerator();
+				WebResourceGenerator contentGenerator = new WebResourceGenerator(htmlTable);
 	
 				// Generate the web resources (JS, CSS) and wrap them into a
 				// WebResources POJO
-				webResources = contentGenerator.generateWebResources(htmlTable);
+				webResources = contentGenerator.generateWebResources();
 				logger.debug("Web content generated successfully");
 				
 				AssetCache.cache.put(keyToTest, webResources);
@@ -271,6 +272,9 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 			throw new RuntimeException(e);
 		} catch (DataNotFoundException e) {
 			logger.error("Something went wront with the data provider.");
+			throw new RuntimeException(e);
+		} catch (ExtensionLoadingException e) {
+			logger.error("Something went wront with the extension loading.");
 			throw new RuntimeException(e);
 		}
 	}

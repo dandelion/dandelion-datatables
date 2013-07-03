@@ -31,7 +31,7 @@ package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.ResourceType;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -57,7 +57,7 @@ public class FilteringFeature extends AbstractFeature {
 	}
 
 	@Override
-	public void setup(HtmlTable table) throws BadConfigurationException {
+	public void setup(HtmlTable table) throws ExtensionLoadingException {
 
 		if(StringUtils.isNotBlank(table.getTableConfiguration().getFeatureFilterPlaceholder())){
 			if("head:before".equalsIgnoreCase(table.getTableConfiguration().getFeatureFilterPlaceholder())){

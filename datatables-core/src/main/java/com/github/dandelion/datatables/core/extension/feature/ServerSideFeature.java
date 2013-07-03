@@ -33,7 +33,7 @@ import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -60,7 +60,7 @@ public class ServerSideFeature extends AbstractFeature {
 	}
 
 	@Override
-	public void setup(HtmlTable table) throws BadConfigurationException {
+	public void setup(HtmlTable table) throws ExtensionLoadingException {
 		addParameter(
 				new Parameter(
 						CallbackType.INIT.getName(), 

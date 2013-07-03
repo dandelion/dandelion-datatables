@@ -29,10 +29,12 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
+import java.io.IOException;
+
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.ResourceHelper;
 
@@ -57,9 +59,14 @@ public class PipeliningFeature extends AbstractFeature {
 	}
 
 	@Override
-	public void setup(HtmlTable table) throws BadConfigurationException {
-		String content = ResourceHelper
-				.getFileContentFromClasspath("datatables/ajax/pipelining.js");
+	public void setup(HtmlTable table) throws ExtensionLoadingException {
+		String content;
+		try {
+			content = ResourceHelper
+					.getFileContentFromClasspath("datatables/ajax/pipelining.js");
+		} catch (IOException e) {
+			throw new ExtensionLoadingException("Unable to read the content of the file 'pipelining.js'", e);
+		}
 
 		// Add the table id to avoid conflict if several tables use pipelining
 		// in the same page

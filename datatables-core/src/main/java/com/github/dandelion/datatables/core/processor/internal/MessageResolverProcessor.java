@@ -56,13 +56,12 @@ public class MessageResolverProcessor extends AbstractProcessor {
 
 		if (param != null) {
 			try {
-				Class<MessageResolver> classProperty = (Class<MessageResolver>) ClassUtils
-						.classForName(param);
+				Class<MessageResolver> classProperty = (Class<MessageResolver>) ClassUtils.getClass(param);
 				resourceProvider = classProperty.getDeclaredConstructor(new Class[] { HttpServletRequest.class })
 						.newInstance(tableConfiguration.getRequest());
 
 				logger.info("MessageResolver initialized with {}", resourceProvider.getClass().getSimpleName());
-			} catch (Throwable e) {
+			} catch (Exception e) {
 				logger.warn("Unable to instantiate the configured {} due to a {} exception", param, e.getClass()
 						.getName(), e);
 			}

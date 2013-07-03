@@ -60,17 +60,17 @@ public class PluginScrollerProcessorTest extends ProcessorBaseTest {
 	public void should_enable_plugin_when_value_is_true() throws Exception {
 		processor.process("true", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginScroller()).isTrue();
-		assertThat(tableConfiguration.getExtraPlugins()).contains(new ScrollerPlugin());
+		assertThat(tableConfiguration.getInternalExtensions()).contains(new ScrollerPlugin());
 	}
 	
 	@Test
 	public void should_not_enable_plugin_when_value_is_false() throws Exception {
 		processor.process("false", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginScroller()).isFalse();
-		assertThat(tableConfiguration.getExtraPlugins()).isNull();
+		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 		
 		processor.process("weird value", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginScroller()).isFalse();
-		assertThat(tableConfiguration.getExtraPlugins()).isNull();
+		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}
 }

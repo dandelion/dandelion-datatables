@@ -48,7 +48,7 @@ public class PluginColReorderProcessor extends AbstractProcessor {
 			retval = Boolean.parseBoolean(param);
 
 			if (retval != null && retval) {
-				tableConfiguration.registerPlugin(new ColReorderPlugin());
+				tableConfiguration.registerExtension(new ColReorderPlugin());
 			}
 		}
 

@@ -34,7 +34,7 @@ import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -56,7 +56,7 @@ public class AjaxFeature extends AbstractFeature {
 	}
 
 	@Override
-	public void setup(HtmlTable table) throws BadConfigurationException {
+	public void setup(HtmlTable table) throws ExtensionLoadingException {
 		addParameter(new Parameter(DTConstants.DT_B_DEFER_RENDER, true));
 		addParameter(new Parameter(DTConstants.DT_S_AJAXDATAPROP, ""));
 		addParameter(new Parameter(DTConstants.DT_S_AJAX_SOURCE, table.getTableConfiguration().getAjaxSource()));

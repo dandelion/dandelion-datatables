@@ -80,23 +80,31 @@ public class ResourceCompressorDelegate {
 	public String getCompressedJavascript(String input) throws BadConfigurationException,
 			CompressionException {
 
-		Class<?> compressorClass = ClassUtils.getClass(this.compressorClassName);
-
-		logger.debug("Instancing the compressor class {}", compressorClass);
-		Object obj = ClassUtils.getNewInstance(compressorClass);
+		Class<?> compressorClass = null;
+		Object obj = null;
+		try {
+			compressorClass = ClassUtils.getClass(this.compressorClassName);
+			obj = ClassUtils.getNewInstance(compressorClass);
+		} catch (ClassNotFoundException e) {
+			throw new CompressionException("Unable to load the class " + compressorClassName, e);
+		} catch (InstantiationException e) {
+			throw new CompressionException("Unable to instanciate the class " + compressorClassName, e);
+		} catch (IllegalAccessException e) {
+			throw new CompressionException("Unable to access the class " + compressorClassName, e);
+		}
 
 		logger.debug("Invoking method getCompressedJavascript");
 		try {
 			return (String) ClassUtils.invokeMethod(obj, "getCompressedJavascript",
 					new Object[] { table, input });
-		} catch (BadConfigurationException e) {
+		} catch (Exception e) {
 			if (e.getCause() instanceof InvocationTargetException) {
 				throw (CompressionException) ((InvocationTargetException) e.getCause())
 						.getTargetException();
 			} else {
-				throw e;
+				throw new CompressionException("Unable to invoke the method getCompressedJavascript", e);
 			}
-		}
+		} 
 	}
 
 	/**
@@ -113,20 +121,30 @@ public class ResourceCompressorDelegate {
 	public String getCompressedCss(String input) throws BadConfigurationException,
 			CompressionException {
 
-		Class<?> compressorClass = ClassUtils.getClass(this.compressorClassName);
-
-		Object obj = ClassUtils.getNewInstance(compressorClass);
+		Class<?> compressorClass;
+		Object obj;
+		try {
+			compressorClass = ClassUtils.getClass(this.compressorClassName);
+			obj = ClassUtils.getNewInstance(compressorClass);
+		} catch (ClassNotFoundException e) {
+			throw new CompressionException("Unable to load the class " + compressorClassName, e);
+		} catch (InstantiationException e) {
+			throw new CompressionException("Unable to instanciate the class " + compressorClassName, e);
+		} catch (IllegalAccessException e) {
+			throw new CompressionException("Unable to access the class " + compressorClassName, e);
+		}
 
 		try {
 			return (String) ClassUtils.invokeMethod(obj, "getCompressedCss",
 					new Object[] { input });
-		} catch (BadConfigurationException e) {
+		} 
+		catch (Exception e) {
 			if (e.getCause() instanceof InvocationTargetException) {
 				throw (CompressionException) ((InvocationTargetException) e.getCause())
 						.getTargetException();
 			} else {
-				throw e;
+				throw new CompressionException("Unable to invoke the method getCompressedJavascript", e);
 			}
-		}
+		} 
 	}
 }

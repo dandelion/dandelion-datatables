@@ -71,7 +71,7 @@ public class ThFilterableAttrProcessor extends AbstractDatatablesAttrProcessor {
 		if (table != null) {
 			table.getLastHeaderRow().getLastColumn().setFilterable(attrValue);
 			if(attrValue){
-				table.getTableConfiguration().registerFeature(new FilteringFeature());
+				table.getTableConfiguration().registerExtension(new FilteringFeature());
 			}
 		}
 

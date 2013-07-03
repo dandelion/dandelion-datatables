@@ -60,17 +60,17 @@ public class PluginColReorderProcessorTest extends ProcessorBaseTest {
 	public void should_enable_plugin_when_value_is_true() throws Exception {
 		processor.process("true", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginColReorder()).isTrue();
-		assertThat(tableConfiguration.getExtraPlugins()).contains(new ColReorderPlugin());
+		assertThat(tableConfiguration.getInternalExtensions()).contains(new ColReorderPlugin());
 	}
 	
 	@Test
 	public void should_not_enable_plugin_when_value_is_false() throws Exception {
 		processor.process("false", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginColReorder()).isFalse();
-		assertThat(tableConfiguration.getExtraPlugins()).isNull();
+		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 		
 		processor.process("weird value", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginColReorder()).isFalse();
-		assertThat(tableConfiguration.getExtraPlugins()).isNull();
+		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}
 }

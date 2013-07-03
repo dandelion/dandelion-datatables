@@ -68,7 +68,7 @@ public class TheadScrollerAttrProcessor extends AbstractDatatablesAttrProcessor 
 
 		// HtmlTable update
 		if (attrValue && table != null) {
-			table.getTableConfiguration().registerPlugin(new ScrollerPlugin());
+			table.getTableConfiguration().registerExtension(new ScrollerPlugin());
 			((Element) element.getParent()).setAttribute("style", "");
 		}
 

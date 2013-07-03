@@ -49,9 +49,8 @@ import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.extension.feature.AbstractFeature;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
-import com.github.dandelion.datatables.core.extension.plugin.AbstractPlugin;
 import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.html.HtmlTag;
@@ -109,8 +108,7 @@ public class TableConfiguration {
 	// Dandelion-Datatables parameters
 	private AbstractTheme extraTheme;
 	private ThemeOption extraThemeOption;
-	private Set<String> extraCustomFeatures;
-	private Set<String> extraCustomPlugins;
+	private Set<String> extraCustomExtensions;
 	private List<ExtraFile> extraFiles;
 	private List<ExtraConf> extraConfs;
 	private List<Callback> extraCallbacks;
@@ -154,8 +152,8 @@ public class TableConfiguration {
 
 	// Class of the iterated objects. Only used in XML export.
 	private String internalObjectType;
-	private Set<AbstractPlugin> internalPlugins;
-	private Set<AbstractFeature> internalFeatures;
+	private Set<AbstractExtension> internalExtensions;
+//	private Set<AbstractFeature> internalFeatures;
 	private String tableId;
 	private HttpServletRequest request;
 
@@ -264,8 +262,7 @@ public class TableConfiguration {
 		// Dandelion-Datatables parameters
 		extraTheme = objectToClone.extraTheme;
 		extraThemeOption = objectToClone.extraThemeOption;
-		extraCustomFeatures = objectToClone.extraCustomFeatures;
-		extraCustomPlugins = objectToClone.extraCustomPlugins;
+		extraCustomExtensions = objectToClone.extraCustomExtensions;
 		extraFiles = objectToClone.extraFiles;
 		extraConfs = objectToClone.extraConfs;
 		extraCallbacks = objectToClone.extraCallbacks;
@@ -336,7 +333,6 @@ public class TableConfiguration {
 		return false;
 	}
 
-
 	/**
 	 * <p>
 	 * According to the YUI JavaScriptCompressor class, micro optimizations
@@ -354,7 +350,6 @@ public class TableConfiguration {
 	public Boolean getCompressorDisableOpti() {
 		return mainCompressorDisableOpti;
 	}
-
 
 	/**
 	 * TODO
@@ -647,32 +642,46 @@ public class TableConfiguration {
 	}
 
 	/**
-	 * Register a plugin to the table.
+	 * Register an extension in the TableConfiguration.
 	 * 
-	 * @param plugin
-	 *            The plugin to activate.
+	 * @param extension
+	 *            The extension to register.
 	 */
-	public TableConfiguration registerPlugin(AbstractPlugin plugin) {
-		if (this.internalPlugins == null) {
-			this.internalPlugins = new HashSet<AbstractPlugin>();
+	public TableConfiguration registerExtension(AbstractExtension extension) {
+		if (this.internalExtensions == null) {
+			this.internalExtensions = new HashSet<AbstractExtension>();
 		}
-		this.internalPlugins.add(plugin);
+		this.internalExtensions.add(extension);
 		return this;
 	}
+	
+//	/**
+//	 * Register a plugin to the table.
+//	 * 
+//	 * @param plugin
+//	 *            The plugin to activate.
+//	 */
+//	public TableConfiguration registerPlugin(AbstractPlugin plugin) {
+//		if (this.internalExtensions == null) {
+//			this.internalExtensions = new HashSet<AbstractPlugin>();
+//		}
+//		this.internalExtensions.add(plugin);
+//		return this;
+//	}
 
-	/**
-	 * Register a feature to the table.
-	 * 
-	 * @param feature
-	 *            The feature to activate.
-	 */
-	public TableConfiguration registerFeature(AbstractFeature feature) {
-		if (this.internalFeatures == null) {
-			this.internalFeatures = new HashSet<AbstractFeature>();
-		}
-		this.internalFeatures.add(feature);
-		return this;
-	}
+//	/**
+//	 * Register a feature to the table.
+//	 * 
+//	 * @param feature
+//	 *            The feature to activate.
+//	 */
+//	public TableConfiguration registerFeature(AbstractExtension feature) {
+//		if (this.internalFeatures == null) {
+//			this.internalFeatures = new HashSet<AbstractFeature>();
+//		}
+//		this.internalFeatures.add(feature);
+//		return this;
+//	}
 
 	public List<ExtraFile> getExtraFiles() {
 		return extraFiles;
@@ -698,21 +707,12 @@ public class TableConfiguration {
 		return this;
 	}
 
-	public Set<AbstractPlugin> getExtraPlugins() {
-		return internalPlugins;
+	public Set<AbstractExtension> getInternalExtensions() {
+		return internalExtensions;
 	}
 
-	public TableConfiguration setExtraPlugins(Set<AbstractPlugin> plugins) {
-		this.internalPlugins = plugins;
-		return this;
-	}
-
-	public Set<AbstractFeature> getExtraFeatures() {
-		return internalFeatures;
-	}
-
-	public TableConfiguration setExtraFeatures(Set<AbstractFeature> features) {
-		this.internalFeatures = features;
+	public TableConfiguration setInternalExtensions(Set<AbstractExtension> extensions) {
+		this.internalExtensions = extensions;
 		return this;
 	}
 
@@ -806,21 +806,12 @@ public class TableConfiguration {
 		return this;
 	}
 
-	public Set<String> getExtraCustomFeatures() {
-		return extraCustomFeatures;
+	public Set<String> getExtraCustomExtensions() {
+		return extraCustomExtensions;
 	}
 
-	public TableConfiguration setExtraCustomFeatures(Set<String> customFeatures) {
-		this.extraCustomFeatures = customFeatures;
-		return this;
-	}
-
-	public Set<String> getExtraCustomPlugins() {
-		return extraCustomPlugins;
-	}
-
-	public TableConfiguration setExtraCustomPlugins(Set<String> customPlugins) {
-		this.extraCustomPlugins = customPlugins;
+	public TableConfiguration setExtraCustomExtensions(Set<String> extraCustomExtensions) {
+		this.extraCustomExtensions = extraCustomExtensions;
 		return this;
 	}
 
@@ -1130,26 +1121,26 @@ public class TableConfiguration {
 	@Override
 	public String toString() {
 		return "TableConfiguration [featureInfo=" + featureInfo + ", featureAutoWidth=" + featureAutoWidth
-				+ ", featureFilterable=" + featureFilterable + ", featurePaginate=" + featurePaginate
-				+ ", featurePaginationType=" + featurePaginationType + ", featureLengthChange=" + featureLengthChange
-				+ ", featureSort=" + featureSort + ", featureStateSave=" + featureStateSave + ", featureJqueryUi="
-				+ featureJqueryUi + ", featureLengthMenu=" + featureLengthMenu + ", featureDisplayLength="
-				+ featureDisplayLength + ", featureDom=" + featureDom + ", featureScrolly=" + featureScrolly
-				+ ", featureScrollCollapse=" + featureScrollCollapse + ", cssStyle=" + cssStyle + ", cssClass="
-				+ cssClass + ", cssStripeClasses=" + cssStripeClasses + ", ajaxProcessing=" + ajaxProcessing
-				+ ", ajaxDeferRender=" + ajaxDeferRender + ", ajaxServerSide=" + ajaxServerSide + ", ajaxSource="
-				+ ajaxSource + ", ajaxPipelining=" + ajaxPipelining + ", ajaxPipeSize=" + ajaxPipeSize
-				+ ", ajaxServerData=" + ajaxServerData + ", ajaxServerParam=" + ajaxServerParam + ", ajaxServerMethod="
-				+ ajaxServerMethod + ", pluginFixedPosition=" + pluginFixedPosition + ", pluginFixedOffsetTop="
-				+ pluginFixedOffsetTop + ", pluginFixedHeader=" + pluginFixedHeader + ", pluginScroller="
-				+ pluginScroller + ", pluginColReorder=" + pluginColReorder + ", extraTheme=" + extraTheme
-				+ ", extraThemeOption=" + extraThemeOption + ", extraCustomFeatures=" + extraCustomFeatures
-				+ ", extraCustomPlugins=" + extraCustomPlugins + ", extraFiles=" + extraFiles + ", extraConfs="
-				+ extraConfs + ", extraCallbacks=" + extraCallbacks + ", extraCdn=" + extraCdn + ", extraAppear="
-				+ extraAppear + ", extraAppearDuration=" + extraAppearDuration + ", extraLabels=" + extraLabels
-				+ ", exportProperties=" + exportProperties + ", exporting=" + exporting + ", exportConfs="
-				+ exportConfs + ", exportLinkPositions=" + exportLinkPositions + ", isExportable=" + isExportable
-				+ ", exportDefaultXlsClass=" + exportDefaultXlsClass + ", exportDefaultXlsxClass="
+				+ ", featureFilterable=" + featureFilterable + ", featureFilterPlaceholder=" + featureFilterPlaceholder
+				+ ", featurePaginate=" + featurePaginate + ", featurePaginationType=" + featurePaginationType
+				+ ", featureLengthChange=" + featureLengthChange + ", featureSort=" + featureSort
+				+ ", featureStateSave=" + featureStateSave + ", featureJqueryUi=" + featureJqueryUi
+				+ ", featureLengthMenu=" + featureLengthMenu + ", featureDisplayLength=" + featureDisplayLength
+				+ ", featureDom=" + featureDom + ", featureScrolly=" + featureScrolly + ", featureScrollCollapse="
+				+ featureScrollCollapse + ", cssStyle=" + cssStyle + ", cssClass=" + cssClass + ", cssStripeClasses="
+				+ cssStripeClasses + ", ajaxProcessing=" + ajaxProcessing + ", ajaxDeferRender=" + ajaxDeferRender
+				+ ", ajaxServerSide=" + ajaxServerSide + ", ajaxSource=" + ajaxSource + ", ajaxPipelining="
+				+ ajaxPipelining + ", ajaxPipeSize=" + ajaxPipeSize + ", ajaxServerData=" + ajaxServerData
+				+ ", ajaxServerParam=" + ajaxServerParam + ", ajaxServerMethod=" + ajaxServerMethod
+				+ ", pluginFixedPosition=" + pluginFixedPosition + ", pluginFixedOffsetTop=" + pluginFixedOffsetTop
+				+ ", pluginFixedHeader=" + pluginFixedHeader + ", pluginScroller=" + pluginScroller
+				+ ", pluginColReorder=" + pluginColReorder + ", extraTheme=" + extraTheme + ", extraThemeOption="
+				+ extraThemeOption + ", extraCustomExtensions=" + extraCustomExtensions + ", extraFiles=" + extraFiles
+				+ ", extraConfs=" + extraConfs + ", extraCallbacks=" + extraCallbacks + ", extraCdn=" + extraCdn
+				+ ", extraAppear=" + extraAppear + ", extraAppearDuration=" + extraAppearDuration + ", extraLabels="
+				+ extraLabels + ", exportProperties=" + exportProperties + ", exporting=" + exporting
+				+ ", exportConfs=" + exportConfs + ", exportLinkPositions=" + exportLinkPositions + ", isExportable="
+				+ isExportable + ", exportDefaultXlsClass=" + exportDefaultXlsClass + ", exportDefaultXlsxClass="
 				+ exportDefaultXlsxClass + ", exportDefaultPdfClass=" + exportDefaultPdfClass
 				+ ", exportDefaultXmlClass=" + exportDefaultXmlClass + ", exportDefaultCsvClass="
 				+ exportDefaultCsvClass + ", exportXlsClass=" + exportXlsClass + ", exportXlsxClass=" + exportXlsxClass
@@ -1161,7 +1152,7 @@ public class TableConfiguration {
 				+ ", mainCompressorDisableOpti=" + mainCompressorDisableOpti + ", mainAggregatorEnable="
 				+ mainAggregatorEnable + ", mainAggregatorMode=" + mainAggregatorMode + ", mainUrlBase=" + mainUrlBase
 				+ ", messages=" + messages + ", internalMessageResolver=" + internalMessageResolver
-				+ ", internalObjectType=" + internalObjectType + ", internalPlugins=" + internalPlugins
-				+ ", internalFeatures=" + internalFeatures + ", tableId=" + tableId + ", request=" + request + "]";
+				+ ", internalObjectType=" + internalObjectType + ", internalExtensions=" + internalExtensions
+				+ ", tableId=" + tableId + ", request=" + request + "]";
 	}
 }

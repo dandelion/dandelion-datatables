@@ -60,14 +60,14 @@ public class AjaxPipeliningProcessorTest extends ProcessorBaseTest {
 	public void should_set_true_and_register_a_feature_when_value_is_true() throws Exception {
 		processor.process("true", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxPipelining()).isTrue();
-		assertThat(tableConfiguration.getExtraFeatures()).hasSize(1);
-		assertThat(new PipeliningFeature()).isIn(tableConfiguration.getExtraFeatures());
+		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
+		assertThat(new PipeliningFeature()).isIn(tableConfiguration.getInternalExtensions());
 	}
 	
 	@Test
 	public void should_set_null_and_not_register_anything_when_value_is_false() throws Exception {
 		processor.process("false", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxPipelining()).isFalse();
-		assertThat(tableConfiguration.getExtraFeatures()).isNull();
+		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}
 }

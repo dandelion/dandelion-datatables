@@ -54,7 +54,7 @@ public class AjaxPipeliningProcessor extends AbstractProcessor {
 			retval = Boolean.parseBoolean(param);
 
 			if (retval != null && retval) {
-				tableConfiguration.registerFeature(new PipeliningFeature());
+				tableConfiguration.registerExtension(new PipeliningFeature());
 			}
 		}
 

@@ -27,7 +27,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.thymeleaf.processor.plugin;
+package com.github.dandelion.datatables.thymeleaf.processor.feature;
 
 import java.util.Map;
 
@@ -43,14 +43,14 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * Attribute processor applied to the <code>table</code> tag for the
- * <code>plugins</code> attribute.
+ * <code>ext</code> attribute.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class TableCustomPluginsProcessor extends AbstractDatatablesAttrProcessor {
+public class TableCustomExtensionsProcessor extends AbstractDatatablesAttrProcessor {
 
-	public TableCustomPluginsProcessor(IAttributeNameProcessorMatcher matcher) {
+	public TableCustomExtensionsProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
@@ -65,7 +65,7 @@ public class TableCustomPluginsProcessor extends AbstractDatatablesAttrProcessor
 
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
-		localConf.put(Configuration.EXTRA_CUSTOMPLUGINS, attrValue);
+		localConf.put(Configuration.EXTRA_CUSTOM_EXTENSIONS, attrValue);
 		
 		return ProcessorResult.ok();
 	}

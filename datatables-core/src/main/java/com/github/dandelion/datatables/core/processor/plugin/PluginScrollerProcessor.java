@@ -47,7 +47,7 @@ public class PluginScrollerProcessor extends AbstractProcessor {
 			retval = Boolean.parseBoolean(param);
 
 			if (retval != null && retval) {
-				tableConfiguration.registerPlugin(new ScrollerPlugin());
+				tableConfiguration.registerExtension(new ScrollerPlugin());
 			}
 		}
 

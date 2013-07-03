@@ -55,7 +55,7 @@ public class AjaxServerSideProcessor extends AbstractProcessor {
 			retval = Boolean.parseBoolean(param);
 
 			if (retval != null && retval) {
-				tableConfiguration.registerFeature(new ServerSideFeature());
+				tableConfiguration.registerExtension(new ServerSideFeature());
 			}
 		}
 

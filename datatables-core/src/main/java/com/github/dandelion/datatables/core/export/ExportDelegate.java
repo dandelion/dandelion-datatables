@@ -32,6 +32,7 @@ package com.github.dandelion.datatables.core.export;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -101,27 +102,45 @@ public class ExportDelegate {
 			exportProperties.setIsBinaryExport(false);
 			writer = new StringWriter();
 
+			// Get the class
+			Class<?> klass = null;
+			Object obj = null;
 			try {
-
-				// Get the class
-				Class<?> klass = ClassUtils.getClass(exportClass);
-
-				// Get new instance of this class
-				Object obj = ClassUtils.getNewInstance(klass);
-
-				// Invoke methods that update the writer
-				ClassUtils.invokeMethod(obj, "initExport", new Object[] { htmlTable });
-				ClassUtils.invokeMethod(obj, "processExport", new Object[] { writer });
-
-				// Fill the request so that the filter will intercept it and
-				// override the response with the export configuration
-				request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT,
-						writer.toString());
-
-			} catch (BadConfigurationException e) {
-				throw new ExportException(e);
+				klass = ClassUtils.getClass(exportClass);
+				obj = ClassUtils.getNewInstance(klass);
+			} catch (ClassNotFoundException e) {
+				throw new ExportException("Unable to load the class '" + exportClass + "'");
+			} catch (InstantiationException e) {
+				throw new ExportException("Unable to instanciate the class '" + exportClass + "'");
+			} catch (IllegalAccessException e) {
+				throw new ExportException("Unable to access the class '" + exportClass + "'");
 			}
 
+			// Invoke methods that update the writer
+			try {
+				ClassUtils.invokeMethod(obj, "initExport", new Object[] { htmlTable });
+			} catch (NoSuchMethodException e) {
+				throw new ExportException("Unable to invoke the method initExport", e);
+			} catch (IllegalAccessException e) {
+				throw new ExportException("Unable to invoke the method initExport", e);
+			} catch (InvocationTargetException e) {
+				throw new ExportException("Unable to invoke the method initExport", e);
+			}
+			
+			try {
+				ClassUtils.invokeMethod(obj, "processExport", new Object[] { writer });
+			} catch (NoSuchMethodException e) {
+				throw new ExportException("Unable to invoke the method processExport", e);
+			} catch (IllegalAccessException e) {
+				throw new ExportException("Unable to invoke the method processExport", e);
+			} catch (InvocationTargetException e) {
+				throw new ExportException("Unable to invoke the method processExport", e);
+			}
+
+			// Fill the request so that the filter will intercept it and
+			// override the response with the export configuration
+			request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT,
+					writer.toString());
 		}
 		// Binary export
 		else {
@@ -130,26 +149,44 @@ public class ExportDelegate {
 			exportProperties.setIsBinaryExport(true);
 			stream = new ByteArrayOutputStream();
 
+			// Get the class
+			Class<?> klass = null;
+			Object obj = null;
 			try {
-
-				// Get the class
-				Class<?> klass = ClassUtils.getClass(exportClass);
-
-				// Get new instance of this class
-				Object obj = ClassUtils.getNewInstance(klass);
-
-				// Invoke methods that update the stream
-				ClassUtils.invokeMethod(obj, "initExport", new Object[] { htmlTable });
-				ClassUtils.invokeMethod(obj, "processExport", new Object[] { stream });
-
-				// Fill the request so that the filter will intercept it and
-				// override the response with the export configuration
-				request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT,
-						((ByteArrayOutputStream) stream).toByteArray());
-
-			} catch (BadConfigurationException e) {
-				throw new ExportException(e);
+				klass = ClassUtils.getClass(exportClass);
+				obj = ClassUtils.getNewInstance(klass);
+			} catch (ClassNotFoundException e) {
+				throw new ExportException("Unable to load the class '" + exportClass + "'");
+			} catch (InstantiationException e) {
+				throw new ExportException("Unable to instanciate the class '" + exportClass + "'");
+			} catch (IllegalAccessException e) {
+				throw new ExportException("Unable to access the class '" + exportClass + "'");
 			}
+
+			// Invoke methods that update the stream
+			try {
+				ClassUtils.invokeMethod(obj, "initExport", new Object[] { htmlTable });
+			} catch (NoSuchMethodException e) {
+				throw new ExportException("Unable to invoke the method initExport", e);
+			} catch (IllegalAccessException e) {
+				throw new ExportException("Unable to invoke the method initExport", e);
+			} catch (InvocationTargetException e) {
+				throw new ExportException("Unable to invoke the method initExport", e);
+			}
+			try {
+				ClassUtils.invokeMethod(obj, "processExport", new Object[] { stream });
+			} catch (NoSuchMethodException e) {
+				throw new ExportException("Unable to invoke the method processExport", e);
+			} catch (IllegalAccessException e) {
+				throw new ExportException("Unable to invoke the method processExport", e);
+			} catch (InvocationTargetException e) {
+				throw new ExportException("Unable to invoke the method processExport", e);
+			}
+
+			// Fill the request so that the filter will intercept it and
+			// override the response with the export configuration
+			request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT,
+					((ByteArrayOutputStream) stream).toByteArray());
 		}
 
 		request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_PROPERTIES, exportProperties);

@@ -311,12 +311,8 @@
          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
-         <description>Comma-separated list of custom feature's names to register in the current table</description>
-         <name>features</name>
-      </attribute>
-      <attribute>
-         <description>Comma-separated list of custom plugin's names to register in the current table</description>
-         <name>plugins</name>
+         <description>Comma-separated names of custom extensions to register in the current table</description>
+         <name>ext</name>
       </attribute>
       <attribute>
          <description>Active a configuration group in the current table.</description>

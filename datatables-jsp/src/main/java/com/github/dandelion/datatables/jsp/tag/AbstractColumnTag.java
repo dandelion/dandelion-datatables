@@ -197,7 +197,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 			column.setSortInit(this.sortInit);
 			column.setFilterable(this.filterable);
 			if(filterable != null && filterable){
-				parent.getTable().getTableConfiguration().registerFeature(new FilteringFeature());
+				parent.getTable().getTableConfiguration().registerExtension(new FilteringFeature());
 			}
 
 			if(StringUtils.isNotBlank(this.selector)){
@@ -228,7 +228,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 					throw new JspException(e);
 				}
 				column.setSortType(sortType);
-				parent.getTable().getTableConfiguration().registerFeature(new SortingFeature());
+				parent.getTable().getTableConfiguration().registerExtension(new SortingFeature());
 			}
 			
 			column.setFilterCssClass(this.filterCssClass);
@@ -306,7 +306,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 				throw new JspException(e);
 			}
 			column.setSortType(sortType);
-			parent.getTable().getTableConfiguration().registerFeature(new SortingFeature());
+			parent.getTable().getTableConfiguration().registerExtension(new SortingFeature());
 		}
 
 		

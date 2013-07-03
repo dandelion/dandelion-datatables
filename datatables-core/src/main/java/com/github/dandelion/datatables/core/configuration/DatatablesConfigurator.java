@@ -37,7 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.constants.SystemConstants;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.i18n.LocaleResolver;
 import com.github.dandelion.datatables.core.i18n.StandardLocaleResolver;
@@ -114,10 +113,9 @@ public class DatatablesConfigurator {
 				if (className != null) {
 						Class<LocaleResolver> classProperty;
 						try {
-							classProperty = (Class<LocaleResolver>) ClassUtils
-									.classForName(className);
+							classProperty = (Class<LocaleResolver>) ClassUtils.getClass(className);
 							localeResolver = (LocaleResolver) ClassUtils.getNewInstance(classProperty);
-						} catch (BadConfigurationException e) {
+						} catch (Exception e) {
 							throw new ConfigurationLoadingException(e);
 						}
 				}
@@ -152,11 +150,11 @@ public class DatatablesConfigurator {
 				try {
 					clazz = ClassUtils.getClass(System.getProperty(SystemConstants.DANDELION_DT_CONFLOADER_CLASS));
 					configurationLoader = (ConfigurationLoader) ClassUtils.getNewInstance(clazz);
-				} catch (BadConfigurationException e) {
+				} catch (Exception e) {
 					logger.warn(
 							"Unable to instantiate the configured {} due to a {} exception. Falling back to the default one.",
 							SystemConstants.DANDELION_DT_CONFLOADER_CLASS, e.getClass().getName(), e);
-				}
+				} 
 			}
 
 			if (configurationLoader == null) {

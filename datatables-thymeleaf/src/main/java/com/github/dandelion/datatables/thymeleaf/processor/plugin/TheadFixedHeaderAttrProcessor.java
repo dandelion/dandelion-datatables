@@ -68,7 +68,7 @@ public class TheadFixedHeaderAttrProcessor extends AbstractDatatablesAttrProcess
 
 		// HtmlTable update
 		if (attrValue && table != null) {
-			table.getTableConfiguration().registerPlugin(new FixedHeaderPlugin());
+			table.getTableConfiguration().registerExtension(new FixedHeaderPlugin());
 			((Element) element.getParent()).setAttribute("style", "");
 		}
 
