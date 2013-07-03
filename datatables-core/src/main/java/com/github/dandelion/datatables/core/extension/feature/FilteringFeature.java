@@ -35,7 +35,6 @@ import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Java implementation of the DataTables Column Filter Add-on written by Jovan Popovic.
@@ -59,15 +58,19 @@ public class FilteringFeature extends AbstractFeature {
 	@Override
 	public void setup(HtmlTable table) throws ExtensionLoadingException {
 
-		if(StringUtils.isNotBlank(table.getTableConfiguration().getFeatureFilterPlaceholder())){
-			if("head:before".equalsIgnoreCase(table.getTableConfiguration().getFeatureFilterPlaceholder())){
-				updateHeader(table);
-			}
-			else if("head:after".equalsIgnoreCase(table.getTableConfiguration().getFeatureFilterPlaceholder())){
-				updateHeader(table);
-			}
-			else if("foot".equalsIgnoreCase(table.getTableConfiguration().getFeatureFilterPlaceholder())){
+		if(table.getTableConfiguration().getFeatureFilterPlaceholder() != null){
+			switch (table.getTableConfiguration().getFeatureFilterPlaceholder()){
+			case FOOT:
 				updateFooter(table);
+				break;
+			case HEAD_AFTER:
+				updateHeader(table);
+				break;
+			case HEAD_BEFORE:
+				updateHeader(table);
+				break;
+			case NONE:
+				break;
 			}
 		}
 		else{

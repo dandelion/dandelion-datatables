@@ -61,7 +61,7 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
         // Filtering configuration object
         Map<String, Object> filteringConf = new HashMap<String, Object>();
 
-        if(StringUtils.isNotBlank(table.getTableConfiguration().getFeatureFilterPlaceholder())){
+        if(table.getTableConfiguration().getFeatureFilterPlaceholder() != null){
         	filteringConf.put(DTConstants.DT_S_PLACEHOLDER, table.getTableConfiguration().getFeatureFilterPlaceholder());
         }
         

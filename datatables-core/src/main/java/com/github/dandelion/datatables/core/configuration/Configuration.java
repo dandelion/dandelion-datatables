@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.aggregator.AggregatorMode;
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
+import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
@@ -60,6 +61,7 @@ import com.github.dandelion.datatables.core.processor.extra.ExtraCustomExtension
 import com.github.dandelion.datatables.core.processor.extra.ExtraLabelProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraThemeOptionProcessor;
 import com.github.dandelion.datatables.core.processor.extra.ExtraThemeProcessor;
+import com.github.dandelion.datatables.core.processor.feature.FeatureFilterPlaceholderProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeatureLengthMenuProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeaturePaginationTypeProcessor;
 import com.github.dandelion.datatables.core.processor.i18n.AbstractMessageProcessor;
@@ -98,7 +100,7 @@ public enum Configuration {
 	FEATURE_INFO("feature.info", "featureInfo", Boolean.class, BooleanProcessor.class),
 	FEATURE_AUTOWIDTH("feature.autoWidth", "featureAutoWidth", Boolean.class, BooleanProcessor.class),
 	FEATURE_FILTERABLE("feature.filterable", "featureFilterable", Boolean.class, BooleanProcessor.class),
-	FEATURE_FILTER_PLACEHOLDER("feature.filterplaceholder", "featureFilterPlaceholder", String.class, StringProcessor.class),
+	FEATURE_FILTER_PLACEHOLDER("feature.filterplaceholder", "featureFilterPlaceholder", FilterPlaceholder.class, FeatureFilterPlaceholderProcessor.class),
 	FEATURE_PAGINATE("feature.paginate", "featurePaginate", Boolean.class, BooleanProcessor.class),
 	FEATURE_PAGINATIONTYPE("feature.paginationType", "featurePaginationType", PaginationType.class, FeaturePaginationTypeProcessor.class),
 	FEATURE_LENGTHCHANGE("feature.lengthChange", "featureLengthChange", Boolean.class, BooleanProcessor.class),

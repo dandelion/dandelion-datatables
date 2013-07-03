@@ -50,6 +50,7 @@ import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
@@ -69,7 +70,7 @@ public class TableConfiguration {
 	private Boolean featureInfo;
 	private Boolean featureAutoWidth;
 	private Boolean featureFilterable;
-	private String featureFilterPlaceholder;
+	private FilterPlaceholder featureFilterPlaceholder;
 	private Boolean featurePaginate;
 	private PaginationType featurePaginationType;
 	private Boolean featureLengthChange;
@@ -1110,12 +1111,13 @@ public class TableConfiguration {
 		return this.messages.getProperty(key);
 	}
 
-	public String getFeatureFilterPlaceholder() {
+	public FilterPlaceholder getFeatureFilterPlaceholder() {
 		return featureFilterPlaceholder;
 	}
 
-	public void setFeatureFilterPlaceholder(String featureFilterPlaceholder) {
+	public TableConfiguration setFeatureFilterPlaceholder(FilterPlaceholder featureFilterPlaceholder) {
 		this.featureFilterPlaceholder = featureFilterPlaceholder;
+		return this;
 	}
 
 	@Override
