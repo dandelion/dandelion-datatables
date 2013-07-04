@@ -13,7 +13,6 @@ import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Node;
-import org.thymeleaf.dom.Text;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
@@ -34,9 +33,7 @@ import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.extension.feature.FilteringFeature;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
-import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.DandelionUtils;
 import com.github.dandelion.datatables.core.util.RequestHelper;
@@ -136,18 +133,18 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		}
 	}
 	
-	private void registerFeatures(Element element, Arguments arguments, HtmlTable htmlTable) {
-		
-		if (htmlTable.hasOneFilterableColumn()) {
-			htmlTable.addFooterRow();
-			logger.info("Feature detected : select with filter");
-
-			// Duplicate header row in the footer
-			generateFooter(element, arguments);
-
-			htmlTable.getTableConfiguration().registerExtension(new FilteringFeature());
-		}
-	}
+//	private void registerFeatures(Element element, Arguments arguments, HtmlTable htmlTable) {
+//		
+//		if (htmlTable.hasOneFilterableColumn()) {
+//			htmlTable.addFooterRow();
+//			logger.info("Feature detected : select with filter");
+//
+//			// Duplicate header row in the footer
+//			generateFooter(element, arguments);
+//
+//			htmlTable.getTableConfiguration().registerExtension(new FilteringFeature());
+//		}
+//	}
 
 	/**
 	 * Set up the export properties, before the filter intercepts the response.
@@ -197,8 +194,8 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		
 		this.htmlTable.getTableConfiguration().setExporting(false);
 
-		// Register all activated features
-		registerFeatures(element, arguments, this.htmlTable);
+//		// Register all activated features
+//		registerFeatures(element, arguments, this.htmlTable);
 
 		try {
 
@@ -293,25 +290,5 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		// Convert it to the corresponding enum
 
         return ExportType.findByUrlParameter(Integer.parseInt(exportTypeString));
-	}
-
-    /**
-     * TODO finalize
-     * @param element .
-     * @param arguments .
-     */
-	private void generateFooter(Element element, Arguments arguments) {
-		Element tfoot = new Element("tfoot");
-
-		Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(
-				DataTablesDialect.INTERNAL_TABLE_NODE);
-		
-		for(HtmlColumn column : htmlTable.getLastHeaderRow().getColumns()){
-			Element th = new Element("th");
-			th.addChild(new Text(column.getContent().toString()));
-			tfoot.addChild(th);
-		}
-
-		((Element) tableNode).addChild(tfoot);
 	}
 }

@@ -33,7 +33,6 @@ import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
-import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -43,7 +42,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * @author Thibault Duchateau
  * @since 0.7.1
  */
-public class FilteringFeature extends AbstractFeature {
+public abstract class AbstractFilteringFeature extends AbstractFeature {
 
 	@Override
 	public String getName() {
@@ -61,20 +60,20 @@ public class FilteringFeature extends AbstractFeature {
 		if(table.getTableConfiguration().getFeatureFilterPlaceholder() != null){
 			switch (table.getTableConfiguration().getFeatureFilterPlaceholder()){
 			case FOOT:
-				updateFooter(table);
+				adaptFooter(table);
 				break;
 			case HEAD_AFTER:
-				updateHeader(table);
+				adaptHeader(table);
 				break;
 			case HEAD_BEFORE:
-				updateHeader(table);
+				adaptHeader(table);
 				break;
 			case NONE:
 				break;
 			}
 		}
 		else{
-			updateFooter(table);
+			adaptFooter(table);
 		}
 		
 		setFunction("columnFilter");
@@ -82,17 +81,7 @@ public class FilteringFeature extends AbstractFeature {
 		addJsResource(new JsResource(ResourceType.FEATURE, "FilteringAddOn", "datatables/features/filtering/filteringaddon.js"));
 	}
 	
-	private void updateHeader(HtmlTable table){
-		table.addHeaderRow();
-		for (HtmlColumn column : table.getFirstHeaderRow().getColumns()) {
-			table.getLastHeaderRow().addColumn(column);
-		}
-	}
+	protected abstract void adaptHeader(HtmlTable table);
 	
-	private void updateFooter(HtmlTable table){
-		table.addFooterRow();
-		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
-			table.getLastFooterRow().addColumn(column);
-		}
-	}
+	protected abstract void adaptFooter(HtmlTable table);
 }

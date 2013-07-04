@@ -30,15 +30,10 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import static org.fest.assertions.Assertions.assertThat;
-
-import java.io.IOException;
-
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
+import com.github.dandelion.datatables.testing.basics.FilteringBaseIT;
 import com.github.dandelion.datatables.testing.utils.JspTest;
 
 /**
@@ -48,72 +43,6 @@ import com.github.dandelion.datatables.testing.utils.JspTest;
  */
 @RunWith(JspContextRunner.class)
 @JspTest
-public class FilteringIT extends BaseIT {
+public class FilteringIT extends FilteringBaseIT {
 
-	@Test
-	public void should_generate_input_field_in_the_footer() throws IOException, Exception {
-		goTo("/basics/filtering_with_input.jsp");
-
-		// A tfoot tag must be generated
-		assertThat(getTable().find("tfoot")).hasSize(1);
-		
-		// The column flagged as filterable as a default input field
-		assertThat(getTable().find("tfoot").find("input")).hasSize(2);
-		
-		// All other footer cells must have the same content as the header ones
-		assertThat(getTable().find("thead").find("th", 0).getValue()).isEqualTo(getTable().find("tfoot").find("th", 0).getValue());
-		assertThat(getTable().find("thead").find("th", 2).getValue()).isEqualTo(getTable().find("tfoot").find("th", 2).getValue());
-		assertThat(getTable().find("thead").find("th", 3).getValue()).isEqualTo(getTable().find("tfoot").find("th", 3).getValue());
-		assertThat(getTable().find("thead").find("th", 4).getValue()).isEqualTo(getTable().find("tfoot").find("th", 4).getValue());
-	}
-	
-	@Test
-	public void should_filter_data_when_using_an_input_field() throws IOException, Exception {
-		goTo("/basics/filtering_with_input.jsp");
-		
-		// Now we test the input that filters data
-		fill(getTable().find("tfoot").find("input", 0)).with("vanna");
-		
-		assertThat(getTable().find("tbody").find("tr", 0).find("td", 0).getText()).isEqualTo("2");
-		assertThat(getTable().find("tbody").find("tr", 0).find("td", 1).getText()).isEqualTo("Vanna");
-		assertThat(getTable().find("tbody").find("tr", 0).find("td", 2).getText()).isEqualTo("Salas");
-		assertThat(getTable().find("tbody").find("tr", 0).find("td", 4).getText()).isEqualTo("bibendum.fermentum.metus@ante.ca");
-	}
-	
-	@Test
-	public void should_generate_select_in_the_footer() throws IOException, Exception {
-		goTo("/basics/filtering_with_select.jsp");
-		
-		// A tfoot tag must be generated
-		assertThat(getTable().find("tfoot")).hasSize(1);
-				
-		// Now we test that drop down lists exist in the footer
-		assertThat(getTable().find("tfoot").find("span")).hasSize(2);
-		assertThat(getTable().find("tfoot").find("select")).hasSize(2);
-		
-		// All drop down list must contain as many options than the data source, minus duplicates and null values
-		assertThat(getTable().find("tfoot").find("select", 0).find("option")).hasSize(688);
-		assertThat(getTable().find("tfoot").find("select", 1).find("option")).hasSize(649);
-		
-		// All other footer cells must have the same content as the header ones
-		assertThat(getTable().find("thead").find("th", 0).getValue()).isEqualTo(getTable().find("tfoot").find("th", 0).getValue());
-		assertThat(getTable().find("thead").find("th", 3).getValue()).isEqualTo(getTable().find("tfoot").find("th", 3).getValue());
-		assertThat(getTable().find("thead").find("th", 4).getValue()).isEqualTo(getTable().find("tfoot").find("th", 4).getValue());
-	}
-	
-//	@Test
-	public void should_filter_data_when_using_a_drop_down_list() throws IOException, Exception {
-		goTo("/basics/filtering_with_select.jsp");
-		
-		fill(getTable().find("tfoot").find("select", 0)).with("Aaron");
-	}
-	
-	@Test
-	public void should_filter_data_when_using_an_extra_form() throws IOException, Exception {
-		goTo("/basics/filtering_with_extra_form.jsp");
-		
-		fill(find("#cityFilter").findFirst("input")).with("North Las Vegas");
-		
-		assertThat(getTable().find("tbody").find("tr")).hasSize(2);
-	}
 }

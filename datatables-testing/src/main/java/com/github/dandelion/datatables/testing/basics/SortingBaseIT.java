@@ -46,7 +46,7 @@ import com.github.dandelion.datatables.testing.BaseIT;
 public class SortingBaseIT extends BaseIT {
 
 	@Test
-	public void should_disable_sorting_only_on_the_first_column_using_dom() throws IOException, Exception {
+	public void should_disable_sorting_only_on_the_first_column_using_dom() throws Exception {
 		goToPage("basics/sorting_disabled_dom");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_disabled");
@@ -57,7 +57,7 @@ public class SortingBaseIT extends BaseIT {
 	}
 	
 	@Test
-	public void should_init_sort_using_dom() throws IOException, Exception {
+	public void should_init_sort_using_dom() throws Exception {
 		goToPage("basics/sorting_init_dom");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_desc");
@@ -65,7 +65,7 @@ public class SortingBaseIT extends BaseIT {
 	}
 	
 	@Test
-	public void should_control_direction_using_dom() throws IOException, Exception {
+	public void should_control_direction_using_dom() throws Exception {
 		goToPage("basics/sorting_direction_dom");
 		
 		click(getTable().find("thead").find("th", 0));
@@ -78,7 +78,7 @@ public class SortingBaseIT extends BaseIT {
 	}
 	
 	@Test
-	public void should_disable_sorting_only_on_the_first_column_using_ajax() throws IOException, Exception {
+	public void should_disable_sorting_only_on_the_first_column_using_ajax() throws Exception {
 		goToPage("basics/sorting_disabled_ajax");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_disabled");
@@ -89,7 +89,7 @@ public class SortingBaseIT extends BaseIT {
 	}
 	
 	@Test
-	public void should_init_sort_using_ajax() throws IOException, Exception {
+	public void should_init_sort_using_ajax() throws Exception {
 		goToPage("basics/sorting_init_ajax");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_desc");
@@ -97,7 +97,7 @@ public class SortingBaseIT extends BaseIT {
 	}
 	
 	@Test
-	public void should_control_direction_using_ajax() throws IOException, Exception {
+	public void should_control_direction_using_ajax() throws Exception {
 		goToPage("basics/sorting_direction_ajax");
 		
 		click(getTable().find("thead").find("th", 0));

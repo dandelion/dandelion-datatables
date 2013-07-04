@@ -1,7 +1,5 @@
 package com.github.dandelion.datatables.thymeleaf.processor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Node;
@@ -9,8 +7,8 @@ import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesElProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 
 /**
  * <p>
@@ -25,9 +23,6 @@ import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesElPro
  */
 public class TbodyElProcessor extends AbstractDatatablesElProcessor {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(TbodyElProcessor.class);
-
 	public TbodyElProcessor(IElementNameProcessorMatcher matcher) {
 		super(matcher);
 	}
@@ -39,7 +34,6 @@ public class TbodyElProcessor extends AbstractDatatablesElProcessor {
 
 	@Override
 	protected ProcessorResult doProcessElement(Arguments arguments, Element element, HtmlTable table) {
-		logger.debug("{} element found", element.getNormalizedName());
 
 		// All the tbody tag are iterated over
 		for (Node child : element.getChildren()) {

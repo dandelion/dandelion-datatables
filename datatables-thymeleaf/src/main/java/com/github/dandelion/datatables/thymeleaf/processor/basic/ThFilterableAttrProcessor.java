@@ -37,9 +37,9 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.extension.feature.FilteringFeature;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.extension.feature.FilteringFeature;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
@@ -71,7 +71,7 @@ public class ThFilterableAttrProcessor extends AbstractDatatablesAttrProcessor {
 		if (table != null) {
 			table.getLastHeaderRow().getLastColumn().setFilterable(attrValue);
 			if(attrValue){
-				table.getTableConfiguration().registerExtension(new FilteringFeature());
+				table.getTableConfiguration().registerExtension(new FilteringFeature(arguments));
 			}
 		}
 

@@ -53,6 +53,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.basic.TableDomAttrPro
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableExportAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableExportLinksAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableFilterAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.basic.TableFilterPlaceholderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableInfoAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableLabelsAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.basic.TableLengthChangeAttrProcessor;
@@ -118,6 +119,7 @@ public enum DatatablesAttrProcessors {
     BASIC_SEARCHABLE(ThSearchableAttrProcessor.class, "searchable", "th"),
     BASIC_VISIBLE(ThVisibleAttrProcessor.class, "visible", "th"),
     BASIC_FILTER_TYPE(ThFilterTypeAttrProcessor.class, "filterType", "th"),
+    BASIC_FILTER_PLACEHOLDER(TableFilterPlaceholderAttrProcessor.class, "filterplaceholder", "table"),
     BASIC_LABELS(TableLabelsAttrProcessor.class, "labels", "table"),
     BASIC_PAGINATION_TYPE(TablePaginationTypeAttrProcessor.class, "paginationtype", "table"),
     BASIC_LENGTH_MENU(TableLengthMenuAttrProcessor.class, "lengthmenu", "table"),

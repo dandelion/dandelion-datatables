@@ -1,0 +1,33 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:dt="http://www.thymeleaf.org/dandelion/datatables">
+<head>
+<link href="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" rel="stylesheet" />
+<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js"></script>
+<script src="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"></script>
+</head>
+<body>
+   <div id="firstNameFilter"></div>
+   <div id="lastNameFilter"></div>
+   <div id="cityFilter"></div>
+   <table id="myTableId" dt:table="true">
+      <thead>
+         <tr>
+            <th>Id</th>
+            <th dt:filterable="true" dt:filterType="select" dt:selector="'#firstNameFilter'">Firstname</th>
+            <th dt:filterable="true" dt:filterType="select" dt:selector="'#lastNameFilter'">Lastname</th>
+            <th dt:filterable="true" dt:filterType="select" dt:selector="'#cityFilter'">City</th>
+            <th>Mail</th>
+         </tr>
+      </thead>
+      <tbody th:remove="all-but-first">
+         <tr th:each="person : ${persons}">
+            <td th:text="${person.id}">1</td>
+            <td th:text="${person.firstName}">John</td>
+            <td th:text="${person.lastName}">Doe</td>
+            <td th:text="${person.address != null and person.address.town != null} ? ${person.address.town.name} : ''">Nobody knows !</td>
+            <td th:text="${person.mail}">john@doe.com</td>
+         </tr>
+      </tbody>
+   </table>
+</body>
+</html>

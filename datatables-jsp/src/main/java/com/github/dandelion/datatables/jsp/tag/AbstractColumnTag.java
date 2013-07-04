@@ -48,11 +48,11 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
-import com.github.dandelion.datatables.core.extension.feature.FilteringFeature;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.extension.feature.SortingFeature;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.util.StringUtils;
+import com.github.dandelion.datatables.jsp.extension.feature.FilteringFeature;
 
 /**
  * <p>

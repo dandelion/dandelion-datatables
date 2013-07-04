@@ -27,26 +27,52 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.extension.feature;
+package com.github.dandelion.datatables.thymeleaf.processor.basic;
+
+import java.util.Map;
+
+import org.thymeleaf.Arguments;
+import org.thymeleaf.dom.Element;
+import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
+import org.thymeleaf.processor.ProcessorResult;
+
+import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
- * TODO
- *
+ * <p>
+ * Attribute processor applied to the <tt>table</tt> tag for the <tt>filter</tt>
+ * attribute.
+ * 
+ * <p>
+ * The <tt>filter</tt> attribute allows you to enable filtering in the whole
+ * table.
+ * 
+ * @see <a href="http://datatables.net/ref#bFilter">DataTables reference</a>
  * @author Thibault Duchateau
  */
-public enum FilterPlaceholder {
-	HEAD_BEFORE("head:before"), 
-	HEAD_AFTER("head:after"), 
-	FOOT("foot"), 
-	NONE("");
-	
-	private String name;
-	
-	private FilterPlaceholder(String name){
-		this.name = name;
+public class TableFilterPlaceholderAttrProcessor extends AbstractDatatablesAttrProcessor {
+
+	public TableFilterPlaceholderAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+		super(matcher);
 	}
 
-	public String getName() {
-		return name;
+	@Override
+	public int getPrecedence() {
+		return 8000;
+	}
+
+	@Override
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
+
+		// Get attribute value
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
+		
+		localConf.put(Configuration.FEATURE_FILTER_PLACEHOLDER, attrValue);
+
+		return ProcessorResult.ok();
 	}
 }

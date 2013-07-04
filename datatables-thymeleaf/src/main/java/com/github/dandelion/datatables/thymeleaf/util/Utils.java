@@ -37,6 +37,9 @@ import org.thymeleaf.standard.expression.StandardExpressionProcessor;
 import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportType;
+import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
+import com.github.dandelion.datatables.core.extension.feature.FilterType;
+import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.extension.theme.Theme;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -60,21 +63,24 @@ public class Utils {
 				ExportType.class, //
 				SortDirection.class, //
 				Theme.class, //
-				ThemeOption.class);
+				ThemeOption.class,
+				FilterPlaceholder.class,
+				FilterType.class,
+				SortType.class);
 	}
 
-	private static Pattern generateStringRegexFromEnumerations(Class<?> ... enumClasses) {
+	private static Pattern generateStringRegexFromEnumerations(Class<?>... enumClasses) {
 		boolean firstElement = true;
 		StringBuilder stringRegexBuilder = new StringBuilder();
 		stringRegexBuilder.append("^");
-		for(Class<?> enumClass: enumClasses) {
-			for(Object exportLinkPosition: enumClass.getEnumConstants()) {
-				if(firstElement) {
+		for (Class<?> enumClass : enumClasses) {
+			for (Object enumCst : enumClass.getEnumConstants()) {
+				if (firstElement) {
 					firstElement = false;
 				} else {
 					stringRegexBuilder.append('|');
 				}
-				String enumName = ((Enum<?>)exportLinkPosition).name().toLowerCase();
+				String enumName = ((Enum<?>) enumCst).name().toLowerCase();
 				stringRegexBuilder.append(enumName);
 			}
 		}

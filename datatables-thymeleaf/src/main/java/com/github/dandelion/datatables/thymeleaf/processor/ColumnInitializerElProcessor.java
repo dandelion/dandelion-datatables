@@ -3,8 +3,6 @@ package com.github.dandelion.datatables.thymeleaf.processor;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Text;
@@ -23,9 +21,6 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  */
 public class ColumnInitializerElProcessor extends AbstractDatatablesElProcessor {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ColumnInitializerElProcessor.class);
-		
 	public ColumnInitializerElProcessor(IElementNameProcessorMatcher matcher) {
 		super(matcher);
 	}
@@ -37,7 +32,6 @@ public class ColumnInitializerElProcessor extends AbstractDatatablesElProcessor 
 
 	@Override
 	protected ProcessorResult doProcessElement(Arguments arguments, Element element, HtmlTable table) {
-		logger.debug("{} element found", element.getNormalizedName());
 
 		// Get the TH content
 		String content = null;

@@ -27,26 +27,33 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.extension.feature;
+package com.github.dandelion.datatables.jsp.extension.feature;
+
+import com.github.dandelion.datatables.core.extension.feature.AbstractFilteringFeature;
+import com.github.dandelion.datatables.core.html.HtmlColumn;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * TODO
+ * JSP implementation of the {@link AbstractFilteringFeature}.
  *
  * @author Thibault Duchateau
+ * @since 0.9.0
  */
-public enum FilterPlaceholder {
-	HEAD_BEFORE("head:before"), 
-	HEAD_AFTER("head:after"), 
-	FOOT("foot"), 
-	NONE("");
-	
-	private String name;
-	
-	private FilterPlaceholder(String name){
-		this.name = name;
+public class FilteringFeature extends AbstractFilteringFeature {
+
+	@Override
+	protected void adaptHeader(HtmlTable table) {
+		table.addHeaderRow();
+		for (HtmlColumn column : table.getFirstHeaderRow().getColumns()) {
+			table.getLastHeaderRow().addColumn(column);
+		}	
 	}
 
-	public String getName() {
-		return name;
+	@Override
+	protected void adaptFooter(HtmlTable table) {
+		table.addFooterRow();
+		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
+			table.getLastFooterRow().addColumn(column);
+		}
 	}
 }

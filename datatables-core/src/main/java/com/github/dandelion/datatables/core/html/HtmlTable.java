@@ -42,7 +42,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 import com.github.dandelion.datatables.core.configuration.ConfigurationLoader;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.extension.feature.FilteringFeature;
+import com.github.dandelion.datatables.core.extension.feature.AbstractFilteringFeature;
 import com.github.dandelion.datatables.core.util.ResourceHelper;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
@@ -216,7 +216,7 @@ public class HtmlTable extends HtmlTag {
 
 	/**
 	 * Returns <code>true</code> if the table has one filterable column,
-	 * <code>false</code> otherwise. This way, the {@link FilteringFeature} will
+	 * <code>false</code> otherwise. This way, the {@link AbstractFilteringFeature} will
 	 * be activated or not.
 	 * 
 	 * @return <code>true</code> if the table has one filterable column,
