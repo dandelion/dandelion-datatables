@@ -757,7 +757,7 @@ public class TableConfiguration {
 	}
 
 	public TableConfiguration setFeatureScrollInner(String scrollInner) {
-		this.featureScrollx = scrollInner;
+		this.featureScrollInner = scrollInner;
 		return this;
 	}
 
