@@ -23,7 +23,6 @@ import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.cache.AssetCache;
 import com.github.dandelion.datatables.core.compressor.ResourceCompressor;
 import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.constants.CdnConstants;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
@@ -133,18 +132,6 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		}
 	}
 	
-//	private void registerFeatures(Element element, Arguments arguments, HtmlTable htmlTable) {
-//		
-//		if (htmlTable.hasOneFilterableColumn()) {
-//			htmlTable.addFooterRow();
-//			logger.info("Feature detected : select with filter");
-//
-//			// Duplicate header row in the footer
-//			generateFooter(element, arguments);
-//
-//			htmlTable.getTableConfiguration().registerExtension(new FilteringFeature());
-//		}
-//	}
 
 	/**
 	 * Set up the export properties, before the filter intercepts the response.
@@ -194,9 +181,6 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		
 		this.htmlTable.getTableConfiguration().setExporting(false);
 
-//		// Register all activated features
-//		registerFeatures(element, arguments, this.htmlTable);
-
 		try {
 
 			// First we check if the DataTables configuration already exist in the cache
@@ -240,7 +224,7 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 			
 			// <link> HTML tag generation
 			if (htmlTable.getTableConfiguration().getExtraCdn() != null && htmlTable.getTableConfiguration().getExtraCdn()) {
-				DomUtils.insertLinkTag(CdnConstants.CDN_DATATABLES_CSS, head);
+				DomUtils.insertLinkTag(htmlTable.getTableConfiguration().getExtraCdnCss(), head);
 			}
 			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
 				String src = RequestHelper.getAssetSource(entry.getKey(), htmlTable, request, false);
@@ -249,7 +233,7 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 
 			// <script> HTML tag generation
 			if (htmlTable.getTableConfiguration().getExtraCdn() != null && htmlTable.getTableConfiguration().getExtraCdn()) {
-				DomUtils.insertScriptTag(CdnConstants.CDN_DATATABLES_JS_MIN, body);
+				DomUtils.insertScriptTag(htmlTable.getTableConfiguration().getExtraCdnJs(), body);
 			}
 			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
 				String src = RequestHelper.getAssetSource(entry.getKey(), htmlTable, request, false);

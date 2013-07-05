@@ -114,6 +114,8 @@ public class TableConfiguration {
 	private List<ExtraConf> extraConfs;
 	private List<Callback> extraCallbacks;
 	private Boolean extraCdn;
+	private String extraCdnJs;
+	private String extraCdnCss;
 	private String extraAppear;
 	private String extraAppearDuration;
 	private String extraLabels;
@@ -268,6 +270,8 @@ public class TableConfiguration {
 		extraConfs = objectToClone.extraConfs;
 		extraCallbacks = objectToClone.extraCallbacks;
 		extraCdn = objectToClone.extraCdn;
+		extraCdnJs = objectToClone.extraCdnJs;
+		extraCdnCss = objectToClone.extraCdnCss;
 		extraAppear = objectToClone.extraAppear;
 		extraAppearDuration = objectToClone.extraAppearDuration;
 
@@ -1117,6 +1121,27 @@ public class TableConfiguration {
 
 	public TableConfiguration setFeatureFilterPlaceholder(FilterPlaceholder featureFilterPlaceholder) {
 		this.featureFilterPlaceholder = featureFilterPlaceholder;
+		return this;
+	}
+
+	public String getExtraCdnJs() {
+		return extraCdnJs;
+	}
+
+
+	public TableConfiguration setExtraCdnJs(String extraCdnJs) {
+		this.extraCdnJs = extraCdnJs;
+		return this;
+	}
+
+
+	public String getExtraCdnCss() {
+		return extraCdnCss;
+	}
+
+
+	public TableConfiguration setExtraCdnCss(String extraCdnCss) {
+		this.extraCdnCss = extraCdnCss;
 		return this;
 	}
 

@@ -117,6 +117,8 @@ public enum Configuration {
 	EXTRA_THEMEOPTION("extra.themeOption", "extraThemeOption", ThemeOption.class, ExtraThemeOptionProcessor.class),
 	EXTRA_CUSTOM_EXTENSIONS("extra.customExtensions", "extraCustomExtensions", Set.class, ExtraCustomExtensionsProcessor.class),
 	EXTRA_CDN("extra.cdn", "extraCdn", Boolean.class, BooleanProcessor.class),
+	EXTRA_CDN_JS("extra.cdn.js", "extraCdnJs", String.class, StringProcessor.class),
+	EXTRA_CDN_CSS("extra.cdn.css", "extraCdnCss", String.class, StringProcessor.class),
 	EXTRA_APPEAR("extra.appear", "extraAppear", String.class, ExtraAppearProcessor.class),
 	EXTRA_APPEARDURATION("extra.appearDuration", "extraAppearDuration", String.class, StringProcessor.class),
 	EXTRA_LABELS("extra.labels", "extraLabels", String.class, ExtraLabelProcessor.class),

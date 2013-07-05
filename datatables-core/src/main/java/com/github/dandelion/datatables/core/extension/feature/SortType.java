@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 /**
- * Enumeration containing all types of sort.
+ * Enumeration containing different types of sort.
  *
  * @author Thibault Duchateau
  * @since 0.9.0

@@ -49,7 +49,6 @@ import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.cache.AssetCache;
 import com.github.dandelion.datatables.core.compressor.ResourceCompressor;
 import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.constants.CdnConstants;
 import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
@@ -117,7 +116,7 @@ public class TableTag extends AbstractTableTag {
 		}
 		// The table data are loaded using a DOM source (Collection)
 		else if ("DOM".equals(this.loadingType)) {
-//			this.table.addFooterRow();
+
 			this.table.addHeaderRow();
 			
 			return processIteration();
@@ -246,7 +245,7 @@ public class TableTag extends AbstractTableTag {
 
 			// <link> HTML tag generation
 			if (table.getTableConfiguration().getExtraCdn()) {
-				generateLinkTag(CdnConstants.CDN_DATATABLES_CSS);
+				generateLinkTag(table.getTableConfiguration().getExtraCdnCss());
 			}
 			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
 				if(entry.getValue().getType().equals(ResourceType.EXTERNAL)){
@@ -263,7 +262,7 @@ public class TableTag extends AbstractTableTag {
 
 			// <script> HTML tag generation
 			if (table.getTableConfiguration().getExtraCdn()) {
-				generateScriptTag(CdnConstants.CDN_DATATABLES_JS_MIN);
+				generateScriptTag(table.getTableConfiguration().getExtraCdnJs());
 			}
 			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
 				String src = RequestHelper.getAssetSource(entry.getKey(), this.table, request, false);
@@ -298,10 +297,7 @@ public class TableTag extends AbstractTableTag {
 	 * TODO
 	 */
 	public void release() {
-		// TODO Auto-generated method stub
 		super.release();
-
-		// TODO
 	}
 	
 	public void setAutoWidth(Boolean autoWidth) {
