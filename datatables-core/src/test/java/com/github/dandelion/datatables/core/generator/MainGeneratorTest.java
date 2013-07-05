@@ -379,6 +379,26 @@ public class MainGeneratorTest {
 	}
 
 	@Test
+	public void should_set_scroll_x() {
+		table.getTableConfiguration().setFeatureScrollx("100%");
+
+		Map<String, Object> mainConf = generator.generateConfig(table);
+
+		assertThat(mainConf).hasSize(2);
+		assertThat(mainConf.get(DTConstants.DT_SCROLLX)).isEqualTo("100%");
+	}
+
+	@Test
+	public void should_set_scroll_inner() {
+		table.getTableConfiguration().setFeatureScrollInner("110%");
+
+		Map<String, Object> mainConf = generator.generateConfig(table);
+
+		assertThat(mainConf).hasSize(2);
+		assertThat(mainConf.get(DTConstants.DT_SCROLLINNER)).isEqualTo("110%");
+	}
+
+	@Test
 	public void should_set_processing() {
 		table.getTableConfiguration().setAjaxProcessing(true);
 
