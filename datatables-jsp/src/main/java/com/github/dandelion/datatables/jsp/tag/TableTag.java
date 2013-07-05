@@ -368,6 +368,14 @@ public class TableTag extends AbstractTableTag {
 		localConf.put(Configuration.FEATURE_SCROLLCOLLAPSE, scrollCollapse);
 	}
 
+	public void setScrollX(String scrollX) {
+		localConf.put(Configuration.FEATURE_SCROLLX, scrollX);
+	}
+
+	public void setScrollInner(String scrollInner) {
+		localConf.put(Configuration.FEATURE_SCROLLINNER, scrollInner);
+	}
+
 	public void setFixedPosition(String fixedPosition) {
 		localConf.put(Configuration.PLUGIN_FIXEDPOSITION, fixedPosition);
 	}
