@@ -43,7 +43,6 @@ import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
-import com.github.dandelion.datatables.core.extension.feature.AbstractFeature;
 import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.ClassUtils;
@@ -140,7 +139,7 @@ public class ExtensionManager {
 		for (Class<?> clazz : customExtensionClassList) {
 
 			try {
-				retval.add((AbstractFeature) ClassUtils.getClass(clazz.getName()).newInstance());
+				retval.add((AbstractExtension) ClassUtils.getClass(clazz.getName()).newInstance());
 			} catch (InstantiationException e) {
 				throw new ExtensionLoadingException("Unable to instanciate the class " + clazz.getName(), e);
 			} catch (IllegalAccessException e) {
