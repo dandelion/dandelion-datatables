@@ -91,6 +91,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	protected Boolean searchable;
 	protected Boolean visible;
 	protected String filterType;
+	protected String filterValues;
 	protected String filterCssClass = "";
 	protected String filterPlaceholder = "";
 	protected String display;
@@ -217,6 +218,10 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 				column.setFilterType(filterType);
 			}
 
+			if(StringUtils.isNotBlank(this.filterValues)){
+				column.setFilterValues(this.filterValues);
+			}
+			
 			if (StringUtils.isNotBlank(this.sortType)) {
 				
 				SortType sortType = null;
@@ -321,6 +326,10 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 
 		if(StringUtils.isNotBlank(this.selector)){
 			column.setSelector(this.selector);
+		}
+		
+		if(StringUtils.isNotBlank(this.filterValues)){
+			column.setFilterValues(this.filterValues);
 		}
 		
 		// Visible
@@ -458,6 +467,10 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	
 	public void setFilterType(String filterType) {
 		this.filterType = filterType;
+	}
+
+	public void setFilterValues(String filterValues) {
+		this.filterValues = filterValues;
 	}
 
 	public void setFilterCssClass(String filterCssClass) {

@@ -494,6 +494,10 @@
           <name>filterType</name>
       </attribute>
       <attribute>
+         <description>TODO</description>
+          <name>filterValues</name>
+      </attribute>
+      <attribute>
          <description>If filterable is enabled and filterType is
             'INPUT', you can apply a CSS class to the input field
             with

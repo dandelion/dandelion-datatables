@@ -71,8 +71,10 @@ public class HtmlColumn extends HtmlTagWithContent {
 	 * Default value is <code>FilterType.INPUT</code>.
 	 */
 	private FilterType filterType;
+	private String filterValues;
 	private String filterCssClass;
 	private String filterPlaceholder;
+	
 	// TODO remove instanciation
 	private List<DisplayType> enabledDisplayTypes = new ArrayList<DisplayType>();
 
@@ -348,5 +350,13 @@ public class HtmlColumn extends HtmlTagWithContent {
 
 	public void setSortType(SortType sortType) {
 		this.sortType = sortType;
+	}
+
+	public String getFilterValues() {
+		return filterValues;
+	}
+
+	public void setFilterValues(String filterValues) {
+		this.filterValues = filterValues;
 	}
 }

@@ -38,6 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
+import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -84,7 +85,7 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
 						tmp.put(DTConstants.DT_FILTER_TYPE, "number");
 						break;
 					case SELECT:
-						tmp.put(DTConstants.DT_FILTER_TYPE, "select");        				
+						tmp.put(DTConstants.DT_FILTER_TYPE, "select");
 						break;
 					case NUMBER_RANGE:
 						tmp.put(DTConstants.DT_FILTER_TYPE, "number-range");        				
@@ -101,6 +102,10 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
         		if(StringUtils.isNotBlank(column.getSelector())){
         			tmp.put(DTConstants.DT_S_SELECTOR, column.getSelector());
         		}
+
+        		if(StringUtils.isNotBlank(column.getFilterValues())){
+					tmp.put(DTConstants.DT_FILTER_VALUES, new JavascriptSnippet(column.getFilterValues()));
+				}
         		
         		aoColumnsContent.add(tmp);
         	}
