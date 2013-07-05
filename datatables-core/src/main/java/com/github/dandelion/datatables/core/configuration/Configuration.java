@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.aggregator.AggregatorMode;
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
+import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
@@ -232,7 +233,8 @@ public enum Configuration {
 		return null;
 	}
 	
-	public static void applyConfiguration(TableConfiguration tableConfiguration, Map<Configuration, Object> localConf) {
+	public static void applyConfiguration(TableConfiguration tableConfiguration, Map<Configuration, Object> localConf)
+			throws ConfigurationLoadingException {
 
 		logger.trace("Applying all temporary configurations to the TableConfiguration instance...");
 		
@@ -241,10 +243,11 @@ public enum Configuration {
 			logger.trace("Processing configuration {}...", entry.getKey());
 			
 			if(StringUtils.isNotBlank(entry.getValue().toString())){
+				String propertyName = null;
 				try {
 					Processor processor = null;
 					if (AbstractGenericProcessor.class.isAssignableFrom(entry.getKey().getProcessor())) {
-						String propertyName = StringUtils.capitalize(entry.getKey().getProperty());
+						propertyName = StringUtils.capitalize(entry.getKey().getProperty());
 						Method setter = TableConfiguration.class.getMethod("set" + propertyName, new Class[]{ entry.getKey().getReturnType() });
 						
 						logger.trace(" --> the {} will be used to process the value {}", setter, entry.getValue().toString());
@@ -262,21 +265,22 @@ public enum Configuration {
 					processor.process(entry.getValue().toString(), tableConfiguration, localConf);
 					
 					logger.trace(" --> Processing completed successfully");
-				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NoSuchMethodException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} 
+				catch (InstantiationException e) {
+					throw new ConfigurationLoadingException("Unable to instantiate the "
+							+ entry.getKey().getProcessor() + " processor", e);
+				} 
+				catch (IllegalAccessException e) {
+					throw new ConfigurationLoadingException("Unable to access the "
+							+ entry.getKey().getProcessor() + " processor", e);
+				} 
+				catch (InvocationTargetException e) {
+					throw new ConfigurationLoadingException("Unable to invoke the constructor of the "
+							+ entry.getKey().getProcessor() + " processor", e);
+				} 
+				catch (NoSuchMethodException e) {
+					throw new ConfigurationLoadingException("The method 'set" + propertyName
+							+ "' doesn't exist in the TableConfiguration object", e);
 				}
 			}
 		}

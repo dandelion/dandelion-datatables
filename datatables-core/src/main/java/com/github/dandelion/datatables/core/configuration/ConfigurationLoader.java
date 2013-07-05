@@ -141,6 +141,8 @@ public interface ConfigurationLoader {
 	 *            the resource bundle.
 	 * @param request
 	 *            The request sent by the browser.
+	 * @throws ConfigurationLoadingException 
 	 */
-	public void resolveConfigurations(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request);
+	public void resolveConfigurations(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request)
+			throws ConfigurationLoadingException;
 }

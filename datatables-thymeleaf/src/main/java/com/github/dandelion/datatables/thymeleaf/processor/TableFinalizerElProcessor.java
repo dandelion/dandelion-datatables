@@ -26,6 +26,7 @@ import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
+import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.exception.DataNotFoundException;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
@@ -79,7 +80,12 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 			@SuppressWarnings("unchecked")
 			Map<Configuration, Object> localConf = (Map<Configuration, Object>) request.getAttribute(DataTablesDialect.INTERNAL_LOCAL_CONF);
 			
-			Configuration.applyConfiguration(htmlTable.getTableConfiguration(), localConf);
+			try {
+				Configuration.applyConfiguration(htmlTable.getTableConfiguration(), localConf);
+			} catch (ConfigurationLoadingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			applyCssConfiguration(arguments);
 			

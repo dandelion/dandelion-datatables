@@ -45,6 +45,7 @@ import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
+import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportProperties;
@@ -204,8 +205,10 @@ public class TableConfiguration {
 	 * 
 	 * <b>FOR INTERNAL USE ONLY</b>
 	 * @param stagingConf
+	 * @throws ConfigurationLoadingException  
 	 */
-	public TableConfiguration(Map<Configuration, Object> stagingConf, HttpServletRequest request){
+	public TableConfiguration(Map<Configuration, Object> stagingConf, HttpServletRequest request) 
+			throws ConfigurationLoadingException {
 		this.request = request;
 		Configuration.applyConfiguration(this, stagingConf);
 	}

@@ -52,6 +52,7 @@ import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
+import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.exception.DataNotFoundException;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
@@ -100,6 +101,8 @@ public class TableTag extends AbstractTableTag {
 		try {
 			Configuration.applyConfiguration(table.getTableConfiguration(), localConf);
 		} catch (AttributeProcessingException e) {
+			throw new JspException(e);
+		} catch (ConfigurationLoadingException e) {
 			throw new JspException(e);
 		}
 		

@@ -192,7 +192,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void resolveConfigurations(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request) {
+	public void resolveConfigurations(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request) throws ConfigurationLoadingException {
 
 		logger.debug("Resolving configurations for the locale {}...", locale);
 
