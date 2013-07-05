@@ -82,6 +82,8 @@ public class TableConfiguration {
 	private String featureDom;
 	private String featureScrolly;
 	private Boolean featureScrollCollapse;
+	private String featureScrollx;
+	private String featureScrollInner;
 
 	// CSS parameters
 	private StringBuilder cssStyle;
@@ -237,6 +239,8 @@ public class TableConfiguration {
 		featureDom = objectToClone.featureDom;
 		featureScrolly = objectToClone.featureScrolly;
 		featureScrollCollapse = objectToClone.featureScrollCollapse;
+		featureScrollx = objectToClone.featureScrollx;
+		featureScrollInner = objectToClone.featureScrollInner;
 
 		// CSS parameters
 		cssStyle = objectToClone.cssStyle;
@@ -739,6 +743,24 @@ public class TableConfiguration {
 		return this;
 	}
 
+	public String getFeatureScrollX() {
+		return featureScrollx;
+	}
+
+	public TableConfiguration setFeatureScrollx(String scrollX) {
+		this.featureScrollx = scrollX;
+		return this;
+	}
+
+	public String getFeatureScrollInner() {
+		return featureScrollInner;
+	}
+
+	public TableConfiguration setFeatureScrollInner(String scrollInner) {
+		this.featureScrollx = scrollInner;
+		return this;
+	}
+
 	public String getPluginFixedPosition() {
 		return pluginFixedPosition;
 	}
@@ -1154,7 +1176,8 @@ public class TableConfiguration {
 				+ ", featureStateSave=" + featureStateSave + ", featureJqueryUi=" + featureJqueryUi
 				+ ", featureLengthMenu=" + featureLengthMenu + ", featureDisplayLength=" + featureDisplayLength
 				+ ", featureDom=" + featureDom + ", featureScrolly=" + featureScrolly + ", featureScrollCollapse="
-				+ featureScrollCollapse + ", cssStyle=" + cssStyle + ", cssClass=" + cssClass + ", cssStripeClasses="
+				+ featureScrollCollapse + ", featureScrollx=" + featureScrollx + ", featureScrollInner=" + featureScrollInner
+ 				+ ", cssStyle=" + cssStyle + ", cssClass=" + cssClass + ", cssStripeClasses="
 				+ cssStripeClasses + ", ajaxProcessing=" + ajaxProcessing + ", ajaxDeferRender=" + ajaxDeferRender
 				+ ", ajaxServerSide=" + ajaxServerSide + ", ajaxSource=" + ajaxSource + ", ajaxPipelining="
 				+ ajaxPipelining + ", ajaxPipeSize=" + ajaxPipeSize + ", ajaxServerData=" + ajaxServerData

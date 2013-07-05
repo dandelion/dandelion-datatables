@@ -112,6 +112,8 @@ public enum Configuration {
 	FEATURE_DOM("feature.dom", "featureDom", String.class, StringProcessor.class),
 	FEATURE_SCROLLY("feature.scrollY", "featureScrolly", String.class, StringProcessor.class),
 	FEATURE_SCROLLCOLLAPSE("feature.scrollCollapse", "featureScrollCollapse", Boolean.class, BooleanProcessor.class),
+	FEATURE_SCROLLX("feature.scrollX", "featureScrollx", String.class, StringProcessor.class),
+	FEATURE_SCROLLINNER("feature.scrollInner", "featureScrollInner", String.class, StringProcessor.class),
 	
 	EXTRA_THEME("extra.theme", "extraTheme", AbstractTheme.class, ExtraThemeProcessor.class),
 	EXTRA_THEMEOPTION("extra.themeOption", "extraThemeOption", ThemeOption.class, ExtraThemeOptionProcessor.class),
