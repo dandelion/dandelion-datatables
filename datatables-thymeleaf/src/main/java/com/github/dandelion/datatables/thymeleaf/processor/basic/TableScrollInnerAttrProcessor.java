@@ -27,61 +27,45 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.jsp.tag;
+package com.github.dandelion.datatables.thymeleaf.processor.basic;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
+import java.util.Map;
 
-import com.github.dandelion.datatables.core.asset.ExtraConf;
-import com.github.dandelion.datatables.core.util.RequestHelper;
+import org.thymeleaf.Arguments;
+import org.thymeleaf.dom.Element;
+import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
+import org.thymeleaf.processor.ProcessorResult;
+
+import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.thymeleaf.dialect.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
- * Tag used to add some extra Javascript configuration to the DataTable.
- *
- * @author Thibault Duchateau
+ * Attribute processor for the <code>scroll x</code> attribute.
+ * 
+ * @author DISID TECHNOLOGIES S.L.
  */
-public class ExtraConfTag extends TagSupport {
+public class TableScrollInnerAttrProcessor extends AbstractDatatablesAttrProcessor {
 
-	private static final long serialVersionUID = 7656056513635184779L;
-
-	// Tag attributes
-	private String src;
-
-	/**
-	 * This tag doen't have a body.
-	 */
-	public int doStartTag() throws JspException {
-		return SKIP_BODY;
+	public TableScrollInnerAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+		super(matcher);
 	}
 
-	/**
-	 * TODO
-	 */
-	public int doEndTag() throws JspException {
-
-		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
-
-		if (parent.isFirstIteration()) {
-			parent.getTable().getTableConfiguration().addExtraConf(new ExtraConf(getLocation(this.src)));
-		}
-		return EVAL_PAGE;
+	@Override
+	public int getPrecedence() {
+		return 8000;
 	}
+	
+	@Override
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
+		
+		// Get attribute value
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), "", String.class);
 
-	/**
-	 * TODO
-	 * @param src
-	 * @return
-	 */
-	private String getLocation(String src){
-		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
-		return RequestHelper.getBaseUrl(pageContext.getRequest(), parent.getTable()) + src;
-	}
-
-	public String getSrc() {
-		return src;
-	}
-
-	public void setSrc(String src) {
-		this.src = src;
+		localConf.put(Configuration.FEATURE_SCROLLINNER, attrValue);
+		
+        return ProcessorResult.ok();
 	}
 }
