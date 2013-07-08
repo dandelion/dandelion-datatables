@@ -59,7 +59,7 @@ public class ExtraConfTag extends TagSupport {
 	 */
 	public int doEndTag() throws JspException {
 
-		AbstractTableTag parent = (AbstractTableTag) getParent();
+		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
 		if (parent.isFirstIteration()) {
 			parent.getTable().getTableConfiguration().addExtraConf(new ExtraConf(getLocation(this.src)));
@@ -73,7 +73,7 @@ public class ExtraConfTag extends TagSupport {
 	 * @return
 	 */
 	private String getLocation(String src){
-		AbstractTableTag parent = (AbstractTableTag) getParent();
+		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 		return RequestHelper.getBaseUrl(pageContext.getRequest(), parent.getTable()) + src;
 	}
 
