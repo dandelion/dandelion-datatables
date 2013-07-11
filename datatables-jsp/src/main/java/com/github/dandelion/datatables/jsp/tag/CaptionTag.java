@@ -47,7 +47,7 @@ public class CaptionTag extends BodyTagSupport{
 	
 	@Override
 	public int doEndTag() throws JspException {
-		TableTag parent = (TableTag)getParent();
+		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
 		HtmlCaption caption = new HtmlCaption();
 		caption.setId(id);
