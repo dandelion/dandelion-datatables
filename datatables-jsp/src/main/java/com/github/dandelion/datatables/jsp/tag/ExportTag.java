@@ -71,7 +71,10 @@ public class ExportTag extends TagSupport {
 	 */
 	public int doStartTag() throws JspException {
 
-		if (!(getParent() instanceof AbstractTableTag)) {
+		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);	    
+
+		// There isn't an ancestor of given class
+		if (parent == null) {
 			throw new JspException("ExportTag must be inside AbstractTableTag");
 		}
 
@@ -86,7 +89,7 @@ public class ExportTag extends TagSupport {
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 		
 		// Get parent tag
-		AbstractTableTag parent = (AbstractTableTag) getParent();
+		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
 		// Evaluate the tag only once using the parent's isFirstRow method
 		if (parent.isFirstIteration()) {

@@ -67,7 +67,7 @@ public class ColumnHeadTag extends BodyTagSupport {
 
 	public int doEndTag() throws JspException {
 
-		TableTag parent = (TableTag) getParent();
+		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
 		if (StringUtils.isNotBlank(this.uid)) {
 			HtmlColumn column = parent.getTable().getColumnHeadByUid(this.uid);

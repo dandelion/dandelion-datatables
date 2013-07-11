@@ -63,7 +63,7 @@ public class ColumnTag extends AbstractColumnTag {
 	 * first iteration and a {@link HtmlColumn} is added for each iteration.
 	 */
 	public int doEndTag() throws JspException {
-		TableTag parent = (TableTag) getParent();
+		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
 		// A header column must be added at first iteration
 		if(parent.isFirstIteration()){
