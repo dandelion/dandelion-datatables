@@ -108,7 +108,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	protected void addDomColumn(Boolean isHeader, String content) throws JspException {
 
 		// Get the parent tag to access the HtmlTable
-		AbstractTableTag parent = (AbstractTableTag) getParent();
+		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
 		// Init the column
 		HtmlColumn column = new HtmlColumn(isHeader, content, dynamicAttributes);
@@ -251,7 +251,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	protected void addAjaxColumn(Boolean isHeader, String content) throws JspException {
 
 		// Get the parent tag to access the HtmlTable
-		AbstractTableTag parent = (AbstractTableTag) getParent();
+		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
 		HtmlColumn column = new HtmlColumn(true, this.title, dynamicAttributes);
 
@@ -367,7 +367,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	 */
 	protected String getColumnContent() throws JspException {
 
-		TableTag parent = (TableTag) getParent();
+		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
 		if (StringUtils.isNotBlank(property) && parent.getCurrentObject() != null) {
 

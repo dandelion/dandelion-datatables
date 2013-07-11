@@ -51,7 +51,10 @@ public class PropTag extends TagSupport {
 	 */
 	public int doStartTag() throws JspException {
 
-		if (!(getParent() instanceof AbstractTableTag)) {
+		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);	    
+
+		// There isn't an ancestor of given class
+		if (parent == null) {
 			throw new JspException("PropTag must be inside AbstractTableTag");
 		}
 
@@ -64,7 +67,7 @@ public class PropTag extends TagSupport {
 	public int doEndTag() throws JspException {
 		
 		// Get parent tag
-		AbstractTableTag parent = (AbstractTableTag) getParent();
+		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
 		// Evaluate the tag only once using the isFirstRow method
 		if(parent.isFirstIteration()){

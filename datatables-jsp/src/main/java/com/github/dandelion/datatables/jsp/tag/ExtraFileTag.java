@@ -59,7 +59,7 @@ public class ExtraFileTag extends TagSupport {
 	 */
 	public int doEndTag() throws JspException {
 		
-		AbstractTableTag parent = (AbstractTableTag) getParent();
+		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 		
 		if(parent.isFirstIteration()){
 			parent.getTable().getTableConfiguration().addExtraFile(new ExtraFile(getRealSource(this.src), this.insert));

@@ -60,8 +60,11 @@ public class CallbackTag extends TagSupport {
 	 */
 	public int doStartTag() throws JspException {
 
-		if (!(getParent() instanceof AbstractTableTag)) {
-			throw new JspException("CallbackTag must be inside the TableTag");
+		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
+
+		// There isn't an ancestor of given class
+		if (parent == null) { 
+			throw new JspException("CallbackTag must be inside the AbstractTableTag");
 		}
 
 		return SKIP_BODY;
@@ -73,7 +76,7 @@ public class CallbackTag extends TagSupport {
 	public int doEndTag() throws JspException {
 		
 		// Get parent tag
-		AbstractTableTag parent = (AbstractTableTag) getParent();
+		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
 		// Evaluate the tag only once
 		if(parent.isFirstIteration()){
