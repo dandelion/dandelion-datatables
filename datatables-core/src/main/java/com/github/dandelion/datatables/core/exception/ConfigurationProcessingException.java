@@ -27,60 +27,28 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.extension.feature;
-
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.ResourceType;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
-import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
-import com.github.dandelion.datatables.core.html.HtmlTable;
+package com.github.dandelion.datatables.core.exception;
 
 /**
- * Java implementation of the DataTables Column Filter Add-on written by Jovan Popovic.
- *
- * @see http://code.google.com/p/jquery-datatables-column-filter/
+ * 
  * @author Thibault Duchateau
- * @since 0.7.1
  */
-public abstract class AbstractFilteringFeature extends AbstractFeature {
+public class ConfigurationProcessingException extends RuntimeException {
 
-	@Override
-	public String getName() {
-		return "Filtering";
+	private static final long serialVersionUID = 3243845798907773547L;
+
+	public ConfigurationProcessingException() {
+	};
+
+	public ConfigurationProcessingException(String message) {
+		super(message);
 	}
 
-	@Override
-	public String getVersion() {
-		return "1.0.0";
+	public ConfigurationProcessingException(Throwable cause) {
+		super(cause);
 	}
 
-	@Override
-	public void setup(HtmlTable table) throws ExtensionLoadingException {
-
-		if(table.getTableConfiguration().getFeatureFilterPlaceholder() != null){
-			switch (table.getTableConfiguration().getFeatureFilterPlaceholder()){
-			case FOOT:
-				adaptFooter(table);
-				break;
-			case HEAD_AFTER:
-				adaptHeader(table);
-				break;
-			case HEAD_BEFORE:
-				adaptHeader(table);
-				break;
-			case NONE:
-				break;
-			}
-		}
-		else{
-			adaptFooter(table);
-		}
-		
-		setFunction("columnFilter");
-		setConfigGenerator(new ColumnFilteringGenerator());
-		addJsResource(new JsResource(ResourceType.FEATURE, "FilteringAddOn", "datatables/features/filtering/filteringaddon.js"));
+	public ConfigurationProcessingException(String message, Throwable cause) {
+		super(message, cause);
 	}
-	
-	protected abstract void adaptHeader(HtmlTable table);
-	protected abstract void adaptFooter(HtmlTable table);
 }

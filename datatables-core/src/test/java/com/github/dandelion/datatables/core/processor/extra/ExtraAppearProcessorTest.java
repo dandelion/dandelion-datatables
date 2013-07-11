@@ -33,46 +33,46 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.processor.Processor;
-import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.TableProcessor;
+import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
-public class ExtraAppearProcessorTest extends ProcessorBaseTest {
+public class ExtraAppearProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public Processor getProcessor() {
+	public TableProcessor getProcessor() {
 		return new ExtraAppearProcessor();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_null() throws Exception {
-		processor.process(null, tableConfiguration, confToBeApplied);
+		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraAppear()).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.process("", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraAppear()).isNull();
 	}
 	
 	@Test
 	public void should_return_fadein() throws Exception{
-		processor.process("fadein", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("fadein", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraAppear()).isEqualTo("fadein");
 	}
 	
 	@Test
 	public void should_return_fadein_and_set_appear_duration() throws Exception {
-		processor.process("fadein,1500", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("fadein,1500", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraAppear()).isEqualTo("fadein");
 		assertThat(tableConfiguration.getExtraAppearDuration()).isEqualTo("1500");
 	}
 	
 	@Test
 	public void should_set_default_value_when_a_wrong_format_is_used() throws Exception{
-		processor.process("blockkk", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("blockkk", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraAppear()).isEqualTo("block");
-		processor.process("fadein;12", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("fadein;12", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraAppear()).isEqualTo("block");
 	}
 }

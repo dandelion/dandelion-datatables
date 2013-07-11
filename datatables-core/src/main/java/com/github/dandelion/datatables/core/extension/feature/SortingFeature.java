@@ -66,8 +66,8 @@ public class SortingFeature extends AbstractFeature {
 		Set<SortType> enabledSortTypes = new HashSet<SortType>();
 		
 		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
-			if (column.getSortType() != null) {
-				enabledSortTypes.add(column.getSortType());
+			if (column.getColumnConfiguration().getSortType() != null) {
+				enabledSortTypes.add(column.getColumnConfiguration().getSortType());
 			}
 		}
 		

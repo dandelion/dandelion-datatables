@@ -27,46 +27,38 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.main;
+package com.github.dandelion.datatables.core.processor;
 
-import static org.fest.assertions.Assertions.assertThat;
+import java.util.Map;
 
-import org.junit.Test;
-
-import com.github.dandelion.datatables.core.aggregator.AggregatorMode;
+import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
+import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.processor.TableProcessor;
-import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
-public class MainAggregatorModeProcessorTest extends TableProcessorBaseTest {
+/**
+ * 
+ * @author Thibault Duchateau
+ * @since 0.9.0
+ */
+public abstract class AbstractColumnProcessor implements ColumnProcessor {
 
-	@Override
-	public TableProcessor getProcessor() {
-		return new MainAggregatorModeProcessor();
+	/**
+	 * {@inheritDoc}
+	 */
+	public void processConfiguration(String configuration, ColumnConfiguration columnConfiguration,
+			TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+
+		try {
+			process(configuration, columnConfiguration, tableConfiguration, confToBeApplied);
+		} catch (ConfigurationProcessingException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new ConfigurationProcessingException("Something went wrong during the execution of the processor "
+					+ this.getClass().getName() + " with the value '" + configuration + "'", e);
+		}
 	}
 
-	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
-		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getMainAggregatorMode()).isNull();
-	}
-	
-	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.processConfiguration("", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getMainAggregatorMode()).isNull();
-	}
-	
-	@Test
-	public void should_set_aggregatormode() throws Exception {
-		processor.processConfiguration("all", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getMainAggregatorMode()).isEqualTo(AggregatorMode.ALL);
-		processor.processConfiguration("ALL", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getMainAggregatorMode()).isEqualTo(AggregatorMode.ALL);
-	}
-	
-	@Test(expected = ConfigurationProcessingException.class)
-	public void should_raise_an_exception() throws Exception {
-		processor.processConfiguration("wrongValue", tableConfiguration, confToBeApplied);
-	}
+	protected abstract void process(String param, ColumnConfiguration columnConfiguration,
+			TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied);
 }

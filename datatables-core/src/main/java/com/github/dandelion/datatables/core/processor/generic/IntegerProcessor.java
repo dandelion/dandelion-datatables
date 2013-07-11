@@ -27,60 +27,27 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.extension.feature;
+package com.github.dandelion.datatables.core.processor.generic;
 
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.ResourceType;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
-import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
-import com.github.dandelion.datatables.core.html.HtmlTable;
+import java.lang.reflect.Method;
+
+import com.github.dandelion.datatables.core.processor.AbstractGenericProcessor;
+import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
- * Java implementation of the DataTables Column Filter Add-on written by Jovan Popovic.
- *
- * @see http://code.google.com/p/jquery-datatables-column-filter/
+ * Processor used for all Integer parameters.
+ * 
  * @author Thibault Duchateau
- * @since 0.7.1
+ * @since 0.9.0
  */
-public abstract class AbstractFilteringFeature extends AbstractFeature {
+public class IntegerProcessor extends AbstractGenericProcessor {
 
-	@Override
-	public String getName() {
-		return "Filtering";
+	public IntegerProcessor(Method setter) {
+		this.setter = setter;
 	}
 
 	@Override
-	public String getVersion() {
-		return "1.0.0";
+	protected Integer process(String param) throws NumberFormatException {
+		return StringUtils.isNotBlank(param) ? Integer.parseInt(param) : null;
 	}
-
-	@Override
-	public void setup(HtmlTable table) throws ExtensionLoadingException {
-
-		if(table.getTableConfiguration().getFeatureFilterPlaceholder() != null){
-			switch (table.getTableConfiguration().getFeatureFilterPlaceholder()){
-			case FOOT:
-				adaptFooter(table);
-				break;
-			case HEAD_AFTER:
-				adaptHeader(table);
-				break;
-			case HEAD_BEFORE:
-				adaptHeader(table);
-				break;
-			case NONE:
-				break;
-			}
-		}
-		else{
-			adaptFooter(table);
-		}
-		
-		setFunction("columnFilter");
-		setConfigGenerator(new ColumnFilteringGenerator());
-		addJsResource(new JsResource(ResourceType.FEATURE, "FilteringAddOn", "datatables/features/filtering/filteringaddon.js"));
-	}
-	
-	protected abstract void adaptHeader(HtmlTable table);
-	protected abstract void adaptFooter(HtmlTable table);
 }

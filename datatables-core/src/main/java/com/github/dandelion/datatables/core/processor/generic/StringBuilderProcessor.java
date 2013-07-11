@@ -27,31 +27,27 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.i18n;
+package com.github.dandelion.datatables.core.processor.generic;
 
-import java.util.Map;
+import java.lang.reflect.Method;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.processor.AbstractProcessor;
-
+import com.github.dandelion.datatables.core.processor.AbstractGenericProcessor;
+import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
- * <p>
- * Common abstract superclass for all processors.
- * <p>
- * All processors contain the actual processing applied on each Datatables
- * configuration.
+ * Processor used for all String parameters.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public abstract class AbstractMessageProcessor extends AbstractProcessor {
+public class StringBuilderProcessor extends AbstractGenericProcessor {
 
-	protected String messageKey;
+	public StringBuilderProcessor(Method setter) {
+		this.setter = setter;
+	}
 
-	protected void doProcess(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied){
-		tableConfiguration.getMessages().setProperty(messageKey, param);
+	@Override
+	protected StringBuilder process(String param) {
+		return StringUtils.isNotBlank(param) ? new StringBuilder(param) : null;
 	}
 }

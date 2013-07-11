@@ -27,30 +27,40 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor;
+package com.github.dandelion.datatables.core.processor.column;
 
-import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
+import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.constants.Direction;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
-/**
- * Processor used for all String parameters.
- * 
- * @author Thibault Duchateau
- * @since 0.9.0
- */
-public class StringProcessor extends AbstractGenericProcessor {
-
-	public StringProcessor(Method tableConfigurationSetter) {
-		this.tableConfigurationSetter = tableConfigurationSetter;
-	}
+public class SortDirectionProcessor extends AbstractColumnProcessor {
 
 	@Override
-	protected String processAttribute(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) {
-		return StringUtils.isNotBlank(param) ? param : null;
+	protected void process(String param, ColumnConfiguration columnConfiguration,
+			TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+		if (StringUtils.isNotBlank(param)) {
+			List<Direction> sortDirections = new ArrayList<Direction>();
+			String[] sortDirectionArray = param.trim().toUpperCase().split(",");
+
+			for (String direction : sortDirectionArray) {
+				try {
+					sortDirections.add(Direction.valueOf(direction));
+				} catch (IllegalArgumentException e) {
+					throw new ConfigurationProcessingException(param + " is not a valid value among " + SortDirection.values(), e);
+				}
+			}
+
+			columnConfiguration.setSortDirections(sortDirections);
+		}
+		
 	}
 }

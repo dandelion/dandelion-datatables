@@ -34,42 +34,42 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.core.extension.plugin.ScrollerPlugin;
-import com.github.dandelion.datatables.core.processor.Processor;
-import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.TableProcessor;
+import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
-public class PluginScrollerProcessorTest extends ProcessorBaseTest {
+public class PluginScrollerProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public Processor getProcessor() {
+	public TableProcessor getProcessor() {
 		return new PluginScrollerProcessor();
 	}
 
 	@Test
 	public void should_set_null_when_value_is_null() throws Exception {
-		processor.process(null, tableConfiguration, confToBeApplied);
+		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginScroller()).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.process("", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginScroller()).isNull();
 	}
 	
 	@Test
 	public void should_enable_plugin_when_value_is_true() throws Exception {
-		processor.process("true", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("true", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginScroller()).isTrue();
 		assertThat(tableConfiguration.getInternalExtensions()).contains(new ScrollerPlugin());
 	}
 	
 	@Test
 	public void should_not_enable_plugin_when_value_is_false() throws Exception {
-		processor.process("false", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("false", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginScroller()).isFalse();
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 		
-		processor.process("weird value", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("weird value", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginScroller()).isFalse();
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}

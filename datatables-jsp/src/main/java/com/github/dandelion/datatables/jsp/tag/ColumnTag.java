@@ -29,8 +29,11 @@
  */
 package com.github.dandelion.datatables.jsp.tag;
 
+import java.util.HashMap;
+
 import javax.servlet.jsp.JspException;
 
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.util.StringUtils;
@@ -46,6 +49,10 @@ public class ColumnTag extends AbstractColumnTag {
 
 	private static final long serialVersionUID = -8928415196287387948L;
 
+	public ColumnTag(){
+		stagingConf = new HashMap<Configuration, Object>();
+	}
+	
 	/**
 	 * Nothing happens in doStartTag.
 	 */
@@ -79,7 +86,8 @@ public class ColumnTag extends AbstractColumnTag {
 			}
 			
 			if ("DOM".equals(parent.getLoadingType())) {
-				addDomColumn(true, columnTitle);
+				addDomHeadColumn(columnTitle);
+//				addDomColumn(true, columnTitle);
 			}
 			else if ("AJAX".equals(parent.getLoadingType())) {
 				addAjaxColumn(true, columnTitle);
@@ -89,35 +97,21 @@ public class ColumnTag extends AbstractColumnTag {
 
 		// At this point, only DOM sources are concerned 
 		if(parent.getCurrentObject() != null){
-			
+
+			String columnContent = null;
 			// The 'property' attribute has precedence over the body of the
 			// column tag
 			if (getBodyContent() == null) {
-				addDomColumn(false, getColumnContent());	
+				columnContent = getColumnContent();
 			}
 			// No 'property' attribute is used but a body is set instead
 			else{
-				String bodyString = getBodyContent().getString().trim().replaceAll("[\n\r]", "");
-				addDomColumn(false, bodyString);
+				columnContent = getBodyContent().getString().trim().replaceAll("[\n\r]", "");
 			}
+//			addDomColumn(false, columnContent);
+			addDomBodyColumn(columnContent);
 		}
 
 		return EVAL_PAGE;
-	}
-	
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String titleKey) {
-		this.title = titleKey;
-	}
-	
-	public String getTitleKey() {
-		return titleKey;
-	}
-
-	public void setTitleKey(String titleKey) {
-		this.titleKey = titleKey;
 	}
 }

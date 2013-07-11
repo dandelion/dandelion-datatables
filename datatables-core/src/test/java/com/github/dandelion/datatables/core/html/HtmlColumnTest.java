@@ -21,13 +21,13 @@ public class HtmlColumnTest extends HtmlTagWithContentTest {
 
 	@Test
 	public void should_contain_all_display_types() {
-		assertThat(column.getEnabledDisplayTypes()).containsExactly(DisplayType.ALL);
+		assertThat(column.getColumnConfiguration().getEnabledDisplayTypes()).containsExactly(DisplayType.ALL);
 	}
 
 	@Test
 	public void should_contain_only_specified_display_types() {
 		column = new HtmlColumn(DisplayType.CSV);
-		assertThat(column.getEnabledDisplayTypes()).containsExactly(DisplayType.CSV);
+		assertThat(column.getColumnConfiguration().getEnabledDisplayTypes()).containsExactly(DisplayType.CSV);
 		assertThat(column.isHeaderColumn()).isFalse();
 	}
 

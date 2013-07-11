@@ -33,9 +33,9 @@ import java.util.Map;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.ServerSideFeature;
-import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
@@ -44,11 +44,11 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class AjaxServerSideProcessor extends AbstractProcessor {
+public class AjaxServerSideProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void doProcess(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
+	public void process(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
 
 		Boolean retval = null;
 		if (StringUtils.isNotBlank(param)) {

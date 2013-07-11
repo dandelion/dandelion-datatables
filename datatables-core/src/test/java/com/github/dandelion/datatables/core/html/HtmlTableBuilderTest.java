@@ -71,11 +71,11 @@ public class HtmlTableBuilderTest {
 				.column("mail").title("Mail")
 				.build();
 		
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(0).getTitle()).isEqualTo("Id");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(1).getTitle()).isEqualTo("FirstName");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(2).getTitle()).isEqualTo("LastName");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(3).getTitle()).isEqualTo("City");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(4).getTitle()).isEqualTo("Mail");
+		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(0).getColumnConfiguration().getTitle()).isEqualTo("Id");
+		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(1).getColumnConfiguration().getTitle()).isEqualTo("FirstName");
+		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(2).getColumnConfiguration().getTitle()).isEqualTo("LastName");
+		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(3).getColumnConfiguration().getTitle()).isEqualTo("City");
+		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(4).getColumnConfiguration().getTitle()).isEqualTo("Mail");
 	}
 	
 	@Test
@@ -88,10 +88,10 @@ public class HtmlTableBuilderTest {
 				.column("mail")
 				.build();
 		
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(0).getTitle()).isEqualTo("id");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(1).getTitle()).isEqualTo("firstName");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(2).getTitle()).isEqualTo("lastName");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(3).getTitle()).isEqualTo("address.town.name");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(4).getTitle()).isEqualTo("mail");
+		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(0).getColumnConfiguration().getTitle()).isEqualTo("id");
+		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(1).getColumnConfiguration().getTitle()).isEqualTo("firstName");
+		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(2).getColumnConfiguration().getTitle()).isEqualTo("lastName");
+		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(3).getColumnConfiguration().getTitle()).isEqualTo("address.town.name");
+		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(4).getColumnConfiguration().getTitle()).isEqualTo("mail");
 	}
 }

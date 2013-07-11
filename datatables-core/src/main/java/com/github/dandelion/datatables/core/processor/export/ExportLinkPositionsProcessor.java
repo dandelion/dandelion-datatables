@@ -38,20 +38,20 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
-import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 
-public class ExportLinkPositionsProcessor extends AbstractProcessor {
+public class ExportLinkPositionsProcessor extends AbstractTableProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(ExportLinkPositionsProcessor.class);
 		
 	@Override
-	public void doProcess(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
+	public void process(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
 		Set<ExportLinkPosition> retval = new HashSet<ExportLinkPosition>();
 
 		if(StringUtils.isNotBlank(param)){
@@ -64,7 +64,7 @@ public class ExportLinkPositionsProcessor extends AbstractProcessor {
 				} catch (IllegalArgumentException e) {
 					logger.error("The export cannot be activated for the table {}. ", tableConfiguration.getTableId());
 					logger.error("{} is not a valid value among {}", position, ExportLinkPosition.values());
-					throw new AttributeProcessingException(e);
+					throw new ConfigurationProcessingException(e);
 				}
 			}
 		}

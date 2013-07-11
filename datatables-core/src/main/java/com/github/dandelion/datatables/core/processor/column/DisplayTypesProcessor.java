@@ -27,30 +27,39 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor;
+package com.github.dandelion.datatables.core.processor.column;
 
-import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import com.github.dandelion.datatables.core.asset.DisplayType;
+import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
-/**
- * Processor used for all Integer parameters.
- * 
- * @author Thibault Duchateau
- * @since 0.9.0
- */
-public class IntegerProcessor extends AbstractGenericProcessor {
-
-	public IntegerProcessor(Method tableConfigurationSetter) {
-		this.tableConfigurationSetter = tableConfigurationSetter;
-	}
+public class DisplayTypesProcessor extends AbstractColumnProcessor {
 
 	@Override
-	protected Integer processAttribute(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) {
-		return StringUtils.isNotBlank(param) ? Integer.parseInt(param) : null;
+	protected void process(String param, ColumnConfiguration columnConfiguration,
+			TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+		
+		if (StringUtils.isNotBlank(param)) {
+			List<DisplayType> enabledDisplayTypes = new ArrayList<DisplayType>();
+			String[] displayTypes = param.trim().toUpperCase().split(",");
+
+			for (String displayType : displayTypes) {
+				try {
+					enabledDisplayTypes.add(DisplayType.valueOf(displayType));
+				} catch (IllegalArgumentException e) {
+					throw new ConfigurationProcessingException(param + " is not a valid value among " + DisplayType.values(), e);
+				}
+			}
+
+			columnConfiguration.setEnabledDisplayTypes(enabledDisplayTypes);
+		}
 	}
 }

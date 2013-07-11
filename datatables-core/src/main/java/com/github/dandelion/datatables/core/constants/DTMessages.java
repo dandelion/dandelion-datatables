@@ -27,60 +27,49 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.extension.feature;
-
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.ResourceType;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
-import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
-import com.github.dandelion.datatables.core.html.HtmlTable;
+package com.github.dandelion.datatables.core.constants;
 
 /**
- * Java implementation of the DataTables Column Filter Add-on written by Jovan Popovic.
+ * 
  *
- * @see http://code.google.com/p/jquery-datatables-column-filter/
  * @author Thibault Duchateau
- * @since 0.7.1
+ * @since 0.9.0
  */
-public abstract class AbstractFilteringFeature extends AbstractFeature {
+public enum DTMessages {
 
-	@Override
-	public String getName() {
-		return "Filtering";
-	}
-
-	@Override
-	public String getVersion() {
-		return "1.0.0";
-	}
-
-	@Override
-	public void setup(HtmlTable table) throws ExtensionLoadingException {
-
-		if(table.getTableConfiguration().getFeatureFilterPlaceholder() != null){
-			switch (table.getTableConfiguration().getFeatureFilterPlaceholder()){
-			case FOOT:
-				adaptFooter(table);
-				break;
-			case HEAD_AFTER:
-				adaptHeader(table);
-				break;
-			case HEAD_BEFORE:
-				adaptHeader(table);
-				break;
-			case NONE:
-				break;
-			}
-		}
-		else{
-			adaptFooter(table);
-		}
-		
-		setFunction("columnFilter");
-		setConfigGenerator(new ColumnFilteringGenerator());
-		addJsResource(new JsResource(ResourceType.FEATURE, "FilteringAddOn", "datatables/features/filtering/filteringaddon.js"));
-	}
+	PROCESSING("sProcessing", "msg.processing"),
+	SEARC("sSearch", "msg.search"),
+	LENGTHMENU("sLengthMenu", "msg.lengthmenu"),
+	INFO("sInfo", "msg.info"),
+	INFOEMPTY("sInfoEmpty", "msg.info.empty"),
+	INFOFILTERED("sInfoFiltered", "msg.info.filtered"),
+	INFOPOSTFIX("sInfoPostFix", "msg.info.postfix"),
+	LOADINGRECORDS("sLoadingRecords", "msg.loadingrecords"),
+	ZERORECORDS("sZeroRecords", "msg.zerorecords"),
+	EMPTYTABLE("sEmptyTable", "msg.emptytable"),
+	PAGINATE("oPaginate", ""),
+	PAGINATE_FIRST("sFirst", "msg.paginate.first"),
+	PAGINATE_PREVIOUS("sPrevious", "msg.paginate.previous"),
+	PAGINATE_NEXT("sNext", "msg.paginate.next"),
+	PAGINATE_LAST("sLast", "msg.paginate.last"),
+	ARIA("oAria", ""),
+	ARIA_SORT_ASC("sSortAscending", "msg.aria.sortasc"),
+	ARIA_SORT_DESC("sSortDescending", "msg.aria.sortdesc");
 	
-	protected abstract void adaptHeader(HtmlTable table);
-	protected abstract void adaptFooter(HtmlTable table);
+	private String realName;
+	
+	private String propertyName;
+	
+	private DTMessages(String realName, String propertyName){
+		this.realName = realName;
+		this.propertyName = propertyName;
+	}
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public String getPropertyName() {
+		return propertyName;
+	}
 }

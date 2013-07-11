@@ -74,8 +74,8 @@ public class HtmlRow extends HtmlTag {
 	private StringBuilder getHtmlColumns() {
 		StringBuilder html = new StringBuilder();
 		for (HtmlColumn column : this.columns) {
-			if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
-					|| column.getEnabledDisplayTypes().contains(DisplayType.HTML)) {
+			List<DisplayType> displayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
+			if (displayTypes.contains(DisplayType.ALL) || displayTypes.contains(DisplayType.HTML)) {
 				html.append(column.toHtml());
 			}
 		}
@@ -114,7 +114,7 @@ public class HtmlRow extends HtmlTag {
 
 	public HtmlColumn addColumn(String columnContent, DisplayType... displayTypes) {
 		HtmlColumn newColumn = new HtmlColumn(false, columnContent);
-		newColumn.setEnabledDisplayTypes(Arrays.asList(displayTypes));
+		newColumn.getColumnConfiguration().setEnabledDisplayTypes(Arrays.asList(displayTypes));
 		this.columns.add(newColumn);
 		return newColumn;
 	}

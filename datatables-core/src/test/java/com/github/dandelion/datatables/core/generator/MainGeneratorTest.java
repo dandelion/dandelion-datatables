@@ -20,6 +20,7 @@ import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
@@ -83,7 +84,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_not_generate_column_properties() {
-		firstColumn.setEnabledDisplayTypes(displayTypeNotUsedForColumnDefinition);
+		firstColumn.getColumnConfiguration().setEnabledDisplayTypes(displayTypeNotUsedForColumnDefinition);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 		assertThat(mainConf).hasSize(1);
@@ -91,7 +92,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_generate_column_properties_with_ALL_display_type() {
-		firstColumn.setEnabledDisplayTypes(displayTypeAllUsedForColumnDefinition);
+		firstColumn.getColumnConfiguration().setEnabledDisplayTypes(displayTypeAllUsedForColumnDefinition);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 		assertThat(mainConf).hasSize(1);
@@ -100,7 +101,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_generate_column_properties_with_HTML_display_type() {
-		firstColumn.setEnabledDisplayTypes(displayTypeHtmlUsedForColumnDefinition);
+		firstColumn.getColumnConfiguration().setEnabledDisplayTypes(displayTypeHtmlUsedForColumnDefinition);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 		assertThat(mainConf).hasSize(1);
@@ -130,8 +131,8 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_override_searchable_if_column_is_not_visible() {
-		firstColumn.setSearchable(true);
-		firstColumn.setVisible(false);
+		firstColumn.getColumnConfiguration().setSearchable(true);
+		firstColumn.getColumnConfiguration().setVisible(false);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -146,7 +147,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_mData() {
-		firstColumn.setProperty("aProperty");
+		firstColumn.getColumnConfiguration().setProperty("aProperty");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -160,7 +161,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_render_function() {
-		firstColumn.setRenderFunction("aRenderFunction");
+		firstColumn.getColumnConfiguration().setRenderFunction("aRenderFunction");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -174,7 +175,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_default_content() {
-		firstColumn.setDefaultValue("aDefaultContent");
+		firstColumn.getColumnConfiguration().setDefaultValue("aDefaultContent");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -188,9 +189,9 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_sort_direction() {
-		ArrayList<String> sortDirections = new ArrayList<String>();
-		sortDirections.add("asc");
-		firstColumn.setSortDirections(sortDirections);
+		ArrayList<Direction> sortDirections = new ArrayList<Direction>();
+		sortDirections.add(Direction.ASC);
+		firstColumn.getColumnConfiguration().setSortDirections(sortDirections);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -204,7 +205,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_one_sort_direction_init() {
-		firstColumn.setSortInit("desc");
+		firstColumn.getColumnConfiguration().setSortInit("desc");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -215,10 +216,10 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_several_sort_direction_inits() {
-		firstColumn.setSortInit("desc");
+		firstColumn.getColumnConfiguration().setSortInit("desc");
 		headerRow.addColumn("secondColumn");
 		HtmlColumn thirdColumn = headerRow.addColumn("thirdColumn");
-		thirdColumn.setSortInit("asc");
+		thirdColumn.getColumnConfiguration().setSortInit("asc");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 

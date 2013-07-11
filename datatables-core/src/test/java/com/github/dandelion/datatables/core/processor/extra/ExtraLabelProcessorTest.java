@@ -33,31 +33,31 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.processor.Processor;
-import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.TableProcessor;
+import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
-public class ExtraLabelProcessorTest extends ProcessorBaseTest {
+public class ExtraLabelProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public Processor getProcessor() {
+	public TableProcessor getProcessor() {
 		return new ExtraLabelProcessor();
 	}
 
 	@Test
 	public void should_set_null_when_value_is_null() throws Exception {
-		processor.process(null, tableConfiguration, confToBeApplied);
+		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraLabels()).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.process("", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraLabels()).isNull();
 	}
 	
 	@Test
 	public void should_set_labels() throws Exception{
-		processor.process("/myFileContainingLabels", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("/myFileContainingLabels", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraLabels()).isEqualTo("http://localhost:80/myFileContainingLabels");
 	}
 }

@@ -42,7 +42,6 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 import com.github.dandelion.datatables.core.configuration.ConfigurationLoader;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.extension.feature.AbstractFilteringFeature;
 import com.github.dandelion.datatables.core.util.ResourceHelper;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
@@ -214,30 +213,6 @@ public class HtmlTable extends HtmlTag {
 		return ((LinkedList<HtmlRow>) this.body).getLast();
 	}
 
-	/**
-	 * Returns <code>true</code> if the table has one filterable column,
-	 * <code>false</code> otherwise. This way, the {@link AbstractFilteringFeature} will
-	 * be activated or not.
-	 * 
-	 * @return <code>true</code> if the table has one filterable column,
-	 *         <code>false</code> otherwise
-	 */
-	public Boolean hasOneFilterableColumn() {
-
-		Boolean retval = false;
-
-		for (HtmlRow headerRow : this.head) {
-			for (HtmlColumn headerColumn : headerRow.getHeaderColumns()) {
-				if (headerColumn.isFilterable() != null && headerColumn.isFilterable()) {
-					retval = true;
-					break;
-				}
-			}
-		}
-
-		return retval;
-	}
-
 	public void addCssStyle(String cssStyle) {
 		if(this.tableConfiguration.getCssStyle() == null) {
 			this.tableConfiguration.setCssStyle(new StringBuilder());
@@ -261,8 +236,9 @@ public class HtmlTable extends HtmlTag {
 	public HtmlColumn getColumnHeadByUid(String uid) {
 		for (HtmlRow row : this.head) {
 			for (HtmlColumn column : row.getColumns()) {
-				if (column.isHeaderColumn() != null && column.isHeaderColumn() && column.getUid() != null
-						&& column.getUid().equals(uid)) {
+				if (column.isHeaderColumn() != null && column.isHeaderColumn()
+						&& column.getColumnConfiguration().getUid() != null
+						&& column.getColumnConfiguration().getUid().equals(uid)) {
 					return column;
 				}
 			}
@@ -309,24 +285,24 @@ public class HtmlTable extends HtmlTag {
 		public Builder<T> column(String property) {
 			HtmlColumn column = new HtmlColumn(true, "");
 
-			column.setProperty(property);
-			column.setTitle(property);
+			column.getColumnConfiguration().setProperty(property);
+			column.getColumnConfiguration().setTitle(property);
 			headerColumns.add(column);
 			return this;
 		}
 
 		public Builder<T> title(String title) {
-			headerColumns.getLast().setTitle(title);
+			headerColumns.getLast().getColumnConfiguration().setTitle(title);
 			return this;
 		}
 
-		public Builder<T> format(String pattern) {
-			headerColumns.getLast().setFormatPattern(pattern);
-			return this;
-		}
+//		public Builder<T> format(String pattern) {
+//			headerColumns.getLast().setFormatPattern(pattern);
+//			return this;
+//		}
 
 		public Builder<T> defaultContent(String defaultContent) {
-			headerColumns.getLast().setDefaultValue(defaultContent);
+			headerColumns.getLast().getColumnConfiguration().setDefaultValue(defaultContent);
 			return this;
 		}
 
@@ -351,7 +327,7 @@ public class HtmlTable extends HtmlTag {
 		addHeaderRow();
 
 		for (HtmlColumn column : builder.headerColumns) {
-			column.setContent(new StringBuilder(column.getTitle()));
+			column.setContent(new StringBuilder(column.getColumnConfiguration().getTitle()));
 			getLastHeaderRow().addColumn(column);
 		}
 
@@ -365,24 +341,24 @@ public class HtmlTable extends HtmlTag {
 					Object content = null;
 					try {
 
-						content = PropertyUtils.getNestedProperty(o, headerColumn.getProperty().toString().trim());
+						content = PropertyUtils.getNestedProperty(o, headerColumn.getColumnConfiguration().getProperty().toString().trim());
 
 						// If a format exists, we format the property
-						if (StringUtils.isNotBlank(headerColumn.getFormatPattern()) && content != null) {
+						if (StringUtils.isNotBlank(headerColumn.getColumnConfiguration().getFormat()) && content != null) {
 
-							MessageFormat messageFormat = new MessageFormat(headerColumn.getFormatPattern());
+							MessageFormat messageFormat = new MessageFormat(headerColumn.getColumnConfiguration().getFormat());
 							content = messageFormat.format(new Object[] { content });
-						} else if (StringUtils.isBlank(headerColumn.getFormatPattern()) && content != null) {
+						} else if (StringUtils.isBlank(headerColumn.getColumnConfiguration().getFormat()) && content != null) {
 							content = content.toString();
 						} else {
-							if (StringUtils.isNotBlank(headerColumn.getDefaultValue())) {
-								content = headerColumn.getDefaultValue().trim();
+							if (StringUtils.isNotBlank(headerColumn.getColumnConfiguration().getDefaultValue())) {
+								content = headerColumn.getColumnConfiguration().getDefaultValue().trim();
 
 							}
 						}
 					} catch (NestedNullException e) {
-						if (StringUtils.isNotBlank(headerColumn.getDefaultValue())) {
-							content = headerColumn.getDefaultValue().trim();
+						if (StringUtils.isNotBlank(headerColumn.getColumnConfiguration().getDefaultValue())) {
+							content = headerColumn.getColumnConfiguration().getDefaultValue().trim();
 						}
 					} catch (IllegalAccessException e) {
 						content = "";

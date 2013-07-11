@@ -31,6 +31,7 @@ package com.github.dandelion.datatables.extras.export.poi;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -85,8 +86,9 @@ public class XlsExport extends AbstractBinaryExport {
 
 					for (HtmlColumn column : htmlRow.getColumns()) {
 
-						if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
-								|| column.getEnabledDisplayTypes().contains(DisplayType.XLS)) {
+						List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
+						if (enabledDisplayTypes.contains(DisplayType.ALL)
+								|| enabledDisplayTypes.contains(DisplayType.XLS)) {
 
 							cell = row.createCell(cellnum++);
 							cell.setCellValue(column.getContent().toString());
@@ -107,8 +109,9 @@ public class XlsExport extends AbstractBinaryExport {
 				
 				for (HtmlColumn column : htmlRow.getColumns()) {
 
-					if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
-							|| column.getEnabledDisplayTypes().contains(DisplayType.XLS)) {
+					List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
+					if (enabledDisplayTypes.contains(DisplayType.ALL)
+							|| enabledDisplayTypes.contains(DisplayType.XLS)) {
 
 						cell = row.createCell(cellnum++);
 						cell.setCellValue(column.getContent().toString());

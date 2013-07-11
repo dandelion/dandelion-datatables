@@ -33,27 +33,27 @@ import java.util.Map;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeFourButtonFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeInputFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeListboxFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeScrollingFeature;
-import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
-public class FeaturePaginationTypeProcessor extends AbstractProcessor {
+public class FeaturePaginationTypeProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void doProcess(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
+	public void process(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
 		PaginationType type = null;
 		if (StringUtils.isNotBlank(param)) {
 			try {
 				type = PaginationType.valueOf(param.toUpperCase().trim());
 			} catch (IllegalArgumentException e) {
-				throw new AttributeProcessingException(
+				throw new ConfigurationProcessingException(
 						param + " is not a valid value among " + PaginationType.values(), e);
 			}
 

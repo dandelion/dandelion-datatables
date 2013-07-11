@@ -33,52 +33,52 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
-import com.github.dandelion.datatables.core.processor.Processor;
-import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.TableProcessor;
+import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
-public class FeaturePaginationTypeProcessorTest extends ProcessorBaseTest {
+public class FeaturePaginationTypeProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public Processor getProcessor() {
+	public TableProcessor getProcessor() {
 		return new FeaturePaginationTypeProcessor();
 	}
 
 	@Test
 	public void should_set_null_when_value_is_null() throws Exception {
-		processor.process(null, tableConfiguration, confToBeApplied);
+		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeaturePaginationType()).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.process("", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeaturePaginationType()).isNull();
 	}
 	
 	@Test
 	public void should_set_paginationtype() throws Exception {
-		processor.process("bootstrap", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("bootstrap", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeaturePaginationType()).isEqualTo(PaginationType.BOOTSTRAP);
-		processor.process("BOOTSTRAP", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("BOOTSTRAP", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeaturePaginationType()).isEqualTo(PaginationType.BOOTSTRAP);
-		processor.process("input", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("input", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeaturePaginationType()).isEqualTo(PaginationType.INPUT);
-		processor.process("listbox", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("listbox", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeaturePaginationType()).isEqualTo(PaginationType.LISTBOX);
-		processor.process("scrolling", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("scrolling", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeaturePaginationType()).isEqualTo(PaginationType.SCROLLING);
-		processor.process("four_button", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("four_button", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeaturePaginationType()).isEqualTo(PaginationType.FOUR_BUTTON);
-		processor.process("two_button", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("two_button", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeaturePaginationType()).isEqualTo(PaginationType.TWO_BUTTON);
-		processor.process("full_numbers", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("full_numbers", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeaturePaginationType()).isEqualTo(PaginationType.FULL_NUMBERS);
 	}
 	
-	@Test(expected = AttributeProcessingException.class)
+	@Test(expected = ConfigurationProcessingException.class)
 	public void should_raise_an_exception() throws Exception {
-		processor.process("booootstrap", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("booootstrap", tableConfiguration, confToBeApplied);
 	}
 }

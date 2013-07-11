@@ -29,50 +29,31 @@
  */
 package com.github.dandelion.datatables.core.processor;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Map;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 
 
 /**
- * <p>
- * Common abstract superclass for all processors.
- * <p>
- * All processors contain the actual processing applied on each Datatables
- * configuration.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public abstract class AbstractGenericProcessor extends AbstractProcessor {
+public abstract class AbstractGenericProcessor implements GenericProcessor {
 
-	protected Method tableConfigurationSetter;
+	protected Method setter;
 	
-	protected void doProcess(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied){
-		Object retval = processAttribute(param, tableConfiguration, confToBeApplied);
+	public void processConfiguration(String configuration, Object objectToUpdate) throws ConfigurationProcessingException {
 		try {
-			if(tableConfigurationSetter != null){
-				tableConfigurationSetter.invoke(tableConfiguration, retval);
+			Object retval = process(configuration);
+			if(setter != null){
+				setter.invoke(objectToUpdate, retval);
 			}
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (Exception e) {
+			throw new ConfigurationProcessingException("Something went wrong during the execution of the processor "
+					+ this.getClass().getName() + " with the value '" + configuration + "'", e);
+		} 
 	}
 	
-	protected abstract Object processAttribute(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied);
+	protected abstract Object process(String param);
 }

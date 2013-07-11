@@ -1,4 +1,4 @@
-package com.github.dandelion.datatables.core.processor;
+package com.github.dandelion.datatables.core.processor.generic;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -7,42 +7,44 @@ import java.lang.reflect.Method;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.processor.GenericProcessor;
+import com.github.dandelion.datatables.core.processor.GenericProcessorBaseTest;
 
-public class BooleanProcessorTest extends ProcessorBaseTest {
+public class BooleanProcessorTest extends GenericProcessorBaseTest {
 
 	@Override
-	public Processor getProcessor() throws Exception {
+	public GenericProcessor getProcessor() throws Exception {
 		Method setter = TableConfiguration.class.getMethod("setFeatureInfo", new Class[]{ Boolean.class });
 		return new BooleanProcessor(setter);
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_null() throws Exception {
-		processor.process(null, tableConfiguration, confToBeApplied);
+		processor.processConfiguration(null, tableConfiguration);
 		assertThat(tableConfiguration.getFeatureInfo()).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.process("", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("", tableConfiguration);
 		assertThat(tableConfiguration.getFeatureInfo()).isNull();
 	}
 	
 	@Test
 	public void should_set_true_when_value_is_true() throws Exception{
-		processor.process("true", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("true", tableConfiguration);
 		assertThat(tableConfiguration.getFeatureInfo()).isEqualTo(true);
 	}
 	
 	@Test
 	public void should_set_false_when_value_is_false() throws Exception{
-		processor.process("false", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("false", tableConfiguration);
 		assertThat(tableConfiguration.getFeatureInfo()).isEqualTo(false);
 	}
 	
 	@Test
 	public void should_set_false_when_using_a_wrong_value() throws Exception{
-		processor.process("wrongValue", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("wrongValue", tableConfiguration);
 		assertThat(tableConfiguration.getFeatureInfo()).isEqualTo(false);
 	}
 }

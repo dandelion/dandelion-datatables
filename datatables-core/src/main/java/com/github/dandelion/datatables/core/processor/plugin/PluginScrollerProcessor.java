@@ -34,13 +34,13 @@ import java.util.Map;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.extension.plugin.ScrollerPlugin;
-import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
-public class PluginScrollerProcessor extends AbstractProcessor {
+public class PluginScrollerProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void doProcess(String param, TableConfiguration tableConfiguration,
+	public void process(String param, TableConfiguration tableConfiguration,
 			Map<Configuration, Object> confToBeApplied) {
 		Boolean retval = null;
 		if (StringUtils.isNotBlank(param)) {

@@ -34,39 +34,39 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
-import com.github.dandelion.datatables.core.processor.Processor;
-import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.processor.TableProcessor;
+import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
-public class MainCompressorModeProcessorTest extends ProcessorBaseTest {
+public class MainCompressorModeProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public Processor getProcessor() {
+	public TableProcessor getProcessor() {
 		return new MainCompressorModeProcessor();
 	}
 
 	@Test
 	public void should_set_null_when_value_is_null() throws Exception {
-		processor.process(null, tableConfiguration, confToBeApplied);
+		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getMainCompressorMode()).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.process("", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getMainCompressorMode()).isNull();
 	}
 	
 	@Test
 	public void should_set_compressormode() throws Exception {
-		processor.process("all", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("all", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getMainCompressorMode()).isEqualTo(CompressorMode.ALL);
-		processor.process("ALL", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("ALL", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getMainCompressorMode()).isEqualTo(CompressorMode.ALL);
 	}
 	
-	@Test(expected = AttributeProcessingException.class)
+	@Test(expected = ConfigurationProcessingException.class)
 	public void should_raise_an_exception() throws Exception {
-		processor.process("wrongValue", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("wrongValue", tableConfiguration, confToBeApplied);
 	}
 }

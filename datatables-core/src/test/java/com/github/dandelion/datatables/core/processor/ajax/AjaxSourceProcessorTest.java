@@ -35,32 +35,32 @@ import org.junit.Test;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.extension.feature.AjaxFeature;
-import com.github.dandelion.datatables.core.processor.Processor;
-import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.TableProcessor;
+import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
-public class AjaxSourceProcessorTest extends ProcessorBaseTest {
+public class AjaxSourceProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public Processor getProcessor() {
+	public TableProcessor getProcessor() {
 		return new AjaxSourceProcessor();
 	}
 
 	@Test
 	public void should_set_null_when_value_is_null() throws Exception {
-		processor.process(null, tableConfiguration, confToBeApplied);
+		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxSource()).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.process("", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxSource()).isNull();
 	}
 	
 	@Test
 	public void should_set_the_source_and_register_a_feature_when_serverside_is_disabled() throws Exception {
 		confToBeApplied.put(Configuration.AJAX_SERVERSIDE, false);
-		processor.process("/myAjaxSource", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("/myAjaxSource", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxSource()).isEqualTo("/myAjaxSource");
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
 		assertThat(new AjaxFeature()).isIn(tableConfiguration.getInternalExtensions());
@@ -69,7 +69,7 @@ public class AjaxSourceProcessorTest extends ProcessorBaseTest {
 	@Test
 	public void should_set_the_source_and_not_register_a_feature_when_serverside_is_enabled() throws Exception {
 		confToBeApplied.put(Configuration.AJAX_SERVERSIDE, true);
-		processor.process("/myAjaxSource", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("/myAjaxSource", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxSource()).isEqualTo("/myAjaxSource");
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}

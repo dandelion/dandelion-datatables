@@ -33,65 +33,65 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
-import com.github.dandelion.datatables.core.processor.Processor;
-import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.TableProcessor;
+import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
-public class ExportLinkPositionsProcessorTest extends ProcessorBaseTest {
+public class ExportLinkPositionsProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public Processor getProcessor() {
+	public TableProcessor getProcessor() {
 		return new ExportLinkPositionsProcessor();
 	}
 	
 	@Test
 	public void should_set_default_value_when_value_is_empty() throws Exception {
-		processor.process("", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(1);
 		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT);
 	}
 	
 	@Test
 	public void should_set_default_value_when_value_is_null() throws Exception {
-		processor.process(null, tableConfiguration, confToBeApplied);
+		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(1);
 		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT);
 	}
 	
 	@Test
 	public void should_override_default_value_when_using_one_value() throws Exception {
-		processor.process("top_right", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("top_right", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(1);
 		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT);
 		
-		processor.process("TOP_RIGHT", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("TOP_RIGHT", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(1);
 		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT);
 		
-		processor.process("top_left", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("top_left", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(1);
 		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_LEFT);
 	}
 	
 	@Test
 	public void should_set_two_links_when_using_two_values() throws Exception {
-		processor.process("top_right,bottom_right", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("top_right,bottom_right", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(2);
 		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT, ExportLinkPosition.BOTTOM_RIGHT);
 		
-		processor.process(" top_right, bottom_right", tableConfiguration, confToBeApplied);
+		processor.processConfiguration(" top_right, bottom_right", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(2);
 		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT, ExportLinkPosition.BOTTOM_RIGHT);
 	}
 	
-	@Test(expected = AttributeProcessingException.class)
+	@Test(expected = ConfigurationProcessingException.class)
 	public void should_throw_an_exception() throws Exception {
-		processor.process("top_righhhhht", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("top_righhhhht", tableConfiguration, confToBeApplied);
 	}
 	
-	@Test(expected = AttributeProcessingException.class)
+	@Test(expected = ConfigurationProcessingException.class)
 	public void should_throw_an_exception_as_well() throws Exception {
-		processor.process("top_right,bottooooom_left", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("top_right,bottooooom_left", tableConfiguration, confToBeApplied);
 	}
 }

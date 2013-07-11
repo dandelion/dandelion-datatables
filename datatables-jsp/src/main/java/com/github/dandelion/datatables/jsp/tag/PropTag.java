@@ -79,7 +79,7 @@ public class PropTag extends TagSupport {
 					// TODO securité à ajouter
 					Configuration conf = Configuration.findByName(name);
 					
-					parent.localConf.put(conf, value);
+					parent.stagingConf.put(conf, value);
 //					parent.getTable().getTableConfiguration().setProperty(name, value);
 //				}
 //				else{

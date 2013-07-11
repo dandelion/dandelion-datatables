@@ -30,6 +30,7 @@
 package com.github.dandelion.datatables.extras.export.itext;
 
 import java.io.OutputStream;
+import java.util.List;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.exception.ExportException;
@@ -97,9 +98,10 @@ public class PdfExport extends AbstractBinaryExport {
 
 			for (HtmlColumn column : htmlRow.getColumns()) {
 
-				if (column.getEnabledDisplayTypes() != null
-						&& (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
-						|| column.getEnabledDisplayTypes().contains(DisplayType.PDF))) {
+				List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
+				if (enabledDisplayTypes != null
+						&& (enabledDisplayTypes.contains(DisplayType.ALL)
+						|| enabledDisplayTypes.contains(DisplayType.PDF))) {
 					columnCount++;
 				}
 			}
@@ -117,9 +119,10 @@ public class PdfExport extends AbstractBinaryExport {
 
 				for (HtmlColumn column : htmlRow.getColumns()) {
 
-					if (column.getEnabledDisplayTypes() != null 
-							&& (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
-							|| column.getEnabledDisplayTypes().contains(DisplayType.PDF))) {
+					List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
+					if (enabledDisplayTypes != null 
+							&& (enabledDisplayTypes.contains(DisplayType.ALL)
+							|| enabledDisplayTypes.contains(DisplayType.PDF))) {
 						cell = new PdfPCell();
 						cell.setPhrase(new Phrase(column.getContent().toString()));
 						table.addCell(cell);
@@ -132,9 +135,10 @@ public class PdfExport extends AbstractBinaryExport {
 
 			for (HtmlColumn column : htmlRow.getColumns()) {
 
-				if (column.getEnabledDisplayTypes() != null
-						&& (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
-						|| column.getEnabledDisplayTypes().contains(DisplayType.PDF))) {
+				List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
+				if (enabledDisplayTypes != null
+						&& (enabledDisplayTypes.contains(DisplayType.ALL)
+						|| enabledDisplayTypes.contains(DisplayType.PDF))) {
 					cell = new PdfPCell();
 					cell.setPhrase(new Phrase(column.getContent().toString()));
 					table.addCell(cell);

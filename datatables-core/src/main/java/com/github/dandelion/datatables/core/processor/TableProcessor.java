@@ -4,29 +4,28 @@ import java.util.Map;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 
 /**
  * <p>
- * Common interface for all processors to be applied on Dandelion-Datatables
- * attributes.
+ * Common interface for all processors to be applied on table.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public interface Processor {
+public interface TableProcessor {
 
 	/**
-	 * Update the passed {@link TableConfiguration} instance depending on the
-	 * value of the passed param. Some feature may be registered as well.
+	 * Processes the passed configuration and returns the right type needed by
+	 * the {@link TableConfiguration} to initialize the configuration.
 	 * 
 	 * @param param
 	 *            The parameter to process. This is always a String because it
 	 *            can come from properties file, JSP tag attributes or Thymeleaf
 	 *            attributes.
 	 * @param the
-	 *            {@link TableConfiguration} instance to update depending on the
-	 *            param's value.
+	 *            {@link TableConfiguration} instance to update with the
+	 *            processing result.
 	 * @param confToBeApplied
 	 *            The global configuration to be applied on the
 	 *            {@link TableConfiguration} may be useful to initialize linked
@@ -34,7 +33,9 @@ public interface Processor {
 	 *            {@link com.github.dandelion.datatables.core.extension.feature.AjaxFeature}
 	 *            must be registered in the TableConfiguration only if
 	 *            server-side processing in not enabled.
+	 * @throws ConfigurationProcessingException
+	 *             if something's goes wrong during the processing.
 	 */
-	public void process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied)
-			throws AttributeProcessingException;
+	public void processConfiguration(String configuration, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException;
 }

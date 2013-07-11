@@ -30,8 +30,6 @@
 package com.github.dandelion.datatables.core.exception;
 
 /**
- * Raised if there's something wrong in the Dandelion-datatables configuration file
- * (datatables(-default).properties).
  * 
  * @author Thibault Duchateau
  */

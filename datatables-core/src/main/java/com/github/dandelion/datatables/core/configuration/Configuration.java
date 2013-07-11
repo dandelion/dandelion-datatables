@@ -31,6 +31,7 @@ package com.github.dandelion.datatables.core.configuration;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,19 +42,24 @@ import com.github.dandelion.datatables.core.aggregator.AggregatorMode;
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
+import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
+import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
 import com.github.dandelion.datatables.core.processor.AbstractGenericProcessor;
-import com.github.dandelion.datatables.core.processor.BooleanProcessor;
-import com.github.dandelion.datatables.core.processor.IntegerProcessor;
-import com.github.dandelion.datatables.core.processor.Processor;
-import com.github.dandelion.datatables.core.processor.StringBuilderProcessor;
-import com.github.dandelion.datatables.core.processor.StringProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractMessageProcessor;
+import com.github.dandelion.datatables.core.processor.ColumnProcessor;
+import com.github.dandelion.datatables.core.processor.GenericProcessor;
+import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxPipeliningProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxServerSideProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxSourceProcessor;
+import com.github.dandelion.datatables.core.processor.column.DisplayTypesProcessor;
+import com.github.dandelion.datatables.core.processor.column.FilterTypeProcessor;
+import com.github.dandelion.datatables.core.processor.column.SortDirectionProcessor;
+import com.github.dandelion.datatables.core.processor.column.SortTypeProcessor;
 import com.github.dandelion.datatables.core.processor.css.CssStripeClassesProcessor;
 import com.github.dandelion.datatables.core.processor.export.ExportConfsProcessor;
 import com.github.dandelion.datatables.core.processor.export.ExportLinkPositionsProcessor;
@@ -65,7 +71,10 @@ import com.github.dandelion.datatables.core.processor.extra.ExtraThemeProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeatureFilterPlaceholderProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeatureLengthMenuProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeaturePaginationTypeProcessor;
-import com.github.dandelion.datatables.core.processor.i18n.AbstractMessageProcessor;
+import com.github.dandelion.datatables.core.processor.generic.BooleanProcessor;
+import com.github.dandelion.datatables.core.processor.generic.IntegerProcessor;
+import com.github.dandelion.datatables.core.processor.generic.StringBuilderProcessor;
+import com.github.dandelion.datatables.core.processor.generic.StringProcessor;
 import com.github.dandelion.datatables.core.processor.i18n.MessageProcessor;
 import com.github.dandelion.datatables.core.processor.internal.MessageResolverProcessor;
 import com.github.dandelion.datatables.core.processor.main.MainAggregatorModeProcessor;
@@ -174,7 +183,33 @@ public enum Configuration {
 			
 	// For internal use only
 	INTERNAL_OBJECTTYPE("internal.objectType", "internalObjectType", String.class, StringProcessor.class),
-	INTERNAL_MESSAGE_RESOLVER("i18n.message.resolver", "internalMessageResolver", MessageResolver.class, MessageResolverProcessor.class);
+	INTERNAL_MESSAGE_RESOLVER("i18n.message.resolver", "internalMessageResolver", MessageResolver.class, MessageResolverProcessor.class),
+	
+	// Column configuration
+	COLUMN_UID("column.uid", "uid", String.class, StringProcessor.class),
+	COLUMN_TITLE("column.title", "title", String.class, StringProcessor.class),
+	COLUMN_TITLEKEY("column.titleKey", "titleKey", String.class, StringProcessor.class),
+	COLUMN_PROPERTY("", "property", String.class, StringProcessor.class),
+	COLUMN_DEFAULTVALUE("", "defaultValue", String.class, StringProcessor.class),
+	COLUMN_CSSSTYLE("", "cssStyle", String.class, StringProcessor.class),
+	COLUMN_CSSCELLSTYLE("", "cssCellStyle", StringBuilder.class, StringBuilderProcessor.class),
+	COLUMN_CSSCLASS("", "cssClass", String.class, StringProcessor.class),
+	COLUMN_CSSCELLCLASS("", "cssCellClass", StringBuilder.class, StringBuilderProcessor.class),
+	COLUMN_SORTABLE("", "sortable", Boolean.class, BooleanProcessor.class),
+	COLUMN_SORTDIRECTION("", "sortDirections", List.class, SortDirectionProcessor.class),
+	COLUMN_SORTINIT("", "sortInit", String.class, StringProcessor.class),
+	COLUMN_SORTTYPE("", "sortType", SortType.class, SortTypeProcessor.class),
+	COLUMN_FILTERABLE("", "filterable", Boolean.class, BooleanProcessor.class),
+	COLUMN_SEARCHABLE("", "searchable", Boolean.class, BooleanProcessor.class),
+	COLUMN_VISIBLE("", "visible", Boolean.class, BooleanProcessor.class),
+	COLUMN_FILTERTYPE("", "filterType", FilterType.class, FilterTypeProcessor.class),
+	COLUMN_FILTERVALUES("", "filterValues", String.class, StringProcessor.class),
+	COLUMN_FILTERCSSCLASS("", "filterCssClass", String.class, StringProcessor.class),
+	COLUMN_FILTERPLACEHOLDER("", "filterPlaceholder", FilterPlaceholder.class, StringProcessor.class),
+	COLUMN_DISPLAY("", "enabledDisplayTypes", List.class, DisplayTypesProcessor.class),
+	COLUMN_RENDERFUNCTION("", "renderFunction", String.class, StringProcessor.class),
+	COLUMN_FORMAT("", "format", String.class, StringProcessor.class),
+	COLUMN_SELECTOR("", "selector", String.class, StringProcessor.class);
 	
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(Configuration.class);
@@ -233,10 +268,16 @@ public enum Configuration {
 		return null;
 	}
 	
+	/**
+	 * TODO
+	 * @param tableConfiguration
+	 * @param localConf
+	 * @throws ConfigurationLoadingException
+	 */
 	public static void applyConfiguration(TableConfiguration tableConfiguration, Map<Configuration, Object> localConf)
 			throws ConfigurationLoadingException {
 
-		logger.trace("Applying all temporary configurations to the TableConfiguration instance...");
+		logger.trace("Applying staging configuration to the TableConfiguration instance...");
 		
 		for (Map.Entry<Configuration, Object> entry : localConf.entrySet()) {
 			
@@ -245,24 +286,32 @@ public enum Configuration {
 			if(StringUtils.isNotBlank(entry.getValue().toString())){
 				String propertyName = null;
 				try {
-					Processor processor = null;
+					// Generic processors, for primitive types
 					if (AbstractGenericProcessor.class.isAssignableFrom(entry.getKey().getProcessor())) {
 						propertyName = StringUtils.capitalize(entry.getKey().getProperty());
 						Method setter = TableConfiguration.class.getMethod("set" + propertyName, new Class[]{ entry.getKey().getReturnType() });
 						
 						logger.trace(" --> the {} will be used to process the value {}", setter, entry.getValue().toString());
 						
-						processor = (Processor) entry.getKey().getProcessor().getDeclaredConstructor(new Class[]{ Method.class })
+						GenericProcessor genericProcessor = (GenericProcessor) entry.getKey().getProcessor().getDeclaredConstructor(new Class[]{ Method.class })
 								.newInstance(setter);
+						genericProcessor.processConfiguration(entry.getValue().toString(), tableConfiguration);
 					}
-					else if(AbstractMessageProcessor.class.isAssignableFrom(entry.getKey().getProcessor())){
-						processor = (Processor) entry.getKey().getProcessor().getDeclaredConstructor(new Class[]{ String.class })
+					else{
+						TableProcessor processor = null;
+					
+						// I18n message processors
+						if(AbstractMessageProcessor.class.isAssignableFrom(entry.getKey().getProcessor())){
+						processor = (TableProcessor) entry.getKey().getProcessor().getDeclaredConstructor(new Class[]{ String.class })
 								.newInstance(entry.getKey().getName());
+						}
+						// All other processors
+						else {
+							processor = (TableProcessor) entry.getKey().getProcessor().newInstance();
+						}
+
+						processor.processConfiguration(entry.getValue().toString(), tableConfiguration, localConf);
 					}
-					else {
-						processor = (Processor) entry.getKey().getProcessor().newInstance();
-					}
-					processor.process(entry.getValue().toString(), tableConfiguration, localConf);
 					
 					logger.trace(" --> Processing completed successfully");
 				} 
@@ -281,6 +330,60 @@ public enum Configuration {
 				catch (NoSuchMethodException e) {
 					throw new ConfigurationLoadingException("The method 'set" + propertyName
 							+ "' doesn't exist in the TableConfiguration object", e);
+				}
+			}
+		}
+		
+		logger.trace("All configurations have been applied.");
+	}
+	
+	public static void applyColumnConfiguration(ColumnConfiguration columnConfiguration, TableConfiguration tableConfiguration, Map<Configuration, Object> stagingConf)
+			throws ConfigurationLoadingException {
+
+		logger.trace("Applying staging configuration to the ColumnConfiguration instance...");
+		
+		for (Map.Entry<Configuration, Object> entry : stagingConf.entrySet()) {
+			
+			logger.trace("Processing configuration {}...", entry.getKey());
+			
+			if(StringUtils.isNotBlank(entry.getValue().toString())){
+				String propertyName = null;
+				try {
+					
+					// Generic processors, for primitive types
+					if (AbstractGenericProcessor.class.isAssignableFrom(entry.getKey().getProcessor())) {
+						propertyName = StringUtils.capitalize(entry.getKey().getProperty());
+						Method setter = ColumnConfiguration.class.getMethod("set" + propertyName, new Class[] { entry.getKey().getReturnType() });
+
+						logger.trace(" --> the {} will be used to process the value {}", setter, entry.getValue().toString());
+
+						GenericProcessor genericProcessor = (GenericProcessor) entry.getKey().getProcessor().getDeclaredConstructor(new Class[] { Method.class }).newInstance(setter);
+						genericProcessor.processConfiguration(entry.getValue().toString(), columnConfiguration);
+					} 
+					// Column processors
+					else {
+						ColumnProcessor columnProcessor = (ColumnProcessor) entry.getKey().getProcessor().newInstance();
+						columnProcessor.processConfiguration(entry.getValue().toString(), columnConfiguration, tableConfiguration, stagingConf);
+					}
+					
+					
+					logger.trace(" --> Processing completed successfully");
+				} 
+				catch (InstantiationException e) {
+					throw new ConfigurationLoadingException("Unable to instantiate the "
+							+ entry.getKey().getProcessor() + " processor", e);
+				} 
+				catch (IllegalAccessException e) {
+					throw new ConfigurationLoadingException("Unable to access the "
+							+ entry.getKey().getProcessor() + " processor", e);
+				} 
+				catch (InvocationTargetException e) {
+					throw new ConfigurationLoadingException("Unable to invoke the constructor of the "
+							+ entry.getKey().getProcessor() + " processor", e);
+				} 
+				catch (NoSuchMethodException e) {
+					throw new ConfigurationLoadingException("The method 'set" + propertyName
+							+ "' doesn't exist in the ColumnConfiguration object", e);
 				}
 			}
 		}

@@ -39,10 +39,10 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
@@ -53,14 +53,14 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  * 
  * @author Thibault Duchateau
  */
-public class ExportConfsProcessor extends AbstractProcessor {
+public class ExportConfsProcessor extends AbstractTableProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(ExportConfsProcessor.class);
 
 	@Override
-	public void doProcess(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
+	public void process(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
 		
 		Set<ExportConf> retval = null;
 		
@@ -82,7 +82,7 @@ public class ExportConfsProcessor extends AbstractProcessor {
 				} catch (IllegalArgumentException e) {
 					logger.error("{} is not a valid value among {}", exportTypeString,
 							ExportType.values());
-					throw new AttributeProcessingException("Invalid value", e);
+					throw new ConfigurationProcessingException("Invalid value", e);
 				}
 
 				// The exportConf may already exist due to the ExportTag

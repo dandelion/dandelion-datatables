@@ -43,7 +43,7 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.datatables.core.constants.DatatableMsg;
+import com.github.dandelion.datatables.core.constants.DTMessages;
 import com.github.dandelion.datatables.core.constants.SystemConstants;
 
 public class StandardConfigurationLoaderTest {
@@ -127,7 +127,7 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.get("global").getCssClass()).isNull(); // Default value
 		assertThat(map.get("global").getCssStyle()).isNull(); // Default value
 		assertThat(map.get("global").getMainBasePackage()).isEqualTo("my.custom.package"); // Overriden value from global
-		assertThat(map.get("global").getMessage(DatatableMsg.INFO.getPropertyName())).isNull(); // Default value
+		assertThat(map.get("global").getMessage(DTMessages.INFO.getPropertyName())).isNull(); // Default value
 		
 		// Group1 group
 		assertThat(map.get("group1").getMainCompressorEnable()).isFalse(); // Default value
@@ -135,7 +135,7 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.get("group1").getCssClass().toString()).isEqualTo("group1-class"); // Overriden value
 		assertThat(map.get("group1").getCssStyle().toString()).isEqualTo("group1-style"); // Overriden value
 		assertThat(map.get("group1").getMainBasePackage()).isEqualTo("my.custom.package"); // Overriden value from global
-		assertThat(map.get("group1").getMessage(DatatableMsg.INFO.getPropertyName())).isNull(); // Default value
+		assertThat(map.get("group1").getMessage(DTMessages.INFO.getPropertyName())).isNull(); // Default value
 		
 		// Group2 group
 		assertThat(map.get("group2").getMainCompressorEnable()).isFalse(); // Default value
@@ -143,7 +143,7 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.get("group2").getCssClass().toString()).isEqualTo("group2-class"); // Overriden value
 		assertThat(map.get("group2").getCssStyle().toString()).isEqualTo("group2-style"); // Overriden value
 		assertThat(map.get("group2").getMainBasePackage()).isEqualTo("my.custom.package"); // Overriden value from global
-		assertThat(map.get("group2").getMessage(DatatableMsg.INFO.getPropertyName())).isNull(); // Default value
+		assertThat(map.get("group2").getMessage(DTMessages.INFO.getPropertyName())).isNull(); // Default value
 	}
 	
 	@Test
@@ -167,7 +167,7 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.get("global").getCssClass()).isNull(); // Default value
 		assertThat(map.get("global").getCssStyle()).isNull(); // Default value
 		assertThat(map.get("global").getMainBasePackage()).isNull(); // Default value
-		assertThat(map.get("global").getMessage(DatatableMsg.INFO.getPropertyName())).isNull(); // Default value
+		assertThat(map.get("global").getMessage(DTMessages.INFO.getPropertyName())).isNull(); // Default value
 
 		// Group1 group
 		assertThat(map.get("group1").getMainCompressorEnable()).isFalse(); // Default value
@@ -175,7 +175,7 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.get("group1").getCssClass().toString()).isEqualTo("group1-class"); // Overriden value
 		assertThat(map.get("group1").getCssStyle()).isNull(); // Overriden value
 		assertThat(map.get("group1").getMainBasePackage()).isNull(); // Default value
-		assertThat(map.get("group1").getMessage(DatatableMsg.INFO.getPropertyName())).isNull(); // Default value
+		assertThat(map.get("group1").getMessage(DTMessages.INFO.getPropertyName())).isNull(); // Default value
 	}
 	
 	@Test
@@ -198,7 +198,7 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.get("global").getCssClass()).isNull(); // Default value
 		assertThat(map.get("global").getCssStyle()).isNull(); // Default value
 		assertThat(map.get("global").getMainBasePackage()).isNull(); // Default value
-		assertThat(map.get("global").getMessage(DatatableMsg.INFO.getPropertyName())).isEqualTo(
+		assertThat(map.get("global").getMessage(DTMessages.INFO.getPropertyName())).isEqualTo(
 				"Showing _START_ to _END_ of _TOTAL_ entries"); // Overriden value
 	}
 }

@@ -27,28 +27,34 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.exception;
+package com.github.dandelion.datatables.core.processor.column;
 
-/**
- * 
- * @author Thibault Duchateau
- */
-public class AttributeProcessingException extends RuntimeException {
+import java.util.Map;
 
-	private static final long serialVersionUID = 3243845798907773547L;
+import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
+import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.extension.feature.FilterType;
+import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
+import com.github.dandelion.datatables.core.util.StringUtils;
 
-	public AttributeProcessingException() {
-	};
+public class FilterTypeProcessor extends AbstractColumnProcessor {
 
-	public AttributeProcessingException(String message) {
-		super(message);
-	}
+	@Override
+	protected void process(String param, ColumnConfiguration columnConfiguration,
+			TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+		if (StringUtils.isNotBlank(param)) {
 
-	public AttributeProcessingException(Throwable cause) {
-		super(cause);
-	}
-
-	public AttributeProcessingException(String message, Throwable cause) {
-		super(message, cause);
+			FilterType filterType = null;
+			try {
+				filterType = FilterType.valueOf(param.toUpperCase().trim());
+			} catch (IllegalArgumentException e) {
+				throw new ConfigurationProcessingException(param + " is not a valid value among " + FilterType.values(), e);
+			}
+			
+			columnConfiguration.setFilterType(filterType);
+		}
+		
 	}
 }

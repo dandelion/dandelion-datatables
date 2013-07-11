@@ -27,13 +27,11 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor;
+package com.github.dandelion.datatables.core.processor.generic;
 
 import java.lang.reflect.Method;
-import java.util.Map;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.processor.AbstractGenericProcessor;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
@@ -42,15 +40,14 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class StringBuilderProcessor extends AbstractGenericProcessor {
+public class StringProcessor extends AbstractGenericProcessor {
 
-	public StringBuilderProcessor(Method tableConfigurationSetter) {
-		this.tableConfigurationSetter = tableConfigurationSetter;
+	public StringProcessor(Method setter) {
+		this.setter = setter;
 	}
 
 	@Override
-	protected StringBuilder processAttribute(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) {
-		return StringUtils.isNotBlank(param) ? new StringBuilder(param) : null;
+	protected String process(String param) {
+		return StringUtils.isNotBlank(param) ? param : null;
 	}
 }

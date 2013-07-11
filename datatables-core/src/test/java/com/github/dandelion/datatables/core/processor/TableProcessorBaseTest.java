@@ -14,9 +14,9 @@ import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.ConfigurationStore;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 
-public abstract class ProcessorBaseTest {
+public abstract class TableProcessorBaseTest {
 
-	protected Processor processor;
+	protected TableProcessor processor;
 	protected TableConfiguration tableConfiguration;
 	protected HttpServletRequest request;
 	protected Map<Configuration, Object> confToBeApplied;
@@ -36,5 +36,5 @@ public abstract class ProcessorBaseTest {
 		ConfigurationStore.clear();
 	}
 	
-	public abstract Processor getProcessor() throws Exception;
+	public abstract TableProcessor getProcessor() throws Exception;
 }

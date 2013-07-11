@@ -33,52 +33,52 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.processor.Processor;
-import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.TableProcessor;
+import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
-public class CssStripeClassesProcessorTest extends ProcessorBaseTest {
+public class CssStripeClassesProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public Processor getProcessor() {
+	public TableProcessor getProcessor() {
 		return new CssStripeClassesProcessor();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_null() throws Exception {
-		processor.process(null, tableConfiguration, confToBeApplied);
+		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssStripeClasses()).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.process("", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssStripeClasses()).isNull();
 	}
 	
 	@Test
 	public void should_set_a_js_array_when_using_one_class() throws Exception {
-		processor.process("class1", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("class1", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssStripeClasses()).isEqualTo("['class1']");
 		
-		processor.process(" class1, ", tableConfiguration, confToBeApplied);
+		processor.processConfiguration(" class1, ", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssStripeClasses()).isEqualTo("['class1']");
 	}
 	
 	@Test
 	public void should_set_a_js_array_when_using_two_classes() throws Exception {
-		processor.process("class1,class2", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("class1,class2", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssStripeClasses()).isEqualTo("['class1','class2']");
 		
-		processor.process(" class1, class2 ", tableConfiguration, confToBeApplied);
+		processor.processConfiguration(" class1, class2 ", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssStripeClasses()).isEqualTo("['class1','class2']");
 	}
 	
 	@Test
 	public void should_set_a_js_array_when_using_three_classes() throws Exception {
-		processor.process("class1,class2,class3", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("class1,class2,class3", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssStripeClasses()).isEqualTo("['class1','class2','class3']");
 		
-		processor.process(" class1, class2,class3 ", tableConfiguration, confToBeApplied);
+		processor.processConfiguration(" class1, class2,class3 ", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssStripeClasses()).isEqualTo("['class1','class2','class3']");
 	}
 }

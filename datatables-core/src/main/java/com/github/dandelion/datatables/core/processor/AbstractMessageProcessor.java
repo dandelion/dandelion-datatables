@@ -27,49 +27,30 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.constants;
+package com.github.dandelion.datatables.core.processor;
+
+import java.util.Map;
+
+import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+
 
 /**
+ * <p>
+ * Common abstract superclass for all processors.
+ * <p>
+ * All processors contain the actual processing applied on each Datatables
+ * configuration.
  * 
- *
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public enum DatatableMsg {
+public abstract class AbstractMessageProcessor extends AbstractTableProcessor {
 
-	PROCESSING("sProcessing", "msg.processing"),
-	SEARC("sSearch", "msg.search"),
-	LENGTHMENU("sLengthMenu", "msg.lengthmenu"),
-	INFO("sInfo", "msg.info"),
-	INFOEMPTY("sInfoEmpty", "msg.info.empty"),
-	INFOFILTERED("sInfoFiltered", "msg.info.filtered"),
-	INFOPOSTFIX("sInfoPostFix", "msg.info.postfix"),
-	LOADINGRECORDS("sLoadingRecords", "msg.loadingrecords"),
-	ZERORECORDS("sZeroRecords", "msg.zerorecords"),
-	EMPTYTABLE("sEmptyTable", "msg.emptytable"),
-	PAGINATE("oPaginate", ""),
-	PAGINATE_FIRST("sFirst", "msg.paginate.first"),
-	PAGINATE_PREVIOUS("sPrevious", "msg.paginate.previous"),
-	PAGINATE_NEXT("sNext", "msg.paginate.next"),
-	PAGINATE_LAST("sLast", "msg.paginate.last"),
-	ARIA("oAria", ""),
-	ARIA_SORT_ASC("sSortAscending", "msg.aria.sortasc"),
-	ARIA_SORT_DESC("sSortDescending", "msg.aria.sortdesc");
-	
-	private String realName;
-	
-	private String propertyName;
-	
-	private DatatableMsg(String realName, String propertyName){
-		this.realName = realName;
-		this.propertyName = propertyName;
-	}
+	protected String messageKey;
 
-	public String getRealName() {
-		return realName;
-	}
-
-	public String getPropertyName() {
-		return propertyName;
+	protected void process(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied){
+		tableConfiguration.getMessages().setProperty(messageKey, param);
 	}
 }

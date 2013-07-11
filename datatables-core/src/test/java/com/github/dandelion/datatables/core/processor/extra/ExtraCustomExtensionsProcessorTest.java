@@ -33,41 +33,41 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.processor.Processor;
-import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.TableProcessor;
+import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
-public class ExtraCustomExtensionsProcessorTest extends ProcessorBaseTest {
+public class ExtraCustomExtensionsProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public Processor getProcessor() {
+	public TableProcessor getProcessor() {
 		return new ExtraCustomExtensionsProcessor();
 	}
 
 	@Test
 	public void should_set_null_when_value_is_null() throws Exception {
-		processor.process(null, tableConfiguration, confToBeApplied);
+		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraCustomExtensions()).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.process("", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraCustomExtensions()).isNull();
 	}
 	
 	@Test
 	public void should_set_a_set_containing_only_one_feature() throws Exception{
-		processor.process("feature1", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("feature1", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraCustomExtensions()).contains("feature1");
-		processor.process("FEATURE1 ", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("FEATURE1 ", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraCustomExtensions()).contains("feature1");
 	}
 	
 	@Test
 	public void should_set_a_set_containing_multiple_features() throws Exception{
-		processor.process("feature1,feature2", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("feature1,feature2", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraCustomExtensions()).contains("feature1","feature2");
-		processor.process(" feature1, Feature2", tableConfiguration, confToBeApplied);
+		processor.processConfiguration(" feature1, Feature2", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraCustomExtensions()).contains("feature1","feature2");
 	}
 }

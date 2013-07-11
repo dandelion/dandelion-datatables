@@ -71,13 +71,16 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
         List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
         for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
         	
-			if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
-					|| column.getEnabledDisplayTypes().contains(DisplayType.HTML)) {
+        	List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
+			if (enabledDisplayTypes.contains(DisplayType.ALL)
+					|| enabledDisplayTypes.contains(DisplayType.HTML)) {
         		tmp = new HashMap<String, Object>();
         		
-        		if(column.isFilterable() != null && column.isFilterable() && column.getFilterType() != null){
+				if (column.getColumnConfiguration().getFilterable() != null
+						&& column.getColumnConfiguration().getFilterable()
+						&& column.getColumnConfiguration().getFilterType() != null) {
         		
-        			switch(column.getFilterType()){
+        			switch(column.getColumnConfiguration().getFilterType()){
 					case INPUT:
 						tmp.put(DTConstants.DT_FILTER_TYPE, "text");
 						break;
@@ -99,12 +102,13 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
         			tmp.put(DTConstants.DT_FILTER_TYPE, "null");
         		}
         		
-        		if(StringUtils.isNotBlank(column.getSelector())){
-        			tmp.put(DTConstants.DT_S_SELECTOR, column.getSelector());
+        		if(StringUtils.isNotBlank(column.getColumnConfiguration().getSelector())){
+        			tmp.put(DTConstants.DT_S_SELECTOR, column.getColumnConfiguration().getSelector());
         		}
 
-        		if(StringUtils.isNotBlank(column.getFilterValues())){
-					tmp.put(DTConstants.DT_FILTER_VALUES, new JavascriptSnippet(column.getFilterValues()));
+        		if(StringUtils.isNotBlank(column.getColumnConfiguration().getFilterValues())){
+//					tmp.put(DTConstants.DT_FILTER_VALUES, new JavascriptSnippet(column.getColumnConfiguration().getFilterValues()));
+					tmp.put(DTConstants.DT_FILTER_VALUES, column.getColumnConfiguration().getFilterValues());
 				}
         		
         		aoColumnsContent.add(tmp);

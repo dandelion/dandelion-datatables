@@ -33,40 +33,40 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
-import com.github.dandelion.datatables.core.processor.Processor;
-import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.TableProcessor;
+import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
-public class ExtraThemeOptionProcessorTest extends ProcessorBaseTest {
+public class ExtraThemeOptionProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public Processor getProcessor() {
+	public TableProcessor getProcessor() {
 		return new ExtraThemeOptionProcessor();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_null() throws Exception {
-		processor.process(null, tableConfiguration, confToBeApplied);
+		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraThemeOption()).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.process("", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraThemeOption()).isNull();
 	}
 	
 	@Test
 	public void should_set_theme_option() throws Exception {
-		processor.process("blacktie", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("blacktie", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraThemeOption()).isEqualTo(ThemeOption.BLACKTIE);
-		processor.process("BLACKTIE", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("BLACKTIE", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExtraThemeOption()).isEqualTo(ThemeOption.BLACKTIE);
 	}
 	
-	@Test(expected = AttributeProcessingException.class)
+	@Test(expected = ConfigurationProcessingException.class)
 	public void should_raise_an_exception() throws Exception {
-		processor.process("unknownThemeOption", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("unknownThemeOption", tableConfiguration, confToBeApplied);
 	}
 }

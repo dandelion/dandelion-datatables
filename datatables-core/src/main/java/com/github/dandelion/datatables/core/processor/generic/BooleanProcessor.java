@@ -27,13 +27,11 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor;
+package com.github.dandelion.datatables.core.processor.generic;
 
 import java.lang.reflect.Method;
-import java.util.Map;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.processor.AbstractGenericProcessor;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
@@ -44,13 +42,12 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  */
 public class BooleanProcessor extends AbstractGenericProcessor {
 
-	public BooleanProcessor(Method tableConfigurationSetter) {
-		this.tableConfigurationSetter = tableConfigurationSetter;
+	public BooleanProcessor(Method setter) {
+		this.setter = setter;
 	}
 
 	@Override
-	protected Boolean processAttribute(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) {
+	protected Boolean process(String param) {
 		Boolean retval = null;
 		if (StringUtils.isNotBlank(param)) {
 			retval = Boolean.parseBoolean(param);

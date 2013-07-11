@@ -33,15 +33,15 @@ import java.util.Map;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
-import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
-public class ExtraAppearProcessor extends AbstractProcessor {
+public class ExtraAppearProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void doProcess(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
+	public void process(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
 		String retval = null;
 		
 		if(StringUtils.isNotBlank(param)){

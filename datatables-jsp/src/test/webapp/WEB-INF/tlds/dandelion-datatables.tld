@@ -496,6 +496,7 @@
       <attribute>
          <description>TODO</description>
           <name>filterValues</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>If filterable is enabled and filterType is

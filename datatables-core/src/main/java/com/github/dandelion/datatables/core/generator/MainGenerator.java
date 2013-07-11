@@ -43,7 +43,8 @@ import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.constants.DatatableMsg;
+import com.github.dandelion.datatables.core.constants.DTMessages;
+import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.StringUtils;
@@ -79,43 +80,48 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
         for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
         	
-			if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
-					|| column.getEnabledDisplayTypes().contains(DisplayType.HTML)) {
+        	List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes(); 
+			if (enabledDisplayTypes.contains(DisplayType.ALL)
+					|| enabledDisplayTypes.contains(DisplayType.HTML)) {
         		tmp = new HashMap<String, Object>();
         		
         		// Sortable
-        		tmp.put(DTConstants.DT_SORTABLE, column.isSortable());
+        		tmp.put(DTConstants.DT_SORTABLE, column.getColumnConfiguration().getSortable());
         		
         		// Searchable
-        		tmp.put(DTConstants.DT_SEARCHABLE, column.getSearchable());
+        		tmp.put(DTConstants.DT_SEARCHABLE, column.getColumnConfiguration().getSearchable());
         		
         		// Visible
-        		tmp.put(DTConstants.DT_VISIBLE, column.getVisible());
-        		if(column.getVisible() != null && !column.getVisible()){
+        		tmp.put(DTConstants.DT_VISIBLE, column.getColumnConfiguration().getVisible());
+        		if(column.getColumnConfiguration().getVisible() != null && !column.getColumnConfiguration().getVisible()){
         			tmp.put(DTConstants.DT_SEARCHABLE, false);	
         		}
         		
         		// Column's content
-        		if (StringUtils.isNotBlank(column.getProperty())) {
-        			tmp.put(DTConstants.DT_DATA, column.getProperty());
+        		if (StringUtils.isNotBlank(column.getColumnConfiguration().getProperty())) {
+        			tmp.put(DTConstants.DT_DATA, column.getColumnConfiguration().getProperty());
         		}
         		
-        		if (StringUtils.isNotBlank(column.getRenderFunction())) {
-        			tmp.put(DTConstants.DT_COLUMN_RENDERER, new JavascriptSnippet(column.getRenderFunction()));
+        		if (StringUtils.isNotBlank(column.getColumnConfiguration().getRenderFunction())) {
+        			tmp.put(DTConstants.DT_COLUMN_RENDERER, new JavascriptSnippet(column.getColumnConfiguration().getRenderFunction()));
         		}
         		
-        		if(column.getDefaultValue() != null){
-        			tmp.put(DTConstants.DT_S_DEFAULT_CONTENT, column.getDefaultValue());
+        		if(column.getColumnConfiguration().getDefaultValue() != null){
+        			tmp.put(DTConstants.DT_S_DEFAULT_CONTENT, column.getColumnConfiguration().getDefaultValue());
         		}
         		
         		// Sorting direction
-        		if (column.getSortDirections() != null) {
-        			tmp.put(DTConstants.DT_SORT_DIR, column.getSortDirections());
+        		if (column.getColumnConfiguration().getSortDirections() != null) {
+        			List<String> directions = new ArrayList<String>();
+        			for(Direction direction : column.getColumnConfiguration().getSortDirections()){
+        				directions.add(direction.value);
+        			}
+        			tmp.put(DTConstants.DT_SORT_DIR, directions);
         		}
         		
         		// Sorting type
-        		if(column.getSortType() != null){
-        			tmp.put(DTConstants.DT_S_TYPE, column.getSortType().getName());
+        		if(column.getColumnConfiguration().getSortType() != null){
+        			tmp.put(DTConstants.DT_S_TYPE, column.getColumnConfiguration().getSortType().getName());
         		}
         		
         		aoColumnsContent.add(tmp);
@@ -130,10 +136,10 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
 
             // Sorting direction
-            if (StringUtils.isNotBlank(column.getSortInit())) {
+            if (StringUtils.isNotBlank(column.getColumnConfiguration().getSortInit())) {
                 aaSortingtmp = new ArrayList<Object>();
                 aaSortingtmp.add(columnIndex);
-                aaSortingtmp.add(column.getSortInit());
+                aaSortingtmp.add(column.getColumnConfiguration().getSortInit());
                 aaSortingContent.add(aaSortingtmp);
             }
 
@@ -250,7 +256,7 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         
     	if(tableConfiguration.getMessages() != null && tableConfiguration.getMessages().size() > 0){
     		for(Entry<Object, Object> entry : tableConfiguration.getMessages().entrySet()){
-    			for(DatatableMsg conf : DatatableMsg.values()){
+    			for(DTMessages conf : DTMessages.values()){
     				if(entry.getKey().equals(conf.getPropertyName()) && StringUtils.isNotBlank(entry.getValue().toString())){
     					if(entry.getKey().toString().contains("paginate")){
     						languagePaginateMap.put(conf.getRealName(), entry.getValue());
@@ -268,11 +274,11 @@ public class MainGenerator extends AbstractConfigurationGenerator {
     	}
 
         if(languagePaginateMap.size() > 0){
-        	languageMap.put(DatatableMsg.PAGINATE.getRealName(), languagePaginateMap);
+        	languageMap.put(DTMessages.PAGINATE.getRealName(), languagePaginateMap);
         }
 
         if(languageAriaMap.size() > 0){
-        	languageMap.put(DatatableMsg.ARIA.getRealName(), languageAriaMap);
+        	languageMap.put(DTMessages.ARIA.getRealName(), languageAriaMap);
         }
         
         if(languageMap.size() > 0){

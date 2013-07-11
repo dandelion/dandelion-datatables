@@ -33,34 +33,34 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.processor.Processor;
-import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.TableProcessor;
+import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
-public class ExportConfsProcessorTest extends ProcessorBaseTest {
+public class ExportConfsProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public Processor getProcessor() {
+	public TableProcessor getProcessor() {
 		return new ExportConfsProcessor();
 	}
 
 	@Test
 	public void should_set_null_when_value_is_null() throws Exception {
-		processor.process(null, tableConfiguration, confToBeApplied);
+		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExportConfs()).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.process("", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssStripeClasses()).isNull();
 	}
 	
 	@Test
 	public void should_enable_csv_export() throws Exception {
-		processor.process("csv", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("csv", tableConfiguration, confToBeApplied);
 		
 		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
 
@@ -72,7 +72,7 @@ public class ExportConfsProcessorTest extends ProcessorBaseTest {
 	
 	@Test
 	public void should_enable_csv_and_pdf_export() throws Exception {
-		processor.process("csv,pdf", tableConfiguration, confToBeApplied);
+		processor.processConfiguration("csv,pdf", tableConfiguration, confToBeApplied);
 		
 		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
 		assertThat(tableConfiguration.getExportConfs()).hasSize(2);
@@ -91,8 +91,8 @@ public class ExportConfsProcessorTest extends ProcessorBaseTest {
 		assertThat(new ExportConf(ExportType.XML, "http://localhost:80/")).isNotIn(tableConfiguration.getExportConfs());
 	}
 	
-	@Test(expected = AttributeProcessingException.class)
-	public void should_raise_an_exception() throws AttributeProcessingException{
-		processor.process("unknownFormat", tableConfiguration, confToBeApplied);
+	@Test(expected = ConfigurationProcessingException.class)
+	public void should_raise_an_exception() throws ConfigurationProcessingException{
+		processor.processConfiguration("unknownFormat", tableConfiguration, confToBeApplied);
 	}
 }

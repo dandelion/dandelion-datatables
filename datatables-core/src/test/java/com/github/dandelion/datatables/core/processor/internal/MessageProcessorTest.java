@@ -33,22 +33,22 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.constants.DatatableMsg;
-import com.github.dandelion.datatables.core.processor.Processor;
-import com.github.dandelion.datatables.core.processor.ProcessorBaseTest;
+import com.github.dandelion.datatables.core.constants.DTMessages;
+import com.github.dandelion.datatables.core.processor.TableProcessor;
+import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 import com.github.dandelion.datatables.core.processor.i18n.MessageProcessor;
 
-public class MessageProcessorTest extends ProcessorBaseTest {
+public class MessageProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public Processor getProcessor() {
-		String messageKey = DatatableMsg.INFO.getPropertyName();
+	public TableProcessor getProcessor() {
+		String messageKey = DTMessages.INFO.getPropertyName();
 		return new MessageProcessor(messageKey);
 	}
 	
 	@Test
 	public void should_add_a_message() throws Exception {
-		processor.process("myInfo", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getMessages().getProperty(DatatableMsg.INFO.getPropertyName())).isEqualTo("myInfo");
+		processor.processConfiguration("myInfo", tableConfiguration, confToBeApplied);
+		assertThat(tableConfiguration.getMessages().getProperty(DTMessages.INFO.getPropertyName())).isEqualTo("myInfo");
 	}
 }

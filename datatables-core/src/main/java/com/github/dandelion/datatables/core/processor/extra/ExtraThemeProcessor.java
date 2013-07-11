@@ -33,23 +33,23 @@ import java.util.Map;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.extension.theme.Theme;
-import com.github.dandelion.datatables.core.processor.AbstractProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
-public class ExtraThemeProcessor extends AbstractProcessor {
+public class ExtraThemeProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void doProcess(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws AttributeProcessingException {
+	public void process(String param, TableConfiguration tableConfiguration,
+			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
 		AbstractTheme theme = null;
 		if (StringUtils.isNotBlank(param)) {
 			try {
 				theme = Theme.valueOf(param.trim().toUpperCase()).getInstance();
 			} catch (IllegalArgumentException e) {
-				throw new AttributeProcessingException(param + " is not a valid value among " + Theme.values(), e);
+				throw new ConfigurationProcessingException(param + " is not a valid value among " + Theme.values(), e);
 			}
 		}
 		

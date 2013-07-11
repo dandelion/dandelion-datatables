@@ -74,7 +74,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 	/**
 	 * Map holding the staging configuration to apply to the table.
 	 */
-	protected Map<Configuration, Object> localConf = null;
+	protected Map<Configuration, Object> stagingConf;
 	
 	/**
 	 * First way to populate the table: using a Collection previously set in
@@ -128,7 +128,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 				Object object = iterator.next();
 				
 				this.setCurrentObject(object);
-				localConf.put(Configuration.INTERNAL_OBJECTTYPE, object.getClass().getSimpleName());
+				stagingConf.put(Configuration.INTERNAL_OBJECTTYPE, object.getClass().getSimpleName());
 				
 				if (row != null) {
 					pageContext.setAttribute(row, object);

@@ -31,9 +31,7 @@ package com.github.dandelion.datatables.jsp.tag;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
@@ -45,11 +43,9 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.asset.DisplayType;
-import com.github.dandelion.datatables.core.constants.Direction;
-import com.github.dandelion.datatables.core.extension.feature.FilterType;
-import com.github.dandelion.datatables.core.extension.feature.SortType;
-import com.github.dandelion.datatables.core.extension.feature.SortingFeature;
+import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.util.StringUtils;
 import com.github.dandelion.datatables.jsp.extension.feature.FilteringFeature;
@@ -58,8 +54,8 @@ import com.github.dandelion.datatables.jsp.extension.feature.FilteringFeature;
  * <p>
  * Abstract class which contains :
  * <ul>
- * <li>all the boring technical stuff needed by Java tags (getters and setters
- * for all Column tag attributes)</li>
+ * <li>all the boring technical stuff needed by Java tags (setters for all Column
+ * tag attributes)</li>
  * <li>helper methods used to manipulate the columns</li>
  * </ul>
  * 
@@ -73,8 +69,12 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(AbstractColumnTag.class);
 
+	/**
+	 * Map holding the staging configuration to apply to the column.
+	 */
+	protected Map<Configuration, Object> stagingConf;
+	
 	// Tag attributes
-	protected String uid;
 	protected String title;
 	protected String titleKey;
 	protected String property;
@@ -83,170 +83,80 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	protected String cssCellStyle;
 	protected String cssClass;
 	protected String cssCellClass;
-	protected Boolean sortable;
-	protected String sortDirection;
-	protected String sortInit;
-	protected String sortType;
-	protected Boolean filterable = false;
-	protected Boolean searchable;
-	protected Boolean visible;
-	protected String filterType;
-	protected String filterValues;
-	protected String filterCssClass = "";
-	protected String filterPlaceholder = "";
-	protected String display;
-	protected String renderFunction;
 	protected String format;
-	protected String selector;
 	protected Map<String, String> dynamicAttributes;
 
 	/**
-	 * Add a column to the table when using DOM source.
+	 * <p>
+	 * Adds a head column to the last head row whren using a DOM source.
 	 * 
-	 * @param isHeader
 	 * @param content
+	 *            Content of the <code>th</code> cell.
+	 * @throws JspException
 	 */
-	protected void addDomColumn(Boolean isHeader, String content) throws JspException {
-
+	protected void addDomHeadColumn(String content) throws JspException {
+		
 		// Get the parent tag to access the HtmlTable
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-		// Init the column
-		HtmlColumn column = new HtmlColumn(isHeader, content, dynamicAttributes);
-		
-		// UID
-		if (StringUtils.isNotBlank(this.uid)) {
-			column.setUid(this.uid);
+		// TODO For sake of consistency, cssClass and cssStyle attributes should
+		// be handled directly via the ColumnConfiguration
+		HtmlColumn headcolumn = new HtmlColumn(true, content, dynamicAttributes);
+		if (StringUtils.isNotBlank(this.cssClass)) {
+			headcolumn.setCssClass(new StringBuilder(this.cssClass));
 		}
-
-		// Default value for column's content
-		if(this.defaultValue != null){
-			column.setDefaultValue(this.defaultValue);
+		if (StringUtils.isNotBlank(this.cssStyle)) {
+			headcolumn.setCssStyle(new StringBuilder(this.cssStyle));
 		}
 		
-		// Sortable
-		if (this.sortable != null) {
-			column.setSortable(this.sortable);
-		}
-
-		// Searchable
-		if (this.searchable != null) {
-			column.setSearchable(this.searchable);
+		try {
+			Configuration.applyColumnConfiguration(headcolumn.getColumnConfiguration(), parent.getTable().getTableConfiguration(), stagingConf);
+		} catch (ConfigurationProcessingException e) {
+			throw new JspException(e);
+		} catch (ConfigurationLoadingException e) {
+			throw new JspException(e);
 		}
 		
-		// Visible
-		if (this.visible!= null) {
-			column.setVisible(this.visible);
+		// TODO The FilteringFeature cannot be registered in a dedicated
+		// processor because it's an abstract feature. Implementations only
+		// exist in datatables-jsp and datatables-thymeleaf
+		if(headcolumn.getColumnConfiguration().getFilterable()){
+			parent.getTable().getTableConfiguration().registerExtension(new FilteringFeature());
 		}
-				
-		// Enabled display types
-		if (StringUtils.isNotBlank(this.display)) {
-			List<DisplayType> enabledDisplayTypes = new ArrayList<DisplayType>();
-			String[] displayTypes = this.display.trim().toUpperCase().split(",");
+		
+		parent.getTable().getLastHeaderRow().addColumn(headcolumn);
+	}
+	
+	/**
+	 * <p>
+	 * Adds a body column to the last body row when using a DOM source.
+	 * 
+	 * @param content
+	 *            Content of the <code>td</code> cell.
+	 * @param content
+	 * @throws JspException
+	 */
+	protected void addDomBodyColumn(String content) throws JspException {
+		
+		// Get the parent tag to access the HtmlTable
+		AbstractTableTag parent = (AbstractTableTag) getParent();
+		
+		HtmlColumn bodyColumn = new HtmlColumn(false, content, dynamicAttributes);
 
-			for (String displayType : displayTypes) {
-				try {
-					enabledDisplayTypes.add(DisplayType.valueOf(displayType));
-				} catch (IllegalArgumentException e) {
-					logger.error("{} is not a valid value among {}. Please choose a valid one.",
-							displayType, DisplayType.values());
-					throw new JspException(e);
-				}
-			}
-
-			column.setEnabledDisplayTypes(enabledDisplayTypes);
+		if (StringUtils.isNotBlank(this.cssCellClass)) {
+			bodyColumn.addCssCellClass(this.cssCellClass);
 		}
-
-		// Non-header columns
-		if (!isHeader) {
-			if (StringUtils.isNotBlank(this.cssCellClass)) {
-				column.addCssCellClass(this.cssCellClass);
-			}
-			if (StringUtils.isNotBlank(this.cssCellStyle)) {
-				column.addCssCellStyle(this.cssCellStyle);
-			}
-
-			parent.getTable().getLastBodyRow().addColumn(column);
+		if (StringUtils.isNotBlank(this.cssCellStyle)) {
+			bodyColumn.addCssCellStyle(this.cssCellStyle);
 		}
-		// Header columns
-		else {
-			if (StringUtils.isNotBlank(this.cssClass)) {
-				column.setCssClass(new StringBuilder(this.cssClass));
-			}
-			if (StringUtils.isNotBlank(this.cssStyle)) {
-				column.setCssStyle(new StringBuilder(this.cssStyle));
-			}
-
-			// Sort direction
-			if (StringUtils.isNotBlank(sortDirection)) {
-				List<String> sortDirections = new ArrayList<String>();
-				String[] sortDirectionArray = sortDirection.trim().toUpperCase().split(",");
-
-				for (String direction : sortDirectionArray) {
-					try {
-						sortDirections.add(Direction.valueOf(direction).getValue());
-					} catch (IllegalArgumentException e) {
-						logger.error("{} is not a valid value among {}. Please choose a valid one.",
-								direction, Direction.values());
-						throw new JspException(e);
-					}
-				}
-
-				column.setSortDirections(sortDirections);
-			}
-			
-			column.setSortInit(this.sortInit);
-			column.setFilterable(this.filterable);
-			if(filterable != null && filterable){
-				parent.getTable().getTableConfiguration().registerExtension(new FilteringFeature());
-			}
-
-			if(StringUtils.isNotBlank(this.selector)){
-				column.setSelector(this.selector);
-			}
-			
-			if (StringUtils.isNotBlank(this.filterType)) {
-
-				FilterType filterType = null;
-				try {
-					filterType = FilterType.valueOf(this.filterType.toUpperCase().trim());
-				} catch (IllegalArgumentException e) {
-					logger.error("{} is not a valid value among {}. Please choose a valid one.",
-							filterType, FilterType.values());
-					throw new JspException(e);
-				}
-				column.setFilterType(filterType);
-			}
-
-			if(StringUtils.isNotBlank(this.filterValues)){
-				column.setFilterValues(this.filterValues);
-			}
-			
-			if (StringUtils.isNotBlank(this.sortType)) {
-				
-				SortType sortType = null;
-				try {
-					sortType = SortType.valueOf(this.sortType.toUpperCase().trim());
-				} catch (IllegalArgumentException e) {
-					logger.error("{} is not a valid value among {}. Please choose a valid one.",
-							sortType, SortType.values());
-					throw new JspException(e);
-				}
-				column.setSortType(sortType);
-				parent.getTable().getTableConfiguration().registerExtension(new SortingFeature());
-			}
-			
-			column.setFilterCssClass(this.filterCssClass);
-			column.setFilterPlaceholder(this.filterPlaceholder);
-
-			parent.getTable().getLastHeaderRow().addColumn(column);
-		}
+		
+		parent.getTable().getLastBodyRow().addColumn(bodyColumn);
 	}
 
 	
 	/**
 	 * <p>
-	 * Add a column to the table when using AJAX source.
+	 * Add a head column to the table when using AJAX source.
 	 * <p>
 	 * Column are always marked as "header" using an AJAX source.
 	 * 
@@ -260,118 +170,23 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 
 		HtmlColumn column = new HtmlColumn(true, this.title, dynamicAttributes);
 
-		// UID
-		if (StringUtils.isNotBlank(this.uid)) {
-			column.setUid(this.uid);
-		}
-				
-		column.setProperty(property);
-		
-		column.setDefaultValue(StringUtils.isNotBlank(defaultValue) ? defaultValue : "");
-		
-		if(StringUtils.isNotBlank(this.renderFunction)){
-			column.setRenderFunction(this.renderFunction);
-		}
-		// Sorting
-		if(sortable != null){
-			column.setSortable(this.sortable);
-		}
-		if(sortDirection != null){
-			
-			// Sort direction
-			if (StringUtils.isNotBlank(sortDirection)) {
-				List<String> sortDirections = new ArrayList<String>();
-				String[] sortDirectionArray = sortDirection.trim().toUpperCase().split(",");
-
-				for (String direction : sortDirectionArray) {
-					try {
-						sortDirections.add(Direction.valueOf(direction).getValue());
-					} catch (IllegalArgumentException e) {
-						logger.error("{} is not a valid value among {}. Please choose a valid one.",
-								direction, Direction.values());
-						throw new JspException(e);
-					}
-				}
-
-				column.setSortDirections(sortDirections);
-			}
-		}
-		if(sortInit != null){
-			column.setSortInit(this.sortInit);
-		}
-
-		if (StringUtils.isNotBlank(this.sortType)) {
-			
-			SortType sortType = null;
-			try {
-				sortType = SortType.valueOf(this.sortType.toUpperCase().trim());
-			} catch (IllegalArgumentException e) {
-				logger.error("{} is not a valid value among {}. Please choose a valid one.",
-						sortType, SortType.values());
-				throw new JspException(e);
-			}
-			column.setSortType(sortType);
-			parent.getTable().getTableConfiguration().registerExtension(new SortingFeature());
-		}
-
-		
-		// Filtering
-		if(filterable != null){
-			column.setFilterable(filterable);
+		try {
+			Configuration.applyColumnConfiguration(column.getColumnConfiguration(), parent.getTable().getTableConfiguration(), stagingConf);
+		} catch (ConfigurationProcessingException e) {
+			throw new JspException(e);
+		} catch (ConfigurationLoadingException e) {
+			throw new JspException(e);
 		}
 		
-		if(searchable != null){
-			column.setSearchable(searchable);
-		}
-
-		if(StringUtils.isNotBlank(this.selector)){
-			column.setSelector(this.selector);
-		}
-		
-		if(StringUtils.isNotBlank(this.filterValues)){
-			column.setFilterValues(this.filterValues);
-		}
-		
-		// Visible
-		if (this.visible!= null) {
-			column.setVisible(this.visible);
-		}
-		
-		// Styling
-		if(StringUtils.isNotBlank(cssClass)){
-			column.setCssClass(new StringBuilder(this.cssClass));
-		}
-		if(StringUtils.isNotBlank(cssStyle)){
-			column.setCssStyle(new StringBuilder(this.cssStyle));
-		}
-		
-		// Exporting
-		if (StringUtils.isNotBlank(this.display)) {
-			List<DisplayType> enabledDisplayTypes = new ArrayList<DisplayType>();
-			String[] displayTypes = this.display.trim().toUpperCase().split(",");
-
-			for (String displayType : displayTypes) {
-				try {
-					enabledDisplayTypes.add(DisplayType.valueOf(displayType));
-				} catch (IllegalArgumentException e) {
-					logger.error("{} is not a valid value among {}. Please choose a valid one.",
-							displayType, DisplayType.values());
-					throw new JspException(e);
-				}
-			}
-
-			column.setEnabledDisplayTypes(enabledDisplayTypes);
-		}
-		
-		// Using AJAX source, since there is only one iteration on the body,
-		// we add a column in the header
+		System.out.println("column2 = "  + column);
 		parent.getTable().getLastHeaderRow().addColumn(column);
 	}
 	
 	
 	/**
-	 * TODO
-	 * @return
+	 * <p>Return the column content following some rules.
+	 * <p>TODO
+	 * @return the content of the column.
 	 * @throws JspException
 	 */
 	protected String getColumnContent() throws JspException {
@@ -426,11 +241,12 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	}
 
 	public void setUid(String uid) {
-		this.uid = uid;
+		stagingConf.put(Configuration.COLUMN_UID, uid);
 	}
 
 	public void setProperty(String property) {
 		this.property = property;
+		stagingConf.put(Configuration.COLUMN_PROPERTY, property);
 	}
 
 	public void setCssStyle(String cssStyle) {
@@ -442,7 +258,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	}
 
 	public void setSortable(Boolean sortable) {
-		this.sortable = sortable;
+		stagingConf.put(Configuration.COLUMN_SORTABLE, sortable);
 	}
 
 	public void setCssCellStyle(String cssCellStyle) {
@@ -454,65 +270,83 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	}
 
 	public void setFilterable(Boolean filterable) {
-		this.filterable = filterable;
+		stagingConf.put(Configuration.COLUMN_FILTERABLE, filterable);
 	}
 
 	public void setSearchable(Boolean searchable) {
-		this.searchable = searchable;
+		stagingConf.put(Configuration.COLUMN_SEARCHABLE, searchable);
 	}
 
 	public void setVisible(Boolean visible) {
-		this.visible = visible;
+		stagingConf.put(Configuration.COLUMN_VISIBLE, visible);
 	}
 	
 	public void setFilterType(String filterType) {
-		this.filterType = filterType;
+		stagingConf.put(Configuration.COLUMN_FILTERTYPE, filterType);
 	}
 
 	public void setFilterValues(String filterValues) {
-		this.filterValues = filterValues;
+		stagingConf.put(Configuration.COLUMN_FILTERVALUES, filterValues);
 	}
 
 	public void setFilterCssClass(String filterCssClass) {
-		this.filterCssClass = filterCssClass;
+		stagingConf.put(Configuration.COLUMN_FILTERCSSCLASS, filterCssClass);
 	}
 
 	public void setFilterPlaceholder(String filterPlaceholder) {
-		this.filterPlaceholder = filterPlaceholder;
+		stagingConf.put(Configuration.COLUMN_FILTERPLACEHOLDER, filterPlaceholder);
 	}
 
 	public void setSortDirection(String sortDirection) {
-		this.sortDirection = sortDirection;
+		stagingConf.put(Configuration.COLUMN_SORTDIRECTION, sortDirection);
 	}
 
 	public void setSortInit(String sortInit) {
-		this.sortInit = sortInit;
+		stagingConf.put(Configuration.COLUMN_SORTINIT, sortInit);
 	}
 
 	public void setDisplay(String display) {
-		this.display = display;
+		stagingConf.put(Configuration.COLUMN_DISPLAY, display);
 	}
 
 	public void setDefault(String defaultValue) {
 		this.defaultValue = defaultValue;
+		stagingConf.put(Configuration.COLUMN_DEFAULTVALUE, defaultValue);
 	}
 	
 	public void setRenderFunction(String renderFunction) {
-		this.renderFunction = renderFunction;
+		stagingConf.put(Configuration.COLUMN_RENDERFUNCTION, renderFunction);
 	}
 
 	public void setFormat(String format) {
 		this.format = format;
+		stagingConf.put(Configuration.COLUMN_FORMAT, format);
 	}
 
 	public void setSelector(String selector) {
-		this.selector = selector;
+		stagingConf.put(Configuration.COLUMN_SELECTOR, selector);
 	}
 
 	public void setSortType(String sortType) {
-		this.sortType = sortType;
+		stagingConf.put(Configuration.COLUMN_SORTTYPE, sortType);
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String titleKey) {
+		this.title = titleKey;
+	}
+	
+	public String getTitleKey() {
+		return titleKey;
+	}
+
+	public void setTitleKey(String titleKey) {
+		this.titleKey = titleKey;
+	}
+	
 	/**
 	 * Get the map of dynamic attributes.
 	 */

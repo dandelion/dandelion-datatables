@@ -33,11 +33,11 @@ import java.util.Map;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.AttributeProcessingException;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 
 /**
  * <p>
- * Common abstract superclass for all processors.
+ * Common abstract superclass to be applied on table.
  * <p>
  * All processors contain the actual processing applied on each Datatables
  * configuration.
@@ -45,39 +45,22 @@ import com.github.dandelion.datatables.core.exception.AttributeProcessingExcepti
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public abstract class AbstractProcessor implements Processor {
+public abstract class AbstractTableProcessor implements TableProcessor {
 
 	/**
-	 * Processes the passed param and returns the right type needed by the
-	 * {@link TableConfiguration} to initialize the configuration.
-	 * 
-	 * @param param
-	 *            The parameter to process. This is always a String because it
-	 *            can come from properties file, JSP tag attributes or Thymeleaf
-	 *            attributes.
-	 * @param the
-	 *            {@link TableConfiguration} instance to update depending on the
-	 *            param's value.
-	 * @param confToBeApplied
-	 *            The global configuration to be applied on the
-	 *            {@link TableConfiguration} may be useful to initialize linked
-	 *            configurations. For example, the
-	 *            {@link com.github.dandelion.datatables.core.extension.feature.AjaxFeature}
-	 *            must be registered in the TableConfiguration only if
-	 *            server-side processing in not enabled.
+	 * {@inheritDoc}
 	 */
-	public void process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+	public void processConfiguration(String configuration, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
 
 		try {
-			doProcess(param, tableConfiguration, confToBeApplied);
-		} catch (AttributeProcessingException e) {
+			process(configuration, tableConfiguration, confToBeApplied);
+		} catch (ConfigurationProcessingException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new AttributeProcessingException("Something went wrong during the execution of the processor "
-					+ this.getClass().getName() + " with the value '" + param + "'", e);
+			throw new ConfigurationProcessingException("Something went wrong during the execution of the processor "
+					+ this.getClass().getName() + " with the value '" + configuration + "'", e);
 		}
 	}
 
-	protected abstract void doProcess(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied);
+	protected abstract void process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied);
 }
