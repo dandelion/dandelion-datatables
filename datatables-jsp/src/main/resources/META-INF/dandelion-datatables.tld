@@ -406,6 +406,19 @@
           <name>scrollCollapse</name>
           <rtexprvalue>true</rtexprvalue>
       </attribute>
+      <attribute>
+          <description>Table's width to display in scrolling mode.
+          (default : disabled)</description>
+          <name>scrollX</name>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+          <description>Use more width than it might otherwise do when 
+          x-scrolling is enabled.
+          (default : disabled)</description>
+          <name>scrollInner</name>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
 
       <!-- ColReorder -->
       <attribute>
