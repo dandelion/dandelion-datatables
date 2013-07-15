@@ -39,12 +39,14 @@ import org.thymeleaf.processor.element.AbstractElementProcessor;
 
 import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.thymeleaf.matcher.ElementNameWithoutPrefixProcessorMatcher;
-import com.github.dandelion.datatables.thymeleaf.processor.ColumnInitializerElProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.TableFinalizerElProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.TableInitializerElProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.TbodyElProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.TdElProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.TrElProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.el.ColumnFinalizerProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.el.ColumnInitializerElProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.el.TableFinalizerElProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.el.TableInitializerElProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.el.TbodyElProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.el.TdElProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.el.TheadElProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.el.TrElProcessor;
 
 /**
  * All element processors used by Dandelion-DataTables.
@@ -55,6 +57,8 @@ public enum DatatablesElProcessors {
     TABLE_INITIALIZER(TableInitializerElProcessor.class, "table", DIALECT_PREFIX + ":table", "true"),
     TABLE_FINALIZER(TableFinalizerElProcessor.class, "div", DIALECT_PREFIX + ":tmp", "internalUse"),
     COLUMN_INITIALIZER(ColumnInitializerElProcessor.class, "th"),
+    COLUMN_FINALIZER(ColumnFinalizerProcessor.class, "th", DIALECT_PREFIX + ":data", "internalUse"),
+    THEAD(TheadElProcessor.class, "thead"),
     TBODY(TbodyElProcessor.class, "tbody"),
     TR(TrElProcessor.class, "tr", DIALECT_PREFIX + ":data", "internalUse"),
     TD(TdElProcessor.class, "td", DIALECT_PREFIX + ":data", "internalUse");
@@ -89,7 +93,6 @@ public enum DatatablesElProcessors {
             matcher = new ElementNameWithoutPrefixProcessorMatcher(elementName);
         }
 
-        ;
         try {
             return processorClass.getDeclaredConstructor(IElementNameProcessorMatcher.class).newInstance(matcher);
         } catch (InstantiationException e) {

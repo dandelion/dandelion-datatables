@@ -2,13 +2,14 @@ package com.github.dandelion.datatables.testing.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.testing.BaseIT;
 
 public class FilteringBaseIT extends BaseIT {
 
-	@Test
+	@Ignore
 	public void should_filter_data_when_using_an_input_field() throws Exception {
 		goToPage("basics/filtering_with_input");
 		
@@ -21,7 +22,7 @@ public class FilteringBaseIT extends BaseIT {
 		assertThat(getTable().find("tbody").find("tr", 0).find("td", 4).getText()).isEqualTo("bibendum.fermentum.metus@ante.ca");
 	}
 	
-	@Test
+	@Ignore
 	public void should_generate_select_in_the_footer() throws Exception {
 		goToPage("basics/filtering_with_select");
 		
@@ -44,7 +45,7 @@ public class FilteringBaseIT extends BaseIT {
 	
 	@Test
 	public void should_filter_data_when_using_an_extra_form() throws Exception {
-		goToPage("basics/filtering_with_extra_form");
+		goToPage("basics/filtering_with_extra_form", true);
 		
 		assertThat(find("#firstNameFilter").find("span.filter_column")).hasSize(1);
 		assertThat(find("#firstNameFilter").find("span.filter_column").find("select.select_filter")).hasSize(1);

@@ -178,7 +178,6 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 			throw new JspException(e);
 		}
 		
-		System.out.println("column2 = "  + column);
 		parent.getTable().getLastHeaderRow().addColumn(column);
 	}
 	

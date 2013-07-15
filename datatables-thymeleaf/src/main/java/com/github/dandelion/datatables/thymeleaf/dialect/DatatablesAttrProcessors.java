@@ -36,68 +36,61 @@ import org.thymeleaf.processor.AttributeNameProcessorMatcher;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
 import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
-import com.github.dandelion.datatables.thymeleaf.processor.ajax.TablePipeSizeAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.ajax.TablePipeliningAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableProcessingAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableServerDataAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableServerMethodAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableServerParamsAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableServerSideAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.ajax.TableUrlAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableAppearAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableAutoWidthAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableCdnAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableConfGroupAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableDisplayLengthAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableDomAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableExportAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableExportLinksAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableFilterAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableFilterPlaceholderAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableInfoAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableLabelsAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableLengthChangeAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableLengthMenuAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TablePaginateAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TablePaginationTypeAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableScrollCollapseAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableScrollYAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableScrollXAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableScrollInnerAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableSortAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.TableStripeClassesAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.ThFilterTypeAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.ThFilterableAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSearchableAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSelectorAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortDirectionAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortInitAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.ThSortableAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.basic.ThVisibleAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TableCustomExtensionsProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackCookieProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackCreatedRowProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackDrawProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackFooterProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackFormatNumberProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackHeaderProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackInfoProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackInitProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackPreDrawProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyCallbackRowProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportAutoSizeAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportFilenameAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportHeaderAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportLinkClassAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportLinkLabelAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportLinkStyleAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.TbodyExportLinkUrlAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.feature.ThExportFilenameAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.plugin.TheadColReorderAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.plugin.TheadFixedHeaderAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.plugin.TheadScrollerAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.theme.TableThemeAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.theme.TableThemeOptionAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ajax.TablePipeSizeAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ajax.TablePipeliningAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ajax.TableProcessingAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ajax.TableServerDataAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ajax.TableServerMethodAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ajax.TableServerParamsAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ajax.TableServerSideAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ajax.TableUrlAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableAppearAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableAutoWidthAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableCdnAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableConfGroupAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableDisplayLengthAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableDomAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableExportAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableExportLinksAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableFilterAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableFilterPlaceholderAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableInfoAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableLabelsAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableLengthChangeAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableLengthMenuAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TablePaginateAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TablePaginationTypeAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrollCollapseAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrollInnerAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrollXAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrollYAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableSortAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableStripeClassesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TableCustomExtensionsProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackCookieProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackCreatedRowProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackDrawProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackFooterProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackFormatNumberProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackHeaderProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackInfoProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackInitProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackPreDrawProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackRowProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyExportAutoSizeAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyExportFilenameAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyExportHeaderAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyExportLinkClassAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyExportLinkLabelAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyExportLinkStyleAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyExportLinkUrlAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.ThExportFilenameAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.plugin.TheadColReorderAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.plugin.TheadFixedHeaderAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.plugin.TheadScrollerAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.theme.TableThemeAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.theme.TableThemeOptionAttrProcessor;
 
 /**
  * All attribute processors used by Dandelion-DataTables.
@@ -105,6 +98,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.theme.TableThemeOptio
  * @since 0.8.9
  */
 public enum DatatablesAttrProcessors {
+	
 	// Configuration
 	CONF_GROUP(TableConfGroupAttrProcessor.class, "confGroup", "table"),
 	
@@ -116,17 +110,10 @@ public enum DatatablesAttrProcessors {
     BASIC_PAGINATE(TablePaginateAttrProcessor.class, "paginate", "table"),
     BASIC_SORT(TableSortAttrProcessor.class, "sort", "table"),
     BASIC_APPEAR(TableAppearAttrProcessor.class, "appear", "table"),
-    BASIC_SORTABLE(ThSortableAttrProcessor.class, "sortable", "th"),
-    BASIC_FILTERABLE(ThFilterableAttrProcessor.class, "filterable", "th"),
-    BASIC_SEARCHABLE(ThSearchableAttrProcessor.class, "searchable", "th"),
-    BASIC_VISIBLE(ThVisibleAttrProcessor.class, "visible", "th"),
-    BASIC_FILTER_TYPE(ThFilterTypeAttrProcessor.class, "filterType", "th"),
     BASIC_FILTER_PLACEHOLDER(TableFilterPlaceholderAttrProcessor.class, "filterplaceholder", "table"),
     BASIC_LABELS(TableLabelsAttrProcessor.class, "labels", "table"),
     BASIC_PAGINATION_TYPE(TablePaginationTypeAttrProcessor.class, "paginationtype", "table"),
     BASIC_LENGTH_MENU(TableLengthMenuAttrProcessor.class, "lengthmenu", "table"),
-    BASIC_SORT_INIT(ThSortInitAttrProcessor.class, "sortinit", "th"),
-    BASIC_SORT_DIR(ThSortDirectionAttrProcessor.class, "sortdir", "th"),
     BASIC_STRIP_CLASSES(TableStripeClassesAttrProcessor.class, "stripeclasses", "table"),
     BASIC_DISPLAY_LENGTH(TableDisplayLengthAttrProcessor.class, "displaylength", "table"),
     BASIC_LENGTH_CHANGE(TableLengthChangeAttrProcessor.class, "lengthchange", "table"),
@@ -135,7 +122,6 @@ public enum DatatablesAttrProcessors {
     BASIC_SCROLL_X(TableScrollXAttrProcessor.class, "scrollx", "table"),
     BASIC_SCROLL_INNER(TableScrollInnerAttrProcessor.class, "scrollinner", "table"),
     BASIC_DOM(TableDomAttrProcessor.class, "dom", "table"),
-    BASIC_SELECTOR(ThSelectorAttrProcessor.class, "selector", "th"),
     
     // Plugin processors
     PLUGIN_SCROLLER(TheadScrollerAttrProcessor.class, "scroller", "thead"),
@@ -213,6 +199,9 @@ public enum DatatablesAttrProcessors {
     CALLBACK_PRE_DRAW(TbodyCallbackPreDrawProcessor.class, "cbk:predraw", "tbody"),
     CALLBACK_ROW(TbodyCallbackRowProcessor.class, "cbk:row", "tbody");
 
+	// Internal processors
+//	TH_DATA(ThInternalProcessor.class, "data", "th");
+	
     private Class<? extends AbstractDatatablesAttrProcessor> processorClass;
     private String attributeName;
     private String elementNameFilter;

@@ -27,61 +27,47 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.thymeleaf.dialect;
+package com.github.dandelion.datatables.thymeleaf.processor.attr.basic;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 
-import org.thymeleaf.dialect.AbstractDialect;
-import org.thymeleaf.processor.IProcessor;
+import org.thymeleaf.Arguments;
+import org.thymeleaf.dom.Element;
+import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
+import org.thymeleaf.processor.ProcessorResult;
+
+import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
- * The Dandelion-datatables dialect.
+ * <p>
+ * Attribute processor applied to the <tt>table</tt> tag for the <tt>appear</tt>
+ * attribute.
  * 
  * @author Thibault Duchateau
  */
-public class DataTablesDialect extends AbstractDialect {
+public class TableAppearAttrProcessor extends AbstractDatatablesAttrProcessor {
 
-	public static final String DIALECT_PREFIX = "dt";
-	public static final String LAYOUT_NAMESPACE = "http://www.thymeleaf.org/dandelion/datatables";
-	public static final int DT_HIGHEST_PRECEDENCE = 3500;
-
-	public static final String INTERNAL_TABLE_BEAN = "htmlTable";
-	public static final String INTERNAL_TABLE_NODE = "tableNode";
-	public static final String INTERNAL_CONF_GROUP = "confGroup";
-	public static final String INTERNAL_TABLE_LOCAL_CONF = "tableLocalConf";
-	public static final String INTERNAL_COLUMN_LOCAL_CONF = "columnLocalConf";
+	public TableAppearAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+		super(matcher);
+	}
 	
-	public String getPrefix() {
-		return DIALECT_PREFIX;
-	}
-
-	public boolean isLenient() {
-		return true;
-	}
-
-	/*
-	 * The processors.
-	 */
 	@Override
-	public Set<IProcessor> getProcessors() {
-		final Set<IProcessor> processors = new HashSet<IProcessor>();
-
-		// Element processors
-		for (DatatablesElProcessors processor : DatatablesElProcessors.values()) {
-			processors.add(processor.getProcessor());
-		}
-
-		// Attribute processors
-		for (DatatablesAttrProcessors processor : DatatablesAttrProcessors.values()) {
-			processors.add(processor.getProcessor());
-		}
+	public int getPrecedence() {
+		return 8000;
+	}
+	
+	@Override
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
+			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 		
-		// Column attribute processors
-		for (DatatablesColumnAttrProcessors processor : DatatablesColumnAttrProcessors.values()) {
-			processors.add(processor.getProcessor());
-		}
-				
-		return processors;
+		// Get attribute value
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
+		
+		localConf.put(Configuration.EXTRA_APPEAR, attrValue);
+		
+        return ProcessorResult.ok();
 	}
 }

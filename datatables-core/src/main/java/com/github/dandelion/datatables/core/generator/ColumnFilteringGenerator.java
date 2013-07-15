@@ -107,8 +107,7 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
         		}
 
         		if(StringUtils.isNotBlank(column.getColumnConfiguration().getFilterValues())){
-//					tmp.put(DTConstants.DT_FILTER_VALUES, new JavascriptSnippet(column.getColumnConfiguration().getFilterValues()));
-					tmp.put(DTConstants.DT_FILTER_VALUES, column.getColumnConfiguration().getFilterValues());
+					tmp.put(DTConstants.DT_FILTER_VALUES, new JavascriptSnippet(column.getColumnConfiguration().getFilterValues()));
 				}
         		
         		aoColumnsContent.add(tmp);

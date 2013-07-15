@@ -36,7 +36,6 @@ import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
-import com.github.dandelion.datatables.core.html.HtmlTag;
 
 /**
  * Contains the column configuration.
@@ -51,10 +50,6 @@ public class ColumnConfiguration {
 	private String titleKey;
 	private String property;
 	private String defaultValue;
-//	private String cssStyle;
-//	private StringBuilder cssCellStyle;
-//	private String cssClass;
-//	private StringBuilder cssCellClass;
 	private Boolean sortable = true;
 	private List<Direction> sortDirections;
 	private String sortInit;
@@ -118,38 +113,6 @@ public class ColumnConfiguration {
 	public void setDefaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
 	}
-
-//	public String getCssStyle() {
-//		return cssStyle;
-//	}
-//
-//	public void setCssStyle(String cssStyle) {
-//		this.cssStyle = cssStyle;
-//	}
-//
-//	public StringBuilder getCssCellStyle() {
-//		return cssCellStyle;
-//	}
-//
-//	public void setCssCellStyle(StringBuilder cssCellStyle) {
-//		this.cssCellStyle = cssCellStyle;
-//	}
-//
-//	public String getCssClass() {
-//		return cssClass;
-//	}
-//
-//	public void setCssClass(String cssClass) {
-//		this.cssClass = cssClass;
-//	}
-//
-//	public StringBuilder getCssCellClass() {
-//		return cssCellClass;
-//	}
-//
-//	public void setCssCellClass(StringBuilder cssCellClass) {
-//		this.cssCellClass = cssCellClass;
-//	}
 
 	public Boolean getSortable() {
 		return sortable;
@@ -270,22 +233,4 @@ public class ColumnConfiguration {
 	public void setEnabledDisplayTypes(List<DisplayType> enabledDisplayTypes) {
 		this.enabledDisplayTypes = enabledDisplayTypes;
 	}
-
-//	public void addCssCellClass(String cssCellClass) {
-//		if (this.cssCellClass == null) {
-//			this.cssCellClass = new StringBuilder();
-//		} else {
-//			this.cssCellClass.append(HtmlTag.CLASS_SEPARATOR);
-//		}
-//		this.cssCellClass.append(cssCellClass);
-//	}
-//
-//	public void addCssCellStyle(String cssCellStyle) {
-//		if (this.cssCellStyle == null) {
-//			this.cssCellStyle = new StringBuilder();
-//		} else {
-//			this.cssCellStyle.append(HtmlTag.CSS_SEPARATOR);
-//		}
-//		this.cssCellStyle.append(cssCellStyle);
-//	}
 }
