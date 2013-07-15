@@ -150,7 +150,7 @@ public abstract class BaseIT extends FluentAdapter {
 		goToPage(page);
 		if(display){
 			System.out.println(driver.getPageSource());
-			System.out.println(getConfigurationFromPage(page));
+			System.out.println(getConfigurationFromPage(page).getContent());
 		}
 	}
 	
