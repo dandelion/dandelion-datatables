@@ -38,10 +38,10 @@ import com.github.dandelion.datatables.testing.BaseIT;
 
 /**
  * <p>
- * Marker annotation used to tell the {@link BaseIT#goToPage(String)} what kind
- * of test it's extending. The only purpose of this trick is to build the path
- * to the view to load in the testing web application, which differs between the
- * JSP and the Thymeleaf implementation.
+ * Marker annotation used to tell the {@link BaseIT#goToPage(String)} method
+ * what kind of test it's extending. The only purpose of this trick is to build
+ * the path to the view to load in the testing web application, which differs
+ * between the JSP and the Thymeleaf implementation.
  * 
  * <p>
  * Of course, this can work only if all tests extends the {@link BaseIT} and if
