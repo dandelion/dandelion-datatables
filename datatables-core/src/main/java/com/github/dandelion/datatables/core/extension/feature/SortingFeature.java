@@ -64,20 +64,20 @@ public class SortingFeature extends AbstractFeature {
 	@Override
 	public void setup(HtmlTable table) throws ExtensionLoadingException {
 		Set<SortType> enabledSortTypes = new HashSet<SortType>();
-		
+
 		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
 			if (column.getColumnConfiguration().getSortType() != null) {
 				enabledSortTypes.add(column.getColumnConfiguration().getSortType());
 			}
 		}
-		
+
 		String content = null;
-		
+
 		try {
-			for(SortType sortType : enabledSortTypes){
+			for (SortType sortType : enabledSortTypes) {
 				switch (sortType) {
 				case DATE:
-						content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/date-uk.js");
+					content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/date-uk.js");
 					break;
 				case NATURAL:
 					content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/naturalSort.js");

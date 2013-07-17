@@ -33,19 +33,20 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * Abstract superclass for all {@link MessageResolver}.
- *
+ * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
 public abstract class AbstractMessageResolver implements MessageResolver {
 
 	protected HttpServletRequest request;
-	
-	public AbstractMessageResolver(){
+
+	public AbstractMessageResolver() {
 	}
-	public AbstractMessageResolver(HttpServletRequest request){
+
+	public AbstractMessageResolver(HttpServletRequest request) {
 		this.request = request;
 	}
-	
+
 	public static final String UNDEFINED_KEY = "???";
 }

@@ -189,7 +189,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_sort_direction() {
-		ArrayList<Direction> sortDirections = new ArrayList<Direction>();
+		List<Direction> sortDirections = new ArrayList<Direction>();
 		sortDirections.add(Direction.ASC);
 		firstColumn.getColumnConfiguration().setSortDirections(sortDirections);
 

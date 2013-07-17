@@ -106,7 +106,7 @@ public class ExtensionManager {
 					}
 				}
 			} else {
-				logger.warn("No custom extension found");
+				logger.warn("A base backage to scan has been detected but no custom extension has been found");
 			}
 		}
 		else{
