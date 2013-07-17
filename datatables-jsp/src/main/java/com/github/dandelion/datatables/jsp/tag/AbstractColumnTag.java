@@ -175,6 +175,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		if (StringUtils.isNotBlank(this.cssStyle)) {
 			headColumn.setCssStyle(new StringBuilder(this.cssStyle));
 		}
+		headColumn.getColumnConfiguration().setDefaultValue(StringUtils.isNotBlank(defaultValue) ? defaultValue : "");
 		
 		try {
 			Configuration.applyColumnConfiguration(headColumn.getColumnConfiguration(), parent.getTable().getTableConfiguration(), stagingConf);

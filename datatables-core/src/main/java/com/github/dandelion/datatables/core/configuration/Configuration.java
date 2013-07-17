@@ -56,6 +56,7 @@ import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxPipeliningProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxServerSideProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxSourceProcessor;
+import com.github.dandelion.datatables.core.processor.column.DefaultValueProcessor;
 import com.github.dandelion.datatables.core.processor.column.DisplayTypesProcessor;
 import com.github.dandelion.datatables.core.processor.column.FilterTypeProcessor;
 import com.github.dandelion.datatables.core.processor.column.SortDirectionProcessor;
@@ -190,7 +191,7 @@ public enum Configuration {
 	COLUMN_TITLE("column.title", "title", String.class, StringProcessor.class),
 	COLUMN_TITLEKEY("column.titleKey", "titleKey", String.class, StringProcessor.class),
 	COLUMN_PROPERTY("", "property", String.class, StringProcessor.class),
-	COLUMN_DEFAULTVALUE("", "defaultValue", String.class, StringProcessor.class),
+	COLUMN_DEFAULTVALUE("", "defaultValue", String.class, DefaultValueProcessor.class),
 	COLUMN_CSSSTYLE("", "cssStyle", String.class, StringProcessor.class),
 	COLUMN_CSSCELLSTYLE("", "cssCellStyle", StringBuilder.class, StringBuilderProcessor.class),
 	COLUMN_CSSCLASS("", "cssClass", String.class, StringProcessor.class),
@@ -346,45 +347,43 @@ public enum Configuration {
 			
 			logger.trace("Processing configuration {}...", entry.getKey());
 			
-			if(StringUtils.isNotBlank(entry.getValue().toString())){
-				String propertyName = null;
-				try {
-					
-					// Generic processors, for primitive types
-					if (AbstractGenericProcessor.class.isAssignableFrom(entry.getKey().getProcessor())) {
-						propertyName = StringUtils.capitalize(entry.getKey().getProperty());
-						Method setter = ColumnConfiguration.class.getMethod("set" + propertyName, new Class[] { entry.getKey().getReturnType() });
+			String propertyName = null;
+			try {
+				
+				// Generic processors, for primitive types
+				if (AbstractGenericProcessor.class.isAssignableFrom(entry.getKey().getProcessor())) {
+					propertyName = StringUtils.capitalize(entry.getKey().getProperty());
+					Method setter = ColumnConfiguration.class.getMethod("set" + propertyName, new Class[] { entry.getKey().getReturnType() });
 
-						logger.trace(" --> the {} will be used to process the value {}", setter, entry.getValue().toString());
+					logger.trace(" --> the {} will be used to process the value {}", setter, entry.getValue().toString());
 
-						GenericProcessor genericProcessor = (GenericProcessor) entry.getKey().getProcessor().getDeclaredConstructor(new Class[] { Method.class }).newInstance(setter);
-						genericProcessor.processConfiguration(entry.getValue().toString(), columnConfiguration);
-					} 
-					// Column processors
-					else {
-						ColumnProcessor columnProcessor = (ColumnProcessor) entry.getKey().getProcessor().newInstance();
-						columnProcessor.processConfiguration(entry.getValue().toString(), columnConfiguration, tableConfiguration, stagingConf);
-					}
-					
-					
-					logger.trace(" --> Processing completed successfully");
+					GenericProcessor genericProcessor = (GenericProcessor) entry.getKey().getProcessor().getDeclaredConstructor(new Class[] { Method.class }).newInstance(setter);
+					genericProcessor.processConfiguration(entry.getValue().toString(), columnConfiguration);
 				} 
-				catch (InstantiationException e) {
-					throw new ConfigurationLoadingException("Unable to instantiate the "
-							+ entry.getKey().getProcessor() + " processor", e);
-				} 
-				catch (IllegalAccessException e) {
-					throw new ConfigurationLoadingException("Unable to access the "
-							+ entry.getKey().getProcessor() + " processor", e);
-				} 
-				catch (InvocationTargetException e) {
-					throw new ConfigurationLoadingException("Unable to invoke the constructor of the "
-							+ entry.getKey().getProcessor() + " processor", e);
-				} 
-				catch (NoSuchMethodException e) {
-					throw new ConfigurationLoadingException("The method 'set" + propertyName
-							+ "' doesn't exist in the ColumnConfiguration object", e);
+				// Column processors
+				else {
+					ColumnProcessor columnProcessor = (ColumnProcessor) entry.getKey().getProcessor().newInstance();
+					columnProcessor.processConfiguration(entry.getValue().toString(), columnConfiguration, tableConfiguration, stagingConf);
 				}
+				
+				
+				logger.trace(" --> Processing completed successfully");
+			} 
+			catch (InstantiationException e) {
+				throw new ConfigurationLoadingException("Unable to instantiate the "
+						+ entry.getKey().getProcessor() + " processor", e);
+			} 
+			catch (IllegalAccessException e) {
+				throw new ConfigurationLoadingException("Unable to access the "
+						+ entry.getKey().getProcessor() + " processor", e);
+			} 
+			catch (InvocationTargetException e) {
+				throw new ConfigurationLoadingException("Unable to invoke the constructor of the "
+						+ entry.getKey().getProcessor() + " processor", e);
+			} 
+			catch (NoSuchMethodException e) {
+				throw new ConfigurationLoadingException("The method 'set" + propertyName
+						+ "' doesn't exist in the ColumnConfiguration object", e);
 			}
 		}
 		
