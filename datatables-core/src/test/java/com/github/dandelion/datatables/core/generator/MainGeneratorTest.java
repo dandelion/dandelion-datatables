@@ -397,12 +397,12 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_set_scroll_inner() {
-		table.getTableConfiguration().setFeatureScrollInner("110%");
+		table.getTableConfiguration().setFeatureScrollXInner("110%");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(2);
-		assertThat(mainConf.get(DTConstants.DT_SCROLLINNER)).isEqualTo("110%");
+		assertThat(mainConf.get(DTConstants.DT_SCROLLXINNER)).isEqualTo("110%");
 	}
 
 	@Test

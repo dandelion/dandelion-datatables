@@ -88,7 +88,7 @@ public class DTConstants {
 	// Extra features
 	public static final String DT_SCROLLY = "sScrollY";
 	public static final String DT_SCROLLX = "sScrollX";
-	public static final String DT_SCROLLINNER = "sScrollInner";
+	public static final String DT_SCROLLXINNER = "sScrollXInner";
 	public static final String DT_SCROLLCOLLAPSE = "bScrollCollapse";
 	public static final String DT_OFFSETTOP = "offsetTop";
 	public static final String DT_FILTER_TYPE = "type";

@@ -371,8 +371,8 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(Configuration.FEATURE_SCROLLX, scrollX);
 	}
 
-	public void setScrollInner(String scrollInner) {
-		stagingConf.put(Configuration.FEATURE_SCROLLINNER, scrollInner);
+	public void setScrollXInner(String scrollXInner) {
+		stagingConf.put(Configuration.FEATURE_SCROLLXINNER, scrollXInner);
 	}
 
 	public void setFixedPosition(String fixedPosition) {

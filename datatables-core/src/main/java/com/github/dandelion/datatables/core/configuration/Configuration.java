@@ -124,7 +124,7 @@ public enum Configuration {
 	FEATURE_SCROLLY("feature.scrollY", "featureScrolly", String.class, StringProcessor.class),
 	FEATURE_SCROLLCOLLAPSE("feature.scrollCollapse", "featureScrollCollapse", Boolean.class, BooleanProcessor.class),
 	FEATURE_SCROLLX("feature.scrollX", "featureScrollx", String.class, StringProcessor.class),
-	FEATURE_SCROLLINNER("feature.scrollInner", "featureScrollInner", String.class, StringProcessor.class),
+	FEATURE_SCROLLXINNER("feature.scrollXInner", "featureScrollXInner", String.class, StringProcessor.class),
 	
 	EXTRA_THEME("extra.theme", "extraTheme", AbstractTheme.class, ExtraThemeProcessor.class),
 	EXTRA_THEMEOPTION("extra.themeOption", "extraThemeOption", ThemeOption.class, ExtraThemeOptionProcessor.class),
@@ -182,10 +182,6 @@ public enum Configuration {
 	MSG_ARIA_SORTASC("msg.aria.sortasc", "msgAriaSortAsc", null, MessageProcessor.class),
 	MSG_ARIA_SORTDESC("msg.aria.sortdesc", "msgAriaSortDesc", null, MessageProcessor.class),
 			
-	// For internal use only
-	INTERNAL_OBJECTTYPE("internal.objectType", "internalObjectType", String.class, StringProcessor.class),
-	INTERNAL_MESSAGE_RESOLVER("i18n.message.resolver", "internalMessageResolver", MessageResolver.class, MessageResolverProcessor.class),
-	
 	// Column configuration
 	COLUMN_UID("column.uid", "uid", String.class, StringProcessor.class),
 	COLUMN_TITLE("column.title", "title", String.class, StringProcessor.class),
@@ -210,8 +206,12 @@ public enum Configuration {
 	COLUMN_DISPLAY("", "enabledDisplayTypes", List.class, DisplayTypesProcessor.class),
 	COLUMN_RENDERFUNCTION("", "renderFunction", String.class, StringProcessor.class),
 	COLUMN_FORMAT("", "format", String.class, StringProcessor.class),
-	COLUMN_SELECTOR("", "selector", String.class, StringProcessor.class);
-	
+	COLUMN_SELECTOR("", "selector", String.class, StringProcessor.class),
+
+	// For internal use only
+	INTERNAL_OBJECTTYPE("internal.objectType", "internalObjectType", String.class, StringProcessor.class),
+	INTERNAL_MESSAGE_RESOLVER("i18n.message.resolver", "internalMessageResolver", MessageResolver.class, MessageResolverProcessor.class);
+		
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(Configuration.class);
 	
@@ -221,7 +221,8 @@ public enum Configuration {
 	private String name;
 	
 	/**
-	 * Name of the configuration in the {@link TableConfiguration} instance.
+	 * Name of the property in the {@link TableConfiguration} or in the
+	 * {@link ColumnConfiguration} instance.
 	 */
 	private String property;
 	
@@ -232,8 +233,8 @@ public enum Configuration {
 	private Class<?> returnType;
 	
 	/**
-	 * Processor that has to be applied to update the {@link TableConfiguration}
-	 * instance.
+	 * Processor associated with the configuration. This processor will be
+	 * applied on values passed from JSP or Thymeleaf attributes.
 	 */
 	private Class<?> processor;
 	

@@ -62,7 +62,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableLengt
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TablePaginateAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TablePaginationTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrollCollapseAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrollInnerAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrollXInnerAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrollXAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrollYAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableSortAttrProcessor;
@@ -120,7 +120,7 @@ public enum DatatablesAttrProcessors {
     BASIC_SCROLL_Y(TableScrollYAttrProcessor.class, "scrolly", "table"),
     BASIC_SCROLL_COLLAPSE(TableScrollCollapseAttrProcessor.class, "scrollcollapse", "table"),
     BASIC_SCROLL_X(TableScrollXAttrProcessor.class, "scrollx", "table"),
-    BASIC_SCROLL_INNER(TableScrollInnerAttrProcessor.class, "scrollinner", "table"),
+    BASIC_SCROLL_INNER(TableScrollXInnerAttrProcessor.class, "scrollinner", "table"),
     BASIC_DOM(TableDomAttrProcessor.class, "dom", "table"),
     
     // Plugin processors

@@ -203,8 +203,8 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         if(StringUtils.isNotBlank(tableConfiguration.getFeatureScrollX())){
         	mainConf.put(DTConstants.DT_SCROLLX, tableConfiguration.getFeatureScrollX());
         }
-        if(StringUtils.isNotBlank(tableConfiguration.getFeatureScrollInner())){
-        	mainConf.put(DTConstants.DT_SCROLLINNER, tableConfiguration.getFeatureScrollInner());
+        if(StringUtils.isNotBlank(tableConfiguration.getFeatureScrollXInner())){
+        	mainConf.put(DTConstants.DT_SCROLLXINNER, tableConfiguration.getFeatureScrollXInner());
         }
         
         // AJAX

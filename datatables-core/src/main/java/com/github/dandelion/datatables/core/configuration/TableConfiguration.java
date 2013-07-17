@@ -84,7 +84,7 @@ public class TableConfiguration {
 	private String featureScrolly;
 	private Boolean featureScrollCollapse;
 	private String featureScrollx;
-	private String featureScrollInner;
+	private String featureScrollXInner;
 
 	// CSS parameters
 	private StringBuilder cssStyle;
@@ -243,7 +243,7 @@ public class TableConfiguration {
 		featureScrolly = objectToClone.featureScrolly;
 		featureScrollCollapse = objectToClone.featureScrollCollapse;
 		featureScrollx = objectToClone.featureScrollx;
-		featureScrollInner = objectToClone.featureScrollInner;
+		featureScrollXInner = objectToClone.featureScrollXInner;
 
 		// CSS parameters
 		cssStyle = objectToClone.cssStyle;
@@ -755,12 +755,12 @@ public class TableConfiguration {
 		return this;
 	}
 
-	public String getFeatureScrollInner() {
-		return featureScrollInner;
+	public String getFeatureScrollXInner() {
+		return featureScrollXInner;
 	}
 
-	public TableConfiguration setFeatureScrollInner(String scrollInner) {
-		this.featureScrollInner = scrollInner;
+	public TableConfiguration setFeatureScrollXInner(String scrollInner) {
+		this.featureScrollXInner = scrollInner;
 		return this;
 	}
 
@@ -1179,7 +1179,7 @@ public class TableConfiguration {
 				+ ", featureStateSave=" + featureStateSave + ", featureJqueryUi=" + featureJqueryUi
 				+ ", featureLengthMenu=" + featureLengthMenu + ", featureDisplayLength=" + featureDisplayLength
 				+ ", featureDom=" + featureDom + ", featureScrolly=" + featureScrolly + ", featureScrollCollapse="
-				+ featureScrollCollapse + ", featureScrollx=" + featureScrollx + ", featureScrollInner=" + featureScrollInner
+				+ featureScrollCollapse + ", featureScrollx=" + featureScrollx + ", featureScrollInner=" + featureScrollXInner
  				+ ", cssStyle=" + cssStyle + ", cssClass=" + cssClass + ", cssStripeClasses="
 				+ cssStripeClasses + ", ajaxProcessing=" + ajaxProcessing + ", ajaxDeferRender=" + ajaxDeferRender
 				+ ", ajaxServerSide=" + ajaxServerSide + ", ajaxSource=" + ajaxSource + ", ajaxPipelining="

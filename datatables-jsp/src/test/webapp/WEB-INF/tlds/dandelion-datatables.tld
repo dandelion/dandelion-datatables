@@ -87,6 +87,7 @@
                is set to
                "fadein". (Default : "fadein")</description>
            <name>appear</name>
+           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
           <description>(true|false) Enable the DataTables source files
@@ -98,17 +99,20 @@
               yourself. (Default :
               false)</description>
           <name>cdn</name>
+         <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>CSS style applied on the HTML table. (HTML
             style
             attribute)</description>
           <name>cssStyle</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>CSS class(es) applied on the HTML table. (HTML
             class attribute)</description>
           <name>cssClass</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
           <description>Useful if you want each row has a DOM id. This
@@ -145,6 +149,7 @@
                (Default : false, see
                http://datatables.net/ref#bDeferRender)</description>
            <name>deferRender</name>
+           <rtexprvalue>true</rtexprvalue>
       </attribute>
 
       <!-- ====================================== -->
@@ -161,12 +166,14 @@
             (Default : true, see
             http://datatables.net/ref#bInfo)</description>
           <name>info</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(true|false) Enable or disable pagination.
             (Default : true, see
             http://datatables.net/ref#bPaginate)</description>
           <name>paginate</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(true|false) If paginate is enabled, allows the
@@ -175,6 +182,7 @@
             true,
             see http://datatables.net/ref#bLengthChange)</description>
           <name>lengthChange</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(two_button|full_numbers) Choice between the
@@ -185,6 +193,7 @@
             see
             http://datatables.net/ref#sPaginationType)</description>
           <name>paginationType</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(true|false) Enable or disable filtering of
@@ -192,6 +201,7 @@
             (Default : true, see
             http://datatables.net/ref#bFilter)</description>
           <name>filter</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(true|false) Enable or disable sorting of all
@@ -202,17 +212,20 @@
             see
             http://datatables.net/ref#bSort)</description>
           <name>sort</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
           <description>(true|false) Enable or disable automatic column
               width calculation. (Default : true, see
               http://datatables.net/ref#bAutoWidth)</description>
           <name>autoWidth</name>
+          <rtexprvalue>true</rtexprvalue>
           <type>java.lang.Boolean</type>
       </attribute>
       <attribute>
          <description>Allows you to specify exactly where in the DOM you want DataTables to inject the various controls it adds to the page (for example you might want the pagination controls at the top of the table). DIV elements (with or without a custom class) can also be added to aid styling.</description>
          <name>dom</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(true|false) Enable or disable the display of a
@@ -224,29 +237,35 @@
             of time to sort the entries. (Default : false, see
             http://datatables.net/ref#bProcessing)</description>
           <name>processing</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Configure DataTables to use server-side processing</description>
           <name>serverSide</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Allows you to override the default function which obtains the data from the server ($.getJSON) so something more suitable for your application</description>
           <name>serverData</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Allows you to send extra information to the server when using AJAX source</description>
           <name>serverParams</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Enable pipelining data for paging when server-side
             processing is enabled</description>
           <name>pipelining</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Pipe size used when pipelining is enabled, ie
             times that the user can page before a request must be made
             of the server. (Default : 5)</description>
           <name>pipeSize</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(true|false) Enable or disable state saving.
@@ -261,11 +280,13 @@
             set up. (Default : false, see
             http://datatables.net/ref#bStateSave)</description>
           <name>stateSave</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(true|false) Enable or disable the export
             functionality</description>
           <name>export</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(TOP_LEFT|TOP_MIDDLE|TOP_RIGHT|BOTTOM_LEFT|BOTTOM_MIDDLE|BOTTOM_RIGHT)
@@ -273,6 +294,7 @@
             links will
             be generated (Default : TOP_RIGHT)</description>
           <name>exportLinks</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(true|false) Enable jQuery UI ThemeRoller
@@ -280,30 +302,36 @@
             (Default : false, see
             http://datatables.net/ref#bJQueryUI)</description>
           <name>jqueryUI</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(header) Choose if you want to have the footer
             appear.
             (Default : none)</description>
           <name>footer</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Name of a theme to activate for the current table.
             (Default : none)</description>
           <name>theme</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Name of an option to activate in relation to the
             current activated theme.</description>
           <name>themeOption</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Specify the entries in the length drop down menu that DataTables show when pagination is enabled.</description>
          <name>lengthMenu</name>
+         <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Comma-separated list of CSS classes that should be applied to displayed rows. This array may be of any length, and DataTables will apply each class sequentially, looping when required.</description>
          <name>cssStripes</name>
+         <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Number of rows to display on a single page when using pagination.</description>
@@ -313,14 +341,17 @@
       <attribute>
          <description>Comma-separated names of custom extensions to register in the current table</description>
          <name>ext</name>
+         <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Active a configuration group in the current table.</description>
          <name>confGroup</name>
+         <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>TODO</description>
          <name>filterPlaceholder</name>
+         <rtexprvalue>true</rtexprvalue>
       </attribute>
       
       <!-- ====================================== -->
@@ -333,16 +364,19 @@
             FixedHeader plugin. (Default : false) (See :
             http://datatables.net/extras/fixedheader/)</description>
           <name>fixedHeader</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(top|bottom|left|right) Respectively fix the
             header, footer, left column, right column. (Default :
             top)</description>
           <name>fixedPosition</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Offset applied on the top.</description>
           <name>offsetTop</name>
+          <rtexprvalue>true</rtexprvalue>
           <type>java.lang.Integer</type>
       </attribute>
 
@@ -352,11 +386,13 @@
             Scroller plugin. (Default : false) (See :
             http://datatables.net/extras/scroller/)</description>
           <name>scroller</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Table's height to display in scrolling mode.
             (default : 300px)</description>
           <name>scrollY</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description> (true|false) When vertical (y) scrolling is enabled, 
@@ -368,6 +404,31 @@
          	viewport down when the result set will fit within the given 
          	Y height. (default : false)</description>
           <name>scrollCollapse</name>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+          <description>Table's width to display in scrolling mode.
+          (default : disabled)</description>
+          <name>scrollX</name>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+          <description>Use more width than it might otherwise do when 
+          x-scrolling is enabled.
+          (default : disabled)</description>
+          <name>scrollXInner</name>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+          <description>Table's width to display in scrolling mode.
+          (default : disabled)</description>
+          <name>scrollX</name>
+      </attribute>
+      <attribute>
+          <description>Use more width than it might otherwise do when 
+          x-scrolling is enabled.
+          (default : disabled)</description>
+          <name>scrollInner</name>
       </attribute>
 
       <!-- ColReorder -->
@@ -376,6 +437,7 @@
             ColReorder plugin. (Default : false) (See :
             http://datatables.net/extras/colreorder/)</description>
           <name>colReorder</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <dynamic-attributes>true</dynamic-attributes>
    </tag>
@@ -391,20 +453,24 @@
        <attribute>
           <description>"title" attribute of the HTML caption tag.</description>
           <name>title</name>
+          <rtexprvalue>true</rtexprvalue>
        </attribute>
        <attribute>
            <description>(required) DOM id of the HTML table.</description>
            <name>id</name>
+           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>CSS style applied on the HTML table. (HTML style
             attribute)</description>
           <name>cssStyle</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>CSS class(es) applied on the HTML table. (HTML
             class attribute)</description>
           <name>cssClass</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
    </tag>
    <tag>
@@ -439,6 +505,7 @@
       <attribute>
           <description>Column title (TODO)</description>
           <name>titleKey</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
           <description>Name of the attribute of the current object
@@ -446,37 +513,44 @@
               iterated object on, regardless the data source (DOM
               or AJAX)</description>
           <name>property</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Default value if the property's value is null
             (Default : empty string)</description>
           <name>default</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(true|false) Enable or disable sorting on
             column.
             (Default : true)</description>
           <name>sortable</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(asc|desc) If sortable is enabled, set the
             default
             sorting direction (Default : asc)</description>
           <name>sortInit</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>If sortable is enabled, allow to control the
             sorting direction(s)</description>
           <name>sortDirection</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(true|false) Enable or disable a filtering field in the column's foot. (Default : false)</description>
           <name>filterable</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
           <description>(true|false) Enable or disable filtering on
               column. (Default : true)</description>
           <name>searchable</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
           <description>(true|false) Enable or disable the display of the column. (Default : true)</description>
@@ -492,6 +566,7 @@
             footer
             (Default : INPUT)</description>
           <name>filterType</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>TODO</description>
@@ -504,40 +579,48 @@
             with
             this attribute</description>
           <name>filterCssClass</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>If filterable is enabled and filterType is
             'INPUT', fill in the input field with this attribute
             (Default : the column's title)</description>
           <name>filterPlaceholder</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>CSS style applied on header cell (th HTML tag)</description>
           <name>cssStyle</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>CSS style applied on every table cell (td HTML
             tag)</description>
           <name>cssCellStyle</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>CSS class applied on header cell (th HTML tag)</description>
           <name>cssClass</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>CSS class applied on every table cell (td HTML
             tag)</description>
           <name>cssCellClass</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(ALL[,HTML|,XML|,CSV]) Comma-separated list of
             string which indicates in which view(s) the column's body
             will be displayed. (Default : ALL)</description>
           <name>display</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Name of an external Javascript function that will be used to render the column (AJAX only)</description>
          <name>renderFunction</name>
+         <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>A MessageFormat pattern that will be used to format the property. (DOM only)</description>
@@ -636,6 +719,7 @@
           <description>(XML|CSV) Type of export (Default : XML,CSV)</description>
           <name>type</name>
           <required>true</required>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
           <description>Name of the file containing exported data
@@ -652,10 +736,12 @@
       <attribute>
          <description>CSS style applied to the HTML link</description>
           <name>cssStyle</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>CSS class applied to the HTML link</description>
           <name>cssClass</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <!-- <attribute> <name>area</name> <description>(list|current) Indicates 
          how much data should be exported. Choose list for the full list or current 

@@ -46,9 +46,9 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * 
  * @author DISID TECHNOLOGIES S.L.
  */
-public class TableScrollInnerAttrProcessor extends AbstractDatatablesAttrProcessor {
+public class TableScrollXInnerAttrProcessor extends AbstractDatatablesAttrProcessor {
 
-	public TableScrollInnerAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	public TableScrollXInnerAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
@@ -64,7 +64,7 @@ public class TableScrollInnerAttrProcessor extends AbstractDatatablesAttrProcess
 		// Get attribute value
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), "", String.class);
 
-		localConf.put(Configuration.FEATURE_SCROLLINNER, attrValue);
+		localConf.put(Configuration.FEATURE_SCROLLXINNER, attrValue);
 		
         return ProcessorResult.ok();
 	}

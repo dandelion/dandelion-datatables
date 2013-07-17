@@ -416,7 +416,7 @@
           <description>Use more width than it might otherwise do when 
           x-scrolling is enabled.
           (default : disabled)</description>
-          <name>scrollInner</name>
+          <name>scrollXInner</name>
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
