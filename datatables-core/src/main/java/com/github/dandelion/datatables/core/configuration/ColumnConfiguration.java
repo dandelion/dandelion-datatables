@@ -233,4 +233,15 @@ public class ColumnConfiguration {
 	public void setEnabledDisplayTypes(List<DisplayType> enabledDisplayTypes) {
 		this.enabledDisplayTypes = enabledDisplayTypes;
 	}
+
+	@Override
+	public String toString() {
+		return "ColumnConfiguration [uid=" + uid + ", title=" + title + ", titleKey=" + titleKey + ", property="
+				+ property + ", defaultValue=" + defaultValue + ", sortable=" + sortable + ", sortDirections="
+				+ sortDirections + ", sortInit=" + sortInit + ", sortType=" + sortType + ", filterable=" + filterable
+				+ ", searchable=" + searchable + ", visible=" + visible + ", filterType=" + filterType
+				+ ", filterValues=" + filterValues + ", filterCssClass=" + filterCssClass + ", filterPlaceholder="
+				+ filterPlaceholder + ", renderFunction=" + renderFunction + ", format=" + format + ", selector="
+				+ selector + ", enabledDisplayTypes=" + enabledDisplayTypes + "]";
+	}
 }
