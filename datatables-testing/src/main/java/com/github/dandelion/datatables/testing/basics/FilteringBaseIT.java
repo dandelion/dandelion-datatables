@@ -9,7 +9,7 @@ import com.github.dandelion.datatables.testing.BaseIT;
 
 public class FilteringBaseIT extends BaseIT {
 
-	@Ignore
+	@Test
 	public void should_filter_data_when_using_an_input_field() throws Exception {
 		goToPage("basics/filtering_with_input");
 		
@@ -22,7 +22,7 @@ public class FilteringBaseIT extends BaseIT {
 		assertThat(getTable().find("tbody").find("tr", 0).find("td", 4).getText()).isEqualTo("bibendum.fermentum.metus@ante.ca");
 	}
 	
-	@Ignore
+	@Test
 	public void should_generate_select_in_the_footer() throws Exception {
 		goToPage("basics/filtering_with_select");
 		
