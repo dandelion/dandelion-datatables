@@ -3,10 +3,7 @@ package com.github.dandelion.datatables.thymeleaf.processor.el;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.thymeleaf.Arguments;
-import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
@@ -35,58 +32,37 @@ public class ColumnInitializerElProcessor extends AbstractDatatablesElProcessor 
 
 	@Override
 	protected ProcessorResult doProcessElement(Arguments arguments, Element element, HtmlTable table) {
-
-		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-		
-//		// Get the TH content
-//		String content = null;
-//		if(element.getFirstChild() instanceof Text){
-//			content = ((Text) element.getFirstChild()).getContent().trim();
-//		}
-//		else{
-//			content = element.getChildren().toString();
-//		}
-//
-//		// Init a new column
-//		HtmlColumn htmlColumn = new HtmlColumn(true, content);
 		
 		Map<Configuration, Object> stagingConf = new HashMap<Configuration, Object>();
-		
 					
 		// AJAX sources require to set dt:property attribute
 		// This attribute is processed here, before being removed
-		if(element.hasAttribute("dt:property")){
-			stagingConf.put(Configuration.COLUMN_PROPERTY,
-					Utils.parseElementAttribute(arguments, element.getAttributeValue("dt:property"), null, String.class));
-//			htmlColumn.getColumnConfiguration().setProperty(Utils.parseElementAttribute(arguments, element.getAttributeValue("dt:property"), null, String.class));
-			element.removeAttribute("dt:property");
-		}
-		
-		if(element.hasAttribute("dt:renderFunction")) {
-			stagingConf.put(Configuration.COLUMN_PROPERTY,
-					Utils.parseElementAttribute(arguments, element.getAttributeValue("dt:renderFunction"), null, String.class));
-//			htmlColumn.getColumnConfiguration().setRenderFunction(Utils.parseElementAttribute(arguments, element.getAttributeValue("dt:renderFunction"), null, String.class));
-			element.removeAttribute("dt:renderFunction");
+		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":property")) {
+			stagingConf.put(Configuration.COLUMN_PROPERTY, Utils.parseElementAttribute(arguments,
+					element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":property"), null, String.class));
+			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":property");
 		}
 
-		if(element.hasAttribute("dt:default")){
-			stagingConf.put(Configuration.COLUMN_PROPERTY,
-					Utils.parseElementAttribute(arguments, element.getAttributeValue("dt:default"), null, String.class));
-//			htmlColumn.getColumnConfiguration().setDefaultValue(Utils.parseElementAttribute(arguments, element.getAttributeValue("dt:default"), null, String.class));
-			element.removeAttribute("dt:default");
+		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":renderFunction")) {
+			stagingConf.put(Configuration.COLUMN_RENDERFUNCTION,
+					Utils.parseElementAttribute(arguments,
+							element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":renderFunction"), null,
+							String.class));
+			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":renderFunction");
 		}
-		else{
-			stagingConf.put(Configuration.COLUMN_PROPERTY, "");
-//			htmlColumn.getColumnConfiguration().setDefaultValue("");
+
+		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":default")) {
+			stagingConf.put(Configuration.COLUMN_DEFAULTVALUE, Utils.parseElementAttribute(arguments,
+					element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":default"), null, String.class));
+			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":default");
+		} else {
+			stagingConf.put(Configuration.COLUMN_DEFAULTVALUE, "");
 		}
-		
-		// Map used to store the table local configuration
-		request.setAttribute(DataTablesDialect.INTERNAL_COLUMN_LOCAL_CONF, stagingConf);
 				
-//		// HtmlColumn POJO is made available during the TH element processing
-//		Map<String, Object> newVariable = new HashMap<String, Object>();
-//		newVariable.put("htmlColumn", htmlColumn);
-//		return ProcessorResult.setLocalVariables(newVariable);
-		return ProcessorResult.ok();
+		// The staging configuration is stored as a local variable. It must be
+		// accessible in all column head processors.
+		Map<String, Object> newVariable = new HashMap<String, Object>();
+		newVariable.put(DataTablesDialect.INTERNAL_COLUMN_LOCAL_CONF, stagingConf);
+		return ProcessorResult.setLocalVariables(newVariable);
 	}
 }

@@ -62,8 +62,9 @@ public abstract class AbstractDatatablesColumnAttrProcessor extends AbstractAttr
     	
     	HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 		
-		Map<Configuration, Object> stagingConf = (Map<Configuration, Object>) request.getAttribute(DataTablesDialect.INTERNAL_COLUMN_LOCAL_CONF); 
-
+		Map<Configuration, Object> stagingConf = (Map<Configuration, Object>) arguments
+				.getLocalVariable(DataTablesDialect.INTERNAL_COLUMN_LOCAL_CONF);
+		
 		HtmlTable table = (HtmlTable) request.getAttribute(DataTablesDialect.INTERNAL_TABLE_BEAN);
 		
         ProcessorResult processorResult = processColumnAttribute(arguments, element, attributeName, table, stagingConf);

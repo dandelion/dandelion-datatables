@@ -2,10 +2,7 @@ package com.github.dandelion.datatables.thymeleaf.processor.el;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.thymeleaf.Arguments;
-import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Text;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
@@ -34,8 +31,10 @@ public class ColumnFinalizerProcessor extends AbstractDatatablesElProcessor {
 	@Override
 	@SuppressWarnings("unchecked")
 	protected ProcessorResult doProcessElement(Arguments arguments, Element element, HtmlTable table) {
-		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-
+		
+		Map<Configuration, Object> stagingConf = (Map<Configuration, Object>) arguments
+				.getLocalVariable(DataTablesDialect.INTERNAL_COLUMN_LOCAL_CONF);
+				
 		// Get the TH content
 		String content = null;
 		if (element.getFirstChild() instanceof Text) {
@@ -46,9 +45,6 @@ public class ColumnFinalizerProcessor extends AbstractDatatablesElProcessor {
 
 		// Init a new column
 		HtmlColumn htmlColumn = new HtmlColumn(true, content);
-
-		Map<Configuration, Object> stagingConf = (Map<Configuration, Object>) request
-				.getAttribute(DataTablesDialect.INTERNAL_COLUMN_LOCAL_CONF);
 
 		try {
 			Configuration.applyColumnConfiguration(htmlColumn.getColumnConfiguration(), table.getTableConfiguration(),

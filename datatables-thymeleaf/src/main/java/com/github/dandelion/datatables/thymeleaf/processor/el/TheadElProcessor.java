@@ -42,25 +42,18 @@ public class TheadElProcessor extends AbstractDatatablesElProcessor {
 
 				if (trChildTagName != null && trChildTagName.equals("tr")) {
 
-//					if (trChildTag.hasAttribute("th:each")) {
+					for (Node grandchild : trChildTag.getChildren()) {
 
-//						trChildTag.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":data",
-//								"internalUse");
+						if (grandchild != null && grandchild instanceof Element) {
 
-						for (Node grandchild : trChildTag.getChildren()) {
+							Element thChildTag = (Element) grandchild;
+							thChildTag.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse");
 
-							if (grandchild != null && grandchild instanceof Element) {
-
-								Element thChildTag = (Element) grandchild;
-								thChildTag.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":data",
-										"internalUse");
-
-								// The td nodes must be processed too (for
-								// HtmlColumn creation)
-								thChildTag.setProcessable(true);
-							}
+							// The td nodes must be processed too (for
+							// HtmlColumn creation)
+							thChildTag.setProcessable(true);
 						}
-//					}
+					}
 				}
 			}
 		}
