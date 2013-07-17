@@ -190,7 +190,7 @@ public class MainGeneratorTest {
 	@Test
 	public void should_set_sort_direction() {
 		List<Direction> sortDirections = new ArrayList<Direction>();
-		sortDirections.add(Direction.ASC);
+		sortDirections.add(Direction.DESC);
 		firstColumn.getColumnConfiguration().setSortDirections(sortDirections);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
@@ -199,7 +199,13 @@ public class MainGeneratorTest {
 		assertThat(columnsProperties).hasSize(1);
 		Map<String, Object> firstColumnProperties = columnsProperties.get(0);
 		Map<String, Object> customProperties = new HashMap<String, Object>(defaultProperties);
-		customProperties.put(DTConstants.DT_SORT_DIR, sortDirections);
+		
+		List<String> directions = new ArrayList<String>();
+		for(Direction direction : sortDirections){
+			directions.add(direction.value);
+		}
+		
+		customProperties.put(DTConstants.DT_SORT_DIR, directions);
 		assertThat(firstColumnProperties).isEqualTo(customProperties);
 	}
 
