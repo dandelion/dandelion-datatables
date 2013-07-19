@@ -2,7 +2,6 @@ package com.github.dandelion.datatables.testing.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.testing.BaseIT;
@@ -45,7 +44,7 @@ public class FilteringBaseIT extends BaseIT {
 	
 	@Test
 	public void should_filter_data_when_using_an_extra_form() throws Exception {
-		goToPage("basics/filtering_with_extra_form", true);
+		goToPage("basics/filtering_with_extra_form");
 		
 		assertThat(find("#firstNameFilter").find("span.filter_column")).hasSize(1);
 		assertThat(find("#firstNameFilter").find("span.filter_column").find("select.select_filter")).hasSize(1);
@@ -53,5 +52,17 @@ public class FilteringBaseIT extends BaseIT {
 		assertThat(find("#lastNameFilter").find("span.filter_column").find("select.select_filter")).hasSize(1);
 		assertThat(find("#cityFilter").find("span.filter_column")).hasSize(1);
 		assertThat(find("#cityFilter").find("span.filter_column").find("select.select_filter")).hasSize(1);
+	}
+	
+	@Test
+	public void should_generate_a_filtering_listbox_with_predefined_values(){
+		goToPage("basics/filtering_with_select_with_predefined_values");
+		
+		assertThat(getTable().find("tfoot").find("tr", 0).find("th", 2).find("select")).hasSize(1);
+		assertThat(getTable().find("tfoot").find("tr", 0).find("th", 2).find("select").find("option")).hasSize(4);
+		assertThat(getTable().find("tfoot").find("tr", 0).find("th", 2).find("select").find("option", 0).getText()).isEqualTo("LastName");
+		assertThat(getTable().find("tfoot").find("tr", 0).find("th", 2).find("select").find("option", 1).getText()).isEqualTo("val1");
+		assertThat(getTable().find("tfoot").find("tr", 0).find("th", 2).find("select").find("option", 2).getText()).isEqualTo("val2");
+		assertThat(getTable().find("tfoot").find("tr", 0).find("th", 2).find("select").find("option", 3).getText()).isEqualTo("val3");
 	}
 }

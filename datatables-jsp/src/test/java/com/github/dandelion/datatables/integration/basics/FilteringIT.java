@@ -29,7 +29,6 @@
  */
 
 package com.github.dandelion.datatables.integration.basics;
-
 import org.junit.runner.RunWith;
 
 import com.github.dandelion.datatables.integration.JspContextRunner;

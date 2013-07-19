@@ -38,6 +38,7 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesColumnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThFilterTypeAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThFilterValuesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThFilterableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThSearchableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThSelectorAttrProcessor;
@@ -58,6 +59,7 @@ public enum DatatablesColumnAttrProcessors {
     BASIC_SEARCHABLE(ThSearchableAttrProcessor.class, "searchable", "th"),
     BASIC_VISIBLE(ThVisibleAttrProcessor.class, "visible", "th"),
     BASIC_FILTER_TYPE(ThFilterTypeAttrProcessor.class, "filterType", "th"),
+    BASIC_FILTER_VALUES(ThFilterValuesAttrProcessor.class, "filterValues", "th"),
     BASIC_SORT_INIT(ThSortInitAttrProcessor.class, "sortinit", "th"),
     BASIC_SORT_DIR(ThSortDirectionAttrProcessor.class, "sortdir", "th"),
     BASIC_SELECTOR(ThSelectorAttrProcessor.class, "selector", "th");
