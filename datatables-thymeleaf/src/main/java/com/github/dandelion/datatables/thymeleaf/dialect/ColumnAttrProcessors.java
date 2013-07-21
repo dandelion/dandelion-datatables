@@ -44,6 +44,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThSearchab
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThSelectorAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThSortDirectionAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThSortInitAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThSortTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThSortableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThVisibleAttrProcessor;
 
@@ -62,6 +63,7 @@ public enum ColumnAttrProcessors {
     BASIC_FILTER_VALUES(ThFilterValuesAttrProcessor.class, "filterValues", "th"),
     BASIC_SORT_INIT(ThSortInitAttrProcessor.class, "sortinit", "th"),
     BASIC_SORT_DIR(ThSortDirectionAttrProcessor.class, "sortdir", "th"),
+    BASIC_SORT_TYPE(ThSortTypeAttrProcessor.class, "sorttype", "th"),
     BASIC_SELECTOR(ThSelectorAttrProcessor.class, "selector", "th");
     
     private Class<? extends AbstractDatatablesColumnAttrProcessor> processorClass;
