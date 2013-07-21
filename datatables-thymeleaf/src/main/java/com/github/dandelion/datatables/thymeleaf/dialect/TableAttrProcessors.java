@@ -97,7 +97,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.theme.TableTheme
  *
  * @since 0.8.9
  */
-public enum DatatablesAttrProcessors {
+public enum TableAttrProcessors {
 	
 	// Configuration
 	CONF_GROUP(TableConfGroupAttrProcessor.class, "confGroup", "table"),
@@ -203,7 +203,7 @@ public enum DatatablesAttrProcessors {
     private String attributeName;
     private String elementNameFilter;
 
-    private DatatablesAttrProcessors(Class<? extends AbstractDatatablesAttrProcessor> processorClass, String attributeName, String elementNameFilter) {
+    private TableAttrProcessors(Class<? extends AbstractDatatablesAttrProcessor> processorClass, String attributeName, String elementNameFilter) {
         this.processorClass = processorClass;
         this.attributeName = attributeName;
         this.elementNameFilter = elementNameFilter;

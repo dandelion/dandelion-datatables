@@ -33,7 +33,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.thymeleaf.dialect.AbstractDialect;
+import org.thymeleaf.processor.ElementNameProcessorMatcher;
 import org.thymeleaf.processor.IProcessor;
+
+import com.github.dandelion.datatables.thymeleaf.matcher.DatatablesElementMatcher;
+import com.github.dandelion.datatables.thymeleaf.processor.el.ColumnFinalizerProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.el.ColumnInitializerElProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.el.TableFinalizerElProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.el.TableInitializerElProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.el.TbodyElProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.el.TdElProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.el.TheadElProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.el.TrElProcessor;
 
 /**
  * The Dandelion-datatables dialect.
@@ -68,17 +79,22 @@ public class DataTablesDialect extends AbstractDialect {
 		final Set<IProcessor> processors = new HashSet<IProcessor>();
 
 		// Element processors
-		for (DatatablesElProcessors processor : DatatablesElProcessors.values()) {
-			processors.add(processor.getProcessor());
-		}
-
+		processors.add(new TableInitializerElProcessor(new ElementNameProcessorMatcher("table", DataTablesDialect.DIALECT_PREFIX + ":table", "true", false)));
+		processors.add(new TableFinalizerElProcessor(new ElementNameProcessorMatcher("div", DataTablesDialect.DIALECT_PREFIX + ":tmp", "internalUse", false)));
+		processors.add(new ColumnInitializerElProcessor(new ElementNameProcessorMatcher("th", false)));
+		processors.add(new ColumnFinalizerProcessor(new ElementNameProcessorMatcher("th", DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse", false)));
+		processors.add(new TheadElProcessor(new DatatablesElementMatcher("thead", false)));
+		processors.add(new TbodyElProcessor(new DatatablesElementMatcher("tbody", false)));
+		processors.add(new TrElProcessor(new ElementNameProcessorMatcher("tr", DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse", false)));
+		processors.add(new TdElProcessor(new ElementNameProcessorMatcher("td", DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse", false)));
+		
 		// Attribute processors
-		for (DatatablesAttrProcessors processor : DatatablesAttrProcessors.values()) {
+		for (TableAttrProcessors processor : TableAttrProcessors.values()) {
 			processors.add(processor.getProcessor());
 		}
 		
 		// Column attribute processors
-		for (DatatablesColumnAttrProcessors processor : DatatablesColumnAttrProcessors.values()) {
+		for (ColumnAttrProcessors processor : ColumnAttrProcessors.values()) {
 			processors.add(processor.getProcessor());
 		}
 				

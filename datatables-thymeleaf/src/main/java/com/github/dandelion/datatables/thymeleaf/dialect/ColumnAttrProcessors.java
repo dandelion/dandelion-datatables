@@ -52,7 +52,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThVisibleA
  *
  * @since 0.9.0
  */
-public enum DatatablesColumnAttrProcessors {
+public enum ColumnAttrProcessors {
 	
     BASIC_SORTABLE(ThSortableAttrProcessor.class, "sortable", "th"),
     BASIC_FILTERABLE(ThFilterableAttrProcessor.class, "filterable", "th"),
@@ -68,7 +68,7 @@ public enum DatatablesColumnAttrProcessors {
     private String attributeName;
     private String elementNameFilter;
 
-    private DatatablesColumnAttrProcessors(Class<? extends AbstractDatatablesColumnAttrProcessor> processorClass, String attributeName, String elementNameFilter) {
+    private ColumnAttrProcessors(Class<? extends AbstractDatatablesColumnAttrProcessor> processorClass, String attributeName, String elementNameFilter) {
         this.processorClass = processorClass;
         this.attributeName = attributeName;
         this.elementNameFilter = elementNameFilter;
