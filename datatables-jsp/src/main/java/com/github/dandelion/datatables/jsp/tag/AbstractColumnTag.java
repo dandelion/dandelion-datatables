@@ -101,16 +101,16 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 
 		// TODO For sake of consistency, cssClass and cssStyle attributes should
 		// be handled directly via the ColumnConfiguration
-		HtmlColumn headcolumn = new HtmlColumn(true, content, dynamicAttributes);
+		HtmlColumn headColumn = new HtmlColumn(true, content, dynamicAttributes);
 		if (StringUtils.isNotBlank(this.cssClass)) {
-			headcolumn.setCssClass(new StringBuilder(this.cssClass));
+			headColumn.setCssClass(new StringBuilder(this.cssClass));
 		}
 		if (StringUtils.isNotBlank(this.cssStyle)) {
-			headcolumn.setCssStyle(new StringBuilder(this.cssStyle));
+			headColumn.setCssStyle(new StringBuilder(this.cssStyle));
 		}
 		
 		try {
-			Configuration.applyColumnConfiguration(headcolumn.getColumnConfiguration(), parent.getTable().getTableConfiguration(), stagingConf);
+			Configuration.applyColumnConfiguration(headColumn.getColumnConfiguration(), parent.getTable().getTableConfiguration(), stagingConf);
 		} catch (ConfigurationProcessingException e) {
 			throw new JspException(e);
 		} catch (ConfigurationLoadingException e) {
@@ -118,13 +118,14 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		}
 		
 		// TODO The FilteringFeature cannot be registered in a dedicated
-		// processor because it's an abstract feature. Implementations only
-		// exist in datatables-jsp and datatables-thymeleaf
-		if(headcolumn.getColumnConfiguration().getFilterable()){
+		// core processor because it's an abstract feature. Implementations only
+		// exist in datatables-jsp and datatables-thymeleaf, not in
+		// datatables-core
+		if(headColumn.getColumnConfiguration().getFilterable()){
 			parent.getTable().getTableConfiguration().registerExtension(new FilteringFeature());
 		}
 		
-		parent.getTable().getLastHeaderRow().addColumn(headcolumn);
+		parent.getTable().getLastHeaderRow().addColumn(headColumn);
 	}
 	
 	/**
@@ -185,6 +186,13 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 			throw new JspException(e);
 		}
 		
+		// TODO The FilteringFeature cannot be registered in a dedicated
+		// processor because it's an abstract feature. Implementations only
+		// exist in datatables-jsp and datatables-thymeleaf
+		if(headColumn.getColumnConfiguration().getFilterable()){
+			parent.getTable().getTableConfiguration().registerExtension(new FilteringFeature());
+		}
+				
 		parent.getTable().getLastHeaderRow().addColumn(headColumn);
 	}
 	

@@ -68,8 +68,12 @@ public class ThFilterableAttrProcessor extends AbstractDatatablesColumnAttrProce
 
 		// Override default value with the attribute's one
 		if (table != null) {
-//			table.getLastHeaderRow().getLastColumn().setFilterable(attrValue);
 			stagingConf.put(Configuration.COLUMN_FILTERABLE, attrValue);
+
+			// TODO The FilteringFeature cannot be registered in a dedicated
+			// core processor because it's an abstract feature. Implementations
+			// only exist in datatables-jsp and datatables-thymeleaf, not in
+			// datatables-core
 			if(attrValue){
 				table.getTableConfiguration().registerExtension(new FilteringFeature(arguments));
 			}
