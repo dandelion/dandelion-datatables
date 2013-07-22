@@ -72,7 +72,7 @@ public class Utils {
 	private static Pattern generateStringRegexFromEnumerations(Class<?>... enumClasses) {
 		boolean firstElement = true;
 		StringBuilder stringRegexBuilder = new StringBuilder();
-		stringRegexBuilder.append("^");
+		stringRegexBuilder.append("^(");
 		for (Class<?> enumClass : enumClasses) {
 			for (Object enumCst : enumClass.getEnumConstants()) {
 				if (firstElement) {
@@ -84,7 +84,7 @@ public class Utils {
 				stringRegexBuilder.append(enumName);
 			}
 		}
-		stringRegexBuilder.append("$");
+		stringRegexBuilder.append(")$");
 		return Pattern.compile(stringRegexBuilder.toString());
 	}
 
