@@ -296,10 +296,10 @@ public class HtmlTable extends HtmlTag {
 			return this;
 		}
 
-//		public Builder<T> format(String pattern) {
-//			headerColumns.getLast().setFormatPattern(pattern);
-//			return this;
-//		}
+		public Builder<T> format(String pattern) {
+			headerColumns.getLast().getColumnConfiguration().setFormat(pattern);
+			return this;
+		}
 
 		public Builder<T> defaultContent(String defaultContent) {
 			headerColumns.getLast().getColumnConfiguration().setDefaultValue(defaultContent);

@@ -58,11 +58,11 @@ public class Utils {
 	private static Pattern stringRegex;
 	
 	static {
-		stringRegex = generateStringRegexFromEnumerations(//
-				ExportLinkPosition.class, //
-				ExportType.class, //
-				SortDirection.class, //
-				Theme.class, //
+		stringRegex = generateStringRegexFromEnumerations(
+				ExportLinkPosition.class,
+				ExportType.class,
+				SortDirection.class,
+				Theme.class,
 				ThemeOption.class,
 				FilterPlaceholder.class,
 				FilterType.class,
@@ -71,21 +71,28 @@ public class Utils {
 
 	private static Pattern generateStringRegexFromEnumerations(Class<?>... enumClasses) {
 		boolean firstElement = true;
-		StringBuilder stringRegexBuilder = new StringBuilder();
-		stringRegexBuilder.append("^(");
+		StringBuilder enumRegexBuilder = new StringBuilder();
+		StringBuilder finalRegexBuilder = new StringBuilder();
 		for (Class<?> enumClass : enumClasses) {
 			for (Object enumCst : enumClass.getEnumConstants()) {
 				if (firstElement) {
 					firstElement = false;
 				} else {
-					stringRegexBuilder.append('|');
+					enumRegexBuilder.append('|');
 				}
 				String enumName = ((Enum<?>) enumCst).name().toLowerCase();
-				stringRegexBuilder.append(enumName);
+				enumRegexBuilder.append(enumName);
 			}
 		}
-		stringRegexBuilder.append(")$");
-		return Pattern.compile(stringRegexBuilder.toString());
+		
+		finalRegexBuilder
+			.append("^(")
+			.append(enumRegexBuilder)
+			.append(")(,(")
+			.append(enumRegexBuilder)
+			.append("))*$");
+
+		return Pattern.compile(finalRegexBuilder.toString(), Pattern.CASE_INSENSITIVE);
 	}
 
 	/**

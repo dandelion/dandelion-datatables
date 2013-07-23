@@ -35,7 +35,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import com.github.dandelion.datatables.core.exception.ExportException;
-import com.github.dandelion.datatables.core.export.PdfExport;
+import com.github.dandelion.datatables.core.export.BinaryExport;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -52,15 +52,10 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * Juergen Hoeller and Jean-Pierre Pawlak.
  * 
  * @author Thibault Duchateau
+ * @since 0.9.0
  */
 public abstract class AbstractPdfDatatablesView extends AbstractDatatablesView {
 
-	private PdfExport pdfExport;
-	
-	public void setPdfExport(PdfExport pdfExport){
-		this.pdfExport = pdfExport;
-	}
-	
 	/**
 	 * This constructor sets the appropriate content type "application/pdf".
 	 * Note that IE won't take much notice of this, but there's not a lot we can
@@ -71,24 +66,4 @@ public abstract class AbstractPdfDatatablesView extends AbstractDatatablesView {
 	}
 	
 	
-	public void render(HtmlTable table, String title, HttpServletResponse response){
-		
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		
-		pdfExport.initExport(table);
-		
-		try {
-			pdfExport.processExport(stream);
-		} catch (ExportException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		try {
-			writeToResponse(response, stream, title, getContentType());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }

@@ -29,6 +29,15 @@
  */
 package com.github.dandelion.datatables.core.view;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
+import com.github.dandelion.datatables.core.exception.ExportException;
+import com.github.dandelion.datatables.core.export.BinaryExport;
+import com.github.dandelion.datatables.core.html.HtmlTable;
+
 
 /**
  * <p>
@@ -44,6 +53,7 @@ package com.github.dandelion.datatables.core.view;
  * Juergen Hoeller and Jean-Pierre Pawlak.
  * 
  * @author Thibault Duchateau
+ * @since 0.9.0
  */
 public abstract class AbstractXlsDatatablesView extends AbstractDatatablesView {
 

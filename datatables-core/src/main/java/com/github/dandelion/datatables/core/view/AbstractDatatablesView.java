@@ -35,6 +35,10 @@ import java.io.IOException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+import com.github.dandelion.datatables.core.exception.ExportException;
+import com.github.dandelion.datatables.core.export.BinaryExport;
+import com.github.dandelion.datatables.core.html.HtmlTable;
+
 /**
  * <p>
  * Abstract base class for all view implementations used in export.
@@ -47,12 +51,23 @@ import javax.servlet.http.HttpServletResponse;
  * Juergen Hoeller.
  * 
  * @author Thibault Duchateau
+ * @since 0.9.0
  */
 public abstract class AbstractDatatablesView {
 
+	public AbstractDatatablesView(){
+		
+	}
+	
 	/** Default content type. Overridable as bean property. */
 	public static final String DEFAULT_CONTENT_TYPE = "text/html;charset=ISO-8859-1";
 
+	private BinaryExport binaryExport;
+	
+	public void setBinaryExport(BinaryExport binaryExport){
+		this.binaryExport = binaryExport;
+	}
+	
 	private String contentType = DEFAULT_CONTENT_TYPE;
 
 	/**
@@ -73,6 +88,27 @@ public abstract class AbstractDatatablesView {
 		return this.contentType;
 	}
 
+	
+	public void render(HtmlTable table, String title, HttpServletResponse response){
+		
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		
+		binaryExport.initExport(table);
+		
+		try {
+			binaryExport.processExport(stream);
+		} catch (ExportException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			writeToResponse(response, stream, title, getContentType());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * Write the given temporary OutputStream to the HTTP response.
 	 * 
