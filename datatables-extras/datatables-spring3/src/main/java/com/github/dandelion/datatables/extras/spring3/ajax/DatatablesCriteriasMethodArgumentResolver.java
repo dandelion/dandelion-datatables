@@ -32,8 +32,10 @@ package com.github.dandelion.datatables.extras.spring3.ajax;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.core.MethodParameter;
-import org.springframework.web.bind.support.WebArgumentResolver;
+import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
 
@@ -52,7 +54,7 @@ import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
  * <pre>
  * &lt;mvc:annotation-driven&gt;
  *    &lt;mvc:argument-resolvers&gt;
- *       &lt;bean class="com.github.dandelion.datatables.extras.spring3.ajax.DatatablesCriteriasResolver" /&gt;
+ *       &lt;bean class="com.github.dandelion.datatables.extras.spring3.ajax.DatatablesCriteriasMethodArgumentResolver" /&gt;
  *    &lt;/mvc:argument-resolvers&gt;
  * &lt;/mvc:annotation-driven&gt;
  * </pre>
@@ -62,8 +64,8 @@ import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
  * &#064;EnableWebMvc
  * public class MyWebConfig extends WebMvcConfigurerAdapter {
  * 	&#064;Override
- * 	public void addArgumentResolvers(List&lt;WebArgumentResolver&gt; argumentResolvers) {
- * 		argumentResolvers.add(new DatatablesCriteriasResolver());
+ * 	public void addArgumentResolvers(List&lt;HandlerMethodArgumentResolver&gt; argumentResolvers) {
+ * 		argumentResolvers.add(new DatatablesCriteriasMethodArgumentResolver());
  * 	}
  * }
  * </pre>
@@ -72,19 +74,27 @@ import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
  * @see DatatablesCriterias
  * 
  * @author Thibault Duchateau
- * @since 0.8.2
- * @deprecated Please use the {@link DatatablesCriteriasMethodArgumentResolver} instead, which is compatible 
+ * @since 0.9.0
  */
-public class DatatablesCriteriasResolver implements WebArgumentResolver {
+public class DatatablesCriteriasMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
-	public Object resolveArgument(MethodParameter methodParam, NativeWebRequest nativeWebRequest) throws Exception {
-		DatatablesParams parameterAnnotation = methodParam.getParameterAnnotation(DatatablesParams.class);
-
+	@Override
+	public boolean supportsParameter(MethodParameter parameter) {
+		DatatablesParams parameterAnnotation = parameter.getParameterAnnotation(DatatablesParams.class);
 		if (parameterAnnotation != null) {
-			HttpServletRequest request = (HttpServletRequest) nativeWebRequest.getNativeRequest();
-			return DatatablesCriterias.getFromRequest(request);
+			if (DatatablesCriterias.class.isAssignableFrom(parameter.getParameterType())) {
+				return true;
+			}
 		}
-
-		return WebArgumentResolver.UNRESOLVED;
+		return false;
 	}
+
+	@Override
+	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+		HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
+		return DatatablesCriterias.getFromRequest(request);
+
+	}
+
 }
