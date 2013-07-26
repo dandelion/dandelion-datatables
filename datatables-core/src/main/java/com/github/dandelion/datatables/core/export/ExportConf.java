@@ -62,7 +62,7 @@ public class ExportConf {
 	 * Initialize the default values.
 	 */
 	private void init() {
-		this.fileName = "export";
+		this.fileName = "export." + this.type.toString().toLowerCase();
 		this.label = this.type.toString();
 		this.includeHeader = true;
 		this.autoSize = false;
