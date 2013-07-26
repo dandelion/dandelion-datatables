@@ -29,7 +29,7 @@
  */
 package com.github.dandelion.datatables.core.export;
 
-import java.io.StringWriter;
+import java.io.ByteArrayOutputStream;
 import java.util.HashSet;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,8 +52,7 @@ import com.github.dandelion.datatables.core.mock.Person;
 public class ExportTest {
 
 	protected HtmlTable table;
-	protected StringWriter writer;
-	protected AbstractCharExport abstractExport;
+	protected ByteArrayOutputStream baos;
 	private MockServletContext mockServletContext;
 	private MockPageContext mockPageContext;
 	private HttpServletRequest request;
@@ -118,9 +117,9 @@ public class ExportTest {
 		table.getTableConfiguration().getExportConfs().add(exportConf);
 	}
 	
-	public void processExport(AbstractCharExport export) throws ExportException{
-		writer = new StringWriter();
+	public void processExport(DatatablesExport export) throws ExportException{
+		baos = new ByteArrayOutputStream();
 		export.initExport(table);
-		export.processExport(writer);
+		export.processExport(baos);
 	}
 }

@@ -732,10 +732,6 @@
           <name>cssClass</name>
           <rtexprvalue>true</rtexprvalue>
       </attribute>
-      <!-- <attribute> <name>area</name> <description>(list|current) Indicates 
-         how much data should be exported. Choose list for the full list or current 
-         to only export the data that is currently being shown (Default : list)</description> 
-         </attribute> -->
       <attribute>
          <description>(true|false) Indicated whether headers should
             be

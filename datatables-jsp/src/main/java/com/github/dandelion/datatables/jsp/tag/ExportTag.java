@@ -62,7 +62,6 @@ public class ExportTag extends TagSupport {
 	private String cssClass;
 	private ExportLinkPosition position;
 	private Boolean includeHeader;
-	private String area;// TODO
 	private Boolean autoSize;
 	private String url;
 
@@ -156,9 +155,6 @@ public class ExportTag extends TagSupport {
 			if(includeHeader != null){
 				conf.setIncludeHeader(includeHeader != null ? includeHeader : true);				
 			}
-			if(StringUtils.isNotBlank(area)){
-				conf.setArea(area);				
-			}
 			if(autoSize != null){
 				conf.setAutoSize(autoSize);				
 			}
@@ -225,14 +221,6 @@ public class ExportTag extends TagSupport {
 		this.includeHeader = includeHeader;
 	}
 
-	public String getArea() {
-		return area;
-	}
-
-	public void setArea(String area) {
-		this.area = area;
-	}
-	
 	public Boolean getAutoSize() {
 		return autoSize;
 	}

@@ -164,7 +164,7 @@ public class ExportManager {
 				if(conf.isCustom()){
 					String tableId = "oTable_" + table.getId();
 					
-					StringBuilder exportFunc = new StringBuilder("function dandelion_export_");
+					StringBuilder exportFunc = new StringBuilder("function ddl_dt_launch_export_");
 					exportFunc.append(conf.getType().name());
 					exportFunc.append("(){window.location='");
 					exportFunc.append(conf.getUrl());
@@ -180,7 +180,7 @@ public class ExportManager {
 					
 					mainJsfile.appendToBeforeAll(exportFunc.toString());
 					
-					link.setOnclick("dandelion_export_" + conf.getType().name() + "()");
+					link.setOnclick("ddl_dt_launch_export_" + conf.getType().name() + "()");
 				}
 				else{
 					link.setHref(conf.getUrl());

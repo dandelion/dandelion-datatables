@@ -45,7 +45,7 @@ public enum ExportType {
 	RTF("rtf", "text/rtf", 4),
 	PDF("pdf", "application/pdf", 5), 
 	XLS("xls", "application/vnd.ms-excel", 6),
-	JSON("json", "", 7),
+	JSON("json", "application/json", 7),
 	XLSX("xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 8);
 	
 	private String extension;

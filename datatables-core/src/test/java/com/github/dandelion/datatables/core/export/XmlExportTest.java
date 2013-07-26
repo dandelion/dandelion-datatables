@@ -48,11 +48,11 @@ public class XmlExportTest extends ExportTest {
 	public void should_generate_full_table() throws ExportException {
 		
 		initDefaultTable();
-		configureExport(new ExportConfBuilder(ExportType.XML).includeHeader(true));
+		configureExport(new ExportConf.Builder(ExportType.XML).header(true).build());
 		processExport(new XmlExport());
 		
 		// The header must exist
-		Scanner scanner = new Scanner(writer.toString());
+		Scanner scanner = new Scanner(new String(baos.toByteArray()));
 		String firstLine = scanner.nextLine();
 		
 		assertThat(firstLine).contains("<?xml version=\"1.0\"?>");

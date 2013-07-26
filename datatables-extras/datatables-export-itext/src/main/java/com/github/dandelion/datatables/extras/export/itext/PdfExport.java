@@ -34,8 +34,7 @@ import java.util.List;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.exception.ExportException;
-import com.github.dandelion.datatables.core.export.AbstractBinaryExport;
-import com.github.dandelion.datatables.core.export.BinaryExport;
+import com.github.dandelion.datatables.core.export.DatatablesExport;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
@@ -53,7 +52,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  * 
  * @author Thibault Duchateau
  */
-public class PdfExport extends AbstractBinaryExport implements BinaryExport {
+public class PdfExport implements DatatablesExport {
 
 	private HtmlTable htmlTable;
 	private ExportConf exportConf;

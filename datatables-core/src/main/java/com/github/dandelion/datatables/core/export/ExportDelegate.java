@@ -31,7 +31,6 @@ package com.github.dandelion.datatables.core.export;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
-import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -77,7 +76,6 @@ public class ExportDelegate {
 	public void launchExport() throws ExportException, BadConfigurationException {
 
 		OutputStream stream = null;
-		StringWriter writer = null;
 		String exportClass = null;
 
 		// Get the current export type
@@ -95,99 +93,48 @@ public class ExportDelegate {
 			throw new ExportException("Unable to export in " + exportType.toString() + " format");
 		}
 
-		// Text export
-		if (exportType.equals(ExportType.CSV) || exportType.equals(ExportType.XML)) {
+		// Init the export properties
+		exportProperties.setIsBinaryExport(true);
+		stream = new ByteArrayOutputStream();
 
-			// Init the export properties
-			exportProperties.setIsBinaryExport(false);
-			writer = new StringWriter();
-
-			// Get the class
-			Class<?> klass = null;
-			Object obj = null;
-			try {
-				klass = ClassUtils.getClass(exportClass);
-				obj = ClassUtils.getNewInstance(klass);
-			} catch (ClassNotFoundException e) {
-				throw new ExportException("Unable to load the class '" + exportClass + "'");
-			} catch (InstantiationException e) {
-				throw new ExportException("Unable to instanciate the class '" + exportClass + "'");
-			} catch (IllegalAccessException e) {
-				throw new ExportException("Unable to access the class '" + exportClass + "'");
-			}
-
-			// Invoke methods that update the writer
-			try {
-				ClassUtils.invokeMethod(obj, "initExport", new Object[] { htmlTable });
-			} catch (NoSuchMethodException e) {
-				throw new ExportException("Unable to invoke the method initExport", e);
-			} catch (IllegalAccessException e) {
-				throw new ExportException("Unable to invoke the method initExport", e);
-			} catch (InvocationTargetException e) {
-				throw new ExportException("Unable to invoke the method initExport", e);
-			}
-			
-			try {
-				ClassUtils.invokeMethod(obj, "processExport", new Object[] { writer });
-			} catch (NoSuchMethodException e) {
-				throw new ExportException("Unable to invoke the method processExport", e);
-			} catch (IllegalAccessException e) {
-				throw new ExportException("Unable to invoke the method processExport", e);
-			} catch (InvocationTargetException e) {
-				throw new ExportException("Unable to invoke the method processExport", e);
-			}
-
-			// Fill the request so that the filter will intercept it and
-			// override the response with the export configuration
-			request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT,
-					writer.toString());
+		// Get the class
+		Class<?> klass = null;
+		Object obj = null;
+		try {
+			klass = ClassUtils.getClass(exportClass);
+			obj = ClassUtils.getNewInstance(klass);
+		} catch (ClassNotFoundException e) {
+			throw new ExportException("Unable to load the class '" + exportClass + "'");
+		} catch (InstantiationException e) {
+			throw new ExportException("Unable to instanciate the class '" + exportClass + "'");
+		} catch (IllegalAccessException e) {
+			throw new ExportException("Unable to access the class '" + exportClass + "'");
 		}
-		// Binary export
-		else {
 
-			// Init the export properties
-			exportProperties.setIsBinaryExport(true);
-			stream = new ByteArrayOutputStream();
-
-			// Get the class
-			Class<?> klass = null;
-			Object obj = null;
-			try {
-				klass = ClassUtils.getClass(exportClass);
-				obj = ClassUtils.getNewInstance(klass);
-			} catch (ClassNotFoundException e) {
-				throw new ExportException("Unable to load the class '" + exportClass + "'");
-			} catch (InstantiationException e) {
-				throw new ExportException("Unable to instanciate the class '" + exportClass + "'");
-			} catch (IllegalAccessException e) {
-				throw new ExportException("Unable to access the class '" + exportClass + "'");
-			}
-
-			// Invoke methods that update the stream
-			try {
-				ClassUtils.invokeMethod(obj, "initExport", new Object[] { htmlTable });
-			} catch (NoSuchMethodException e) {
-				throw new ExportException("Unable to invoke the method initExport", e);
-			} catch (IllegalAccessException e) {
-				throw new ExportException("Unable to invoke the method initExport", e);
-			} catch (InvocationTargetException e) {
-				throw new ExportException("Unable to invoke the method initExport", e);
-			}
-			try {
-				ClassUtils.invokeMethod(obj, "processExport", new Object[] { stream });
-			} catch (NoSuchMethodException e) {
-				throw new ExportException("Unable to invoke the method processExport", e);
-			} catch (IllegalAccessException e) {
-				throw new ExportException("Unable to invoke the method processExport", e);
-			} catch (InvocationTargetException e) {
-				throw new ExportException("Unable to invoke the method processExport", e);
-			}
-
-			// Fill the request so that the filter will intercept it and
-			// override the response with the export configuration
-			request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT,
-					((ByteArrayOutputStream) stream).toByteArray());
+		// Invoke methods that update the stream
+		try {
+			ClassUtils.invokeMethod(obj, "initExport", new Object[] { htmlTable });
+		} catch (NoSuchMethodException e) {
+			throw new ExportException("Unable to invoke the method initExport", e);
+		} catch (IllegalAccessException e) {
+			throw new ExportException("Unable to invoke the method initExport", e);
+		} catch (InvocationTargetException e) {
+			throw new ExportException("Unable to invoke the method initExport", e);
 		}
+		try {
+			ClassUtils.invokeMethod(obj, "processExport", new Object[] { stream });
+		} catch (NoSuchMethodException e) {
+			throw new ExportException("Unable to invoke the method processExport", e);
+		} catch (IllegalAccessException e) {
+			throw new ExportException("Unable to invoke the method processExport", e);
+		} catch (InvocationTargetException e) {
+			throw new ExportException("Unable to invoke the method processExport", e);
+		}
+
+		// Fill the request so that the filter will intercept it and
+		// override the response with the export configuration
+		request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT,
+				((ByteArrayOutputStream) stream).toByteArray());
 
 		request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_PROPERTIES, exportProperties);
 	}

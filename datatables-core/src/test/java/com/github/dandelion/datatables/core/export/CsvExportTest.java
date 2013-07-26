@@ -50,40 +50,40 @@ public class CsvExportTest extends ExportTest {
 	public void should_generate_full_table() throws ExportException {
 		
 		initDefaultTable();
-		configureExport(new ExportConfBuilder(ExportType.CSV).includeHeader(true));
+		configureExport(new ExportConf.Builder(ExportType.CSV).header(true).build());
 		processExport(new CsvExport());
 		
 		// The header must exist
-		String firstLine = new Scanner(writer.toString()).nextLine();
+		String firstLine = new Scanner(new String(baos.toByteArray())).nextLine();
 		assertThat(firstLine).contains("Id;FirstName;LastName;City;Mail");
 		
 		// There must be as many line as entries in Mock.persons (+1 for the header row)
-		assertThat(writer.toString().split("\n")).hasSize(Mock.persons.size() + 1);
+		assertThat(new String(baos.toByteArray()).split("\n")).hasSize(Mock.persons.size() + 1);
 	}
 	
 	@Test
 	public void should_generate_table_without_header() throws ExportException {
 		
 		initDefaultTable();
-		configureExport(new ExportConfBuilder(ExportType.CSV).includeHeader(false));
+		configureExport(new ExportConf.Builder(ExportType.CSV).header(false).build());
 		processExport(new CsvExport());
 		
 		// The header must exist
-		String firstLine = new Scanner(writer.toString()).nextLine();
+		String firstLine = new Scanner(new String(baos.toByteArray())).nextLine();
 		assertThat(firstLine).doesNotContain("Id;FirstName;LastName;City;Mail");
 		
 		// There must be as many line as entries in Mock.persons (+1 for the header row)
-		assertThat(writer.toString().split("\n")).hasSize(Mock.persons.size());
+		assertThat(new String(baos.toByteArray()).split("\n")).hasSize(Mock.persons.size());
 	}
 	
 	@Test
 	public void should_generate_table_with_4_columns() throws ExportException {
 		
 		initTable();
-		configureExport(new ExportConfBuilder(ExportType.CSV).includeHeader(false));
+		configureExport(new ExportConf.Builder(ExportType.CSV).header(false).build());
 		processExport(new CsvExport());
 		
-		String firstLine = new Scanner(writer.toString()).nextLine();
+		String firstLine = new Scanner(new String(baos.toByteArray())).nextLine();
 		assertThat(StringUtils.countOccurrencesOf(firstLine, ";")).isEqualTo(4);
 	}
 }

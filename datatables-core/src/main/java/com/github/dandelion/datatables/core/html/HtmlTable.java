@@ -31,6 +31,8 @@ package com.github.dandelion.datatables.core.html;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 import com.github.dandelion.datatables.core.configuration.ConfigurationLoader;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.util.ResourceHelper;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
@@ -266,8 +269,6 @@ public class HtmlTable extends HtmlTag {
 	/**
 	 * HtmlTable builder, allowing you to build a table in an export controller
 	 * for example.
-	 * 
-	 * @author Thibault Duchateau
 	 */
 	public static class Builder<T> {
 
@@ -275,6 +276,7 @@ public class HtmlTable extends HtmlTag {
 		private List<T> data;
 		private LinkedList<HtmlColumn> headerColumns = new LinkedList<HtmlColumn>();
 		private HttpServletRequest request;
+		private ExportConf exportConf;
 
 		public Builder(String id, List<T> data, HttpServletRequest request) {
 			this.id = id;
@@ -282,6 +284,8 @@ public class HtmlTable extends HtmlTag {
 			this.request = request;
 		}
 
+		// Table configuration
+		
 		public Builder<T> column(String property) {
 			HtmlColumn column = new HtmlColumn(true, "");
 
@@ -305,6 +309,11 @@ public class HtmlTable extends HtmlTag {
 			headerColumns.getLast().getColumnConfiguration().setDefaultValue(defaultContent);
 			return this;
 		}
+		
+		public Builder<T> configureExport(ExportConf exportConf) {
+			this.exportConf = exportConf;
+			return this;
+		}
 
 		public HtmlTable build() {
 			return new HtmlTable(this);
@@ -323,7 +332,16 @@ public class HtmlTable extends HtmlTag {
 		this.id = builder.id;
 		this.tableConfiguration = TableConfiguration
 				.getInstance(builder.request, ConfigurationLoader.DEFAULT_GROUP_NAME);
-
+		
+		this.tableConfiguration.setExportConfs(new HashSet<ExportConf>(Arrays.asList(builder.exportConf)));
+		
+		if(builder.data != null && builder.data.size() > 0){
+			this.tableConfiguration.setInternalObjectType(builder.data.get(0).getClass().getSimpleName());
+		}
+		else{
+			this.tableConfiguration.setInternalObjectType("???");
+		}
+		
 		addHeaderRow();
 
 		for (HtmlColumn column : builder.headerColumns) {

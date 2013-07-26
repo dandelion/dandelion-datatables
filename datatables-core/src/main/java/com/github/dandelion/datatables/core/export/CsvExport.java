@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.export;
 
 import java.io.IOException;
-import java.io.Writer;
+import java.io.OutputStream;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.exception.ExportException;
@@ -43,7 +43,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  *
  * @author Thibault Duchateau
  */
-public class CsvExport extends AbstractCharExport {
+public class CsvExport implements DatatablesExport {
 
 	private static final DisplayType CURRENT_DISPLAY_TYPE = DisplayType.CSV;
 	private static final String SEPARATOR_CHAR = ";";
@@ -55,7 +55,7 @@ public class CsvExport extends AbstractCharExport {
 	}
 
 	@Override
-	public void processExport(Writer output) throws ExportException {
+	public void processExport(OutputStream output) throws ExportException {
 		StringBuilder buffer = new StringBuilder();
 
 		if(table.getTableConfiguration().getExportConf(ExportType.CSV).getIncludeHeader()){
@@ -81,7 +81,7 @@ public class CsvExport extends AbstractCharExport {
 		}
 		
 		try {
-			output.write(buffer.toString());
+			output.write(buffer.toString().getBytes());
 		} catch (IOException e) {
 			throw new ExportException(e);
 		}

@@ -40,7 +40,7 @@ import org.apache.poi.ss.usermodel.Row;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.exception.ExportException;
-import com.github.dandelion.datatables.core.export.AbstractBinaryExport;
+import com.github.dandelion.datatables.core.export.DatatablesExport;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
@@ -52,7 +52,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * @author Thibault Duchateau
  */
-public class XlsExport extends AbstractBinaryExport {
+public class XlsExport implements DatatablesExport {
 
 	private HtmlTable table;
 	private ExportConf exportConf;

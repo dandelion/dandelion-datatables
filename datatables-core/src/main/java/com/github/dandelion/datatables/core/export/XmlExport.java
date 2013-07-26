@@ -29,7 +29,7 @@
  */
 package com.github.dandelion.datatables.core.export;
 
-import java.io.Writer;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +48,7 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  *
  * @author Thibault Duchateau
  */
-public class XmlExport extends AbstractCharExport {
+public class XmlExport implements DatatablesExport {
 
 	private HtmlTable table;
 
@@ -58,7 +58,7 @@ public class XmlExport extends AbstractCharExport {
 	}
 
 	@Override
-	public void processExport(Writer output) throws ExportException {
+	public void processExport(OutputStream output) throws ExportException {
 
 		// Build headers list for attributes name
 		List<String> headers = new ArrayList<String>();

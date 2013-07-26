@@ -42,11 +42,11 @@ public class ExportConf {
 	private StringBuilder cssStyle;
 	private StringBuilder cssClass;
 	private Boolean includeHeader;
-	private String area;
 	private String url;
 	private Boolean autoSize;
 	private Boolean custom = false;
-
+	private DatatablesExport exportClass;
+	
 	public ExportConf(ExportType type){
 		this.type = type;
 		init();
@@ -65,7 +65,6 @@ public class ExportConf {
 		this.fileName = "export";
 		this.label = this.type.toString();
 		this.includeHeader = true;
-		this.area = "ALL";
 		this.autoSize = false;
 	}
 
@@ -117,14 +116,6 @@ public class ExportConf {
 		this.includeHeader = includeHeader;
 	}
 
-	public String getArea() {
-		return area;
-	}
-
-	public void setArea(String area) {
-		this.area = area;
-	}
-
 	public String getUrl() {
 		return url;
 	}
@@ -147,6 +138,14 @@ public class ExportConf {
 
 	public void setAutoSize(Boolean autoSize) {
 		this.autoSize = autoSize;
+	}
+
+	public DatatablesExport getExportClass() {
+		return exportClass;
+	}
+
+	public void setExportClass(DatatablesExport exportClass) {
+		this.exportClass = exportClass;
 	}
 
 	@Override
@@ -174,7 +173,58 @@ public class ExportConf {
 	@Override
 	public String toString() {
 		return "ExportConf [fileName=" + fileName + ", type=" + type + ", label=" + label + ", cssStyle=" + cssStyle
-				+ ", cssClass=" + cssClass + ", includeHeader=" + includeHeader + ", area=" + area + ", url=" + url
-				+ ", autoSize=" + autoSize + ", custom=" + custom + "]";
+				+ ", cssClass=" + cssClass + ", includeHeader=" + includeHeader + ", url=" + url + ", autoSize="
+				+ autoSize + ", custom=" + custom + "]";
+	}
+	
+	/**
+	 * HtmlTable builder, allowing you to build a table in an export controller
+	 * for example.
+	 */
+	public static class Builder {
+
+		private ExportConf exportConf;
+		
+		public Builder(ExportType exportType) {
+			exportConf = new ExportConf(exportType);
+		}
+
+		public Builder fileName(String fileName) {
+			exportConf.setFileName(fileName);
+			return this;
+		}
+		
+		public Builder header(Boolean header) {
+			exportConf.setIncludeHeader(header);
+			return this;
+		}
+
+		public Builder autoSize(Boolean autoSize) {
+			exportConf.setAutoSize(autoSize);
+			return this;
+		}
+		
+		public Builder exportClass(DatatablesExport exportClass) {
+			exportConf.setExportClass(exportClass);
+			return this;
+		}
+		
+		public ExportConf build() {
+			return new ExportConf(this);
+		}
+	}
+
+	/**
+	 * TODO
+	 * 
+	 * @param builder
+	 */
+	private ExportConf(Builder builder) {
+		this.type = builder.exportConf.getType();
+		init();
+		this.fileName = builder.exportConf.getFileName();
+		this.includeHeader = builder.exportConf.getIncludeHeader();
+		this.autoSize = builder.exportConf.getAutoSize();
+		this.exportClass = builder.exportConf.getExportClass();
 	}
 }
