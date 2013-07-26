@@ -58,11 +58,10 @@ public final class DatatablesCriterias {
 	private Integer internalCounter;
 
 	public DatatablesCriterias() {
-
 	}
 
-	public DatatablesCriterias(String search, Integer displayStart, Integer displaySize,
-			List<ColumnDef> columnDefs, List<ColumnDef> sortingColumnDefs, Integer internalCounter) {
+	public DatatablesCriterias(String search, Integer displayStart, Integer displaySize, List<ColumnDef> columnDefs,
+			List<ColumnDef> sortingColumnDefs, Integer internalCounter) {
 		this.search = search;
 		this.displayStart = displayStart;
 		this.displaySize = displaySize;
@@ -118,7 +117,7 @@ public final class DatatablesCriterias {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @return true if a column is being sorted, false otherwise.
 	 */
@@ -141,14 +140,15 @@ public final class DatatablesCriterias {
 			String sEcho = request.getParameter(DTConstants.DT_S_ECHO);
 			String sDisplayStart = request.getParameter(DTConstants.DT_I_DISPLAY_START);
 			String sDisplayLength = request.getParameter(DTConstants.DT_I_DISPLAY_LENGTH);
+			String sColNumber = request.getParameter(DTConstants.DT_I_COLUMNS);
+			String sSortingColNumber = request.getParameter(DTConstants.DT_I_SORTING_COLS);
 
-			Integer iEcho = Integer.parseInt(sEcho);
-			Integer iDisplayStart = Integer.parseInt(sDisplayStart);
-			Integer iDisplayLength = Integer.parseInt(sDisplayLength);
-			Integer colNumber = Integer.parseInt(request.getParameter(DTConstants.DT_I_COLUMNS));
-			Integer sortingColNumber = request.getParameter(DTConstants.DT_I_SORTING_COLS) != null 
-					? Integer.parseInt(request.getParameter(DTConstants.DT_I_SORTING_COLS)) 
-					: 0;
+			Integer iEcho = StringUtils.isNotBlank(sEcho) ? Integer.parseInt(sEcho) : -1;
+			Integer iDisplayStart = StringUtils.isNotBlank(sDisplayStart) ? Integer.parseInt(sDisplayStart) : -1;
+			Integer iDisplayLength = StringUtils.isNotBlank(sDisplayLength) ? Integer.parseInt(sDisplayLength) : -1;
+			Integer colNumber = StringUtils.isNotBlank(sColNumber) ? Integer.parseInt(sColNumber) : -1;
+			Integer sortingColNumber = StringUtils.isNotBlank(sSortingColNumber) ? Integer.parseInt(sSortingColNumber)
+					: -1;
 
 			List<ColumnDef> columnDefs = new ArrayList<ColumnDef>();
 			List<ColumnDef> sortingColumnDefs = new LinkedList<ColumnDef>();
@@ -158,30 +158,28 @@ public final class DatatablesCriterias {
 				ColumnDef columnDef = new ColumnDef();
 
 				columnDef.setName(request.getParameter(DTConstants.DT_M_DATA_PROP + i));
-				columnDef.setFilterable(Boolean.parseBoolean(request
-						.getParameter(DTConstants.DT_B_SEARCHABLE + i)));
-				columnDef.setSortable(Boolean.parseBoolean(request
-						.getParameter(DTConstants.DT_B_SORTABLE + i)));
-				
+				columnDef.setFilterable(Boolean.parseBoolean(request.getParameter(DTConstants.DT_B_SEARCHABLE + i)));
+				columnDef.setSortable(Boolean.parseBoolean(request.getParameter(DTConstants.DT_B_SORTABLE + i)));
+
 				columnDef.setSearch(request.getParameter(DTConstants.DT_S_COLUMN_SEARCH + i));
 				columnDefs.add(columnDef);
 			}
 
 			// Sorted column management
 			for (int i = 0; i < sortingColNumber; i++) {
-				Integer sortingCol = Integer.parseInt(request
-						.getParameter(DTConstants.DT_I_SORT_COL + i));
+				String sSortingCol = request.getParameter(DTConstants.DT_I_SORT_COL + i);
+				Integer sortingCol = StringUtils.isNotBlank(sSortingCol) ? Integer.parseInt(sSortingCol) : -1;
 				ColumnDef sortedColumnDef = columnDefs.get(sortingCol);
 
 				String sortingColDirection = request.getParameter(DTConstants.DT_S_SORT_DIR + i);
-				sortedColumnDef.setSortDirection(SortDirection.valueOf(sortingColDirection
-						.toUpperCase()));
+				if (StringUtils.isNotBlank(sortingColDirection)) {
+					sortedColumnDef.setSortDirection(SortDirection.valueOf(sortingColDirection.toUpperCase()));
+				}
 
 				sortingColumnDefs.add(sortedColumnDef);
 			}
 
-			return new DatatablesCriterias(sSearch, iDisplayStart, iDisplayLength, columnDefs,
-					sortingColumnDefs, iEcho);
+			return new DatatablesCriterias(sSearch, iDisplayStart, iDisplayLength, columnDefs, sortingColumnDefs, iEcho);
 		} else {
 			return null;
 		}
@@ -189,8 +187,7 @@ public final class DatatablesCriterias {
 
 	@Override
 	public String toString() {
-		return "DatatablesCriterias [search=" + search + ", displayStart=" + displayStart
-				+ ", displaySize=" + displaySize + ", internalCounter=" + internalCounter
-				+ ", columnDefs=" + columnDefs + "]";
+		return "DatatablesCriterias [search=" + search + ", displayStart=" + displayStart + ", displaySize="
+				+ displaySize + ", internalCounter=" + internalCounter + ", columnDefs=" + columnDefs + "]";
 	}
 }
