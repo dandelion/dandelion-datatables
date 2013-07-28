@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,6 +21,7 @@ import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.constants.DTMessages;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
@@ -539,5 +541,56 @@ public class MainGeneratorTest {
 
 		assertThat(mainConf).hasSize(2);
 		assertThat(mainConf.get(DTConstants.DT_DOM)).isEqualTo("aDom");
+	}
+	
+	@Test
+	public void should_generate_normal_messages() {
+		Properties messages = new Properties();
+		messages.put(DTMessages.INFO.getPropertyName(), "message value");
+		table.getTableConfiguration().setMessages(messages);
+
+		Map<String, Object> mainConf = generator.generateConfig(table);
+
+		Map<String,String> languageValue = new HashMap<String, String>();
+		languageValue.put(DTMessages.INFO.getRealName(), "message value");
+
+		assertThat(mainConf).hasSize(2);
+		assertThat(mainConf.get(DTConstants.DT_LANGUAGE)).isEqualTo(languageValue);
+	}
+	
+	@Test
+	public void should_generate_paginate_messages() {
+		Properties messages = new Properties();
+		messages.put(DTMessages.PAGINATE_FIRST.getPropertyName(), "First");
+		table.getTableConfiguration().setMessages(messages);
+
+		Map<String, Object> mainConf = generator.generateConfig(table);
+
+		Map<String, String> languageValue = new HashMap<String, String>();
+		languageValue.put(DTMessages.PAGINATE_FIRST.getRealName(), "First");
+
+		Map<String, Object> paginateMap = new HashMap<String, Object>();
+		paginateMap.put(DTMessages.PAGINATE.getRealName(), languageValue);
+		
+		assertThat(mainConf).hasSize(2);
+		assertThat(mainConf.get(DTConstants.DT_LANGUAGE)).isEqualTo(paginateMap);
+	}
+	
+	@Test
+	public void should_generate_aria_messages() {
+		Properties messages = new Properties();
+		messages.put(DTMessages.ARIA_SORT_ASC.getPropertyName(), "Value");
+		table.getTableConfiguration().setMessages(messages);
+
+		Map<String, Object> mainConf = generator.generateConfig(table);
+
+		Map<String, String> languageValue = new HashMap<String, String>();
+		languageValue.put(DTMessages.ARIA_SORT_ASC.getRealName(), "Value");
+
+		Map<String, Object> ariaMap = new HashMap<String, Object>();
+		ariaMap.put(DTMessages.ARIA.getRealName(), languageValue);
+		
+		assertThat(mainConf).hasSize(2);
+		assertThat(mainConf.get(DTConstants.DT_LANGUAGE)).isEqualTo(ariaMap);
 	}
 }
