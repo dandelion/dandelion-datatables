@@ -22,6 +22,7 @@ import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
+import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -235,6 +236,20 @@ public class MainGeneratorTest {
 		assertThat(columnsInitialSorting.get(1)).containsExactly(2, "asc");
 	}
 
+	@Test
+	public void should_set_sorting_type() {
+		firstColumn.getColumnConfiguration().setSortType(SortType.NATURAL);
+
+		Map<String, Object> mainConf = generator.generateConfig(table);
+
+		List<Map<String, Object>> columnsProperties = (List<Map<String, Object>>)mainConf.get(DTConstants.DT_AOCOLUMNS);
+		assertThat(columnsProperties).hasSize(1);
+		Map<String, Object> firstColumnProperties = columnsProperties.get(0);
+		Map<String, Object> customProperties = new HashMap<String, Object>(defaultProperties);
+		customProperties.put(DTConstants.DT_S_TYPE, "natural");
+		assertThat(firstColumnProperties).isEqualTo(customProperties);
+	}
+	
 	@Test
 	public void should_set_auto_width() {
 		table.getTableConfiguration().setFeatureAutoWidth(true);
