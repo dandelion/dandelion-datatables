@@ -100,7 +100,7 @@ public class HtmlTable extends HtmlTag {
 	 */
 	@Override
 	public StringBuilder toHtml() {
-		if(StringUtils.isNotBlank(this.tableConfiguration.getExtraAppear())){
+		if("fadein".equals(this.tableConfiguration.getExtraAppear())){
 			addCssStyle("display:none;");
 		}
 		StringBuilder html = new StringBuilder();
