@@ -46,8 +46,10 @@ import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
  * Datatable attributes are obtained from the {@code HttpServletRequest}, and
  * mapped to the annotated {@code DatatablesCriterias} object.
  * 
- * This HandlerMethodArgumentResolver can be enabled in Spring 3.1 and greater
- * using either Java or XML configuration as shown below:
+ * <p>
+ * This WebArgumentResolver can be enabled in Spring 3.0 and earlier using XML
+ * configuration as shown below. Note for versions of Spring 3.1 and greater the
+ * {@link DatatablesCriteriasMethodArgumentResolver} should be used instead.
  * 
  * <pre>
  * &lt;mvc:annotation-driven&gt;
@@ -57,23 +59,13 @@ import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
  * &lt;/mvc:annotation-driven&gt;
  * </pre>
  * 
- * <pre>
- * &#064;Configuration
- * &#064;EnableWebMvc
- * public class MyWebConfig extends WebMvcConfigurerAdapter {
- * 	&#064;Override
- * 	public void addArgumentResolvers(List&lt;WebArgumentResolver&gt; argumentResolvers) {
- * 		argumentResolvers.add(new DatatablesCriteriasResolver());
- * 	}
- * }
- * </pre>
- * 
  * @see DatatablesParams
  * @see DatatablesCriterias
  * 
  * @author Thibault Duchateau
  * @since 0.8.2
- * @deprecated Please use the {@link DatatablesCriteriasMethodArgumentResolver} instead, which is compatible 
+ * @deprecated in favor of the {@link DatatablesCriteriasMethodArgumentResolver}
+ *             for versions of Spring 3.1 and greater.
  */
 public class DatatablesCriteriasResolver implements WebArgumentResolver {
 
