@@ -160,8 +160,8 @@ public final class DatatablesCriterias {
 				columnDef.setName(request.getParameter(DTConstants.DT_M_DATA_PROP + i));
 				columnDef.setFilterable(Boolean.parseBoolean(request.getParameter(DTConstants.DT_B_SEARCHABLE + i)));
 				columnDef.setSortable(Boolean.parseBoolean(request.getParameter(DTConstants.DT_B_SORTABLE + i)));
-
 				columnDef.setSearch(request.getParameter(DTConstants.DT_S_COLUMN_SEARCH + i));
+				
 				columnDefs.add(columnDef);
 			}
 
@@ -188,6 +188,7 @@ public final class DatatablesCriterias {
 	@Override
 	public String toString() {
 		return "DatatablesCriterias [search=" + search + ", displayStart=" + displayStart + ", displaySize="
-				+ displaySize + ", internalCounter=" + internalCounter + ", columnDefs=" + columnDefs + "]";
+				+ displaySize + ", columnDefs=" + columnDefs + ", sortingColumnDefs=" + sortingColumnDefs
+				+ ", internalCounter=" + internalCounter + "]";
 	}
 }
