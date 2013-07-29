@@ -159,7 +159,6 @@ public class TableConfiguration {
 	// Class of the iterated objects. Only used in XML export.
 	private String internalObjectType;
 	private Set<AbstractExtension> internalExtensions;
-//	private Set<AbstractFeature> internalFeatures;
 	private String tableId;
 	private HttpServletRequest request;
 
@@ -667,34 +666,6 @@ public class TableConfiguration {
 		return this;
 	}
 	
-//	/**
-//	 * Register a plugin to the table.
-//	 * 
-//	 * @param plugin
-//	 *            The plugin to activate.
-//	 */
-//	public TableConfiguration registerPlugin(AbstractPlugin plugin) {
-//		if (this.internalExtensions == null) {
-//			this.internalExtensions = new HashSet<AbstractPlugin>();
-//		}
-//		this.internalExtensions.add(plugin);
-//		return this;
-//	}
-
-//	/**
-//	 * Register a feature to the table.
-//	 * 
-//	 * @param feature
-//	 *            The feature to activate.
-//	 */
-//	public TableConfiguration registerFeature(AbstractExtension feature) {
-//		if (this.internalFeatures == null) {
-//			this.internalFeatures = new HashSet<AbstractFeature>();
-//		}
-//		this.internalFeatures.add(feature);
-//		return this;
-//	}
-
 	public List<ExtraFile> getExtraFiles() {
 		return extraFiles;
 	}
