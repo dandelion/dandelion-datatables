@@ -135,15 +135,6 @@
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
-          <description>Base URL of an AJAX loaded file which contains
-              all
-              the
-              labels used in tables. (See :
-              http://www.datatables.net/release-datatables/examples/advanced_init/language_file.html)</description>
-          <name>labels</name>
-          <rtexprvalue>true</rtexprvalue>
-      </attribute>
-       <attribute>
            <description>(true|false) Defer the creation of the table
                elements for each row until they are needed for a draw.
                (Default : false, see
@@ -344,12 +335,12 @@
          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
-         <description>Active a configuration group in the current table.</description>
+         <description>Name of the configuration group to activate for the current table.</description>
          <name>confGroup</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
-         <description>TODO</description>
+         <description>Placeholder used to hold the individual column filtering elements.</description>
          <name>filterPlaceholder</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
