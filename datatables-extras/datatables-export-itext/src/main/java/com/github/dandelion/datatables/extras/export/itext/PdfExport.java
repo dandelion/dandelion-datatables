@@ -42,6 +42,8 @@ import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -60,8 +62,6 @@ public class PdfExport implements DatatablesExport {
 	@Override
 	public void initExport(HtmlTable table) {
 		this.htmlTable = table;
-		System.out.println("table = " + table);
-		System.out.println("table.getTableConfiguration() = " + table.getTableConfiguration());
 		if (table.getTableConfiguration().getExportConfs() != null && table.getTableConfiguration().getExportConf(ExportType.PDF) != null) {
 			this.exportConf = table.getTableConfiguration().getExportConf(ExportType.PDF);
 		}
@@ -78,7 +78,7 @@ public class PdfExport implements DatatablesExport {
 			pdfWriter.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
 
 			document.open();
-
+			addTitle(document);
 			addTable(document);
 
 		} catch (DocumentException e) {
@@ -88,6 +88,13 @@ public class PdfExport implements DatatablesExport {
 		}
 	}
 
+	private void addTitle(Document document) throws DocumentException{
+		Paragraph title = new Paragraph("Export");
+		title.add(new Paragraph(" ")); // empty line
+		title.setAlignment(Element.ALIGN_CENTER);
+	    document.add(title);
+	}
+	
 	private void addTable(Document document) throws DocumentException {
 
 		PdfPCell cell = null;
@@ -108,44 +115,47 @@ public class PdfExport implements DatatablesExport {
 			break;
 		}
 
-		// Creation d'une PdfPTable avec 3 colonnes
-		PdfPTable table = new PdfPTable(columnCount);
-		table.setWidthPercentage(100f);
-
-		// Header
-		if (exportConf != null && exportConf.getIncludeHeader()) {
-
-			for (HtmlRow htmlRow : htmlTable.getHeadRows()) {
-
+		if(columnCount != 0){
+			
+			// Creation d'une PdfPTable avec 3 colonnes
+			PdfPTable table = new PdfPTable(columnCount);
+			table.setWidthPercentage(100f);
+			
+			// Header
+			if (exportConf != null && exportConf.getIncludeHeader()) {
+				
+				for (HtmlRow htmlRow : htmlTable.getHeadRows()) {
+					
+					for (HtmlColumn column : htmlRow.getColumns()) {
+						
+						List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
+						if (enabledDisplayTypes != null 
+								&& (enabledDisplayTypes.contains(DisplayType.ALL)
+										|| enabledDisplayTypes.contains(DisplayType.PDF))) {
+							cell = new PdfPCell();
+							cell.setPhrase(new Phrase(column.getContent().toString()));
+							table.addCell(cell);
+						}
+					}
+				}
+			}
+			
+			for (HtmlRow htmlRow : htmlTable.getBodyRows()) {
+				
 				for (HtmlColumn column : htmlRow.getColumns()) {
-
+					
 					List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
-					if (enabledDisplayTypes != null 
+					if (enabledDisplayTypes != null
 							&& (enabledDisplayTypes.contains(DisplayType.ALL)
-							|| enabledDisplayTypes.contains(DisplayType.PDF))) {
+									|| enabledDisplayTypes.contains(DisplayType.PDF))) {
 						cell = new PdfPCell();
 						cell.setPhrase(new Phrase(column.getContent().toString()));
 						table.addCell(cell);
 					}
 				}
 			}
+			
+			document.add(table);
 		}
-
-		for (HtmlRow htmlRow : htmlTable.getBodyRows()) {
-
-			for (HtmlColumn column : htmlRow.getColumns()) {
-
-				List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
-				if (enabledDisplayTypes != null
-						&& (enabledDisplayTypes.contains(DisplayType.ALL)
-						|| enabledDisplayTypes.contains(DisplayType.PDF))) {
-					cell = new PdfPCell();
-					cell.setPhrase(new Phrase(column.getContent().toString()));
-					table.addCell(cell);
-				}
-			}
-		}
-
-		document.add(table);
 	}
 }
