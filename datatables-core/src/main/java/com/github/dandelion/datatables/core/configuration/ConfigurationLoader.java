@@ -73,7 +73,7 @@ public interface ConfigurationLoader {
 
 	/**
 	 * <p>
-	 * Load the user configuration which can be localized thanks to the given.
+	 * Load the user configuration which can be localized thanks to the given locale.
 	 * <p>
 	 * Once the bundle loaded, it is converted into Properties.
 	 * 
