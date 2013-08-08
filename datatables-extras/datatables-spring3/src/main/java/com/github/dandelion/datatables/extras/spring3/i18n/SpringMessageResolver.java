@@ -29,45 +29,65 @@
  */
 package com.github.dandelion.datatables.extras.spring3.i18n;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.github.dandelion.datatables.core.i18n.AbstractMessageResolver;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
+import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Spring implementation of the {@link MessageResolver}.
- *
+ * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
 public class SpringMessageResolver extends AbstractMessageResolver {
 
+	// Logger
+	private static Logger logger = LoggerFactory.getLogger(SpringMessageResolver.class);
+
 	private MessageSource messageSource;
 
-	public SpringMessageResolver(){
+	public SpringMessageResolver() {
 	}
-	
+
 	public SpringMessageResolver(HttpServletRequest request) {
 		super(request);
 
 		// Retrieve the Spring messageSource bean
 		messageSource = RequestContextUtils.getWebApplicationContext(request);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String getResource(String messageKey, String defaultValue, Object... objects) {
 
-		// if resourceKey isn't defined either, use defaultValue
-		String key = (messageKey != null) ? messageKey : defaultValue;
+		Locale locale = RequestContextUtils.getLocale(request);
+		String message = null;
 
-		String message = messageSource.getMessage(key, null, defaultValue, RequestContextUtils.getLocale(request));
-        
+		if (StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
+			message = StringUtils.capitalize(defaultValue);
+		} else {
+			try {
+				message = messageSource.getMessage(messageKey, null, locale);
+			} catch (NoSuchMessageException e) {
+				logger.warn("No message found with the key The message key {} and locale {}.", messageKey, locale);
+				if (StringUtils.isBlank(message)) {
+					message = UNDEFINED_KEY + messageKey + UNDEFINED_KEY;
+				}
+			}
+		}
+
 		return message;
 	}
 }

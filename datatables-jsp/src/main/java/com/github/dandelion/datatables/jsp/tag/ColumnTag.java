@@ -36,7 +36,6 @@ import javax.servlet.jsp.JspException;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * <p>
@@ -72,7 +71,8 @@ public class ColumnTag extends AbstractColumnTag {
 	public int doEndTag() throws JspException {
 		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
-		// A header column must be added at first iteration
+		// A header column must be added at first iteration, regardless the data
+		// source type (DOM or AJAX)
 		if(parent.isFirstIteration()){
 
 			// The 'title' attribute has precedence over 'titleKey'
@@ -80,14 +80,13 @@ public class ColumnTag extends AbstractColumnTag {
 			
 			// If the 'titleKey' attribute is used, the column's title must be
 			// retrieved from the current ResourceBundle
-			if(columnTitle == null && StringUtils.isNotBlank(titleKey)){
+			if(columnTitle == null){
 				columnTitle = parent.getTable().getTableConfiguration().getInternalMessageResolver()
-						.getResource(titleKey, title, this, pageContext);
+						.getResource(titleKey, property, this, pageContext);
 			}
 			
 			if ("DOM".equals(parent.getLoadingType())) {
 				addDomHeadColumn(columnTitle);
-//				addDomColumn(true, columnTitle);
 			}
 			else if ("AJAX".equals(parent.getLoadingType())) {
 				addAjaxColumn(true, columnTitle);
@@ -108,7 +107,6 @@ public class ColumnTag extends AbstractColumnTag {
 			else{
 				columnContent = getBodyContent().getString().trim().replaceAll("[\n\r]", "");
 			}
-//			addDomColumn(false, columnContent);
 			addDomBodyColumn(columnContent);
 		}
 

@@ -43,8 +43,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.i18n.AbstractMessageResolver;
-import com.github.dandelion.datatables.core.i18n.DefaultMessages;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
+import com.github.dandelion.datatables.core.util.StringUtils;
 import com.github.dandelion.datatables.jsp.tag.ColumnTag;
 
 /**
@@ -52,8 +52,8 @@ import com.github.dandelion.datatables.jsp.tag.ColumnTag;
  * JSTL implementation of the {@link MessageResolver}.
  * <p>
  * It will make the <code>titleKey</code> attribute of the {@link ColumnTag}
- * works the same as the
- * <code>key</code> property of the <code>&lt;fmt:message&gt;</code> tag.
+ * works the same as the <code>key</code> property of the
+ * <code>&lt;fmt:message&gt;</code> tag.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -66,47 +66,49 @@ public class JstlMessageResolver extends AbstractMessageResolver {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(JstlMessageResolver.class);
-		
-	public String getResource(String resourceKey, String defaultValue, Object... params) {
+
+	public String getResource(String messageKey, String defaultValue, Object... params) {
 
 		Tag tag = null;
 		PageContext pageContext = null;
+		String message = null;
+		ResourceBundle bundle = null;
+		LocalizationContext localizationContext = null;
+		
+		// I'm so ashamed about that...
 		tag = (Tag) params[0];
 		pageContext = (PageContext) params[1];
-		
-		// if titleKey isn't defined either, use property
-		String key = (resourceKey != null) ? resourceKey : defaultValue;
-		String title = null;
-		ResourceBundle bundle = null;
-		LocalizationContext locCtxt = null;
 
 		Tag t = TagSupport.findAncestorWithClass(tag, BundleSupport.class);
 		if (t != null) {
 			// use resource bundle from parent <bundle> tag
 			BundleSupport parent = (BundleSupport) t;
-			locCtxt = parent.getLocalizationContext();
+			localizationContext = parent.getLocalizationContext();
 		} else {
-			locCtxt = BundleSupport.getLocalizationContext(pageContext);
+			localizationContext = BundleSupport.getLocalizationContext(pageContext);
 		}
-		
-		if (locCtxt != null) {
-			bundle = locCtxt.getResourceBundle();
-		}
-		
-		if (bundle != null) {
-			try {
-				title = bundle.getString(key);
-			} catch (MissingResourceException e) {
-				logger.debug(DefaultMessages.getString("Localization.missingkey", key)); //$NON-NLS-1$
 
-				// if user explicitely added a titleKey we guess this is an
-				// error
-				if (resourceKey != null) {
-					title = UNDEFINED_KEY + resourceKey + UNDEFINED_KEY;
+		if (localizationContext != null) {
+			bundle = localizationContext.getResourceBundle();
+		}
+
+		if (bundle != null) {
+
+			if (StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
+				message = StringUtils.capitalize(defaultValue);
+			} else {
+				try {
+					message = bundle.getString(messageKey);
+				} catch (MissingResourceException e) {
+					logger.warn("No message found with the key The message key {} and locale {}.", messageKey,
+							localizationContext.getLocale());
+					if (StringUtils.isBlank(message)) {
+						message = UNDEFINED_KEY + messageKey + UNDEFINED_KEY;
+					}
 				}
 			}
 		}
-		
-		return title;
+
+		return message;
 	}
 }
