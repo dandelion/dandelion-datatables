@@ -94,7 +94,7 @@ public class JstlMessageResolver extends AbstractMessageResolver {
 
 		if (bundle != null) {
 
-			if (StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
+			if (messageKey == null || StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
 				message = StringUtils.capitalize(defaultValue);
 			} else {
 				try {

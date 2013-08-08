@@ -75,9 +75,12 @@ public class SpringMessageResolver extends AbstractMessageResolver {
 		Locale locale = RequestContextUtils.getLocale(request);
 		String message = null;
 
-		if (StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
+		// Both title and titleKey attributes are not used
+		if (messageKey == null || StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
 			message = StringUtils.capitalize(defaultValue);
-		} else {
+		} 
+		// the titleKey attribute is used
+		else {
 			try {
 				message = messageSource.getMessage(messageKey, null, locale);
 			} catch (NoSuchMessageException e) {
