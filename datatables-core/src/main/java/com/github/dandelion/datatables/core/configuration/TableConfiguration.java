@@ -51,9 +51,9 @@ import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
-import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.html.HtmlTag;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
@@ -110,7 +110,7 @@ public class TableConfiguration {
 	private Boolean pluginColReorder;
 
 	// Dandelion-Datatables parameters
-	private AbstractTheme extraTheme;
+	private Extension extraTheme;
 	private ThemeOption extraThemeOption;
 	private Set<String> extraCustomExtensions;
 	private List<ExtraFile> extraFiles;
@@ -789,11 +789,11 @@ public class TableConfiguration {
 		return null;
 	}
 
-	public AbstractTheme getExtraTheme() {
+	public Extension getExtraTheme() {
 		return extraTheme;
 	}
 
-	public TableConfiguration setExtraTheme(AbstractTheme theme) {
+	public TableConfiguration setExtraTheme(Extension theme) {
 		this.extraTheme = theme;
 		return this;
 	}

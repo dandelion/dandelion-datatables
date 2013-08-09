@@ -33,25 +33,19 @@ import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * TODO
  * 
- * @see http://www.datatables.net/plug-ins/pagination
  * @author Thibault Duchateau
- * @author Zach Curtis (
  */
-public class PaginationTypeExtJsFeature extends AbstractFeature {
+public class PaginationTypeExtJsFeature extends AbstractExtension {
 
 	@Override
 	public String getName() {
 		return "PaginationTypeExtJs";
-	}
-
-	@Override
-	public String getVersion() {
-		return "1.0.0";
 	}
 
 	@Override

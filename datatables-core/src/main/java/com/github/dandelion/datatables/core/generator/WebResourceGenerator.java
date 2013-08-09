@@ -51,7 +51,7 @@ import com.github.dandelion.datatables.core.extension.ExtensionManager;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
 import com.github.dandelion.datatables.core.util.NameConstants;
-import com.github.dandelion.datatables.core.util.ResourceHelper;
+import com.github.dandelion.datatables.core.util.FileUtils;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
@@ -120,8 +120,7 @@ public class WebResourceGenerator {
 		// We need to append a randomUUID in case of multiple tables exists in
 		// the same JSP
 		String tableId = table.getRandomId();
-		JsResource mainJsFile = new JsResource(ResourceType.MAIN, NameConstants.DT_MAIN_JS
-				+ tableId + ".js");
+		JsResource mainJsFile = new JsResource(ResourceType.MAIN, NameConstants.DT_MAIN_JS + tableId + ".js");
 		mainJsFile.setTableId(table.getId());
 		
 		/**
@@ -206,21 +205,21 @@ public class WebResourceGenerator {
 
 			switch (file.getInsert()) {
 			case BEFOREALL:
-				mainFile.appendToBeforeAll(ResourceHelper.getFileContentFromWebapp(file.getSrc()));
+				mainFile.appendToBeforeAll(FileUtils.getFileContentFromWebapp(file.getSrc()));
 				break;
 
 			case AFTERSTARTDOCUMENTREADY:
-				mainFile.appendToAfterStartDocumentReady(ResourceHelper
+				mainFile.appendToAfterStartDocumentReady(FileUtils
 						.getFileContentFromWebapp(file.getSrc()));
 				break;
 
 			case BEFOREENDDOCUMENTREADY:
-				mainFile.appendToBeforeEndDocumentReady(ResourceHelper
+				mainFile.appendToBeforeEndDocumentReady(FileUtils
 						.getFileContentFromWebapp(file.getSrc()));
 				break;
 
 			case AFTERALL:
-				mainFile.appendToAfterAll(ResourceHelper.getFileContentFromWebapp(file.getSrc()));
+				mainFile.appendToAfterAll(FileUtils.getFileContentFromWebapp(file.getSrc()));
 				break;
 
 			default:

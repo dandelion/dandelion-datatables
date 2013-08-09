@@ -34,6 +34,7 @@ import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -47,15 +48,10 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * @author Thibault Duchateau
  * @since 0.8.2
  */
-public class ServerSideFeature extends AbstractFeature {
+public class ServerSideFeature extends AbstractExtension {
 
 	@Override
 	public String getName() {
-		return null;
-	}
-
-	@Override
-	public String getVersion() {
 		return null;
 	}
 

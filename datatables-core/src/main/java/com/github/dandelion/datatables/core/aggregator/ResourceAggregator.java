@@ -40,7 +40,7 @@ import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.NameConstants;
-import com.github.dandelion.datatables.core.util.ResourceHelper;
+import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Web resources aggregator.
@@ -97,7 +97,7 @@ public class ResourceAggregator {
 		// Only aggregate if there's more than 1 JS file
 		if (webResources.getJavascripts().size() > 0) {
 
-			String jsResourceName = NameConstants.DT_AGG_ALL_JS + ResourceHelper.getRamdomNumber()
+			String jsResourceName = NameConstants.DT_AGG_ALL_JS + StringUtils.getRamdomNumber()
 					+ ".js";
 
 			JsResource aggregateJsFile = new JsResource(ResourceType.AGGREGATE, jsResourceName);
@@ -120,7 +120,7 @@ public class ResourceAggregator {
 		// Only aggregate if there's more than 1 CSS file
 		if (webResources.getStylesheets().size() > 1) {
 			String cssResourceName = NameConstants.DT_AGG_ALL_CSS
-					+ ResourceHelper.getRamdomNumber() + ".css";
+					+ StringUtils.getRamdomNumber() + ".css";
 
 			CssResource aggregateCssFile = new CssResource(cssResourceName);
 
@@ -150,7 +150,7 @@ public class ResourceAggregator {
 	 */
 	public static void aggregatePluginsJs(WebResources webResources) {
 
-		String jsResourceName = NameConstants.DT_AGG_PLUGINS_JS + ResourceHelper.getRamdomNumber()
+		String jsResourceName = NameConstants.DT_AGG_PLUGINS_JS + StringUtils.getRamdomNumber()
 				+ ".js";
 		JsResource aggregatePluginsJsFile = new JsResource(ResourceType.AGGREGATE, jsResourceName);
 
@@ -184,7 +184,7 @@ public class ResourceAggregator {
 	public static void aggregatePluginsCss(WebResources webResources) {
 
 		String cssResourceName = NameConstants.DT_AGG_PLUGINS_CSS
-				+ ResourceHelper.getRamdomNumber() + ".css";
+				+ StringUtils.getRamdomNumber() + ".css";
 		CssResource aggregatePluginsCssFile = new CssResource(cssResourceName);
 
 		String aggregatedCssContent = "";

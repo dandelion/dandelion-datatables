@@ -37,26 +37,23 @@ import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.ResourceHelper;
+import com.github.dandelion.datatables.core.util.FileUtils;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Bootstrap v2 DataTables theme.
- *
+ * 
  * @author Thibault Duchateau
  * @since 0.7.1
  */
-public class Bootstrap2Theme extends AbstractTheme {
+public class Bootstrap2Theme extends AbstractExtension {
 
 	@Override
 	public String getName() {
 		return "bootstrap2";
-	}
-
-	@Override
-	public String getVersion() {
-		return "1.0.0";
 	}
 
 	/**
@@ -64,32 +61,33 @@ public class Bootstrap2Theme extends AbstractTheme {
 	 */
 	@Override
 	public void setup(HtmlTable table) throws ExtensionLoadingException {
-		
-		// Specific theme javascript
+
+		// Specific Javascript code is required
 		try {
-			appendToBeforeAll(ResourceHelper.getFileContentFromClasspath("datatables/themes/bootstrap2/bootstrap.js"));
+			appendToBeforeAll(FileUtils.getFileContentFromClasspath("datatables/themes/bootstrap2/bootstrap.js"));
 		} catch (IOException e) {
 			throw new ExtensionLoadingException(
 					"Unable to read the content of the file 'datatables/themes/bootstrap2/bootstrap.js'", e);
 		}
 
-		// Custom pagination type
+		// Specific Javascript is also required to handle the pagination type
 		try {
-			appendToBeforeAll(ResourceHelper
-					.getFileContentFromClasspath("datatables/features/paginationType/bootstrap.js"));
+			appendToBeforeAll(FileUtils.getFileContentFromClasspath("datatables/features/paginationType/bootstrap.js"));
 		} catch (IOException e) {
 			throw new ExtensionLoadingException(
 					"Unable to read the content of the file 'datatables/features/paginationType/bootstrap.js'", e);
 		}
-		
-		// Specific theme css
-		addCssResource(new CssResource(ResourceType.THEME, "Bootstrap2Theme", "datatables/themes/bootstrap2/bootstrap.css"));
 
-		// Specific theme configurations
-		if(StringUtils.isBlank(table.getTableConfiguration().getFeatureDom())){
-			addParameter(new Parameter(DTConstants.DT_DOM, "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>", Parameter.Mode.OVERRIDE));
+		// Specific CSS
+		addCssResource(new CssResource(ResourceType.THEME, "Bootstrap2Theme",
+				"datatables/themes/bootstrap2/bootstrap.css"));
+
+		// DataTables parameters
+		if (StringUtils.isBlank(table.getTableConfiguration().getFeatureDom())) {
+			addParameter(new Parameter(DTConstants.DT_DOM,
+					"<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>", Parameter.Mode.OVERRIDE));
 		}
-		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "bootstrap", Parameter.Mode.OVERRIDE));
-		addParameter(new Parameter("asStripeClasses", new JavascriptSnippet("[]")));
+		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString(), Parameter.Mode.OVERRIDE));
+		addParameter(new Parameter(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]")));
 	}
 }

@@ -44,7 +44,7 @@ import com.github.dandelion.datatables.core.exception.BadConfigurationException;
  * 
  * @author Thibault Duchateau
  */
-public class ResourceHelper {
+public class FileUtils {
 	
 	private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
 	
@@ -116,14 +116,5 @@ public class ResourceHelper {
 		}
 
 		return sw.toString();
-	}
-	
-	
-	/**
-	 * TODO
-	 * @return
-	 */
-	public static String getRamdomNumber(){
-		return StringUtils.randomNumeric(5);
 	}
 }

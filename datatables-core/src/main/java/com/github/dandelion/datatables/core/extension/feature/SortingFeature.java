@@ -34,9 +34,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.ResourceHelper;
+import com.github.dandelion.datatables.core.util.FileUtils;
 
 /**
  * <p>
@@ -49,16 +50,11 @@ import com.github.dandelion.datatables.core.util.ResourceHelper;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class SortingFeature extends AbstractFeature {
+public class SortingFeature extends AbstractExtension {
 
 	@Override
 	public String getName() {
 		return "SortingFeature";
-	}
-
-	@Override
-	public String getVersion() {
-		return "1.0.0";
 	}
 
 	@Override
@@ -77,25 +73,25 @@ public class SortingFeature extends AbstractFeature {
 			for (SortType sortType : enabledSortTypes) {
 				switch (sortType) {
 				case DATE:
-					content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/date-uk.js");
+					content = FileUtils.getFileContentFromClasspath("datatables/features/sorting/date-uk.js");
 					break;
 				case NATURAL:
-					content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/naturalSort.js");
+					content = FileUtils.getFileContentFromClasspath("datatables/features/sorting/naturalSort.js");
 					break;
 				case ALT_STRING:
-					content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/alt-string.js");
+					content = FileUtils.getFileContentFromClasspath("datatables/features/sorting/alt-string.js");
 					break;
 				case ANTI_THE:
-					content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/anti-the.js");
+					content = FileUtils.getFileContentFromClasspath("datatables/features/sorting/anti-the.js");
 					break;
 				case CURRENCY:
-					content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/currency.js");
+					content = FileUtils.getFileContentFromClasspath("datatables/features/sorting/currency.js");
 					break;
 				case FILESIZE:
-					content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/filesize.js");
+					content = FileUtils.getFileContentFromClasspath("datatables/features/sorting/filesize.js");
 					break;
 				case FORMATTED_NUMBERS:
-					content = ResourceHelper.getFileContentFromClasspath("datatables/features/sorting/formatted-numbers.js");
+					content = FileUtils.getFileContentFromClasspath("datatables/features/sorting/formatted-numbers.js");
 					break;
 				default:
 					break;

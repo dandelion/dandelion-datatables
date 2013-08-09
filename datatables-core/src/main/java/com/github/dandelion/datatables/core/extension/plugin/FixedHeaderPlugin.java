@@ -37,6 +37,7 @@ import org.json.simple.JSONValue;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
@@ -46,7 +47,7 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  * @author Thibault Duchateau
  * @see <a href="http://datatables.net/extras/fixedheader/">Reference</a>
  */
-public class FixedHeaderPlugin extends AbstractPlugin {
+public class FixedHeaderPlugin extends AbstractExtension {
 
 	/**
 	 * {@inheritDoc}
@@ -56,13 +57,6 @@ public class FixedHeaderPlugin extends AbstractPlugin {
 		return "FixedHeader";
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getVersion() {
-		return "2.0.6";
-	}
 
 	/**
 	 * {@inheritDoc}

@@ -34,6 +34,7 @@ import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -41,16 +42,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * @since 0.7.1
  */
-public class JQueryUITheme extends AbstractTheme {
+public class JQueryUITheme extends AbstractExtension {
 
 	@Override
 	public String getName() {
 		return "jQueryUI";
-	}
-
-	@Override
-	public String getVersion() {
-		return "1.0.0";
 	}
 
 	/**

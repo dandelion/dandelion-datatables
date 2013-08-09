@@ -53,7 +53,7 @@ import com.github.dandelion.datatables.core.util.CollectionUtils;
 import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
 import com.github.dandelion.datatables.core.util.NameConstants;
 import com.github.dandelion.datatables.core.util.Predicate;
-import com.github.dandelion.datatables.core.util.ResourceHelper;
+import com.github.dandelion.datatables.core.util.FileUtils;
 
 /**
  * <p>
@@ -159,7 +159,7 @@ public class ExtensionLoader {
 			// All JS resources are merged
 			for (JsResource jsResource : extension.getJsResources()) {
 				try {
-					jsContent.append(ResourceHelper.getFileContentFromClasspath(jsResource
+					jsContent.append(FileUtils.getFileContentFromClasspath(jsResource
 							.getLocation()));
 				} catch (IOException e) {
 					throw new ExtensionLoadingException("Unable to read the content of the file "
@@ -225,7 +225,7 @@ public class ExtensionLoader {
 				// Most of CSS resource have a type different from EXTERNAL, which is theme-specific
 				if(!cssResource.getType().equals(ResourceType.EXTERNAL)){
 					try {
-						cssContent.append(ResourceHelper.getFileContentFromClasspath(cssResource
+						cssContent.append(FileUtils.getFileContentFromClasspath(cssResource
 								.getLocation()));
 					} catch (IOException e) {
 						throw new ExtensionLoadingException("Unable to read the content of the file "

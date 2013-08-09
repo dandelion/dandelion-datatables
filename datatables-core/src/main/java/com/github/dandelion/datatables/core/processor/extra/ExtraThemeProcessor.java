@@ -34,7 +34,7 @@ import java.util.Map;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
+import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.theme.Theme;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.StringUtils;
@@ -44,7 +44,7 @@ public class ExtraThemeProcessor extends AbstractTableProcessor {
 	@Override
 	public void process(String param, TableConfiguration tableConfiguration,
 			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
-		AbstractTheme theme = null;
+		Extension theme = null;
 		if (StringUtils.isNotBlank(param)) {
 			try {
 				theme = Theme.valueOf(param.trim().toUpperCase()).getInstance();

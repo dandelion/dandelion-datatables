@@ -275,4 +275,12 @@ public class StringUtils {
 	public static boolean hasLength(String str) {
 		return hasLength((CharSequence) str);
 	}
+	
+	/**
+	 * TODO
+	 * @return
+	 */
+	public static String getRamdomNumber(){
+		return StringUtils.randomNumeric(5);
+	}
 }

@@ -45,7 +45,6 @@ import org.apache.commons.beanutils.PropertyUtils;
 import com.github.dandelion.datatables.core.configuration.ConfigurationLoader;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.util.ResourceHelper;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
@@ -66,7 +65,7 @@ public class HtmlTable extends HtmlTag {
 
 	public HtmlTable(String id, HttpServletRequest request) {
 		this.tag = "table";
-		this.randomId = ResourceHelper.getRamdomNumber();
+		this.randomId = StringUtils.getRamdomNumber();
 		this.id = id;
 		tableConfiguration = TableConfiguration.getInstance(request);
 		tableConfiguration.setTableId(id);
@@ -74,7 +73,7 @@ public class HtmlTable extends HtmlTag {
 
 	public HtmlTable(String id, HttpServletRequest request, String groupName) {
 		this.tag = "table";
-		this.randomId = ResourceHelper.getRamdomNumber();
+		this.randomId = StringUtils.getRamdomNumber();
 		this.id = id;
 		tableConfiguration = TableConfiguration.getInstance(request, groupName);
 		tableConfiguration.setTableId(id);
@@ -82,13 +81,13 @@ public class HtmlTable extends HtmlTag {
 
 	public HtmlTable(String id) {
 		this.tag = "table";
-		this.randomId = ResourceHelper.getRamdomNumber();
+		this.randomId = StringUtils.getRamdomNumber();
 		this.id = id;
 	}
 
 	public HtmlTable(String id, HttpServletRequest request, String groupName, Map<String, String> dynamicAttributes) {
 		this.tag = "table";
-		this.randomId = ResourceHelper.getRamdomNumber();
+		this.randomId = StringUtils.getRamdomNumber();
 		this.id = id;
 		this.dynamicAttributes = dynamicAttributes;
 		tableConfiguration = TableConfiguration.getInstance(request, groupName);

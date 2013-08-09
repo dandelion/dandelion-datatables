@@ -35,6 +35,7 @@ import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -43,7 +44,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * @see <a href="http://datatables.net/extras/colreorder/">Reference</a>
  * @author Thibault Duchateau
  */
-public class ColReorderPlugin extends AbstractPlugin {
+public class ColReorderPlugin extends AbstractExtension {
 
 	/**
 	 * {@inheritDoc}
@@ -51,14 +52,6 @@ public class ColReorderPlugin extends AbstractPlugin {
 	@Override
 	public String getName() {
 		return "ColReorder";
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getVersion() {
-		return "1.0.6";
 	}
 
 	/**

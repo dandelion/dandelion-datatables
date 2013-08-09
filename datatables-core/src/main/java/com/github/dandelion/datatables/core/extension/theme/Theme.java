@@ -29,16 +29,18 @@
  */
 package com.github.dandelion.datatables.core.extension.theme;
 
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
+
 public enum Theme {
 	BOOTSTRAP2(Bootstrap2Theme.class), JQUERYUI(JQueryUITheme.class);
 	
-	private Class<? extends AbstractTheme> clazz;
+	private Class<? extends AbstractExtension> clazz;
 
-	Theme(Class<? extends AbstractTheme> clazz) {
+	Theme(Class<? extends AbstractExtension> clazz) {
 		this.clazz = clazz;
 	}
 
-	public AbstractTheme getInstance() {
+	public AbstractExtension getInstance() {
 		try {
 			return clazz.newInstance();
 		} catch(InstantiationException e) {

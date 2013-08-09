@@ -32,6 +32,7 @@ package com.github.dandelion.datatables.core.extension.feature;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -42,16 +43,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * @author Thibault Duchateau
  * @since 0.7.1
  */
-public abstract class AbstractFilteringFeature extends AbstractFeature {
+public abstract class AbstractFilteringFeature extends AbstractExtension {
 
 	@Override
 	public String getName() {
 		return "Filtering";
-	}
-
-	@Override
-	public String getVersion() {
-		return "1.0.0";
 	}
 
 	@Override

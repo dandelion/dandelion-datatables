@@ -41,11 +41,11 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.datatables.core.aggregator.AggregatorMode;
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
+import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
-import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
 import com.github.dandelion.datatables.core.processor.AbstractGenericProcessor;
@@ -126,7 +126,7 @@ public enum Configuration {
 	FEATURE_SCROLLX("feature.scrollX", "featureScrollx", String.class, StringProcessor.class),
 	FEATURE_SCROLLXINNER("feature.scrollXInner", "featureScrollXInner", String.class, StringProcessor.class),
 	
-	EXTRA_THEME("extra.theme", "extraTheme", AbstractTheme.class, ExtraThemeProcessor.class),
+	EXTRA_THEME("extra.theme", "extraTheme", Extension.class, ExtraThemeProcessor.class),
 	EXTRA_THEMEOPTION("extra.themeOption", "extraThemeOption", ThemeOption.class, ExtraThemeOptionProcessor.class),
 	EXTRA_CUSTOM_EXTENSIONS("extra.customExtensions", "extraCustomExtensions", Set.class, ExtraCustomExtensionsProcessor.class),
 	EXTRA_CDN("extra.cdn", "extraCdn", Boolean.class, BooleanProcessor.class),

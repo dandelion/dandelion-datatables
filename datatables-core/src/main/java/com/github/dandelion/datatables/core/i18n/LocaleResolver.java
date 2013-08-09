@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
- * Interface for all LocaleResolvers.
+ * Interface for all locale resolvers.
  * 
  * <p>
  * The locale is defaultly retrieved from the request in the

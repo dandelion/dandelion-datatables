@@ -35,8 +35,9 @@ import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.ResourceHelper;
+import com.github.dandelion.datatables.core.util.FileUtils;
 
 /**
  * <p>Pipelining feature that may be used if server-side processing has been
@@ -46,7 +47,7 @@ import com.github.dandelion.datatables.core.util.ResourceHelper;
  * @since 0.8.2
  * @see ServerSideFeature
  */
-public class PipeliningFeature extends AbstractFeature {
+public class PipeliningFeature extends AbstractExtension {
 
 	@Override
 	public String getName() {
@@ -54,15 +55,10 @@ public class PipeliningFeature extends AbstractFeature {
 	}
 
 	@Override
-	public String getVersion() {
-		return null;
-	}
-
-	@Override
 	public void setup(HtmlTable table) throws ExtensionLoadingException {
 		String content;
 		try {
-			content = ResourceHelper
+			content = FileUtils
 					.getFileContentFromClasspath("datatables/ajax/pipelining.js");
 		} catch (IOException e) {
 			throw new ExtensionLoadingException("Unable to read the content of the file 'pipelining.js'", e);

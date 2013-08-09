@@ -35,6 +35,7 @@ import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -43,16 +44,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * @author Thibault Duchateau
  * @since 0.8.2
  */
-public class AjaxFeature extends AbstractFeature {
+public class AjaxFeature extends AbstractExtension {
 
 	@Override
 	public String getName() {
 		return "AjaxFeature";
-	}
-
-	@Override
-	public String getVersion() {
-		return null;
 	}
 
 	@Override

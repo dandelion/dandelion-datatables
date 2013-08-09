@@ -43,7 +43,6 @@ import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
-import com.github.dandelion.datatables.core.extension.theme.AbstractTheme;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.ClassUtils;
 import com.github.dandelion.datatables.core.util.StringUtils;
@@ -71,7 +70,7 @@ public class ExtensionManager {
 		ExtensionLoader extensionLoader = new ExtensionLoader(table, mainJsFile, mainConf, webResources);
 		extensionLoader.load(table.getTableConfiguration().getInternalExtensions());
 		if(table.getTableConfiguration().getExtraTheme() != null){
-			extensionLoader.load(new HashSet<AbstractTheme>(Arrays.asList(table.getTableConfiguration().getExtraTheme())));			
+			extensionLoader.load(new HashSet<Extension>(Arrays.asList(table.getTableConfiguration().getExtraTheme())));			
 		}
 	}
 	
@@ -99,8 +98,7 @@ public class ExtensionManager {
 					for (AbstractExtension customExtension : customExtensions) {
 						if (extensionToRegister.equals(customExtension.getName().toLowerCase())) {
 							table.getTableConfiguration().registerExtension(customExtension);
-							logger.debug("Extension {} (version: {}) registered", customExtension.getName(),
-									customExtension.getVersion());
+							logger.debug("Custom extension {} registered", customExtension.getName());
 							continue;
 						}
 					}

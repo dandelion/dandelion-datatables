@@ -107,11 +107,6 @@ public interface Extension {
     String getName();
 
     /**
-     * Returns the extension's version.
-     */
-    String getVersion();
-
-    /**
      * Set the extension up.
      * <p>
      * The HtmlTable object is available if a particular configuration is
