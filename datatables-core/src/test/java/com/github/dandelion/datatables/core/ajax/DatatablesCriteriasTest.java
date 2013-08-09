@@ -87,7 +87,6 @@ public class DatatablesCriteriasTest {
 
 		DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
 
-		System.out.println(criterias);
 		assertThat(criterias).isNotNull();
 		assertThat(criterias.getSearch()).isNull();
 		assertThat(criterias.getDisplayStart()).isEqualTo(0);
