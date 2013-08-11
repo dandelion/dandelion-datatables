@@ -62,13 +62,11 @@ import com.github.dandelion.datatables.core.processor.column.FilterTypeProcessor
 import com.github.dandelion.datatables.core.processor.column.SortDirectionProcessor;
 import com.github.dandelion.datatables.core.processor.column.SortTypeProcessor;
 import com.github.dandelion.datatables.core.processor.css.CssStripeClassesProcessor;
+import com.github.dandelion.datatables.core.processor.css.CssThemeOptionProcessor;
+import com.github.dandelion.datatables.core.processor.css.CssThemeProcessor;
 import com.github.dandelion.datatables.core.processor.export.ExportConfsProcessor;
 import com.github.dandelion.datatables.core.processor.export.ExportLinkPositionsProcessor;
-import com.github.dandelion.datatables.core.processor.extra.ExtraAppearProcessor;
-import com.github.dandelion.datatables.core.processor.extra.ExtraCustomExtensionsProcessor;
-import com.github.dandelion.datatables.core.processor.extra.ExtraLabelProcessor;
-import com.github.dandelion.datatables.core.processor.extra.ExtraThemeOptionProcessor;
-import com.github.dandelion.datatables.core.processor.extra.ExtraThemeProcessor;
+import com.github.dandelion.datatables.core.processor.feature.FeatureAppearProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeatureFilterPlaceholderProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeatureLengthMenuProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeaturePaginationTypeProcessor;
@@ -78,6 +76,7 @@ import com.github.dandelion.datatables.core.processor.generic.StringBuilderProce
 import com.github.dandelion.datatables.core.processor.generic.StringProcessor;
 import com.github.dandelion.datatables.core.processor.i18n.MessageProcessor;
 import com.github.dandelion.datatables.core.processor.internal.MessageResolverProcessor;
+import com.github.dandelion.datatables.core.processor.main.MainExtensionNamesProcessor;
 import com.github.dandelion.datatables.core.processor.main.MainAggregatorModeProcessor;
 import com.github.dandelion.datatables.core.processor.main.MainCompressorModeProcessor;
 import com.github.dandelion.datatables.core.processor.plugin.PluginColReorderProcessor;
@@ -93,6 +92,8 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  */
 public enum Configuration {
 
+	MAIN_EXTENSION_PACKAGE("main.extension.package", "mainExtensionPackage", String.class, StringProcessor.class),
+	MAIN_EXTENSION_NAMES("main.extension.names", "mainExtensionNames", Set.class, MainExtensionNamesProcessor.class),
 	MAIN_BASE_PACKAGE("main.base.package", "mainBasePackage", String.class, StringProcessor.class),
 	MAIN_BASE_URL("main.base.url", "mainUrlBase", String.class, StringProcessor.class),
 	MAIN_COMPRESSORENABLE("main.compressor.enable", "mainCompressorEnable", Boolean.class, BooleanProcessor.class),
@@ -103,10 +104,15 @@ public enum Configuration {
 	MAIN_COMPRESSORDISABLEOPTI("main.compressor.disableopti", "mainCompressorDisableOpti", Boolean.class, BooleanProcessor.class),
 	MAIN_AGGREGATORENABLE("main.aggregator.enable", "mainAggregatorEnable", Boolean.class, BooleanProcessor.class),
 	MAIN_AGGREGATORMODE("main.aggregator.mode", "mainAggregatorMode", AggregatorMode.class, MainAggregatorModeProcessor.class),
+	MAIN_CDN("main.extra.cdn", "mainCdn", Boolean.class, BooleanProcessor.class),
+	MAIN_CDN_JS("main.cdn.js", "mainCdnJs", String.class, StringProcessor.class),
+	MAIN_CDN_CSS("main.cdn.css", "mainCdnCss", String.class, StringProcessor.class),
 	
 	CSS_CLASS("css.class", "cssClass", StringBuilder.class, StringBuilderProcessor.class),
 	CSS_STYLE("css.style", "cssStyle", StringBuilder.class, StringBuilderProcessor.class),
 	CSS_STRIPECLASSES("css.stripeClasses", "cssStripeClasses", String.class, CssStripeClassesProcessor.class),
+	CSS_THEME("css.theme", "cssTheme", Extension.class, CssThemeProcessor.class),
+	CSS_THEMEOPTION("css.themeOption", "cssThemeOption", ThemeOption.class, CssThemeOptionProcessor.class),
 	
 	FEATURE_INFO("feature.info", "featureInfo", Boolean.class, BooleanProcessor.class),
 	FEATURE_AUTOWIDTH("feature.autoWidth", "featureAutoWidth", Boolean.class, BooleanProcessor.class),
@@ -125,16 +131,7 @@ public enum Configuration {
 	FEATURE_SCROLLCOLLAPSE("feature.scrollCollapse", "featureScrollCollapse", Boolean.class, BooleanProcessor.class),
 	FEATURE_SCROLLX("feature.scrollX", "featureScrollx", String.class, StringProcessor.class),
 	FEATURE_SCROLLXINNER("feature.scrollXInner", "featureScrollXInner", String.class, StringProcessor.class),
-	
-	EXTRA_THEME("extra.theme", "extraTheme", Extension.class, ExtraThemeProcessor.class),
-	EXTRA_THEMEOPTION("extra.themeOption", "extraThemeOption", ThemeOption.class, ExtraThemeOptionProcessor.class),
-	EXTRA_CUSTOM_EXTENSIONS("extra.customExtensions", "extraCustomExtensions", Set.class, ExtraCustomExtensionsProcessor.class),
-	EXTRA_CDN("extra.cdn", "extraCdn", Boolean.class, BooleanProcessor.class),
-	EXTRA_CDN_JS("extra.cdn.js", "extraCdnJs", String.class, StringProcessor.class),
-	EXTRA_CDN_CSS("extra.cdn.css", "extraCdnCss", String.class, StringProcessor.class),
-	EXTRA_APPEAR("extra.appear", "extraAppear", String.class, ExtraAppearProcessor.class),
-	EXTRA_APPEARDURATION("extra.appearDuration", "extraAppearDuration", String.class, StringProcessor.class),
-	EXTRA_LABELS("extra.labels", "extraLabels", String.class, ExtraLabelProcessor.class),
+	FEATURE_APPEAR("feature.appear", "featureAppear", String.class, FeatureAppearProcessor.class),
 	
 	AJAX_PROCESSING("ajax.processing", "ajaxProcessing", Boolean.class, BooleanProcessor.class),
 	AJAX_DEFERRENDER("ajax.deferRender", "ajaxDeferRender", Boolean.class, BooleanProcessor.class),

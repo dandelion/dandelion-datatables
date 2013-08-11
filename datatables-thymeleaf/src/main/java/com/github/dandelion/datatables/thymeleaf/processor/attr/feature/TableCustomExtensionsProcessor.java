@@ -65,7 +65,7 @@ public class TableCustomExtensionsProcessor extends AbstractDatatablesAttrProces
 
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
-		localConf.put(Configuration.EXTRA_CUSTOM_EXTENSIONS, attrValue);
+		localConf.put(Configuration.MAIN_EXTENSION_NAMES, attrValue);
 		
 		return ProcessorResult.ok();
 	}

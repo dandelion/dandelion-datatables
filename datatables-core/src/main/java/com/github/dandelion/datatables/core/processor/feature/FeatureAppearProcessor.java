@@ -27,11 +27,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.extra;
+package com.github.dandelion.datatables.core.processor.feature;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
@@ -39,23 +37,28 @@ import com.github.dandelion.datatables.core.exception.ConfigurationProcessingExc
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
-public class ExtraCustomExtensionsProcessor extends AbstractTableProcessor {
+public class FeatureAppearProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void process(String param, TableConfiguration tableConfiguration,
 			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
-
-		Set<String> retval = null;
-		if (StringUtils.isNotBlank(param)) {
-			retval = new HashSet<String>();
-			
-			String[] customFeatures = param.trim().split(",");
-
-			for (String feature : customFeatures) {
-				retval.add(feature.trim().toLowerCase());
+		String retval = null;
+		
+		if(StringUtils.isNotBlank(param)){
+		
+			if(param.contains(",") || "fadein".equals(param.toLowerCase().trim())){
+				String[] tmp = param.toLowerCase().trim().split(",");
+				
+				retval = "fadein";
+				if(tmp.length > 1){
+					tableConfiguration.setFeatureAppearDuration(tmp[1]);
+				}
+			}
+			else{
+				retval = "block";
 			}
 		}
-
-		tableConfiguration.setExtraCustomExtensions(retval);
+		
+		tableConfiguration.setFeatureAppear(retval);
 	}
 }

@@ -44,7 +44,6 @@ import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.compressor.CompressorMode;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
@@ -85,11 +84,15 @@ public class TableConfiguration {
 	private Boolean featureScrollCollapse;
 	private String featureScrollx;
 	private String featureScrollXInner;
+	private String featureAppear;
+	private String featureAppearDuration;
 
 	// CSS parameters
 	private StringBuilder cssStyle;
 	private StringBuilder cssClass;
 	private String cssStripeClasses;
+	private Extension cssTheme;
+	private ThemeOption cssThemeOption;
 
 	// DataTables AJAX parameters
 	private Boolean ajaxProcessing;
@@ -110,18 +113,9 @@ public class TableConfiguration {
 	private Boolean pluginColReorder;
 
 	// Dandelion-Datatables parameters
-	private Extension extraTheme;
-	private ThemeOption extraThemeOption;
-	private Set<String> extraCustomExtensions;
 	private List<ExtraFile> extraFiles;
 	private List<ExtraConf> extraConfs;
 	private List<Callback> extraCallbacks;
-	private Boolean extraCdn;
-	private String extraCdnJs;
-	private String extraCdnCss;
-	private String extraAppear;
-	private String extraAppearDuration;
-	private String extraLabels;
 
 	// Export parameters
 	private ExportProperties exportProperties;
@@ -141,7 +135,8 @@ public class TableConfiguration {
 	private String exportCsvClass;
 	
 	// Configuration
-	private String mainBasePackage;
+	private String mainExtensionPackage;
+	private Set<String> mainExtensionNames;
 	private Boolean mainCompressorEnable;
 	private CompressorMode mainCompressorMode;
 	private String mainCompressorClass;
@@ -151,6 +146,9 @@ public class TableConfiguration {
 	private Boolean mainAggregatorEnable;
 	private AggregatorMode mainAggregatorMode;
 	private String mainUrlBase;
+	private Boolean mainCdn;
+	private String mainCdnJs;
+	private String mainCdnCss;
 
 	// I18n
 	private Properties messages = new Properties();
@@ -243,12 +241,15 @@ public class TableConfiguration {
 		featureScrollCollapse = objectToClone.featureScrollCollapse;
 		featureScrollx = objectToClone.featureScrollx;
 		featureScrollXInner = objectToClone.featureScrollXInner;
+		featureAppear = objectToClone.featureAppear;
+		featureAppearDuration = objectToClone.featureAppearDuration;
 
 		// CSS parameters
 		cssStyle = objectToClone.cssStyle;
 		cssClass = objectToClone.cssClass;
 		cssStripeClasses = objectToClone.cssStripeClasses;
-		extraLabels = objectToClone.extraLabels;
+		cssTheme = objectToClone.cssTheme;
+		cssThemeOption = objectToClone.cssThemeOption;
 
 		// DataTables AJAX parameters
 		ajaxProcessing = objectToClone.ajaxProcessing;
@@ -269,17 +270,9 @@ public class TableConfiguration {
 		pluginColReorder = objectToClone.pluginColReorder;
 
 		// Dandelion-Datatables parameters
-		extraTheme = objectToClone.extraTheme;
-		extraThemeOption = objectToClone.extraThemeOption;
-		extraCustomExtensions = objectToClone.extraCustomExtensions;
 		extraFiles = objectToClone.extraFiles;
 		extraConfs = objectToClone.extraConfs;
 		extraCallbacks = objectToClone.extraCallbacks;
-		extraCdn = objectToClone.extraCdn;
-		extraCdnJs = objectToClone.extraCdnJs;
-		extraCdnCss = objectToClone.extraCdnCss;
-		extraAppear = objectToClone.extraAppear;
-		extraAppearDuration = objectToClone.extraAppearDuration;
 
 		// Export parameters
 		exportProperties = objectToClone.exportProperties;
@@ -300,7 +293,8 @@ public class TableConfiguration {
 		exportCsvClass = objectToClone.exportCsvClass;
 		
 		// Configuration
-		mainBasePackage = objectToClone.mainBasePackage;
+		mainExtensionPackage = objectToClone.mainExtensionPackage;
+		mainExtensionNames = objectToClone.mainExtensionNames;
 		mainCompressorEnable = objectToClone.mainCompressorEnable;
 		mainCompressorMode = objectToClone.mainCompressorMode;
 		mainCompressorClass = objectToClone.mainCompressorClass;
@@ -310,39 +304,14 @@ public class TableConfiguration {
 		mainAggregatorEnable = objectToClone.mainAggregatorEnable;
 		mainAggregatorMode = objectToClone.mainAggregatorMode;
 		mainUrlBase = objectToClone.mainUrlBase;
+		mainCdn = objectToClone.mainCdn;
+		mainCdnJs = objectToClone.mainCdnJs;
+		mainCdnCss = objectToClone.mainCdnCss;
 		
 		internalMessageResolver = objectToClone.internalMessageResolver;
 		messages = objectToClone.messages;
 	}
 	
-	/**
-	 * Check if the parameter exists as a property being part of the
-	 * configuration properties file.
-	 * 
-	 * @param property
-	 *            The property to check.
-	 * @return true if it exists, false otherwise.
-	 * @throws BadConfigurationException
-	 */
-	public Boolean isValidProperty(String property) throws BadConfigurationException {
-
-		// TODO Refactorer en utilisant en scrutant la classe Conf.class
-//		Field[] confConstants = ConfConstants.class.getDeclaredFields();
-//
-//		try {
-//			for (Field constant : confConstants) {
-//				if (property.equals(constant.get(ConfConstants.class))) {
-//					return true;
-//				}
-//			}
-//		} catch (IllegalArgumentException e) {
-//			throw new BadConfigurationException("Unable to access the ConfConstants class", e);
-//		} catch (IllegalAccessException e) {
-//			throw new BadConfigurationException("Unable to access the ConfConstants class", e);
-//		}
-
-		return false;
-	}
 
 	/**
 	 * <p>
@@ -413,8 +382,8 @@ public class TableConfiguration {
 	/**
 	 * @return the default base package where to scan for custom extension.
 	 */
-	public String getBasePackage() {
-		return mainBasePackage;
+	public String getMainExtensionPackage() {
+		return mainExtensionPackage;
 	}
 
 
@@ -499,21 +468,12 @@ public class TableConfiguration {
 		return this;
 	}
 
-	public String getExtraLabels() {
-		return extraLabels;
+	public Boolean getMainCdn() {
+		return mainCdn;
 	}
 
-	public TableConfiguration setExtraLabels(String labels) {
-		this.extraLabels = labels;
-		return this;
-	}
-
-	public Boolean getExtraCdn() {
-		return extraCdn;
-	}
-
-	public TableConfiguration setExtraCdn(Boolean cdn) {
-		this.extraCdn = cdn;
+	public TableConfiguration setMainCdn(Boolean cdn) {
+		this.mainCdn = cdn;
 		return this;
 	}
 
@@ -526,23 +486,24 @@ public class TableConfiguration {
 		return this;
 	}
 
-	public String getExtraAppear() {
-		return extraAppear;
+	public String getFeatureAppear() {
+		return featureAppear;
 	}
 
-	public TableConfiguration setExtraAppear(String appear) {
-		this.extraAppear = appear;
+	public TableConfiguration setFeatureAppear(String appear) {
+		this.featureAppear = appear;
+		return this;
+	}
+	
+	public String getFeatureAppearDuration() {
+		return featureAppearDuration;
+	}
+
+	public TableConfiguration setFeatureAppearDuration(String featureAppearDuration) {
+		this.featureAppearDuration = featureAppearDuration;
 		return this;
 	}
 
-	public String getExtraAppearDuration() {
-		return extraAppearDuration;
-	}
-
-	public TableConfiguration setExtraAppearDuration(String appearDuration) {
-		this.extraAppearDuration = appearDuration;
-		return this;
-	}
 
 	public String getFeatureLengthMenu() {
 		return featureLengthMenu;
@@ -789,30 +750,30 @@ public class TableConfiguration {
 		return null;
 	}
 
-	public Extension getExtraTheme() {
-		return extraTheme;
+	public Extension getCssTheme() {
+		return cssTheme;
 	}
 
-	public TableConfiguration setExtraTheme(Extension theme) {
-		this.extraTheme = theme;
+	public TableConfiguration setCssTheme(Extension theme) {
+		this.cssTheme = theme;
 		return this;
 	}
 
-	public ThemeOption getExtraThemeOption() {
-		return extraThemeOption;
+	public ThemeOption getCssThemeOption() {
+		return cssThemeOption;
 	}
 
-	public TableConfiguration setExtraThemeOption(ThemeOption themeOption) {
-		this.extraThemeOption = themeOption;
+	public TableConfiguration setCssThemeOption(ThemeOption themeOption) {
+		this.cssThemeOption = themeOption;
 		return this;
 	}
 
-	public Set<String> getExtraCustomExtensions() {
-		return extraCustomExtensions;
+	public Set<String> getMainExtensionNames() {
+		return mainExtensionNames;
 	}
 
-	public TableConfiguration setExtraCustomExtensions(Set<String> extraCustomExtensions) {
-		this.extraCustomExtensions = extraCustomExtensions;
+	public TableConfiguration setMainExtensionNames(Set<String> extraCustomExtensions) {
+		this.mainExtensionNames = extraCustomExtensions;
 		return this;
 	}
 
@@ -885,11 +846,11 @@ public class TableConfiguration {
 	}
 	
 	public String getMainBasePackage() {
-		return mainBasePackage;
+		return mainExtensionPackage;
 	}
 
 	public TableConfiguration setMainBasePackage(String mainBasePackage) {
-		this.mainBasePackage = mainBasePackage;
+		this.mainExtensionPackage = mainBasePackage;
 		return this;
 	}
 
@@ -1120,26 +1081,27 @@ public class TableConfiguration {
 		return this;
 	}
 
-	public String getExtraCdnJs() {
-		return extraCdnJs;
+	public String getMainCdnJs() {
+		return mainCdnJs;
 	}
 
 
-	public TableConfiguration setExtraCdnJs(String extraCdnJs) {
-		this.extraCdnJs = extraCdnJs;
+	public TableConfiguration setMainCdnJs(String extraCdnJs) {
+		this.mainCdnJs = extraCdnJs;
 		return this;
 	}
 
 
-	public String getExtraCdnCss() {
-		return extraCdnCss;
+	public String getMainCdnCss() {
+		return mainCdnCss;
 	}
 
 
-	public TableConfiguration setExtraCdnCss(String extraCdnCss) {
-		this.extraCdnCss = extraCdnCss;
+	public TableConfiguration setMainCdnCss(String extraCdnCss) {
+		this.mainCdnCss = extraCdnCss;
 		return this;
 	}
+
 
 	@Override
 	public String toString() {
@@ -1150,33 +1112,33 @@ public class TableConfiguration {
 				+ ", featureStateSave=" + featureStateSave + ", featureJqueryUi=" + featureJqueryUi
 				+ ", featureLengthMenu=" + featureLengthMenu + ", featureDisplayLength=" + featureDisplayLength
 				+ ", featureDom=" + featureDom + ", featureScrolly=" + featureScrolly + ", featureScrollCollapse="
-				+ featureScrollCollapse + ", featureScrollx=" + featureScrollx + ", featureScrollInner=" + featureScrollXInner
- 				+ ", cssStyle=" + cssStyle + ", cssClass=" + cssClass + ", cssStripeClasses="
-				+ cssStripeClasses + ", ajaxProcessing=" + ajaxProcessing + ", ajaxDeferRender=" + ajaxDeferRender
-				+ ", ajaxServerSide=" + ajaxServerSide + ", ajaxSource=" + ajaxSource + ", ajaxPipelining="
-				+ ajaxPipelining + ", ajaxPipeSize=" + ajaxPipeSize + ", ajaxServerData=" + ajaxServerData
-				+ ", ajaxServerParam=" + ajaxServerParam + ", ajaxServerMethod=" + ajaxServerMethod
-				+ ", pluginFixedPosition=" + pluginFixedPosition + ", pluginFixedOffsetTop=" + pluginFixedOffsetTop
-				+ ", pluginFixedHeader=" + pluginFixedHeader + ", pluginScroller=" + pluginScroller
-				+ ", pluginColReorder=" + pluginColReorder + ", extraTheme=" + extraTheme + ", extraThemeOption="
-				+ extraThemeOption + ", extraCustomExtensions=" + extraCustomExtensions + ", extraFiles=" + extraFiles
-				+ ", extraConfs=" + extraConfs + ", extraCallbacks=" + extraCallbacks + ", extraCdn=" + extraCdn
-				+ ", extraAppear=" + extraAppear + ", extraAppearDuration=" + extraAppearDuration + ", extraLabels="
-				+ extraLabels + ", exportProperties=" + exportProperties + ", exporting=" + exporting
-				+ ", exportConfs=" + exportConfs + ", exportLinkPositions=" + exportLinkPositions + ", isExportable="
-				+ isExportable + ", exportDefaultXlsClass=" + exportDefaultXlsClass + ", exportDefaultXlsxClass="
+				+ featureScrollCollapse + ", featureScrollx=" + featureScrollx + ", featureScrollXInner="
+				+ featureScrollXInner + ", featureAppear=" + featureAppear + ", featureAppearDuration="
+				+ featureAppearDuration + ", cssStyle=" + cssStyle + ", cssClass=" + cssClass + ", cssStripeClasses="
+				+ cssStripeClasses + ", cssTheme=" + cssTheme + ", cssThemeOption=" + cssThemeOption
+				+ ", ajaxProcessing=" + ajaxProcessing + ", ajaxDeferRender=" + ajaxDeferRender + ", ajaxServerSide="
+				+ ajaxServerSide + ", ajaxSource=" + ajaxSource + ", ajaxPipelining=" + ajaxPipelining
+				+ ", ajaxPipeSize=" + ajaxPipeSize + ", ajaxServerData=" + ajaxServerData + ", ajaxServerParam="
+				+ ajaxServerParam + ", ajaxServerMethod=" + ajaxServerMethod + ", pluginFixedPosition="
+				+ pluginFixedPosition + ", pluginFixedOffsetTop=" + pluginFixedOffsetTop + ", pluginFixedHeader="
+				+ pluginFixedHeader + ", pluginScroller=" + pluginScroller + ", pluginColReorder=" + pluginColReorder
+				+ ", extraFiles=" + extraFiles + ", extraConfs=" + extraConfs + ", extraCallbacks=" + extraCallbacks
+				+ ", exportProperties=" + exportProperties + ", exporting=" + exporting + ", exportConfs="
+				+ exportConfs + ", exportLinkPositions=" + exportLinkPositions + ", isExportable=" + isExportable
+				+ ", exportDefaultXlsClass=" + exportDefaultXlsClass + ", exportDefaultXlsxClass="
 				+ exportDefaultXlsxClass + ", exportDefaultPdfClass=" + exportDefaultPdfClass
 				+ ", exportDefaultXmlClass=" + exportDefaultXmlClass + ", exportDefaultCsvClass="
 				+ exportDefaultCsvClass + ", exportXlsClass=" + exportXlsClass + ", exportXlsxClass=" + exportXlsxClass
 				+ ", exportPdfClass=" + exportPdfClass + ", exportXmlClass=" + exportXmlClass + ", exportCsvClass="
-				+ exportCsvClass + ", mainBasePackage=" + mainBasePackage + ", mainCompressorEnable="
-				+ mainCompressorEnable + ", mainCompressorMode=" + mainCompressorMode + ", mainCompressorClass="
-				+ mainCompressorClass + ", mainCompressorMunge=" + mainCompressorMunge
-				+ ", mainCompressorPreserveSemiColons=" + mainCompressorPreserveSemiColons
+				+ exportCsvClass + ", mainExtensionPackage=" + mainExtensionPackage + ", mainExtensionNames="
+				+ mainExtensionNames + ", mainCompressorEnable=" + mainCompressorEnable + ", mainCompressorMode="
+				+ mainCompressorMode + ", mainCompressorClass=" + mainCompressorClass + ", mainCompressorMunge="
+				+ mainCompressorMunge + ", mainCompressorPreserveSemiColons=" + mainCompressorPreserveSemiColons
 				+ ", mainCompressorDisableOpti=" + mainCompressorDisableOpti + ", mainAggregatorEnable="
 				+ mainAggregatorEnable + ", mainAggregatorMode=" + mainAggregatorMode + ", mainUrlBase=" + mainUrlBase
-				+ ", messages=" + messages + ", internalMessageResolver=" + internalMessageResolver
-				+ ", internalObjectType=" + internalObjectType + ", internalExtensions=" + internalExtensions
-				+ ", tableId=" + tableId + ", request=" + request + "]";
+				+ ", mainCdn=" + mainCdn + ", mainCdnJs=" + mainCdnJs + ", mainCdnCss=" + mainCdnCss + ", messages="
+				+ messages + ", internalMessageResolver=" + internalMessageResolver + ", internalObjectType="
+				+ internalObjectType + ", internalExtensions=" + internalExtensions + ", tableId=" + tableId
+				+ ", request=" + request + "]";
 	}
 }

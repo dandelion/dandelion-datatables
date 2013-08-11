@@ -56,14 +56,13 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableExpor
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableFilterAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableFilterPlaceholderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableInfoAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableLabelsAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableLengthChangeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableLengthMenuAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TablePaginateAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TablePaginationTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrollCollapseAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrollXInnerAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrollXAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrollXInnerAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrollYAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableSortAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableStripeClassesAttrProcessor;
@@ -111,7 +110,6 @@ public enum TableAttrProcessors {
     BASIC_SORT(TableSortAttrProcessor.class, "sort", "table"),
     BASIC_APPEAR(TableAppearAttrProcessor.class, "appear", "table"),
     BASIC_FILTER_PLACEHOLDER(TableFilterPlaceholderAttrProcessor.class, "filterplaceholder", "table"),
-    BASIC_LABELS(TableLabelsAttrProcessor.class, "labels", "table"),
     BASIC_PAGINATION_TYPE(TablePaginationTypeAttrProcessor.class, "paginationtype", "table"),
     BASIC_LENGTH_MENU(TableLengthMenuAttrProcessor.class, "lengthmenu", "table"),
     BASIC_STRIP_CLASSES(TableStripeClassesAttrProcessor.class, "stripeclasses", "table"),

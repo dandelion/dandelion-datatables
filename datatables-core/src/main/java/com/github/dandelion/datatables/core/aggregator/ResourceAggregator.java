@@ -112,9 +112,8 @@ public class ResourceAggregator {
 			// All existing Javascript resources are removed
 			webResources.getJavascripts().clear();
 
+			// Old main JS file replaced by the aggregated one
 			webResources.setMainJsFile(aggregateJsFile);
-//			 Add aggregated Javascript resource
-//			webResources.getJavascripts().put(aggregateJsFile.getName(), aggregateJsFile);
 		}
 
 		// Only aggregate if there's more than 1 CSS file

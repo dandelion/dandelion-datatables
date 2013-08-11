@@ -59,9 +59,9 @@ public class JQueryUITheme extends AbstractExtension {
 		addCssResource(new CssResource(ResourceType.THEME, "JQueryUITheme",
 				"datatables/themes/jqueryui/jqueryui.css"));
 
-		if (table.getTableConfiguration().getExtraThemeOption() != null) {
+		if (table.getTableConfiguration().getCssThemeOption() != null) {
 			addCssResource(new CssResource(ResourceType.EXTERNAL,
-					table.getTableConfiguration().getExtraThemeOption().toString(), table.getTableConfiguration().getExtraThemeOption().getCssSource()));
+					table.getTableConfiguration().getCssThemeOption().toString(), table.getTableConfiguration().getCssThemeOption().getCssSource()));
 		}
 
 		table.addCssClass("display");

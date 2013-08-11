@@ -229,8 +229,8 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 			Element body = DomUtils.findElement(rootElement, "body");
 			
 			// <link> HTML tag generation
-			if (htmlTable.getTableConfiguration().getExtraCdn() != null && htmlTable.getTableConfiguration().getExtraCdn()) {
-				DomUtils.insertLinkTag(htmlTable.getTableConfiguration().getExtraCdnCss(), head);
+			if (htmlTable.getTableConfiguration().getMainCdn() != null && htmlTable.getTableConfiguration().getMainCdn()) {
+				DomUtils.insertLinkTag(htmlTable.getTableConfiguration().getMainCdnCss(), head);
 			}
 			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
 				String src = RequestHelper.getAssetSource(entry.getKey(), htmlTable, request, false);
@@ -238,8 +238,8 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 			}
 
 			// <script> HTML tag generation
-			if (htmlTable.getTableConfiguration().getExtraCdn() != null && htmlTable.getTableConfiguration().getExtraCdn()) {
-				DomUtils.insertScriptTag(htmlTable.getTableConfiguration().getExtraCdnJs(), body);
+			if (htmlTable.getTableConfiguration().getMainCdn() != null && htmlTable.getTableConfiguration().getMainCdn()) {
+				DomUtils.insertScriptTag(htmlTable.getTableConfiguration().getMainCdnJs(), body);
 			}
 			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
 				String src = RequestHelper.getAssetSource(entry.getKey(), htmlTable, request, false);

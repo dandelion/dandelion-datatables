@@ -69,8 +69,8 @@ public class ExtensionManager {
 		
 		ExtensionLoader extensionLoader = new ExtensionLoader(table, mainJsFile, mainConf, webResources);
 		extensionLoader.load(table.getTableConfiguration().getInternalExtensions());
-		if(table.getTableConfiguration().getExtraTheme() != null){
-			extensionLoader.load(new HashSet<Extension>(Arrays.asList(table.getTableConfiguration().getExtraTheme())));			
+		if(table.getTableConfiguration().getCssTheme() != null){
+			extensionLoader.load(new HashSet<Extension>(Arrays.asList(table.getTableConfiguration().getCssTheme())));			
 		}
 	}
 	
@@ -84,17 +84,17 @@ public class ExtensionManager {
 	 */
 	public void registerCustomExtensions(HtmlTable table) throws ExtensionLoadingException {
 
-		if (StringUtils.isNotBlank(table.getTableConfiguration().getBasePackage())) {
+		if (StringUtils.isNotBlank(table.getTableConfiguration().getMainExtensionPackage())) {
 
 			logger.debug("Scanning custom extensions...");
 
 			// Scanning custom extension based on the base.package property
 			List<AbstractExtension> customExtensions = scanCustomExtensions(table.getTableConfiguration()
-					.getBasePackage());
+					.getMainExtensionPackage());
 
 			// Load custom extension if enabled
-			if (customExtensions != null && !customExtensions.isEmpty() && table.getTableConfiguration().getExtraCustomExtensions() != null) {
-				for (String extensionToRegister : table.getTableConfiguration().getExtraCustomExtensions()) {
+			if (customExtensions != null && !customExtensions.isEmpty() && table.getTableConfiguration().getMainExtensionNames() != null) {
+				for (String extensionToRegister : table.getTableConfiguration().getMainExtensionNames()) {
 					for (AbstractExtension customExtension : customExtensions) {
 						if (extensionToRegister.equals(customExtension.getName().toLowerCase())) {
 							table.getTableConfiguration().registerExtension(customExtension);

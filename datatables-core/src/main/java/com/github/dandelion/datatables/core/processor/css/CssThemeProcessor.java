@@ -27,31 +27,32 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.extra;
+package com.github.dandelion.datatables.core.processor.css;
 
 import java.util.Map;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
+import com.github.dandelion.datatables.core.extension.Extension;
+import com.github.dandelion.datatables.core.extension.theme.Theme;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
-public class ExtraThemeOptionProcessor extends AbstractTableProcessor {
+public class CssThemeProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void process(String param, TableConfiguration tableConfiguration,
 			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
-		ThemeOption themeOption = null;
+		Extension theme = null;
 		if (StringUtils.isNotBlank(param)) {
 			try {
-				themeOption = ThemeOption.valueOf(param.trim().toUpperCase());
+				theme = Theme.valueOf(param.trim().toUpperCase()).getInstance();
 			} catch (IllegalArgumentException e) {
-				throw new ConfigurationProcessingException(param + " is not a valid value among " + ThemeOption.values());
+				throw new ConfigurationProcessingException(param + " is not a valid value among " + Theme.values(), e);
 			}
 		}
-
-		tableConfiguration.setExtraThemeOption(themeOption);
+		
+		tableConfiguration.setCssTheme(theme);
 	}
 }

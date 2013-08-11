@@ -66,7 +66,7 @@ public class TableAppearAttrProcessor extends AbstractDatatablesAttrProcessor {
 		// Get attribute value
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 		
-		localConf.put(Configuration.EXTRA_APPEAR, attrValue);
+		localConf.put(Configuration.FEATURE_APPEAR, attrValue);
 		
         return ProcessorResult.ok();
 	}

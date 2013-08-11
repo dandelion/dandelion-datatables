@@ -27,38 +27,31 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.extra;
+package com.github.dandelion.datatables.core.processor.css;
 
 import java.util.Map;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
-public class ExtraAppearProcessor extends AbstractTableProcessor {
+public class CssThemeOptionProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void process(String param, TableConfiguration tableConfiguration,
 			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
-		String retval = null;
-		
-		if(StringUtils.isNotBlank(param)){
-		
-			if(param.contains(",") || "fadein".equals(param.toLowerCase().trim())){
-				String[] tmp = param.toLowerCase().trim().split(",");
-				
-				retval = "fadein";
-				if(tmp.length > 1){
-					tableConfiguration.setExtraAppearDuration(tmp[1]);
-				}
-			}
-			else{
-				retval = "block";
+		ThemeOption themeOption = null;
+		if (StringUtils.isNotBlank(param)) {
+			try {
+				themeOption = ThemeOption.valueOf(param.trim().toUpperCase());
+			} catch (IllegalArgumentException e) {
+				throw new ConfigurationProcessingException(param + " is not a valid value among " + ThemeOption.values());
 			}
 		}
-		
-		tableConfiguration.setExtraAppear(retval);
+
+		tableConfiguration.setCssThemeOption(themeOption);
 	}
 }

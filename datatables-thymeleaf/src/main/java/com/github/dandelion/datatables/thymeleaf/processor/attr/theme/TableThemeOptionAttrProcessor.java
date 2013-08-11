@@ -64,7 +64,7 @@ public class TableThemeOptionAttrProcessor extends AbstractDatatablesAttrProcess
 		// Get attribute value
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
-		localConf.put(Configuration.EXTRA_THEMEOPTION, attrValue);
+		localConf.put(Configuration.CSS_THEMEOPTION, attrValue);
 		
 		return ProcessorResult.ok();
 	}

@@ -27,7 +27,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.extra;
+package com.github.dandelion.datatables.core.processor.feature;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -35,39 +35,45 @@ import org.junit.Test;
 
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.feature.FeatureAppearProcessor;
 
-public class ExtraCustomExtensionsProcessorTest extends TableProcessorBaseTest {
+public class FeatureAppearProcessorTest extends TableProcessorBaseTest {
 
 	@Override
 	public TableProcessor getProcessor() {
-		return new ExtraCustomExtensionsProcessor();
+		return new FeatureAppearProcessor();
 	}
-
+	
 	@Test
 	public void should_set_null_when_value_is_null() throws Exception {
 		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExtraCustomExtensions()).isNull();
+		assertThat(tableConfiguration.getFeatureAppear()).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() throws Exception {
 		processor.processConfiguration("", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExtraCustomExtensions()).isNull();
+		assertThat(tableConfiguration.getFeatureAppear()).isNull();
 	}
 	
 	@Test
-	public void should_set_a_set_containing_only_one_feature() throws Exception{
-		processor.processConfiguration("feature1", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExtraCustomExtensions()).contains("feature1");
-		processor.processConfiguration("FEATURE1 ", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExtraCustomExtensions()).contains("feature1");
+	public void should_return_fadein() throws Exception{
+		processor.processConfiguration("fadein", tableConfiguration, confToBeApplied);
+		assertThat(tableConfiguration.getFeatureAppear()).isEqualTo("fadein");
 	}
 	
 	@Test
-	public void should_set_a_set_containing_multiple_features() throws Exception{
-		processor.processConfiguration("feature1,feature2", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExtraCustomExtensions()).contains("feature1","feature2");
-		processor.processConfiguration(" feature1, Feature2", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExtraCustomExtensions()).contains("feature1","feature2");
+	public void should_return_fadein_and_set_appear_duration() throws Exception {
+		processor.processConfiguration("fadein,1500", tableConfiguration, confToBeApplied);
+		assertThat(tableConfiguration.getFeatureAppear()).isEqualTo("fadein");
+		assertThat(tableConfiguration.getFeatureAppearDuration()).isEqualTo("1500");
+	}
+	
+	@Test
+	public void should_set_default_value_when_a_wrong_format_is_used() throws Exception{
+		processor.processConfiguration("blockkk", tableConfiguration, confToBeApplied);
+		assertThat(tableConfiguration.getFeatureAppear()).isEqualTo("block");
+		processor.processConfiguration("fadein;12", tableConfiguration, confToBeApplied);
+		assertThat(tableConfiguration.getFeatureAppear()).isEqualTo("block");
 	}
 }

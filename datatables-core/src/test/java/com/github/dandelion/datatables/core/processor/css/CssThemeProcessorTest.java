@@ -27,37 +27,57 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.extra;
+package com.github.dandelion.datatables.core.processor.css;
 
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.extension.theme.Bootstrap2Theme;
+import com.github.dandelion.datatables.core.extension.theme.JQueryUITheme;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.css.CssThemeProcessor;
 
-public class ExtraLabelProcessorTest extends TableProcessorBaseTest {
+public class CssThemeProcessorTest extends TableProcessorBaseTest {
 
 	@Override
 	public TableProcessor getProcessor() {
-		return new ExtraLabelProcessor();
+		return new CssThemeProcessor();
 	}
 
 	@Test
 	public void should_set_null_when_value_is_null() throws Exception {
 		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExtraLabels()).isNull();
+		assertThat(tableConfiguration.getCssTheme()).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() throws Exception {
 		processor.processConfiguration("", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExtraLabels()).isNull();
+		assertThat(tableConfiguration.getCssTheme()).isNull();
 	}
 	
 	@Test
-	public void should_set_labels() throws Exception{
-		processor.processConfiguration("/myFileContainingLabels", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExtraLabels()).isEqualTo("http://localhost:80/myFileContainingLabels");
+	public void should_set_theme() throws Exception {
+		processor.processConfiguration("bootstrap2", tableConfiguration, confToBeApplied);
+		assertThat(tableConfiguration.getCssTheme()).isEqualTo(new Bootstrap2Theme());
+		processor.processConfiguration("BOOTSTRAP2", tableConfiguration, confToBeApplied);
+		assertThat(tableConfiguration.getCssTheme()).isEqualTo(new Bootstrap2Theme());
+		processor.processConfiguration("jqueryui", tableConfiguration, confToBeApplied);
+		assertThat(tableConfiguration.getCssTheme()).isEqualTo(new JQueryUITheme());
+		processor.processConfiguration("jqueryUI", tableConfiguration, confToBeApplied);
+		assertThat(tableConfiguration.getCssTheme()).isEqualTo(new JQueryUITheme());
+	}
+	
+	@Test(expected = ConfigurationProcessingException.class)
+	public void should_raise_an_exception() throws Exception {
+		processor.processConfiguration("booootstrap2", tableConfiguration, confToBeApplied);
+	}
+	
+	@Test(expected = ConfigurationProcessingException.class)
+	public void should_raise_an_exception_as_well() throws Exception {
+		processor.processConfiguration("jquery", tableConfiguration, confToBeApplied);
 	}
 }

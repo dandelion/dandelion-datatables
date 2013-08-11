@@ -79,12 +79,12 @@ public class TableConfigurationTest {
 		TableConfiguration tableConfiguration = TableConfiguration.getInstance(request);
 
 		tableConfiguration.setMainCompressorEnable(true).setFeaturePaginationType(PaginationType.INPUT)
-				.setExtraTheme(new Bootstrap2Theme()).setAjaxPipeSize(12);
+				.setCssTheme(new Bootstrap2Theme()).setAjaxPipeSize(12);
 
 		assertThat(tableConfiguration.getFeatureInfo()).isNull();
 		assertThat(tableConfiguration.getMainCompressorEnable()).isEqualTo(true);
 		assertThat(tableConfiguration.getFeaturePaginationType()).isEqualTo(PaginationType.INPUT);
-		assertThat(tableConfiguration.getExtraTheme()).isEqualTo(Theme.BOOTSTRAP2.getInstance());
+		assertThat(tableConfiguration.getCssTheme()).isEqualTo(Theme.BOOTSTRAP2.getInstance());
 		assertThat(tableConfiguration.getAjaxPipeSize()).isEqualTo(12);
 	}
 }

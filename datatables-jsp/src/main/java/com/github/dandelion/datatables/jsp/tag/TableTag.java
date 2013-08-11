@@ -247,8 +247,8 @@ public class TableTag extends AbstractTableTag {
 			}
 
 			// <link> HTML tag generation
-			if (table.getTableConfiguration().getExtraCdn()) {
-				generateLinkTag(table.getTableConfiguration().getExtraCdnCss());
+			if (table.getTableConfiguration().getMainCdn()) {
+				generateLinkTag(table.getTableConfiguration().getMainCdnCss());
 			}
 			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
 				if(entry.getValue().getType().equals(ResourceType.EXTERNAL)){
@@ -264,8 +264,8 @@ public class TableTag extends AbstractTableTag {
 			pageContext.getOut().println(this.table.toHtml());
 
 			// <script> HTML tag generation
-			if (table.getTableConfiguration().getExtraCdn()) {
-				generateScriptTag(table.getTableConfiguration().getExtraCdnJs());
+			if (table.getTableConfiguration().getMainCdn()) {
+				generateScriptTag(table.getTableConfiguration().getMainCdnJs());
 			}
 			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
 				String src = RequestHelper.getAssetSource(entry.getKey(), this.table, request, false);
@@ -379,16 +379,12 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(Configuration.PLUGIN_FIXEDPOSITION, fixedPosition);
 	}
 
-	public void setLabels(String labels) {
-		stagingConf.put(Configuration.EXTRA_LABELS, labels);
-	}
-
 	public void setOffsetTop(Integer fixedOffsetTop) {
 		stagingConf.put(Configuration.PLUGIN_FIXEDOFFSETTOP, fixedOffsetTop);
 	}
 
 	public void setCdn(Boolean cdn) {
-		stagingConf.put(Configuration.EXTRA_CDN, cdn);
+		stagingConf.put(Configuration.MAIN_CDN, cdn);
 	}
 
 	public void setExport(String export) {
@@ -422,11 +418,11 @@ public class TableTag extends AbstractTableTag {
 	}
 
 	public void setTheme(String theme) {
-		stagingConf.put(Configuration.EXTRA_THEME, theme);
+		stagingConf.put(Configuration.CSS_THEME, theme);
 	}
 
 	public void setThemeOption(String themeOption) {
-		stagingConf.put(Configuration.EXTRA_THEMEOPTION, themeOption);
+		stagingConf.put(Configuration.CSS_THEMEOPTION, themeOption);
 	}
 
 	public void setFooter(String footer) {
@@ -434,7 +430,7 @@ public class TableTag extends AbstractTableTag {
 	}
 
 	public void setAppear(String appear) {
-		stagingConf.put(Configuration.EXTRA_APPEAR, appear);
+		stagingConf.put(Configuration.FEATURE_APPEAR, appear);
 	}
 	
 	public void setLengthMenu(String lengthMenu){
@@ -466,7 +462,7 @@ public class TableTag extends AbstractTableTag {
 	}
 
 	public void setExt(String extensions){
-		stagingConf.put(Configuration.EXTRA_CUSTOM_EXTENSIONS, extensions);	
+		stagingConf.put(Configuration.MAIN_EXTENSION_NAMES, extensions);	
 	}
 	
 	public void setConfGroup(String confGroup) {

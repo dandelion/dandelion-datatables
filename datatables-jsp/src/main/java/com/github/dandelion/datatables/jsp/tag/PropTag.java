@@ -32,6 +32,9 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.dandelion.datatables.core.configuration.Configuration;
 
 /**
@@ -42,6 +45,9 @@ import com.github.dandelion.datatables.core.configuration.Configuration;
 public class PropTag extends TagSupport {
 	private static final long serialVersionUID = -3453884184847355817L;
 
+	// Logger
+	private static Logger logger = LoggerFactory.getLogger(PropTag.class);
+		
 	// Tag attributes
 	private String name;
 	private String value;
@@ -69,42 +75,25 @@ public class PropTag extends TagSupport {
 		// Get parent tag
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-		// Evaluate the tag only once using the isFirstRow method
+		// Evaluate the tag only once using the isFirstIteration method
 		if(parent.isFirstIteration()){
 			
-//			try {
-//				if(parent.getTable().getTableConfiguration().isValidProperty(name)){
-					// Override the existing properties with the new one
-					
-					// TODO securité à ajouter
-					Configuration conf = Configuration.findByName(name);
-					
-					parent.stagingConf.put(conf, value);
-//					parent.getTable().getTableConfiguration().setProperty(name, value);
-//				}
-//				else{
-//					logger.error("The property {} doesn't exist. Please visit the documentation.", name);
-//					throw new JspException(name + " is not a valid property");
-//				}
-//			} catch (BadConfigurationException e) {
-//				logger.error("An internal error occured. Unable to access the ConfConstants class");
-//				throw new JspException(e);
-//			}
+			Configuration configuration = Configuration.findByName(name);
+			
+			if(configuration == null){
+				logger.warn("{} is not a valid property.", name);
+				throw new JspException(name + " is not a valid property");
+			}
+			else{
+				parent.stagingConf.put(configuration, value);
+			}
 		}
 		
 		return EVAL_PAGE;
 	}
-	
-	public String getName() {
-		return name;
-	}
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getValue() {
-		return value;
 	}
 
 	public void setValue(String value) {

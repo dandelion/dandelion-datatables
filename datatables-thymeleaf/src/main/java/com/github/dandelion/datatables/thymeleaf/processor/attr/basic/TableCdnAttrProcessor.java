@@ -71,7 +71,7 @@ public class TableCdnAttrProcessor extends AbstractDatatablesAttrProcessor {
 		// Get attribute value
 		Boolean attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), false, Boolean.class);
 
-		localConf.put(Configuration.EXTRA_CDN, attrValue);
+		localConf.put(Configuration.MAIN_CDN, attrValue);
 		
 		return ProcessorResult.ok();
 	}

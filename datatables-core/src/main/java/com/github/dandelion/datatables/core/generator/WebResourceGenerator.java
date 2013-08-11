@@ -164,14 +164,14 @@ public class WebResourceGenerator {
 		/**
 		 * Table display
 		 */
-		if(StringUtils.isNotBlank(table.getTableConfiguration().getExtraAppear())){
+		if(StringUtils.isNotBlank(table.getTableConfiguration().getFeatureAppear())){
 			
-			if("block".equals(table.getTableConfiguration().getExtraAppear())){
+			if("block".equals(table.getTableConfiguration().getFeatureAppear())){
 				mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId() + "').show();");			
 			}
 			else{
-				if(StringUtils.isNotBlank(table.getTableConfiguration().getExtraAppearDuration())){
-					mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn(" + table.getTableConfiguration().getExtraAppearDuration() + ");");
+				if(StringUtils.isNotBlank(table.getTableConfiguration().getFeatureAppearDuration())){
+					mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn(" + table.getTableConfiguration().getFeatureAppearDuration() + ");");
 				}
 				else{
 					mainJsFile.appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn();");
