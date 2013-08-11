@@ -463,6 +463,7 @@
           <description>Unique arbitrary id of the column, used in
               relation to the column tag.</description>
           <name>uid</name>
+          <required>true</required>
           <rtexprvalue>true</rtexprvalue>
       </attribute>
    </tag>
@@ -483,7 +484,7 @@
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
-          <description>Column title (TODO)</description>
+          <description>Resource key used to lookup the title value in the configured resource bundle</description>
           <name>titleKey</name>
           <rtexprvalue>true</rtexprvalue>
       </attribute>
@@ -562,13 +563,6 @@
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
-         <description>If filterable is enabled and filterType is
-            'INPUT', fill in the input field with this attribute
-            (Default : the column's title)</description>
-          <name>filterPlaceholder</name>
-          <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
          <description>CSS style applied on header cell (th HTML tag)</description>
           <name>cssStyle</name>
           <rtexprvalue>true</rtexprvalue>
@@ -613,7 +607,7 @@
          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
-         <description>TODO</description>
+         <description>Type of sorting function to apply on the column.</description>
          <name>sortType</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
@@ -738,7 +732,7 @@
           <name>autoSize</name>
       </attribute>
       <attribute>
-         <description>TODO</description>
+         <description>Custom export URL that will be called using a HTTP GET when clicking on the associated link(s)</description>
          <name>url</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
