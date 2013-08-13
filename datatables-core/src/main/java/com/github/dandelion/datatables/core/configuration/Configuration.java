@@ -104,7 +104,7 @@ public enum Configuration {
 	MAIN_COMPRESSORDISABLEOPTI("main.compressor.disableopti", "mainCompressorDisableOpti", Boolean.class, BooleanProcessor.class),
 	MAIN_AGGREGATORENABLE("main.aggregator.enable", "mainAggregatorEnable", Boolean.class, BooleanProcessor.class),
 	MAIN_AGGREGATORMODE("main.aggregator.mode", "mainAggregatorMode", AggregatorMode.class, MainAggregatorModeProcessor.class),
-	MAIN_CDN("main.extra.cdn", "mainCdn", Boolean.class, BooleanProcessor.class),
+	MAIN_CDN("main.cdn", "mainCdn", Boolean.class, BooleanProcessor.class),
 	MAIN_CDN_JS("main.cdn.js", "mainCdnJs", String.class, StringProcessor.class),
 	MAIN_CDN_CSS("main.cdn.css", "mainCdnCss", String.class, StringProcessor.class),
 	
