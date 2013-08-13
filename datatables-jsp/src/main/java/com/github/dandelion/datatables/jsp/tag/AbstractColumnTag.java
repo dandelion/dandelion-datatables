@@ -140,7 +140,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	protected void addDomBodyColumn(String content) throws JspException {
 		
 		// Get the parent tag to access the HtmlTable
-		AbstractTableTag parent = (AbstractTableTag) getParent();
+		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 		
 		HtmlColumn bodyColumn = new HtmlColumn(false, content, dynamicAttributes);
 
