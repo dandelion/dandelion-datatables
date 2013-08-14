@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.integration.advanced;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -51,7 +49,7 @@ import com.github.dandelion.datatables.testing.utils.JspTest;
 public class FormatIT extends BaseIT {
 
 	@Test
-	public void should_format_a_mail_column() throws IOException, Exception {
+	public void should_format_a_mail_column() throws Exception {
 		goToPage("advanced/format");
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getText()).isEqualTo("venenatis@Duisvolutpat.com");

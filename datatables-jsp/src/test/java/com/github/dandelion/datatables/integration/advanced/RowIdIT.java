@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.integration.advanced;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -51,25 +49,25 @@ import com.github.dandelion.datatables.testing.utils.JspTest;
 public class RowIdIT extends BaseIT {
 
 	@Test
-	public void should_generate_rowid_with_only_base() throws IOException, Exception {
+	public void should_generate_rowid_with_only_base() throws Exception {
 		goToPage("advanced/row_id_only_base");
 		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("1");
 	}
 	
 	@Test
-	public void should_generate_rowid_with_prefix() throws IOException, Exception {
+	public void should_generate_rowid_with_prefix() throws Exception {
 		goToPage("advanced/row_id_with_prefix");
 		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("id_1");
 	}
 	
 	@Test
-	public void should_generate_rowid_with_sufix() throws IOException, Exception {
+	public void should_generate_rowid_with_sufix() throws Exception {
 		goToPage("advanced/row_id_with_sufix");
 		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("1_id");
 	}
 	
 	@Test
-	public void should_generate_rowid_with_prefix_and_sufix() throws IOException, Exception {
+	public void should_generate_rowid_with_prefix_and_sufix() throws Exception {
 		goToPage("advanced/row_id_with_prefix_and_sufix");
 		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("id_1_di");
 	}
