@@ -247,7 +247,7 @@ public class TableTag extends AbstractTableTag {
 			}
 
 			// <link> HTML tag generation
-			if (table.getTableConfiguration().getMainCdn()) {
+			if (table.getTableConfiguration().getMainCdn() != null && table.getTableConfiguration().getMainCdn()) {
 				generateLinkTag(table.getTableConfiguration().getMainCdnCss());
 			}
 			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
@@ -264,7 +264,7 @@ public class TableTag extends AbstractTableTag {
 			pageContext.getOut().println(this.table.toHtml());
 
 			// <script> HTML tag generation
-			if (table.getTableConfiguration().getMainCdn()) {
+			if (table.getTableConfiguration().getMainCdn() != null && table.getTableConfiguration().getMainCdn()) {
 				generateScriptTag(table.getTableConfiguration().getMainCdnJs());
 			}
 			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
