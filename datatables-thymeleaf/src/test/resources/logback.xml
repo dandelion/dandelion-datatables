@@ -9,7 +9,7 @@
    </appender>
 
    <logger name="com.github.dandelion" level="DEBUG" />
-   <logger name="org.eclipse.jetty" level="DEBUG" />
+   <logger name="org.eclipse.jetty" level="ERROR" />
    <logger name="org.apache" level="ERROR" />
 
    <root level="DEBUG">
