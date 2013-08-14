@@ -94,7 +94,6 @@ public enum Configuration {
 
 	MAIN_EXTENSION_PACKAGE("main.extension.package", "mainExtensionPackage", String.class, StringProcessor.class),
 	MAIN_EXTENSION_NAMES("main.extension.names", "mainExtensionNames", Set.class, MainExtensionNamesProcessor.class),
-	MAIN_BASE_PACKAGE("main.base.package", "mainBasePackage", String.class, StringProcessor.class),
 	MAIN_BASE_URL("main.base.url", "mainUrlBase", String.class, StringProcessor.class),
 	MAIN_COMPRESSORENABLE("main.compressor.enable", "mainCompressorEnable", Boolean.class, BooleanProcessor.class),
 	MAIN_COMPRESSORCLASS("main.compressor.class", "mainCompressorClass", String.class, StringProcessor.class),

@@ -379,14 +379,6 @@ public class TableConfiguration {
 		return exportClass;
 	}
 
-	/**
-	 * @return the default base package where to scan for custom extension.
-	 */
-	public String getMainExtensionPackage() {
-		return mainExtensionPackage;
-	}
-
-
 	public Boolean getFeatureAutoWidth() {
 		return featureAutoWidth;
 	}
@@ -845,11 +837,11 @@ public class TableConfiguration {
 		return this;
 	}
 	
-	public String getMainBasePackage() {
+	public String getMainExtensionPackage() {
 		return mainExtensionPackage;
 	}
 
-	public TableConfiguration setMainBasePackage(String mainBasePackage) {
+	public TableConfiguration setMainExtensionPackage(String mainBasePackage) {
 		this.mainExtensionPackage = mainBasePackage;
 		return this;
 	}
