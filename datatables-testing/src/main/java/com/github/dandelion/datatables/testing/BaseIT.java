@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.testing;
 import java.io.File;
 
 import org.eclipse.jetty.webapp.WebAppContext;
-import org.fluentlenium.core.FluentAdapter;
+import org.fluentlenium.core.Fluent;
 import org.fluentlenium.core.domain.FluentList;
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Rule;
@@ -63,7 +63,7 @@ import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public abstract class BaseIT extends FluentAdapter {
+public abstract class BaseIT extends Fluent {
 
 	protected static WebDriver driver;
 	protected static WebAppContext context;
@@ -111,7 +111,6 @@ public abstract class BaseIT extends FluentAdapter {
 		return "http://" + Constants.SERVER_HOST + ":" + Constants.SERVER_PORT;
 	}
 	
-	@Override
 	public String getDefaultBaseUrl() {
 		return "http://" + Constants.SERVER_HOST + ":" + Constants.SERVER_PORT;
 	}
