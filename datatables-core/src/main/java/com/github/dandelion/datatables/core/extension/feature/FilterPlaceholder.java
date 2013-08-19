@@ -38,7 +38,7 @@ public enum FilterPlaceholder {
 	HEAD_BEFORE("head:before"), 
 	HEAD_AFTER("head:after"), 
 	FOOT("foot"), 
-	NONE("");
+	NONE("none");
 	
 	private String name;
 	

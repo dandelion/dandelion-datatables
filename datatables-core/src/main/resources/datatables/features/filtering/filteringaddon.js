@@ -1,9 +1,10 @@
 /*
 * File:        jquery.dataTables.columnFilter.js
-* Version:     1.5.1.
+* Version:     1.5.3.
 * Author:      Jovan Popovic 
-* 
-* Copyright 2011-2012 Jovan Popovic, all rights reserved.
+* Author:      Thibault Duchateau
+*  
+* Copyright 2011-2013 Thibault Duchateau, all rights reserved.
 *
 * This source file is free software, under either the GPL v2 license or a
 * BSD style license, as supplied with this software.
@@ -12,8 +13,8 @@
 * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
 * or FITNESS FOR A PARTICULAR PURPOSE. 
 * 
-* Parameters:"
-* @sPlaceHolder                 String      Place where inline filtering function should be placed ("tfoot", "thead:before", "thead:after"). Default is "tfoot"
+* Parameters:
+* @sPlaceHolder                 String      Place where inline filtering function should be placed ("tfoot", "thead:before", "thead:after", "none"). Default is "tfoot"
 * @sRangeSeparator              String      Separator that will be used when range values are sent to the server-side. Default value is "~".
 * @sRangeFormat                 string      Default format of the From ... to ... range inputs. Default is From {from} to {to}
 * @aoColumns                    Array       Array of the filter settings that will be applied on the columns
@@ -95,9 +96,9 @@
         }
 
         function fnCreateInput(oTable, regex, smart, bIsNumber, iFilterLength, iMaxLenght) {
-            var sCSSClass = "text_filter";
+            var sCSSClass = "dandelion_text_filter";
             if (bIsNumber)
-                sCSSClass = "number_filter";
+                sCSSClass = "dandelion_number_filter";
 
             label = label.replace(/(^\s*)|(\s*$)/g, "");
             var currentFilter = oTable.fnSettings().aoPreSearchCols[i].sSearch;
@@ -177,11 +178,11 @@
 			//var currentFilter = oTable.fnSettings().aoPreSearchCols[i].sSearch;
             th.html(_fnRangeLabelPart(0));
             var sFromId = oTable.attr("id") + '_range_from_' + i;
-            var from = $('<input type="text" class="number_range_filter" id="' + sFromId + '" rel="' + i + '"/>');
+            var from = $('<input type="text" class="dandelion_number_range_filter" id="' + sFromId + '" rel="' + i + '"/>');
             th.append(from);
             th.append(_fnRangeLabelPart(1));
             var sToId = oTable.attr("id") + '_range_to_' + i;
-            var to = $('<input type="text" class="number_range_filter" id="' + sToId + '" rel="' + i + '"/>');
+            var to = $('<input type="text" class="dandelion_number_range_filter" id="' + sToId + '" rel="' + i + '"/>');
             th.append(to);
             th.append(_fnRangeLabelPart(2));
             th.wrapInner('<span class="filter_column filter_number_range" />');
@@ -224,8 +225,6 @@
         );
             //------------end range filtering function
 
-
-
             $('#' + sFromId + ',#' + sToId, th).keyup(function () {
 
                 var iMin = document.getElementById(sFromId).value * 1;
@@ -236,10 +235,7 @@
                 oTable.fnDraw();
                 fnOnFiltered();
             });
-
-
         }
-
 
         function fnCreateDateRangeInput(oTable) {
 
@@ -248,12 +244,12 @@
             th.html("");
             //th.html(_fnRangeLabelPart(0));
             var sFromId = oTable.attr("id") + '_range_from_' + i;
-            var from = $('<input type="text" class="date_range_filter" id="' + sFromId + '" rel="' + i + '"/>');
+            var from = $('<input type="text" class="dandelion_date_range_filter" id="' + sFromId + '" rel="' + i + '"/>');
             from.datepicker();
             //th.append(from);
             //th.append(_fnRangeLabelPart(1));
             var sToId = oTable.attr("id") + '_range_to_' + i;
-            var to = $('<input type="text" class="date_range_filter" id="' + sToId + '" rel="' + i + '"/>');
+            var to = $('<input type="text" class="dandelion_date_range_filter" id="' + sToId + '" rel="' + i + '"/>');
             //th.append(to);
             //th.append(_fnRangeLabelPart(2));
 
@@ -268,8 +264,6 @@
                         th.append(aoFragments[ti]);
                     }
                 }
-                
-
             }
 
 
@@ -337,7 +331,7 @@
             if (currentFilter == null || currentFilter == "")//Issue 81
                 currentFilter = oSelected;
 
-            var r = '<select class="search_init select_filter"><option value="" class="search_init">' + sLabel + '</option>';
+            var r = '<select class="search_init dandelion_select_filter"><option value="" class="search_init">' + sLabel + '</option>';
             var j = 0;
             var iLen = aData.length;
             for (j = 0; j < iLen; j++) {
@@ -408,7 +402,7 @@
 
 		function fnCreateDropdown(aData) {
 			var index = i;
-			var r = '<div class="dropdown select_filter"><a class="dropdown-toggle" data-toggle="dropdown" href="#">' + label + '<b class="caret"></b></a><ul class="dropdown-menu" role="menu"><li data-value=""><a>Show All</a></li>', j, iLen = aData.length;
+			var r = '<div class="dropdown dandelion_select_filter"><a class="dropdown-toggle" data-toggle="dropdown" href="#">' + label + '<b class="caret"></b></a><ul class="dropdown-menu" role="menu"><li data-value=""><a>Show All</a></li>', j, iLen = aData.length;
 
 			for (j = 0; j < iLen; j++) {
 				r += '<li data-value="' + aData[j] + '"><a>' + aData[j] + '</a></li>';
@@ -660,8 +654,13 @@
                 sFilterRow = "tr:first";
 
                 oHost = oTable.fnSettings().nTHead;
+            } else if (properties.sPlaceHolder == "none") {
 
-                
+                if (oTable.fnSettings().bSortCellsTop) {
+                    aoFilterCells = oTable.fnSettings().aoHeader[1];
+                } else {
+                    aoFilterCells = oTable.fnSettings().aoHeader[0];
+                }
             }
 
             //$(sFilterRow + " th", oHost).each(function (index) {//bug with ColVis
@@ -774,8 +773,4 @@
         });
 
     };
-
-
-
-
 })(jQuery);
