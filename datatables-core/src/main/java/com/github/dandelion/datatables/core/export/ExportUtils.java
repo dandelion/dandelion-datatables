@@ -27,7 +27,7 @@ public class ExportUtils {
 		try {
 			writeToResponse(response, stream, exportConf.getFileName(), exportConf.getType().getMimeType());
 		} catch (IOException e) {
-			throw new ExportException("Unable to write to response", e);
+			throw new ExportException("Unable to write to response using the " + exportClass.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -49,7 +49,6 @@ public class ExportUtils {
 		response.setContentType(contentType);
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + title + "\"");
 
-		// Flush byte array to servlet output stream.
 		ServletOutputStream out = response.getOutputStream();
 		baos.writeTo(out);
 		out.flush();
