@@ -57,7 +57,6 @@ import com.github.dandelion.datatables.core.processor.ajax.AjaxPipeliningProcess
 import com.github.dandelion.datatables.core.processor.ajax.AjaxServerSideProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxSourceProcessor;
 import com.github.dandelion.datatables.core.processor.column.DefaultValueProcessor;
-import com.github.dandelion.datatables.core.processor.column.DisplayTypesProcessor;
 import com.github.dandelion.datatables.core.processor.column.FilterTypeProcessor;
 import com.github.dandelion.datatables.core.processor.column.SortDirectionProcessor;
 import com.github.dandelion.datatables.core.processor.column.SortTypeProcessor;
@@ -76,9 +75,9 @@ import com.github.dandelion.datatables.core.processor.generic.StringBuilderProce
 import com.github.dandelion.datatables.core.processor.generic.StringProcessor;
 import com.github.dandelion.datatables.core.processor.i18n.MessageProcessor;
 import com.github.dandelion.datatables.core.processor.internal.MessageResolverProcessor;
-import com.github.dandelion.datatables.core.processor.main.MainExtensionNamesProcessor;
 import com.github.dandelion.datatables.core.processor.main.MainAggregatorModeProcessor;
 import com.github.dandelion.datatables.core.processor.main.MainCompressorModeProcessor;
+import com.github.dandelion.datatables.core.processor.main.MainExtensionNamesProcessor;
 import com.github.dandelion.datatables.core.processor.plugin.PluginColReorderProcessor;
 import com.github.dandelion.datatables.core.processor.plugin.PluginFixedHeaderProcessor;
 import com.github.dandelion.datatables.core.processor.plugin.PluginScrollerProcessor;
@@ -199,7 +198,7 @@ public enum Configuration {
 	COLUMN_FILTERVALUES("", "filterValues", String.class, StringProcessor.class),
 	COLUMN_FILTERCSSCLASS("", "filterCssClass", String.class, StringProcessor.class),
 	COLUMN_FILTERPLACEHOLDER("", "filterPlaceholder", FilterPlaceholder.class, StringProcessor.class),
-	COLUMN_DISPLAY("", "enabledDisplayTypes", List.class, DisplayTypesProcessor.class),
+//	COLUMN_DISPLAY("", "enabledDisplayTypes", List.class, DisplayTypesProcessor.class),
 	COLUMN_RENDERFUNCTION("", "renderFunction", String.class, StringProcessor.class),
 	COLUMN_FORMAT("", "format", String.class, StringProcessor.class),
 	COLUMN_SELECTOR("", "selector", String.class, StringProcessor.class),

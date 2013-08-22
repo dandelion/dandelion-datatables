@@ -33,8 +33,10 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -78,14 +80,14 @@ public class ColumnFilteringGeneratorTest {
 	public void createTable() {
 		table = new HtmlTable("aTable", (HttpServletRequest) mockPageContext.getRequest());
 		headerRow = table.addHeaderRow();
-		firstColumn = headerRow.addColumn("firstColumn");
+		firstColumn = headerRow.addHeaderColumn("firstColumn");
 	}
 	
 	@Test
 	public void should_not_generate_filter_conf_when_using_pdf_displaytype() {
-		List<DisplayType> displayTypes = new ArrayList<DisplayType>();
+		Set<DisplayType> displayTypes = new HashSet<DisplayType>();
 		displayTypes.add(DisplayType.PDF);
-		firstColumn.getColumnConfiguration().setEnabledDisplayTypes(displayTypes);
+		firstColumn.setEnabledDisplayTypes(displayTypes);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 		
@@ -95,9 +97,9 @@ public class ColumnFilteringGeneratorTest {
 	
 	@Test
 	public void should_generate_filter_conf_when_using_html_displaytype() {
-		List<DisplayType> displayTypes = new ArrayList<DisplayType>();
+		Set<DisplayType> displayTypes = new HashSet<DisplayType>();
 		displayTypes.add(DisplayType.HTML);
-		firstColumn.getColumnConfiguration().setEnabledDisplayTypes(displayTypes);
+		firstColumn.setEnabledDisplayTypes(displayTypes);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 		

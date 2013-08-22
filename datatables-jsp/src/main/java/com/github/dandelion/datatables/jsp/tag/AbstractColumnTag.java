@@ -84,6 +84,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	protected String cssClass;
 	protected String cssCellClass;
 	protected String format;
+	protected String display;
 	protected Map<String, String> dynamicAttributes;
 
 	/**
@@ -101,7 +102,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 
 		// TODO For sake of consistency, cssClass and cssStyle attributes should
 		// be handled directly via the ColumnConfiguration
-		HtmlColumn headColumn = new HtmlColumn(true, content, dynamicAttributes);
+		HtmlColumn headColumn = new HtmlColumn(true, content, dynamicAttributes, display);
 		if (StringUtils.isNotBlank(this.cssClass)) {
 			headColumn.setCssClass(new StringBuilder(this.cssClass));
 		}
@@ -142,7 +143,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		// Get the parent tag to access the HtmlTable
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 		
-		HtmlColumn bodyColumn = new HtmlColumn(false, content, dynamicAttributes);
+		HtmlColumn bodyColumn = new HtmlColumn(false, content, dynamicAttributes, display);
 
 		if (StringUtils.isNotBlank(this.cssCellClass)) {
 			bodyColumn.addCssCellClass(this.cssCellClass);
@@ -320,7 +321,8 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	}
 
 	public void setDisplay(String display) {
-		stagingConf.put(Configuration.COLUMN_DISPLAY, display);
+//		stagingConf.put(Configuration.COLUMN_DISPLAY, display);
+		this.display = display;
 	}
 
 	public void setDefault(String defaultValue) {

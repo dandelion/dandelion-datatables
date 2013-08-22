@@ -61,8 +61,8 @@ public class CsvExport implements DatatablesExport {
 		if(table.getTableConfiguration().getExportConf(ExportType.CSV).getIncludeHeader()){
 			for(HtmlRow row : table.getHeadRows()){
 				for(HtmlColumn column : row.getColumns()){
-					if (column.getColumnConfiguration().getEnabledDisplayTypes().contains(DisplayType.ALL)
-							|| column.getColumnConfiguration().getEnabledDisplayTypes().contains(CURRENT_DISPLAY_TYPE)) {
+					if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
+							|| column.getEnabledDisplayTypes().contains(CURRENT_DISPLAY_TYPE)) {
 						buffer.append(column.getContent()).append(SEPARATOR_CHAR);						
 					}
 				}
@@ -71,8 +71,8 @@ public class CsvExport implements DatatablesExport {
 		}
 		for(HtmlRow row : table.getBodyRows()){
 			for(HtmlColumn column : row.getColumns()){
-				if (column.getColumnConfiguration().getEnabledDisplayTypes().contains(DisplayType.ALL)
-						|| column.getColumnConfiguration().getEnabledDisplayTypes().contains(CURRENT_DISPLAY_TYPE)) {
+				if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
+						|| column.getEnabledDisplayTypes().contains(CURRENT_DISPLAY_TYPE)) {
 					buffer.append(column.getContent()).append(SEPARATOR_CHAR);					
 				}
 			}

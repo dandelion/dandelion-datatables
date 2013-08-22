@@ -31,7 +31,7 @@ package com.github.dandelion.datatables.extras.export.poi;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
+import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -86,7 +86,7 @@ public class XlsxExport implements DatatablesExport {
 
 					for (HtmlColumn column : htmlRow.getColumns()) {
 
-						List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
+						Set<DisplayType> enabledDisplayTypes = column.getEnabledDisplayTypes();
 						if (enabledDisplayTypes.contains(DisplayType.ALL)
 								|| enabledDisplayTypes.contains(DisplayType.XLSX)) {
 
@@ -109,7 +109,7 @@ public class XlsxExport implements DatatablesExport {
 				
 				for (HtmlColumn column : htmlRow.getColumns()) {
 
-					List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
+					Set<DisplayType> enabledDisplayTypes = column.getEnabledDisplayTypes();
 					if (enabledDisplayTypes.contains(DisplayType.ALL)
 							|| enabledDisplayTypes.contains(DisplayType.XLSX)) {
 

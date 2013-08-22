@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -159,7 +160,7 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
         for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
         	
-        	List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes(); 
+        	Set<DisplayType> enabledDisplayTypes = column.getEnabledDisplayTypes(); 
 			if (enabledDisplayTypes.contains(DisplayType.ALL)
 					|| enabledDisplayTypes.contains(DisplayType.HTML)) {
         		tmp = new HashMap<String, Object>();

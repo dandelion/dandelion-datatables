@@ -30,9 +30,10 @@
 package com.github.dandelion.datatables.core.html;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
 
@@ -74,8 +75,7 @@ public class HtmlRow extends HtmlTag {
 	private StringBuilder getHtmlColumns() {
 		StringBuilder html = new StringBuilder();
 		for (HtmlColumn column : this.columns) {
-			List<DisplayType> displayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
-			if (displayTypes.contains(DisplayType.ALL) || displayTypes.contains(DisplayType.HTML)) {
+			if(column.getEnabledDisplayTypes().contains(DisplayType.ALL) || column.getEnabledDisplayTypes().contains(DisplayType.HTML)){
 				html.append(column.toHtml());
 			}
 		}
@@ -112,9 +112,11 @@ public class HtmlRow extends HtmlTag {
 		return newColumn;
 	}
 
-	public HtmlColumn addColumn(String columnContent, DisplayType... displayTypes) {
+	public HtmlColumn addColumn(String columnContent, DisplayType displayType) {
 		HtmlColumn newColumn = new HtmlColumn(false, columnContent);
-		newColumn.getColumnConfiguration().setEnabledDisplayTypes(Arrays.asList(displayTypes));
+		Set<DisplayType> enabledDisplayTypes = new HashSet<DisplayType>();
+		enabledDisplayTypes.add(displayType);
+		newColumn.setEnabledDisplayTypes(enabledDisplayTypes);
 		this.columns.add(newColumn);
 		return newColumn;
 	}

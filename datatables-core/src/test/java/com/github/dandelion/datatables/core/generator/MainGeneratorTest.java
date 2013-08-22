@@ -33,9 +33,11 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -61,9 +63,9 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 @SuppressWarnings("unchecked")
 public class MainGeneratorTest {
 
-	private static List<DisplayType> displayTypeAllUsedForColumnDefinition = new ArrayList<DisplayType>();
-	private static List<DisplayType> displayTypeHtmlUsedForColumnDefinition = new ArrayList<DisplayType>();
-	private static List<DisplayType> displayTypeNotUsedForColumnDefinition = new ArrayList<DisplayType>();
+	private static Set<DisplayType> displayTypeAllUsedForColumnDefinition = new HashSet<DisplayType>();
+	private static Set<DisplayType> displayTypeHtmlUsedForColumnDefinition = new HashSet<DisplayType>();
+	private static Set<DisplayType> displayTypeNotUsedForColumnDefinition = new HashSet<DisplayType>();
 	private static Map<String, Object> defaultProperties = new HashMap<String, Object>();
 	private MockServletContext mockServletContext;
 	private MockPageContext mockPageContext;
@@ -100,7 +102,7 @@ public class MainGeneratorTest {
 	public void createTable() {
 		table = new HtmlTable("aTable", (HttpServletRequest) mockPageContext.getRequest());
 		headerRow = table.addHeaderRow();
-		firstColumn = headerRow.addColumn("firstColumn");
+		firstColumn = headerRow.addHeaderColumn("firstColumn");
 	}
 
 	@Test
@@ -116,7 +118,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_not_generate_column_properties() {
-		firstColumn.getColumnConfiguration().setEnabledDisplayTypes(displayTypeNotUsedForColumnDefinition);
+		firstColumn.setEnabledDisplayTypes(displayTypeNotUsedForColumnDefinition);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 		assertThat(mainConf).hasSize(1);
@@ -124,7 +126,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_generate_column_properties_with_ALL_display_type() {
-		firstColumn.getColumnConfiguration().setEnabledDisplayTypes(displayTypeAllUsedForColumnDefinition);
+		firstColumn.setEnabledDisplayTypes(displayTypeAllUsedForColumnDefinition);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 		assertThat(mainConf).hasSize(1);
@@ -133,7 +135,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_generate_column_properties_with_HTML_display_type() {
-		firstColumn.getColumnConfiguration().setEnabledDisplayTypes(displayTypeHtmlUsedForColumnDefinition);
+		firstColumn.setEnabledDisplayTypes(displayTypeHtmlUsedForColumnDefinition);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 		assertThat(mainConf).hasSize(1);
@@ -151,7 +153,7 @@ public class MainGeneratorTest {
 
 	@Test
 	public void should_generate_two_column_default_properties() {
-		headerRow.addColumn("secondColumn");
+		headerRow.addHeaderColumn("secondColumn");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -255,8 +257,8 @@ public class MainGeneratorTest {
 	@Test
 	public void should_set_several_sort_direction_inits() {
 		firstColumn.getColumnConfiguration().setSortInit("desc");
-		headerRow.addColumn("secondColumn");
-		HtmlColumn thirdColumn = headerRow.addColumn("thirdColumn");
+		headerRow.addHeaderColumn("secondColumn");
+		HtmlColumn thirdColumn = headerRow.addHeaderColumn("thirdColumn");
 		thirdColumn.getColumnConfiguration().setSortInit("asc");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);

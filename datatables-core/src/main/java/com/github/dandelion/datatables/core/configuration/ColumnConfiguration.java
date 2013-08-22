@@ -29,10 +29,8 @@
  */
 package com.github.dandelion.datatables.core.configuration;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
@@ -64,15 +62,6 @@ public class ColumnConfiguration {
 	private String renderFunction;
 	private String format;
 	private String selector;
-	private List<DisplayType> enabledDisplayTypes = new ArrayList<DisplayType>();
-
-	public ColumnConfiguration() {
-		this.enabledDisplayTypes.add(DisplayType.ALL);
-	}
-	
-	public ColumnConfiguration(DisplayType displayType) {
-		this.enabledDisplayTypes.add(displayType);
-	}
 
 	public String getUid() {
 		return uid;
@@ -226,22 +215,18 @@ public class ColumnConfiguration {
 		this.selector = selector;
 	}
 
-	public List<DisplayType> getEnabledDisplayTypes() {
-		return enabledDisplayTypes;
-	}
-
-	public void setEnabledDisplayTypes(List<DisplayType> enabledDisplayTypes) {
-		this.enabledDisplayTypes = enabledDisplayTypes;
-	}
-
 	@Override
 	public String toString() {
-		return "ColumnConfiguration [uid=" + uid + ", title=" + title + ", titleKey=" + titleKey + ", property="
-				+ property + ", defaultValue=" + defaultValue + ", sortable=" + sortable + ", sortDirections="
-				+ sortDirections + ", sortInit=" + sortInit + ", sortType=" + sortType + ", filterable=" + filterable
-				+ ", searchable=" + searchable + ", visible=" + visible + ", filterType=" + filterType
-				+ ", filterValues=" + filterValues + ", filterCssClass=" + filterCssClass + ", filterPlaceholder="
-				+ filterPlaceholder + ", renderFunction=" + renderFunction + ", format=" + format + ", selector="
-				+ selector + ", enabledDisplayTypes=" + enabledDisplayTypes + "]";
+		return "ColumnConfiguration [uid=" + uid + ", title=" + title
+				+ ", titleKey=" + titleKey + ", property=" + property
+				+ ", defaultValue=" + defaultValue + ", sortable=" + sortable
+				+ ", sortDirections=" + sortDirections + ", sortInit="
+				+ sortInit + ", sortType=" + sortType + ", filterable="
+				+ filterable + ", searchable=" + searchable + ", visible="
+				+ visible + ", filterType=" + filterType + ", filterValues="
+				+ filterValues + ", filterCssClass=" + filterCssClass
+				+ ", filterPlaceholder=" + filterPlaceholder
+				+ ", renderFunction=" + renderFunction + ", format=" + format
+				+ ", selector=" + selector + "]";
 	}
 }

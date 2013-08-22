@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.extras.export.itext;
 
 import java.io.OutputStream;
-import java.util.List;
+import java.util.Set;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.exception.ExportException;
@@ -105,7 +105,7 @@ public class PdfExport implements DatatablesExport {
 
 			for (HtmlColumn column : htmlRow.getColumns()) {
 
-				List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
+				Set<DisplayType> enabledDisplayTypes = column.getEnabledDisplayTypes();
 				if (enabledDisplayTypes != null
 						&& (enabledDisplayTypes.contains(DisplayType.ALL)
 						|| enabledDisplayTypes.contains(DisplayType.PDF))) {
@@ -128,7 +128,7 @@ public class PdfExport implements DatatablesExport {
 					
 					for (HtmlColumn column : htmlRow.getColumns()) {
 						
-						List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
+						Set<DisplayType> enabledDisplayTypes = column.getEnabledDisplayTypes();
 						if (enabledDisplayTypes != null 
 								&& (enabledDisplayTypes.contains(DisplayType.ALL)
 										|| enabledDisplayTypes.contains(DisplayType.PDF))) {
@@ -144,7 +144,7 @@ public class PdfExport implements DatatablesExport {
 				
 				for (HtmlColumn column : htmlRow.getColumns()) {
 					
-					List<DisplayType> enabledDisplayTypes = column.getColumnConfiguration().getEnabledDisplayTypes();
+					Set<DisplayType> enabledDisplayTypes = column.getEnabledDisplayTypes();
 					if (enabledDisplayTypes != null
 							&& (enabledDisplayTypes.contains(DisplayType.ALL)
 									|| enabledDisplayTypes.contains(DisplayType.PDF))) {
