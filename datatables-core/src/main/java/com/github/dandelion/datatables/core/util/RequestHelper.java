@@ -142,7 +142,7 @@ public class RequestHelper {
 			retval = request.getRequestURL().toString();
 		}
 		retval = retval.replace(request.getRequestURI(), request.getContextPath());
-		return retval;
+		return retval.substring(retval.indexOf("//"));
 	}
 	
 	public static String getBaseUrl(ServletRequest servletRequest, String mainUrlBase) {
@@ -156,7 +156,7 @@ public class RequestHelper {
 			retval = request.getRequestURL().toString();
 		}
 		retval = retval.replace(request.getRequestURI(), request.getContextPath());
-		return retval;
+		return retval.substring(retval.indexOf("//"));
 	}
 
 	/**
