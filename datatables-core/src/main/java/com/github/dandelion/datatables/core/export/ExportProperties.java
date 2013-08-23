@@ -40,7 +40,6 @@ public class ExportProperties {
 	private String fileName = "export";
 	private ExportType currentExportType;
 	private ExportConf exportConf;
-	private Boolean isBinaryExport;
 
 	public ExportType getCurrentExportType() {
 		return currentExportType;
@@ -64,13 +63,5 @@ public class ExportProperties {
 
 	public void setExportConf(ExportConf exportConf) {
 		this.exportConf = exportConf;
-	}
-
-	public Boolean isBinaryExport() {
-		return isBinaryExport;
-	}
-
-	public void setIsBinaryExport(Boolean isBinaryExport) {
-		this.isBinaryExport = isBinaryExport;
 	}
 }

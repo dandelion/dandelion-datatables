@@ -31,7 +31,6 @@ package com.github.dandelion.datatables.core.web.filter;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -47,15 +46,7 @@ import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 
 /**
- * TODO
- * 
- * Problematique : si le tableau genere avec DT4J est en cours d'export, la
- * reponse ne doit pas renvoyer du HTML mais des donnees dans le format souhaite
- * par l'utilisateur (CSV, XML, ...).<br />
- * Si on surcharge la response avec les donnees (en mettant a jour le
- * content-type et en recuperant un writer pour reecrire le contenu de l'export
- * dedans, on tombe sur l'erreur java.lang.IllegalStateException:
- * getOutputStream()|getWriter() has already been called for this response.<br />
+ * Filter used to render DataTables exported files.
  * 
  * @author Thibault Duchateau
  * @since 0.7.0
@@ -65,16 +56,12 @@ public class DatatablesFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-
+		// Nothing to do
 	}
-
+	
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
 			FilterChain chain) throws IOException, ServletException {
-
-		// Le param "exporting" est mis en request par la classe
-		// AbstractTableTag si l'attribut export est a true dans la JSP
-		// Si pas de parametre dans l'URL, le filtre ne doit rien faire
 
 		if (servletRequest instanceof HttpServletRequest) {
 
@@ -99,35 +86,19 @@ public class DatatablesFilter implements Filter {
 
 				ExportProperties exportProperties = (ExportProperties) request
 						.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_PROPERTIES);
-				String fileName = exportProperties.getFileName() + "."
-						+ exportProperties.getCurrentExportType().getExtension();
 
-				response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName
+				response.setHeader("Content-Disposition", "attachment; filename=\"" + exportProperties.getFileName()
 						+ "\"");
 
 				response.setContentType(exportProperties.getCurrentExportType().getMimeType());
 
-				// Binary exports use an outpuStream 
-				if(exportProperties.isBinaryExport()){
-					byte[] content = (byte[]) servletRequest.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT);
+				byte[] content = (byte[]) servletRequest.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT);
 
-					response.setContentLength(content.length);
-		            OutputStream out = response.getOutputStream();
-		            out.write(content);
-		            out.flush();
-		            out.close();
-				}
-				// Exports based in characters just use a writer
-				else{
-					String content = String.valueOf(servletRequest
-							.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT));
-					
-					PrintWriter out = servletResponse.getWriter();
-					response.setContentLength(content.length());
-					out.write(content);
-					out.flush();
-					out.close();
-				}
+				response.setContentLength(content.length);
+	            OutputStream out = response.getOutputStream();
+	            out.write(content);
+	            out.flush();
+	            out.close();
 			}
 
 		} else {

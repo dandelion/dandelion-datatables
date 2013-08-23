@@ -31,7 +31,6 @@ package com.github.dandelion.datatables.extras.servlet2.filter;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -47,7 +46,7 @@ import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.web.filter.DatatablesResponseWrapper;
 
 /**
- * Dandelion-datatables filter compatible with the Servlet 2.x API.
+ * Filter used to render DataTables exported files. This one is compatible with the Servlet 2.x API.
  * 
  * @author Thibault Duchateau
  */
@@ -85,36 +84,22 @@ public class DatatablesFilter implements Filter {
 
 				ExportProperties exportProperties = (ExportProperties) request
 						.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_PROPERTIES);
-				String fileName = exportProperties.getFileName() + "."
-						+ exportProperties.getCurrentExportType().getExtension();
 
-				response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName
-						+ "\"");
+				response.setHeader(
+						"Content-Disposition",
+						"attachment; filename=\""
+								+ exportProperties.getFileName() + "\"");
 
 				response.setContentType(exportProperties.getCurrentExportType().getMimeType());
 
-				// Binary exports use an outpuStream
-				if (exportProperties.isBinaryExport()) {
-					byte[] content = (byte[]) servletRequest
-							.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT);
+				byte[] content = (byte[]) servletRequest
+						.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT);
 
-					response.setContentLength(content.length);
-					OutputStream out = response.getOutputStream();
-					out.write(content);
-					out.flush();
-					out.close();
-				}
-				// Exports based in characters just use a writer
-				else {
-					String content = String.valueOf(servletRequest
-							.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT));
-
-					PrintWriter out = servletResponse.getWriter();
-					response.setContentLength(content.length());
-					out.write(content);
-					out.flush();
-					out.close();
-				}
+				response.setContentLength(content.length);
+				OutputStream out = response.getOutputStream();
+				out.write(content);
+				out.flush();
+				out.close();
 			}
 
 		} else {

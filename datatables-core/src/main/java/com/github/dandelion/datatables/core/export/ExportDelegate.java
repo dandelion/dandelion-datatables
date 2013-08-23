@@ -75,7 +75,7 @@ public class ExportDelegate {
 	 */
 	public void launchExport() throws ExportException, BadConfigurationException {
 
-		OutputStream stream = null;
+		OutputStream stream = new ByteArrayOutputStream();
 		String exportClass = null;
 
 		// Get the current export type
@@ -92,10 +92,6 @@ public class ExportDelegate {
 			logger.error("Did you forget to add a dependency ?");
 			throw new ExportException("Unable to export in " + exportType.toString() + " format");
 		}
-
-		// Init the export properties
-		exportProperties.setIsBinaryExport(true);
-		stream = new ByteArrayOutputStream();
 
 		// Get the class
 		Class<?> klass = null;
@@ -121,6 +117,7 @@ public class ExportDelegate {
 		} catch (InvocationTargetException e) {
 			throw new ExportException("Unable to invoke the method initExport", e);
 		}
+		
 		try {
 			ClassUtils.invokeMethod(obj, "processExport", new Object[] { stream });
 		} catch (NoSuchMethodException e) {

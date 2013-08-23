@@ -37,6 +37,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
@@ -65,7 +66,11 @@ public class XmlExport implements DatatablesExport {
 		
 		for(HtmlRow row : table.getHeadRows()){
 			for(HtmlColumn column : row.getColumns()){
-				headers.add(StringUtils.uncapitalize(column.getContent().toString()));
+				if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
+						|| column.getEnabledDisplayTypes().contains(DisplayType.XML)){
+					headers.add(StringUtils.uncapitalize(column.getContent().toString()));
+				}
+						
 			}
 		}
 
@@ -82,8 +87,11 @@ public class XmlExport implements DatatablesExport {
 
 				int i = 0;
 				for (HtmlColumn column : row.getColumns()) {
-					writer.writeAttribute(headers.get(i), column.getContent().toString());
-					i++;
+					if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
+							|| column.getEnabledDisplayTypes().contains(DisplayType.XML)){
+						writer.writeAttribute(headers.get(i), column.getContent().toString());
+						i++;
+					}
 				}
 
 				writer.writeEndElement();
