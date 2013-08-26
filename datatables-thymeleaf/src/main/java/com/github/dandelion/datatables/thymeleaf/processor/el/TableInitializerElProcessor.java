@@ -1,6 +1,7 @@
 package com.github.dandelion.datatables.thymeleaf.processor.el;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,9 +14,16 @@ import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.constants.ExportConstants;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.export.ExportConf;
+import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.util.RequestHelper;
+import com.github.dandelion.datatables.core.util.StringUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesElProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * <p>
@@ -83,6 +91,43 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 			element.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse");
 //			element.setProcessable(true);
 //			element.setRecomputeProcessorsAfterEachExecution(true);
+			
+			// Export has been enabled
+			if(element.hasAttribute("dt:export")){
+
+				Map<ExportType, ExportConf> exportConfMap = new HashMap<ExportType, ExportConf>();
+				ExportType type = null;
+				String val = Utils.parseElementAttribute(arguments, element.getAttributeValue("dt:export"), null, String.class);
+				
+				String[] types = val.trim().toUpperCase().split(",");
+				for (String exportTypeString : types) {
+
+					try {
+						type = ExportType.valueOf(exportTypeString);
+					} catch (IllegalArgumentException e) {
+						throw new ConfigurationProcessingException("Invalid value", e);
+					}
+
+					ExportConf exportConf = new ExportConf(type);
+					String exportUrl = RequestHelper.getCurrentURIWithParameters(request);
+					if(exportUrl.contains("?")){
+						exportUrl += "&";
+					}
+					else{
+						exportUrl += "?";
+					}
+					exportUrl += ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
+						+ type.getUrlParameter() + "&"
+						+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID + "="
+						+ tableId;
+						
+					exportConf.setUrl(exportUrl);
+					exportConf.setCustom(false);
+					exportConfMap.put(type, exportConf);
+				}
+				
+				request.setAttribute(DataTablesDialect.INTERNAL_EXPORT_CONF_MAP, exportConfMap);
+			}
 			
 			return ProcessorResult.OK;
 		}

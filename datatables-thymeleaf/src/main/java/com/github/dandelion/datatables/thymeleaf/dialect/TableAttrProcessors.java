@@ -51,8 +51,6 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableCdnAt
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableConfGroupAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableDisplayLengthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableDomAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableExportAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableExportLinksAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableFilterAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableFilterPlaceholderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableInfoAttrProcessor;
@@ -66,6 +64,15 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrol
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableScrollYAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableSortAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableStripeClassesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TableExportAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TableExportLinksAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TheadExportAutoSizeAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TheadExportFilenameAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TheadExportHeaderAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TheadExportLinkClassAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TheadExportLinkLabelAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TheadExportLinkStyleAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TheadExportLinkUrlAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TableCustomExtensionsProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackCookieProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackCreatedRowProcessor;
@@ -77,14 +84,6 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCal
 import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackInitProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackPreDrawProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackRowProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyExportAutoSizeAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyExportFilenameAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyExportHeaderAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyExportLinkClassAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyExportLinkLabelAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyExportLinkStyleAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyExportLinkUrlAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.ThExportFilenameAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.plugin.TheadColReorderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.plugin.TheadFixedHeaderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.plugin.TheadScrollerAttrProcessor;
@@ -130,46 +129,45 @@ public enum TableAttrProcessors {
     FEATURE_CUSTOM_EXTENSIONS(TableCustomExtensionsProcessor.class, "ext", "table"),
     FEATURE_EXPORT(TableExportAttrProcessor.class, "export", "table"),
     FEATURE_EXPORT_LINKS(TableExportLinksAttrProcessor.class, "exportLinks", "table"),
-    FEATURE_EXPORT_FILENAME(ThExportFilenameAttrProcessor.class, "filename", "th"),
 
-    EXPORT_HEADER_CSV(TbodyExportHeaderAttrProcessor.class, "csv:header", "tbody"),
-    EXPORT_HEADER_PDF(TbodyExportHeaderAttrProcessor.class, "pdf:header", "tbody"),
-    EXPORT_HEADER_XLS(TbodyExportHeaderAttrProcessor.class, "xls:header", "tbody"),
-    EXPORT_HEADER_XLSX(TbodyExportHeaderAttrProcessor.class, "xlsx:header", "tbody"),
-    EXPORT_HEADER_XML(TbodyExportHeaderAttrProcessor.class, "xml:header", "tbody"),
+    EXPORT_HEADER_CSV(TheadExportHeaderAttrProcessor.class, "csv:header", "thead"),
+    EXPORT_HEADER_PDF(TheadExportHeaderAttrProcessor.class, "pdf:header", "thead"),
+    EXPORT_HEADER_XLS(TheadExportHeaderAttrProcessor.class, "xls:header", "thead"),
+    EXPORT_HEADER_XLSX(TheadExportHeaderAttrProcessor.class, "xlsx:header", "thead"),
+    EXPORT_HEADER_XML(TheadExportHeaderAttrProcessor.class, "xml:header", "thead"),
 
-    EXPORT_AUTOSIZE_XLS(TbodyExportAutoSizeAttrProcessor.class, "xls:autosize", "tbody"),
-    EXPORT_AUTOSIZE_XLSX(TbodyExportAutoSizeAttrProcessor.class, "xlsx:autosize", "tbody"),
+    EXPORT_AUTOSIZE_XLS(TheadExportAutoSizeAttrProcessor.class, "xls:autosize", "thead"),
+    EXPORT_AUTOSIZE_XLSX(TheadExportAutoSizeAttrProcessor.class, "xlsx:autosize", "thead"),
 
-    EXPORT_LINK_CLASS_CSV(TbodyExportLinkClassAttrProcessor.class, "csv:class", "tbody"),
-    EXPORT_LINK_CLASS_PDF(TbodyExportLinkClassAttrProcessor.class, "pdf:class", "tbody"),
-    EXPORT_LINK_CLASS_XLS(TbodyExportLinkClassAttrProcessor.class, "xls:class", "tbody"),
-    EXPORT_LINK_CLASS_XLSX(TbodyExportLinkClassAttrProcessor.class, "xlsx:class", "tbody"),
-    EXPORT_LINK_CLASS_XML(TbodyExportLinkClassAttrProcessor.class, "xml:class", "tbody"),
+    EXPORT_LINK_CLASS_CSV(TheadExportLinkClassAttrProcessor.class, "csv:class", "thead"),
+    EXPORT_LINK_CLASS_PDF(TheadExportLinkClassAttrProcessor.class, "pdf:class", "thead"),
+    EXPORT_LINK_CLASS_XLS(TheadExportLinkClassAttrProcessor.class, "xls:class", "thead"),
+    EXPORT_LINK_CLASS_XLSX(TheadExportLinkClassAttrProcessor.class, "xlsx:class", "thead"),
+    EXPORT_LINK_CLASS_XML(TheadExportLinkClassAttrProcessor.class, "xml:class", "thead"),
 
-    EXPORT_LINK_STYLE_CSV(TbodyExportLinkStyleAttrProcessor.class, "csv:style", "tbody"),
-    EXPORT_LINK_STYLE_PDF(TbodyExportLinkStyleAttrProcessor.class, "pdf:style", "tbody"),
-    EXPORT_LINK_STYLE_XLS(TbodyExportLinkStyleAttrProcessor.class, "xls:style", "tbody"),
-    EXPORT_LINK_STYLE_XLSX(TbodyExportLinkStyleAttrProcessor.class, "xlsx:style", "tbody"),
-    EXPORT_LINK_STYLE_XML(TbodyExportLinkStyleAttrProcessor.class, "xml:style", "tbody"),
+    EXPORT_LINK_STYLE_CSV(TheadExportLinkStyleAttrProcessor.class, "csv:style", "thead"),
+    EXPORT_LINK_STYLE_PDF(TheadExportLinkStyleAttrProcessor.class, "pdf:style", "thead"),
+    EXPORT_LINK_STYLE_XLS(TheadExportLinkStyleAttrProcessor.class, "xls:style", "thead"),
+    EXPORT_LINK_STYLE_XLSX(TheadExportLinkStyleAttrProcessor.class, "xlsx:style", "thead"),
+    EXPORT_LINK_STYLE_XML(TheadExportLinkStyleAttrProcessor.class, "xml:style", "thead"),
 
-    EXPORT_LINK_LABEL_CSV(TbodyExportLinkLabelAttrProcessor.class, "csv:label", "tbody"),
-    EXPORT_LINK_LABEL_PDF(TbodyExportLinkLabelAttrProcessor.class, "pdf:label", "tbody"),
-    EXPORT_LINK_LABEL_XLS(TbodyExportLinkLabelAttrProcessor.class, "xls:label", "tbody"),
-    EXPORT_LINK_LABEL_XLSX(TbodyExportLinkLabelAttrProcessor.class, "xlsx:label", "tbody"),
-    EXPORT_LINK_LABEL_XML(TbodyExportLinkLabelAttrProcessor.class, "xml:label", "tbody"),
+    EXPORT_LINK_LABEL_CSV(TheadExportLinkLabelAttrProcessor.class, "csv:label", "thead"),
+    EXPORT_LINK_LABEL_PDF(TheadExportLinkLabelAttrProcessor.class, "pdf:label", "thead"),
+    EXPORT_LINK_LABEL_XLS(TheadExportLinkLabelAttrProcessor.class, "xls:label", "thead"),
+    EXPORT_LINK_LABEL_XLSX(TheadExportLinkLabelAttrProcessor.class, "xlsx:label", "thead"),
+    EXPORT_LINK_LABEL_XML(TheadExportLinkLabelAttrProcessor.class, "xml:label", "thead"),
 
-    EXPORT_LINK_URL_CSV(TbodyExportLinkUrlAttrProcessor.class, "csv:url", "tbody"),
-    EXPORT_LINK_URL_PDF(TbodyExportLinkUrlAttrProcessor.class, "pdf:url", "tbody"),
-    EXPORT_LINK_URL_XLS(TbodyExportLinkUrlAttrProcessor.class, "xls:url", "tbody"),
-    EXPORT_LINK_URL_XLSX(TbodyExportLinkUrlAttrProcessor.class, "xlsx:url", "tbody"),
-    EXPORT_LINK_URL_XML(TbodyExportLinkUrlAttrProcessor.class, "xml:url", "tbody"),
+    EXPORT_LINK_URL_CSV(TheadExportLinkUrlAttrProcessor.class, "csv:url", "thead"),
+    EXPORT_LINK_URL_PDF(TheadExportLinkUrlAttrProcessor.class, "pdf:url", "thead"),
+    EXPORT_LINK_URL_XLS(TheadExportLinkUrlAttrProcessor.class, "xls:url", "thead"),
+    EXPORT_LINK_URL_XLSX(TheadExportLinkUrlAttrProcessor.class, "xlsx:url", "thead"),
+    EXPORT_LINK_URL_XML(TheadExportLinkUrlAttrProcessor.class, "xml:url", "thead"),
     
-    EXPORT_FILENAME_CSV(TbodyExportFilenameAttrProcessor.class, "csv:filename", "tbody"),
-    EXPORT_FILENAME_PDF(TbodyExportFilenameAttrProcessor.class, "pdf:filename", "tbody"),
-    EXPORT_FILENAME_XLS(TbodyExportFilenameAttrProcessor.class, "xls:filename", "tbody"),
-    EXPORT_FILENAME_XLSX(TbodyExportFilenameAttrProcessor.class, "xlsx:filename", "tbody"),
-    EXPORT_FILENAME_XML(TbodyExportFilenameAttrProcessor.class, "xml:filename", "tbody"),
+    EXPORT_FILENAME_CSV(TheadExportFilenameAttrProcessor.class, "csv:filename", "thead"),
+    EXPORT_FILENAME_PDF(TheadExportFilenameAttrProcessor.class, "pdf:filename", "thead"),
+    EXPORT_FILENAME_XLS(TheadExportFilenameAttrProcessor.class, "xls:filename", "thead"),
+    EXPORT_FILENAME_XLSX(TheadExportFilenameAttrProcessor.class, "xlsx:filename", "thead"),
+    EXPORT_FILENAME_XML(TheadExportFilenameAttrProcessor.class, "xml:filename", "thead"),
 
     // AJAX processors
     AJAX_URL(TableUrlAttrProcessor.class, "url", "table"),

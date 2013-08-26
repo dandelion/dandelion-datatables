@@ -30,6 +30,7 @@ import com.github.dandelion.datatables.core.exception.ConfigurationLoadingExcept
 import com.github.dandelion.datatables.core.exception.DataNotFoundException;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
+import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
@@ -89,6 +90,8 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 
 			applyCssConfiguration(arguments);
 			
+			applyExportConfiguration(arguments);
+			
 			// The table is being exported
 			if (RequestHelper.isTableBeingExported(request, this.htmlTable)) {
 				setupExport(arguments);
@@ -105,6 +108,26 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		return ProcessorResult.OK;
 	}
 
+	private void applyExportConfiguration(Arguments arguments) {
+		// Get the HTTP request
+		HttpServletRequest request = ((IWebContext) arguments.getContext())
+				.getHttpServletRequest();
+
+		if (htmlTable.getTableConfiguration().getExportConfs() != null
+				&& !htmlTable.getTableConfiguration().getExportConfs().isEmpty()) {
+
+			htmlTable.getTableConfiguration().getExportConfs().clear();
+
+			Map<ExportType, ExportConf> exportConfMap = (Map<ExportType, ExportConf>) request
+					.getAttribute(DataTablesDialect.INTERNAL_EXPORT_CONF_MAP);
+
+			for (Entry<ExportType, ExportConf> entry : exportConfMap.entrySet()) {
+				htmlTable.getTableConfiguration().getExportConfs()
+						.add(entry.getValue());
+			}
+		}
+	}
+	
 	private void applyCssConfiguration(Arguments arguments){
 		
 		// CSS class

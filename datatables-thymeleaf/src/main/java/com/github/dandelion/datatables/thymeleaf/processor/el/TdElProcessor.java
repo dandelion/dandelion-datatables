@@ -101,7 +101,7 @@ public class TdElProcessor extends AbstractDatatablesElProcessor {
 			}
 			// Otherwise, an empty cell will be displayed
 			else{
-				logger.warn("Only cells containing plain text are supported, those containing HTML code are still not !");
+				logger.warn("Only cells containing plain text are supported, those containing HTML code are still not!");
 				table.getLastBodyRow().addColumn("");
 			}
 		}

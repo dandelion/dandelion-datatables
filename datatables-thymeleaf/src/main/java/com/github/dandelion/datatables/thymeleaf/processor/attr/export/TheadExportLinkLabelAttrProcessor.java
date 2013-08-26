@@ -27,7 +27,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.thymeleaf.processor.attr.feature;
+package com.github.dandelion.datatables.thymeleaf.processor.attr.export;
 
 import java.util.Map;
 
@@ -40,11 +40,10 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.RequestHelper;
+import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
@@ -52,19 +51,19 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * Attribute processor applied to the <code>tbody</code> tag for the following
  * attributes :
  * <ul>
- * <li>dt:csv:filename</li>
- * <li>dt:xml:filename</li>
- * <li>dt:xls:filename</li>
- * <li>dt:xlsx:filename</li>
- * <li>dt:pdf:filename</li>
+ * <li>dt:csv:label</li>
+ * <li>dt:xml:label</li>
+ * <li>dt:xls:label</li>
+ * <li>dt:xlsx:label</li>
+ * <li>dt:pdf:label</li>
  * </ul>
  * 
  * @author Thibault Duchateau
  * @since 0.8.8
  */
-public class TbodyExportFilenameAttrProcessor extends AbstractDatatablesAttrProcessor {
+public class TheadExportLinkLabelAttrProcessor extends AbstractDatatablesAttrProcessor {
 
-	public TbodyExportFilenameAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	public TheadExportLinkLabelAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
@@ -73,39 +72,21 @@ public class TbodyExportFilenameAttrProcessor extends AbstractDatatablesAttrProc
 		return 8000;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
 			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 
 		// Get the HTTP request
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-
+				
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 		ExportType exportType = ExportType.valueOf(attributeName.split(":")[1].toUpperCase().trim());
 		
-		// The ExportConf already exists
-		if(table.getTableConfiguration().getExportConf(exportType) != null){
-			table.getTableConfiguration().getExportConf(exportType).setFileName(attrValue);
-		}
-		// The ExportConf still doesn't exist
-		else{
-			// Export URL build
-			String url = RequestHelper.getCurrentURIWithParameters(request);
-			if(url.contains("?")){
-				url += "&";
-			}
-			else{
-				url += "?";
-			}
-			url += ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
-					+ exportType.getUrlParameter() + "&"
-					+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID + "="
-					+ table.getId();
-						
-			ExportConf conf = new ExportConf(exportType, url);
-			conf.setFileName(attrValue);
-			table.getTableConfiguration().getExportConfs().add(conf);
-		}
+		Map<ExportType, ExportConf> exportConfMap = (Map<ExportType, ExportConf>) request
+				.getAttribute(DataTablesDialect.INTERNAL_EXPORT_CONF_MAP);
+		
+		exportConfMap.get(exportType).setLabel(attrValue);
 		
 		return ProcessorResult.ok();
 	}

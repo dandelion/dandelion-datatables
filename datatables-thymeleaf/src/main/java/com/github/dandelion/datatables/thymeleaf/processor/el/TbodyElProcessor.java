@@ -50,16 +50,14 @@ public class TbodyElProcessor extends AbstractDatatablesElProcessor {
 
 					if (trChildTag.hasAttribute("th:each")) {
 
-						trChildTag.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":data",
-								"internalUse");
+						trChildTag.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse");
 
 						for (Node grandchild : trChildTag.getChildren()) {
 
 							if (grandchild != null && grandchild instanceof Element) {
 
 								Element tdChildTag = (Element) grandchild;
-								tdChildTag.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":data",
-										"internalUse");
+								tdChildTag.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse");
 
 								// The td nodes must be processed too (for
 								// HtmlColumn creation)

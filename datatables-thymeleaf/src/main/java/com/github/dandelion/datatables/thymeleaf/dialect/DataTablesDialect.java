@@ -62,6 +62,7 @@ public class DataTablesDialect extends AbstractDialect {
 	public static final String INTERNAL_CONF_GROUP = "confGroup";
 	public static final String INTERNAL_TABLE_LOCAL_CONF = "tableLocalConf";
 	public static final String INTERNAL_COLUMN_LOCAL_CONF = "columnLocalConf";
+	public static final String INTERNAL_EXPORT_CONF_MAP = "exportConfMap";
 	
 	public String getPrefix() {
 		return DIALECT_PREFIX;
@@ -81,10 +82,10 @@ public class DataTablesDialect extends AbstractDialect {
 		// Element processors
 		processors.add(new TableInitializerElProcessor(new ElementNameProcessorMatcher("table", DataTablesDialect.DIALECT_PREFIX + ":table", "true", false)));
 		processors.add(new TableFinalizerElProcessor(new ElementNameProcessorMatcher("div", DataTablesDialect.DIALECT_PREFIX + ":tmp", "internalUse", false)));
-		processors.add(new ColumnInitializerElProcessor(new ElementNameProcessorMatcher("th", false)));
-		processors.add(new ColumnFinalizerProcessor(new ElementNameProcessorMatcher("th", DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse", false)));
 		processors.add(new TheadElProcessor(new DatatablesElementMatcher("thead", false)));
 		processors.add(new TbodyElProcessor(new DatatablesElementMatcher("tbody", false)));
+		processors.add(new ColumnInitializerElProcessor(new ElementNameProcessorMatcher("th", false)));
+		processors.add(new ColumnFinalizerProcessor(new ElementNameProcessorMatcher("th", DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse", false)));
 		processors.add(new TrElProcessor(new ElementNameProcessorMatcher("tr", DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse", false)));
 		processors.add(new TdElProcessor(new ElementNameProcessorMatcher("td", DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse", false)));
 		

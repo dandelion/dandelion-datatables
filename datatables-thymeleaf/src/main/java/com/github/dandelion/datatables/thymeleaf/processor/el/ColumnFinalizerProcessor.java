@@ -47,8 +47,7 @@ public class ColumnFinalizerProcessor extends AbstractDatatablesElProcessor {
 		HtmlColumn htmlColumn = new HtmlColumn(true, content);
 
 		try {
-			Configuration.applyColumnConfiguration(htmlColumn.getColumnConfiguration(), table.getTableConfiguration(),
-					stagingConf);
+			Configuration.applyColumnConfiguration(htmlColumn.getColumnConfiguration(), table.getTableConfiguration(), stagingConf);
 		} catch (ConfigurationProcessingException e) {
 			throw new DataTableProcessingException(e);
 		} catch (ConfigurationLoadingException e) {

@@ -27,34 +27,43 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.thymeleaf.processor.attr.basic;
+package com.github.dandelion.datatables.thymeleaf.processor.attr.export;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.thymeleaf.Arguments;
+import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.export.ExportConf;
+import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
- * <p>
- * Attribute processor applied to the <tt>table</tt> tag for the
- * <tt>exportLinks</tt> attribute.
- * 
- * <p>
- * When the <tt>export</tt> attribute is set to <code>true</code>, HTML link
- * will be generated around the table for each enabled export.
+ * Attribute processor applied to the <code>tbody</code> tag for the following
+ * attributes :
+ * <ul>
+ * <li>dt:csv:header</li>
+ * <li>dt:xml:header</li>
+ * <li>dt:xls:header</li>
+ * <li>dt:xlsx:header</li>
+ * <li>dt:pdf:header</li>
+ * </ul>
  * 
  * @author Thibault Duchateau
+ * @since 0.8.8
  */
-public class TableExportLinksAttrProcessor extends AbstractDatatablesAttrProcessor {
+public class TheadExportHeaderAttrProcessor extends AbstractDatatablesAttrProcessor {
 
-	public TableExportLinksAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	public TheadExportHeaderAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
@@ -63,14 +72,20 @@ public class TableExportLinksAttrProcessor extends AbstractDatatablesAttrProcess
 		return 8000;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
 			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
-
-		// Get attribute value
-		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
-
-		localConf.put(Configuration.EXPORT_LINKS, attrValue);
+		
+		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
+		
+		Boolean attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), false, Boolean.class);
+		ExportType exportType = ExportType.valueOf(attributeName.split(":")[1].toUpperCase().trim());
+		
+		Map<ExportType, ExportConf> exportConfMap = (Map<ExportType, ExportConf>) request
+				.getAttribute(DataTablesDialect.INTERNAL_EXPORT_CONF_MAP);
+		
+		exportConfMap.get(exportType).setIncludeHeader(attrValue);
 		
 		return ProcessorResult.ok();
 	}

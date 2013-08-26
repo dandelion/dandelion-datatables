@@ -49,7 +49,7 @@ import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 public class ExportLinksIT extends ExportLinksBaseIT {
 
 	@Test
-	public void should_generate_csv_link_with_one_existing_url_parameter() throws Exception {
+	public void should_generate_default_csv_link_with_one_existing_url_parameter() throws Exception {
 		goToPage("export/default_csv_link?param1=val1");
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
@@ -58,7 +58,7 @@ public class ExportLinksIT extends ExportLinksBaseIT {
 	}
 	
 	@Test
-	public void should_generate_csv_link_with_multiple_existing_url_parameters() throws Exception {
+	public void should_generate_default_csv_link_with_multiple_existing_url_parameters() throws Exception {
 		goToPage("export/default_csv_link?param1=val1&param2=val2");
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
