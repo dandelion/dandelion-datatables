@@ -51,6 +51,7 @@ public class ColumnConfiguration {
 	private List<ColumnElement> columnElements;
 	private String defaultValue;
 	private Boolean sortable = true;
+	private String format;
 	private List<Direction> sortDirections;
 	private String sortInit;
 	private SortType sortType;
@@ -214,6 +215,14 @@ public class ColumnConfiguration {
 
 	public void setColumnElements(List<ColumnElement> columnElements) {
 		this.columnElements = columnElements;
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
 	}
 
 	@Override

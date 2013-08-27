@@ -82,7 +82,7 @@ public class ExportLinksIT extends ExportLinksBaseIT {
 	
 	@Ignore
 	public void should_generate_custom_csv_link(){
-		goToPage("/export/custom_link", true);
+		goToPage("/export/custom_link");
 		
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("myLabel");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("class")).contains("myClass");
