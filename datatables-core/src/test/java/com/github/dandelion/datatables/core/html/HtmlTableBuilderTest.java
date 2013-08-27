@@ -38,6 +38,7 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
+import com.github.dandelion.datatables.core.export.HtmlTableBuilder;
 import com.github.dandelion.datatables.core.mock.Mock;
 import com.github.dandelion.datatables.core.mock.Person;
 
@@ -61,66 +62,72 @@ public class HtmlTableBuilderTest {
 	}
 	
 	@Test
-	public void should_generate_markup_using_full_source(){
-		table = new HtmlTable.Builder<Person>("tableId", Mock.persons, request)
-				.column("id")
-				.column("firstName")
-				.column("lastName")
-				.column("address.town.name")
-				.column("mail")
+	public void should_have_only_one_column(){
+		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request)
+				.column().fillWithProperty("id").title("Id")
+				.configureExport(null)
 				.build();
 		
 		assertThat(table.getBodyRows().size()).isEqualTo(1000);
-		assertThat(table.getHeadRows().get(0).getColumns().size()).isEqualTo(5);
+		assertThat(table.getHeadRows().get(0).getColumns().size()).isEqualTo(1);
+		assertThat(table.getHeadRows().get(0).getColumns().get(0).getContent().toString()).isEqualTo("Id");
 	}
 	
 	@Test
-	public void should_generate_markup_using_null_source(){
-		table = new HtmlTable.Builder<Person>("tableId", null, request)
-				.column("id")
-				.column("firstName")
-				.column("lastName")
-				.column("address.town.name")
-				.column("mail")
+	public void should_have_only_one_column_with_formatted_content(){
+		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request)
+				.column().fillWithProperty("id", "=> {0}").title("Id")
+				.configureExport(null)
 				.build();
 		
-		assertThat(table.getBodyRows().size()).isEqualTo(0);
-		assertThat(table.getHeadRows().get(0).getColumns().size()).isEqualTo(5);
-		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\"><thead><tr><th>id</th><th>firstName</th><th>lastName</th><th>address.town.name</th><th>mail</th></tr></thead><tbody></tbody></table>");
-	}
-	
-	
-	@Test
-	public void should_set_column_title(){
-		table = new HtmlTable.Builder<Person>("tableId", Mock.persons, request)
-				.column("id").title("Id")
-				.column("firstName").title("FirstName")
-				.column("lastName").title("LastName")
-				.column("address.town.name").title("City")
-				.column("mail").title("Mail")
-				.build();
-		
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(0).getColumnConfiguration().getTitle()).isEqualTo("Id");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(1).getColumnConfiguration().getTitle()).isEqualTo("FirstName");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(2).getColumnConfiguration().getTitle()).isEqualTo("LastName");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(3).getColumnConfiguration().getTitle()).isEqualTo("City");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(4).getColumnConfiguration().getTitle()).isEqualTo("Mail");
+		assertThat(table.getBodyRows().get(0).getColumns().get(0).getContent().toString()).isEqualTo("=> 1");
+		assertThat(table.getBodyRows().get(1).getColumns().get(0).getContent().toString()).isEqualTo("=> 2");
 	}
 	
 	@Test
-	public void should_set_default_column_title(){
-		table = new HtmlTable.Builder<Person>("tableId", Mock.persons, request)
-				.column("id")
-				.column("firstName")
-				.column("lastName")
-				.column("address.town.name")
-				.column("mail")
+	public void should_have_only_one_column_with_a_property_and_a_string(){
+		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request)
+				.column().fillWithProperty("id").and("content").title("Id")
+				.configureExport(null)
 				.build();
 		
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(0).getColumnConfiguration().getTitle()).isEqualTo("id");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(1).getColumnConfiguration().getTitle()).isEqualTo("firstName");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(2).getColumnConfiguration().getTitle()).isEqualTo("lastName");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(3).getColumnConfiguration().getTitle()).isEqualTo("address.town.name");
-		assertThat(table.getHeadRows().get(0).getHeaderColumns().get(4).getColumnConfiguration().getTitle()).isEqualTo("mail");
+		assertThat(table.getBodyRows().get(0).getColumns().get(0).getContent().toString()).isEqualTo("1content");
+		assertThat(table.getBodyRows().get(1).getColumns().get(0).getContent().toString()).isEqualTo("2content");
+	}
+	
+	@Test
+	public void should_have_only_one_column_with_two_properties_and_a_string(){
+		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request)
+				.column().fillWithProperty("id").and("content").andProperty("id").title("Id")
+				.configureExport(null)
+				.build();
+		
+		assertThat(table.getBodyRows().get(0).getColumns().get(0).getContent().toString()).isEqualTo("1content1");
+		assertThat(table.getBodyRows().get(1).getColumns().get(0).getContent().toString()).isEqualTo("2content2");
+	}
+	
+	@Test
+	public void should_have_only_one_column_with_default_value(){
+		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request)
+				.column().fillWithProperty("address.town.name").title("Town")
+				.configureExport(null)
+				.build();
+		
+		assertThat(table.getBodyRows().get(0).getColumns().get(0).getContent().toString()).isEmpty();
+		assertThat(table.getBodyRows().get(1).getColumns().get(0).getContent().toString()).isEqualTo("Denny");
+	}
+	
+	@Test
+	public void should_have_two_columns(){
+		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request)
+				.column().fillWithProperty("id").title("Id")
+				.column().fillWithProperty("firstName").title("FirstName")
+				.configureExport(null)
+				.build();
+		
+		assertThat(table.getBodyRows().size()).isEqualTo(1000);
+		assertThat(table.getHeadRows().get(0).getColumns().size()).isEqualTo(2);
+		assertThat(table.getHeadRows().get(0).getColumns().get(0).getContent().toString()).isEqualTo("Id");
+		assertThat(table.getHeadRows().get(0).getColumns().get(1).getContent().toString()).isEqualTo("FirstName");
 	}
 }

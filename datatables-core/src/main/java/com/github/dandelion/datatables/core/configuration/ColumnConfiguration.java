@@ -32,6 +32,7 @@ package com.github.dandelion.datatables.core.configuration;
 import java.util.List;
 
 import com.github.dandelion.datatables.core.constants.Direction;
+import com.github.dandelion.datatables.core.export.ColumnElement;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 
@@ -47,6 +48,7 @@ public class ColumnConfiguration {
 	private String title;
 	private String titleKey;
 	private String property;
+	private List<ColumnElement> columnElements;
 	private String defaultValue;
 	private Boolean sortable = true;
 	private List<Direction> sortDirections;
@@ -60,7 +62,6 @@ public class ColumnConfiguration {
 	private String filterCssClass = "";
 	private String filterPlaceholder = "";
 	private String renderFunction;
-	private String format;
 	private String selector;
 
 	public String getUid() {
@@ -199,14 +200,6 @@ public class ColumnConfiguration {
 		this.renderFunction = renderFunction;
 	}
 
-	public String getFormat() {
-		return format;
-	}
-
-	public void setFormat(String format) {
-		this.format = format;
-	}
-
 	public String getSelector() {
 		return selector;
 	}
@@ -215,18 +208,22 @@ public class ColumnConfiguration {
 		this.selector = selector;
 	}
 
+	public List<ColumnElement> getColumnElements() {
+		return columnElements;
+	}
+
+	public void setColumnElements(List<ColumnElement> columnElements) {
+		this.columnElements = columnElements;
+	}
+
 	@Override
 	public String toString() {
-		return "ColumnConfiguration [uid=" + uid + ", title=" + title
-				+ ", titleKey=" + titleKey + ", property=" + property
-				+ ", defaultValue=" + defaultValue + ", sortable=" + sortable
-				+ ", sortDirections=" + sortDirections + ", sortInit="
-				+ sortInit + ", sortType=" + sortType + ", filterable="
-				+ filterable + ", searchable=" + searchable + ", visible="
-				+ visible + ", filterType=" + filterType + ", filterValues="
-				+ filterValues + ", filterCssClass=" + filterCssClass
-				+ ", filterPlaceholder=" + filterPlaceholder
-				+ ", renderFunction=" + renderFunction + ", format=" + format
+		return "ColumnConfiguration [uid=" + uid + ", title=" + title + ", titleKey=" + titleKey + ", property="
+				+ property + ", columnElements=" + columnElements + ", defaultValue=" + defaultValue + ", sortable="
+				+ sortable + ", sortDirections=" + sortDirections + ", sortInit=" + sortInit + ", sortType=" + sortType
+				+ ", filterable=" + filterable + ", searchable=" + searchable + ", visible=" + visible
+				+ ", filterType=" + filterType + ", filterValues=" + filterValues + ", filterCssClass="
+				+ filterCssClass + ", filterPlaceholder=" + filterPlaceholder + ", renderFunction=" + renderFunction
 				+ ", selector=" + selector + "]";
 	}
 }

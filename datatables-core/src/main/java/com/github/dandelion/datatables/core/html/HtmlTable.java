@@ -1,5 +1,4 @@
 /*
- * [The "BSD licence"]
  * Copyright (c) 2012 Dandelion
  * All rights reserved.
  * 
@@ -29,22 +28,13 @@
  */
 package com.github.dandelion.datatables.core.html;
 
-import java.lang.reflect.InvocationTargetException;
-import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.beanutils.NestedNullException;
-import org.apache.commons.beanutils.PropertyUtils;
-
-import com.github.dandelion.datatables.core.configuration.ConfigurationLoader;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
@@ -266,133 +256,5 @@ public class HtmlTable extends HtmlTag {
 
 	public void setTableConfiguration(TableConfiguration tableConfiguration) {
 		this.tableConfiguration = tableConfiguration;
-	}
-
-	/**
-	 * HtmlTable builder, allowing you to build a table in an export controller
-	 * for example.
-	 */
-	public static class Builder<T> {
-
-		private String id;
-		private List<T> data;
-		private LinkedList<HtmlColumn> headerColumns = new LinkedList<HtmlColumn>();
-		private HttpServletRequest request;
-		private ExportConf exportConf;
-
-		public Builder(String id, List<T> data, HttpServletRequest request) {
-			this.id = id;
-			this.data = data;
-			this.request = request;
-		}
-
-		// Table configuration
-		
-		public Builder<T> column(String property) {
-			HtmlColumn column = new HtmlColumn(true, "");
-
-			column.getColumnConfiguration().setProperty(property);
-			column.getColumnConfiguration().setTitle(property);
-			headerColumns.add(column);
-			return this;
-		}
-
-		public Builder<T> title(String title) {
-			headerColumns.getLast().getColumnConfiguration().setTitle(title);
-			return this;
-		}
-
-		public Builder<T> format(String pattern) {
-			headerColumns.getLast().getColumnConfiguration().setFormat(pattern);
-			return this;
-		}
-
-		public Builder<T> defaultContent(String defaultContent) {
-			headerColumns.getLast().getColumnConfiguration().setDefaultValue(defaultContent);
-			return this;
-		}
-		
-		public Builder<T> configureExport(ExportConf exportConf) {
-			this.exportConf = exportConf;
-			return this;
-		}
-
-		public HtmlTable build() {
-			return new HtmlTable(this);
-		}
-	}
-
-	/**
-	 * Private constructor used by the Builder to build a HtmlTable in a fluent
-	 * way.
-	 * 
-	 * @param builder
-	 */
-	private <T> HtmlTable(Builder<T> builder) {
-
-		this.tag = "table";
-		this.id = builder.id;
-		this.tableConfiguration = TableConfiguration
-				.getInstance(builder.request, ConfigurationLoader.DEFAULT_GROUP_NAME);
-		
-		this.tableConfiguration.setExportConfs(new HashSet<ExportConf>(Arrays.asList(builder.exportConf)));
-		
-		if(builder.data != null && builder.data.size() > 0){
-			this.tableConfiguration.setInternalObjectType(builder.data.get(0).getClass().getSimpleName());
-		}
-		else{
-			this.tableConfiguration.setInternalObjectType("???");
-		}
-		
-		addHeaderRow();
-
-		for (HtmlColumn column : builder.headerColumns) {
-			column.setContent(new StringBuilder(column.getColumnConfiguration().getTitle()));
-			getLastHeaderRow().addColumn(column);
-		}
-
-		if (builder.data != null) {
-
-			for (T o : builder.data) {
-
-				addRow();
-				for (HtmlColumn headerColumn : builder.headerColumns) {
-
-					Object content = null;
-					try {
-
-						content = PropertyUtils.getNestedProperty(o, headerColumn.getColumnConfiguration().getProperty().toString().trim());
-
-						// If a format exists, we format the property
-						if (StringUtils.isNotBlank(headerColumn.getColumnConfiguration().getFormat()) && content != null) {
-
-							MessageFormat messageFormat = new MessageFormat(headerColumn.getColumnConfiguration().getFormat());
-							content = messageFormat.format(new Object[] { content });
-						} else if (StringUtils.isBlank(headerColumn.getColumnConfiguration().getFormat()) && content != null) {
-							content = content.toString();
-						} else {
-							if (StringUtils.isNotBlank(headerColumn.getColumnConfiguration().getDefaultValue())) {
-								content = headerColumn.getColumnConfiguration().getDefaultValue().trim();
-
-							}
-						}
-					} catch (NestedNullException e) {
-						if (StringUtils.isNotBlank(headerColumn.getColumnConfiguration().getDefaultValue())) {
-							content = headerColumn.getColumnConfiguration().getDefaultValue().trim();
-						}
-					} catch (IllegalAccessException e) {
-						content = "";
-					} catch (InvocationTargetException e) {
-						content = "";
-					} catch (NoSuchMethodException e) {
-						content = "";
-					} catch (IllegalArgumentException e) {
-						content = "";
-					}
-
-					getLastBodyRow().addColumn(String.valueOf(content));
-				}
-			}
-		}
 	}
 }
