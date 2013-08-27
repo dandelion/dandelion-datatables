@@ -82,11 +82,11 @@ public class ExportLinksIT extends ExportLinksBaseIT {
 	
 	@Ignore
 	public void should_generate_custom_csv_link(){
-		goTo("/export/custom_csv_link.jsp");
+		goToPage("/export/custom_link", true);
 		
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
+		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("myLabel");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("class")).contains("myClass");
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("style")).contains("myStyle");
+		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("style")).containsIgnoringCase("myStyle;");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href")).isEqualTo(
 				"/export/custom_csv_link.jsp?dtt=1&amp;dti=myTableId");
 	}

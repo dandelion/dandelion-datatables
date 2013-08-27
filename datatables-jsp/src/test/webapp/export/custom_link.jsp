@@ -13,7 +13,7 @@
       <datatables:column title="LastName" property="lastName" />
       <datatables:column title="City" property="address.town.name" default="default value" />
       <datatables:column title="Mail" property="mail" />
-      <datatables:export type="csv" cssClass="myClass" cssStyle="myStyle" />
+      <datatables:export type="csv" cssClass="myClass" cssStyle="myStyle" label="myLabel" />
    </datatables:table>
 </body>
 </html>
