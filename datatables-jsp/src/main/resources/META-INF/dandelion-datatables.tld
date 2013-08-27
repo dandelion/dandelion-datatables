@@ -736,6 +736,11 @@
          <name>url</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
+      <attribute>
+         <description>HTTP method used to make the export call</description>
+         <name>method</name>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
    </tag>
    
    <!-- ====================================== -->

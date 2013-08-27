@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.core.export;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,9 +38,11 @@ import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
+import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.html.HtmlDiv;
 import com.github.dandelion.datatables.core.html.HtmlHyperlink;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.util.FileUtils;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
@@ -58,8 +62,8 @@ public class ExportManager {
 	 * to each activated export type.
 	 * 
 	 * <p>
-	 * All the link are wrapped into a div which is inserted in the DOM using
-	 * jQuery. The wrapping div can be inserted at multiple position, depending
+	 * All links are surrounded by a div which is inserted in the DOM using
+	 * jQuery. The wrapping div can be inserted at multiple positions, depending
 	 * on the tag configuration.
 	 * 
 	 * <p>
@@ -73,6 +77,17 @@ public class ExportManager {
 	 */
 	public void exportManagement(HtmlTable table, JsResource mainJsFile) {
 
+		for(ExportConf exportConf : table.getTableConfiguration().getExportConfs()){
+			if(exportConf.getMethod().equals(HttpMethod.POST)){
+				try {
+					mainJsFile.appendToBeforeAll(FileUtils.getFileContentFromClasspath("datatables/export/download.js"));
+				} catch (IOException e) {
+					logger.warn("Unable to retrieve the content of the download.js file");
+				}
+				break;
+			}
+		}
+		
 		StringBuilder links = new StringBuilder();
 		for (ExportLinkPosition position : table.getTableConfiguration().getExportLinkPositions()) {
 
@@ -164,23 +179,47 @@ public class ExportManager {
 				if(conf.isCustom()){
 					String tableId = "oTable_" + table.getId();
 					
-					StringBuilder exportFunc = new StringBuilder("function ddl_dt_launch_export_");
-					exportFunc.append(conf.getType().name());
-					exportFunc.append("(){window.location='");
-					exportFunc.append(conf.getUrl());
-					if(conf.getUrl().contains("?")){
-						exportFunc.append("&");
+					// HTTP GET
+					if(conf.getMethod().equals(HttpMethod.GET)){
+						
+						StringBuilder exportFunc = new StringBuilder("function ddl_dt_launch_export_");
+						exportFunc.append(conf.getType().name());
+						exportFunc.append("(){window.location='");
+						exportFunc.append(conf.getUrl());
+						if(conf.getUrl().contains("?")){
+							exportFunc.append("&");
+						}
+						else{
+							exportFunc.append("?");
+						}
+						exportFunc.append("' + $.param(");
+						exportFunc.append(tableId).append(".oApi._fnAjaxParameters(").append(tableId).append(".fnSettings()");
+						exportFunc.append("));}");
+						
+						mainJsfile.appendToBeforeAll(exportFunc.toString());
+						
+						link.setOnclick("ddl_dt_launch_export_" + conf.getType().name() + "();");
+						
 					}
+					// HTTP POST/PUT/DELETE
 					else{
-						exportFunc.append("?");
+						
+						StringBuilder exportFunc = new StringBuilder("function ddl_dt_launch_export_");
+						exportFunc.append(conf.getType().name());
+						exportFunc.append("(){");
+						exportFunc.append("$.download('");
+						exportFunc.append(conf.getUrl());
+						exportFunc.append("',$.param(");
+						exportFunc.append(tableId).append(".oApi._fnAjaxParameters(").append(tableId).append(".fnSettings()");
+						exportFunc.append(")),'");
+						exportFunc.append(conf.getMethod());
+						exportFunc.append("');");
+						exportFunc.append("}");
+						
+						mainJsfile.appendToBeforeAll(exportFunc.toString());
+						
+						link.setOnclick("ddl_dt_launch_export_" + conf.getType().name() + "();");
 					}
-					exportFunc.append("' + $.param(");
-					exportFunc.append(tableId).append(".oApi._fnAjaxParameters(").append(tableId).append(".fnSettings()");
-					exportFunc.append("));}");
-					
-					mainJsfile.appendToBeforeAll(exportFunc.toString());
-					
-					link.setOnclick("ddl_dt_launch_export_" + conf.getType().name() + "()");
 				}
 				else{
 					link.setHref(conf.getUrl());

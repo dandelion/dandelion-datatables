@@ -37,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.constants.ExportConstants;
+import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportType;
@@ -64,6 +65,7 @@ public class ExportTag extends TagSupport {
 	private Boolean includeHeader;
 	private Boolean autoSize;
 	private String url;
+	private String method;
 
 	/**
 	 * An ExportTag has no body but we test here that it is in the right place.
@@ -152,6 +154,18 @@ public class ExportTag extends TagSupport {
 			if(StringUtils.isNotBlank(cssStyle)){
 				conf.setCssStyle(new StringBuilder(cssStyle));				
 			}
+			
+			if(StringUtils.isNotBlank(method)){
+				HttpMethod httpMethod = null;
+				try {
+					httpMethod = HttpMethod.valueOf(method.toUpperCase().trim());
+				} catch (IllegalArgumentException e) {
+					logger.error("{} is not a valid value among {}", method, HttpMethod.values());
+					throw new JspException(e);
+				}
+				conf.setMethod(httpMethod);
+			}
+
 			if(includeHeader != null){
 				conf.setIncludeHeader(includeHeader != null ? includeHeader : true);				
 			}
@@ -235,5 +249,9 @@ public class ExportTag extends TagSupport {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public void setMethod(String method) {
+		this.method = method;
 	}
 }

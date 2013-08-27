@@ -71,6 +71,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TheadExpo
 import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TheadExportHeaderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TheadExportLinkClassAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TheadExportLinkLabelAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TheadExportLinkMethodAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TheadExportLinkStyleAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.export.TheadExportLinkUrlAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TableCustomExtensionsProcessor;
@@ -162,6 +163,12 @@ public enum TableAttrProcessors {
     EXPORT_LINK_URL_XLS(TheadExportLinkUrlAttrProcessor.class, "xls:url", "thead"),
     EXPORT_LINK_URL_XLSX(TheadExportLinkUrlAttrProcessor.class, "xlsx:url", "thead"),
     EXPORT_LINK_URL_XML(TheadExportLinkUrlAttrProcessor.class, "xml:url", "thead"),
+    
+    EXPORT_LINK_METHOD_CSV(TheadExportLinkMethodAttrProcessor.class, "csv:method", "thead"),
+    EXPORT_LINK_METHOD_PDF(TheadExportLinkMethodAttrProcessor.class, "pdf:method", "thead"),
+    EXPORT_LINK_METHOD_XLS(TheadExportLinkMethodAttrProcessor.class, "xls:method", "thead"),
+    EXPORT_LINK_METHOD_XLSX(TheadExportLinkMethodAttrProcessor.class, "xlsx:method", "thead"),
+    EXPORT_LINK_METHOD_XML(TheadExportLinkMethodAttrProcessor.class, "xml:method", "thead"),
     
     EXPORT_FILENAME_CSV(TheadExportFilenameAttrProcessor.class, "csv:filename", "thead"),
     EXPORT_FILENAME_PDF(TheadExportFilenameAttrProcessor.class, "pdf:filename", "thead"),

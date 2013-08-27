@@ -30,11 +30,15 @@
 package com.github.dandelion.datatables.thymeleaf.util;
 
 import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.standard.expression.StandardExpressionProcessor;
+
 import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
+import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
@@ -66,7 +70,8 @@ public class Utils {
 				ThemeOption.class,
 				FilterPlaceholder.class,
 				FilterType.class,
-				SortType.class);
+				SortType.class,
+				HttpMethod.class);
 	}
 
 	private static Pattern generateStringRegexFromEnumerations(Class<?>... enumClasses) {

@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.integration.advanced;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -52,75 +50,75 @@ import com.github.dandelion.datatables.testing.utils.JspTest;
 public class CallbacksIT extends BaseIT {
 
 	@Test
-	public void should_generate_initcomplete_callback() throws IOException, Exception {
+	public void should_generate_initcomplete_callback() throws Exception {
 		goToPage("advanced/callback_init");
 		assertThat(getConfigurationFromPage("advanced/callback_init").getContent()).contains(DTConstants.DT_FN_INIT_COMPLETE);
 	}
 	
 	@Test
-	public void should_avoid_conflict_between_feature_and_callback() throws IOException, Exception {
+	public void should_avoid_conflict_between_feature_and_callback() throws Exception {
 		goToPage("advanced/callback_init_conflict_with_feature");
 		String js = getConfigurationFromPage("advanced/callback_init_conflict_with_feature").getContent();
 		assertThat(js).contains("function(oSettings,json){oTable_myTableId.fnAdjustColumnSizing(true);callback(oSettings,json);}");
 	}
 	
 	@Test
-	public void should_avoid_conflict_between_multiple_callback() throws IOException, Exception {
+	public void should_avoid_conflict_between_multiple_callback() throws Exception {
 		goToPage("advanced/callback_init_conflict_with_other_callback");
 		String js = getConfigurationFromPage("advanced/callback_init_conflict_with_other_callback").getContent();
 		assertThat(js).contains("function(oSettings,json){oTable_myTableId.fnAdjustColumnSizing(true);callback1(oSettings,json);callback2(oSettings,json);}");
 	}
 	
 	@Test
-	public void should_generate_cookie_callback() throws IOException, Exception {
+	public void should_generate_cookie_callback() throws Exception {
 		goToPage("advanced/callback_cookie");
 		assertThat(getConfigurationFromPage("advanced/callback_cookie").getContent()).contains(DTConstants.DT_FN_COOKIE_CBK);
 	}
 	
 	@Test
-	public void should_generate_createdrow_callback() throws IOException, Exception {
+	public void should_generate_createdrow_callback() throws Exception {
 		goToPage("advanced/callback_createdrow");
 		assertThat(getConfigurationFromPage("advanced/callback_createdrow").getContent()).contains(DTConstants.DT_FN_CREATED_ROW);
 	}
 	
 	@Test
-	public void should_generate_draw_callback() throws IOException, Exception {
+	public void should_generate_draw_callback() throws Exception {
 		goToPage("advanced/callback_draw");
 		assertThat(getConfigurationFromPage("advanced/callback_draw").getContent()).contains(DTConstants.DT_FN_DRAW_CBK);
 	}
 	
 	@Test
-	public void should_generate_footer_callback() throws IOException, Exception {
+	public void should_generate_footer_callback() throws Exception {
 		goToPage("advanced/callback_footer");
 		assertThat(getConfigurationFromPage("advanced/callback_footer").getContent()).contains(DTConstants.DT_FN_FOOTER_CBK);
 	}
 	
 	@Test
-	public void should_generate_format_callback() throws IOException, Exception {
+	public void should_generate_format_callback() throws Exception {
 		goToPage("advanced/callback_format");
 		assertThat(getConfigurationFromPage("advanced/callback_format").getContent()).contains(DTConstants.DT_FN_FORMAT_NUMBER);
 	}
 	
 	@Test
-	public void should_generate_header_callback() throws IOException, Exception {
+	public void should_generate_header_callback() throws Exception {
 		goToPage("advanced/callback_header");
 		assertThat(getConfigurationFromPage("advanced/callback_header").getContent()).contains(DTConstants.DT_FN_HEADER_CBK);
 	}
 	
 	@Test
-	public void should_generate_info_callback() throws IOException, Exception {
+	public void should_generate_info_callback() throws Exception {
 		goToPage("advanced/callback_info");
 		assertThat(getConfigurationFromPage("advanced/callback_info").getContent()).contains(DTConstants.DT_FN_INFO_CBK);
 	}
 	
 	@Test
-	public void should_generate_predraw_callback() throws IOException, Exception {
+	public void should_generate_predraw_callback() throws Exception {
 		goToPage("advanced/callback_predraw");
 		assertThat(getConfigurationFromPage("advanced/callback_predraw").getContent()).contains(DTConstants.DT_FN_PRE_DRAW_CBK);
 	}
 	
 	@Test
-	public void should_generate_row_callback() throws IOException, Exception {
+	public void should_generate_row_callback() throws Exception {
 		goToPage("advanced/callback_row");
 		assertThat(getConfigurationFromPage("advanced/callback_row").getContent()).contains(DTConstants.DT_FN_ROW_CBK);
 	}

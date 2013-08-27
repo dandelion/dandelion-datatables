@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.core.export;
 
+import com.github.dandelion.datatables.core.constants.HttpMethod;
+
 /**
  * POJO that stores an export type configuration.
  * 
@@ -43,6 +45,7 @@ public class ExportConf {
 	private StringBuilder cssClass;
 	private Boolean includeHeader;
 	private String url;
+	private HttpMethod method = HttpMethod.GET;
 	private Boolean autoSize;
 	private Boolean custom = false;
 	private DatatablesExport exportClass;
@@ -148,6 +151,14 @@ public class ExportConf {
 		this.exportClass = exportClass;
 	}
 
+	public HttpMethod getMethod() {
+		return method;
+	}
+
+	public void setMethod(HttpMethod method) {
+		this.method = method;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -214,11 +225,6 @@ public class ExportConf {
 		}
 	}
 
-	/**
-	 * TODO
-	 * 
-	 * @param builder
-	 */
 	private ExportConf(Builder builder) {
 		this.type = builder.exportConf.getType();
 		init();
