@@ -256,34 +256,5 @@ public class WebResourceGenerator {
 			extaConf.append("console.log(oTable_" + table.getId() + "_params);");
 			mainJsFile.appendToBeforeStartDocumentReady(extaConf.toString());
 		}
-
-		// TODO Old way here, trying to parse in JSON the content of extraConf
-		// file
-		// TODO using Jackson but "function" keyword is not JSON compliant
-
-		// // Jackson object mapper
-		// ObjectMapper mapper = new ObjectMapper();
-		//
-		// Map<String, Object> extraConf = new HashMap<String, Object>();
-		// Map<String, Object> tmpMap;
-		// for (ExtraConf conf : table.getExtraConfs()) {
-		// String confStr =
-		// ResourceHelper.getFileContentFromWebapp(conf.getSrc());
-		// logger.debug("confStr = {}", confStr);
-		// JsonNode newJson = JsonUtils.convertStringToJsonNode(confStr);
-		// logger.debug("newJson = {}", newJson);
-		// JsonNode oldJson = JsonUtils.convertObjectToJsonNode(mainConf);
-		// logger.debug("oldJson = {}", oldJson);
-		//
-		// JsonNode result = JsonUtils.merge(oldJson, newJson);
-		// logger.debug("result = {}", result);
-		//
-		// tmpMap = (Map<String, Object>)
-		// JsonUtils.convertJsonNodeToObject(result, Map.class);
-		// extraConf.putAll(tmpMap);
-		// }
-		//
-		// logger.debug("extraConf = {}", extraConf);
-		// mainConf.putAll(extraConf);
 	}
 }
