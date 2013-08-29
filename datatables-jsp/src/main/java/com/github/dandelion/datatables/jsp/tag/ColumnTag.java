@@ -33,6 +33,9 @@ import java.util.HashMap;
 
 import javax.servlet.jsp.JspException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
@@ -48,6 +51,9 @@ public class ColumnTag extends AbstractColumnTag {
 
 	private static final long serialVersionUID = -8928415196287387948L;
 
+	// Logger
+	private static Logger logger = LoggerFactory.getLogger(ColumnTag.class);
+		
 	public ColumnTag(){
 		stagingConf = new HashMap<Configuration, Object>();
 	}
@@ -81,8 +87,15 @@ public class ColumnTag extends AbstractColumnTag {
 			// If the 'titleKey' attribute is used, the column's title must be
 			// retrieved from the current ResourceBundle
 			if(columnTitle == null && titleKey != null){
-				columnTitle = parent.getTable().getTableConfiguration().getInternalMessageResolver()
-						.getResource(titleKey, property, this, pageContext);
+				if(parent.getTable().getTableConfiguration().getInternalMessageResolver() != null){
+					columnTitle = parent.getTable().getTableConfiguration().getInternalMessageResolver()
+							.getResource(titleKey, property, this, pageContext);
+				}
+				else{
+					logger.warn(
+							"You cannot use the 'titleKey' attribute if no message resolver is configured. Please take a look at the {} property in the configuration reference.",
+							Configuration.INTERNAL_MESSAGE_RESOLVER.getName());
+				}
 			}
 			
 			if ("DOM".equals(parent.getLoadingType())) {
