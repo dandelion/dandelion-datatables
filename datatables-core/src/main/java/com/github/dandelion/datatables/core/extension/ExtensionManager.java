@@ -41,6 +41,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.WebResources;
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -89,13 +90,12 @@ public class ExtensionManager {
 			logger.debug("Scanning custom extensions...");
 
 			// Scanning custom extension based on the base.package property
-			List<AbstractExtension> customExtensions = scanCustomExtensions(table.getTableConfiguration()
-					.getMainExtensionPackage());
+			List<Extension> customExtensions = scanCustomExtensions(table.getTableConfiguration().getMainExtensionPackage());
 
 			// Load custom extension if enabled
 			if (customExtensions != null && !customExtensions.isEmpty() && table.getTableConfiguration().getMainExtensionNames() != null) {
 				for (String extensionToRegister : table.getTableConfiguration().getMainExtensionNames()) {
-					for (AbstractExtension customExtension : customExtensions) {
+					for (Extension customExtension : customExtensions) {
 						if (extensionToRegister.equals(customExtension.getName().toLowerCase())) {
 							table.getTableConfiguration().registerExtension(customExtension);
 							logger.debug("Custom extension {} registered", customExtension.getName());
@@ -108,7 +108,7 @@ public class ExtensionManager {
 			}
 		}
 		else{
-			logger.debug("The 'base.package' property is blank. Unable to scan any class.");
+			logger.debug("The {} property is blank. Unable to scan any class.", Configuration.MAIN_EXTENSION_PACKAGE.getName());
 		}
 	}
 	
@@ -118,10 +118,10 @@ public class ExtensionManager {
 	 * @return
 	 * @throws ExtensionLoadingException
 	 */
-	public List<AbstractExtension> scanCustomExtensions(String packageName) throws ExtensionLoadingException {
+	public List<Extension> scanCustomExtensions(String packageName) throws ExtensionLoadingException {
 
 		// Init return value
-		List<AbstractExtension> retval = new ArrayList<AbstractExtension>();
+		List<Extension> retval = new ArrayList<Extension>();
 
 		List<Class<?>> customExtensionClassList = null;
 		

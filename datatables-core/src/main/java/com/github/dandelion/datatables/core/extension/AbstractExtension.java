@@ -39,7 +39,9 @@ import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
 
 /**
+ * Abstract superclass for all extensions.
  * 
+ * @author Thibault Duchateau
  */
 public abstract class AbstractExtension implements Extension {
 
@@ -56,6 +58,10 @@ public abstract class AbstractExtension implements Extension {
 	protected Boolean appendRandomNumber = false;
 	protected String function;
 
+	public AbstractExtension(){
+		this.name = getName();
+	}
+	
 	public StringBuilder getBeforeAll() {
 		return beforeAll;
 	}

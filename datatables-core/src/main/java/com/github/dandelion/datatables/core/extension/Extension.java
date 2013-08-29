@@ -42,7 +42,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * <p>
- * Common abstract superclass for all extensions. An extension can be a plugin
+ * Common interface for all extensions. An extension can be a plugin
  * (e.g. Scroller, ColReorder), a feature (e.g. Bootstrap pagination type,
  * filtering add-on) or a theme (e.g. Bootstrap 2 theme).
  * <p>
@@ -104,7 +104,7 @@ public interface Extension {
     /**
      * Returns the extension's name.
      */
-    String getName();
+	public String getName();
 
     /**
      * Set the extension up.
@@ -116,7 +116,7 @@ public interface Extension {
      * @param table
      *            The HTML table.
      */
-    void setup(HtmlTable table) throws ExtensionLoadingException;
+    public void setup(HtmlTable table) throws ExtensionLoadingException;
 
     public StringBuilder getBeforeAll();
 
