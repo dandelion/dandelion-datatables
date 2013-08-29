@@ -37,7 +37,6 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.extension.plugin.FixedHeaderPlugin;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
@@ -66,11 +65,7 @@ public class TheadFixedHeaderAttrProcessor extends AbstractDatatablesAttrProcess
 		// Get attribute value
 		Boolean attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), false, Boolean.class);
 
-		// HtmlTable update
-		if (attrValue && table != null) {
-			table.getTableConfiguration().registerExtension(new FixedHeaderPlugin());
-			((Element) element.getParent()).setAttribute("style", "");
-		}
+		localConf.put(Configuration.PLUGIN_FIXEDHEADER, attrValue);
 
 		return ProcessorResult.ok();
 	}

@@ -37,7 +37,6 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.extension.plugin.ScrollerPlugin;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
@@ -66,12 +65,8 @@ public class TheadScrollerAttrProcessor extends AbstractDatatablesAttrProcessor 
 		// Get attribute value
 		Boolean attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), false, Boolean.class);
 
-		// HtmlTable update
-		if (attrValue && table != null) {
-			table.getTableConfiguration().registerExtension(new ScrollerPlugin());
-			((Element) element.getParent()).setAttribute("style", "");
-		}
-
+		localConf.put(Configuration.PLUGIN_SCROLLER, attrValue);
+		
 		return ProcessorResult.ok();
 	}
 }

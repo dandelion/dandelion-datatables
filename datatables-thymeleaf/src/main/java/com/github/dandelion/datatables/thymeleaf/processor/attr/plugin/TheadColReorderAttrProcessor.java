@@ -37,7 +37,6 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.extension.plugin.ColReorderPlugin;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
@@ -69,12 +68,6 @@ public class TheadColReorderAttrProcessor extends AbstractDatatablesAttrProcesso
 
 		localConf.put(Configuration.PLUGIN_COLREORDER, attrValue);
 		
-		// HtmlTable update
-		if (attrValue && table != null) {
-			table.getTableConfiguration().registerExtension(new ColReorderPlugin());
-			((Element) element.getParent()).setAttribute("style", "");
-		}
-
 		return ProcessorResult.ok();
 	}
 }
