@@ -49,7 +49,6 @@ import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
@@ -156,7 +155,7 @@ public class TableConfiguration {
 
 	// Class of the iterated objects. Only used in XML export.
 	private String internalObjectType;
-	private Set<AbstractExtension> internalExtensions;
+	private Set<Extension> internalExtensions;
 	private String tableId;
 	private HttpServletRequest request;
 
@@ -611,9 +610,9 @@ public class TableConfiguration {
 	 * @param extension
 	 *            The extension to register.
 	 */
-	public TableConfiguration registerExtension(AbstractExtension extension) {
+	public TableConfiguration registerExtension(Extension extension) {
 		if (this.internalExtensions == null) {
-			this.internalExtensions = new HashSet<AbstractExtension>();
+			this.internalExtensions = new HashSet<Extension>();
 		}
 		this.internalExtensions.add(extension);
 		return this;
@@ -643,11 +642,11 @@ public class TableConfiguration {
 		return this;
 	}
 
-	public Set<AbstractExtension> getInternalExtensions() {
+	public Set<Extension> getInternalExtensions() {
 		return internalExtensions;
 	}
 
-	public TableConfiguration setInternalExtensions(Set<AbstractExtension> extensions) {
+	public TableConfiguration setInternalExtensions(Set<Extension> extensions) {
 		this.internalExtensions = extensions;
 		return this;
 	}
