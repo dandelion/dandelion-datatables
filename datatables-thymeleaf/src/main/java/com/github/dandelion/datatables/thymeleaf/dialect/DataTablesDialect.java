@@ -69,7 +69,7 @@ public class DataTablesDialect extends AbstractDialect {
 	}
 
 	public boolean isLenient() {
-		return true;
+		return false;
 	}
 
 	/*
