@@ -87,6 +87,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCal
 import com.github.dandelion.datatables.thymeleaf.processor.attr.feature.TbodyCallbackRowProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.plugin.TheadColReorderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.plugin.TheadFixedHeaderAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.plugin.TheadFixedOffsetTopAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.plugin.TheadScrollerAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.theme.TableThemeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.theme.TableThemeOptionAttrProcessor;
@@ -125,6 +126,7 @@ public enum TableAttrProcessors {
     PLUGIN_SCROLLER(TheadScrollerAttrProcessor.class, "scroller", "thead"),
     PLUGIN_COLUMN_RECORDER(TheadColReorderAttrProcessor.class, "colreorder", "thead"),
     PLUGIN_FIXED_HEADER(TheadFixedHeaderAttrProcessor.class, "fixedheader", "thead"),
+    PLUGIN_OFFSETTOP(TheadFixedOffsetTopAttrProcessor.class, "offsetTop", "thead"),
 
     // Feature processors
     FEATURE_CUSTOM_EXTENSIONS(TableCustomExtensionsProcessor.class, "ext", "table"),
