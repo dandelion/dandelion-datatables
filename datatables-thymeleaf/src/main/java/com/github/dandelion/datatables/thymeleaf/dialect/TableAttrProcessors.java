@@ -118,7 +118,7 @@ public enum TableAttrProcessors {
     BASIC_SCROLL_Y(TableScrollYAttrProcessor.class, "scrolly", "table"),
     BASIC_SCROLL_COLLAPSE(TableScrollCollapseAttrProcessor.class, "scrollcollapse", "table"),
     BASIC_SCROLL_X(TableScrollXAttrProcessor.class, "scrollx", "table"),
-    BASIC_SCROLL_INNER(TableScrollXInnerAttrProcessor.class, "scrollinner", "table"),
+    BASIC_SCROLL_XINNER(TableScrollXInnerAttrProcessor.class, "scrollxinner", "table"),
     BASIC_DOM(TableDomAttrProcessor.class, "dom", "table"),
     
     // Plugin processors
