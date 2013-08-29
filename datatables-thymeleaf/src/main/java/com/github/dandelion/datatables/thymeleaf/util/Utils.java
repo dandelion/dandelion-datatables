@@ -43,6 +43,7 @@ import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
+import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.extension.theme.Theme;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
@@ -70,6 +71,7 @@ public class Utils {
 				ThemeOption.class,
 				FilterPlaceholder.class,
 				FilterType.class,
+				PaginationType.class,
 				SortType.class,
 				HttpMethod.class);
 	}
