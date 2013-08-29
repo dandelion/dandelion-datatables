@@ -44,7 +44,7 @@ public class FilteringBaseIT extends BaseIT {
 	
 	@Test
 	public void should_filter_data_when_using_an_extra_form() throws Exception {
-		goToPage("basics/filtering_with_extra_form", true);
+		goToPage("basics/filtering_with_extra_form");
 		
 		assertThat(find("#firstNameFilter").find("span.filter_column")).hasSize(1);
 		assertThat(find("#firstNameFilter").find("span.filter_column").find("select.dandelion_select_filter")).hasSize(1);
