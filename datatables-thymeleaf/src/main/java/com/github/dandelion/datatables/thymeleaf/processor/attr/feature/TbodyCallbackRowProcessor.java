@@ -40,6 +40,7 @@ import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.util.StringUtils;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
@@ -66,9 +67,19 @@ public class TbodyCallbackRowProcessor extends AbstractDatatablesAttrProcessor {
 			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
 
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
-
-		if (table != null) {
-			table.getTableConfiguration().registerCallback(new Callback(CallbackType.ROW, attrValue));
+		
+		// The callback has already been registered
+		if(table.getTableConfiguration().hasCallback(CallbackType.ROW)){
+			table.getTableConfiguration().getCallback(CallbackType.ROW)
+					.appendCode(attrValue + "(" + StringUtils.join(CallbackType.ROW.getArgs(), ",") + ");");
+		}
+		// The callback hasn't been registered yet
+		else{
+			table
+					.getTableConfiguration()
+					.registerCallback(
+							new Callback(CallbackType.ROW, attrValue + "("
+									+ StringUtils.join(CallbackType.ROW.getArgs(), ",") + ");"));
 		}
 		
 		return ProcessorResult.ok();

@@ -40,6 +40,7 @@ import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.util.StringUtils;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
@@ -67,8 +68,18 @@ public class TbodyCallbackFormatNumberProcessor extends AbstractDatatablesAttrPr
 
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
-		if (table != null) {
-			table.getTableConfiguration().registerCallback(new Callback(CallbackType.FORMAT, attrValue));
+		// The callback has already been registered
+		if(table.getTableConfiguration().hasCallback(CallbackType.FORMAT)){
+			table.getTableConfiguration().getCallback(CallbackType.FORMAT)
+					.appendCode(attrValue + "(" + StringUtils.join(CallbackType.FORMAT.getArgs(), ",") + ");");
+		}
+		// The callback hasn't been registered yet
+		else{
+			table
+					.getTableConfiguration()
+					.registerCallback(
+							new Callback(CallbackType.FORMAT, attrValue + "("
+									+ StringUtils.join(CallbackType.FORMAT.getArgs(), ",") + ");"));
 		}
 		
 		return ProcessorResult.ok();
