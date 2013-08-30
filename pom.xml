@@ -204,6 +204,7 @@
    </build>
 
    <profiles>
+   <!-- 
       <profile>
          <id>release-sign-artifacts</id>
          <activation>
@@ -231,6 +232,7 @@
             </plugins>
          </build>
       </profile>
+       -->
       <profile>
          <id>cloudbees</id>
          <repositories>
