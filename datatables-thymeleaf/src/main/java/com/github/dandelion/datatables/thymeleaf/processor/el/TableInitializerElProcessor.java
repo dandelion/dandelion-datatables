@@ -20,7 +20,6 @@ import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.RequestHelper;
-import com.github.dandelion.datatables.core.util.StringUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesElProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
@@ -86,12 +85,6 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 			// Don't forget to remove the attribute
 			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":table");
 
-			
-			// The TH element is updated with a new attribute that is used internally
-			element.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse");
-//			element.setProcessable(true);
-//			element.setRecomputeProcessorsAfterEachExecution(true);
-			
 			// Export has been enabled
 			if(element.hasAttribute("dt:export")){
 
