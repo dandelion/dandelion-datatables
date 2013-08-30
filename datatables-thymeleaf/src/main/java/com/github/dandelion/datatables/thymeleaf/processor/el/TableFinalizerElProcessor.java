@@ -19,6 +19,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.datatables.core.aggregator.ResourceAggregator;
 import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.cache.AssetCache;
 import com.github.dandelion.datatables.core.compressor.ResourceCompressor;
@@ -108,6 +109,7 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		return ProcessorResult.OK;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void applyExportConfiguration(Arguments arguments) {
 		// Get the HTTP request
 		HttpServletRequest request = ((IWebContext) arguments.getContext())
@@ -252,12 +254,16 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 			Element body = DomUtils.findElement(rootElement, "body");
 			
 			// <link> HTML tag generation
+			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
+				if(entry.getValue().getType().equals(ResourceType.EXTERNAL)){
+					DomUtils.insertLinkTag(entry.getValue().getLocation(), head);
+				}
+				else{
+					DomUtils.insertLinkTag(RequestHelper.getAssetSource(entry.getKey(), htmlTable, request, false), head);
+				}
+			}
 			if (htmlTable.getTableConfiguration().getMainCdn() != null && htmlTable.getTableConfiguration().getMainCdn()) {
 				DomUtils.insertLinkTag(htmlTable.getTableConfiguration().getMainCdnCss(), head);
-			}
-			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
-				String src = RequestHelper.getAssetSource(entry.getKey(), htmlTable, request, false);
-				DomUtils.insertLinkTag(src, head);
 			}
 
 			// <script> HTML tag generation
