@@ -39,21 +39,19 @@
       <thymeleaf.version>2.0.17</thymeleaf.version>
       <commons-collection.version>3.2.1</commons-collection.version>
       <commons-beanutils.version>1.8.3</commons-beanutils.version>
-      <jackson.version>1.9.12</jackson.version>
+      <jackson.version>1.9.13</jackson.version>
       <servlet.version>3.0.1</servlet.version>
-      <slf4j.version>1.7.2</slf4j.version>
+      <slf4j.version>1.7.5</slf4j.version>
       <jsp.api.version>2.2</jsp.api.version>
       
       <!-- Test dependencies -->
-      <fluentlenium.version>0.7.7</fluentlenium.version>
+      <fluentlenium.version>0.9.0</fluentlenium.version>
       <phantomjsdriver.version>1.0.1</phantomjsdriver.version>
       <festassert.version>1.4</festassert.version>
       <junit.version>4.11</junit.version>
-      <!-- <junit.dep.version>4.11</junit.dep.version> -->
       <spring.version>3.2.2.RELEASE</spring.version>
       <logback.classic.version>1.0.9</logback.classic.version>
       <jetty.test.version>8.1.10.v20130312</jetty.test.version>
-      <!-- <jackson.version>2.1.2</jackson.version> -->
       
       <!-- Maven plugins -->
       <maven.compiler.version>2.3.2</maven.compiler.version>
