@@ -124,7 +124,6 @@ public class ExportLinksPositionBaseIT extends BaseIT {
 	public void should_generate_top_middle_link_when_using_scrollY() throws Exception {
 		goToPage("export/top_middle_link_with_scrollY");
 
-		System.out.println(driver.getPageSource());
 		// Div position inside the Datatables' wrapper
 		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
 		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
@@ -133,8 +132,6 @@ public class ExportLinksPositionBaseIT extends BaseIT {
 		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_scrollHead");
 		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 5).getAttribute("class")).contains("dataTables_scrollHeadInner");
 		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 6).getAttribute("class")).contains("dataTables_scrollBody");
-//		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 7).getAttribute("class")).contains("dataTables_scrollFoot");
-//		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 8).getAttribute("class")).contains("dataTables_scrollFootInner");
 		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 7).getAttribute("class")).contains("dataTables_info");
 		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 8).getAttribute("class")).contains("dataTables_paginate");
 				

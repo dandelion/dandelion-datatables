@@ -3,16 +3,17 @@
 
    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
       <encoder>
-         <pattern>%d{HH:mm:ss} %-5level %logger{60} - %msg%n
+         <pattern>%d{HH:mm:ss} %-5level %logger{100} - %msg%n
          </pattern>
       </encoder>
    </appender>
 
-   <logger name="com.github.dandelion" level="DEBUG" />
+   <logger name="com.github.dandelion" level="ERROR" />
    <logger name="org.eclipse.jetty" level="ERROR" />
+   <logger name="org.springframework" level="ERROR" />
    <logger name="org.apache" level="ERROR" />
 
-   <root level="DEBUG">
+   <root level="ERROR">
       <appender-ref ref="STDOUT" />
    </root>
 
