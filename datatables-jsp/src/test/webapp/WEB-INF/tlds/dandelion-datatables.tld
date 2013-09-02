@@ -550,7 +550,7 @@
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
-         <description>TODO</description>
+         <description>Name of a Javascript array of string that will be used to populate a filtering drop-down list</description>
           <name>filterValues</name>
           <rtexprvalue>true</rtexprvalue>
       </attribute>
