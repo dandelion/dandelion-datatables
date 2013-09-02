@@ -38,7 +38,7 @@ import com.github.dandelion.datatables.core.constants.HttpMethod;
  */
 public class ExportConf {
 
-	private String fileName;
+	private String fileName = "export";
 	private ExportType type;
 	private String label;
 	private StringBuilder cssStyle;
@@ -65,7 +65,7 @@ public class ExportConf {
 	 * Initialize the default values.
 	 */
 	private void init() {
-		this.fileName = "export." + this.type.toString().toLowerCase();
+		this.fileName = "export";
 		this.label = this.type.toString();
 		this.includeHeader = true;
 		this.autoSize = false;

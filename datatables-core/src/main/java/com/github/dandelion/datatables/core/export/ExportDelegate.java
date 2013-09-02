@@ -89,7 +89,7 @@ public class ExportDelegate {
 
 		// Check that the class can be instanciated
 		if (!ClassUtils.canBeUsed(exportClass)) {
-			logger.error("Did you forget to add a dependency ?");
+			logger.error("Did you forget to add an extra dependency?");
 			throw new ExportException("Unable to export in " + exportType.toString() + " format");
 		}
 
@@ -111,27 +111,26 @@ public class ExportDelegate {
 		try {
 			ClassUtils.invokeMethod(obj, "initExport", new Object[] { htmlTable });
 		} catch (NoSuchMethodException e) {
-			throw new ExportException("Unable to invoke the method initExport", e);
+			throw new ExportException("Unable to invoke the method initExport of the class " + exportClass, e);
 		} catch (IllegalAccessException e) {
-			throw new ExportException("Unable to invoke the method initExport", e);
+			throw new ExportException("Unable to invoke the method initExport of the class " + exportClass, e);
 		} catch (InvocationTargetException e) {
-			throw new ExportException("Unable to invoke the method initExport", e);
+			throw new ExportException("Unable to invoke the method initExport of the class " + exportClass, e);
 		}
 		
 		try {
 			ClassUtils.invokeMethod(obj, "processExport", new Object[] { stream });
 		} catch (NoSuchMethodException e) {
-			throw new ExportException("Unable to invoke the method processExport", e);
+			throw new ExportException("Unable to invoke the method processExport of the class " + exportClass, e);
 		} catch (IllegalAccessException e) {
-			throw new ExportException("Unable to invoke the method processExport", e);
+			throw new ExportException("Unable to invoke the method processExport of the class " + exportClass, e);
 		} catch (InvocationTargetException e) {
-			throw new ExportException("Unable to invoke the method processExport", e);
+			throw new ExportException("Unable to invoke the method processExport of the class " + exportClass, e);
 		}
 
 		// Fill the request so that the filter will intercept it and
 		// override the response with the export configuration
-		request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT,
-				((ByteArrayOutputStream) stream).toByteArray());
+		request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT, ((ByteArrayOutputStream) stream).toByteArray());
 
 		request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_PROPERTIES, exportProperties);
 	}

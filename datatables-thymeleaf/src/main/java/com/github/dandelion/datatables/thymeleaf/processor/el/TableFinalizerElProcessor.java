@@ -181,8 +181,6 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 
 		exportProperties.setCurrentExportType(currentExportType);
 		exportProperties.setExportConf(this.htmlTable.getTableConfiguration().getExportConf(currentExportType));
-		exportProperties.setFileName(this.htmlTable.getTableConfiguration().getExportConf(currentExportType)
-				.getFileName());
 
 		this.htmlTable.getTableConfiguration().setExportProperties(exportProperties);
 		this.htmlTable.getTableConfiguration().setExporting(true);

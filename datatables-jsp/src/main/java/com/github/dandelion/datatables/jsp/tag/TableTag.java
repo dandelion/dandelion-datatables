@@ -174,7 +174,6 @@ public class TableTag extends AbstractTableTag {
 
 		exportProperties.setCurrentExportType(currentExportType);
 		exportProperties.setExportConf(table.getTableConfiguration().getExportConf(currentExportType));
-		exportProperties.setFileName(table.getTableConfiguration().getExportConf(currentExportType).getFileName());
 
 		this.table.getTableConfiguration().setExportProperties(exportProperties);
 		this.table.getTableConfiguration().setExporting(true);

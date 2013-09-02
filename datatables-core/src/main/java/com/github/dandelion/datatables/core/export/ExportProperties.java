@@ -37,7 +37,6 @@ package com.github.dandelion.datatables.core.export;
  */
 public class ExportProperties {
 
-	private String fileName = "export";
 	private ExportType currentExportType;
 	private ExportConf exportConf;
 
@@ -47,14 +46,6 @@ public class ExportProperties {
 
 	public void setCurrentExportType(ExportType currentExportType) {
 		this.currentExportType = currentExportType;
-	}
-
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
 	}
 
 	public ExportConf getExportConf() {

@@ -85,10 +85,12 @@ public class DatatablesFilter implements Filter {
 				ExportProperties exportProperties = (ExportProperties) request
 						.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_PROPERTIES);
 
+				String finalFileName = exportProperties.getExportConf().getFileName() + "."
+						+ exportProperties.getExportConf().getType().getExtension();
+				
 				response.setHeader(
 						"Content-Disposition",
-						"attachment; filename=\""
-								+ exportProperties.getFileName() + "\"");
+						"attachment; filename=\"" + finalFileName + "\"");
 
 				response.setContentType(exportProperties.getCurrentExportType().getMimeType());
 
