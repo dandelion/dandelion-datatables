@@ -128,23 +128,23 @@
                   <useSystemClassLoader>false</useSystemClassLoader>
                </configuration>
             </plugin>
-            <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-failsafe-plugin</artifactId>
-               <version>2.13</version>
-               <executions>
-                  <execution>
-                     <id>verify</id>
-                     <goals>
-                        <goal>integration-test</goal>
-                        <goal>verify</goal>
-                     </goals>
-                  </execution>
-               </executions>
-               <configuration>
-                  <useSystemClassLoader>false</useSystemClassLoader>
-               </configuration>
-            </plugin>
+<!--             <plugin> -->
+<!--                <groupId>org.apache.maven.plugins</groupId> -->
+<!--                <artifactId>maven-failsafe-plugin</artifactId> -->
+<!--                <version>2.13</version> -->
+<!--                <executions> -->
+<!--                   <execution> -->
+<!--                      <id>verify</id> -->
+<!--                      <goals> -->
+<!--                         <goal>integration-test</goal> -->
+<!--                         <goal>verify</goal> -->
+<!--                      </goals> -->
+<!--                   </execution> -->
+<!--                </executions> -->
+<!--                <configuration> -->
+<!--                   <useSystemClassLoader>false</useSystemClassLoader> -->
+<!--                </configuration> -->
+<!--             </plugin> -->
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-release-plugin</artifactId>
