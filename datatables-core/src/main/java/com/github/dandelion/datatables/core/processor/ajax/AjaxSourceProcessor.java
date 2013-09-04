@@ -52,8 +52,11 @@ public class AjaxSourceProcessor extends AbstractTableProcessor {
 			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
 
 		if (StringUtils.isNotBlank(param)) {
-			if (!confToBeApplied.containsKey(Configuration.AJAX_SERVERSIDE)
-					|| !CollectionUtils.hasConfigurationWithValue(confToBeApplied, Configuration.AJAX_SERVERSIDE, true)) {
+
+			Boolean serverSideEnabled = 
+					CollectionUtils.hasConfigurationWithValue(confToBeApplied, Configuration.AJAX_SERVERSIDE, true)
+					|| ( tableConfiguration.getAjaxServerSide() != null && tableConfiguration.getAjaxServerSide());
+			if (!serverSideEnabled) {
 				tableConfiguration.registerExtension(new AjaxFeature());
 			}
 
