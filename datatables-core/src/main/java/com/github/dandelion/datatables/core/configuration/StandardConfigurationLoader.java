@@ -32,6 +32,8 @@ package com.github.dandelion.datatables.core.configuration;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -55,6 +57,7 @@ import com.github.dandelion.datatables.core.exception.ConfigurationLoadingExcept
 import com.github.dandelion.datatables.core.util.BundleUtils;
 import com.github.dandelion.datatables.core.util.ClassUtils;
 import com.github.dandelion.datatables.core.util.StringUtils;
+import com.github.dandelion.datatables.core.util.UTF8Control;
 
 /**
  * <p>
@@ -95,7 +98,8 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 			try {
 				propertiesStream = Thread.currentThread().getContextClassLoader()
 						.getResourceAsStream(DT_DEFAULT_PROPERTIES);
-				propertiesResource.load(propertiesStream);
+				Reader reader = new InputStreamReader(propertiesStream, "UTF-8");
+				propertiesResource.load(reader);
 			} catch (IOException e) {
 				throw new ConfigurationLoadingException("Unable to load the default configuration file", e);
 			}
@@ -132,7 +136,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 			try {
 				URL resourceURL = new File(path).toURI().toURL();
 				URLClassLoader urlLoader = new URLClassLoader(new URL[] { resourceURL });
-				userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale, urlLoader);
+				userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale, urlLoader, new UTF8Control());
 			} catch (MalformedURLException e) {
 				logger.warn("Wrong path to the externalized bundle", e);
 			} catch (MissingResourceException e) {
@@ -144,13 +148,13 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		// No system property is set, retrieves the bundle from the classpath
 		if (userBundle == null) {
 			try {
-				userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale);
+				userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale, new UTF8Control());
 			} catch (MissingResourceException e) {
 				// if no resource bundle is found, try using the context
 				// classloader
 				try {
 					userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale, Thread.currentThread()
-							.getContextClassLoader());
+							.getContextClassLoader(), new UTF8Control());
 				} catch (MissingResourceException mre) {
 					logger.debug("No custom configuration. Using default one.");
 				}
