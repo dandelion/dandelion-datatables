@@ -48,7 +48,7 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  * @author Thibault Duchateau
  * @since 0.8.2
  */
-public final class DatatablesCriterias {
+public class DatatablesCriterias {
 
 	private String search;
 	private Integer displayStart;
