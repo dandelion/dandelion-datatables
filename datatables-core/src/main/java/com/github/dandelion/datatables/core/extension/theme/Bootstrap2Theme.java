@@ -82,6 +82,15 @@ public class Bootstrap2Theme extends AbstractExtension {
 		addCssResource(new CssResource(ResourceType.THEME, "Bootstrap2Theme",
 				"datatables/themes/bootstrap2/bootstrap.css"));
 
+		if (table.getTableConfiguration().getCssThemeOption() != null) {
+			if(table.getTableConfiguration().getCssThemeOption().equals(ThemeOption.TABLECLOTH)){
+				addCssResource(new CssResource(ResourceType.THEME, "Tablecloth", "datatables/themes/bootstrap2/tablecloth.css"));
+			}
+			else{
+				throw new ExtensionLoadingException("Only the 'tablecloth' theme option is compatible with the 'bootstrap2' theme");
+			}
+		}
+		
 		// DataTables parameters
 		if (StringUtils.isBlank(table.getTableConfiguration().getFeatureDom())) {
 			addParameter(new Parameter(DTConstants.DT_DOM,

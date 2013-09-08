@@ -4,6 +4,7 @@ import com.github.dandelion.datatables.core.constants.CdnConstants;
 
 public enum ThemeOption {
 
+	// jQuery option
 	BASE(CdnConstants.CDN_JQUERYUI_THEME_BASE_CSS),
 	BLACKTIE(CdnConstants.CDN_JQUERYUI_THEME_BLACKTIE_CSS),
 	BLITZER(CdnConstants.CDN_JQUERYUI_THEME_BLITZER_CSS),
@@ -28,7 +29,10 @@ public enum ThemeOption {
 	TRONTASTIC(CdnConstants.CDN_JQUERYUI_THEME_TRONTASTIC_CSS),
 	UIDARKNESS(CdnConstants.CDN_JQUERYUI_THEME_UIDARKNESS_CSS),
 	UILIGHTNESS(CdnConstants.CDN_JQUERYUI_THEME_UILIGHTNESS_CSS),
-	VADER(CdnConstants.CDN_JQUERYUI_THEME_VADER_CSS);
+	VADER(CdnConstants.CDN_JQUERYUI_THEME_VADER_CSS),
+	
+	// Bootstrap options
+	TABLECLOTH("");
 	
 	private String cssSource;
 
