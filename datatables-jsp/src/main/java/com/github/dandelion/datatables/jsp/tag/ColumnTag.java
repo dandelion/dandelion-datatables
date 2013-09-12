@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
+import com.github.dandelion.datatables.core.i18n.MessageResolver;
 
 /**
  * <p>
@@ -92,6 +93,7 @@ public class ColumnTag extends AbstractColumnTag {
 							.getResource(titleKey, property, this, pageContext);
 				}
 				else{
+					columnTitle = MessageResolver.UNDEFINED_KEY + titleKey + MessageResolver.UNDEFINED_KEY;
 					logger.warn(
 							"You cannot use the 'titleKey' attribute if no message resolver is configured. Please take a look at the {} property in the configuration reference.",
 							Configuration.INTERNAL_MESSAGE_RESOLVER.getName());

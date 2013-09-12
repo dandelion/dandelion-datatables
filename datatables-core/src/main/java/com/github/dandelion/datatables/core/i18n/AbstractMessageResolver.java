@@ -47,6 +47,4 @@ public abstract class AbstractMessageResolver implements MessageResolver {
 	public AbstractMessageResolver(HttpServletRequest request) {
 		this.request = request;
 	}
-
-	public static final String UNDEFINED_KEY = "???";
 }

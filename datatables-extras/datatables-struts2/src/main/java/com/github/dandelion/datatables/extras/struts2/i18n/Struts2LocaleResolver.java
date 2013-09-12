@@ -27,42 +27,48 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.i18n;
+package com.github.dandelion.datatables.extras.struts2.i18n;
+
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.github.dandelion.datatables.core.i18n.LocaleResolver;
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.LocaleProvider;
+import com.opensymphony.xwork2.ognl.OgnlValueStack;
 
 /**
  * <p>
- * Interface for all MessageResolvers.
- * 
- * <p>
- * A MessageResolver uses the <code>messageKey</code> to lookup in the
- * ResourceBundle. If the <code>defaultValue</code> is present and no message is
- * found for the given key, it will be used as a result.
- * 
- * <p>
- * By default, if the JSTL jar is present in the classpath and no
- * MessageResolver has been configured in the datatables.properties (thanks to
- * the <code>i18n.message.resolver</code> property), the JstlMessageResolver
- * will be used. It is also possible to use different {@link MessageResolver} in
- * different configuration groups.
+ * Struts2 implementation of the {@link LocaleResolver}.
  * 
  * @author Thibault Duchateau
- * @since 0.9.0
+ * @since 0.9.1
  */
-public interface MessageResolver {
+public class Struts2LocaleResolver implements LocaleResolver {
 
-	public static final String UNDEFINED_KEY = "???";
-	
 	/**
-	 * Return a localized String.
-	 * 
-	 * @param messageKey
-	 *            The key used to lookup in the configured ResourceBundle.
-	 * @param defaultValue
-	 *            The default value to used if no key is found.
-	 * @param objects
-	 *            Different objects that may be needed to access the
-	 *            ResourceBundle, depending on the present JARs.
-	 * @return a localized String.
+	 * {@inheritDoc}
 	 */
-	String getResource(String messageKey, String defaultValue, Object... objects);
+	@Override
+	public Locale resolveLocale(HttpServletRequest request) {
+
+		Locale result = null;
+		OgnlValueStack stack = (OgnlValueStack) ActionContext.getContext().getValueStack();
+
+		for (Object o : stack.getRoot()) {
+			if (o instanceof LocaleProvider) {
+				LocaleProvider lp = (LocaleProvider) o;
+				result = lp.getLocale();
+				break;
+			}
+		}
+
+		// Falling back to the request locale
+		if (result == null) {
+			result = request.getLocale();
+		}
+
+		return result;
+	}
 }

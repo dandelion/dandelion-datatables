@@ -108,6 +108,10 @@ public class JstlMessageResolver extends AbstractMessageResolver {
 				}
 			}
 		}
+		else{
+			logger.warn("The bundle hasn't been retrieved. Please check your i18n configuration.");
+			message = UNDEFINED_KEY + messageKey + UNDEFINED_KEY;
+		}
 
 		return message;
 	}

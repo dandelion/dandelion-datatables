@@ -16,6 +16,8 @@
       <module>datatables-compression-yui</module>
       <module>datatables-servlet2</module>
       <module>datatables-spring3</module>
+      <module>datatables-struts1</module>
+      <module>datatables-struts2</module>
       <module>datatables-export-itext</module>
       <module>datatables-export-poi</module>
       <module>datatables-export-poi-ooxml</module>
