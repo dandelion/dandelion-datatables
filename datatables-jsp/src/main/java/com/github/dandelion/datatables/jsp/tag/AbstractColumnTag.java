@@ -170,7 +170,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		// Get the parent tag to access the HtmlTable
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-		HtmlColumn headColumn = new HtmlColumn(true, this.title, dynamicAttributes);
+		HtmlColumn headColumn = new HtmlColumn(true, content, dynamicAttributes);
 		if (StringUtils.isNotBlank(this.cssClass)) {
 			headColumn.setCssClass(new StringBuilder(this.cssClass));
 		}
