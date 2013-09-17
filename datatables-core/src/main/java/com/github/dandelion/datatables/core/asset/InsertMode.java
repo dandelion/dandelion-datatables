@@ -41,12 +41,12 @@ public enum InsertMode {
 	// The javascript is inserted after all instruction.
 	AFTERALL, 
 	
-	// The javascript is inserted just before the start of the jQuery $(document).ready() function.
-	BEFORESTARTDOCUMENTREADY,
-		
 	// The javascript is inserted just after the start of the jQuery $(document).ready() function.
 	AFTERSTARTDOCUMENTREADY, 
 	
 	// The javascript is inserted just before the end of the jQuery $(document).ready() function.
-	BEFOREENDDOCUMENTREADY
+	BEFOREENDDOCUMENTREADY,
+	
+	// The javascript is inserted just before the start of the jQuery $(document).ready() function.
+	BEFORESTARTDOCUMENTREADY
 }
