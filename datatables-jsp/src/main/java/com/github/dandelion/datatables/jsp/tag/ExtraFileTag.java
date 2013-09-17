@@ -32,8 +32,12 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.asset.InsertMode;
+import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Tag used to add an extra Javascript configuration file.
@@ -43,9 +47,12 @@ import com.github.dandelion.datatables.core.asset.InsertMode;
 public class ExtraFileTag extends TagSupport {
 	private static final long serialVersionUID = -287813095911386884L;
 
+	// Logger
+	private static Logger logger = LoggerFactory.getLogger(ExtraFileTag.class);
+		
 	// Tag attributes
 	private String src;
-	private InsertMode insert = InsertMode.BEFOREALL;
+	private String insert;
 	
 	/**
 	 * TODO
@@ -62,7 +69,20 @@ public class ExtraFileTag extends TagSupport {
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 		
 		if(parent.isFirstIteration()){
-			parent.getTable().getTableConfiguration().addExtraFile(new ExtraFile(getRealSource(this.src), this.insert));
+			InsertMode mode = null;
+			if(StringUtils.isNotBlank(this.insert)){
+				try {
+					mode = InsertMode.valueOf(this.insert.trim().toUpperCase());
+				} catch (IllegalArgumentException e) {
+					logger.error("{} is not a valid value among {}. Please choose a valid one.",
+							insert, InsertMode.values());
+					throw new JspException(e);
+				}
+			}
+			else{
+				mode = InsertMode.BEFOREALL;
+			}
+			parent.getTable().getTableConfiguration().addExtraFile(new ExtraFile(getRealSource(this.src), mode));
 		}
 		return EVAL_PAGE;
 	}
@@ -84,11 +104,11 @@ public class ExtraFileTag extends TagSupport {
 		this.src = src;
 	}
 
-	public InsertMode getInsert() {
+	public String getInsert() {
 		return insert;
 	}
 
-	public void setInsert(InsertMode insert) {
+	public void setInsert(String insert) {
 		this.insert = insert;
 	}
 }
