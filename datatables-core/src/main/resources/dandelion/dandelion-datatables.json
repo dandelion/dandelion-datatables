@@ -1,0 +1,14 @@
+{
+	"parent": "datatables", 
+	"scope": "dandelion-datatables",
+    "assets": [
+        {
+            "locations": {
+                "delegate": "dandelion-datatables.js"
+            }, 
+            "name": "dandelion-datatables", 
+            "type": "js", 
+            "version": "latest"
+        }
+    ]
+}

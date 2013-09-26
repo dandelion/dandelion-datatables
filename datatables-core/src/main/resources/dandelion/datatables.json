@@ -1,0 +1,22 @@
+{
+    "scope" : "datatables",
+    "parent": "jquery",
+    "assets": [
+        {
+            "name": "datatables",
+            "version": "1.9.4",
+            "type": "js",
+            "locations": {
+                "remote": "//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"
+            }
+        },
+        {
+            "name": "datatables",
+            "version": "1.9.4",
+            "type": "css",
+            "locations": {
+                "remote": "//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css"
+            }
+        }
+    ]
+}
