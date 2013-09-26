@@ -28,7 +28,13 @@
          <artifactId>datatables-core</artifactId>
          <version>0.9.10-SNAPSHOT</version>
       </dependency>
-
+      <!-- Dandelion -->
+      <dependency>
+         <groupId>com.github.dandelion</groupId>
+         <artifactId>dandelion-jsp</artifactId>
+         <version>0.3.0-SNAPSHOT</version>
+      </dependency>
+      
       <!-- Servlet -->
       <dependency>
          <groupId>javax.servlet</groupId>
