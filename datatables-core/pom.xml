@@ -13,6 +13,13 @@
 
    <dependencies>
 
+      <!-- Dandelion -->
+      <dependency>
+         <groupId>com.github.dandelion</groupId>
+         <artifactId>dandelion-core</artifactId>
+         <version>0.3.0-SNAPSHOT</version>
+      </dependency>
+      
       <!-- Json simple -->
       <dependency>
          <groupId>com.googlecode.json-simple</groupId>
