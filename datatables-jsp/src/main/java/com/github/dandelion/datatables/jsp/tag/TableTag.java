@@ -41,6 +41,8 @@ import javax.servlet.jsp.JspException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import com.github.dandelion.core.asset.wrapper.DelegateLocationWrapper;
 import com.github.dandelion.datatables.core.aggregator.ResourceAggregator;
 import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.JsResource;
@@ -49,16 +51,17 @@ import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.cache.AssetCache;
 import com.github.dandelion.datatables.core.compressor.ResourceCompressor;
 import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.exception.DataNotFoundException;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
+import com.github.dandelion.datatables.core.generator.DatatablesConfigGenerator;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.DandelionUtils;
@@ -233,6 +236,11 @@ public class TableTag extends AbstractTableTag {
 				webResources = (WebResources) AssetCache.cache.get(keyToTest);
 			}
 
+			AssetsRequestContext.get(request)
+				.addScopes("datatables")
+				.addScopes("dandelion-datatables")
+				.addParameter("dandelion-datatables", DelegateLocationWrapper.DELEGATE_CONTENT_PARAM, new DatatablesConfigGenerator(webResources));
+			
 			// Aggregation
 			if (table.getTableConfiguration().getMainAggregatorEnable() != null && table.getTableConfiguration().getMainAggregatorEnable()) {
 				logger.debug("Aggregation enabled");
@@ -271,8 +279,8 @@ public class TableTag extends AbstractTableTag {
 				generateScriptTag(src);
 			}
 			// Main Javascript file
-			String src = RequestHelper.getAssetSource(webResources.getMainJsFile().getName(), this.table, request, true);
-			generateScriptTag(src);
+//			String src = RequestHelper.getAssetSource(webResources.getMainJsFile().getName(), this.table, request, true);
+//			generateScriptTag(src);
 
 		} catch (IOException e) {
 			logger.error("Something went wront with the datatables tag");
