@@ -184,7 +184,27 @@ public class ExportManager {
 						
 						StringBuilder exportFunc = new StringBuilder("function ddl_dt_launch_export_");
 						exportFunc.append(conf.getType().name());
-						exportFunc.append("(){window.location='");
+						exportFunc.append("(){");
+						
+						StringBuilder params = new StringBuilder();
+						if(StringUtils.isNotBlank(table.getTableConfiguration().getAjaxServerParam())){
+							exportFunc.append("var aoData = ");
+							exportFunc.append(tableId);
+							exportFunc.append(".oApi._fnAjaxParameters(");
+							exportFunc.append(tableId);
+							exportFunc.append(".fnSettings());");
+							exportFunc.append(table.getTableConfiguration().getAjaxServerParam());
+							exportFunc.append("(aoData);");
+							params.append("aoData");
+						}
+						else{
+							params.append(tableId);
+							params.append(".oApi._fnAjaxParameters(");
+							params.append(tableId);
+							params.append(".fnSettings();");
+						}
+						
+						exportFunc.append("window.location='");
 						exportFunc.append(conf.getUrl());
 						if(conf.getUrl().contains("?")){
 							exportFunc.append("&");
@@ -192,9 +212,7 @@ public class ExportManager {
 						else{
 							exportFunc.append("?");
 						}
-						exportFunc.append("' + $.param(");
-						exportFunc.append(tableId).append(".oApi._fnAjaxParameters(").append(tableId).append(".fnSettings()");
-						exportFunc.append("));}");
+						exportFunc.append("' + $.param(aoData);}");
 						
 						mainJsfile.appendToBeforeAll(exportFunc.toString());
 						
@@ -207,11 +225,30 @@ public class ExportManager {
 						StringBuilder exportFunc = new StringBuilder("function ddl_dt_launch_export_");
 						exportFunc.append(conf.getType().name());
 						exportFunc.append("(){");
+						
+						StringBuilder params = new StringBuilder();
+						if(StringUtils.isNotBlank(table.getTableConfiguration().getAjaxServerParam())){
+							exportFunc.append("var aoData = ");
+							exportFunc.append(tableId);
+							exportFunc.append(".oApi._fnAjaxParameters(");
+							exportFunc.append(tableId);
+							exportFunc.append(".fnSettings());");
+							exportFunc.append(table.getTableConfiguration().getAjaxServerParam());
+							exportFunc.append("(aoData);");
+							params.append("aoData");
+						}
+						else{
+							params.append(tableId);
+							params.append(".oApi._fnAjaxParameters(");
+							params.append(tableId);
+							params.append(".fnSettings();");
+						}
+						
 						exportFunc.append("$.download('");
 						exportFunc.append(conf.getUrl());
 						exportFunc.append("',$.param(");
-						exportFunc.append(tableId).append(".oApi._fnAjaxParameters(").append(tableId).append(".fnSettings()");
-						exportFunc.append(")),'");
+						exportFunc.append(params.toString());
+						exportFunc.append("),'");
 						exportFunc.append(conf.getMethod());
 						exportFunc.append("');");
 						exportFunc.append("}");
