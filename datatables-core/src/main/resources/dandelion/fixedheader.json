@@ -1,21 +1,13 @@
 {
-    "scope" : "colreorder",
+    "scope" : "fixedheader",
     "parent": "datatables",
     "assets": [
         {
-            "name": "colreorder",
-            "version": "1.0.6",
+            "name": "fixedheader",
+            "version": "2.0.6",
             "type": "js",
             "locations": {
-                "classpath": "datatables/plugins/colreorder/colreorder.min.js"
-            }
-        },
-        {
-            "name": "colreorder",
-            "version": "1.0.6",
-            "type": "css",
-            "locations": {
-                "classpath": "datatables/plugins/colreorder/colreorder.css"
+                "classpath": "datatables/plugins/fixedheader/fixedheader.min.js"
             }
         }
     ]
