@@ -174,6 +174,9 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		if (StringUtils.isNotBlank(this.cssClass)) {
 			headColumn.setCssClass(new StringBuilder(this.cssClass));
 		}
+		if (StringUtils.isNotBlank(this.cssCellClass)) {
+			headColumn.addCssCellClass(this.cssCellClass);
+		}
 		if (StringUtils.isNotBlank(this.cssStyle)) {
 			headColumn.setCssStyle(new StringBuilder(this.cssStyle));
 		}
