@@ -71,14 +71,14 @@ public class TbodyCallbackFormatNumberProcessor extends AbstractDatatablesAttrPr
 		// The callback has already been registered
 		if(table.getTableConfiguration().hasCallback(CallbackType.FORMAT)){
 			table.getTableConfiguration().getCallback(CallbackType.FORMAT)
-					.appendCode(attrValue + "(" + StringUtils.join(CallbackType.FORMAT.getArgs(), ",") + ");");
+					.appendCode((CallbackType.FORMAT.hasReturn() ? "return " : "") + attrValue + "(" + StringUtils.join(CallbackType.FORMAT.getArgs(), ",") + ");");
 		}
 		// The callback hasn't been registered yet
 		else{
 			table
 					.getTableConfiguration()
 					.registerCallback(
-							new Callback(CallbackType.FORMAT, attrValue + "("
+							new Callback(CallbackType.FORMAT, (CallbackType.FORMAT.hasReturn() ? "return " : "") + attrValue + "("
 									+ StringUtils.join(CallbackType.FORMAT.getArgs(), ",") + ");"));
 		}
 		
