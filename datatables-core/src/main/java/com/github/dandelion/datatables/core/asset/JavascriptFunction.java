@@ -46,10 +46,18 @@ import com.github.dandelion.datatables.core.util.StringUtils;
 public class JavascriptFunction {
 
 	private String code;
+	private boolean hasReturn;
 	private String[] args;
 	
 	public JavascriptFunction(String code){
 		this.code = code;
+		this.hasReturn = false;
+		this.args = null;
+	}
+	
+	public JavascriptFunction(String code, boolean hasReturn){
+		this.code = code;
+		this.hasReturn = hasReturn;
 		this.args = null;
 	}
 	
@@ -57,10 +65,16 @@ public class JavascriptFunction {
 		this.code = code;
 		this.args = args;
 	}
+	
+	public JavascriptFunction(String code, boolean hasReturn, String... args) {
+		this.code = code;
+		this.hasReturn = hasReturn;
+		this.args = args;
+	}
 
 	@Override
 	public String toString() {
-		return "function(" + (args != null ? StringUtils.join(args, ",") : "") + "){" + code + "}";
+		return "function(" + (args != null ? StringUtils.join(args, ",") : "") + "){" + (hasReturn ? "return " : "") + code + "}";
 	}
 	
 	public String getCode(){

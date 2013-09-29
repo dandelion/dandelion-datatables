@@ -71,14 +71,14 @@ public class TbodyCallbackInitProcessor extends AbstractDatatablesAttrProcessor 
 		// The callback has already been registered
 		if(table.getTableConfiguration().hasCallback(CallbackType.INIT)){
 			table.getTableConfiguration().getCallback(CallbackType.INIT)
-					.appendCode(attrValue + "(" + StringUtils.join(CallbackType.INIT.getArgs(), ",") + ");");
+					.appendCode((CallbackType.INIT.hasReturn() ? "return " : "") + attrValue + "(" + StringUtils.join(CallbackType.INIT.getArgs(), ",") + ");");
 		}
 		// The callback hasn't been registered yet
 		else{
 			table
 					.getTableConfiguration()
 					.registerCallback(
-							new Callback(CallbackType.INIT, attrValue + "("
+							new Callback(CallbackType.INIT, (CallbackType.INIT.hasReturn() ? "return " : "") + attrValue + "("
 									+ StringUtils.join(CallbackType.INIT.getArgs(), ",") + ");"));
 		}
 		

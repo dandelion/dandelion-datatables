@@ -71,14 +71,14 @@ public class TbodyCallbackCreatedRowProcessor extends AbstractDatatablesAttrProc
 		// The callback has already been registered
 		if(table.getTableConfiguration().hasCallback(CallbackType.CREATEDROW)){
 			table.getTableConfiguration().getCallback(CallbackType.CREATEDROW)
-					.appendCode(attrValue + "(" + StringUtils.join(CallbackType.CREATEDROW.getArgs(), ",") + ");");
+					.appendCode((CallbackType.CREATEDROW.hasReturn() ? "return " : "") + attrValue + "(" + StringUtils.join(CallbackType.CREATEDROW.getArgs(), ",") + ");");
 		}
 		// The callback hasn't been registered yet
 		else{
 			table
 					.getTableConfiguration()
 					.registerCallback(
-							new Callback(CallbackType.CREATEDROW, attrValue + "("
+							new Callback(CallbackType.CREATEDROW, (CallbackType.CREATEDROW.hasReturn() ? "return " : "") + attrValue + "("
 									+ StringUtils.join(CallbackType.CREATEDROW.getArgs(), ",") + ");"));
 		}
 		

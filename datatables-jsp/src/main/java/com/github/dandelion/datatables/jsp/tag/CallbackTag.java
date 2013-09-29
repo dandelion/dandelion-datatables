@@ -93,14 +93,15 @@ public class CallbackTag extends TagSupport {
 			// The callback has already been registered
 			if(parent.getTable().getTableConfiguration().hasCallback(callbackType)){
 				parent.getTable().getTableConfiguration().getCallback(callbackType)
-						.appendCode(function + "(" + StringUtils.join(callbackType.getArgs(), ",") + ");");
+						.appendCode((callbackType.hasReturn() ? "return " : "") + function + "(" + StringUtils.join(callbackType.getArgs(), ",") + ");");
 			}
 			// The callback hasn't been registered yet
 			else{
 				parent.getTable()
 						.getTableConfiguration()
 						.registerCallback(
-								new Callback(callbackType, function + "("
+								new Callback(callbackType, 
+										(callbackType.hasReturn() ? "return " : "") + function + "("
 										+ StringUtils.join(callbackType.getArgs(), ",") + ");"));
 			}
 		}

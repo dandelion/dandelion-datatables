@@ -40,31 +40,33 @@ import com.github.dandelion.datatables.core.constants.DTConstants;
  */
 public enum CallbackType {
 
-	COOKIE(DTConstants.DT_FN_COOKIE_CBK, "sName", "oData", "sExpires", "sPath"),
+	COOKIE(DTConstants.DT_FN_COOKIE_CBK, true, "sName", "oData", "sExpires", "sPath"),
 	
-	CREATEDROW(DTConstants.DT_FN_CREATED_ROW, "nRow", "aData", "iDataIndex"),
+	CREATEDROW(DTConstants.DT_FN_CREATED_ROW, false, "nRow", "aData", "iDataIndex"),
 	
-	DRAW(DTConstants.DT_FN_DRAW_CBK, "oSettings"),
+	DRAW(DTConstants.DT_FN_DRAW_CBK, false, "oSettings"),
 	
-	FOOTER(DTConstants.DT_FN_FOOTER_CBK, "nFoot", "aData", "iStart", "iEnd", "aiDisplay"),
+	FOOTER(DTConstants.DT_FN_FOOTER_CBK, false, "nFoot", "aData", "iStart", "iEnd", "aiDisplay"),
 	
-	FORMAT(DTConstants.DT_FN_FORMAT_NUMBER, "iIn"),
+	FORMAT(DTConstants.DT_FN_FORMAT_NUMBER, true, "iIn"),
 	
-	HEADER(DTConstants.DT_FN_HEADER_CBK, "nHead", "aData", "iStart", "iEnd", "aiDisplay"),
+	HEADER(DTConstants.DT_FN_HEADER_CBK, false, "nHead", "aData", "iStart", "iEnd", "aiDisplay"),
 	
-	INFO(DTConstants.DT_FN_INFO_CBK, "oSettings", "iStart", "iEnd", "iMax", "iTotal", "sPre"),
+	INFO(DTConstants.DT_FN_INFO_CBK, true, "oSettings", "iStart", "iEnd", "iMax", "iTotal", "sPre"),
 	
-	INIT(DTConstants.DT_FN_INIT_COMPLETE, "oSettings", "json"),
+	INIT(DTConstants.DT_FN_INIT_COMPLETE, false, "oSettings", "json"),
 	
-	PREDRAW(DTConstants.DT_FN_PRE_DRAW_CBK, "oSettings"),
+	PREDRAW(DTConstants.DT_FN_PRE_DRAW_CBK, true, "oSettings"),
 	
-	ROW(DTConstants.DT_FN_ROW_CBK, "nRow", "aData", "iDisplayIndex", "iDisplayIndexFull");
+	ROW(DTConstants.DT_FN_ROW_CBK, false, "nRow", "aData", "iDisplayIndex", "iDisplayIndexFull");
 	
 	private String name;
+	private boolean hasReturn;
 	private String[] args;
 	
-	private CallbackType(String function, String... args){
+	private CallbackType(String function, boolean hasReturn, String... args){
 		this.name = function;
+		this.setHasReturn(hasReturn);
 		this.args = args;
 	}
 
@@ -82,5 +84,13 @@ public enum CallbackType {
 
 	public void setArgs(String[] args) {
 		this.args = args;
+	}
+
+	public boolean hasReturn() {
+		return hasReturn;
+	}
+
+	public void setHasReturn(boolean hasReturn) {
+		this.hasReturn = hasReturn;
 	}
 }

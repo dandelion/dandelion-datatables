@@ -71,14 +71,14 @@ public class TbodyCallbackCookieProcessor extends AbstractDatatablesAttrProcesso
 		// The callback has already been registered
 		if(table.getTableConfiguration().hasCallback(CallbackType.COOKIE)){
 			table.getTableConfiguration().getCallback(CallbackType.COOKIE)
-					.appendCode(attrValue + "(" + StringUtils.join(CallbackType.COOKIE.getArgs(), ",") + ");");
+					.appendCode((CallbackType.COOKIE.hasReturn() ? "return " : "") + attrValue + "(" + StringUtils.join(CallbackType.COOKIE.getArgs(), ",") + ");");
 		}
 		// The callback hasn't been registered yet
 		else{
 			table
 					.getTableConfiguration()
 					.registerCallback(
-							new Callback(CallbackType.COOKIE, attrValue + "("
+							new Callback(CallbackType.COOKIE, (CallbackType.COOKIE.hasReturn() ? "return " : "") + attrValue + "("
 									+ StringUtils.join(CallbackType.COOKIE.getArgs(), ",") + ");"));
 		}
 		
