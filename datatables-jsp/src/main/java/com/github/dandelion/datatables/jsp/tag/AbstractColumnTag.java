@@ -174,9 +174,6 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		if (StringUtils.isNotBlank(this.cssClass)) {
 			headColumn.setCssClass(new StringBuilder(this.cssClass));
 		}
-		if (StringUtils.isNotBlank(this.cssCellClass)) {
-			headColumn.addCssCellClass(this.cssCellClass);
-		}
 		if (StringUtils.isNotBlank(this.cssStyle)) {
 			headColumn.setCssStyle(new StringBuilder(this.cssStyle));
 		}
@@ -284,7 +281,10 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	}
 
 	public void setCssCellClass(String cssCellClass) {
+		// For DOM sources
 		this.cssCellClass = cssCellClass;
+		// For AJAX sources
+		stagingConf.put(Configuration.COLUMN_CSSCELLCLASS, cssCellClass);
 	}
 
 	public void setFilterable(Boolean filterable) {

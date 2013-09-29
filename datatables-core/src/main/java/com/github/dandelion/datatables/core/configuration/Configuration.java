@@ -186,7 +186,7 @@ public enum Configuration {
 	COLUMN_CSSSTYLE("", "cssStyle", String.class, StringProcessor.class),
 	COLUMN_CSSCELLSTYLE("", "cssCellStyle", StringBuilder.class, StringBuilderProcessor.class),
 	COLUMN_CSSCLASS("", "cssClass", String.class, StringProcessor.class),
-	COLUMN_CSSCELLCLASS("", "cssCellClass", StringBuilder.class, StringBuilderProcessor.class),
+	COLUMN_CSSCELLCLASS("", "cssCellClass", String.class, StringProcessor.class),
 	COLUMN_SORTABLE("", "sortable", Boolean.class, BooleanProcessor.class),
 	COLUMN_SORTDIRECTION("", "sortDirections", List.class, SortDirectionProcessor.class),
 	COLUMN_SORTINIT("", "sortInit", String.class, StringProcessor.class),

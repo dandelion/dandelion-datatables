@@ -192,9 +192,9 @@ public class MainGenerator extends AbstractConfigurationGenerator {
         		
         		// Column's style (AJAX only)
         		if(StringUtils.isNotBlank(table.getTableConfiguration().getAjaxSource())){
-        			if(column.getCssCellClass() != null && column.getCssCellClass().length() > 0){
-        				tmp.put(DTConstants.DT_S_CLASS, column.getCssCellClass().toString());
-        			}
+        			if(StringUtils.isNotBlank(column.getColumnConfiguration().getCssCellClass())){
+            			tmp.put(DTConstants.DT_S_CLASS, column.getColumnConfiguration().getCssCellClass());
+            		}
         		}
         		
         		// Sorting direction
