@@ -65,6 +65,9 @@ public class ColumnConfiguration {
 	private String renderFunction;
 	private String selector;
 
+	// Only used in AJAX mode
+	private String cssCellClass;
+
 	public String getUid() {
 		return uid;
 	}
@@ -223,6 +226,14 @@ public class ColumnConfiguration {
 
 	public void setFormat(String format) {
 		this.format = format;
+	}
+
+	public String getCssCellClass() {
+		return cssCellClass;
+	}
+
+	public void setCssCellClass(String cssCellClass) {
+		this.cssCellClass = cssCellClass;
 	}
 
 	@Override
