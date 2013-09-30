@@ -201,7 +201,7 @@ public class ExportManager {
 							params.append(tableId);
 							params.append(".oApi._fnAjaxParameters(");
 							params.append(tableId);
-							params.append(".fnSettings();");
+							params.append(".fnSettings()");
 						}
 						
 						exportFunc.append("window.location='");
@@ -212,7 +212,9 @@ public class ExportManager {
 						else{
 							exportFunc.append("?");
 						}
-						exportFunc.append("' + $.param(aoData);}");
+						exportFunc.append("' + $.param(");
+						exportFunc.append(params.toString());
+						exportFunc.append(");}");
 						
 						mainJsfile.appendToBeforeAll(exportFunc.toString());
 						
@@ -241,7 +243,7 @@ public class ExportManager {
 							params.append(tableId);
 							params.append(".oApi._fnAjaxParameters(");
 							params.append(tableId);
-							params.append(".fnSettings();");
+							params.append(".fnSettings())");
 						}
 						
 						exportFunc.append("$.download('");
