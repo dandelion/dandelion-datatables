@@ -214,7 +214,7 @@ public class ExportManager {
 						}
 						exportFunc.append("' + $.param(");
 						exportFunc.append(params.toString());
-						exportFunc.append(");}");
+						exportFunc.append("));}");
 						
 						mainJsfile.appendToBeforeAll(exportFunc.toString());
 						
