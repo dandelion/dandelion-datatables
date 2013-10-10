@@ -51,7 +51,7 @@ public class PaginationTypeFourButtonFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeExtJs", "datatables/features/paginationType/four_button.js"));
+		addScope("paginationType-fourbutton");
 		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "four_button", Parameter.Mode.OVERRIDE));
 	}
 }

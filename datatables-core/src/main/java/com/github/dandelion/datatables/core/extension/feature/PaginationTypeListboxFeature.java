@@ -51,7 +51,7 @@ public class PaginationTypeListboxFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeExtJs", "datatables/features/paginationType/listbox.js"));
+		addScope("paginationType-listbox");
 		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "listbox", Parameter.Mode.OVERRIDE));
 	}
 }

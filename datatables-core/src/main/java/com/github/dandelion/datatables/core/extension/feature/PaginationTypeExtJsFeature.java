@@ -50,7 +50,7 @@ public class PaginationTypeExtJsFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeExtJs", "datatables/features/paginationType/extjs.js"));
+		addScope("paginationType-extjs");
 		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "extStyle", Parameter.Mode.OVERRIDE));
 	}
 }

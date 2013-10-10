@@ -1,0 +1,14 @@
+{
+    "scope" : "paginationType-bootstrap",
+    "parent": "datatables",
+    "assets": [
+        {
+            "name": "bootstrap",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/features/paginationType/bootstrap.js"
+            }
+        }
+    ]
+}

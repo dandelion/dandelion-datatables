@@ -51,7 +51,7 @@ public class PaginationTypeInputFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeExtJs", "datatables/features/paginationType/input.js"));
+		addScope("paginationType-input");
 		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "input", Parameter.Mode.OVERRIDE));
 	}
 }

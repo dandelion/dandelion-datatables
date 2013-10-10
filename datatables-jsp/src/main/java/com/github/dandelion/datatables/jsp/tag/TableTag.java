@@ -216,7 +216,7 @@ public class TableTag extends AbstractTableTag {
 			// First we check if the DataTables configuration already exist in the cache
 			String keyToTest = RequestHelper.getCurrentURIWithParameters(request) + "|" + table.getId();
 
-			if(DandelionUtils.isDevModeEnabled() || !AssetCache.cache.containsKey(keyToTest)){
+//			if(DandelionUtils.isDevModeEnabled() || !AssetCache.cache.containsKey(keyToTest)){
 				logger.debug("No asset for the key {}. Generating...", keyToTest);
 				
 				// Init the web resources generator
@@ -229,55 +229,55 @@ public class TableTag extends AbstractTableTag {
 				
 				AssetCache.cache.put(keyToTest, webResources);
 				logger.debug("Cache updated with new web resources");
-			}
-			else{
-				logger.debug("Asset(s) already exist, retrieving content from cache...");
-
-				webResources = (WebResources) AssetCache.cache.get(keyToTest);
-			}
+//			}
+//			else{
+//				logger.debug("Asset(s) already exist, retrieving content from cache...");
+//
+//				webResources = (WebResources) AssetCache.cache.get(keyToTest);
+//			}
 
 			AssetsRequestContext.get(request)
 				.addScopes("datatables")
 				.addScopes("dandelion-datatables")
 				.addParameter("dandelion-datatables", DelegateLocationWrapper.DELEGATE_CONTENT_PARAM, new DatatablesConfigGenerator(webResources));
 			
-			// Aggregation
-			if (table.getTableConfiguration().getMainAggregatorEnable() != null && table.getTableConfiguration().getMainAggregatorEnable()) {
-				logger.debug("Aggregation enabled");
-				ResourceAggregator.processAggregation(webResources, table);
-			}
+//			// Aggregation
+//			if (table.getTableConfiguration().getMainAggregatorEnable() != null && table.getTableConfiguration().getMainAggregatorEnable()) {
+//				logger.debug("Aggregation enabled");
+//				ResourceAggregator.processAggregation(webResources, table);
+//			}
+//
+//			// Compression
+//			if (table.getTableConfiguration().getMainCompressorEnable() != null && table.getTableConfiguration().getMainCompressorEnable()) {
+//				logger.debug("Compression enabled");
+//				ResourceCompressor.processCompression(webResources, table);
+//			}
 
-			// Compression
-			if (table.getTableConfiguration().getMainCompressorEnable() != null && table.getTableConfiguration().getMainCompressorEnable()) {
-				logger.debug("Compression enabled");
-				ResourceCompressor.processCompression(webResources, table);
-			}
-
-			// <link> HTML tag generation
-			if (table.getTableConfiguration().getMainCdn() != null && table.getTableConfiguration().getMainCdn()) {
-				generateLinkTag(table.getTableConfiguration().getMainCdnCss());
-			}
-			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
-				if(entry.getValue().getType().equals(ResourceType.EXTERNAL)){
-					generateLinkTag(entry.getValue().getLocation());
-				}
-				else{
-					String src = RequestHelper.getAssetSource(entry.getKey(), this.table, request, false);
-					generateLinkTag(src);
-				}
-			}
+//			// <link> HTML tag generation
+//			if (table.getTableConfiguration().getMainCdn() != null && table.getTableConfiguration().getMainCdn()) {
+//				generateLinkTag(table.getTableConfiguration().getMainCdnCss());
+//			}
+//			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
+//				if(entry.getValue().getType().equals(ResourceType.EXTERNAL)){
+//					generateLinkTag(entry.getValue().getLocation());
+//				}
+//				else{
+//					String src = RequestHelper.getAssetSource(entry.getKey(), this.table, request, false);
+//					generateLinkTag(src);
+//				}
+//			}
 
 			// HTML generation
 			pageContext.getOut().println(this.table.toHtml());
 
-			// <script> HTML tag generation
-			if (table.getTableConfiguration().getMainCdn() != null && table.getTableConfiguration().getMainCdn()) {
-				generateScriptTag(table.getTableConfiguration().getMainCdnJs());
-			}
-			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
-				String src = RequestHelper.getAssetSource(entry.getKey(), this.table, request, false);
-				generateScriptTag(src);
-			}
+//			// <script> HTML tag generation
+//			if (table.getTableConfiguration().getMainCdn() != null && table.getTableConfiguration().getMainCdn()) {
+//				generateScriptTag(table.getTableConfiguration().getMainCdnJs());
+//			}
+//			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
+//				String src = RequestHelper.getAssetSource(entry.getKey(), this.table, request, false);
+//				generateScriptTag(src);
+//			}
 			// Main Javascript file
 //			String src = RequestHelper.getAssetSource(webResources.getMainJsFile().getName(), this.table, request, true);
 //			generateScriptTag(src);

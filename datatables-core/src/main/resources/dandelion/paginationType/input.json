@@ -1,0 +1,14 @@
+{
+    "scope" : "paginationType-input",
+    "parent": "datatables",
+    "assets": [
+        {
+            "name": "input",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/features/paginationType/input.js"
+            }
+        }
+    ]
+}

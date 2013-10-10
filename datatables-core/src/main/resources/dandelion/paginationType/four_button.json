@@ -1,0 +1,14 @@
+{
+    "scope" : "paginationType-foutbutton",
+    "parent": "datatables",
+    "assets": [
+        {
+            "name": "fourbutton",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/features/paginationType/four_button.js"
+            }
+        }
+    ]
+}

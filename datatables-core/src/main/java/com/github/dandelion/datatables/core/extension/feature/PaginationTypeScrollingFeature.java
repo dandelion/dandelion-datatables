@@ -51,7 +51,7 @@ public class PaginationTypeScrollingFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeExtJs", "datatables/features/paginationType/scrolling.js"));
+		addScope("paginationType-scrolling");
 		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "scrolling", Parameter.Mode.OVERRIDE));
 	}
 }

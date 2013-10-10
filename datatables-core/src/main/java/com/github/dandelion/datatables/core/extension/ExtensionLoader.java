@@ -109,25 +109,14 @@ public class ExtensionLoader {
 
 		if (extensions != null && !extensions.isEmpty()) {
 
-			// TODO tester s'il faut appender un random number
 			for (Extension extension : extensions) {
 
 				// Extension initialization
-				extension.setup(table);
-
-				// TODO
+				extension.setupWrapper(table);
 				loadJsResources(extension);
-
-				// TODO
 				loadCssResources(table, extension);
-				
-				// TODO
 				loadExternalCssResources(extension);
-				
-				// TODO
 				injectIntoMainJsFile(extension);
-
-				// TODO
 				injectIntoMainConfiguration(extension);
 			}
 		}

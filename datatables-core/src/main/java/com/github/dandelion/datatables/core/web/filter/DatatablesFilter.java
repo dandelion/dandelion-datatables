@@ -51,7 +51,7 @@ import com.github.dandelion.datatables.core.export.ExportProperties;
  * @author Thibault Duchateau
  * @since 0.7.0
  */
-@WebFilter(filterName = "DataTablesFilter", value = { "/*" })
+//@WebFilter(filterName = "DataTablesFilter", value = { "/*" })
 public class DatatablesFilter implements Filter {
 
 	@Override

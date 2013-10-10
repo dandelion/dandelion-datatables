@@ -116,7 +116,7 @@ public interface Extension {
      * @param table
      *            The HTML table.
      */
-    public void setup(HtmlTable table) throws ExtensionLoadingException;
+    public void setupWrapper(HtmlTable table) throws ExtensionLoadingException;
 
     public StringBuilder getBeforeAll();
 

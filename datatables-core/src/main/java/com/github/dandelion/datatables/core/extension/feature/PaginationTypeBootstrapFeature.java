@@ -51,7 +51,7 @@ public class PaginationTypeBootstrapFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeBootstrap", "datatables/features/paginationType/bootstrap.js"));
+		addScope("paginationType-bootstrap");
 		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "bootstrap", Parameter.Mode.OVERRIDE));
 	}
 }

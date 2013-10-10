@@ -33,10 +33,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.github.dandelion.core.asset.web.AssetsRequestContext;
 import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
+import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * Abstract superclass for all extensions.
@@ -57,10 +60,18 @@ public abstract class AbstractExtension implements Extension {
 	protected AbstractConfigurationGenerator configGenerator;
 	protected Boolean appendRandomNumber = false;
 	protected String function;
+	private HtmlTable table;
 
 	public AbstractExtension(){
 		this.name = getName();
 	}
+	
+	public void setupWrapper(HtmlTable table) throws ExtensionLoadingException {
+		this.table = table;
+		setup(table);
+	}
+	
+	public abstract void setup(HtmlTable table) throws ExtensionLoadingException;
 	
 	public StringBuilder getBeforeAll() {
 		return beforeAll;
@@ -123,6 +134,10 @@ public abstract class AbstractExtension implements Extension {
 		this.confs.add(parameter);
 	}
 
+	public void addScope(String scopeName){
+		AssetsRequestContext.get(table.getTableConfiguration().getRequest()).addScopes(scopeName);
+	}
+	
 	public AbstractConfigurationGenerator getConfigGenerator() {
 		return configGenerator;
 	}

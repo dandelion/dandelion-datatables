@@ -1,0 +1,14 @@
+{
+    "scope" : "paginationType-listbox",
+    "parent": "datatables",
+    "assets": [
+        {
+            "name": "listbox",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/features/paginationType/listbox.js"
+            }
+        }
+    ]
+}

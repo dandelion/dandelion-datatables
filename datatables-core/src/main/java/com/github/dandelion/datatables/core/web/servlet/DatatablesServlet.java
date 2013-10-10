@@ -49,7 +49,7 @@ import com.github.dandelion.datatables.core.util.DandelionUtils;
  * 
  * @author Thibault Duchateau
  */
-@WebServlet(name="datatablesController", urlPatterns={"/datatablesController/*"})
+//@WebServlet(name="datatablesController", urlPatterns={"/datatablesController/*"})
 public class DatatablesServlet extends HttpServlet {
 	private static final long serialVersionUID = 4971523176859296399L;
 

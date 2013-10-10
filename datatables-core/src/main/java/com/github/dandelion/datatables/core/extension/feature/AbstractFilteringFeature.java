@@ -29,8 +29,6 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
@@ -68,13 +66,15 @@ public abstract class AbstractFilteringFeature extends AbstractExtension {
 				break;
 			}
 		}
+		// Default: footer
 		else{
 			adaptFooter(table);
 		}
 		
 		setFunction("columnFilter");
 		setConfigGenerator(new ColumnFilteringGenerator());
-		addJsResource(new JsResource(ResourceType.FEATURE, "FilteringAddOn", "datatables/features/filtering/filteringaddon.js"));
+		
+		addScope("filtering");
 	}
 	
 	protected abstract void adaptHeader(HtmlTable table);

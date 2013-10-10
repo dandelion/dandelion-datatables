@@ -1,0 +1,14 @@
+{
+    "scope" : "paginationType-extjs",
+    "parent": "datatables",
+    "assets": [
+        {
+            "name": "extjs",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/features/paginationType/extjs.js"
+            }
+        }
+    ]
+}

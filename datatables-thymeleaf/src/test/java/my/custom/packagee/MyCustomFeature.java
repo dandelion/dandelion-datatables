@@ -11,7 +11,7 @@ public class MyCustomFeature extends AbstractExtension {
 		return "myCustomFeature";
 	}
 
-	public void setup(HtmlTable table) throws ExtensionLoadingException {
+	public void setupWrapper(HtmlTable table) throws ExtensionLoadingException {
 		addParameter(new Parameter("bStateSave", true));
 	}
 }
