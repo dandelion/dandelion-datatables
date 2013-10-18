@@ -14,7 +14,7 @@ public class MyOtherCustomFeature extends AbstractExtension {
 	}
 
 	@Override
-	public void setupWrapper(HtmlTable table) throws ExtensionLoadingException {
+	public void setup(HtmlTable table) throws ExtensionLoadingException {
 		addParameter(new Parameter(DTConstants.DT_AUTO_WIDTH, true));
 	}
 }
