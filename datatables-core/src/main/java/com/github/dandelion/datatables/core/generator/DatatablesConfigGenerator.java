@@ -32,10 +32,10 @@ package com.github.dandelion.datatables.core.generator;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.github.dandelion.core.asset.wrapper.DelegateContent;
+import com.github.dandelion.core.asset.wrapper.impl.DelegatedContent;
 import com.github.dandelion.datatables.core.asset.WebResources;
 
-public class DatatablesConfigGenerator implements DelegateContent {
+public class DatatablesConfigGenerator implements DelegatedContent {
 	
 	private WebResources webResources;
 	

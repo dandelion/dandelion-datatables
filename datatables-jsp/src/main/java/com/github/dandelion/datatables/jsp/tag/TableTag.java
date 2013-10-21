@@ -32,7 +32,6 @@ package com.github.dandelion.datatables.jsp.tag;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,14 +41,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.asset.web.AssetsRequestContext;
-import com.github.dandelion.core.asset.wrapper.DelegateLocationWrapper;
-import com.github.dandelion.datatables.core.aggregator.ResourceAggregator;
-import com.github.dandelion.datatables.core.asset.CssResource;
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.ResourceType;
+import com.github.dandelion.core.asset.wrapper.impl.DelegatedLocationWrapper;
 import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.cache.AssetCache;
-import com.github.dandelion.datatables.core.compressor.ResourceCompressor;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
@@ -64,7 +58,6 @@ import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.generator.DatatablesConfigGenerator;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.DandelionUtils;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
@@ -239,7 +232,7 @@ public class TableTag extends AbstractTableTag {
 			AssetsRequestContext.get(request)
 				.addScopes("datatables")
 				.addScopes("dandelion-datatables")
-				.addParameter("dandelion-datatables", DelegateLocationWrapper.DELEGATE_CONTENT_PARAM, new DatatablesConfigGenerator(webResources));
+				.addParameter("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM, new DatatablesConfigGenerator(webResources), id);
 			
 //			// Aggregation
 //			if (table.getTableConfiguration().getMainAggregatorEnable() != null && table.getTableConfiguration().getMainAggregatorEnable()) {
