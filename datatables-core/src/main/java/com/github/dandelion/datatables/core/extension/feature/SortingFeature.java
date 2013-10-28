@@ -44,8 +44,9 @@ import com.github.dandelion.datatables.core.util.FileUtils;
  * Feature used in accordance with the <code>sortType</code> column attribute to
  * help DataTables to configure the sort on a column.
  * <p>
- * See http://datatables.net/plug-ins/sorting for an overview of all available
- * sorting functions.
+ * See <a
+ * href="http://datatables.net/plug-ins/sorting">http://datatables.net/plugins
+ * /sorting</a> for an overview of all available sorting functions.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0

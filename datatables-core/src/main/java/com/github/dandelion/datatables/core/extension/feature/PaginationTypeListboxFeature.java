@@ -29,17 +29,19 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * TODO
+ * <p>
+ * Activates the ListBox pagination by:
+ * <ul>
+ * <li>Updating the asset stack with the scope
+ * <code>paginationType-listbox</code></li>
+ * <li>Setting the pagination type to <code>listbox</code></li>
+ * </ul>
  * 
- * @see http://www.datatables.net/plug-ins/pagination
  * @author Thibault Duchateau
  */
 public class PaginationTypeListboxFeature extends AbstractExtension {
@@ -51,7 +53,7 @@ public class PaginationTypeListboxFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addScope("paginationType-listbox");
-		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "listbox", Parameter.Mode.OVERRIDE));
+		addScope("listbox-pagination");
+		addParameter(DTConstants.DT_PAGINATION_TYPE, "listbox");
 	}
 }

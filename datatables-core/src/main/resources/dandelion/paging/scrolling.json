@@ -1,13 +1,13 @@
 {
-    "scope" : "paginationType-bootstrap",
+    "scope" : "scrolling-pagination",
     "parent": "datatables",
     "assets": [
         {
-            "name": "bootstrap",
+            "name": "scrolling",
             "version": "1.0.0",
             "type": "js",
             "locations": {
-                "classpath": "datatables/features/paginationType/bootstrap.js"
+                "classpath": "datatables/features/paginationType/scrolling.js"
             }
         }
     ]

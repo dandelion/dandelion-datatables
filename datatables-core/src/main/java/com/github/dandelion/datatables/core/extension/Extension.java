@@ -31,8 +31,6 @@ package com.github.dandelion.datatables.core.extension;
 
 import java.util.List;
 
-import com.github.dandelion.datatables.core.asset.CssResource;
-import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
@@ -126,21 +124,9 @@ public interface Extension {
 
     public StringBuilder getBeforeEndDocumentReady();
 
-    public List<JsResource> getJsResources();
-
-    public void setJsResources(List<JsResource> jsResources);
-
-    public List<CssResource> getCssResources();
-
-    public void setCssResources(List<CssResource> cssResources);
-
     public List<Parameter> getConfs();
 
     public void setConfs(List<Parameter> confs);
-
-    public void addJsResource(JsResource resource);
-
-    public void addCssResource(CssResource resource);
 
     public void addParameter(Parameter conf);
 

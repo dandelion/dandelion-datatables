@@ -145,7 +145,7 @@ public class WebResourceGenerator {
 		/**
 		 * Extension loading
 		 */
-		extensionManager.loadExtensions(mainJsFile, mainConf, webResources);
+		extensionManager.loadExtensions(mainJsFile, mainConf);
 		
 		/**
 		 * Extra configuration management

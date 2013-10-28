@@ -1,0 +1,14 @@
+{
+    "scope" : "bootstrap-tablecloth",
+    "parent": "bootstrap-theme",
+    "assets": [
+        {
+            "name": "bootstrap",
+            "version": "0.0.1",
+            "type": "css",
+            "locations": {
+                "classpath": "datatables/themes/bootstrap2/tablecloth.css"
+            }
+        }
+    ]
+}

@@ -31,7 +31,6 @@ package com.github.dandelion.datatables.core.extension;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,21 +38,14 @@ import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.ResourceType;
-import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.CollectionUtils;
 import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
-import com.github.dandelion.datatables.core.util.NameConstants;
-import com.github.dandelion.datatables.core.util.Predicate;
-import com.github.dandelion.datatables.core.util.FileUtils;
 
 /**
  * <p>
@@ -70,7 +62,6 @@ public class ExtensionLoader {
 	private HtmlTable table;
 	private JsResource mainJsFile;
 	private Map<String, Object> mainConfig;
-	private WebResources webResources;
 
 	/**
 	 * Constructor of the ExtensionLoader.
@@ -88,12 +79,10 @@ public class ExtensionLoader {
 	 * @throws BadConfigurationException
 	 * @throws IOException
 	 */
-	public ExtensionLoader(HtmlTable table, JsResource mainJsFile, Map<String, Object> mainConfig,
-			WebResources webResources) {
+	public ExtensionLoader(HtmlTable table, JsResource mainJsFile, Map<String, Object> mainConfig) {
 		this.table = table;
 		this.mainJsFile = mainJsFile;
 		this.mainConfig = mainConfig;
-		this.webResources = webResources;
 	}
 
 	/**
@@ -104,8 +93,7 @@ public class ExtensionLoader {
 	 * @throws BadConfigurationException
 	 * @throws IOException
 	 */
-	public void load(Set<? extends Extension> extensions)
-			throws ExtensionLoadingException {
+	public void load(Set<? extends Extension> extensions) throws ExtensionLoadingException {
 
 		if (extensions != null && !extensions.isEmpty()) {
 
@@ -113,9 +101,6 @@ public class ExtensionLoader {
 
 				// Extension initialization
 				extension.setupWrapper(table);
-				loadJsResources(extension);
-				loadCssResources(table, extension);
-				loadExternalCssResources(extension);
 				injectIntoMainJsFile(extension);
 				injectIntoMainConfiguration(extension);
 			}
@@ -123,115 +108,9 @@ public class ExtensionLoader {
 	}
 
 	/**
-	 * Load potential JS resource of the current extension.
 	 * 
 	 * @param extension
-	 *            The extension to load.
-	 * @throws BadConfigurationException
-	 */
-	private void loadJsResources(Extension extension) throws ExtensionLoadingException {
-
-		JsResource extensionJsFile = null;
-		String resourceName = null;
-
-		// Extension javascript
-		if (extension.getJsResources() != null && !extension.getJsResources().isEmpty()) {
-
-			resourceName = extension.getAppendRandomNumber() ? extension.getName().toLowerCase()
-					+ "-" + table.getRandomId() + ".js" : extension.getName().toLowerCase() + ".js";
-
-			//
-			extensionJsFile = new JsResource(ResourceType.EXTENSION, resourceName);
-
-			StringBuilder jsContent = new StringBuilder();
-
-			// All JS resources are merged
-			for (JsResource jsResource : extension.getJsResources()) {
-				try {
-					jsContent.append(FileUtils.getFileContentFromClasspath(jsResource
-							.getLocation()));
-				} catch (IOException e) {
-					throw new ExtensionLoadingException("Unable to read the content of the file "
-							+ jsResource.getLocation(), e);
-				}
-			}
-
-			extensionJsFile.setContent(jsContent.toString());
-			webResources.getJavascripts().put(extensionJsFile.getName(), extensionJsFile);
-		}
-	}
-
-	
-	/**
-	 * TODO
-	 * @param extension
-	 */
-	private void loadExternalCssResources(Extension extension){
-		
-		Predicate<CssResource> isExternalCss = new Predicate<CssResource>() {
-		    public boolean apply(CssResource cssResource) {
-		        return cssResource.getType().equals(ResourceType.EXTERNAL);
-		    }
-		};
-
-		if(extension.getCssResources() != null){
-			
-			List<CssResource> externalCssResources = (List<CssResource>) CollectionUtils.filter(extension.getCssResources(), isExternalCss);
-			
-			if(externalCssResources != null && !externalCssResources.isEmpty()){
-				for(CssResource cssResource : externalCssResources){
-					webResources.getStylesheets().put(cssResource.getName(), cssResource);
-				}
-			}
-		}
-	}
-	
-	/**
-	 * Load potential CSS resource of the current extension.
-	 * 
-	 * @param extension
-	 *            The extension to load.
-	 * @throws BadConfigurationException
-	 */
-	private void loadCssResources(HtmlTable table, Extension extension) throws ExtensionLoadingException {
-
-		CssResource pluginsSourceCssFile = null;
-		String resourceName = null;
-
-		// Extension javascript
-		if (extension.getCssResources() != null && !extension.getCssResources().isEmpty()) {
-
-			resourceName = extension.getAppendRandomNumber() ? NameConstants.DT_PLUGIN_JS
-					+ extension.getName().toLowerCase() + "-" + table.getRandomId() + ".css"
-					: NameConstants.DT_PLUGIN_JS + extension.getName().toLowerCase() + ".css";
-
-			pluginsSourceCssFile = new CssResource(ResourceType.EXTENSION, resourceName);
-
-			StringBuilder cssContent = new StringBuilder();
-
-			// Module source loading (stylesheets)
-			for (CssResource cssResource : extension.getCssResources()) {
-				// Most of CSS resource have a type different from EXTERNAL, which is theme-specific
-				if(!cssResource.getType().equals(ResourceType.EXTERNAL)){
-					try {
-						cssContent.append(FileUtils.getFileContentFromClasspath(cssResource
-								.getLocation()));
-					} catch (IOException e) {
-						throw new ExtensionLoadingException("Unable to read the content of the file "
-								+ cssResource.getLocation(), e);
-					}					
-				}
-			}
-
-			pluginsSourceCssFile.setContent(cssContent.toString());
-			webResources.getStylesheets().put(pluginsSourceCssFile.getName(), pluginsSourceCssFile);
-		}
-	}
-
-	/**
-	 * 
-	 * @param extension
-	 * @throws ExtensionLoadingException 
+	 * @throws ExtensionLoadingException
 	 */
 	private void injectIntoMainJsFile(Extension extension) throws ExtensionLoadingException {
 
@@ -240,18 +119,16 @@ public class ExtensionLoader {
 			mainJsFile.appendToBeforeAll(extension.getBeforeAll().toString());
 		}
 		if (extension.getAfterStartDocumentReady() != null) {
-			mainJsFile.appendToAfterStartDocumentReady(extension.getAfterStartDocumentReady()
-					.toString());
+			mainJsFile.appendToAfterStartDocumentReady(extension.getAfterStartDocumentReady().toString());
 		}
 		if (extension.getBeforeEndDocumentReady() != null) {
-			mainJsFile.appendToBeforeEndDocumentReady(extension.getBeforeEndDocumentReady()
-					.toString());
+			mainJsFile.appendToBeforeEndDocumentReady(extension.getBeforeEndDocumentReady().toString());
 		}
+
 		if (extension.getAfterAll() != null) {
 			mainJsFile.appendToAfterAll(extension.getAfterAll().toString());
 		}
 
-		// TODO
 		if (extension.getFunction() != null) {
 			mainJsFile.appendToDataTablesExtra(extension.getFunction());
 		}
@@ -289,14 +166,12 @@ public class ExtensionLoader {
 				// The module configuration already exists in the main
 				// configuration
 				if (mainConfig.containsKey(conf.getName())) {
-					
-					if(mainConfig.get(conf.getName()) instanceof JavascriptFunction){
+
+					if (mainConfig.get(conf.getName()) instanceof JavascriptFunction) {
 						processJavascriptFunction(conf);
-					}
-					else if(mainConfig.get(conf.getName()) instanceof JavascriptSnippet){
+					} else if (mainConfig.get(conf.getName()) instanceof JavascriptSnippet) {
 						processJavascriptSnippet(conf);
-					}
-					else{
+					} else {
 						processString(conf);
 					}
 				}
@@ -308,37 +183,37 @@ public class ExtensionLoader {
 			}
 		}
 	}
-	
-	private void processJavascriptFunction(Parameter conf){
-		
+
+	private void processJavascriptFunction(Parameter conf) {
+
 		JavascriptFunction jsFunction = (JavascriptFunction) mainConfig.get(conf.getName());
 		String newValue = null;
-		
+
 		switch (conf.getMode()) {
 		case OVERRIDE:
 			mainConfig.put(conf.getName(), conf.getValue());
 			break;
 
 		case APPEND:
-			newValue = ((JavascriptFunction)conf.getValue()).getCode() + jsFunction.getCode();
+			newValue = ((JavascriptFunction) conf.getValue()).getCode() + jsFunction.getCode();
 			jsFunction.setCode(newValue);
 			mainConfig.put(conf.getName(), jsFunction);
 			break;
 
 		case PREPEND:
-			newValue = jsFunction.getCode() + ((JavascriptFunction)conf.getValue()).getCode();
+			newValue = jsFunction.getCode() + ((JavascriptFunction) conf.getValue()).getCode();
 			jsFunction.setCode(newValue);
 			mainConfig.put(conf.getName(), jsFunction);
 			break;
 
 		case APPEND_WITH_SPACE:
-			newValue = ((JavascriptFunction)conf.getValue()).getCode() + " " + jsFunction.getCode();
+			newValue = ((JavascriptFunction) conf.getValue()).getCode() + " " + jsFunction.getCode();
 			jsFunction.setCode(newValue);
 			mainConfig.put(conf.getName(), jsFunction);
 			break;
 
 		case PREPEND_WITH_SPACE:
-			newValue = jsFunction.getCode() + " " + ((JavascriptFunction)conf.getValue()).getCode();
+			newValue = jsFunction.getCode() + " " + ((JavascriptFunction) conf.getValue()).getCode();
 			jsFunction.setCode(newValue);
 			mainConfig.put(conf.getName(), jsFunction);
 			break;
@@ -347,37 +222,37 @@ public class ExtensionLoader {
 			break;
 		}
 	}
-	
-	private void processJavascriptSnippet(Parameter conf){
-	
+
+	private void processJavascriptSnippet(Parameter conf) {
+
 		JavascriptSnippet jsSnippet = (JavascriptSnippet) mainConfig.get(conf.getName());
 		String newValue = null;
-		
+
 		switch (conf.getMode()) {
 		case OVERRIDE:
 			mainConfig.put(conf.getName(), conf.getValue());
 			break;
 
 		case APPEND:
-			newValue = ((JavascriptSnippet)conf.getValue()).getJavascript() + jsSnippet.getJavascript();
+			newValue = ((JavascriptSnippet) conf.getValue()).getJavascript() + jsSnippet.getJavascript();
 			jsSnippet.setJavascript(newValue);
 			mainConfig.put(conf.getName(), jsSnippet);
 			break;
 
 		case PREPEND:
-			newValue = jsSnippet.getJavascript() + ((JavascriptSnippet)conf.getValue()).getJavascript();
+			newValue = jsSnippet.getJavascript() + ((JavascriptSnippet) conf.getValue()).getJavascript();
 			jsSnippet.setJavascript(newValue);
 			mainConfig.put(conf.getName(), jsSnippet);
 			break;
 
 		case APPEND_WITH_SPACE:
-			newValue = ((JavascriptSnippet)conf.getValue()).getJavascript() + " " + jsSnippet.getJavascript();
+			newValue = ((JavascriptSnippet) conf.getValue()).getJavascript() + " " + jsSnippet.getJavascript();
 			jsSnippet.setJavascript(newValue);
 			mainConfig.put(conf.getName(), jsSnippet);
 			break;
 
 		case PREPEND_WITH_SPACE:
-			newValue = jsSnippet.getJavascript() + " " + ((JavascriptSnippet)conf.getValue()).getJavascript();
+			newValue = jsSnippet.getJavascript() + " " + ((JavascriptSnippet) conf.getValue()).getJavascript();
 			jsSnippet.setJavascript(newValue);
 			mainConfig.put(conf.getName(), jsSnippet);
 			break;
@@ -385,12 +260,12 @@ public class ExtensionLoader {
 		default:
 			break;
 		}
-		
+
 	}
-	
-	private void processString(Parameter conf){
+
+	private void processString(Parameter conf) {
 		String value = null;
-		
+
 		switch (conf.getMode()) {
 		case OVERRIDE:
 			mainConfig.put(conf.getName(), conf.getValue());

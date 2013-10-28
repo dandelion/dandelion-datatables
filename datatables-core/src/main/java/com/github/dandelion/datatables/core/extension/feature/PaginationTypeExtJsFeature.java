@@ -29,15 +29,18 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * TODO
+ * <p>
+ * Activates the ExtJS pagination by:
+ * <ul>
+ * <li>Updating the asset stack with the scope <code>paginationType-extjs</code>
+ * </li>
+ * <li>Setting the pagination type to <code>extStyle</code></li>
+ * </ul>
  * 
  * @author Thibault Duchateau
  */
@@ -50,7 +53,7 @@ public class PaginationTypeExtJsFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addScope("paginationType-extjs");
-		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "extStyle", Parameter.Mode.OVERRIDE));
+		addScope("extjs-pagination");
+		addParameter(DTConstants.DT_PAGINATION_TYPE, "extStyle");
 	}
 }

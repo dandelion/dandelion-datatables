@@ -1,0 +1,14 @@
+{
+    "scope" : "bootstrap-pagination",
+    "parent": "dandelion-datatables",
+    "assets": [
+        {
+            "name": "bootstrap-pagination",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/features/paginationType/bootstrap.js"
+            }
+        }
+    ]
+}

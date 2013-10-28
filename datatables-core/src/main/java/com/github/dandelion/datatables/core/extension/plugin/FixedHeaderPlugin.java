@@ -34,8 +34,6 @@ import java.util.Map;
 
 import org.json.simple.JSONValue;
 
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -64,6 +62,8 @@ public class FixedHeaderPlugin extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 
+		addScope("fixedheader");
+		
 		Map<String, Object> specificConfObj = getSpecificCongiguration(table);
 		String specificConfStr = null;
 		if (!specificConfObj.isEmpty()) {
@@ -73,8 +73,6 @@ public class FixedHeaderPlugin extends AbstractExtension {
 		} else {
 			appendToBeforeEndDocumentReady("new FixedHeader(oTable_" + table.getId() + ");");
 		}
-
-		addJsResource(new JsResource(ResourceType.PLUGIN, "FixedHeader", "datatables/plugins/fixedheader/fixedheader.min.js"));
 	}
 
 	/**

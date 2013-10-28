@@ -32,7 +32,6 @@ package com.github.dandelion.datatables.core.extension.feature;
 import java.io.IOException;
 
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
-import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -47,6 +46,7 @@ import com.github.dandelion.datatables.core.util.FileUtils;
  * @since 0.8.2
  * @see ServerSideFeature
  */
+// TODO asset template
 public class PipeliningFeature extends AbstractExtension {
 
 	@Override
@@ -76,6 +76,6 @@ public class PipeliningFeature extends AbstractExtension {
 			appendToBeforeAll(adaptedContent);
 		}
 
-		addParameter(new Parameter(DTConstants.DT_FN_SERVERDATA, new JavascriptSnippet("fnDataTablesPipeline")));
+		addParameter(DTConstants.DT_FN_SERVERDATA, new JavascriptSnippet("fnDataTablesPipeline"));
 	}
 }

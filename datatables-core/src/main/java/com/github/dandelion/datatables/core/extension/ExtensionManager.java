@@ -40,7 +40,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
@@ -64,11 +63,11 @@ public class ExtensionManager {
 		this.table = table;
 	}
 	
-	public void loadExtensions(JsResource mainJsFile, Map<String, Object> mainConf, WebResources webResources) throws ExtensionLoadingException {
+	public void loadExtensions(JsResource mainJsFile, Map<String, Object> mainConf) throws ExtensionLoadingException {
 		
 		registerCustomExtensions(table);
 		
-		ExtensionLoader extensionLoader = new ExtensionLoader(table, mainJsFile, mainConf, webResources);
+		ExtensionLoader extensionLoader = new ExtensionLoader(table, mainJsFile, mainConf);
 		extensionLoader.load(table.getTableConfiguration().getInternalExtensions());
 		if(table.getTableConfiguration().getCssTheme() != null){
 			extensionLoader.load(new HashSet<Extension>(Arrays.asList(table.getTableConfiguration().getCssTheme())));			

@@ -30,13 +30,13 @@
 package com.github.dandelion.datatables.core.extension;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.github.dandelion.core.asset.web.AssetsRequestContext;
-import com.github.dandelion.datatables.core.asset.CssResource;
-import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.Parameter;
+import com.github.dandelion.datatables.core.asset.Parameter.Mode;
+import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -54,25 +54,23 @@ public abstract class AbstractExtension implements Extension {
 	protected StringBuilder beforeStartDocumentReady;
 	protected StringBuilder afterStartDocumentReady;
 	protected StringBuilder beforeEndDocumentReady;
-	protected List<JsResource> jsResources;
-	protected List<CssResource> cssResources;
 	protected List<Parameter> confs;
 	protected AbstractConfigurationGenerator configGenerator;
 	protected Boolean appendRandomNumber = false;
 	protected String function;
 	private HtmlTable table;
 
-	public AbstractExtension(){
+	public AbstractExtension() {
 		this.name = getName();
 	}
-	
+
 	public void setupWrapper(HtmlTable table) throws ExtensionLoadingException {
 		this.table = table;
 		setup(table);
 	}
-	
+
 	public abstract void setup(HtmlTable table) throws ExtensionLoadingException;
-	
+
 	public StringBuilder getBeforeAll() {
 		return beforeAll;
 	}
@@ -89,42 +87,12 @@ public abstract class AbstractExtension implements Extension {
 		return beforeEndDocumentReady;
 	}
 
-	public List<JsResource> getJsResources() {
-		return jsResources;
-	}
-
-	public void setJsResources(List<JsResource> jsResources) {
-		this.jsResources = jsResources;
-	}
-
-	public List<CssResource> getCssResources() {
-		return cssResources;
-	}
-
-	public void setCssResources(List<CssResource> cssResources) {
-		this.cssResources = cssResources;
-	}
-
 	public List<Parameter> getConfs() {
 		return confs;
 	}
 
 	public void setConfs(List<Parameter> confs) {
 		this.confs = confs;
-	}
-
-	public void addJsResource(JsResource resource) {
-		if (this.jsResources == null) {
-			this.jsResources = new LinkedList<JsResource>();
-		}
-		this.jsResources.add(resource);
-	}
-
-	public void addCssResource(CssResource resource) {
-		if (this.cssResources == null) {
-			this.cssResources = new LinkedList<CssResource>();
-		}
-		this.cssResources.add(resource);
 	}
 
 	public void addParameter(Parameter parameter) {
@@ -134,10 +102,33 @@ public abstract class AbstractExtension implements Extension {
 		this.confs.add(parameter);
 	}
 
-	public void addScope(String scopeName){
+	public void addParameter(String parameterName) {
+		addParameter(new Parameter(parameterName));
+	}
+
+	public void addParameter(String parameterName, Object parameterValue) {
+		addParameter(new Parameter(parameterName, parameterValue));
+	}
+
+	public void addParameter(String parameterName, Object parameterValue, Parameter.Mode mode) {
+		addParameter(new Parameter(parameterName, parameterValue, mode));
+	}
+
+	public void addScope(String scopeName) {
 		AssetsRequestContext.get(table.getTableConfiguration().getRequest()).addScopes(scopeName);
 	}
-	
+
+	public void addCallback(CallbackType callbackType, String javascript) {
+		addParameter(new Parameter(callbackType.getName(), new JavascriptFunction(javascript, callbackType.getArgs()),
+				Mode.APPEND));
+
+	}
+
+	public void addCallback(CallbackType callbackType, String javascript, Mode mode) {
+		addParameter(new Parameter(callbackType.getName(), new JavascriptFunction(javascript, callbackType.getArgs()),
+				mode));
+	}
+
 	public AbstractConfigurationGenerator getConfigGenerator() {
 		return configGenerator;
 	}
@@ -201,65 +192,30 @@ public abstract class AbstractExtension implements Extension {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((afterAll == null) ? 0 : afterAll.hashCode());
-		result = prime * result + ((afterStartDocumentReady == null) ? 0 : afterStartDocumentReady.hashCode());
-		result = prime * result + ((appendRandomNumber == null) ? 0 : appendRandomNumber.hashCode());
-		result = prime * result + ((beforeAll == null) ? 0 : beforeAll.hashCode());
-		result = prime * result + ((beforeEndDocumentReady == null) ? 0 : beforeEndDocumentReady.hashCode());
-		result = prime * result + ((beforeStartDocumentReady == null) ? 0 : beforeStartDocumentReady.hashCode());
-		result = prime * result + ((configGenerator == null) ? 0 : configGenerator.hashCode());
-		result = prime * result + ((confs == null) ? 0 : confs.hashCode());
-		result = prime * result + ((cssResources == null) ? 0 : cssResources.hashCode());
-		result = prime * result + ((function == null) ? 0 : function.hashCode());
-		result = prime * result + ((jsResources == null) ? 0 : jsResources.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((table == null) ? 0 : table.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		AbstractExtension other = (AbstractExtension) obj;
-		if (afterAll == null) {
-			if (other.afterAll != null) return false;
-		} else if (!afterAll.equals(other.afterAll)) return false;
-		if (afterStartDocumentReady == null) {
-			if (other.afterStartDocumentReady != null) return false;
-		} else if (!afterStartDocumentReady.equals(other.afterStartDocumentReady)) return false;
-		if (appendRandomNumber == null) {
-			if (other.appendRandomNumber != null) return false;
-		} else if (!appendRandomNumber.equals(other.appendRandomNumber)) return false;
-		if (beforeAll == null) {
-			if (other.beforeAll != null) return false;
-		} else if (!beforeAll.equals(other.beforeAll)) return false;
-		if (beforeEndDocumentReady == null) {
-			if (other.beforeEndDocumentReady != null) return false;
-		} else if (!beforeEndDocumentReady.equals(other.beforeEndDocumentReady)) return false;
-		if (beforeStartDocumentReady == null) {
-			if (other.beforeStartDocumentReady != null) return false;
-		} else if (!beforeStartDocumentReady.equals(other.beforeStartDocumentReady)) return false;
-		if (configGenerator == null) {
-			if (other.configGenerator != null) return false;
-		} else if (!configGenerator.equals(other.configGenerator)) return false;
-		if (confs == null) {
-			if (other.confs != null) return false;
-		} else if (!confs.equals(other.confs)) return false;
-		if (cssResources == null) {
-			if (other.cssResources != null) return false;
-		} else if (!cssResources.equals(other.cssResources)) return false;
-		if (function == null) {
-			if (other.function != null) return false;
-		} else if (!function.equals(other.function)) return false;
-		if (jsResources == null) {
-			if (other.jsResources != null) return false;
-		} else if (!jsResources.equals(other.jsResources)) return false;
 		if (name == null) {
-			if (other.name != null) return false;
-		} else if (!name.equals(other.name)) return false;
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (table == null) {
+			if (other.table != null)
+				return false;
+		} else if (!table.equals(other.table))
+			return false;
 		return true;
 	}
-	
-	
 }

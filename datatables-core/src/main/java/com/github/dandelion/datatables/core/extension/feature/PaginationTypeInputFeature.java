@@ -29,17 +29,19 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * TODO
+ * <p>
+ * Activates the Input pagination by:
+ * <ul>
+ * <li>Updating the asset stack with the scope <code>paginationType-input</code>
+ * </li>
+ * <li>Setting the pagination type to <code>input</code></li>
+ * </ul>
  * 
- * @see http://www.datatables.net/plug-ins/pagination
  * @author Thibault Duchateau
  */
 public class PaginationTypeInputFeature extends AbstractExtension {
@@ -51,7 +53,7 @@ public class PaginationTypeInputFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addScope("paginationType-input");
-		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "input", Parameter.Mode.OVERRIDE));
+		addScope("input-pagination");
+		addParameter(DTConstants.DT_PAGINATION_TYPE, "input");
 	}
 }

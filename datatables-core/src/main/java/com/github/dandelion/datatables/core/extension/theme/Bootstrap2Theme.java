@@ -29,18 +29,12 @@
  */
 package com.github.dandelion.datatables.core.extension.theme;
 
-import java.io.IOException;
-
-import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
-import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.FileUtils;
 import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
@@ -62,29 +56,12 @@ public class Bootstrap2Theme extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) throws ExtensionLoadingException {
 
-		// Specific Javascript code is required
-		try {
-			appendToBeforeAll(FileUtils.getFileContentFromClasspath("datatables/themes/bootstrap2/bootstrap.js"));
-		} catch (IOException e) {
-			throw new ExtensionLoadingException(
-					"Unable to read the content of the file 'datatables/themes/bootstrap2/bootstrap.js'", e);
-		}
-
-		// Specific Javascript is also required to handle the pagination type
-		try {
-			appendToBeforeAll(FileUtils.getFileContentFromClasspath("datatables/features/paginationType/bootstrap.js"));
-		} catch (IOException e) {
-			throw new ExtensionLoadingException(
-					"Unable to read the content of the file 'datatables/features/paginationType/bootstrap.js'", e);
-		}
-
-		// Specific CSS
-		addCssResource(new CssResource(ResourceType.THEME, "Bootstrap2Theme",
-				"datatables/themes/bootstrap2/bootstrap.css"));
-
+		addScope("bootstrap-theme");
+		addScope("bootstrap-pagination");
+		
 		if (table.getTableConfiguration().getCssThemeOption() != null) {
 			if(table.getTableConfiguration().getCssThemeOption().equals(ThemeOption.TABLECLOTH)){
-				addCssResource(new CssResource(ResourceType.THEME, "Tablecloth", "datatables/themes/bootstrap2/tablecloth.css"));
+				addScope("bootstrap-tablecloth");
 			}
 			else{
 				throw new ExtensionLoadingException("Only the 'tablecloth' theme option is compatible with the 'bootstrap2' theme");
@@ -93,10 +70,10 @@ public class Bootstrap2Theme extends AbstractExtension {
 		
 		// DataTables parameters
 		if (StringUtils.isBlank(table.getTableConfiguration().getFeatureDom())) {
-			addParameter(new Parameter(DTConstants.DT_DOM,
-					"<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>", Parameter.Mode.OVERRIDE));
+			addParameter(DTConstants.DT_DOM,
+					"<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>");
 		}
-		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString(), Parameter.Mode.OVERRIDE));
-		addParameter(new Parameter(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]")));
+		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
+		addParameter(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]"));
 	}
 }

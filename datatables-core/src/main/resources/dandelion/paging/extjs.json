@@ -1,13 +1,13 @@
 {
-    "scope" : "paginationType-input",
+    "scope" : "extjs-pagination",
     "parent": "datatables",
     "assets": [
         {
-            "name": "input",
+            "name": "extjs",
             "version": "1.0.0",
             "type": "js",
             "locations": {
-                "classpath": "datatables/features/paginationType/input.js"
+                "classpath": "datatables/features/paginationType/extjs.js"
             }
         }
     ]

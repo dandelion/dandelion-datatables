@@ -1,13 +1,13 @@
 {
-    "scope" : "paginationType-scrolling",
+    "scope" : "input-pagination",
     "parent": "datatables",
     "assets": [
         {
-            "name": "scrolling",
+            "name": "input",
             "version": "1.0.0",
             "type": "js",
             "locations": {
-                "classpath": "datatables/features/paginationType/scrolling.js"
+                "classpath": "datatables/features/paginationType/input.js"
             }
         }
     ]
