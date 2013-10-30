@@ -38,9 +38,9 @@ import org.apache.struts.util.MessageResources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.i18n.AbstractMessageResolver;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * <p>

@@ -43,11 +43,11 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
-import com.github.dandelion.datatables.core.util.StringUtils;
 import com.github.dandelion.datatables.jsp.extension.feature.FilteringFeature;
 
 /**

@@ -31,6 +31,7 @@ package com.github.dandelion.datatables.core.processor.feature;
 
 import java.util.Map;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
@@ -41,7 +42,6 @@ import com.github.dandelion.datatables.core.extension.feature.PaginationTypeInpu
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeListboxFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeScrollingFeature;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 public class FeaturePaginationTypeProcessor extends AbstractTableProcessor {
 

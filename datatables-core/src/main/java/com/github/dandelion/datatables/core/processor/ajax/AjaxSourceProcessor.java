@@ -31,13 +31,13 @@ package com.github.dandelion.datatables.core.processor.ajax;
 
 import java.util.Map;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.AjaxFeature;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.CollectionUtils;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Processor used when the table uses an AJAX source.

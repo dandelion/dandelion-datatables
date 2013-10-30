@@ -13,8 +13,6 @@
    <name>Dandelion :: Datatables :: Extras</name>
 
    <modules>
-      <module>datatables-compression-yui</module>
-      <module>datatables-servlet2</module>
       <module>datatables-spring3</module>
       <module>datatables-struts1</module>
       <module>datatables-struts2</module>

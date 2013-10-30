@@ -36,12 +36,12 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.utils.ClassUtils;
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.constants.SystemConstants;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.i18n.LocaleResolver;
 import com.github.dandelion.datatables.core.i18n.StandardLocaleResolver;
-import com.github.dandelion.datatables.core.util.ClassUtils;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * <p>

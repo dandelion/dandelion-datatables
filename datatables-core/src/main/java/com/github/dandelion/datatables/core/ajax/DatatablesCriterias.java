@@ -35,9 +35,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * <p>

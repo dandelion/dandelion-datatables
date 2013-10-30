@@ -37,6 +37,7 @@ import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.ExtraConf;
 import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.asset.JsResource;
@@ -49,10 +50,9 @@ import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.export.ExportManager;
 import com.github.dandelion.datatables.core.extension.ExtensionManager;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.util.FileUtils;
 import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
 import com.github.dandelion.datatables.core.util.NameConstants;
-import com.github.dandelion.datatables.core.util.FileUtils;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * <p>

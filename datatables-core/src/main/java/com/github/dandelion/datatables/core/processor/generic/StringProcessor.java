@@ -31,8 +31,8 @@ package com.github.dandelion.datatables.core.processor.generic;
 
 import java.lang.reflect.Method;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.processor.AbstractGenericProcessor;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Processor used for all String parameters.

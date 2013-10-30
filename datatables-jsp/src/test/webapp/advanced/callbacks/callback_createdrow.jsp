@@ -1,9 +1,8 @@
 <%@ page pageEncoding="UTF-8"%>
-<%@ include file="../common/taglib.jsp"%>
+<%@ include file="../../common/taglib.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
-<%@ include file="../common/head.jsp"%>
 <script>
 	function callback(nRow, aData, iDataIndex) {
 		console.log(nRow);

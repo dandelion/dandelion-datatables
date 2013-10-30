@@ -31,13 +31,13 @@ package com.github.dandelion.datatables.core.processor.column;
 
 import java.util.Map;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 public class FilterTypeProcessor extends AbstractColumnProcessor {
 

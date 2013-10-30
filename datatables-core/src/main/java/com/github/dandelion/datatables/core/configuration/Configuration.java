@@ -38,8 +38,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.aggregator.AggregatorMode;
-import com.github.dandelion.datatables.core.compressor.CompressorMode;
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
@@ -75,13 +74,10 @@ import com.github.dandelion.datatables.core.processor.generic.StringBuilderProce
 import com.github.dandelion.datatables.core.processor.generic.StringProcessor;
 import com.github.dandelion.datatables.core.processor.i18n.MessageProcessor;
 import com.github.dandelion.datatables.core.processor.internal.MessageResolverProcessor;
-import com.github.dandelion.datatables.core.processor.main.MainAggregatorModeProcessor;
-import com.github.dandelion.datatables.core.processor.main.MainCompressorModeProcessor;
 import com.github.dandelion.datatables.core.processor.main.MainExtensionNamesProcessor;
 import com.github.dandelion.datatables.core.processor.plugin.PluginColReorderProcessor;
 import com.github.dandelion.datatables.core.processor.plugin.PluginFixedHeaderProcessor;
 import com.github.dandelion.datatables.core.processor.plugin.PluginScrollerProcessor;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Enumeration containing all possible configuration.
@@ -94,14 +90,6 @@ public enum Configuration {
 	MAIN_EXTENSION_PACKAGE("main.extension.package", "mainExtensionPackage", String.class, StringProcessor.class),
 	MAIN_EXTENSION_NAMES("main.extension.names", "mainExtensionNames", Set.class, MainExtensionNamesProcessor.class),
 	MAIN_BASE_URL("main.base.url", "mainUrlBase", String.class, StringProcessor.class),
-	MAIN_COMPRESSORENABLE("main.compressor.enable", "mainCompressorEnable", Boolean.class, BooleanProcessor.class),
-	MAIN_COMPRESSORCLASS("main.compressor.class", "mainCompressorClass", String.class, StringProcessor.class),
-	MAIN_COMPRESSORMODE("main.compressor.mode", "mainCompressorMode", CompressorMode.class, MainCompressorModeProcessor.class),
-	MAIN_COMPRESSORMUNGE("main.compressor.munge", "mainCompressorMunge", Boolean.class, BooleanProcessor.class),
-	MAIN_COMPRESSORPRESERVESEMI("main.compressor.preservesemi", "mainCompressorPreserveSemiColons", Boolean.class, BooleanProcessor.class),
-	MAIN_COMPRESSORDISABLEOPTI("main.compressor.disableopti", "mainCompressorDisableOpti", Boolean.class, BooleanProcessor.class),
-	MAIN_AGGREGATORENABLE("main.aggregator.enable", "mainAggregatorEnable", Boolean.class, BooleanProcessor.class),
-	MAIN_AGGREGATORMODE("main.aggregator.mode", "mainAggregatorMode", AggregatorMode.class, MainAggregatorModeProcessor.class),
 	MAIN_CDN("main.cdn", "mainCdn", Boolean.class, BooleanProcessor.class),
 	MAIN_CDN_JS("main.cdn.js", "mainCdnJs", String.class, StringProcessor.class),
 	MAIN_CDN_CSS("main.cdn.css", "mainCdnCss", String.class, StringProcessor.class),

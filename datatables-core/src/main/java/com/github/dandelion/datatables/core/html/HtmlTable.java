@@ -34,8 +34,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Plain old HTML <code>table</code> tag.

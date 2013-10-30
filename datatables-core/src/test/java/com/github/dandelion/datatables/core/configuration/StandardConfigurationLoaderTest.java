@@ -98,7 +98,6 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.containsKey("global")).isTrue();
 		
 		// Default values
-		assertThat(map.get("global").getMainCompressorEnable()).isFalse();
 		assertThat(map.get("global").getFeatureInfo()).isNull();
 		
 		// Overriden values
@@ -122,7 +121,6 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.containsKey("group2")).isTrue();
 		
 		// Global group
-		assertThat(map.get("global").getMainCompressorEnable()).isFalse(); // Default value
 		assertThat(map.get("global").getFeatureInfo()).isNull(); // Default value
 		assertThat(map.get("global").getCssClass()).isNull(); // Default value
 		assertThat(map.get("global").getCssStyle()).isNull(); // Default value
@@ -130,7 +128,6 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.get("global").getMessage(DTMessages.INFO.getPropertyName())).isNull(); // Default value
 		
 		// Group1 group
-		assertThat(map.get("group1").getMainCompressorEnable()).isFalse(); // Default value
 		assertThat(map.get("group1").getFeatureInfo()).isNull(); // Default value
 		assertThat(map.get("group1").getCssClass().toString()).isEqualTo("group1-class"); // Overriden value
 		assertThat(map.get("group1").getCssStyle().toString()).isEqualTo("group1-style"); // Overriden value
@@ -138,7 +135,6 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.get("group1").getMessage(DTMessages.INFO.getPropertyName())).isNull(); // Default value
 		
 		// Group2 group
-		assertThat(map.get("group2").getMainCompressorEnable()).isFalse(); // Default value
 		assertThat(map.get("group2").getFeatureInfo()).isNull(); // Default value
 		assertThat(map.get("group2").getCssClass().toString()).isEqualTo("group2-class"); // Overriden value
 		assertThat(map.get("group2").getCssStyle().toString()).isEqualTo("group2-style"); // Overriden value
@@ -162,7 +158,6 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.containsKey("group1")).isTrue();
 		
 		// Global group
-		assertThat(map.get("global").getMainCompressorEnable()).isFalse(); // Default value
 		assertThat(map.get("global").getFeatureInfo()).isNull(); // Default value
 		assertThat(map.get("global").getCssClass()).isNull(); // Default value
 		assertThat(map.get("global").getCssStyle()).isNull(); // Default value
@@ -170,7 +165,6 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.get("global").getMessage(DTMessages.INFO.getPropertyName())).isNull(); // Default value
 
 		// Group1 group
-		assertThat(map.get("group1").getMainCompressorEnable()).isFalse(); // Default value
 		assertThat(map.get("group1").getFeatureInfo()).isNull(); // Default value
 		assertThat(map.get("group1").getCssClass().toString()).isEqualTo("group1-class"); // Overriden value
 		assertThat(map.get("group1").getCssStyle()).isNull(); // Overriden value
@@ -193,7 +187,6 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.containsKey("global")).isTrue();
 		
 		// Global group
-		assertThat(map.get("global").getMainCompressorEnable()).isFalse(); // Default value
 		assertThat(map.get("global").getFeatureInfo()).isNull(); // Default value
 		assertThat(map.get("global").getCssClass()).isNull(); // Default value
 		assertThat(map.get("global").getCssStyle()).isNull(); // Default value

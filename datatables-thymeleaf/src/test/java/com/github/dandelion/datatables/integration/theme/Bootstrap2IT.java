@@ -38,7 +38,7 @@ import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.core.util.StringUtils;
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
 import com.github.dandelion.datatables.testing.theme.Bootstrap2BaseIT;
 import com.github.dandelion.datatables.testing.utils.Constants;

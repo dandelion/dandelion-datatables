@@ -34,6 +34,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.callback.Callback;
@@ -43,7 +44,6 @@ import com.github.dandelion.datatables.core.html.HtmlDiv;
 import com.github.dandelion.datatables.core.html.HtmlHyperlink;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.FileUtils;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * 

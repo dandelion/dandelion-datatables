@@ -61,7 +61,6 @@ public class TableConfigurationTest {
 		TableConfiguration tableConfiguration = TableConfiguration.getInstance(request);
 
 		assertThat(tableConfiguration.getFeatureInfo()).isNull();
-		assertThat(tableConfiguration.getMainAggregatorEnable()).isEqualTo(false);
 		assertThat(tableConfiguration.getAjaxPipeSize()).isEqualTo(5);
 
 		// Export configurations
@@ -78,11 +77,10 @@ public class TableConfigurationTest {
 	public void should_override_global_configuration_with_specific_programmatically() {
 		TableConfiguration tableConfiguration = TableConfiguration.getInstance(request);
 
-		tableConfiguration.setMainCompressorEnable(true).setFeaturePaginationType(PaginationType.INPUT)
+		tableConfiguration.setFeaturePaginationType(PaginationType.INPUT)
 				.setCssTheme(new Bootstrap2Theme()).setAjaxPipeSize(12);
 
 		assertThat(tableConfiguration.getFeatureInfo()).isNull();
-		assertThat(tableConfiguration.getMainCompressorEnable()).isEqualTo(true);
 		assertThat(tableConfiguration.getFeaturePaginationType()).isEqualTo(PaginationType.INPUT);
 		assertThat(tableConfiguration.getCssTheme()).isEqualTo(Theme.BOOTSTRAP2.getInstance());
 		assertThat(tableConfiguration.getAjaxPipeSize()).isEqualTo(12);

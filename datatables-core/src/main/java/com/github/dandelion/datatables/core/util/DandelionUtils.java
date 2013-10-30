@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.core.util;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.constants.SystemConstants;
 
 /**

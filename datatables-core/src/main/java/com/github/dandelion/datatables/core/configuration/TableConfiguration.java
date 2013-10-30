@@ -38,12 +38,11 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.github.dandelion.datatables.core.aggregator.AggregatorMode;
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.ExtraConf;
 import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.compressor.CompressorMode;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
@@ -55,7 +54,6 @@ import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.html.HtmlTag;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Contains all the table configuration.
@@ -136,14 +134,6 @@ public class TableConfiguration {
 	// Configuration
 	private String mainExtensionPackage;
 	private Set<String> mainExtensionNames;
-	private Boolean mainCompressorEnable;
-	private CompressorMode mainCompressorMode;
-	private String mainCompressorClass;
-	private Boolean mainCompressorMunge;
-	private Boolean mainCompressorPreserveSemiColons;
-	private Boolean mainCompressorDisableOpti;
-	private Boolean mainAggregatorEnable;
-	private AggregatorMode mainAggregatorMode;
 	private String mainUrlBase;
 	private Boolean mainCdn;
 	private String mainCdnJs;
@@ -294,14 +284,6 @@ public class TableConfiguration {
 		// Configuration
 		mainExtensionPackage = objectToClone.mainExtensionPackage;
 		mainExtensionNames = objectToClone.mainExtensionNames;
-		mainCompressorEnable = objectToClone.mainCompressorEnable;
-		mainCompressorMode = objectToClone.mainCompressorMode;
-		mainCompressorClass = objectToClone.mainCompressorClass;
-		mainCompressorMunge = objectToClone.mainCompressorMunge;
-		mainCompressorPreserveSemiColons = objectToClone.mainCompressorPreserveSemiColons;
-		mainCompressorDisableOpti = objectToClone.mainCompressorDisableOpti;
-		mainAggregatorEnable = objectToClone.mainAggregatorEnable;
-		mainAggregatorMode = objectToClone.mainAggregatorMode;
 		mainUrlBase = objectToClone.mainUrlBase;
 		mainCdn = objectToClone.mainCdn;
 		mainCdnJs = objectToClone.mainCdnJs;
@@ -310,25 +292,7 @@ public class TableConfiguration {
 		internalMessageResolver = objectToClone.internalMessageResolver;
 		messages = objectToClone.messages;
 	}
-	
 
-	/**
-	 * <p>
-	 * According to the YUI JavaScriptCompressor class, micro optimizations
-	 * concern :
-	 * 
-	 * <ul>
-	 * <li>object member access : Transforms obj["foo"] into obj.foo whenever
-	 * possible, saving 3 bytes</li>
-	 * <li>object litteral member declaration : Transforms 'foo': ... into foo:
-	 * ... whenever possible, saving 2 bytes</li>
-	 * </ul>
-	 * 
-	 * @return true to disable micro optimizations, false otherwise.
-	 */
-	public Boolean getCompressorDisableOpti() {
-		return mainCompressorDisableOpti;
-	}
 
 	/**
 	 * TODO
@@ -845,78 +809,6 @@ public class TableConfiguration {
 		return this;
 	}
 
-	public Boolean getMainCompressorEnable() {
-		return mainCompressorEnable;
-	}
-
-	public TableConfiguration setMainCompressorEnable(Boolean mainCompressorEnable) {
-		this.mainCompressorEnable = mainCompressorEnable;
-		return this;
-	}
-
-	public CompressorMode getMainCompressorMode() {
-		return mainCompressorMode;
-	}
-
-	public TableConfiguration setMainCompressorMode(CompressorMode mainCompressorMode) {
-		this.mainCompressorMode = mainCompressorMode;
-		return this;
-	}
-
-	public String getMainCompressorClass() {
-		return mainCompressorClass;
-	}
-
-	public TableConfiguration setMainCompressorClass(String mainCompressorClass) {
-		this.mainCompressorClass = mainCompressorClass;
-		return this;
-	}
-
-	public Boolean getMainCompressorMunge() {
-		return mainCompressorMunge;
-	}
-
-	public TableConfiguration setMainCompressorMunge(Boolean mainCompressorMunge) {
-		this.mainCompressorMunge = mainCompressorMunge;
-		return this;
-	}
-
-	public Boolean getMainCompressorPreserveSemiColons() {
-		return mainCompressorPreserveSemiColons;
-	}
-
-	public TableConfiguration setMainCompressorPreserveSemiColons(Boolean mainCompressorPreserveSemiColons) {
-		this.mainCompressorPreserveSemiColons = mainCompressorPreserveSemiColons;
-		return this;
-	}
-
-	public Boolean getMainCompressorDisableOpti() {
-		return mainCompressorDisableOpti;
-	}
-
-	public TableConfiguration setMainCompressorDisableOpti(Boolean mainCompressorDisableOpti) {
-		this.mainCompressorDisableOpti = mainCompressorDisableOpti;
-		return this;
-	}
-
-	public Boolean getMainAggregatorEnable() {
-		return mainAggregatorEnable;
-	}
-
-	public TableConfiguration setMainAggregatorEnable(Boolean mainAggregatorEnable) {
-		this.mainAggregatorEnable = mainAggregatorEnable;
-		return this;
-	}
-
-	public AggregatorMode getMainAggregatorMode() {
-		return mainAggregatorMode;
-	}
-
-	public TableConfiguration setMainAggregatorMode(AggregatorMode mainAggregatorMode) {
-		this.mainAggregatorMode = mainAggregatorMode;
-		return this;
-	}
-
 	public String getMainUrlBase() {
 		return mainUrlBase;
 	}
@@ -1122,14 +1014,9 @@ public class TableConfiguration {
 				+ exportDefaultCsvClass + ", exportXlsClass=" + exportXlsClass + ", exportXlsxClass=" + exportXlsxClass
 				+ ", exportPdfClass=" + exportPdfClass + ", exportXmlClass=" + exportXmlClass + ", exportCsvClass="
 				+ exportCsvClass + ", mainExtensionPackage=" + mainExtensionPackage + ", mainExtensionNames="
-				+ mainExtensionNames + ", mainCompressorEnable=" + mainCompressorEnable + ", mainCompressorMode="
-				+ mainCompressorMode + ", mainCompressorClass=" + mainCompressorClass + ", mainCompressorMunge="
-				+ mainCompressorMunge + ", mainCompressorPreserveSemiColons=" + mainCompressorPreserveSemiColons
-				+ ", mainCompressorDisableOpti=" + mainCompressorDisableOpti + ", mainAggregatorEnable="
-				+ mainAggregatorEnable + ", mainAggregatorMode=" + mainAggregatorMode + ", mainUrlBase=" + mainUrlBase
-				+ ", mainCdn=" + mainCdn + ", mainCdnJs=" + mainCdnJs + ", mainCdnCss=" + mainCdnCss + ", messages="
-				+ messages + ", internalMessageResolver=" + internalMessageResolver + ", internalObjectType="
-				+ internalObjectType + ", internalExtensions=" + internalExtensions + ", tableId=" + tableId
-				+ ", request=" + request + "]";
+				+ mainExtensionNames + ", mainUrlBase=" + mainUrlBase + ", mainCdn=" + mainCdn + ", mainCdnJs="
+				+ mainCdnJs + ", mainCdnCss=" + mainCdnCss + ", messages=" + messages + ", internalMessageResolver="
+				+ internalMessageResolver + ", internalObjectType=" + internalObjectType + ", internalExtensions="
+				+ internalExtensions + ", tableId=" + tableId + ", request=" + request + "]";
 	}
 }
