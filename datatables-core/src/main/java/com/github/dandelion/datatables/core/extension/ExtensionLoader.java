@@ -31,6 +31,10 @@ package com.github.dandelion.datatables.core.extension;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,13 +42,16 @@ import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
+import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.util.ClassUtils;
 import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
 
 /**
@@ -60,8 +67,6 @@ public class ExtensionLoader {
 	private static Logger logger = LoggerFactory.getLogger(ExtensionLoader.class);
 
 	private HtmlTable table;
-	private JsResource mainJsFile;
-	private Map<String, Object> mainConfig;
 
 	/**
 	 * Constructor of the ExtensionLoader.
@@ -79,224 +84,119 @@ public class ExtensionLoader {
 	 * @throws BadConfigurationException
 	 * @throws IOException
 	 */
-	public ExtensionLoader(HtmlTable table, JsResource mainJsFile, Map<String, Object> mainConfig) {
+	public ExtensionLoader(HtmlTable table) {
 		this.table = table;
-		this.mainJsFile = mainJsFile;
-		this.mainConfig = mainConfig;
 	}
 
+	public void loadExtensions(JsResource mainJsFile, Map<String, Object> mainConf) throws ExtensionLoadingException {
+		
+		registerBuiltInExtensions(table);
+		registerCustomExtensions(table);
+		
+		ExtensionProcessor extensionProcessor = new ExtensionProcessor(table, mainJsFile, mainConf);
+		extensionProcessor.process(table.getTableConfiguration().getInternalExtensions());
+		if(table.getTableConfiguration().getCssTheme() != null){
+			extensionProcessor.process(new HashSet<Extension>(Arrays.asList(table.getTableConfiguration().getCssTheme())));			
+		}
+	}
+	
 	/**
-	 * Load all type of extension (plugin, feature, theme).
+	 * Add custom extensions (for now features and plugins) to the current table
+	 * if they're activated.
 	 * 
-	 * @param extensions
-	 *            The collection of extensions to load.
+	 * @param table
+	 *            the HtmlTable to update with custom extensions.
 	 * @throws BadConfigurationException
-	 * @throws IOException
 	 */
-	public void load(Set<? extends Extension> extensions) throws ExtensionLoadingException {
+	private void registerBuiltInExtensions(HtmlTable table) throws ExtensionLoadingException {
 
-		if (extensions != null && !extensions.isEmpty()) {
+		logger.debug("Scanning built-in extensions...");
 
-			for (Extension extension : extensions) {
+		// Scanning custom extension based on the base.package property
+		List<Extension> builtinExtensions = scanForExtensions("com.github.dandelion.datatables.core.extension.plugin");
 
-				// Extension initialization
-				extension.setupWrapper(table);
-				injectIntoMainJsFile(extension);
-				injectIntoMainConfiguration(extension);
-			}
-		}
-	}
-
-	/**
-	 * 
-	 * @param extension
-	 * @throws ExtensionLoadingException
-	 */
-	private void injectIntoMainJsFile(Extension extension) throws ExtensionLoadingException {
-
-		// Extension configuration loading
-		if (extension.getBeforeAll() != null) {
-			mainJsFile.appendToBeforeAll(extension.getBeforeAll().toString());
-		}
-		if (extension.getAfterStartDocumentReady() != null) {
-			mainJsFile.appendToAfterStartDocumentReady(extension.getAfterStartDocumentReady().toString());
-		}
-		if (extension.getBeforeEndDocumentReady() != null) {
-			mainJsFile.appendToBeforeEndDocumentReady(extension.getBeforeEndDocumentReady().toString());
-		}
-
-		if (extension.getAfterAll() != null) {
-			mainJsFile.appendToAfterAll(extension.getAfterAll().toString());
-		}
-
-		if (extension.getFunction() != null) {
-			mainJsFile.appendToDataTablesExtra(extension.getFunction());
-		}
-
-		// Extension custom configuration generator
-		if (extension.getConfigGenerator() != null) {
-			logger.debug("A custom configuration generator has been set");
-
-			Writer writer = new JsonIndentingWriter();
-
-			Map<String, Object> conf = extension.getConfigGenerator().generateConfig(table);
-
-			// Allways pretty prints the JSON
-			try {
-				JSONValue.writeJSONString(conf, writer);
-			} catch (IOException e) {
-				throw new ExtensionLoadingException("Unable to convert the configuration into JSON", e);
-			}
-
-			mainJsFile.appendToDataTablesExtraConf(writer.toString());
-		}
-	}
-
-	/**
-	 * 
-	 * @param extension
-	 */
-	private void injectIntoMainConfiguration(Extension extension) {
-
-		// Extra configuration setting
-		if (extension.getConfs() != null) {
-
-			for (Parameter conf : extension.getConfs()) {
-
-				// The module configuration already exists in the main
-				// configuration
-				if (mainConfig.containsKey(conf.getName())) {
-
-					if (mainConfig.get(conf.getName()) instanceof JavascriptFunction) {
-						processJavascriptFunction(conf);
-					} else if (mainConfig.get(conf.getName()) instanceof JavascriptSnippet) {
-						processJavascriptSnippet(conf);
-					} else {
-						processString(conf);
+		// Load custom extension if enabled
+		if (builtinExtensions != null && !builtinExtensions.isEmpty() && table.getTableConfiguration().getMainExtensionNames() != null) {
+			for (String extensionToRegister : table.getTableConfiguration().getMainExtensionNames()) {
+				for (Extension extension : builtinExtensions) {
+					if (extensionToRegister.equalsIgnoreCase(extension.getName())) {
+						table.getTableConfiguration().registerExtension(extension);
+						logger.debug("Built-in extension {} registered", extension.getName());
+						continue;
 					}
 				}
-				// No existing configuration in the main configuration, so we
-				// just add it
-				else {
-					mainConfig.put(conf.getName(), conf.getValue());
+			}
+		} else {
+			logger.warn("A base backage to scan has been detected but no custom extension has been found");
+		}
+	}
+	
+	/**
+	 * Add custom extensions (for now features and plugins) to the current table
+	 * if they're activated.
+	 * 
+	 * @param table
+	 *            the HtmlTable to update with custom extensions.
+	 * @throws BadConfigurationException
+	 */
+	private void registerCustomExtensions(HtmlTable table) throws ExtensionLoadingException {
+
+		if (StringUtils.isNotBlank(table.getTableConfiguration().getMainExtensionPackage())) {
+
+			logger.debug("Scanning custom extensions...");
+
+			// Scanning custom extension based on the base.package property
+			List<Extension> customExtensions = scanForExtensions(table.getTableConfiguration().getMainExtensionPackage());
+
+			// Load custom extension if enabled
+			if (customExtensions != null && !customExtensions.isEmpty() && table.getTableConfiguration().getMainExtensionNames() != null) {
+				for (String extensionToRegister : table.getTableConfiguration().getMainExtensionNames()) {
+					for (Extension customExtension : customExtensions) {
+						if (extensionToRegister.equals(customExtension.getName().toLowerCase())) {
+							table.getTableConfiguration().registerExtension(customExtension);
+							logger.debug("Custom extension {} registered", customExtension.getName());
+							continue;
+						}
+					}
 				}
+			} else {
+				logger.warn("A base backage to scan has been detected but no custom extension has been found");
 			}
 		}
-	}
-
-	private void processJavascriptFunction(Parameter conf) {
-
-		JavascriptFunction jsFunction = (JavascriptFunction) mainConfig.get(conf.getName());
-		String newValue = null;
-
-		switch (conf.getMode()) {
-		case OVERRIDE:
-			mainConfig.put(conf.getName(), conf.getValue());
-			break;
-
-		case APPEND:
-			newValue = ((JavascriptFunction) conf.getValue()).getCode() + jsFunction.getCode();
-			jsFunction.setCode(newValue);
-			mainConfig.put(conf.getName(), jsFunction);
-			break;
-
-		case PREPEND:
-			newValue = jsFunction.getCode() + ((JavascriptFunction) conf.getValue()).getCode();
-			jsFunction.setCode(newValue);
-			mainConfig.put(conf.getName(), jsFunction);
-			break;
-
-		case APPEND_WITH_SPACE:
-			newValue = ((JavascriptFunction) conf.getValue()).getCode() + " " + jsFunction.getCode();
-			jsFunction.setCode(newValue);
-			mainConfig.put(conf.getName(), jsFunction);
-			break;
-
-		case PREPEND_WITH_SPACE:
-			newValue = jsFunction.getCode() + " " + ((JavascriptFunction) conf.getValue()).getCode();
-			jsFunction.setCode(newValue);
-			mainConfig.put(conf.getName(), jsFunction);
-			break;
-
-		default:
-			break;
+		else{
+			logger.debug("The {} property is blank. Unable to scan any class.", Configuration.MAIN_EXTENSION_PACKAGE.getName());
 		}
 	}
+	
+	private List<Extension> scanForExtensions(String packageName) throws ExtensionLoadingException {
 
-	private void processJavascriptSnippet(Parameter conf) {
+		// Init return value
+		List<Extension> retval = new ArrayList<Extension>();
 
-		JavascriptSnippet jsSnippet = (JavascriptSnippet) mainConfig.get(conf.getName());
-		String newValue = null;
+		List<Class<?>> customExtensionClassList = null;
+		
+		try {
+			customExtensionClassList = ClassUtils.getSubClassesInPackage(packageName, AbstractExtension.class);
+		} catch (ClassNotFoundException e) {
+			throw new ExtensionLoadingException("Unable to load extensions", e);
+		} catch (IOException e) {
+			throw new ExtensionLoadingException("Unable to access the package '" + packageName + "'", e);
+		}
+		
+		// Instanciate all found classes
+		for (Class<?> clazz : customExtensionClassList) {
 
-		switch (conf.getMode()) {
-		case OVERRIDE:
-			mainConfig.put(conf.getName(), conf.getValue());
-			break;
-
-		case APPEND:
-			newValue = ((JavascriptSnippet) conf.getValue()).getJavascript() + jsSnippet.getJavascript();
-			jsSnippet.setJavascript(newValue);
-			mainConfig.put(conf.getName(), jsSnippet);
-			break;
-
-		case PREPEND:
-			newValue = jsSnippet.getJavascript() + ((JavascriptSnippet) conf.getValue()).getJavascript();
-			jsSnippet.setJavascript(newValue);
-			mainConfig.put(conf.getName(), jsSnippet);
-			break;
-
-		case APPEND_WITH_SPACE:
-			newValue = ((JavascriptSnippet) conf.getValue()).getJavascript() + " " + jsSnippet.getJavascript();
-			jsSnippet.setJavascript(newValue);
-			mainConfig.put(conf.getName(), jsSnippet);
-			break;
-
-		case PREPEND_WITH_SPACE:
-			newValue = jsSnippet.getJavascript() + " " + ((JavascriptSnippet) conf.getValue()).getJavascript();
-			jsSnippet.setJavascript(newValue);
-			mainConfig.put(conf.getName(), jsSnippet);
-			break;
-
-		default:
-			break;
+			try {
+				retval.add((AbstractExtension) ClassUtils.getClass(clazz.getName()).newInstance());
+			} catch (InstantiationException e) {
+				throw new ExtensionLoadingException("Unable to instanciate the class " + clazz.getName(), e);
+			} catch (IllegalAccessException e) {
+				throw new ExtensionLoadingException("Unable to access the class " + clazz.getName(), e);
+			} catch (ClassNotFoundException e) {
+				throw new ExtensionLoadingException("Unable to load the class " + clazz.getName(), e);
+			}
 		}
 
-	}
-
-	private void processString(Parameter conf) {
-		String value = null;
-
-		switch (conf.getMode()) {
-		case OVERRIDE:
-			mainConfig.put(conf.getName(), conf.getValue());
-			break;
-
-		case APPEND:
-			value = (String) mainConfig.get(conf.getName());
-			value = value + conf.getValue();
-			mainConfig.put(conf.getName(), value);
-			break;
-
-		case PREPEND:
-			value = (String) mainConfig.get(conf.getName());
-			value = conf.getValue() + value;
-			mainConfig.put(conf.getName(), value);
-			break;
-
-		case APPEND_WITH_SPACE:
-			value = (String) mainConfig.get(conf.getName());
-			value = value + " " + conf.getValue();
-			mainConfig.put(conf.getName(), value);
-			break;
-
-		case PREPEND_WITH_SPACE:
-			value = (String) mainConfig.get(conf.getName());
-			value = conf.getValue() + " " + value;
-			mainConfig.put(conf.getName(), value);
-			break;
-
-		default:
-			break;
-		}
+		return retval;
 	}
 }

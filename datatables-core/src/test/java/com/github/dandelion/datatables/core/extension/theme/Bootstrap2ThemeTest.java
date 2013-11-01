@@ -20,7 +20,7 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 
 	@Test
 	public void shoud_load_the_extension() throws ExtensionLoadingException {
-		extensionLoader.load(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
+		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
 		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(2);
 		assertThat(mainConfig).hasSize(3);
@@ -33,7 +33,7 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 	@Test
 	public void shoud_load_the_extension_with_tablecloth() throws ExtensionLoadingException {
 		table.getTableConfiguration().setCssThemeOption(ThemeOption.TABLECLOTH);
-		extensionLoader.load(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
+		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
 		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(3);
 		assertThat(mainConfig).hasSize(3);
@@ -44,13 +44,13 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 	@Test(expected = ExtensionLoadingException.class)
 	public void shoud_not_load_the_extension_with_wrong_option() throws ExtensionLoadingException {
 		table.getTableConfiguration().setCssThemeOption(ThemeOption.CUPERTINO);
-		extensionLoader.load(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
+		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 	}
 
 	@Test
 	public void shoud_load_the_extension_with_a_custom_domfeature() throws ExtensionLoadingException {
 		table.getTableConfiguration().setFeatureDom("lft");
-		extensionLoader.load(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
+		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
 		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(2);
 		assertThat(mainConfig).hasSize(2);

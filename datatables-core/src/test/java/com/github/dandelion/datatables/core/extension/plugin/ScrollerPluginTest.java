@@ -18,7 +18,7 @@ public class ScrollerPluginTest extends AbstractExtensionTest {
 
 	@Test
 	public void shoud_load_the_extension() throws ExtensionLoadingException {
-		extensionLoader.load(new HashSet<Extension>(Arrays.asList(new ScrollerPlugin())));
+		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new ScrollerPlugin())));
 
 		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
 		assertThat(mainConfig).hasSize(1);
@@ -29,7 +29,7 @@ public class ScrollerPluginTest extends AbstractExtensionTest {
 	public void shoud_load_the_extension_with_already_configured_dom() throws ExtensionLoadingException {
 		table.getTableConfiguration().setFeatureDom("lfr");
 		mainConfig.put(DTConstants.DT_DOM, "lfr");
-		extensionLoader.load(new HashSet<Extension>(Arrays.asList(new ScrollerPlugin())));
+		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new ScrollerPlugin())));
 
 		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
 		assertThat(mainConfig).hasSize(1);
@@ -40,7 +40,7 @@ public class ScrollerPluginTest extends AbstractExtensionTest {
 	public void shoud_load_the_extension_with_jqueryui_enabled() throws ExtensionLoadingException {
 		table.getTableConfiguration().setFeatureJqueryUi(true);
 		mainConfig.put(DTConstants.DT_DOM, "lfr");
-		extensionLoader.load(new HashSet<Extension>(Arrays.asList(new ScrollerPlugin())));
+		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new ScrollerPlugin())));
 
 		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
 		assertThat(mainConfig).hasSize(1);

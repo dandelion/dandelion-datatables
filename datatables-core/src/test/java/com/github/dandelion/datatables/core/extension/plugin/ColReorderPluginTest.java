@@ -18,7 +18,7 @@ public class ColReorderPluginTest extends AbstractExtensionTest {
 
 	@Test
 	public void shoud_load_the_extension_with_default_configuration() throws ExtensionLoadingException {
-		extensionLoader.load(new HashSet<Extension>(Arrays.asList(new ColReorderPlugin())));
+		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new ColReorderPlugin())));
 
 		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
 		assertThat(mainConfig).includes(entry(DTConstants.DT_DOM, "R"));
@@ -28,7 +28,7 @@ public class ColReorderPluginTest extends AbstractExtensionTest {
 	public void shoud_load_the_extension_with_already_configured_dom() throws ExtensionLoadingException {
 		table.getTableConfiguration().setFeatureDom("lfr");
 		mainConfig.put(DTConstants.DT_DOM, "lfr");
-		extensionLoader.load(new HashSet<Extension>(Arrays.asList(new ColReorderPlugin())));
+		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new ColReorderPlugin())));
 
 		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
 		assertThat(mainConfig).includes(entry(DTConstants.DT_DOM, "Rlfr"));

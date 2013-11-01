@@ -13,7 +13,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 public class AbstractExtensionTest {
 
 	private MockHttpServletRequest request;
-	protected ExtensionLoader extensionLoader;
+	protected ExtensionProcessor extensionProcessor;
 	protected HtmlTable table;
 	protected JsResource mainJsFile;
 	protected Map<String, Object> mainConfig;
@@ -24,6 +24,6 @@ public class AbstractExtensionTest {
 		table = new HtmlTable("fakeId", request);
 		mainJsFile = new JsResource();
 		mainConfig = new HashMap<String, Object>();
-		extensionLoader = new ExtensionLoader(table, mainJsFile, mainConfig);
+		extensionProcessor = new ExtensionProcessor(table, mainJsFile, mainConfig);
 	}
 }

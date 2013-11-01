@@ -46,7 +46,7 @@ import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.DataNotFoundException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.export.ExportManager;
-import com.github.dandelion.datatables.core.extension.ExtensionManager;
+import com.github.dandelion.datatables.core.extension.ExtensionLoader;
 import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.FileUtils;
@@ -81,12 +81,10 @@ public class WebResourceGenerator {
 	/**
 	 * All managers used to generate web resources.
 	 */
-	private ExtensionManager extensionManager;
 	private ExportManager exportManager = new ExportManager();
 
 	public WebResourceGenerator(HtmlTable table){
 		this.table = table;
-		this.extensionManager = new ExtensionManager(table);
 	}
 	
 	/**
@@ -141,7 +139,8 @@ public class WebResourceGenerator {
 		/**
 		 * Extension loading
 		 */
-		extensionManager.loadExtensions(mainJsFile, mainConf);
+		ExtensionLoader extensionLoader = new ExtensionLoader(table);
+		extensionLoader.loadExtensions(mainJsFile, mainConf);
 		
 		/**
 		 * Extra configuration management
