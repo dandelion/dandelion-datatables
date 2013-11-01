@@ -41,14 +41,13 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.ExtraConf;
 import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.ResourceType;
-import com.github.dandelion.datatables.core.asset.WebResources;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.DataNotFoundException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.export.ExportManager;
 import com.github.dandelion.datatables.core.extension.ExtensionManager;
+import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.FileUtils;
 import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
@@ -77,7 +76,7 @@ public class WebResourceGenerator {
 	/**
 	 * The DataTables configuration generator.
 	 */
-	private static MainGenerator configGenerator;
+	private static DatatablesGenerator configGenerator;
 	
 	/**
 	 * All managers used to generate web resources.
@@ -107,12 +106,9 @@ public class WebResourceGenerator {
 	 * @throws BadConfigurationException
 	 * @throws ExtensionLoadingException 
 	 */
-	public WebResources generateWebResources()
+	public JsResource generateWebResources()
 			throws DataNotFoundException, CompressionException, IOException,
 			BadConfigurationException, ExtensionLoadingException {
-
-		// Bean which stores all needed web resources (js, css)
-		WebResources webResources = new WebResources();
 
 		/**
 		 * Main configuration file building
@@ -120,7 +116,7 @@ public class WebResourceGenerator {
 		// We need to append a randomUUID in case of multiple tables exists in
 		// the same JSP
 		String tableId = table.getRandomId();
-		JsResource mainJsFile = new JsResource(ResourceType.MAIN, NameConstants.DT_MAIN_JS + tableId + ".js");
+		JsResource mainJsFile = new JsResource(NameConstants.DT_MAIN_JS + tableId + ".js");
 		mainJsFile.setTableId(table.getId());
 		
 		/**
@@ -132,7 +128,7 @@ public class WebResourceGenerator {
 		
 		// Init the "configuration" map with the table informations
 		// The configuration may be updated depending on the user's choices
-		configGenerator = new MainGenerator();
+		configGenerator = new DatatablesGenerator();
 		Map<String, Object> mainConf = configGenerator.generateConfig(table);
 
 		/**
@@ -179,9 +175,9 @@ public class WebResourceGenerator {
 			}
 		}
 		
-		webResources.setMainJsFile(mainJsFile);
+//		webResources.setMainJsFile(mainJsFile);
 
-		return webResources;
+		return mainJsFile;
 	}
 
 	

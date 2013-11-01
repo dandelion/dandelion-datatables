@@ -68,34 +68,16 @@ package com.github.dandelion.datatables.core.asset;
  */
 public class JsResource {
 
-	private static final String INDENTATION = "   ";
-
 	/**
 	 * Name of the JS file.
 	 */
 	private String name;
 
 	/**
-	 * Content, i.e. Javascript code.
-	 */
-	private String content;
-
-	/**
-	 * Location of the JS file. Used if multiple files must be merged (e.g. from
-	 * classpath) before being served by the servlet.
-	 */
-	private String location;
-
-	/**
 	 * Table to initialize. Only used if the current JsResource has the MAIN
 	 * ResourceType.
 	 */
 	private String tableId;
-
-	/**
-	 * Type of the JS resource.
-	 */
-	private ResourceType type;
 
 	private StringBuilder beforeAll;
 	private StringBuilder beforeStartDocumentReady;
@@ -112,115 +94,8 @@ public class JsResource {
 	public JsResource() {
 	}
 
-	public JsResource(ResourceType type, String name) {
-		this.type = type;
+	public JsResource(String name) {
 		this.name = name;
-	}
-
-	public JsResource(ResourceType type, String name, String location) {
-		this.type = type;
-		this.name = name;
-		this.location = location;
-	}
-
-	/**
-	 * <p>
-	 * Returns the content of the Js resource, i.e. the Javascript code used by
-	 * DataTables.
-	 * 
-	 * @return the Javascript code contained in the current Js resource.
-	 */
-	public String getContent() {
-
-		StringBuilder retval = new StringBuilder();
-
-		switch (type) {
-		case MAIN:
-
-			if (this.beforeAll != null) {
-				retval.append(this.beforeAll);
-				retval.append(";\n");
-			}
-
-			retval.append("var oTable_");
-			retval.append(this.tableId);
-			retval.append(";\n");
-
-			retval.append("var oTable_");
-			retval.append(this.tableId);
-			retval.append("_params = ");
-			retval.append(this.dataTablesConf);
-			retval.append(";\n");
-
-			if (this.beforeStartDocumentReady != null) {
-				retval.append(this.beforeStartDocumentReady);
-			}
-
-			retval.append("$(document).ready(function(){\n");
-			if (this.afterStartDocumentReady != null) {
-				retval.append("\n");
-				retval.append(INDENTATION);
-				retval.append(this.afterStartDocumentReady);
-			}
-			
-			// DataTables initialization
-			retval.append(INDENTATION);
-			retval.append("oTable_");
-			retval.append(this.tableId);
-			retval.append(" = $('#");
-			retval.append(this.tableId);
-			retval.append("').dataTable(oTable_");
-			retval.append(this.tableId);
-			retval.append("_params)");
-			if (this.dataTablesExtra != null) {
-				retval.append(".");
-				retval.append(this.dataTablesExtra);
-				retval.append("(");
-				if (this.dataTablesExtraConf != null) {
-					retval.append(this.dataTablesExtraConf);
-				}
-				retval.append(")");
-			}
-			retval.append(";");
-
-
-			if (this.beforeEndDocumentReady != null) {
-				retval.append("\n");
-				retval.append(INDENTATION);
-				retval.append(this.beforeEndDocumentReady);
-			}
-
-			retval.append("\n});");
-
-			if (this.afterAll != null) {
-				retval.append("\n");
-				retval.append(this.afterAll);
-			}
-
-			break;
-
-		case EXTENSION:
-			retval.append(this.content);
-			break;
-
-		case PLUGIN:
-			retval.append(this.content);
-			break;
-
-		case AGGREGATE:
-			retval.append(this.content);
-			break;
-
-		case MINIMIFIED:
-			retval.append(this.content);
-			break;
-
-		default:
-			retval.append(this.content);
-			break;
-		}
-
-		return retval.toString();
 	}
 
 	public String getName() {
@@ -229,10 +104,6 @@ public class JsResource {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
 	}
 
 	public StringBuilder getBeforeAll() {
@@ -301,14 +172,6 @@ public class JsResource {
 		this.dataTablesConf.append(dataTablesConf);
 	}
 
-	public ResourceType getType() {
-		return type;
-	}
-
-	public void setType(ResourceType type) {
-		this.type = type;
-	}
-
 	public StringBuilder getDataTablesExtra() {
 		return dataTablesExtra;
 	}
@@ -329,14 +192,6 @@ public class JsResource {
 			this.dataTablesExtraConf = new StringBuilder();
 		}
 		this.dataTablesExtraConf.append(dataTablesExtraConf);
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
 	}
 
 	public String getTableId() {

@@ -38,6 +38,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 
 /**
+ * <p>
  * Test the mapping of DataTables URL parameters to {@link DatatablesCriterias}
  * when using server-side processing.
  * 

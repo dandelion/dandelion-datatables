@@ -27,18 +27,40 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.generator;
+package com.github.dandelion.datatables.core.configuration;
 
+import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
-import com.github.dandelion.datatables.core.html.HtmlTable;
+import javax.servlet.http.HttpServletRequest;
 
-/**
- * Abstract superclass for all configuration generators.
- * 
- * @author Thibault Duchateau
- */
-public abstract class AbstractConfigurationGenerator {
+import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 
-	public abstract Map<String, Object> generateConfig(HtmlTable table);
+public class FakeConfigurationLoader implements ConfigurationLoader {
+
+	@Override
+	public Properties loadDefaultConfiguration() throws ConfigurationLoadingException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Properties loadUserConfiguration(Locale locale) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<String> resolveGroups(Locale locale) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void resolveConfigurations(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		
+	}
 }

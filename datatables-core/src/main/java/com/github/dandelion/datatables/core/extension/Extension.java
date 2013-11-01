@@ -33,9 +33,9 @@ import java.util.List;
 
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
-import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
-import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
-import com.github.dandelion.datatables.core.generator.MainGenerator;
+import com.github.dandelion.datatables.core.generator.configuration.AbstractConfigurationGenerator;
+import com.github.dandelion.datatables.core.generator.configuration.ColumnFilteringGenerator;
+import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -52,7 +52,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * that will be used during the DataTables initialization</li>
  * <li>an AbstractConfigurationGenerator if the extension needs its own
  * configuration generator. The one used for the main DataTables configuration
- * is the {@link MainGenerator}. You can also take a look at the
+ * is the {@link DatatablesGenerator}. You can also take a look at the
  * {@link ColumnFilteringGenerator} to see the configuration generated for the
  * Column Filtering add-on.</li>
  * <li>a potential Javascript function name that will be called after DataTables

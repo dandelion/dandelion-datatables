@@ -27,88 +27,41 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.asset;
+package com.github.dandelion.datatables.core.generator.javascript;
 
+import com.github.dandelion.core.asset.wrapper.impl.DelegatedContent;
+import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
 
 /**
  * <p>
- * POJO for a CSS file, which will be served by the Dandelion-datatables servlet to the
- * client.
+ * Interface for all Javascript generators.
+ * 
+ * <p>
+ * The default implementation is the {@link StandardJavascriptGenerator} class
+ * but it can be replaced by another class that implements this interface thanks
+ * to the {@link DatatablesConfigurator}.
+ * 
+ * <p>
+ * As it extends the {@link DelegatedContent} interface, the implementation must
+ * also implement the
+ * {@link DelegatedContent#getContent(javax.servlet.http.HttpServletRequest)}
+ * method, which should return the generated Javascript.
  * 
  * @author Thibault Duchateau
- * @since 0.1.0
+ * @since 0.10.0
  */
-public class CssResource {
+public interface JavascriptGenerator extends DelegatedContent {
+
+	public static final String INDENTATION = "   ";
+	public static final String NEWLINE = "\n";
 
 	/**
-	 * Name of the CSS file.
+	 * Transfer the data from the {@link JsResource} to the different String
+	 * builders (buffer).
+	 * 
+	 * @param jsResource
+	 *            The web resource to use to generate Javascript content.
 	 */
-	private String name;
-	
-	/**
-	 * Content, i.e. CSS code.
-	 */
-	private String content;
-	
-	/**
-	 * Location of the CSS file. Used if multiple files must be merged (e.g. from
-	 * classpath) before being served by the servlet.
-	 */
-	private String location;
-	
-	/**
-	 * Type of the CSS resource.
-	 */
-	private ResourceType type;
-
-	public CssResource(String name) {
-		this.name = name;
-	}
-
-	public CssResource(ResourceType type, String name) {
-		this.type = type;
-		this.name = name;
-	}
-
-	public CssResource(ResourceType type, String name, String location) {
-		this.type = type;
-		this.name = name;
-		this.location = location;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public void updateContent(String newContent) {
-		this.content = this.content + newContent;
-	}
-
-	public ResourceType getType() {
-		return type;
-	}
-
-	public void setType(ResourceType type) {
-		this.type = type;
-	}
+	public void addResource(JsResource jsResource);
 }

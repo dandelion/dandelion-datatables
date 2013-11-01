@@ -1,21 +1,21 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2012 Dandelion
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
- *
+ * 
  * 1. Redistributions of source code must retain the above copyright
  * notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
- * 3. Neither the name of Dandelion nor the names of its contributors
- * may be used to endorse or promote products derived from this software
+ * 3. Neither the name of Dandelion nor the names of its contributors 
+ * may be used to endorse or promote products derived from this software 
  * without specific prior written permission.
- *
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -27,24 +27,18 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package com.github.dandelion.datatables.core.generator.configuration;
 
-package com.github.dandelion.datatables.core.generator;
+import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 
-import com.github.dandelion.core.asset.wrapper.impl.DelegatedContent;
-import com.github.dandelion.datatables.core.asset.WebResources;
+/**
+ * Abstract superclass for all configuration generators.
+ * 
+ * @author Thibault Duchateau
+ */
+public abstract class AbstractConfigurationGenerator {
 
-public class DatatablesConfigGenerator implements DelegatedContent {
-	
-	private WebResources webResources;
-	
-	public DatatablesConfigGenerator(WebResources webResources){
-		this.webResources = webResources;
-	}
-	
-    @Override
-    public String getContent(HttpServletRequest request) {
-    	return webResources.getMainJsFile().getContent();
-    }
+	public abstract Map<String, Object> generateConfig(HtmlTable table);
 }

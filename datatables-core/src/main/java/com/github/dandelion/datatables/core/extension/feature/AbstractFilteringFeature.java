@@ -31,7 +31,7 @@ package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
-import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
+import com.github.dandelion.datatables.core.generator.configuration.ColumnFilteringGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**

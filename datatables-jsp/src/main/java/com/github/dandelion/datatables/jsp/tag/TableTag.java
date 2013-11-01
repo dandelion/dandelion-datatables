@@ -42,9 +42,11 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.asset.web.AssetsRequestContext;
 import com.github.dandelion.core.asset.wrapper.impl.DelegatedLocationWrapper;
-import com.github.dandelion.datatables.core.asset.WebResources;
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.cache.AssetCache;
 import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
@@ -55,11 +57,11 @@ import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.generator.DatatablesConfigGenerator;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
+import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
+import com.github.dandelion.datatables.core.generator.javascript.StandardJavascriptGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.RequestHelper;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * <p>
@@ -201,7 +203,7 @@ public class TableTag extends AbstractTableTag {
 	 */
 	private int setupHtmlGeneration() throws JspException {
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-		WebResources webResources = null;
+		JsResource jsResource = null;
 		
 		this.table.getTableConfiguration().setExporting(false);
 
@@ -217,10 +219,10 @@ public class TableTag extends AbstractTableTag {
 	
 				// Generate the web resources (JS, CSS) and wrap them into a
 				// WebResources POJO
-				webResources = contentGenerator.generateWebResources();
+				jsResource = contentGenerator.generateWebResources();
 				logger.debug("Web content generated successfully");
 				
-				AssetCache.cache.put(keyToTest, webResources);
+				AssetCache.cache.put(keyToTest, jsResource);
 				logger.debug("Cache updated with new web resources");
 //			}
 //			else{
@@ -232,48 +234,15 @@ public class TableTag extends AbstractTableTag {
 			AssetsRequestContext.get(request)
 				.addScopes("datatables")
 				.addScopes("dandelion-datatables")
-				.addParameter("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM, new DatatablesConfigGenerator(webResources), id);
+				.addParameter("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM,
+							DatatablesConfigurator.getJavascriptGenerator(), false);
 			
-//			// Aggregation
-//			if (table.getTableConfiguration().getMainAggregatorEnable() != null && table.getTableConfiguration().getMainAggregatorEnable()) {
-//				logger.debug("Aggregation enabled");
-//				ResourceAggregator.processAggregation(webResources, table);
-//			}
-//
-//			// Compression
-//			if (table.getTableConfiguration().getMainCompressorEnable() != null && table.getTableConfiguration().getMainCompressorEnable()) {
-//				logger.debug("Compression enabled");
-//				ResourceCompressor.processCompression(webResources, table);
-//			}
-
-//			// <link> HTML tag generation
-//			if (table.getTableConfiguration().getMainCdn() != null && table.getTableConfiguration().getMainCdn()) {
-//				generateLinkTag(table.getTableConfiguration().getMainCdnCss());
-//			}
-//			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
-//				if(entry.getValue().getType().equals(ResourceType.EXTERNAL)){
-//					generateLinkTag(entry.getValue().getLocation());
-//				}
-//				else{
-//					String src = RequestHelper.getAssetSource(entry.getKey(), this.table, request, false);
-//					generateLinkTag(src);
-//				}
-//			}
-
+			JavascriptGenerator javascriptGenerator = (JavascriptGenerator) AssetsRequestContext.get(request)
+				.getParameters().getParameters("dandelion-datatables").get(DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM);
+			javascriptGenerator.addResource(jsResource);
+			
 			// HTML generation
 			pageContext.getOut().println(this.table.toHtml());
-
-//			// <script> HTML tag generation
-//			if (table.getTableConfiguration().getMainCdn() != null && table.getTableConfiguration().getMainCdn()) {
-//				generateScriptTag(table.getTableConfiguration().getMainCdnJs());
-//			}
-//			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
-//				String src = RequestHelper.getAssetSource(entry.getKey(), this.table, request, false);
-//				generateScriptTag(src);
-//			}
-			// Main Javascript file
-//			String src = RequestHelper.getAssetSource(webResources.getMainJsFile().getName(), this.table, request, true);
-//			generateScriptTag(src);
 
 		} catch (IOException e) {
 			logger.error("Something went wront with the datatables tag");

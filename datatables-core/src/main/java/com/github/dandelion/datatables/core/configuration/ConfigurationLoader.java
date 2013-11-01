@@ -54,7 +54,7 @@ public interface ConfigurationLoader {
 
 	public final static String DT_DEFAULT_PROPERTIES = "config/datatables-default.properties";
 	public final static String DT_USER_PROPERTIES = "datatables";
-	public static final String DEFAULT_GROUP_NAME = "global";
+	public final static String DEFAULT_GROUP_NAME = "global";
 	
 	/**
 	 * <p>

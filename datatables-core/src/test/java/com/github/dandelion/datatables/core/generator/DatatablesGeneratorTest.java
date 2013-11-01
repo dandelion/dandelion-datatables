@@ -56,12 +56,13 @@ import com.github.dandelion.datatables.core.constants.DTMessages;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
+import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 @SuppressWarnings("unchecked")
-public class MainGeneratorTest {
+public class DatatablesGeneratorTest {
 
 	private static Set<DisplayType> displayTypeAllUsedForColumnDefinition = new HashSet<DisplayType>();
 	private static Set<DisplayType> displayTypeHtmlUsedForColumnDefinition = new HashSet<DisplayType>();
@@ -86,7 +87,7 @@ public class MainGeneratorTest {
 		defaultProperties.put(DTConstants.DT_SORTABLE, true);
 	}
 
-	private MainGenerator generator;
+	private DatatablesGenerator generator;
 	private HtmlTable table;
 	private HtmlRow headerRow;
 	private HtmlColumn firstColumn;
@@ -95,7 +96,7 @@ public class MainGeneratorTest {
 	public void createMainGenerator() {
 		mockServletContext = new MockServletContext();
 		mockPageContext = new MockPageContext(mockServletContext);
-		generator = new MainGenerator();
+		generator = new DatatablesGenerator();
 	}
 
 	@Before
