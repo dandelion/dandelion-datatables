@@ -1,0 +1,14 @@
+{
+    "scope" : "jqueryui-theme",
+    "parent": "jqueryui",
+    "assets": [
+        {
+            "name": "jquery-ui",
+            "version": "0.0.1",
+            "type": "css",
+            "locations": {
+                "classpath": "datatables/themes/jqueryui/jqueryui.css"
+            }
+        }
+    ]
+}

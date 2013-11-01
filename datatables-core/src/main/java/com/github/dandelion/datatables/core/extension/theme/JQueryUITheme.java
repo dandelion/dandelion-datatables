@@ -29,9 +29,7 @@
  */
 package com.github.dandelion.datatables.core.extension.theme;
 
-import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.ResourceType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -55,14 +53,13 @@ public class JQueryUITheme extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) throws ExtensionLoadingException {
 
+		addScope("jqueryui-theme");
 		addParameter(new Parameter(DTConstants.DT_JQUERYUI, true));
-		addCssResource(new CssResource(ResourceType.THEME, "JQueryUITheme",
-				"datatables/themes/jqueryui/jqueryui.css"));
 
-		if (table.getTableConfiguration().getCssThemeOption() != null) {
-			addCssResource(new CssResource(ResourceType.EXTERNAL,
-					table.getTableConfiguration().getCssThemeOption().toString(), table.getTableConfiguration().getCssThemeOption().getCssSource()));
-		}
+//		if (table.getTableConfiguration().getCssThemeOption() != null) {
+//			addCssResource(new CssResource(ResourceType.EXTERNAL,
+//					table.getTableConfiguration().getCssThemeOption().toString(), table.getTableConfiguration().getCssThemeOption().getCssSource()));
+//		}
 
 		table.addCssClass("display");
 	}

@@ -55,7 +55,6 @@ public class FixedHeaderPlugin extends AbstractExtension {
 		return "FixedHeader";
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -63,16 +62,10 @@ public class FixedHeaderPlugin extends AbstractExtension {
 	public void setup(HtmlTable table) {
 
 		addScope("fixedheader");
-		
+
 		Map<String, Object> specificConfObj = getSpecificCongiguration(table);
-		String specificConfStr = null;
-		if (!specificConfObj.isEmpty()) {
-			specificConfStr = JSONValue.toJSONString(specificConfObj);
-			appendToBeforeEndDocumentReady("new FixedHeader(oTable_" + table.getId() + ","
-					+ specificConfStr + ");");
-		} else {
-			appendToBeforeEndDocumentReady("new FixedHeader(oTable_" + table.getId() + ");");
-		}
+		String specificConfStr = JSONValue.toJSONString(specificConfObj);
+		appendToBeforeEndDocumentReady("new FixedHeader(oTable_" + table.getId() + "," + specificConfStr + ");");
 	}
 
 	/**
@@ -89,14 +82,14 @@ public class FixedHeaderPlugin extends AbstractExtension {
 
 		// fixedPosition attribute (default "top")
 		if (StringUtils.isNotBlank(table.getTableConfiguration().getPluginFixedPosition())) {
-			if (table.getTableConfiguration().getPluginFixedPosition().equals("bottom")) {
+			if (table.getTableConfiguration().getPluginFixedPosition().toLowerCase().equals("bottom")) {
 				conf.put("bottom", true);
-			} else if (table.getTableConfiguration().getPluginFixedPosition().equals("right")) {
+			} else if (table.getTableConfiguration().getPluginFixedPosition().toLowerCase().equals("right")) {
 				conf.put("right", true);
-			} else if (table.getTableConfiguration().getPluginFixedPosition().equals("left")) {
+			} else if (table.getTableConfiguration().getPluginFixedPosition().toLowerCase().equals("left")) {
 				conf.put("left", true);
 			} else {
-				appendToBeforeEndDocumentReady("new FixedHeader(oTable_" + table.getId() + ");");
+				conf.put("top", true);
 			}
 		} else {
 			conf.put("top", true);

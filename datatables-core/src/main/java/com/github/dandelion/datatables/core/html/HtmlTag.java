@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.core.html;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -165,6 +166,13 @@ public abstract class HtmlTag {
 		this.dynamicAttributes = dynamicAttributes;
 	}
 
+	public void addDynamicAttribute(String name, String value){
+		if(dynamicAttributes == null){
+			dynamicAttributes = new HashMap<String, String>();
+		}
+		dynamicAttributes.put(name, value);
+	}
+	
 	public void addCssClass(String cssClass) {
 		if(this.cssClass == null) {
 			this.cssClass = new StringBuilder();
