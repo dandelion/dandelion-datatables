@@ -50,25 +50,25 @@ public class RowIdIT extends BaseIT {
 
 	@Test
 	public void should_generate_rowid_with_only_base() throws Exception {
-		goToPage("advanced/row_id_only_base");
+		goToPage("advanced/row-id/row_id_only_base");
 		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("1");
 	}
 	
 	@Test
 	public void should_generate_rowid_with_prefix() throws Exception {
-		goToPage("advanced/row_id_with_prefix");
+		goToPage("advanced/row-id/row_id_with_prefix");
 		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("id_1");
 	}
 	
 	@Test
 	public void should_generate_rowid_with_sufix() throws Exception {
-		goToPage("advanced/row_id_with_sufix");
+		goToPage("advanced/row-id/row_id_with_sufix");
 		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("1_id");
 	}
 	
 	@Test
 	public void should_generate_rowid_with_prefix_and_sufix() throws Exception {
-		goToPage("advanced/row_id_with_prefix_and_sufix");
+		goToPage("advanced/row-id/row_id_with_prefix_and_sufix");
 		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("id_1_di");
 	}
 }

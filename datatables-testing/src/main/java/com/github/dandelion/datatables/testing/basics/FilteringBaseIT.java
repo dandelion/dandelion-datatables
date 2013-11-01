@@ -10,7 +10,7 @@ public class FilteringBaseIT extends BaseIT {
 
 	@Test
 	public void should_filter_data_when_using_an_input_field() throws Exception {
-		goToPage("basics/filtering_with_input");
+		goToPage("basics/filtering/filtering_with_input");
 		
 		// Now we test the input that filters data
 		fill(getTable().find("tfoot").find("input", 0)).with("vanna");
@@ -23,7 +23,7 @@ public class FilteringBaseIT extends BaseIT {
 	
 	@Test
 	public void should_generate_select_in_the_footer() throws Exception {
-		goToPage("basics/filtering_with_select");
+		goToPage("basics/filtering/filtering_with_select");
 		
 		// A tfoot tag must be generated
 		assertThat(getTable().find("tfoot")).hasSize(1);
@@ -44,7 +44,7 @@ public class FilteringBaseIT extends BaseIT {
 	
 	@Test
 	public void should_filter_data_when_using_an_extra_form() throws Exception {
-		goToPage("basics/filtering_with_extra_form");
+		goToPage("basics/filtering/filtering_with_extra_form");
 		
 		assertThat(find("#firstNameFilter").find("span.filter_column")).hasSize(1);
 		assertThat(find("#firstNameFilter").find("span.filter_column").find("select.dandelion_select_filter")).hasSize(1);
@@ -56,7 +56,7 @@ public class FilteringBaseIT extends BaseIT {
 	
 	@Test
 	public void should_generate_a_filtering_listbox_with_predefined_values(){
-		goToPage("basics/filtering_with_select_with_predefined_values");
+		goToPage("basics/filtering/filtering_with_select_with_predefined_values");
 		
 		assertThat(getTable().find("tfoot").find("tr", 0).find("th", 2).find("select")).hasSize(1);
 		assertThat(getTable().find("tfoot").find("tr", 0).find("th", 2).find("select").find("option")).hasSize(4);

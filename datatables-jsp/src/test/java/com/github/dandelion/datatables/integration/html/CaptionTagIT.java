@@ -22,7 +22,7 @@ public class CaptionTagIT extends BaseIT {
 
 	@Test
 	public void should_not_generate_caption_tag_by_default() throws IOException, Exception{
-		goToPage("html/dom/table_default");
+		goToPage("html/dom/table");
 
 		assertThat(getTable().find("caption")).hasSize(0);
 	}

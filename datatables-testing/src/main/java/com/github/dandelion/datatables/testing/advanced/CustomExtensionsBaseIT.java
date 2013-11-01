@@ -45,14 +45,14 @@ public class CustomExtensionsBaseIT extends BaseIT {
 
 	@Test
 	public void should_enable_myCustomFeature() throws Exception {
-		goToPage("advanced/custom_extensions");
-		assertThat(getConfigurationFromPage("advanced/custom_extensions").getContent()).contains("\"bStateSave\":true");
+		goToPage("advanced/custom-extensions/custom_extensions");
+		assertThat(getConfigurationFromPage("advanced/custom-extensions/custom_extensions").getContent()).contains("\"bStateSave\":true");
 	}
 	
 	@Test
 	public void should_enable_myCustomFeature_and_myOtherCustomFeature() throws Exception {
-		goToPage("advanced/custom_extensions2");
-		assertThat(getConfigurationFromPage("advanced/custom_extensions2").getContent()).contains("\"bStateSave\":true");
-		assertThat(getConfigurationFromPage("advanced/custom_extensions2").getContent()).contains("\"bAutoWidth\":true");
+		goToPage("advanced/custom-extensions/custom_extensions2");
+		assertThat(getConfigurationFromPage("advanced/custom-extensions/custom_extensions2").getContent()).contains("\"bStateSave\":true");
+		assertThat(getConfigurationFromPage("advanced/custom-extensions/custom_extensions2").getContent()).contains("\"bAutoWidth\":true");
 	}
 }

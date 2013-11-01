@@ -47,7 +47,7 @@ public class SortingBaseIT extends BaseIT {
 
 	@Test
 	public void should_disable_sorting_only_on_the_first_column_using_dom() throws Exception {
-		goToPage("basics/sorting_disabled_dom");
+		goToPage("basics/sorting/sorting_disabled_dom");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_disabled");
 		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).isEqualTo("sorting");
@@ -58,7 +58,7 @@ public class SortingBaseIT extends BaseIT {
 	
 	@Test
 	public void should_init_sort_using_dom() throws Exception {
-		goToPage("basics/sorting_init_dom");
+		goToPage("basics/sorting/sorting_init_dom");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_desc");
 		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).isEqualTo("sorting_asc");
@@ -66,7 +66,7 @@ public class SortingBaseIT extends BaseIT {
 	
 	@Test
 	public void should_control_direction_using_dom() throws Exception {
-		goToPage("basics/sorting_direction_dom");
+		goToPage("basics/sorting/sorting_direction_dom");
 		
 		click(getTable().find("thead").find("th", 0));
 		click(getTable().find("thead").find("th", 0));
@@ -79,7 +79,7 @@ public class SortingBaseIT extends BaseIT {
 	
 	@Test
 	public void should_disable_sorting_only_on_the_first_column_using_ajax() throws Exception {
-		goToPage("basics/sorting_disabled_ajax");
+		goToPage("basics/sorting/sorting_disabled_ajax");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_disabled");
 		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).isEqualTo("sorting");
@@ -90,7 +90,7 @@ public class SortingBaseIT extends BaseIT {
 	
 	@Test
 	public void should_init_sort_using_ajax() throws Exception {
-		goToPage("basics/sorting_init_ajax");
+		goToPage("basics/sorting/sorting_init_ajax");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_desc");
 		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).isEqualTo("sorting_asc");
@@ -98,7 +98,7 @@ public class SortingBaseIT extends BaseIT {
 	
 	@Test
 	public void should_control_direction_using_ajax() throws Exception {
-		goToPage("basics/sorting_direction_ajax");
+		goToPage("basics/sorting/sorting_direction_ajax");
 		
 		click(getTable().find("thead").find("th", 0));
 		click(getTable().find("thead").find("th", 0));

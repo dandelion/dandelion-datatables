@@ -37,7 +37,7 @@ public class AjaxSourceIT extends BaseIT {
 		assertThat(getTable().find("tbody").find("tr", 1).find("td", 4).getText()).isEqualTo("bibendum.fermentum.metus@ante.ca");
 		
 		// A script tag must be generated
-		assertThat(getHtmlBody().find("script")).hasSize(1);
+		assertThat(getHtmlBody().find("script")).hasSize(3);
 	}
 	
 

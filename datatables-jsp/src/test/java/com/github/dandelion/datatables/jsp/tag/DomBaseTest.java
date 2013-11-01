@@ -38,7 +38,7 @@ import org.junit.Before;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.datatables.core.generator.MainGenerator;
+import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.mock.Mock;
 import com.github.dandelion.datatables.utils.TableTagBuilder;
@@ -78,7 +78,7 @@ public abstract class DomBaseTest {
 			tableTagBuilder.getTableTag().doEndTag();
 			table = tableTagBuilder.getTableTag().getTable();
 			
-			MainGenerator configGenerator = new MainGenerator();
+			DatatablesGenerator configGenerator = new DatatablesGenerator();
 			mainConf = configGenerator.generateConfig(table);
 			
 		} catch (JspException e) {

@@ -17,7 +17,7 @@ public class FilteringPlaceholderBaseIT extends BaseIT {
 
 	@Test
 	public void should_not_generate_input_field_using_none() throws Exception {
-		goToPage("basics/filtering_with_input_with_none");
+		goToPage("basics/filtering/filtering_with_input_with_none");
 
 		assertThat(getTable().find("tfoot")).hasSize(0);
 		assertThat(getTable().find("thead").find("tr")).hasSize(1);
@@ -25,7 +25,7 @@ public class FilteringPlaceholderBaseIT extends BaseIT {
 	
 	@Test
 	public void should_generate_input_field_in_the_footer_using_default_placeholder() throws Exception {
-		goToPage("basics/filtering_with_input_with_default_value");
+		goToPage("basics/filtering/filtering_with_input_with_default_value");
 
 		// A tfoot tag must be generated
 		assertThat(getTable().find("tfoot")).hasSize(1);
@@ -42,7 +42,7 @@ public class FilteringPlaceholderBaseIT extends BaseIT {
 	
 	@Test
 	public void should_generate_input_field_in_the_footer() throws Exception {
-		goToPage("basics/filtering_with_input_with_foot");
+		goToPage("basics/filtering/filtering_with_input_with_foot");
 
 		// A tfoot tag must be generated
 		assertThat(getTable().find("tfoot")).hasSize(1);
@@ -59,7 +59,7 @@ public class FilteringPlaceholderBaseIT extends BaseIT {
 	
 	@Test
 	public void should_generate_input_field_after_the_head() throws Exception {
-		goToPage("basics/filtering_with_input_with_headafter");
+		goToPage("basics/filtering/filtering_with_input_with_headafter");
 		
 		// A second row in the thead must be added
 		assertThat(getTable().find("thead").find("tr")).hasSize(2);
@@ -80,7 +80,7 @@ public class FilteringPlaceholderBaseIT extends BaseIT {
 	
 	@Test
 	public void should_generate_input_field_before_the_head() throws Exception {
-		goToPage("basics/filtering_with_input_with_headbefore");
+		goToPage("basics/filtering/filtering_with_input_with_headbefore");
 		
 		// A second row in the thead must be added
 		assertThat(getTable().find("thead").find("tr")).hasSize(2);

@@ -45,9 +45,6 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.WebResources;
-import com.github.dandelion.datatables.core.cache.AssetCache;
 import com.github.dandelion.datatables.testing.utils.Constants;
 import com.github.dandelion.datatables.testing.utils.JspTest;
 import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
@@ -149,19 +146,19 @@ public abstract class BaseIT extends Fluent {
 		goToPage(page);
 		if(display){
 			System.out.println(driver.getPageSource());
-			System.out.println(getConfigurationFromPage(page).getContent());
+//			System.out.println(getConfigurationFromPage(page).getContent());
 		}
 	}
 	
-	public JsResource getConfigurationFromPage(String page) {
-		String url = null;
-		if(this.getClass().isAnnotationPresent(JspTest.class)){
-			url = "/" + page + ".jsp|myTableId";
-		}
-		else if(this.getClass().isAnnotationPresent(ThymeleafTest.class)) {
-			url = "/thymeleaf/" + page + "|myTableId";
-		}
-		WebResources webResources = ((WebResources) AssetCache.cache.get(url));
-		return webResources.getMainJsFile() != null ? webResources.getMainJsFile() : null;
-	}
+//	public JsResource getConfigurationFromPage(String page) {
+//		String url = null;
+//		if(this.getClass().isAnnotationPresent(JspTest.class)){
+//			url = "/" + page + ".jsp|myTableId";
+//		}
+//		else if(this.getClass().isAnnotationPresent(ThymeleafTest.class)) {
+//			url = "/thymeleaf/" + page + "|myTableId";
+//		}
+//		WebResources webResources = ((WebResources) AssetCache.cache.get(url));
+//		return webResources.getMainJsFile() != null ? webResources.getMainJsFile() : null;
+//	}
 }

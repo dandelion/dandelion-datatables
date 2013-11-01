@@ -4,8 +4,11 @@
 <html>
 <head>
 <script>
-	function callback(iIn) {
-		console.log(iIn);
+	function callback(sName, oData, sExpires, sPath) {
+		console.log(sName);
+		console.log(oData);
+		console.log(sExpires);
+		console.log(sPath);
 	}
 </script>
 </head>
@@ -16,7 +19,7 @@
       <datatables:column title="LastName" property="lastName" />
       <datatables:column title="City" property="address.town.name" sortable="false" />
       <datatables:column title="Mail" property="mail" />
-      <datatables:callback type="format" function="callback" />
+      <datatables:callback type="cookie" function="callback" />
    </datatables:table>
 </body>
 </html>
