@@ -178,4 +178,13 @@ public class HtmlColumn extends HtmlTagWithContent {
 	public void setEnabledDisplayTypes(Set<DisplayType> enabledDisplayTypes) {
 		this.enabledDisplayTypes = enabledDisplayTypes;
 	}
+	
+	public StringBuilder getCssCellStyle() {
+		return cssCellStyle;
+	}
+
+	public StringBuilder getCssCellClass() {
+		return cssCellClass;
+	}
+
 }
