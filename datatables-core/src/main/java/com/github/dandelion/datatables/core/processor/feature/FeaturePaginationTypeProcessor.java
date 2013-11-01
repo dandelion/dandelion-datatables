@@ -36,6 +36,7 @@ import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFeature;
+import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFourButtonFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeFourButtonFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeInputFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeListboxFeature;
@@ -72,6 +73,9 @@ public class FeaturePaginationTypeProcessor extends AbstractTableProcessor {
 				break;
 			case FOUR_BUTTON:
 				tableConfiguration.registerExtension(new PaginationTypeFourButtonFeature());
+				break;
+			case BOOTSTRAP_FOUR_BUTTON:
+				tableConfiguration.registerExtension(new PaginationTypeBootstrapFourButtonFeature());
 				break;
 			default:
 				break;
