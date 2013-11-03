@@ -49,6 +49,7 @@ import com.github.dandelion.datatables.core.export.ExportManager;
 import com.github.dandelion.datatables.core.extension.ExtensionLoader;
 import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.util.FileUtils;
 import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
 import com.github.dandelion.datatables.core.util.NameConstants;
@@ -157,6 +158,13 @@ public class WebResourceGenerator {
 		mainJsFile.appendToDataTablesConf(writer.toString());
 
 		/**
+		 * Extra HTML
+		 */
+		if(table.getTableConfiguration().getExtraHtmlSnippets() != null && !table.getTableConfiguration().getExtraHtmlSnippets().isEmpty()){
+			extraHtmlManagement(mainJsFile);
+		}
+		
+		/**
 		 * Table display
 		 */
 		if(StringUtils.isNotBlank(table.getTableConfiguration().getFeatureAppear())){
@@ -177,6 +185,32 @@ public class WebResourceGenerator {
 //		webResources.setMainJsFile(mainJsFile);
 
 		return mainJsFile;
+	}
+
+	private void extraHtmlManagement(JsResource mainJsFile) {
+		for(ExtraHtml group : table.getTableConfiguration().getExtraHtmlSnippets()){
+			StringBuilder jsGroup = new StringBuilder();
+
+			jsGroup.append("$.fn.dataTableExt.aoFeatures.push( {");
+			jsGroup.append("\"fnInit\": function( oDTSettings ) {");
+			jsGroup.append("var container = document.createElement('" + group.getContainer() + "');");
+			
+			if(StringUtils.isNotBlank(group.getCssClass())){
+				jsGroup.append("$(container).attr('class', '" + group.getCssClass() + "');");
+			}
+			if(StringUtils.isNotBlank(group.getCssStyle())){
+				jsGroup.append("$(container).attr('style', '" + group.getCssStyle() + "');");
+			}
+			
+			jsGroup.append("$(container).html('" + group.getContent().replaceAll("'", "&quot;") + "');");
+			jsGroup.append("return container;");
+			jsGroup.append("},");
+			jsGroup.append("\"cFeature\": \"" + group.getUid() + "\",");
+			jsGroup.append("\"sFeature\": \"" + "Group" + group.getUid() + "\"");
+			jsGroup.append("} );");
+			
+			mainJsFile.appendToAfterStartDocumentReady(jsGroup.toString());
+		}
 	}
 
 	

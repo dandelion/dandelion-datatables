@@ -454,6 +454,33 @@
       </attribute>
    </tag>
    <tag>
+       <description>Allows to create a HTML snippet and insert it anywhere around the table thanks to the dom attribute.</description>
+       <name>extraHtml</name>
+       <tag-class>com.github.dandelion.datatables.jsp.tag.ExtraHtmlTag</tag-class>
+       <body-content>JSP</body-content>
+       <attribute>
+          <description>The character used to identify HTML group. This identifier will be used in the dom attribute.</description>
+          <name>uid</name>
+          <required>true</required>
+          <rtexprvalue>true</rtexprvalue>
+       </attribute>
+       <attribute>
+          <description>CSS style applied to the container</description>
+          <name>cssStyle</name>
+          <rtexprvalue>true</rtexprvalue>
+       </attribute>
+       <attribute>
+          <description>CSS class(s) applied to the container</description>
+          <name>cssClass</name>
+          <rtexprvalue>true</rtexprvalue>
+       </attribute>
+       <attribute>
+          <description>Container used to wrap the HTML code</description>
+          <name>container</name>
+          <rtexprvalue>true</rtexprvalue>
+       </attribute>
+   </tag>
+   <tag>
        <description>Allows to fill a column header with more complex
            content than a usual title.</description>
        <name>columnHead</name>

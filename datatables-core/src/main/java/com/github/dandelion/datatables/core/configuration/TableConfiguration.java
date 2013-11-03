@@ -53,6 +53,7 @@ import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.html.HtmlTag;
+import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
 
 /**
@@ -147,6 +148,7 @@ public class TableConfiguration {
 	private String internalObjectType;
 	private Set<Extension> internalExtensions;
 	private String tableId;
+	private List<ExtraHtml> extraHtmlSnippets;
 	private HttpServletRequest request;
 
 	/**
@@ -985,7 +987,20 @@ public class TableConfiguration {
 		return this;
 	}
 
+	public List<ExtraHtml> getExtraHtmlSnippets() {
+		return extraHtmlSnippets;
+	}
 
+	public void setExtraHtmlSnippets(List<ExtraHtml> linkGroups) {
+		this.extraHtmlSnippets = linkGroups;
+	}
+
+	public void addExtraHtmlSnippet(ExtraHtml extraHtml){
+		if(extraHtmlSnippets == null){
+			extraHtmlSnippets = new ArrayList<ExtraHtml>();
+		}
+		extraHtmlSnippets.add(extraHtml);
+	}
 	@Override
 	public String toString() {
 		return "TableConfiguration [featureInfo=" + featureInfo + ", featureAutoWidth=" + featureAutoWidth
