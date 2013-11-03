@@ -59,7 +59,7 @@ import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
 import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
-import com.github.dandelion.datatables.core.generator.javascript.StandardJavascriptGenerator;
+import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 
@@ -175,7 +175,7 @@ public class TableTag extends AbstractTableTag {
 
 		this.table.getTableConfiguration().setExportProperties(exportProperties);
 		this.table.getTableConfiguration().setExporting(true);
-
+		
 		try {
 			// Call the export delegate
 			ExportDelegate exportDelegate = new ExportDelegate(table, exportProperties, request);
@@ -231,14 +231,15 @@ public class TableTag extends AbstractTableTag {
 //				webResources = (WebResources) AssetCache.cache.get(keyToTest);
 //			}
 
+			// Scope update
 			AssetsRequestContext.get(request)
 				.addScopes("datatables")
 				.addScopes("dandelion-datatables")
 				.addParameter("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM,
 							DatatablesConfigurator.getJavascriptGenerator(), false);
 			
-			JavascriptGenerator javascriptGenerator = (JavascriptGenerator) AssetsRequestContext.get(request)
-				.getParameters().getParameters("dandelion-datatables").get(DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM);
+			// Buffering generated Javascript
+			JavascriptGenerator javascriptGenerator = AssetsRequestContext.get(request).getParameterValue("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM);
 			javascriptGenerator.addResource(jsResource);
 			
 			// HTML generation

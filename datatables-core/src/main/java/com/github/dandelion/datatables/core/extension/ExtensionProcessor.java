@@ -33,8 +33,10 @@ public class ExtensionProcessor {
 	}
 	
 	public void process(Collection<Extension> extensions) throws ExtensionLoadingException{
-		for(Extension extension : extensions){
-			process(extension);
+		if(extensions != null && !extensions.isEmpty()){
+			for(Extension extension : extensions){
+				process(extension);
+			}
 		}
 	}
 	public void process(Extension extension) throws ExtensionLoadingException{
