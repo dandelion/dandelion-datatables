@@ -90,7 +90,7 @@ public class ColumnTag extends AbstractColumnTag {
 			if(columnTitle == null && titleKey != null){
 				if(parent.getTable().getTableConfiguration().getInternalMessageResolver() != null){
 					columnTitle = parent.getTable().getTableConfiguration().getInternalMessageResolver()
-							.getResource(titleKey, property, this, pageContext);
+							.getResource(titleKey, property, pageContext);
 				}
 				else{
 					columnTitle = MessageResolver.UNDEFINED_KEY + titleKey + MessageResolver.UNDEFINED_KEY;

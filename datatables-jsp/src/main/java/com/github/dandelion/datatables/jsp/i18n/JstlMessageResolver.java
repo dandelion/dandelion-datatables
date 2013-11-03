@@ -35,8 +35,6 @@ import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.jstl.fmt.LocalizationContext;
-import javax.servlet.jsp.tagext.Tag;
-import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.taglibs.standard.tag.common.fmt.BundleSupport;
 import org.slf4j.Logger;
@@ -69,24 +67,11 @@ public class JstlMessageResolver extends AbstractMessageResolver {
 
 	public String getResource(String messageKey, String defaultValue, Object... params) {
 
-		Tag tag = null;
-		PageContext pageContext = null;
+		PageContext pageContext = (PageContext) params[1];
 		String message = null;
 		ResourceBundle bundle = null;
-		LocalizationContext localizationContext = null;
-		
-		// I'm so ashamed about that...
-		tag = (Tag) params[0];
-		pageContext = (PageContext) params[1];
 
-		Tag t = TagSupport.findAncestorWithClass(tag, BundleSupport.class);
-		if (t != null) {
-			// use resource bundle from parent <bundle> tag
-			BundleSupport parent = (BundleSupport) t;
-			localizationContext = parent.getLocalizationContext();
-		} else {
-			localizationContext = BundleSupport.getLocalizationContext(pageContext);
-		}
+		LocalizationContext localizationContext = BundleSupport.getLocalizationContext(pageContext);
 
 		if (localizationContext != null) {
 			bundle = localizationContext.getResourceBundle();
@@ -102,13 +87,10 @@ public class JstlMessageResolver extends AbstractMessageResolver {
 				} catch (MissingResourceException e) {
 					logger.warn("No message found with the key The message key {} and locale {}.", messageKey,
 							localizationContext.getLocale());
-					if (StringUtils.isBlank(message)) {
-						message = UNDEFINED_KEY + messageKey + UNDEFINED_KEY;
-					}
+					message = UNDEFINED_KEY + messageKey + UNDEFINED_KEY;
 				}
 			}
-		}
-		else{
+		} else {
 			logger.warn("The bundle hasn't been retrieved. Please check your i18n configuration.");
 			message = UNDEFINED_KEY + messageKey + UNDEFINED_KEY;
 		}
