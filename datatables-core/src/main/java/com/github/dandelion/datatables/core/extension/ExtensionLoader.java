@@ -106,7 +106,9 @@ public class ExtensionLoader {
 		logger.debug("Scanning built-in extensions...");
 
 		// Scanning custom extension based on the base.package property
-		List<Extension> builtinExtensions = scanForExtensions("com.github.dandelion.datatables.core.extension.plugin");
+		List<Extension> builtinExtensions = scanForExtensions(
+				"com.github.dandelion.datatables.core.extension.plugin",
+				"com.github.dandelion.datatables.core.extension.theme");
 
 		// Load custom extension if enabled
 		if (builtinExtensions != null && !builtinExtensions.isEmpty() && table.getTableConfiguration().getMainExtensionNames() != null) {
@@ -159,6 +161,14 @@ public class ExtensionLoader {
 		else{
 			logger.debug("The {} property is blank. Unable to scan any class.", Configuration.MAIN_EXTENSION_PACKAGE.getName());
 		}
+	}
+	
+	private List<Extension> scanForExtensions(String... packageNames) throws ExtensionLoadingException {
+		List<Extension> extensions = new ArrayList<Extension>();
+		for(String packageName : packageNames){
+			extensions.addAll(scanForExtensions(packageName));
+		}
+		return extensions;
 	}
 	
 	private List<Extension> scanForExtensions(String packageName) throws ExtensionLoadingException {
