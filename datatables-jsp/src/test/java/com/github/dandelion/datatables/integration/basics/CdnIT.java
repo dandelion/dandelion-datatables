@@ -35,21 +35,16 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import com.github.dandelion.datatables.core.constants.CdnConstants;
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Test the CDN activation.
  *
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class CdnIT extends BaseIT {
+public class CdnIT extends JspBaseIT {
 
 	@Test
 	public void should_disable_paging_using_dom_source() throws IOException, Exception {

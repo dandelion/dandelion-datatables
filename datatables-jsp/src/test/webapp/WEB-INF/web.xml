@@ -17,7 +17,7 @@
    <!-- Dandelion servlet definition and mapping -->
    <servlet>
       <servlet-name>dandelionServlet</servlet-name>
-      <servlet-class>com.github.dandelion.core.asset.web.AssetServlet3</servlet-class>
+      <servlet-class>com.github.dandelion.core.asset.web.AssetServlet</servlet-class>
       <load-on-startup>2</load-on-startup>
    </servlet>
    <servlet-mapping>

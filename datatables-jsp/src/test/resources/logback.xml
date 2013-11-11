@@ -8,8 +8,8 @@
       </encoder>
    </appender>
 
-   <logger name="com.github.dandelion" level="ERROR" />
-   <logger name="org.eclipse.jetty" level="ERROR" />
+   <logger name="com.github.dandelion" level="DEBUG" />
+   <logger name="org.eclipse.jetty" level="DEBUG" />
    <logger name="org.springframework" level="ERROR" />
    <logger name="org.apache" level="ERROR" />
 

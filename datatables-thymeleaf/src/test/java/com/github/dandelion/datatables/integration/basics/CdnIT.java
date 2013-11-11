@@ -33,21 +33,16 @@ package com.github.dandelion.datatables.integration.basics;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import com.github.dandelion.datatables.core.constants.CdnConstants;
-import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
+import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 
 /**
  * Test the CDN activation.
  * 
  * @author Thibault Duchateau
  */
-@RunWith(ThymeleafContextRunner.class)
-@ThymeleafTest
-public class CdnIT extends BaseIT {
+public class CdnIT extends ThymeleafBaseIT {
 
 
 	@Test

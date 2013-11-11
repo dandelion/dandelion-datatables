@@ -30,19 +30,25 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import org.junit.runner.RunWith;
+import static org.fest.assertions.Assertions.assertThat;
 
-import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.basics.DomBaseIT;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
+import java.io.IOException;
+
+import org.junit.Test;
+
+import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 
 /**
  * Test the dom attribute.
  *
  * @author Thibault Duchateau
  */
-@RunWith(ThymeleafContextRunner.class)
-@ThymeleafTest
-public class DomIT extends DomBaseIT {
+public class DomIT extends ThymeleafBaseIT {
 
+	@Test
+	public void should_apply_css_using_dom() throws IOException, Exception {
+		goToPage("basics/dom_dom");
+
+		assertThat(find("div.dataTables_wrapper").find("div.dataTables_filter")).hasSize(0);
+	}
 }

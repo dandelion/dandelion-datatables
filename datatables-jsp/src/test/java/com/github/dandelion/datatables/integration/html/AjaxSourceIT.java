@@ -3,20 +3,15 @@ package com.github.dandelion.datatables.integration.html;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Test the HTML markup generation using an AJAX source.
  *
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class AjaxSourceIT extends BaseIT {
+public class AjaxSourceIT extends JspBaseIT {
 
 	@Test
 	public void should_generate_table_markup() throws Exception {

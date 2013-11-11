@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.servlet.jsp.JspException;
 
 import org.junit.Before;
-import org.springframework.mock.web.MockBodyContent;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 

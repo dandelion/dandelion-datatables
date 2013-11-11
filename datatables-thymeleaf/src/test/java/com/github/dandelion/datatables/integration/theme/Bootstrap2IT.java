@@ -36,23 +36,18 @@ import java.io.IOException;
 
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Ignore;
-import org.junit.runner.RunWith;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.theme.Bootstrap2BaseIT;
+import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 import com.github.dandelion.datatables.testing.utils.Constants;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
 /**
  * Test the Bootstrap2 theme feature.
  *
  * @author Thibault Duchateau
  */
-@RunWith(ThymeleafContextRunner.class)
-@ThymeleafTest
 @Ignore
-public class Bootstrap2IT extends Bootstrap2BaseIT {
+public class Bootstrap2IT extends ThymeleafBaseIT {
 
 	@Ignore
 	public void should_generate_bottom_right_link() throws IOException, Exception {

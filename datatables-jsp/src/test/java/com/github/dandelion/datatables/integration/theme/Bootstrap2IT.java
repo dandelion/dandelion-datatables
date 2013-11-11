@@ -34,26 +34,23 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.io.IOException;
 
+import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.theme.Bootstrap2BaseIT;
+import com.github.dandelion.datatables.integration.JspBaseIT;
 import com.github.dandelion.datatables.testing.utils.Constants;
-import com.github.dandelion.datatables.testing.utils.JspTest;
 
 /**
  * Test the Bootstrap2 theme feature.
  *
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class Bootstrap2IT extends Bootstrap2BaseIT {
+@Ignore
+public class Bootstrap2IT extends JspBaseIT {
 
 	@Test
 	public void should_generate_table_markup_using_dom_source() throws IOException, Exception {
-		goToPage("themes/bootstrap2_dom");
+		goToPage("themes/bootstrap2_dom", true);
 	
 		StringBuilder baseHref = new StringBuilder(getDefaultBaseUrl());
 		baseHref.append("/datatablesController/datatables-bootstrap2.css?id=");

@@ -33,21 +33,32 @@ package com.github.dandelion.datatables.integration.basics;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.basics.VisibleBaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Test the visibility feature on columns.
  *
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class VisibleIT extends VisibleBaseIT {
+public class VisibleIT extends JspBaseIT {
 
+	@Test
+	public void should_hide_the_last_column_using_dom() {
+		goToPage("basics/visible_dom");
+		
+		assertThat(getTable().find("thead").find("th")).hasSize(4);
+		assertThat(getTable().find("tbody").findFirst("tr").find("td")).hasSize(4);
+	}
+	
+	@Test
+	public void should_hide_the_last_column_using_ajax() {
+		goToPage("basics/visible_ajax");
+		
+		assertThat(getTable().find("thead").find("th")).hasSize(4);
+		assertThat(getTable().find("tbody").findFirst("tr").find("td")).hasSize(4);
+	}
+	
 	@Test
 	public void should_hide_the_last_column_using_runtime_expression() {
 		goToPage("basics/visible_runtime_expression");

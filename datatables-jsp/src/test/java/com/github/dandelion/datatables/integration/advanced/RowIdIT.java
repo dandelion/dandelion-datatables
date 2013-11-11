@@ -33,20 +33,15 @@ package com.github.dandelion.datatables.integration.advanced;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Test the RowId feature.
  *
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class RowIdIT extends BaseIT {
+public class RowIdIT extends JspBaseIT {
 
 	@Test
 	public void should_generate_rowid_with_only_base() throws Exception {

@@ -30,19 +30,29 @@
 
 package com.github.dandelion.datatables.integration.advanced;
 
-import org.junit.runner.RunWith;
+import static org.fest.assertions.Assertions.assertThat;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.advanced.CustomExtensionsBaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import org.junit.Test;
+
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Test the enablement of custom extensions.
  *
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class CustomExtensionsIT extends CustomExtensionsBaseIT {
+public class CustomExtensionsIT extends JspBaseIT {
 
+	@Test
+	public void should_enable_myCustomFeature() throws Exception {
+		goToPage("advanced/custom-extensions/custom_extensions");
+		assertThat(getConfigurationFromPage("advanced/custom-extensions/custom_extensions")).contains("\"bStateSave\":true");
+	}
+	
+	@Test
+	public void should_enable_myCustomFeature_and_myOtherCustomFeature() throws Exception {
+		goToPage("advanced/custom-extensions/custom_extensions2");
+		assertThat(getConfigurationFromPage("advanced/custom-extensions/custom_extensions2")).contains("\"bStateSave\":true");
+		assertThat(getConfigurationFromPage("advanced/custom-extensions/custom_extensions2")).contains("\"bAutoWidth\":true");
+	}
 }

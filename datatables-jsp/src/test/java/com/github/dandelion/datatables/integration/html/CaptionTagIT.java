@@ -5,20 +5,15 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Test the HTML markup generation with custom caption tag.
  *
  * @author Gautier Dhordain
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class CaptionTagIT extends BaseIT {
+public class CaptionTagIT extends JspBaseIT {
 
 	@Test
 	public void should_not_generate_caption_tag_by_default() throws IOException, Exception{

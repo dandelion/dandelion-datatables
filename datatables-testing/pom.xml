@@ -22,7 +22,7 @@
       <phantomjsdriver.version>1.0.1</phantomjsdriver.version>
       <festassert.version>1.4</festassert.version>
       <junit.dep.version>4.11</junit.dep.version>
-      <spring.version>3.2.2.RELEASE</spring.version>
+      <spring.version>3.2.4.RELEASE</spring.version>
       <logback.classic.version>1.0.9</logback.classic.version>
       <jetty.test.version>8.1.10.v20130312</jetty.test.version>
       <jackson.version>2.1.2</jackson.version>

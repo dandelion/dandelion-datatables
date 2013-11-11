@@ -32,12 +32,9 @@ package com.github.dandelion.datatables.integration.advanced;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
+import com.github.dandelion.datatables.integration.JspBaseIT;
 import com.github.dandelion.datatables.testing.utils.Constants;
-import com.github.dandelion.datatables.testing.utils.JspTest;
 
 /**
  * Test the dynamic attributes.
@@ -45,13 +42,11 @@ import com.github.dandelion.datatables.testing.utils.JspTest;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class DynamicAttributesIT extends BaseIT {
+public class DynamicAttributesIT extends JspBaseIT {
 
 	@Test
 	public void should_accept_allowed_dynamic_attributes(){
-		goToPage("advanced/dynamic_allowed_attributes");
+		goToPage("advanced/dynamic_allowed_attributes", true);
 		
 		assertThat(getTable().getAttribute("name")).isEqualTo("myName");
 		assertThat(getTable().getAttribute("border")).isEqualTo("2px solid black");

@@ -36,20 +36,15 @@ import java.io.IOException;
 
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
+import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 
 /**
  * Test the HTML markup generation.
  *
  * @author Thibault Duchateau
  */
-@RunWith(ThymeleafContextRunner.class)
-@ThymeleafTest
-public class DomSourceIT extends BaseIT {
+public class DomSourceIT extends ThymeleafBaseIT {
 
 	@Test
 	public void should_generate_table_markup() throws IOException, Exception {

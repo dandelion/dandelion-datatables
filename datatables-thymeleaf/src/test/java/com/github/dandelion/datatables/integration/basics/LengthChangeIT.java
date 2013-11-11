@@ -33,21 +33,16 @@ package com.github.dandelion.datatables.integration.basics;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
+import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 import com.github.dandelion.datatables.testing.utils.Constants;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
 /**
  * Test the pagination options.
  *
  * @author Gautier Dhordain
  */
-@RunWith(ThymeleafContextRunner.class)
-@ThymeleafTest
-public class LengthChangeIT extends BaseIT {
+public class LengthChangeIT extends ThymeleafBaseIT {
 
 	@Test
 	public void should_disable_length_change() throws Exception {

@@ -27,14 +27,21 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.testing;
+package com.github.dandelion.datatables.integration;
 
 import java.io.File;
+import java.util.ArrayList;
 
+import org.apache.jasper.servlet.JspServlet;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.nio.SelectChannelConnector;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.fluentlenium.core.Fluent;
 import org.fluentlenium.core.domain.FluentList;
 import org.fluentlenium.core.domain.FluentWebElement;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
@@ -45,9 +52,11 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
+import com.github.dandelion.core.asset.AssetType;
+import com.github.dandelion.core.asset.cache.AssetsCacheSystem;
+import com.github.dandelion.datatables.core.mock.Mock;
+import com.github.dandelion.datatables.core.mock.Person;
 import com.github.dandelion.datatables.testing.utils.Constants;
-import com.github.dandelion.datatables.testing.utils.JspTest;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
 
 /**
  * <p>
@@ -60,10 +69,53 @@ import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public abstract class BaseIT extends Fluent {
+public abstract class JspBaseIT extends Fluent {
 
+	protected static Server server;
 	protected static WebDriver driver;
 	protected static WebAppContext context;
+	
+	@BeforeClass
+	public static void beforeClass(){
+		// Add system property to disable asset caching
+		System.setProperty("dandelion.dev.mode", "true");
+
+		// Create a new web server
+		server = new Server();
+		SelectChannelConnector connector = new SelectChannelConnector();
+		connector.setHost(Constants.SERVER_HOST);
+		connector.setPort(Constants.SERVER_PORT);
+		server.addConnector(connector);
+
+		context = new WebAppContext("src/test/webapp", "/");
+
+		// Add support for JSP
+		ServletHolder jsp = context.addServlet(JspServlet.class, "*.jsp");
+		jsp.setInitParameter("classpath", context.getClassPath());
+
+		// Add new servlet context attributes
+		context.setAttribute("persons", Mock.persons);
+		context.setAttribute("emptyList", new ArrayList<Person>());
+		context.setAttribute("nullList", null);
+
+		server.setHandler(context);
+		server.setStopAtShutdown(true);
+
+		try {
+			server.start();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	@AfterClass
+	public static void afterClass(){
+		try {
+			server.stop();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 	
 	@Rule
 	public TestWatcher watchman = new TestWatcher() {
@@ -134,31 +186,20 @@ public abstract class BaseIT extends Fluent {
 	 *            The page to load, without any prefix or suffix.
 	 */
 	public void goToPage(String page){
-		if(this.getClass().isAnnotationPresent(JspTest.class)){
-			goTo("/" + page + ".jsp");
-		}
-		else if(this.getClass().isAnnotationPresent(ThymeleafTest.class)) {
-			goTo("/thymeleaf/" + page);
-		}
+		goTo("/" + page + ".jsp");
 	}
 	
 	public void goToPage(String page, Boolean display){
 		goToPage(page);
 		if(display){
 			System.out.println(driver.getPageSource());
-//			System.out.println(getConfigurationFromPage(page).getContent());
+			System.out.println(getConfigurationFromPage(page));
 		}
 	}
 	
-//	public JsResource getConfigurationFromPage(String page) {
-//		String url = null;
-//		if(this.getClass().isAnnotationPresent(JspTest.class)){
-//			url = "/" + page + ".jsp|myTableId";
-//		}
-//		else if(this.getClass().isAnnotationPresent(ThymeleafTest.class)) {
-//			url = "/thymeleaf/" + page + "|myTableId";
-//		}
-//		WebResources webResources = ((WebResources) AssetCache.cache.get(url));
-//		return webResources.getMainJsFile() != null ? webResources.getMainJsFile() : null;
-//	}
+	public String getConfigurationFromPage(String page) {
+		String url = "/" + page + ".jsp";
+		String cacheKey = AssetsCacheSystem.generateCacheKey("http://" + Constants.SERVER_HOST + ":" + Constants.SERVER_PORT + url, "dandelion-datatables.js", "dandelion-datatables", AssetType.js);
+		return AssetsCacheSystem.getCacheContent(cacheKey);
+	}
 }
