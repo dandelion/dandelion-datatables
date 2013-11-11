@@ -16,14 +16,12 @@ import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.aggregator.ResourceAggregator;
-import com.github.dandelion.datatables.core.asset.CssResource;
+import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import com.github.dandelion.core.asset.wrapper.impl.DelegatedLocationWrapper;
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.ResourceType;
-import com.github.dandelion.datatables.core.asset.WebResources;
-import com.github.dandelion.datatables.core.cache.AssetCache;
-import com.github.dandelion.datatables.core.compressor.ResourceCompressor;
 import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
@@ -36,13 +34,11 @@ import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
+import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.DandelionUtils;
 import com.github.dandelion.datatables.core.util.RequestHelper;
-import com.github.dandelion.datatables.core.util.StringUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesElProcessor;
-import com.github.dandelion.datatables.thymeleaf.util.DomUtils;
 
 /**
  * <p>
@@ -206,7 +202,6 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 	 * Set up the HTML table generation.
 	 */
 	private void setupHtmlGeneration(Arguments arguments, Element element, HttpServletRequest request) {
-		WebResources webResources = null;
 		
 		this.htmlTable.getTableConfiguration().setExporting(false);
 
@@ -215,65 +210,36 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 			// First we check if the DataTables configuration already exist in the cache
 			String keyToTest = RequestHelper.getCurrentURIWithParameters(request) + "|" + htmlTable.getId();
 
-			if(DandelionUtils.isDevModeEnabled() || !AssetCache.cache.containsKey(keyToTest)){
-				logger.debug("No asset for the key {}. Generating...", keyToTest);
-				
+//			if(DandelionUtils.isDevModeEnabled() || !AssetCache.cache.containsKey(keyToTest)){
+//				logger.debug("No asset for the key {}. Generating...", keyToTest);
+//				
 				// Init the web resources generator
 				WebResourceGenerator contentGenerator = new WebResourceGenerator(htmlTable);
 	
 				// Generate the web resources (JS, CSS) and wrap them into a
 				// WebResources POJO
-				webResources = contentGenerator.generateWebResources();
+				JsResource jsResource = contentGenerator.generateWebResources();
 				logger.debug("Web content generated successfully");
 				
-				AssetCache.cache.put(keyToTest, webResources);
-				logger.debug("Cache updated with new web resources");
-			}
-			else{
-				logger.debug("Asset(s) already exist, retrieving content from cache...");
+//				AssetCache.cache.put(keyToTest, webResources);
+//				logger.debug("Cache updated with new web resources");
+//			}
+//			else{
+//				logger.debug("Asset(s) already exist, retrieving content from cache...");
+//
+//				webResources = (WebResources) AssetCache.cache.get(keyToTest);
+//			}
 
-				webResources = (WebResources) AssetCache.cache.get(keyToTest);
-			}
-						
-			// Aggregation
-			if (htmlTable.getTableConfiguration().getMainAggregatorEnable()) {
-				logger.debug("Aggregation enabled");
-				ResourceAggregator.processAggregation(webResources, htmlTable);
-			}
-
-			// Compression
-			if (htmlTable.getTableConfiguration().getMainCompressorEnable()) {
-				logger.debug("Compression enabled");
-				ResourceCompressor.processCompression(webResources, htmlTable);
-			}
-
-			Element rootElement = arguments.getDocument().getFirstElementChild();
-			Element head = DomUtils.findElement(rootElement, "head");
-			Element body = DomUtils.findElement(rootElement, "body");
+			// Scope update
+			AssetsRequestContext.get(request)
+				.addScopes("datatables")
+				.addScopes("dandelion-datatables")
+				.addParameter("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM,
+							DatatablesConfigurator.getJavascriptGenerator(), false);
 			
-			// <link> HTML tag generation
-			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
-				if(entry.getValue().getType().equals(ResourceType.EXTERNAL)){
-					DomUtils.insertLinkTag(entry.getValue().getLocation(), head);
-				}
-				else{
-					DomUtils.insertLinkTag(RequestHelper.getAssetSource(entry.getKey(), htmlTable, request, false), head);
-				}
-			}
-			if (htmlTable.getTableConfiguration().getMainCdn() != null && htmlTable.getTableConfiguration().getMainCdn()) {
-				DomUtils.insertLinkTag(htmlTable.getTableConfiguration().getMainCdnCss(), head);
-			}
-
-			// <script> HTML tag generation
-			if (htmlTable.getTableConfiguration().getMainCdn() != null && htmlTable.getTableConfiguration().getMainCdn()) {
-				DomUtils.insertScriptTag(htmlTable.getTableConfiguration().getMainCdnJs(), body);
-			}
-			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
-				String src = RequestHelper.getAssetSource(entry.getKey(), htmlTable, request, false);
-				DomUtils.insertScriptTag(src, body);
-			}
-			String src = RequestHelper.getAssetSource(webResources.getMainJsFile().getName(), htmlTable, request, true);
-			DomUtils.insertScriptTag(src, body);
+			// Buffering generated Javascript
+			JavascriptGenerator javascriptGenerator = AssetsRequestContext.get(request).getParameterValue("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM);
+			javascriptGenerator.addResource(jsResource);
 
 			logger.debug("Web content generated successfully");
 		} catch (CompressionException e) {

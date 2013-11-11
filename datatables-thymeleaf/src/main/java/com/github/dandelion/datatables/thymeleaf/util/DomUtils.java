@@ -38,64 +38,6 @@ import org.thymeleaf.dom.Node;
  * @author Thibault Duchateau
  */
 public class DomUtils {
-
-	public static void insertScriptTag(String src, Element element){
-		Element script = new Element("script");
-		script.setAttribute("src", src);
-		element.insertChild(element.getChildren().size(), script);
-	}
-	
-	public static void insertLinkTag(String src, Element element){
-		Element link = new Element("link");
-		link.setAttribute("href", src);
-		link.setAttribute("rel", "stylesheet");
-		element.insertChild(element.getChildren().size(), link);
-	}
-	
-
-	public static Element getParentAsElement(Element element) {
-		return (Element) element.getParent();
-	}
-
-	public static Element getGrandParentAsElement(Element element) {
-		return (Element) element.getParent().getParent();
-	}
-
-	public static Element getParent(Element element) {
-		if (element.hasParent()) {
-			return (Element) getParent(element);
-		} else {
-			return element;
-		}
-	}
-
-
-	/**
-	 * Recursively search a node by its type inside a root node.
-	 * 
-	 * @param nodeClass
-	 *            The class to look for.
-	 * @return The first node corresponding to the searched class.
-	 */
-	public static Node getNodeByType(Element root, Class<? extends Node> nodeClass) {
-
-		Node retval = null;
-
-		if (root != null && root.hasChildren()) {
-			for (Node node : root.getChildren()) {
-				if (node.getClass().equals(nodeClass)) {
-					retval = node;
-					break;
-				}
-			}
-			if (retval == null) {
-				retval = getNodeByType(root.getFirstElementChild(), nodeClass);
-			}
-		}
-
-		return retval;
-	}
-	
 	
 	/**
 	 * Recursive search for an element within the given node in the DOM tree.
