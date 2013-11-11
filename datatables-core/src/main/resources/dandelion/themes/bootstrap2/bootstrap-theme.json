@@ -3,7 +3,7 @@
     "parent": "bootstrap",
     "assets": [
         {
-            "name": "bootstrap",
+            "name": "bootstrap-theme",
             "version": "0.0.1",
             "type": "js",
             "locations": {
@@ -11,7 +11,7 @@
             }
         },
         {
-            "name": "bootstrap",
+            "name": "bootstrap-theme",
             "version": "0.0.1",
             "type": "css",
             "locations": {

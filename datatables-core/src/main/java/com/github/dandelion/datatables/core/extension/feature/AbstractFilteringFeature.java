@@ -45,12 +45,14 @@ public abstract class AbstractFilteringFeature extends AbstractExtension {
 
 	@Override
 	public String getName() {
-		return "Filtering";
+		return "filtering";
 	}
 
 	@Override
 	public void setup(HtmlTable table) throws ExtensionLoadingException {
 
+		addScope("dandelion-datatables-filtering");
+		
 		if(table.getTableConfiguration().getFeatureFilterPlaceholder() != null){
 			switch (table.getTableConfiguration().getFeatureFilterPlaceholder()){
 			case FOOT:
@@ -73,8 +75,6 @@ public abstract class AbstractFilteringFeature extends AbstractExtension {
 		
 		setFunction("columnFilter");
 		setConfigGenerator(new ColumnFilteringGenerator());
-		
-		addScope("filtering");
 	}
 	
 	protected abstract void adaptHeader(HtmlTable table);
