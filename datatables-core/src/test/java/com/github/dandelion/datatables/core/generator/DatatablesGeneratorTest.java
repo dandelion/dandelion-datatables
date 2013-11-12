@@ -165,22 +165,6 @@ public class DatatablesGeneratorTest {
 	}
 
 	@Test
-	public void should_override_searchable_if_column_is_not_visible() {
-		firstColumn.getColumnConfiguration().setSearchable(true);
-		firstColumn.getColumnConfiguration().setVisible(false);
-
-		Map<String, Object> mainConf = generator.generateConfig(table);
-
-		List<Map<String, Object>> columnsProperties = (List<Map<String, Object>>)mainConf.get(DTConstants.DT_AOCOLUMNS);
-		assertThat(columnsProperties).hasSize(1);
-		Map<String, Object> firstColumnProperties = columnsProperties.get(0);
-		Map<String, Object> customProperties = new HashMap<String, Object>(defaultProperties);
-		customProperties.put(DTConstants.DT_VISIBLE, false);
-		customProperties.put(DTConstants.DT_SEARCHABLE, false);
-		assertThat(firstColumnProperties).isEqualTo(customProperties);
-	}
-
-	@Test
 	public void should_set_mData() {
 		firstColumn.getColumnConfiguration().setProperty("aProperty");
 
