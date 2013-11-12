@@ -179,13 +179,17 @@ public class ExportManager {
 				if(conf.isCustom()){
 					String tableId = "oTable_" + table.getId();
 					
+					StringBuilder exportFuncName = new StringBuilder("ddl_dt_launch_export_");
+					exportFuncName.append(tableId);
+					exportFuncName.append("_");
+                                        exportFuncName.append(conf.getType().name());
+					
+                                        StringBuilder exportFunc = new StringBuilder("function ");
+                                        exportFunc.append(exportFuncName.toString());
+                                        exportFunc.append("(){");
+                                        
 					// HTTP GET
 					if(conf.getMethod().equals(HttpMethod.GET)){
-						
-						StringBuilder exportFunc = new StringBuilder("function ddl_dt_launch_export_");
-						exportFunc.append(conf.getType().name());
-						exportFunc.append("(){");
-						
 						StringBuilder params = new StringBuilder();
 						if(StringUtils.isNotBlank(table.getTableConfiguration().getAjaxServerParam())){
 							exportFunc.append("var aoData = ");
@@ -217,17 +221,9 @@ public class ExportManager {
 						exportFunc.append("));}");
 						
 						mainJsfile.appendToBeforeAll(exportFunc.toString());
-						
-						link.setOnclick("ddl_dt_launch_export_" + conf.getType().name() + "();");
-						
 					}
 					// HTTP POST/PUT/DELETE
 					else{
-						
-						StringBuilder exportFunc = new StringBuilder("function ddl_dt_launch_export_");
-						exportFunc.append(conf.getType().name());
-						exportFunc.append("(){");
-						
 						StringBuilder params = new StringBuilder();
 						if(StringUtils.isNotBlank(table.getTableConfiguration().getAjaxServerParam())){
 							exportFunc.append("var aoData = ");
@@ -255,10 +251,9 @@ public class ExportManager {
 						exportFunc.append("');");
 						exportFunc.append("}");
 						
-						mainJsfile.appendToBeforeAll(exportFunc.toString());
-						
-						link.setOnclick("ddl_dt_launch_export_" + conf.getType().name() + "();");
+						mainJsfile.appendToBeforeAll(exportFunc.toString());					
 					}
+					link.setOnclick(exportFuncName.toString().concat("();"));
 				}
 				else{
 					link.setHref(conf.getUrl());
