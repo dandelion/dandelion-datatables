@@ -176,10 +176,6 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 
 				// Visible
 				tmp.put(DTConstants.DT_VISIBLE, column.getColumnConfiguration().getVisible());
-				if (column.getColumnConfiguration().getVisible() != null
-						&& !column.getColumnConfiguration().getVisible()) {
-					tmp.put(DTConstants.DT_SEARCHABLE, false);
-				}
 
 				// Column's content
 				if (StringUtils.isNotBlank(column.getColumnConfiguration().getProperty())) {
