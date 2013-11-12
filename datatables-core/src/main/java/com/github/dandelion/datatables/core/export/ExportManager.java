@@ -182,11 +182,11 @@ public class ExportManager {
 					StringBuilder exportFuncName = new StringBuilder("ddl_dt_launch_export_");
 					exportFuncName.append(tableId);
 					exportFuncName.append("_");
-                                        exportFuncName.append(conf.getType().name());
+					exportFuncName.append(conf.getType().name());
 					
-                                        StringBuilder exportFunc = new StringBuilder("function ");
-                                        exportFunc.append(exportFuncName.toString());
-                                        exportFunc.append("(){");
+					StringBuilder exportFunc = new StringBuilder("function ");
+					exportFunc.append(exportFuncName.toString());
+					exportFunc.append("(){");
                                         
 					// HTTP GET
 					if(conf.getMethod().equals(HttpMethod.GET)){
