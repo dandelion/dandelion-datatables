@@ -68,7 +68,7 @@ public class Struts1MessageResolver extends AbstractMessageResolver {
 		PageContext pageContext = null;
 
 		// I'm still so ashamed about that...
-		pageContext = (PageContext) params[1];
+		pageContext = (PageContext) params[0];
 
 		// Both title and titleKey attributes are not used
 		if (messageKey == null || StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
