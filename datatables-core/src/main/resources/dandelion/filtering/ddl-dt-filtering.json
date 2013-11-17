@@ -1,0 +1,14 @@
+{
+    "scope" : "ddl-dt-filtering",
+    "parent": "datatables",
+    "assets": [
+        {
+            "name": "filtering-js",
+            "version": "1.5.3",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/features/filtering/filteringaddon.js"
+            }
+        }
+    ]
+}

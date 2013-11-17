@@ -1,0 +1,14 @@
+{
+    "scope" : "ddl-dt-sorting-date-uk",
+    "parent": "datatables",
+    "assets": [
+        {
+            "name": "sorting-date-uk",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/features/sorting/date-uk.js"
+            }
+        }
+    ]
+}

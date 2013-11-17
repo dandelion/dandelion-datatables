@@ -1,0 +1,14 @@
+{
+    "scope" : "ddl-dt-theme-jqueryui-uilightness",
+    "parent": "ddl-dt-theme-jqueryui",
+    "assets": [
+        {
+            "name": "jqueryui-uilightness-css",
+            "version": "1.9.2",
+            "type": "css",
+            "locations": {
+                "remote": "//ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/ui-lightness/jquery-ui.css"
+            }
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "scope" : "ddl-dt-paging-fourbutton",
+    "parent": "datatables",
+    "assets": [
+        {
+            "name": "fourbutton-js",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/features/paginationType/four_button.js"
+            }
+        }
+    ]
+}

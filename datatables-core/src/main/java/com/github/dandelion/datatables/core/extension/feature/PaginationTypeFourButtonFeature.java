@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
+import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -53,7 +54,7 @@ public class PaginationTypeFourButtonFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addScope("fourbutton-pagination");
+		addScope(Scope.DDL_DT_PAGING_FOURBUTTON);
 		addParameter(DTConstants.DT_PAGINATION_TYPE, "four_button");
 	}
 }

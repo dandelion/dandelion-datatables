@@ -47,6 +47,7 @@ import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.cache.AssetCache;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
+import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
@@ -233,8 +234,8 @@ public class TableTag extends AbstractTableTag {
 
 			// Scope update
 			AssetsRequestContext.get(request)
-				.addScopes("datatables")
-				.addScopes("dandelion-datatables")
+				.addScopes(Scope.DDL_DT.getScopeName())
+				.addScopes(Scope.DATATABLES.getScopeName())
 				.addParameter("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM,
 							DatatablesConfigurator.getJavascriptGenerator(), false);
 			

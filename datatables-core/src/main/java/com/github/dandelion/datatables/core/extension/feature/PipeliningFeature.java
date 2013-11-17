@@ -29,14 +29,12 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import java.io.IOException;
-
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
+import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.FileUtils;
 
 /**
  * <p>Pipelining feature that may be used if server-side processing has been
@@ -56,25 +54,15 @@ public class PipeliningFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) throws ExtensionLoadingException {
-		String content;
-		try {
-			content = FileUtils
-					.getFileContentFromClasspath("datatables/ajax/pipelining.js");
-		} catch (IOException e) {
-			throw new ExtensionLoadingException("Unable to read the content of the file 'pipelining.js'", e);
-		}
-
-		// Add the table id to avoid conflict if several tables use pipelining
-		// in the same page
-		String adaptedContent = content.replace("oCache", "oCache_" + table.getId());
+		
+		addScope(Scope.DDL_DT_AJAX_PIPELINING);
+		
+		addScopeParameter("pipelining-js", "oCache", "oCache_" + table.getId());
 		
 		// Adapt the pipe size if it has been overriden
 		if (table.getTableConfiguration().getAjaxPipeSize() != 5) {
-			appendToBeforeAll(adaptedContent
-					.replace("var iPipe = 5", "var iPipe = " + table.getTableConfiguration().getAjaxPipeSize()));
-		} else {
-			appendToBeforeAll(adaptedContent);
-		}
+			addScopeParameter("pipelining-js", "var iPipe = 5", "var iPipe = " + table.getTableConfiguration().getAjaxPipeSize());
+		} 
 
 		addParameter(DTConstants.DT_FN_SERVERDATA, new JavascriptSnippet("fnDataTablesPipeline"));
 	}

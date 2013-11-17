@@ -1,0 +1,14 @@
+{
+    "scope" : "ddl-dt-theme-jqueryui-start",
+    "parent": "ddl-dt-theme-jqueryui",
+    "assets": [
+        {
+            "name": "jqueryui-start-css",
+            "version": "1.9.2",
+            "type": "css",
+            "locations": {
+                "remote": "//ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/start/jquery-ui.css"
+            }
+        }
+    ]
+}

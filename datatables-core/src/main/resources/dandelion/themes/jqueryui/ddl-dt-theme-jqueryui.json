@@ -1,0 +1,14 @@
+{
+    "scope" : "ddl-dt-theme-jqueryui",
+    "parent": "jqueryui",
+    "assets": [
+        {
+            "name": "jqueryui-css",
+            "version": "0.0.1",
+            "type": "css",
+            "locations": {
+                "classpath": "datatables/themes/jqueryui/jqueryui.css"
+            }
+        }
+    ]
+}

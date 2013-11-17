@@ -1,0 +1,14 @@
+{
+    "scope" : "ddl-dt-sorting-formatted-number",
+    "parent": "datatables",
+    "assets": [
+        {
+            "name": "sorting-formatted-number",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/features/sorting/formatted-numbers.js"
+            }
+        }
+    ]
+}

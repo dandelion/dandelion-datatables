@@ -31,6 +31,7 @@ package com.github.dandelion.datatables.core.extension.theme;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
+import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -56,12 +57,12 @@ public class Bootstrap2Theme extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) throws ExtensionLoadingException {
 
-		addScope("bootstrap-theme");
-		addScope("bootstrap-pagination");
+		addScope(Scope.DDL_DT_THEME_BOOTSTRAP);
+		addScope(Scope.DDL_DT_PAGING_BOOTSTRAP);
 		
 		if (table.getTableConfiguration().getCssThemeOption() != null) {
 			if(table.getTableConfiguration().getCssThemeOption().equals(ThemeOption.TABLECLOTH)){
-				addScope("bootstrap-tablecloth");
+				addScope(Scope.DDL_DT_THEME_BOOTSTRAP_TABLECLOTH);
 			}
 			else{
 				throw new ExtensionLoadingException("Only the 'tablecloth' theme option is compatible with the 'bootstrap2' theme");

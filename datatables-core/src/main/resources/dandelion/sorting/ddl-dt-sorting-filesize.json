@@ -1,0 +1,14 @@
+{
+    "scope" : "ddl-dt-sorting-filesize",
+    "parent": "datatables",
+    "assets": [
+        {
+            "name": "sorting-filesize",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/features/sorting/filesize.js"
+            }
+        }
+    ]
+}

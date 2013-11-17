@@ -1,0 +1,30 @@
+{
+    "scope" : "bootstrap",
+    "parent": "jquery",
+    "assets": [
+        {
+            "name": "bootstrap-js",
+            "version": "2.3.0",
+            "type": "js",
+            "locations": {
+                "remote": "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/js/bootstrap.min.js"
+            }
+        },
+        {
+            "name": "bootstrap-css",
+            "version": "2.3.0",
+            "type": "css",
+            "locations": {
+                "remote": "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/css/bootstrap.min.css"
+            }
+        },
+        {
+            "name": "bootstrap-responsive-css",
+            "version": "2.3.0",
+            "type": "css",
+            "locations": {
+                "remote": "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/css/bootstrap-responsive.min.css"
+            }
+        }
+    ]
+}

@@ -31,6 +31,7 @@ package com.github.dandelion.datatables.core.extension.plugin;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.Parameter;
+import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -57,7 +58,7 @@ public class ScrollerPlugin extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 		
-		addScope("scroller");
+		addScope(Scope.DDL_DT_PLUGIN_SCROLLER);
 
 		if (StringUtils.isNotBlank(table.getTableConfiguration().getFeatureDom())) {
 			addParameter(DTConstants.DT_DOM, "S", Parameter.Mode.APPEND);

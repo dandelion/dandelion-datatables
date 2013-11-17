@@ -22,6 +22,9 @@ public class AbstractExtensionTest {
 	public void setup() throws ExtensionLoadingException{
 		request = new MockHttpServletRequest();
 		table = new HtmlTable("fakeId", request);
+		table.addHeaderRow();
+		table.getLastHeaderRow().addHeaderColumn("column1");
+		table.getLastHeaderRow().addHeaderColumn("column2");
 		mainJsFile = new JsResource();
 		mainConfig = new HashMap<String, Object>();
 		extensionProcessor = new ExtensionProcessor(table, mainJsFile, mainConfig);

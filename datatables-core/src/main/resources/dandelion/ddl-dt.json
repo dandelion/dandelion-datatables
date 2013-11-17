@@ -1,0 +1,14 @@
+{
+	"scope": "ddl-dt",
+	"parent": "ddl-dt-root", 
+    "assets": [
+        {
+            "name": "dandelion-datatables", 
+            "type": "js", 
+            "version": "latest",
+        	"locations": {
+        		"delegated": "dandelion-datatables.js"
+        	}
+        }
+    ]
+}

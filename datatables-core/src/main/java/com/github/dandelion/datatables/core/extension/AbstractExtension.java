@@ -37,6 +37,7 @@ import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.CallbackType;
+import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.generator.configuration.AbstractConfigurationGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -114,10 +115,19 @@ public abstract class AbstractExtension implements Extension {
 		addParameter(new Parameter(parameterName, parameterValue, mode));
 	}
 
+	public void addScope(Scope scope) {
+		AssetsRequestContext.get(table.getTableConfiguration().getRequest()).addScopes(scope.getScopeName());
+	}
+	
 	public void addScope(String scopeName) {
 		AssetsRequestContext.get(table.getTableConfiguration().getRequest()).addScopes(scopeName);
 	}
 
+	public void addScopeParameter(String assetName, String paramName, Object paramValue) {
+		AssetsRequestContext.get(table.getTableConfiguration().getRequest())
+			.addParameter(assetName, paramName, paramValue);
+	}
+	
 	public void addCallback(CallbackType callbackType, String javascript) {
 		addParameter(new Parameter(callbackType.getName(), new JavascriptFunction(javascript, callbackType.getArgs()),
 				Mode.APPEND));

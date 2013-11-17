@@ -30,6 +30,7 @@
 package com.github.dandelion.datatables.core.extension.theme;
 
 import com.github.dandelion.datatables.core.asset.Parameter;
+import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -50,16 +51,92 @@ public class JQueryUITheme extends AbstractExtension {
 	/**
 	 * {@inheritDoc}
 	 */
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	public void setup(HtmlTable table) throws ExtensionLoadingException {
 
-		addScope("jqueryui-theme");
+		addScope(Scope.DDL_DT_THEME_JQUERYUI);
 		addParameter(new Parameter(DTConstants.DT_JQUERYUI, true));
 
-//		if (table.getTableConfiguration().getCssThemeOption() != null) {
-//			addCssResource(new CssResource(ResourceType.EXTERNAL,
-//					table.getTableConfiguration().getCssThemeOption().toString(), table.getTableConfiguration().getCssThemeOption().getCssSource()));
-//		}
+		if (table.getTableConfiguration().getCssThemeOption() != null) {
+			switch(table.getTableConfiguration().getCssThemeOption()){
+			case BASE:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_BASE);
+				break;
+			case BLACKTIE:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_BLACKTIE);
+				break;
+			case BLITZER:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_BLITZER);
+				break;
+			case CUPERTINO:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_CUPERTINO);
+				break;
+			case DARKHIVE:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_DARKHIVE);
+				break;
+			case DOTLUV:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_DOTLUV);
+				break;
+			case EGGPLANT:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_EGGPLANT);
+				break;
+			case EXCITEBIKE:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_EXCITEBIKE);
+				break;
+			case FLICK:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_FLICK);
+				break;
+			case HOTSNEAKS:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_HOTSNEAKS);
+				break;
+			case HUMANITY:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_HUMANITY);
+				break;
+			case LEFROG:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_LEFROG);
+				break;
+			case MINTCHOC:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_MINTCHOC);
+				break;
+			case OVERCAST:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_OVERCAST);
+				break;
+			case PEPPERGRINDER:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_PEPPERGRINDER);
+				break;
+			case REDMOND:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_REDMOND);
+				break;
+			case SMOOTHNESS:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_SMOOTHNESS);
+				break;
+			case SOUTHSTREET:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_SOUTHSTREET);
+				break;
+			case START:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_START);
+				break;
+			case SUNNY:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_SUNNY);
+				break;
+			case SWANKYPURSE:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_SWANKYPURSE);
+				break;
+			case TRONTASTIC:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_TRONTASTIC);
+				break;
+			case UIDARKNESS:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_UIDARKNESS);
+				break;
+			case UILIGHTNESS:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_UILIGHTNESS);
+				break;
+			case VADER:
+				addScope(Scope.DDL_DT_THEME_JQUERYUI_VADER);
+				break;
+			}
+		}
 
 		table.addCssClass("display");
 	}

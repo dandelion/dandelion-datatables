@@ -3,7 +3,7 @@
     "parent": "jquery",
     "assets": [
         {
-            "name": "datatables",
+            "name": "datatables-js",
             "version": "1.9.4",
             "type": "js",
             "locations": {
@@ -11,7 +11,7 @@
             }
         },
         {
-            "name": "datatables",
+            "name": "datatables-css",
             "version": "1.9.4",
             "type": "css",
             "locations": {
