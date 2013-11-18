@@ -29,26 +29,22 @@
  */
 package com.github.dandelion.datatables.core.extension.theme;
 
-import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.configuration.Scope;
-import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
-import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * Bootstrap v2 DataTables theme.
+ * Bootstrap v3 DataTables theme.
  * 
  * @author Thibault Duchateau
- * @since 0.7.1
+ * @since 0.10.0
  */
-public class Bootstrap2Theme extends AbstractExtension {
+public class Bootstrap3Theme extends AbstractExtension {
 
 	@Override
 	public String getName() {
-		return "bootstrap2";
+		return "bootstrap3";
 	}
 
 	/**
@@ -57,24 +53,7 @@ public class Bootstrap2Theme extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) throws ExtensionLoadingException {
 
-		addScope(Scope.DDL_DT_THEME_BOOTSTRAP2);
+		addScope(Scope.DDL_DT_THEME_BOOTSTRAP3);
 		addScope(Scope.DDL_DT_PAGING_BOOTSTRAP);
-		
-		if (table.getTableConfiguration().getCssThemeOption() != null) {
-			if(table.getTableConfiguration().getCssThemeOption().equals(ThemeOption.TABLECLOTH)){
-				addScope(Scope.DDL_DT_THEME_BOOTSTRAP2_TABLECLOTH);
-			}
-			else{
-				throw new ExtensionLoadingException("Only the 'tablecloth' theme option is compatible with the 'bootstrap2' theme");
-			}
-		}
-		
-		// DataTables parameters
-		if (StringUtils.isBlank(table.getTableConfiguration().getFeatureDom())) {
-			addParameter(DTConstants.DT_DOM,
-					"<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>");
-		}
-		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
-		addParameter(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]"));
 	}
 }

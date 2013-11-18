@@ -1,0 +1,22 @@
+{
+    "scope" : "ddl-dt-theme-bootstrap3",
+    "parent": "bootstrap3",
+    "assets": [
+        {
+            "name": "bootstrap3-theme-js",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/themes/bootstrap3/dataTables.bootstrap.js"
+            }
+        },
+        {
+            "name": "bootstrap3-theme-css",
+            "version": "1.0.0",
+            "type": "css",
+            "locations": {
+                "classpath": "datatables/themes/bootstrap3/dataTables.bootstrap.css"
+            }
+        }
+    ]
+}

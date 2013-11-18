@@ -1,9 +1,9 @@
 {
-    "scope" : "ddl-dt-theme-bootstrap",
-    "parent": "bootstrap",
+    "scope" : "ddl-dt-theme-bootstrap2",
+    "parent": "bootstrap2",
     "assets": [
         {
-            "name": "bootstrap-theme",
+            "name": "bootstrap2-theme",
             "version": "0.0.1",
             "type": "js",
             "locations": {
@@ -11,7 +11,7 @@
             }
         },
         {
-            "name": "bootstrap-theme",
+            "name": "bootstrap2-theme",
             "version": "0.0.1",
             "type": "css",
             "locations": {

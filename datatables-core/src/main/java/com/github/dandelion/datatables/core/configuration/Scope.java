@@ -45,9 +45,10 @@ public enum Scope {
 	
 	DDL_DT_AJAX_PIPELINING("ddl-dt-ajax-pipelining"),
 	
-	DDL_DT_THEME_BOOTSTRAP("ddl-dt-theme-bootstrap"),
-	DDL_DT_THEME_BOOTSTRAP_RESPONSIVE("ddl-dt-theme-bootstrap-responsive"),
-	DDL_DT_THEME_BOOTSTRAP_TABLECLOTH("ddl-dt-theme-bootstrap-tablecloth"),
+	DDL_DT_THEME_BOOTSTRAP2("ddl-dt-theme-bootstrap2"),
+	DDL_DT_THEME_BOOTSTRAP2_RESPONSIVE("ddl-dt-theme-bootstrap2-responsive"),
+	DDL_DT_THEME_BOOTSTRAP2_TABLECLOTH("ddl-dt-theme-bootstrap2-tablecloth"),
+	DDL_DT_THEME_BOOTSTRAP3("ddl-dt-theme-bootstrap3"),
 	DDL_DT_THEME_JQUERYUI("ddl-dt-theme-jqueryui"),
 	DDL_DT_THEME_JQUERYUI_BASE("ddl-dt-theme-jqueryui-base"),
 	DDL_DT_THEME_JQUERYUI_BLACKTIE("ddl-dt-theme-jqueryui-blacktie"),

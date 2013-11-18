@@ -78,7 +78,7 @@ public class Bootstrap2ResponsiveTheme extends AbstractExtension {
 	public void setup(HtmlTable table) throws ExtensionLoadingException {
 
 		// Add necessary web resources
-		addScope(Scope.DDL_DT_THEME_BOOTSTRAP_RESPONSIVE);
+		addScope(Scope.DDL_DT_THEME_BOOTSTRAP2_RESPONSIVE);
 
 		// Necessary variables and breakpoint definitions
 		StringBuilder var = new StringBuilder();

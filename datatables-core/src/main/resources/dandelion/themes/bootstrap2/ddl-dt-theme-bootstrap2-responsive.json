@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-theme-bootstrap-responsive",
+    "scope" : "ddl-dt-theme-bootstrap2-responsive",
     "parent": "bootstrap",
     "assets": [
         {

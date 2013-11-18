@@ -1,0 +1,22 @@
+{
+    "scope" : "bootstrap3",
+    "parent": "jquery",
+    "assets": [
+        {
+            "name": "bootstrap-js",
+            "version": "3.0.2",
+            "type": "js",
+            "locations": {
+                "remote": "//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"
+            }
+        },
+        {
+            "name": "bootstrap-css",
+            "version": "3.0.2",
+            "type": "css",
+            "locations": {
+                "remote": "//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"
+            }
+        }
+    ]
+}

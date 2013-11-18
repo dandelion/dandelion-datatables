@@ -1,9 +1,9 @@
 {
-    "scope" : "ddl-dt-theme-bootstrap-tablecloth",
-    "parent": "ddl-dt-theme-bootstrap",
+    "scope" : "ddl-dt-theme-bootstrap2-tablecloth",
+    "parent": "ddl-dt-theme-bootstrap2",
     "assets": [
         {
-            "name": "bootstrap-tablecloth",
+            "name": "bootstrap2-tablecloth",
             "version": "0.0.1",
             "type": "css",
             "locations": {
