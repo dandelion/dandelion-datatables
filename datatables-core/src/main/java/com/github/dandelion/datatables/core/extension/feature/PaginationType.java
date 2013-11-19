@@ -39,7 +39,7 @@ public enum PaginationType {
 	
 	// --- Bootstrap 2 styles ---
 	BOOTSTRAP,
-	BOOTSTRAP_FOUR_BUTTON;
+	BOOTSTRAP_FULL_NUMBERS;
 	
 	@Override
 	public String toString() {
