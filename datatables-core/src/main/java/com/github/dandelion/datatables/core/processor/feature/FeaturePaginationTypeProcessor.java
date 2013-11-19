@@ -37,6 +37,7 @@ import com.github.dandelion.datatables.core.exception.ConfigurationProcessingExc
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFourButtonFeature;
+import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFullNumbersFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeFourButtonFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeInputFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeListboxFeature;
@@ -59,29 +60,35 @@ public class FeaturePaginationTypeProcessor extends AbstractTableProcessor {
 			}
 
 			switch (type) {
-			case BOOTSTRAP:
-				tableConfiguration.registerExtension(new PaginationTypeBootstrapFeature());
-				break;
-			case INPUT:
-				tableConfiguration.registerExtension(new PaginationTypeInputFeature());
-				break;
-			case LISTBOX:
-				tableConfiguration.registerExtension(new PaginationTypeListboxFeature());
-				break;
-			case SCROLLING:
-				tableConfiguration.registerExtension(new PaginationTypeScrollingFeature());
-				break;
-			case FOUR_BUTTON:
-				tableConfiguration.registerExtension(new PaginationTypeFourButtonFeature());
-				break;
-			case BOOTSTRAP_FOUR_BUTTON:
-				tableConfiguration.registerExtension(new PaginationTypeBootstrapFourButtonFeature());
-				break;
-			default:
-				break;
+				case INPUT:
+					tableConfiguration.registerExtension(new PaginationTypeInputFeature());
+					break;
+				case LISTBOX:
+					tableConfiguration.registerExtension(new PaginationTypeListboxFeature());
+					break;
+				case SCROLLING:
+					tableConfiguration.registerExtension(new PaginationTypeScrollingFeature());
+					break;
+				case FOUR_BUTTON:
+					tableConfiguration.registerExtension(new PaginationTypeFourButtonFeature());
+					break;
+				
+				// --- Bootstrap 2 styles ---
+				case BOOTSTRAP:
+					tableConfiguration.registerExtension(new PaginationTypeBootstrapFeature());
+					break;
+				case BOOTSTRAP_FOUR_BUTTON:
+					tableConfiguration.registerExtension(new PaginationTypeBootstrapFourButtonFeature());
+					break;
+				case BOOTSTRAP_FULL_NUMBERS:
+					tableConfiguration.registerExtension(new PaginationTypeBootstrapFullNumbersFeature());
+					break;
+				
+				default:
+					break;
 			}
 		}
-
+		
 		tableConfiguration.setFeaturePaginationType(type);
 	}
 }

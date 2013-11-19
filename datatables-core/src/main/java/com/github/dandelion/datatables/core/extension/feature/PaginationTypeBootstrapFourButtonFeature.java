@@ -17,10 +17,10 @@ public class PaginationTypeBootstrapFourButtonFeature extends AbstractExtension 
 	public String getName() {
 		return "PaginationTypeBootstrapFourButton";
 	}
-
+	
 	@Override
 	public void setup(HtmlTable table) {
 		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeBootstrapFourButton", "datatables/features/paginationType/bootstrap_four_button.js"));
-		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "bootstrap", Parameter.Mode.OVERRIDE));
+		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "bootstrap_four_button", Parameter.Mode.OVERRIDE));
 	}
 }
