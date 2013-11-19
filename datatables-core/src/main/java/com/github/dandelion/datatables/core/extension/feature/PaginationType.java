@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 /**
- * TODO
+ * Enum containing all alternative pagination style.
  *
  * @author Thibault Duchateau
  */

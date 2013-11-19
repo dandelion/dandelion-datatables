@@ -1,0 +1,14 @@
+{
+    "scope" : "ddl-dt-paging-bootstrap-four-button",
+    "parent": "ddl-dt",
+    "assets": [
+        {
+            "name": "bootstrap-four-button",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/features/paginationType/bootstrap_four_button.js"
+            }
+        }
+    ]
+}

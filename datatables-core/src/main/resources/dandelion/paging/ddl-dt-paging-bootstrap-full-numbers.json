@@ -1,0 +1,14 @@
+{
+    "scope" : "ddl-dt-paging-bootstrap-full-numbers",
+    "parent": "ddl-dt",
+    "assets": [
+        {
+            "name": "bootstrap-full-numbers",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/features/paginationType/bootstrap_full_numbers.js"
+            }
+        }
+    ]
+}
