@@ -1,6 +1,5 @@
 /* API method to get paging information */
-$.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
-{
+$.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings ) {
     return {
         "iStart":         oSettings._iDisplayStart,
         "iEnd":           oSettings.fnDisplayEnd(),
@@ -14,7 +13,7 @@ $.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
 
 /* Bootstrap style pagination control */
 $.extend( $.fn.dataTableExt.oPagination, {
-    "bootstrap": {
+    "bootstrap_full_numbers": {
         "fnInit": function( oSettings, nPaging, fnDraw ) {
             var oLang = oSettings.oLanguage.oPaginate;
             var fnClickHandler = function ( e ) {
