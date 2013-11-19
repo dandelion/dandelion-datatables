@@ -11,16 +11,16 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * @see http://www.datatables.net/plug-ins/pagination
  */
-public class PaginationTypeBootstrapFourButtonFeature extends AbstractExtension {
+public class PaginationTypeBootstrapFullNumbersFeature extends AbstractExtension {
 
 	@Override
 	public String getName() {
-		return "PaginationTypeBootstrapFourButton";
+		return "PaginationTypeBootstrapFullNumbers";
 	}
 
 	@Override
 	public void setup(HtmlTable table) {
-		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeBootstrapFourButton", "datatables/features/paginationType/bootstrap_four_button.js"));
-		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "bootstrap", Parameter.Mode.OVERRIDE));
+		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeBootstrapFullNumbers", "datatables/features/paginationType/bootstrap_full_numbers.js"));
+		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "bootstrap_full_numbers", Parameter.Mode.OVERRIDE));
 	}
 }
