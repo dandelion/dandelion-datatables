@@ -39,41 +39,11 @@ $.extend( $.fn.dataTableExt.oPagination, {
         },
         
         "fnUpdate": function ( oSettings, fnDraw ) {
-            var iListLength = 5;
             var oPaging = oSettings.oInstance.fnPagingInfo();
             var an = oSettings.aanFeatures.p;
-            var i, j, sClass, iStart, iEnd, iHalf=Math.floor(iListLength/2);
-            
-            if ( oPaging.iTotalPages < iListLength) {
-                iStart = 1;
-                iEnd = oPaging.iTotalPages;
-            } else if ( oPaging.iPage <= iHalf ) {
-                iStart = 1;
-                iEnd = iListLength;
-            } else if ( oPaging.iPage >= (oPaging.iTotalPages-iHalf) ) {
-                iStart = oPaging.iTotalPages - iListLength + 1;
-                iEnd = oPaging.iTotalPages;
-            } else {
-                iStart = oPaging.iPage - iHalf + 1;
-                iEnd = iStart + iListLength - 1;
-            }
+            var i;
             
             for ( i=0, iLen=an.length ; i<iLen ; i++ ) {
-                // Remove the middle elements
-            	$('li', an[i]).slice(2, -2).remove();
-                
-                // Add the new list items and their event handlers
-                for ( j=iStart ; j<=iEnd ; j++ ) {
-                    sClass = (j==oPaging.iPage+1) ? 'class="active"' : '';
-                    $('<li '+sClass+'><a href="#">'+j+'</a></li>')
-                        .insertBefore( $('li:nth-last-child(2)', an[i])[0] )
-                        .bind('click', function (e) {
-                            e.preventDefault();
-                            oSettings._iDisplayStart = (parseInt($('a', this).text(),10)-1) * oPaging.iLength;
-                            fnDraw( oSettings );
-                        } );
-                }
-                
                 // Add / remove disabled classes from the static elements
                 if ( oPaging.iPage === 0 ) {
                     $('li:first', an[i]).addClass('disabled');
