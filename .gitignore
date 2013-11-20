@@ -10,3 +10,4 @@ rebel.xml
 /dandelion_datatables.jdproj
 *.iml
 snapshots
+.clover
