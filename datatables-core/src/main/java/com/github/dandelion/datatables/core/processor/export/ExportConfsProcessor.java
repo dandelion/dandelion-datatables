@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.core.processor.export;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -41,6 +42,7 @@ import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
+import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.RequestHelper;
@@ -105,6 +107,11 @@ public class ExportConfsProcessor extends AbstractTableProcessor {
 					ExportConf exportConf = new ExportConf(type, url.toString());
 					retval.add(exportConf);
 				}
+			}
+			
+			if(tableConfiguration.getExportLinkPositions() == null){
+				tableConfiguration.setExportLinkPositions(
+						new HashSet<ExportLinkPosition>(Arrays.asList(ExportLinkPosition.TOP_RIGHT)));
 			}
 		}
 		
