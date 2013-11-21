@@ -65,7 +65,7 @@ public class TableConfigurationTest {
 
 		// Export configurations
 		assertThat(tableConfiguration.getExportConfs()).isNull();
-		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT);
+		assertThat(tableConfiguration.getExportLinkPositions()).isNull();
 		assertThat(tableConfiguration.getExportClass(ExportType.XLS)).isEqualTo(
 				"com.github.dandelion.datatables.extras.export.poi.XlsExport");
 		assertThat(tableConfiguration.getExportClass(ExportType.CSV)).isEqualTo(
