@@ -209,28 +209,13 @@ public class TableTag extends AbstractTableTag {
 		this.table.getTableConfiguration().setExporting(false);
 
 		try {
-			// First we check if the DataTables configuration already exist in the cache
-			String keyToTest = RequestHelper.getCurrentURIWithParameters(request) + "|" + table.getId();
-
-//			if(DandelionUtils.isDevModeEnabled() || !AssetCache.cache.containsKey(keyToTest)){
-				logger.debug("No asset for the key {}. Generating...", keyToTest);
-				
-				// Init the web resources generator
-				WebResourceGenerator contentGenerator = new WebResourceGenerator(table);
+			// Init the web resources generator
+			WebResourceGenerator contentGenerator = new WebResourceGenerator(table);
 	
-				// Generate the web resources (JS, CSS) and wrap them into a
-				// WebResources POJO
-				jsResource = contentGenerator.generateWebResources();
-				logger.debug("Web content generated successfully");
-				
-				AssetCache.cache.put(keyToTest, jsResource);
-				logger.debug("Cache updated with new web resources");
-//			}
-//			else{
-//				logger.debug("Asset(s) already exist, retrieving content from cache...");
-//
-//				webResources = (WebResources) AssetCache.cache.get(keyToTest);
-//			}
+			// Generate the web resources (JS, CSS) and wrap them into a
+			// WebResources POJO
+			jsResource = contentGenerator.generateWebResources();
+			logger.debug("Web content generated successfully");
 
 			// Scope update
 			AssetsRequestContext.get(request)
@@ -249,16 +234,12 @@ public class TableTag extends AbstractTableTag {
 		} catch (IOException e) {
 			logger.error("Something went wront with the datatables tag");
 			throw new JspException(e);
-		} catch (CompressionException e) {
-			logger.error("Something went wront with the compressor.");
-			throw new JspException(e);
-		} catch (BadConfigurationException e) {
+		} 
+		catch (BadConfigurationException e) {
 			logger.error("Something went wront with the Dandelion configuration. Please check your Dandelion.properties file");
 			throw new JspException(e);
-		} catch (DataNotFoundException e) {
-			logger.error("Something went wront with the data provider");
-			throw new JspException(e);
-		} catch (ExtensionLoadingException e) {
+		} 
+		catch (ExtensionLoadingException e) {
 			logger.error("Something went wront during the extension loading");
 			throw new JspException(e);
 		}

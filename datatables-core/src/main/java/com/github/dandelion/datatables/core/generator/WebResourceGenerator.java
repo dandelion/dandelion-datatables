@@ -105,9 +105,7 @@ public class WebResourceGenerator {
 	 * @throws BadConfigurationException
 	 * @throws ExtensionLoadingException 
 	 */
-	public JsResource generateWebResources()
-			throws DataNotFoundException, CompressionException, IOException,
-			BadConfigurationException, ExtensionLoadingException {
+	public JsResource generateWebResources() throws IOException, BadConfigurationException, ExtensionLoadingException {
 
 		/**
 		 * Main configuration file building

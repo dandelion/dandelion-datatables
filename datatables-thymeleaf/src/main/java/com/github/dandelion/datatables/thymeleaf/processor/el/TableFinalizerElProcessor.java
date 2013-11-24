@@ -22,11 +22,10 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
+import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
-import com.github.dandelion.datatables.core.exception.DataNotFoundException;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
@@ -207,33 +206,18 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 
 		try {
 
-			// First we check if the DataTables configuration already exist in the cache
-			String keyToTest = RequestHelper.getCurrentURIWithParameters(request) + "|" + htmlTable.getId();
+			// Init the web resources generator
+			WebResourceGenerator contentGenerator = new WebResourceGenerator(htmlTable);
 
-//			if(DandelionUtils.isDevModeEnabled() || !AssetCache.cache.containsKey(keyToTest)){
-//				logger.debug("No asset for the key {}. Generating...", keyToTest);
-//				
-				// Init the web resources generator
-				WebResourceGenerator contentGenerator = new WebResourceGenerator(htmlTable);
-	
-				// Generate the web resources (JS, CSS) and wrap them into a
-				// WebResources POJO
-				JsResource jsResource = contentGenerator.generateWebResources();
-				logger.debug("Web content generated successfully");
-				
-//				AssetCache.cache.put(keyToTest, webResources);
-//				logger.debug("Cache updated with new web resources");
-//			}
-//			else{
-//				logger.debug("Asset(s) already exist, retrieving content from cache...");
-//
-//				webResources = (WebResources) AssetCache.cache.get(keyToTest);
-//			}
+			// Generate the web resources (JS, CSS) and wrap them into a
+			// WebResources POJO
+			JsResource jsResource = contentGenerator.generateWebResources();
+			logger.debug("Web content generated successfully");
 
 			// Scope update
 			AssetsRequestContext.get(request)
-				.addScopes("datatables")
-				.addScopes("dandelion-datatables")
+				.addScopes(Scope.DATATABLES)
+				.addScopes(Scope.DDL_DT.getScopeName())
 				.addParameter("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM,
 							DatatablesConfigurator.getJavascriptGenerator(), false);
 			
@@ -242,16 +226,10 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 			javascriptGenerator.addResource(jsResource);
 
 			logger.debug("Web content generated successfully");
-		} catch (CompressionException e) {
-			logger.error("Something went wront with the compressor.");
-			throw new RuntimeException(e);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} catch (BadConfigurationException e) {
 			logger.error("Something went wront with the Dandelion-datatables configuration.");
-			throw new RuntimeException(e);
-		} catch (DataNotFoundException e) {
-			logger.error("Something went wront with the data provider.");
 			throw new RuntimeException(e);
 		} catch (ExtensionLoadingException e) {
 			logger.error("Something went wront with the extension loading.");
