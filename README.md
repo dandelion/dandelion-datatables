@@ -5,4 +5,4 @@ Dandelion-DataTables
 
 [Dandelion](http://dandelion.github.io) module to create full-features HTML table based on the amazing [DataTables](http://datatables.net/) jQuery plugin.
 
-See the documentation here : [http://dandelion.github.io/datatables](http://dandelion.github.io/datatables)
+See the documentation here: [http://dandelion.github.io/datatables](http://dandelion.github.io/datatables)
