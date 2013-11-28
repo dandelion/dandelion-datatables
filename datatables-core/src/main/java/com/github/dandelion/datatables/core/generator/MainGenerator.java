@@ -30,6 +30,7 @@
 package com.github.dandelion.datatables.core.generator;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -229,8 +230,9 @@ public class MainGenerator extends AbstractConfigurationGenerator {
                 aaSortingtmp.add(column.getColumnConfiguration().getSortInit());
                 aaSortingContent.add(aaSortingtmp);
             }
-
-            columnIndex++;
+            if(column.getEnabledDisplayTypes().contains(DisplayType.HTML) || column.getEnabledDisplayTypes().contains(DisplayType.ALL)) {
+            	columnIndex++;
+            }
         }
         if (!aaSortingContent.isEmpty()) {
             mainConf.put(DTConstants.DT_SORT_INIT, aaSortingContent);

@@ -259,7 +259,11 @@ public class MainGeneratorTest {
 		firstColumn.getColumnConfiguration().setSortInit("desc");
 		headerRow.addHeaderColumn("secondColumn");
 		HtmlColumn thirdColumn = headerRow.addHeaderColumn("thirdColumn");
-		thirdColumn.getColumnConfiguration().setSortInit("asc");
+		Set<DisplayType> enabledDisplayTypes = new HashSet<DisplayType>();
+		enabledDisplayTypes.add(DisplayType.XLS);
+		thirdColumn.setEnabledDisplayTypes(enabledDisplayTypes);
+		HtmlColumn fourthColumn = headerRow.addHeaderColumn("fourthColumn");
+		fourthColumn.getColumnConfiguration().setSortInit("asc");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
