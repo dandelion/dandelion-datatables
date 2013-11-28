@@ -30,7 +30,6 @@
 package com.github.dandelion.datatables.core.generator;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
