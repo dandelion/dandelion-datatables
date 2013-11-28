@@ -230,8 +230,10 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 				aaSortingtmp.add(column.getColumnConfiguration().getSortInit());
 				aaSortingContent.add(aaSortingtmp);
 			}
-
-			columnIndex++;
+			if (column.getEnabledDisplayTypes().contains(DisplayType.HTML)
+					|| column.getEnabledDisplayTypes().contains(DisplayType.ALL)) {
+				columnIndex++;
+			}
 		}
 		if (!aaSortingContent.isEmpty()) {
 			mainConf.put(DTConstants.DT_SORT_INIT, aaSortingContent);
