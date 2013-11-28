@@ -1,6 +1,5 @@
 package com.github.dandelion.datatables.thymeleaf.processor.el;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -24,10 +23,7 @@ import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
-import com.github.dandelion.datatables.core.exception.ExportException;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportProperties;
@@ -166,8 +162,7 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		logger.debug("Setting export up ...");
 
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-		HttpServletResponse response = ((IWebContext) arguments.getContext())
-				.getHttpServletResponse();
+		HttpServletResponse response = ((IWebContext) arguments.getContext()).getHttpServletResponse();
 
 		// Init the export properties
 		ExportProperties exportProperties = new ExportProperties();
@@ -180,19 +175,9 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		this.htmlTable.getTableConfiguration().setExportProperties(exportProperties);
 		this.htmlTable.getTableConfiguration().setExporting(true);
 
-		try {
-			// Call the export delegate
-			ExportDelegate exportDelegate = new ExportDelegate(this.htmlTable, exportProperties,
-					request);
-			exportDelegate.launchExport();
-
-		} catch (ExportException e) {
-			logger.error("Something went wront with the Dandelion-datatables export configuration.");
-			e.printStackTrace();
-		} catch (BadConfigurationException e) {
-			logger.error("Something went wront with the Dandelion-datatables configuration.");
-			e.printStackTrace();
-		}
+		// Call the export delegate
+		ExportDelegate exportDelegate = new ExportDelegate(this.htmlTable, exportProperties, request);
+		exportDelegate.launchExport();
 
 		response.reset();
 	}
@@ -204,37 +189,26 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		
 		this.htmlTable.getTableConfiguration().setExporting(false);
 
-		try {
+		// Init the web resources generator
+		WebResourceGenerator contentGenerator = new WebResourceGenerator(htmlTable);
 
-			// Init the web resources generator
-			WebResourceGenerator contentGenerator = new WebResourceGenerator(htmlTable);
+		// Generate the web resources (JS, CSS) and wrap them into a
+		// WebResources POJO
+		JsResource jsResource = contentGenerator.generateWebResources();
+		logger.debug("Web content generated successfully");
 
-			// Generate the web resources (JS, CSS) and wrap them into a
-			// WebResources POJO
-			JsResource jsResource = contentGenerator.generateWebResources();
-			logger.debug("Web content generated successfully");
+		// Scope update
+		AssetsRequestContext.get(request)
+			.addScopes(Scope.DATATABLES)
+			.addScopes(Scope.DDL_DT.getScopeName())
+			.addParameter("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM,
+						DatatablesConfigurator.getJavascriptGenerator(), false);
+		
+		// Buffering generated Javascript
+		JavascriptGenerator javascriptGenerator = AssetsRequestContext.get(request).getParameterValue("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM);
+		javascriptGenerator.addResource(jsResource);
 
-			// Scope update
-			AssetsRequestContext.get(request)
-				.addScopes(Scope.DATATABLES)
-				.addScopes(Scope.DDL_DT.getScopeName())
-				.addParameter("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM,
-							DatatablesConfigurator.getJavascriptGenerator(), false);
-			
-			// Buffering generated Javascript
-			JavascriptGenerator javascriptGenerator = AssetsRequestContext.get(request).getParameterValue("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM);
-			javascriptGenerator.addResource(jsResource);
-
-			logger.debug("Web content generated successfully");
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		} catch (BadConfigurationException e) {
-			logger.error("Something went wront with the Dandelion-datatables configuration.");
-			throw new RuntimeException(e);
-		} catch (ExtensionLoadingException e) {
-			logger.error("Something went wront with the extension loading.");
-			throw new RuntimeException(e);
-		}
+		logger.debug("Web content generated successfully");
 	}
 
 	/**

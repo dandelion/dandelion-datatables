@@ -2,7 +2,6 @@ package com.github.dandelion.datatables.core.processor;
 
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 
 /**
  * <p>
@@ -25,8 +24,6 @@ public interface GenericProcessor {
 	 * @param objectToUpdate
 	 *            The {@link ColumnConfiguration} or {@link TableConfiguration}
 	 *            instance to update with the processing result.
-	 * @throws ConfigurationProcessingException
-	 *             if something's goes wrong during the processing.
 	 */
-	public void processConfiguration(String param, Object objectToUpdate) throws ConfigurationProcessingException;
+	public void processConfiguration(String param, Object objectToUpdate);
 }

@@ -45,7 +45,7 @@ import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 public class FilteringPlaceholderIT extends ThymeleafBaseIT {
 
 	@Test
-	public void should_not_generate_input_field_using_none() throws Exception {
+	public void should_not_generate_input_field_using_none() {
 		goToPage("basics/filtering/filtering_with_input_with_none");
 
 		assertThat(getTable().find("tfoot")).hasSize(0);
@@ -53,7 +53,7 @@ public class FilteringPlaceholderIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_input_field_in_the_footer_using_default_placeholder() throws Exception {
+	public void should_generate_input_field_in_the_footer_using_default_placeholder() {
 		goToPage("basics/filtering/filtering_with_input_with_default_value");
 
 		// A tfoot tag must be generated
@@ -70,7 +70,7 @@ public class FilteringPlaceholderIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_input_field_in_the_footer() throws Exception {
+	public void should_generate_input_field_in_the_footer() {
 		goToPage("basics/filtering/filtering_with_input_with_foot");
 
 		// A tfoot tag must be generated
@@ -87,7 +87,7 @@ public class FilteringPlaceholderIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_input_field_after_the_head() throws Exception {
+	public void should_generate_input_field_after_the_head() {
 		goToPage("basics/filtering/filtering_with_input_with_headafter");
 		
 		// A second row in the thead must be added
@@ -108,7 +108,7 @@ public class FilteringPlaceholderIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_input_field_before_the_head() throws Exception {
+	public void should_generate_input_field_before_the_head() {
 		goToPage("basics/filtering/filtering_with_input_with_headbefore");
 		
 		// A second row in the thead must be added

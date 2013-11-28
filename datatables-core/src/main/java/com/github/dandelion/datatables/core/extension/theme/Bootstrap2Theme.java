@@ -55,7 +55,7 @@ public class Bootstrap2Theme extends AbstractExtension {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setup(HtmlTable table) throws ExtensionLoadingException {
+	public void setup(HtmlTable table) {
 
 		addScope(Scope.DDL_DT_THEME_BOOTSTRAP2);
 		addScope(Scope.DDL_DT_PAGING_BOOTSTRAP);

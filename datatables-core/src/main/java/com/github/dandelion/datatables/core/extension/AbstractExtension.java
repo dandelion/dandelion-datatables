@@ -38,7 +38,6 @@ import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.configuration.Scope;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.generator.configuration.AbstractConfigurationGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -65,12 +64,12 @@ public abstract class AbstractExtension implements Extension {
 		this.name = getName();
 	}
 
-	public void setupWrapper(HtmlTable table) throws ExtensionLoadingException {
+	public void setupWrapper(HtmlTable table) {
 		this.table = table;
 		setup(table);
 	}
 
-	public abstract void setup(HtmlTable table) throws ExtensionLoadingException;
+	public abstract void setup(HtmlTable table);
 
 	public StringBuilder getBeforeAll() {
 		return beforeAll;

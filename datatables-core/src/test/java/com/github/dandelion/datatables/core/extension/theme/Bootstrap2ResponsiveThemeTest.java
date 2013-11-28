@@ -12,14 +12,13 @@ import com.github.dandelion.core.asset.web.AssetsRequestContext;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
 
 public class Bootstrap2ResponsiveThemeTest extends AbstractExtensionTest {
 
 	@Test
-	public void shoud_load_the_extension() throws ExtensionLoadingException {
+	public void shoud_load_the_extension() {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2ResponsiveTheme())));
 
 		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);

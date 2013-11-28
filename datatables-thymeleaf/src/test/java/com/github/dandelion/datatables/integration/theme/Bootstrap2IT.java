@@ -50,14 +50,14 @@ import com.github.dandelion.datatables.testing.utils.Constants;
 public class Bootstrap2IT extends ThymeleafBaseIT {
 
 	@Ignore
-	public void should_generate_bottom_right_link() throws IOException, Exception {
+	public void should_generate_bottom_right_link() {
 		goToPage("themes/bootstrap2_bottom_right_link");
 		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
 		assertThat(StringUtils.trimAllWhitespace(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("style"))).isEqualTo("float:right;");
 	}
 	
 	@Ignore
-	public void should_generate_bottom_middle_link() throws IOException, Exception {
+	public void should_generate_bottom_middle_link() {
 		goToPage("themes/bootstrap2_bottom_middle_link");
 		
 		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
@@ -65,7 +65,7 @@ public class Bootstrap2IT extends ThymeleafBaseIT {
 	}
 	
 	@Ignore
-	public void should_generate_bottom_left_link() throws IOException, Exception {
+	public void should_generate_bottom_left_link() {
 		goToPage("themes/bootstrap2_bottom_left_link");
 		
 		FluentWebElement divExport = find("#" + Constants.TABLE_ID + "_wrapper").findFirst("div.span6").findFirst("div");
@@ -76,7 +76,7 @@ public class Bootstrap2IT extends ThymeleafBaseIT {
 	}
 	
 	@Ignore
-	public void should_generate_top_right_link() throws IOException, Exception {
+	public void should_generate_top_right_link() {
 		goToPage("themes/bootstrap2_top_right_link");
 		
 		FluentWebElement divExport = find("#" + Constants.TABLE_ID + "_wrapper").find("div.span6", 1).findFirst("div");
@@ -86,7 +86,7 @@ public class Bootstrap2IT extends ThymeleafBaseIT {
 	}
 	
 	@Ignore
-	public void should_generate_top_middle_link() throws IOException, Exception {
+	public void should_generate_top_middle_link() {
 		goToPage("themes/bootstrap2_top_middle_link");
 		
 		FluentWebElement divExport = find("#" + Constants.TABLE_ID + "_wrapper").find("div.span6", 1).findFirst("div");
@@ -96,7 +96,7 @@ public class Bootstrap2IT extends ThymeleafBaseIT {
 	}
 	
 	@Ignore
-	public void should_generate_top_left_link() throws IOException, Exception {
+	public void should_generate_top_left_link() {
 		goToPage("themes/bootstrap2_top_left_link");
 		
 		FluentWebElement divExport = find("#" + Constants.TABLE_ID + "_wrapper").findFirst("div.span6").findFirst("div");

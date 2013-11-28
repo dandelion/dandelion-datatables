@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,22 +29,19 @@
  */
 package com.github.dandelion.datatables.core.exception;
 
-public class CompressionException extends Exception {
+public class UnkownGroupException extends DandelionDatatablesException {
 
-	private static final long serialVersionUID = 3243845798907773547L;
+	private static final long serialVersionUID = -3953385090724768925L;
 
-	public CompressionException() {
-	};
+	public UnkownGroupException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
-	public CompressionException(String message) {
+	public UnkownGroupException(String message) {
 		super(message);
 	}
 
-	public CompressionException(Throwable cause) {
+	public UnkownGroupException(Throwable cause) {
 		super(cause);
-	}
-
-	public CompressionException(String message, Throwable cause) {
-		super(message, cause);
 	}
 }

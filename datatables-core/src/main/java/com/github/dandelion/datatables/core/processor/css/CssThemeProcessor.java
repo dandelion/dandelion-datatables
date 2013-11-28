@@ -43,7 +43,7 @@ public class CssThemeProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
+			Map<Configuration, Object> confToBeApplied) {
 		Extension theme = null;
 		if (StringUtils.isNotBlank(param)) {
 			try {

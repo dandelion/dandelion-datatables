@@ -44,7 +44,7 @@ import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 public class ExportLinksIT extends ThymeleafBaseIT {
 
 	@Test
-	public void should_generate_default_csv_link_with_one_existing_url_parameter() throws Exception {
+	public void should_generate_default_csv_link_with_one_existing_url_parameter() {
 		goToPage("export/default_csv_link?param1=val1");
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
@@ -53,7 +53,7 @@ public class ExportLinksIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_default_csv_link_with_multiple_existing_url_parameters() throws Exception {
+	public void should_generate_default_csv_link_with_multiple_existing_url_parameters() {
 		goToPage("export/default_csv_link?param1=val1&param2=val2");
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
@@ -62,13 +62,13 @@ public class ExportLinksIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_export_markup() throws Exception {
+	public void should_generate_export_markup() {
 		goToPage("export/default_csv_link");
 		assertThat(find("div.dandelion_dataTables_export")).hasSize(1);
 	}
 	
 	@Test
-	public void should_generate_csv_link_with_custom_url() throws Exception {
+	public void should_generate_csv_link_with_custom_url() {
 		goToPage("export/custom_csv_url");
 
 		assertThat(find("div.dandelion_dataTables_export")).hasSize(1);
@@ -80,7 +80,7 @@ public class ExportLinksIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_pdf_link_with_custom_url() throws Exception {
+	public void should_generate_pdf_link_with_custom_url() {
 		goToPage("export/custom_pdf_url");
 
 		assertThat(find("div.dandelion_dataTables_export")).hasSize(1);
@@ -92,7 +92,7 @@ public class ExportLinksIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_xls_link_with_custom_url() throws Exception {
+	public void should_generate_xls_link_with_custom_url() {
 		goToPage("export/custom_xls_url");
 
 		assertThat(find("div.dandelion_dataTables_export")).hasSize(1);
@@ -104,7 +104,7 @@ public class ExportLinksIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_xlsx_link_with_custom_url() throws Exception {
+	public void should_generate_xlsx_link_with_custom_url() {
 		goToPage("export/custom_xlsx_url");
 
 		assertThat(find("div.dandelion_dataTables_export")).hasSize(1);
@@ -116,7 +116,7 @@ public class ExportLinksIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_xml_link_with_custom_url() throws Exception {
+	public void should_generate_xml_link_with_custom_url() {
 		goToPage("export/custom_xml_url");
 
 		assertThat(find("div.dandelion_dataTables_export")).hasSize(1);

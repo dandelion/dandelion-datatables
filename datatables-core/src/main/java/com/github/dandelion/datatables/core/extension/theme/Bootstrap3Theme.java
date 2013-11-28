@@ -30,7 +30,6 @@
 package com.github.dandelion.datatables.core.extension.theme;
 
 import com.github.dandelion.datatables.core.configuration.Scope;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -51,7 +50,7 @@ public class Bootstrap3Theme extends AbstractExtension {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setup(HtmlTable table) throws ExtensionLoadingException {
+	public void setup(HtmlTable table) {
 
 		addScope(Scope.DDL_DT_THEME_BOOTSTRAP3);
 		addScope(Scope.DDL_DT_PAGING_BOOTSTRAP);

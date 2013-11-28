@@ -32,7 +32,6 @@ package com.github.dandelion.datatables.core.extension.theme;
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -53,7 +52,7 @@ public class JQueryUITheme extends AbstractExtension {
 	 */
 	@SuppressWarnings("incomplete-switch")
 	@Override
-	public void setup(HtmlTable table) throws ExtensionLoadingException {
+	public void setup(HtmlTable table) {
 
 		addScope(Scope.DDL_DT_THEME_JQUERYUI);
 		addParameter(new Parameter(DTConstants.DT_JQUERYUI, true));

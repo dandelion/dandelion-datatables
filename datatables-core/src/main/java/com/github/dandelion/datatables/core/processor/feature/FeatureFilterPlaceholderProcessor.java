@@ -42,7 +42,7 @@ public class FeatureFilterPlaceholderProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
+			Map<Configuration, Object> confToBeApplied) {
 		FilterPlaceholder placeholder = null;
 		if (StringUtils.isNotBlank(param)) {
 			try {

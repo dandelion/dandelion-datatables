@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.integration.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
 
 import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
@@ -46,7 +44,7 @@ import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 public class CssIT extends ThymeleafBaseIT {
 	
 	@Test
-	public void should_apply_css_stripe_classes_using_dom() throws IOException, Exception {
+	public void should_apply_css_stripe_classes_using_dom() {
 		goToPage("basics/css_stripe_classes");
 
 		assertThat(getTable().find("tbody").find("tr", 0).getAttribute("class")).isEqualTo("class1");

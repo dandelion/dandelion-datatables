@@ -5,7 +5,6 @@ import java.util.Map;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 
 /**
  * <p>
@@ -37,9 +36,7 @@ public interface ColumnProcessor {
 	 *            {@link com.github.dandelion.datatables.core.extension.feature.AjaxFeature}
 	 *            must be registered in the TableConfiguration only if
 	 *            server-side processing in not enabled.
-	 * @throws ConfigurationProcessingException
-	 *             if something's goes wrong during the processing.
 	 */
 	public void processConfiguration(String param, ColumnConfiguration columnConfiguration, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException;
+			Map<Configuration, Object> confToBeApplied);
 }

@@ -68,7 +68,7 @@ public class PdfExport implements DatatablesExport {
 	}
 
 	@Override
-	public void processExport(OutputStream output) throws ExportException {
+	public void processExport(OutputStream output) {
 
 		Document document = new Document();
 

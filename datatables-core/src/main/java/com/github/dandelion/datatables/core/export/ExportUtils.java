@@ -55,23 +55,14 @@ public class ExportUtils {
 	 *            The export configuration (e.g. the export class to use).
 	 * @param response
 	 *            The response to update.
-	 * @throws ExportException
-	 *             if something goes wrong during the use of the export class or
-	 *             during the response update.
 	 */
-	public static void renderExport(HtmlTable table, ExportConf exportConf, HttpServletResponse response)
-			throws ExportException {
+	public static void renderExport(HtmlTable table, ExportConf exportConf, HttpServletResponse response) {
 
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		DatatablesExport exportClass = exportConf.getExportClass();
 
 		exportClass.initExport(table);
-
-		try {
-			exportClass.processExport(stream);
-		} catch (ExportException e) {
-			throw e;
-		}
+		exportClass.processExport(stream);
 
 		try {
 			writeToResponse(response, stream, exportConf.getFileName() + "." + exportConf.getType().getExtension(),

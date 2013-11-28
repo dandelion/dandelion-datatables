@@ -44,8 +44,6 @@ import java.util.zip.ZipInputStream;
 
 import org.apache.commons.beanutils.MethodUtils;
 
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-
 /**
  * Helper class used for all reflection stuff.
  * 
@@ -55,33 +53,21 @@ public class ClassUtils {
 
 	/**
 	 * <p>
-	 * Get a Java class from its name.
-	 * 
-	 * @param className
-	 *            The class name.
-	 * @return The corresponding class.
-	 * @throws ClassNotFoundException 
-	 * @throws BadConfigurationException
-	 *             if the class doesn't exist.
-	 *             
-	 * Tries to load a class with more classloaders. Can be useful in J2EE
-	 * applications if jar is loaded from a different classloader than user
-	 * classes. If class is not found using the standard classloader, tries whit
-	 * the thread classloader.
+	 * Tries to load a class from its name. If class is not found using the
+	 * standard classloader, tries with the thread classloader.
 	 * 
 	 * @param className
 	 *            class name
-	 * @return Class loaded class
+	 * @return the found class
 	 * @throws ClassNotFoundException
-	 *             if none of the ClassLoaders is able to found the reuested
-	 *             class
+	 *             if none of the ClassLoaders is able to found the class.
 	 */
 	public static Class<?> getClass(String className) throws ClassNotFoundException {
 		try {
-			// trying with the default ClassLoader
+			// Trying with the default ClassLoader
 			return Class.forName(className);
 		} catch (ClassNotFoundException cnfe) {
-			// trying with thread ClassLoader
+			// Trying with thread ClassLoader
 			Thread thread = Thread.currentThread();
 			ClassLoader threadClassLoader = thread.getContextClassLoader();
 			return Class.forName(className, false, threadClassLoader);
@@ -97,8 +83,6 @@ public class ClassUtils {
 	 * @return a new instance of the given class.
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
-	 * @throws BadConfigurationException
-	 *             if the class is not instanciable.
 	 */
 	public static Object getNewInstance(Class<?> klass) throws InstantiationException, IllegalAccessException {
 		return klass.newInstance();
@@ -118,7 +102,6 @@ public class ClassUtils {
 	 * @throws InvocationTargetException 
 	 * @throws IllegalAccessException 
 	 * @throws NoSuchMethodException 
-	 * @throws BadConfigurationException
 	 *             if the methodName doesn't exist for the given object.
 	 */
 	public static Object invokeMethod(Object obj, String methodName, Object[] args) throws NoSuchMethodException,
@@ -133,15 +116,13 @@ public class ClassUtils {
 	 * @param className
 	 *            The class to test.
 	 * @return true if the class can be used, false otherwise.
-	 * @throws BadConfigurationException
 	 */
 	public static Boolean canBeUsed(String className) {
 		Boolean canBeUsed = false;
 		try {
 			ClassUtils.getClass(className);
 			canBeUsed = true;
-		} 
-		catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			// do nothing
 		}
 		return canBeUsed;

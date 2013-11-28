@@ -40,9 +40,10 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
+import com.github.dandelion.datatables.core.exception.UnkownGroupException;
 
 /**
- * Class that stores all configurations by Locale and group.
+ * Storage class for all configurations by Locale and group.
  *
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -86,6 +87,14 @@ public class ConfigurationStore {
 			resolveGroupsForLocale(locale, request);
 		}
 			
+		if (!configurationStore.get(locale).containsKey(group)) {
+			StringBuilder msg = new StringBuilder("The group '");
+			msg.append(group);
+			msg.append("' doesn't exist in your configuration files. Either create it or choose an existing one among ");
+			msg.append(configurationStore.get(locale).keySet());
+			throw new UnkownGroupException(msg.toString());
+		}
+		
 		return configurationStore.get(locale).get(group);
 	}
 
@@ -99,15 +108,11 @@ public class ConfigurationStore {
 		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
 		
 		ConfigurationLoader confLoader = DatatablesConfigurator.getConfigurationLoader();
-		
-		try {
-			confLoader.loadDefaultConfiguration();
-			confLoader.loadUserConfiguration(locale);
-			confLoader.resolveGroups(locale);		
-			confLoader.resolveConfigurations(map, locale, request);
-		} catch (ConfigurationLoadingException e) {
-			logger.error("Unable to load Datatables configuration", e);
-		}
+
+		confLoader.loadDefaultConfiguration();
+		confLoader.loadUserConfiguration(locale);
+		confLoader.resolveGroups(locale);		
+		confLoader.resolveConfigurations(map, locale, request);
 		
 		configurationStore.put(locale, map);
 	}

@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 public class AbstractExtensionTest {
@@ -19,7 +18,7 @@ public class AbstractExtensionTest {
 	protected Map<String, Object> mainConfig;
 	
 	@Before
-	public void setup() throws ExtensionLoadingException{
+	public void setup() {
 		request = new MockHttpServletRequest();
 		table = new HtmlTable("fakeId", request);
 		table.addHeaderRow();

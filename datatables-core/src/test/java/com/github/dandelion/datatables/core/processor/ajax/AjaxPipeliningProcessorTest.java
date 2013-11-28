@@ -45,19 +45,19 @@ public class AjaxPipeliningProcessorTest extends TableProcessorBaseTest {
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
+	public void should_set_null_when_value_is_null() {
 		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxPipelining()).isNull();
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
+	public void should_set_null_when_value_is_empty() {
 		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxPipelining()).isNull();
 	}
 	
 	@Test
-	public void should_set_true_and_register_a_feature_when_value_is_true() throws Exception {
+	public void should_set_true_and_register_a_feature_when_value_is_true() {
 		processor.processConfiguration("true", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxPipelining()).isTrue();
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
@@ -65,7 +65,7 @@ public class AjaxPipeliningProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test
-	public void should_set_null_and_not_register_anything_when_value_is_false() throws Exception {
+	public void should_set_null_and_not_register_anything_when_value_is_false() {
 		processor.processConfiguration("false", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxPipelining()).isFalse();
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();

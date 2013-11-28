@@ -32,14 +32,14 @@ public class ExtensionProcessor {
 		this.mainConfig = mainConfig;
 	}
 	
-	public void process(Collection<Extension> extensions) throws ExtensionLoadingException{
+	public void process(Collection<Extension> extensions) {
 		if(extensions != null && !extensions.isEmpty()){
 			for(Extension extension : extensions){
 				process(extension);
 			}
 		}
 	}
-	public void process(Extension extension) throws ExtensionLoadingException{
+	public void process(Extension extension) {
 	
 		if (extension != null) {
 
@@ -53,9 +53,8 @@ public class ExtensionProcessor {
 	/**
 	 * 
 	 * @param extension
-	 * @throws ExtensionLoadingException
 	 */
-	private void injectIntoMainJsFile(Extension extension) throws ExtensionLoadingException {
+	private void injectIntoMainJsFile(Extension extension) {
 
 		// Extension configuration loading
 		if (extension.getBeforeAll() != null) {

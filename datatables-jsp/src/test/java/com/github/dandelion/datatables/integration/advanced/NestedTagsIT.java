@@ -44,7 +44,7 @@ import com.github.dandelion.datatables.integration.JspBaseIT;
 public class NestedTagsIT extends JspBaseIT {
 
 	@Test
-	public void should_display_column_based_on_JSTL_test() throws Exception {
+	public void should_display_column_based_on_JSTL_test() {
 		goToPage("advanced/nested_tags");
 		assertThat(getTable().find("th")).hasSize(7);
 	}

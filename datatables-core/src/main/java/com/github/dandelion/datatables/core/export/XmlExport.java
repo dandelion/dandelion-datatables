@@ -59,7 +59,7 @@ public class XmlExport implements DatatablesExport {
 	}
 
 	@Override
-	public void processExport(OutputStream output) throws ExportException {
+	public void processExport(OutputStream output) {
 
 		// Build headers list for attributes name
 		List<String> headers = new ArrayList<String>();

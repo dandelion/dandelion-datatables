@@ -37,8 +37,10 @@ import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -83,7 +85,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Properties loadDefaultConfiguration() throws ConfigurationLoadingException {
+	public Properties loadDefaultConfiguration() {
 
 		if (defaultProperties == null) {
 
@@ -196,7 +198,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void resolveConfigurations(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request) throws ConfigurationLoadingException {
+	public void resolveConfigurations(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request) {
 
 		logger.debug("Resolving configurations for the locale {}...", locale);
 
@@ -223,6 +225,8 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 
 		// Compute configuration to apply on each group
 		Map<Configuration, Object> stagingConf = null;
+		Map<String, List<String>> wrongKeys = new HashMap<String, List<String>>();
+		
 		for (String groupName : groups) {
 			
 			logger.debug("Resolving configurations for the group {}...", groupName);
@@ -237,7 +241,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 				}
 			}
 			
-			logger.debug("The group '{}' is initialized and contains {} properties", groupName,
+			logger.debug("Group '{}' initialized with {} properties", groupName,
 					groupedProperties.size());
 
 			stagingConf = new HashMap<Configuration, Object>();
@@ -247,12 +251,39 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 				Configuration configuration = Configuration.findByName(key);
 				if (configuration != null) {
 					stagingConf.put(configuration, entry.getValue().toString());
-				} else {
-					logger.warn("The property '{}' (inside the '{}' group) doesn't exist", key, groupName);
+				} 
+				else {
+					if(wrongKeys.containsKey(groupName)){
+						wrongKeys.get(groupName).add(key);
+					}
+					else{
+						List<String> values = new ArrayList<String>();
+						values.add(key);
+						wrongKeys.put(groupName, values);
+					}
 				}
 			}
 
 			map.put(groupName, new TableConfiguration(stagingConf, request));
+		}
+
+		if (!wrongKeys.isEmpty()) {
+			StringBuilder msg = new StringBuilder("");
+			for (Entry<String, List<String>> entry : wrongKeys.entrySet()) {
+				msg.append("The group '");
+				msg.append(entry.getKey());
+				msg.append("' contains unknown propert");
+				msg.append(entry.getValue().size() > 1 ? "ies: " : "y: ");
+				for (int i = 0; i < entry.getValue().size(); i++) {
+					msg.append(entry.getValue().get(i));
+					if (i < entry.getValue().size() - 1) {
+						msg.append(", ");
+					}
+				}
+				msg.append("\n");
+			}
+			logger.error(msg.toString());
+			throw new ConfigurationLoadingException(msg.toString());
 		}
 		
 		logger.debug("{} group(s) resolved ({}) for the locale {}", groups.size(), groups.toString(), locale);

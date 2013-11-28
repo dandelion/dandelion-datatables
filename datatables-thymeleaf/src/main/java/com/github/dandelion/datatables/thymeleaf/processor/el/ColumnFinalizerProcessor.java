@@ -9,9 +9,6 @@ import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
@@ -46,13 +43,7 @@ public class ColumnFinalizerProcessor extends AbstractDatatablesElProcessor {
 		// Init a new column
 		HtmlColumn htmlColumn = new HtmlColumn(true, content);
 
-		try {
-			Configuration.applyColumnConfiguration(htmlColumn.getColumnConfiguration(), table.getTableConfiguration(), stagingConf);
-		} catch (ConfigurationProcessingException e) {
-			throw new DataTableProcessingException(e);
-		} catch (ConfigurationLoadingException e) {
-			throw new DataTableProcessingException(e);
-		}
+		Configuration.applyColumnConfiguration(htmlColumn.getColumnConfiguration(), table.getTableConfiguration(), stagingConf);
 
 		// Add it to the table
 		if (table != null) {

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,28 +29,16 @@
  */
 package com.github.dandelion.datatables.core.exception;
 
-/**
- * Raised if there's something wrong in the Dandelion-datatables configuration file
- * (datatables(-default).properties).
- * 
- * @author Thibault Duchateau
- */
-public class BadConfigurationException extends Exception {
+public class ExtraFileNotFoundException extends DandelionDatatablesException {
 
-	private static final long serialVersionUID = 3243845798907773547L;
+	private static final long serialVersionUID = -8640064303279793425L;
 
-	public BadConfigurationException() {
-	};
-
-	public BadConfigurationException(String message) {
-		super(message);
-	}
-
-	public BadConfigurationException(Throwable cause) {
-		super(cause);
-	}
-
-	public BadConfigurationException(String message, Throwable cause) {
+	public ExtraFileNotFoundException(String message, Throwable cause) {
 		super(message, cause);
+	}
+	
+	public ExtraFileNotFoundException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
 	}
 }

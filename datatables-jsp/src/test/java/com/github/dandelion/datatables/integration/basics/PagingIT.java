@@ -44,14 +44,14 @@ import com.github.dandelion.datatables.integration.JspBaseIT;
 public class PagingIT extends JspBaseIT {
 	
 	@Test
-	public void should_limit_display_length() throws Exception {
+	public void should_limit_display_length() {
         goToPage("basics/display_length");
 
 		assertThat(getTable().find("tbody").find("tr")).hasSize(40);
 	}
 	
 	@Test
-	public void should_limit_display_length_using_rtex() throws Exception {
+	public void should_limit_display_length_using_rtex() {
         goToPage("basics/display_length_rtex");
 
 		assertThat(getTable().find("tbody").find("tr")).hasSize(40);

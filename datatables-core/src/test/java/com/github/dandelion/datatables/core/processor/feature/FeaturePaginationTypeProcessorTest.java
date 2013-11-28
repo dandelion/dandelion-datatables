@@ -46,19 +46,19 @@ public class FeaturePaginationTypeProcessorTest extends TableProcessorBaseTest {
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
+	public void should_set_null_when_value_is_null() {
 		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeaturePaginationType()).isNull();
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
+	public void should_set_null_when_value_is_empty() {
 		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeaturePaginationType()).isNull();
 	}
 	
 	@Test
-	public void should_set_paginationtype() throws Exception {
+	public void should_set_paginationtype() {
 		processor.processConfiguration("bootstrap", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeaturePaginationType()).isEqualTo(PaginationType.BOOTSTRAP);
 		processor.processConfiguration("BOOTSTRAP", tableConfiguration, confToBeApplied);
@@ -78,7 +78,7 @@ public class FeaturePaginationTypeProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
-	public void should_raise_an_exception() throws Exception {
+	public void should_raise_an_exception() {
 		processor.processConfiguration("booootstrap", tableConfiguration, confToBeApplied);
 	}
 }

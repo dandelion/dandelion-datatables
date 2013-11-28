@@ -46,21 +46,21 @@ public class ExportLinkPositionsProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test
-	public void should_set_default_value_when_value_is_empty() throws Exception {
+	public void should_set_default_value_when_value_is_empty() {
 		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(1);
 		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT);
 	}
 	
 	@Test
-	public void should_set_default_value_when_value_is_null() throws Exception {
+	public void should_set_default_value_when_value_is_null() {
 		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(1);
 		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT);
 	}
 	
 	@Test
-	public void should_override_default_value_when_using_one_value() throws Exception {
+	public void should_override_default_value_when_using_one_value() {
 		processor.processConfiguration("top_right", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(1);
 		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT);
@@ -75,7 +75,7 @@ public class ExportLinkPositionsProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test
-	public void should_set_two_links_when_using_two_values() throws Exception {
+	public void should_set_two_links_when_using_two_values() {
 		processor.processConfiguration("top_right,bottom_right", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(2);
 		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT, ExportLinkPosition.BOTTOM_RIGHT);
@@ -86,12 +86,12 @@ public class ExportLinkPositionsProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
-	public void should_throw_an_exception() throws Exception {
+	public void should_throw_an_exception() {
 		processor.processConfiguration("top_righhhhht", tableConfiguration, confToBeApplied);
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
-	public void should_throw_an_exception_as_well() throws Exception {
+	public void should_throw_an_exception_as_well() {
 		processor.processConfiguration("top_right,bottooooom_left", tableConfiguration, confToBeApplied);
 	}
 }

@@ -66,7 +66,7 @@ public class XlsExport implements DatatablesExport {
 	}
 
 	@Override
-	public void processExport(OutputStream output) throws ExportException {
+	public void processExport(OutputStream output) {
 
 		try {
 			HSSFWorkbook workbook = new HSSFWorkbook();

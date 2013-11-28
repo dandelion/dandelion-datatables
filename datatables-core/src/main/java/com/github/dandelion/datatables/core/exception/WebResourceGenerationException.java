@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,22 +29,19 @@
  */
 package com.github.dandelion.datatables.core.exception;
 
-public class DataNotFoundException extends Throwable {
+public class WebResourceGenerationException extends DandelionDatatablesException {
 
-	private static final long serialVersionUID = 7240738976355836256L;
+	private static final long serialVersionUID = 7003264630727140977L;
 
-	public DataNotFoundException() {
-	};
+	public WebResourceGenerationException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
-	public DataNotFoundException(String message) {
+	public WebResourceGenerationException(String message) {
 		super(message);
 	}
 
-	public DataNotFoundException(Throwable cause) {
+	public WebResourceGenerationException(Throwable cause) {
 		super(cause);
-	}
-
-	public DataNotFoundException(String message, Throwable cause) {
-		super(message, cause);
 	}
 }

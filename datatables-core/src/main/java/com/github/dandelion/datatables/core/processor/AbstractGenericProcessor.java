@@ -43,7 +43,7 @@ public abstract class AbstractGenericProcessor implements GenericProcessor {
 
 	protected Method setter;
 	
-	public void processConfiguration(String configuration, Object objectToUpdate) throws ConfigurationProcessingException {
+	public void processConfiguration(String configuration, Object objectToUpdate) {
 		try {
 			Object retval = process(configuration);
 			if(setter != null){

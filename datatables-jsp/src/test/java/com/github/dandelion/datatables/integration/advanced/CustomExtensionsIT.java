@@ -44,13 +44,13 @@ import com.github.dandelion.datatables.integration.JspBaseIT;
 public class CustomExtensionsIT extends JspBaseIT {
 
 	@Test
-	public void should_enable_myCustomFeature() throws Exception {
+	public void should_enable_myCustomFeature() {
 		goToPage("advanced/custom-extensions/custom_extensions");
 		assertThat(getConfigurationFromPage("advanced/custom-extensions/custom_extensions")).contains("\"bStateSave\":true");
 	}
 	
 	@Test
-	public void should_enable_myCustomFeature_and_myOtherCustomFeature() throws Exception {
+	public void should_enable_myCustomFeature_and_myOtherCustomFeature() {
 		goToPage("advanced/custom-extensions/custom_extensions2");
 		assertThat(getConfigurationFromPage("advanced/custom-extensions/custom_extensions2")).contains("\"bStateSave\":true");
 		assertThat(getConfigurationFromPage("advanced/custom-extensions/custom_extensions2")).contains("\"bAutoWidth\":true");

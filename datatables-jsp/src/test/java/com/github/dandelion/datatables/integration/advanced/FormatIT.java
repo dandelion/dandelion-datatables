@@ -44,7 +44,7 @@ import com.github.dandelion.datatables.integration.JspBaseIT;
 public class FormatIT extends JspBaseIT {
 
 	@Test
-	public void should_format_a_mail_column() throws Exception {
+	public void should_format_a_mail_column() {
 		goToPage("advanced/format");
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getText()).isEqualTo("venenatis@Duisvolutpat.com");

@@ -36,12 +36,10 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
-
 public class FakeConfigurationLoader implements ConfigurationLoader {
 
 	@Override
-	public Properties loadDefaultConfiguration() throws ConfigurationLoadingException {
+	public Properties loadDefaultConfiguration() {
 		// TODO Auto-generated method stub
 		return null;
 	}

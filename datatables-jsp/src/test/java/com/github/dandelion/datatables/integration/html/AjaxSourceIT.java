@@ -14,7 +14,7 @@ import com.github.dandelion.datatables.integration.JspBaseIT;
 public class AjaxSourceIT extends JspBaseIT {
 
 	@Test
-	public void should_generate_table_markup() throws Exception {
+	public void should_generate_table_markup() {
 		goToPage("html/ajax/table");
 
 		assertThat(getTable()).hasSize(1);
@@ -37,7 +37,7 @@ public class AjaxSourceIT extends JspBaseIT {
 	
 
 	@Test
-	public void should_render_empty_cell() throws Exception {
+	public void should_render_empty_cell() {
 		goToPage("html/ajax/table");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
@@ -45,7 +45,7 @@ public class AjaxSourceIT extends JspBaseIT {
 	}
 	
 	@Test
-	public void should_render_default_value_in_cell() throws Exception {
+	public void should_render_default_value_in_cell() {
 		goToPage("html/ajax/table_default_values");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)

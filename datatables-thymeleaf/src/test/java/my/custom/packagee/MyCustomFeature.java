@@ -1,7 +1,6 @@
 package my.custom.packagee;
 
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -11,7 +10,7 @@ public class MyCustomFeature extends AbstractExtension {
 		return "myCustomFeature";
 	}
 
-	public void setup(HtmlTable table) throws ExtensionLoadingException {
+	public void setup(HtmlTable table) {
 		addParameter(new Parameter("bStateSave", true));
 	}
 }

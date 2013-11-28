@@ -44,15 +44,11 @@ import com.github.dandelion.core.asset.web.AssetsRequestContext;
 import com.github.dandelion.core.asset.wrapper.impl.DelegatedLocationWrapper;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.cache.AssetCache;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
 import com.github.dandelion.datatables.core.configuration.Scope;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.exception.CompressionException;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.exception.DataNotFoundException;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
@@ -60,7 +56,6 @@ import com.github.dandelion.datatables.core.export.ExportProperties;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
 import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
-import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.RequestHelper;
 
@@ -185,10 +180,7 @@ public class TableTag extends AbstractTableTag {
 		} catch (ExportException e) {
 			logger.error("Something went wront with the Dandelion export configuration.");
 			throw new JspException(e);
-		} catch (BadConfigurationException e) {
-			logger.error("Something went wront with the Dandelion configuration.");
-			throw new JspException(e);
-		}
+		} 
 
 		response.reset();
 
@@ -233,10 +225,6 @@ public class TableTag extends AbstractTableTag {
 
 		} catch (IOException e) {
 			logger.error("Something went wront with the datatables tag");
-			throw new JspException(e);
-		} 
-		catch (BadConfigurationException e) {
-			logger.error("Something went wront with the Dandelion configuration. Please check your Dandelion.properties file");
 			throw new JspException(e);
 		} 
 		catch (ExtensionLoadingException e) {

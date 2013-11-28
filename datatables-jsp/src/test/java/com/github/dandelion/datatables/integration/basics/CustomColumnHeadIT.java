@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.integration.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
 
 import com.github.dandelion.datatables.integration.JspBaseIT;
@@ -46,7 +44,7 @@ import com.github.dandelion.datatables.integration.JspBaseIT;
 public class CustomColumnHeadIT extends JspBaseIT {
 
 	@Test
-	public void should_generate_mailto_link() throws IOException, Exception {
+	public void should_generate_mailto_link() {
 		goToPage("basics/custom_column_head");
 
 		assertThat(getTable().find("thead").find("th")).hasSize(6);

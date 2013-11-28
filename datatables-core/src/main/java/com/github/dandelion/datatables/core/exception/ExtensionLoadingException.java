@@ -29,12 +29,9 @@
  */
 package com.github.dandelion.datatables.core.exception;
 
-public class ExtensionLoadingException extends Exception {
+public class ExtensionLoadingException extends DandelionDatatablesException {
 
 	private static final long serialVersionUID = 3243845798907773547L;
-
-	public ExtensionLoadingException() {
-	};
 
 	public ExtensionLoadingException(String message) {
 		super(message);

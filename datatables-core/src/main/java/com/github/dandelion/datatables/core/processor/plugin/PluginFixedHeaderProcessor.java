@@ -34,7 +34,6 @@ import java.util.Map;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.plugin.FixedHeaderPlugin;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 
@@ -42,7 +41,7 @@ public class PluginFixedHeaderProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
+			Map<Configuration, Object> confToBeApplied) {
 		Boolean retval = null;
 		if (StringUtils.isNotBlank(param)) {
 			retval = Boolean.parseBoolean(param);

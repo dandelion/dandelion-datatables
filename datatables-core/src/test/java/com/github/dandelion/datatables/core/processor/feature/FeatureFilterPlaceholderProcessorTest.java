@@ -46,19 +46,19 @@ public class FeatureFilterPlaceholderProcessorTest extends TableProcessorBaseTes
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
+	public void should_set_null_when_value_is_null() {
 		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeatureFilterPlaceholder()).isNull();
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
+	public void should_set_null_when_value_is_empty() {
 		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeatureFilterPlaceholder()).isNull();
 	}
 	
 	@Test
-	public void should_set_filterplaceholder() throws Exception {
+	public void should_set_filterplaceholder() {
 		processor.processConfiguration("none", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeatureFilterPlaceholder()).isEqualTo(FilterPlaceholder.NONE);
 		processor.processConfiguration("NONE", tableConfiguration, confToBeApplied);
@@ -72,7 +72,7 @@ public class FeatureFilterPlaceholderProcessorTest extends TableProcessorBaseTes
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
-	public void should_raise_an_exception() throws Exception {
+	public void should_raise_an_exception() {
 		processor.processConfiguration("noooone", tableConfiguration, confToBeApplied);
 	}
 }

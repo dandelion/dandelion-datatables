@@ -51,7 +51,7 @@ public class ExportLinkPositionsProcessor extends AbstractTableProcessor {
 		
 	@Override
 	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
+			Map<Configuration, Object> confToBeApplied) {
 		Set<ExportLinkPosition> retval = new HashSet<ExportLinkPosition>();
 
 		if(StringUtils.isNotBlank(param)){

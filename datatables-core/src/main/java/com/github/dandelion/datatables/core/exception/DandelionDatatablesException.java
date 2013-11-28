@@ -27,30 +27,22 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.extension.feature;
+package com.github.dandelion.datatables.core.exception;
 
-import com.github.dandelion.datatables.core.configuration.Scope;
-import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.extension.AbstractExtension;
-import com.github.dandelion.datatables.core.html.HtmlTable;
 
-/**
- * Alternative pagination style mixing {@link PaginationTypeBootstrapFeature}
- * and {@link PaginationTypeFourButtonFeature}.
- * 
- * @author Thibault Duchateau
- * @author Serdyn du Toit
- */
-public class PaginationTypeBootstrapFourButtonFeature extends AbstractExtension {
+public class DandelionDatatablesException extends RuntimeException {
 
-	@Override
-	public String getName() {
-		return "PaginationTypeBootstrapFourButton";
+	private static final long serialVersionUID = 6065210053511592040L;
+
+	public DandelionDatatablesException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
-	@Override
-	public void setup(HtmlTable table) {
-		addScope(Scope.DDL_DT_PAGING_BOOTSTRAP_FOURBUTTON);
-		addParameter(DTConstants.DT_PAGINATION_TYPE, "bootstrap_four_button");
+	public DandelionDatatablesException(String message) {
+		super(message);
+	}
+
+	public DandelionDatatablesException(Throwable cause) {
+		super(cause);
 	}
 }

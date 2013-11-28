@@ -48,19 +48,19 @@ public class CssThemeProcessorTest extends TableProcessorBaseTest {
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
+	public void should_set_null_when_value_is_null() {
 		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssTheme()).isNull();
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
+	public void should_set_null_when_value_is_empty() {
 		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssTheme()).isNull();
 	}
 	
 	@Test
-	public void should_set_theme() throws Exception {
+	public void should_set_theme() {
 		processor.processConfiguration("bootstrap2", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssTheme()).isEqualTo(new Bootstrap2Theme());
 		processor.processConfiguration("BOOTSTRAP2", tableConfiguration, confToBeApplied);
@@ -72,12 +72,12 @@ public class CssThemeProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
-	public void should_raise_an_exception() throws Exception {
+	public void should_raise_an_exception() {
 		processor.processConfiguration("booootstrap2", tableConfiguration, confToBeApplied);
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
-	public void should_raise_an_exception_as_well() throws Exception {
+	public void should_raise_an_exception_as_well() {
 		processor.processConfiguration("jquery", tableConfiguration, confToBeApplied);
 	}
 }

@@ -2,7 +2,6 @@ package com.github.dandelion.datatables.core.export;
 
 import java.io.OutputStream;
 
-import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -32,8 +31,6 @@ public interface DatatablesExport {
 	 * @param output
 	 *            The stream to fill and which will override the default
 	 *            response during export.
-	 * @throws ExportException
-	 *             if something goes wrong during export
 	 */
-	public void processExport(OutputStream output) throws ExportException;
+	public void processExport(OutputStream output);
 }

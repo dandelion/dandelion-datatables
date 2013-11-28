@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.integration.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
 import org.springframework.util.StringUtils;
 
@@ -47,7 +45,7 @@ import com.github.dandelion.datatables.integration.JspBaseIT;
 public class CssIT extends JspBaseIT {
 
 	@Test
-	public void should_apply_css_stripe_classes_using_dom() throws IOException, Exception {
+	public void should_apply_css_stripe_classes_using_dom() {
 		goToPage("basics/css_stripe_classes");
 
 		assertThat(getTable().find("tbody").find("tr", 0).getAttribute("class")).isEqualTo("class1");
@@ -57,7 +55,7 @@ public class CssIT extends JspBaseIT {
 	}
 	
 	@Test
-	public void should_apply_css_using_dom() throws IOException, Exception {
+	public void should_apply_css_using_dom() {
 		goToPage("basics/css_dom");
 
 		assertThat(getTable().find("thead").findFirst("th").getAttribute("class")).contains("column1class");
@@ -71,7 +69,7 @@ public class CssIT extends JspBaseIT {
 	}
 	
 	@Test
-	public void should_apply_css_using_ajax() throws IOException, Exception {
+	public void should_apply_css_using_ajax() {
 		goToPage("basics/css_ajax");
 
 		assertThat(getTable().find("thead").findFirst("th").getAttribute("class")).contains("column1class");

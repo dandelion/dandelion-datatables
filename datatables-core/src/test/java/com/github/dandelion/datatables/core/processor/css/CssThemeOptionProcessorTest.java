@@ -47,19 +47,19 @@ public class CssThemeOptionProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
+	public void should_set_null_when_value_is_null() {
 		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssThemeOption()).isNull();
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
+	public void should_set_null_when_value_is_empty() {
 		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssThemeOption()).isNull();
 	}
 	
 	@Test
-	public void should_set_theme_option() throws Exception {
+	public void should_set_theme_option() {
 		processor.processConfiguration("blacktie", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssThemeOption()).isEqualTo(ThemeOption.BLACKTIE);
 		processor.processConfiguration("BLACKTIE", tableConfiguration, confToBeApplied);
@@ -67,7 +67,7 @@ public class CssThemeOptionProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
-	public void should_raise_an_exception() throws Exception {
+	public void should_raise_an_exception() {
 		processor.processConfiguration("unknownThemeOption", tableConfiguration, confToBeApplied);
 	}
 }

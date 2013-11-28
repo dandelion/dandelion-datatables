@@ -19,13 +19,13 @@ public class StringProcessorTest extends GenericProcessorBaseTest {
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
+	public void should_set_null_when_value_is_null() {
 		processor.processConfiguration(null, tableConfiguration);
 		assertThat(tableConfiguration.getAjaxServerData()).isNull();
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
+	public void should_set_null_when_value_is_empty() {
 		processor.processConfiguration("", tableConfiguration);
 		assertThat(tableConfiguration.getAjaxServerData()).isNull();
 	}

@@ -44,7 +44,7 @@ import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 public class PagingIT extends ThymeleafBaseIT {
 	
 	@Test
-	public void should_limit_display_length() throws Exception {
+	public void should_limit_display_length() {
         goToPage("basics/display_length");
 
 		assertThat(getTable().find("tbody").find("tr")).hasSize(40);

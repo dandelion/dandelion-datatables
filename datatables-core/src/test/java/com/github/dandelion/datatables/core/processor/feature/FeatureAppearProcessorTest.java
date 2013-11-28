@@ -45,13 +45,13 @@ public class FeatureAppearProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
+	public void should_set_null_when_value_is_null() {
 		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeatureAppear()).isNull();
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
+	public void should_set_null_when_value_is_empty() {
 		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeatureAppear()).isNull();
 	}
@@ -63,7 +63,7 @@ public class FeatureAppearProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test
-	public void should_return_fadein_and_set_appear_duration() throws Exception {
+	public void should_return_fadein_and_set_appear_duration() {
 		processor.processConfiguration("fadein,1500", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getFeatureAppear()).isEqualTo("fadein");
 		assertThat(tableConfiguration.getFeatureAppearDuration()).isEqualTo("1500");

@@ -36,8 +36,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
-
 /**
  * <p>
  * Interface for all configuration loaders.
@@ -55,7 +53,7 @@ public interface ConfigurationLoader {
 	public final static String DT_DEFAULT_PROPERTIES = "config/datatables-default.properties";
 	public final static String DT_USER_PROPERTIES = "datatables";
 	public final static String DEFAULT_GROUP_NAME = "global";
-	
+
 	/**
 	 * <p>
 	 * Load the default configuration from the internal properties file and
@@ -66,14 +64,13 @@ public interface ConfigurationLoader {
 	 * </ul>
 	 * 
 	 * @return the default properties
-	 * @throws ConfigurationLoadingException
-	 *             if the default properties cannot be loader.
 	 */
-	public Properties loadDefaultConfiguration() throws ConfigurationLoadingException;
+	public Properties loadDefaultConfiguration();
 
 	/**
 	 * <p>
-	 * Load the user configuration which can be localized thanks to the given locale.
+	 * Load the user configuration which can be localized thanks to the given
+	 * locale.
 	 * <p>
 	 * Once the bundle loaded, it is converted into Properties.
 	 * 
@@ -95,7 +92,7 @@ public interface ConfigurationLoader {
 	 * @return the resolved groups.
 	 */
 	public Set<String> resolveGroups(Locale locale);
-	
+
 	/**
 	 * <p>
 	 * Resolve configuration groups for the given locale.
@@ -141,8 +138,6 @@ public interface ConfigurationLoader {
 	 *            the resource bundle.
 	 * @param request
 	 *            The request sent by the browser.
-	 * @throws ConfigurationLoadingException 
 	 */
-	public void resolveConfigurations(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request)
-			throws ConfigurationLoadingException;
+	public void resolveConfigurations(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request);
 }

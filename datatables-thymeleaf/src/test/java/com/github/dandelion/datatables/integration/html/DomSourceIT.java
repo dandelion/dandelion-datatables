@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.integration.html;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Test;
 
@@ -47,7 +45,7 @@ import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 public class DomSourceIT extends ThymeleafBaseIT {
 
 	@Test
-	public void should_generate_table_markup() throws IOException, Exception {
+	public void should_generate_table_markup() {
 		goToPage("html/default");
 		
 		assertThat(getTable()).hasSize(1);
@@ -73,7 +71,7 @@ public class DomSourceIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_render_empty_cell() throws IOException, Exception {
+	public void should_render_empty_cell() {
 		goToPage("html/default");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
@@ -81,7 +79,7 @@ public class DomSourceIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_render_default_value_in_cell() throws IOException, Exception {
+	public void should_render_default_value_in_cell() {
 		goToPage("html/default_values");
 
 		// I know that the 4th cell of the first row is empty but is filled with a default value

@@ -33,13 +33,10 @@ package com.github.dandelion.datatables.core.exception;
  * 
  * @author Thibault Duchateau
  */
-public class ConfigurationProcessingException extends RuntimeException {
+public class ConfigurationProcessingException extends DandelionDatatablesException {
 
 	private static final long serialVersionUID = 3243845798907773547L;
-
-	public ConfigurationProcessingException() {
-	};
-
+	
 	public ConfigurationProcessingException(String message) {
 		super(message);
 	}

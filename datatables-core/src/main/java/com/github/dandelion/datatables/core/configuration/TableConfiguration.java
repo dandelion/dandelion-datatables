@@ -43,7 +43,6 @@ import com.github.dandelion.datatables.core.asset.ExtraConf;
 import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportProperties;
@@ -52,8 +51,8 @@ import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
-import com.github.dandelion.datatables.core.html.HtmlTag;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
+import com.github.dandelion.datatables.core.html.HtmlTag;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
 
 /**
@@ -193,10 +192,8 @@ public class TableConfiguration {
 	 * 
 	 * <b>FOR INTERNAL USE ONLY</b>
 	 * @param stagingConf
-	 * @throws ConfigurationLoadingException  
 	 */
-	public TableConfiguration(Map<Configuration, Object> stagingConf, HttpServletRequest request) 
-			throws ConfigurationLoadingException {
+	public TableConfiguration(Map<Configuration, Object> stagingConf, HttpServletRequest request) {
 		this.request = request;
 		Configuration.applyConfiguration(this, stagingConf);
 	}

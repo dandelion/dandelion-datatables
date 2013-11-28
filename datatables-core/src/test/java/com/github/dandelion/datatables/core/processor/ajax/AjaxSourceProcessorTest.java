@@ -46,19 +46,19 @@ public class AjaxSourceProcessorTest extends TableProcessorBaseTest {
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
+	public void should_set_null_when_value_is_null() {
 		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxSource()).isNull();
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
+	public void should_set_null_when_value_is_empty() {
 		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxSource()).isNull();
 	}
 	
 	@Test
-	public void should_set_the_source_and_register_a_feature_when_serverside_is_disabled() throws Exception {
+	public void should_set_the_source_and_register_a_feature_when_serverside_is_disabled() {
 		confToBeApplied.put(Configuration.AJAX_SERVERSIDE, false);
 		processor.processConfiguration("/myAjaxSource", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxSource()).isEqualTo("/myAjaxSource");
@@ -67,7 +67,7 @@ public class AjaxSourceProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test
-	public void should_set_the_source_and_not_register_a_feature_when_serverside_is_enabled() throws Exception {
+	public void should_set_the_source_and_not_register_a_feature_when_serverside_is_enabled() {
 		confToBeApplied.put(Configuration.AJAX_SERVERSIDE, true);
 		processor.processConfiguration("/myAjaxSource", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getAjaxSource()).isEqualTo("/myAjaxSource");

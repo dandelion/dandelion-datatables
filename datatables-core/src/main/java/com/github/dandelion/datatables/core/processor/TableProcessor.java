@@ -33,9 +33,7 @@ public interface TableProcessor {
 	 *            {@link com.github.dandelion.datatables.core.extension.feature.AjaxFeature}
 	 *            must be registered in the TableConfiguration only if
 	 *            server-side processing in not enabled.
-	 * @throws ConfigurationProcessingException
-	 *             if something's goes wrong during the processing.
 	 */
 	public void processConfiguration(String configuration, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException;
+			Map<Configuration, Object> confToBeApplied);
 }

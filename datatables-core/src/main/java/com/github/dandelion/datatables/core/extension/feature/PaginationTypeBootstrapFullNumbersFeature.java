@@ -29,7 +29,6 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -52,6 +51,6 @@ public class PaginationTypeBootstrapFullNumbersFeature extends AbstractExtension
 	@Override
 	public void setup(HtmlTable table) {
 		addScope(Scope.DDL_DT_PAGING_BOOTSTRAP_FULLNUMBERS);
-		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "bootstrap_full_numbers", Parameter.Mode.OVERRIDE));
+		addParameter(DTConstants.DT_PAGINATION_TYPE, "bootstrap_full_numbers");
 	}
 }

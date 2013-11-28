@@ -42,7 +42,7 @@ public class CssThemeOptionProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
+			Map<Configuration, Object> confToBeApplied) {
 		ThemeOption themeOption = null;
 		if (StringUtils.isNotBlank(param)) {
 			try {

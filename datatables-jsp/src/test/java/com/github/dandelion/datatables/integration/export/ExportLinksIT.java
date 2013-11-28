@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.integration.export;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
@@ -49,7 +47,7 @@ import com.github.dandelion.datatables.testing.utils.Constants;
 public class ExportLinksIT extends JspBaseIT {
 
 	@Test
-	public void should_generate_default_csv_link() throws IOException, Exception {
+	public void should_generate_default_csv_link() {
 		goToPage("export/default_csv_link");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href")).isEqualTo(getDefaultBaseUrl() + "/export/default_csv_link.jsp?dtt=1&dti=myTableId");
@@ -58,7 +56,7 @@ public class ExportLinksIT extends JspBaseIT {
 	}
 	
 	@Test
-	public void should_generate_csv_link_with_one_existing_url_parameter() throws IOException, Exception {
+	public void should_generate_csv_link_with_one_existing_url_parameter() {
 		goTo("/export/default_csv_link.jsp?param1=val1");
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
@@ -67,7 +65,7 @@ public class ExportLinksIT extends JspBaseIT {
 	}
 	
 	@Test
-	public void should_generate_csv_link_with_multiple_existing_url_parameters() throws IOException, Exception {
+	public void should_generate_csv_link_with_multiple_existing_url_parameters() {
 		goTo("/export/default_csv_link.jsp?param1=val1&param2=val2");
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");

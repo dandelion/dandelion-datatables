@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.integration.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
 
 import com.github.dandelion.datatables.core.constants.CdnConstants;
@@ -47,7 +45,7 @@ import com.github.dandelion.datatables.integration.JspBaseIT;
 public class CdnIT extends JspBaseIT {
 
 	@Test
-	public void should_disable_paging_using_dom_source() throws IOException, Exception {
+	public void should_disable_paging_using_dom_source() {
 		goToPage("basics/cdn_dom");
 
 		assertThat(getHtmlBody().findFirst("link").getAttribute("href")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_CSS);
@@ -55,7 +53,7 @@ public class CdnIT extends JspBaseIT {
 	}
 	
 	@Test
-	public void should_disable_paging_using_ajax_source() throws IOException, Exception {
+	public void should_disable_paging_using_ajax_source() {
 		goToPage("basics/cdn_ajax");
 
 		assertThat(getHtmlBody().findFirst("link").getAttribute("href")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_CSS);

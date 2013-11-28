@@ -43,13 +43,13 @@ import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 public class ConfigurationIT extends ThymeleafBaseIT {
 
 	@Test
-	public void should_use_overriden_global_configuration() throws Exception {
+	public void should_use_overriden_global_configuration() {
 		goToPage("configuration/global_overriden");
 		assertThat(getTable().getAttribute("class")).contains("myClass");
 	}
 	
 	@Test
-	public void should_use_group1_configuration() throws Exception {
+	public void should_use_group1_configuration() {
 		goToPage("configuration/enable_custom_group");
 		assertThat(getTable().getAttribute("class")).contains("my-group1-class");
 	}

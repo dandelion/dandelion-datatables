@@ -53,7 +53,7 @@ public class StandardConfigurationLoaderTest {
 	StandardConfigurationLoader loader;
 	
 	@Before
-	public void setup() throws Exception {
+	public void setup() {
 		MockServletContext mockServletContext = new MockServletContext();
 		mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
@@ -64,7 +64,7 @@ public class StandardConfigurationLoaderTest {
 	}
 	
 	@Test
-	public void should_return_empty_user_properties_from_classpath() throws Exception {
+	public void should_return_empty_user_properties_from_classpath() {
 		Properties userProperties = loader.loadUserConfiguration(request.getLocale());
 		
 		assertThat(userProperties).isNotNull();
@@ -72,7 +72,7 @@ public class StandardConfigurationLoaderTest {
 	}
 	
 	@Test
-	public void should_load_user_properties_from_system_property() throws Exception {
+	public void should_load_user_properties_from_system_property() {
 		String path = new File("src/test/resources/loadingTest/test1/").getAbsolutePath();
 		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
 		
@@ -84,7 +84,7 @@ public class StandardConfigurationLoaderTest {
 	}
 	
 	@Test
-	public void should_resolve_global_group_only_and_override_with_user_properties() throws Exception {
+	public void should_resolve_global_group_only_and_override_with_user_properties() {
 		String path = new File("src/test/resources/loadingTest/test1/").getAbsolutePath();
 		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
 		
@@ -105,7 +105,7 @@ public class StandardConfigurationLoaderTest {
 	}
 	
 	@Test
-	public void should_resolve_global_group1_and_group2_from_user_properties() throws Exception {
+	public void should_resolve_global_group1_and_group2_from_user_properties() {
 		String path = new File("src/test/resources/loadingTest/test2/").getAbsolutePath();
 		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
 		
@@ -143,7 +143,7 @@ public class StandardConfigurationLoaderTest {
 	}
 	
 	@Test
-	public void should_resolve_group1_only_from_user_properties() throws Exception {
+	public void should_resolve_group1_only_from_user_properties() {
 		String path = new File("src/test/resources/loadingTest/test3/").getAbsolutePath();
 		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
 		
@@ -173,7 +173,7 @@ public class StandardConfigurationLoaderTest {
 	}
 	
 	@Test
-	public void should_use_en_properties_first() throws Exception {
+	public void should_use_en_properties_first() {
 		String path = new File("src/test/resources/loadingTest/test4/").getAbsolutePath();
 		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
 		

@@ -44,7 +44,7 @@ import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 public class SortingIT extends ThymeleafBaseIT {
 
 	@Test
-	public void should_disable_sorting_only_on_the_first_column_using_dom() throws Exception {
+	public void should_disable_sorting_only_on_the_first_column_using_dom() {
 		goToPage("basics/sorting/sorting_disabled_dom");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_disabled");
@@ -55,7 +55,7 @@ public class SortingIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_init_sort_using_dom() throws Exception {
+	public void should_init_sort_using_dom() {
 		goToPage("basics/sorting/sorting_init_dom");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_desc");
@@ -63,7 +63,7 @@ public class SortingIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_control_direction_using_dom() throws Exception {
+	public void should_control_direction_using_dom() {
 		goToPage("basics/sorting/sorting_direction_dom");
 		
 		click(getTable().find("thead").find("th", 0));
@@ -76,7 +76,7 @@ public class SortingIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_disable_sorting_only_on_the_first_column_using_ajax() throws Exception {
+	public void should_disable_sorting_only_on_the_first_column_using_ajax() {
 		goToPage("basics/sorting/sorting_disabled_ajax");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_disabled");
@@ -87,7 +87,7 @@ public class SortingIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_init_sort_using_ajax() throws Exception {
+	public void should_init_sort_using_ajax() {
 		goToPage("basics/sorting/sorting_init_ajax");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_desc");
@@ -95,7 +95,7 @@ public class SortingIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_control_direction_using_ajax() throws Exception {
+	public void should_control_direction_using_ajax() {
 		goToPage("basics/sorting/sorting_direction_ajax");
 		
 		click(getTable().find("thead").find("th", 0));

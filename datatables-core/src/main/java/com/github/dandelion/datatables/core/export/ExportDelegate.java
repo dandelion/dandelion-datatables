@@ -39,7 +39,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.constants.ExportConstants;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.ClassUtils;
@@ -68,12 +67,8 @@ public class ExportDelegate {
 	/**
 	 * Launch the export using the right class depending on the current export
 	 * type.
-	 * 
-	 * @throws ExportException
-	 *             if something went wront during export.
-	 * @throws BadConfigurationException 
 	 */
-	public void launchExport() throws ExportException, BadConfigurationException {
+	public void launchExport() {
 
 		OutputStream stream = new ByteArrayOutputStream();
 		String exportClass = null;
@@ -100,11 +95,11 @@ public class ExportDelegate {
 			klass = ClassUtils.getClass(exportClass);
 			obj = ClassUtils.getNewInstance(klass);
 		} catch (ClassNotFoundException e) {
-			throw new ExportException("Unable to load the class '" + exportClass + "'");
+			throw new ExportException("Unable to load the class '" + exportClass + "'", e);
 		} catch (InstantiationException e) {
-			throw new ExportException("Unable to instanciate the class '" + exportClass + "'");
+			throw new ExportException("Unable to instanciate the class '" + exportClass + "'", e);
 		} catch (IllegalAccessException e) {
-			throw new ExportException("Unable to access the class '" + exportClass + "'");
+			throw new ExportException("Unable to access the class '" + exportClass + "'", e);
 		}
 
 		// Invoke methods that update the stream

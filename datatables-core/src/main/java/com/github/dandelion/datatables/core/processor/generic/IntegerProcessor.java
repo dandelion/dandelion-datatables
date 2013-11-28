@@ -32,6 +32,7 @@ package com.github.dandelion.datatables.core.processor.generic;
 import java.lang.reflect.Method;
 
 import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.processor.AbstractGenericProcessor;
 
 /**
@@ -47,7 +48,13 @@ public class IntegerProcessor extends AbstractGenericProcessor {
 	}
 
 	@Override
-	protected Integer process(String param) throws NumberFormatException {
-		return StringUtils.isNotBlank(param) ? Integer.parseInt(param) : null;
+	protected Integer process(String param) {
+		Integer result = null;
+		try {
+			result = StringUtils.isNotBlank(param) ? Integer.parseInt(param) : null;
+		} catch (NumberFormatException e) {
+			throw new ConfigurationProcessingException(e);
+		}
+		return result;
 	}
 }

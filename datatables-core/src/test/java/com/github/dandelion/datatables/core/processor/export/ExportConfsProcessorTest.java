@@ -47,19 +47,19 @@ public class ExportConfsProcessorTest extends TableProcessorBaseTest {
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
+	public void should_set_null_when_value_is_null() {
 		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getExportConfs()).isNull();
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
+	public void should_set_null_when_value_is_empty() {
 		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssStripeClasses()).isNull();
 	}
 	
 	@Test
-	public void should_enable_csv_export() throws Exception {
+	public void should_enable_csv_export() {
 		processor.processConfiguration("csv", tableConfiguration, confToBeApplied);
 		
 		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
@@ -71,7 +71,7 @@ public class ExportConfsProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test
-	public void should_enable_csv_and_pdf_export() throws Exception {
+	public void should_enable_csv_and_pdf_export() {
 		processor.processConfiguration("csv,pdf", tableConfiguration, confToBeApplied);
 		
 		assertThat(tableConfiguration.isExportable()).isEqualTo(true);

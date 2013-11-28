@@ -42,7 +42,6 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.ClassUtils;
@@ -74,14 +73,12 @@ public class ExtensionLoader {
 	 *            to modules.
 	 * @param webResources
 	 *            The wrapper POJO containing all web resources to generate.
-	 * @throws BadConfigurationException
-	 * @throws IOException
 	 */
 	public ExtensionLoader(HtmlTable table) {
 		this.table = table;
 	}
 
-	public void loadExtensions(JsResource mainJsFile, Map<String, Object> mainConf) throws ExtensionLoadingException {
+	public void loadExtensions(JsResource mainJsFile, Map<String, Object> mainConf) {
 		
 		registerBuiltInExtensions(table);
 		registerCustomExtensions(table);
@@ -99,9 +96,8 @@ public class ExtensionLoader {
 	 * 
 	 * @param table
 	 *            the HtmlTable to update with custom extensions.
-	 * @throws BadConfigurationException
 	 */
-	private void registerBuiltInExtensions(HtmlTable table) throws ExtensionLoadingException {
+	private void registerBuiltInExtensions(HtmlTable table) {
 
 		logger.debug("Scanning built-in extensions...");
 
@@ -132,9 +128,8 @@ public class ExtensionLoader {
 	 * 
 	 * @param table
 	 *            the HtmlTable to update with custom extensions.
-	 * @throws BadConfigurationException
 	 */
-	private void registerCustomExtensions(HtmlTable table) throws ExtensionLoadingException {
+	private void registerCustomExtensions(HtmlTable table) {
 
 		if (StringUtils.isNotBlank(table.getTableConfiguration().getMainExtensionPackage())) {
 
@@ -163,7 +158,7 @@ public class ExtensionLoader {
 		}
 	}
 	
-	private List<Extension> scanForExtensions(String... packageNames) throws ExtensionLoadingException {
+	private List<Extension> scanForExtensions(String... packageNames) {
 		List<Extension> extensions = new ArrayList<Extension>();
 		for(String packageName : packageNames){
 			extensions.addAll(scanForExtensions(packageName));
@@ -171,7 +166,7 @@ public class ExtensionLoader {
 		return extensions;
 	}
 	
-	private List<Extension> scanForExtensions(String packageName) throws ExtensionLoadingException {
+	private List<Extension> scanForExtensions(String packageName) {
 
 		// Init return value
 		List<Extension> retval = new ArrayList<Extension>();

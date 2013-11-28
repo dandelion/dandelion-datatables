@@ -19,7 +19,7 @@ import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 
 	@Test
-	public void shoud_load_the_extension() throws ExtensionLoadingException {
+	public void shoud_load_the_extension() {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
 		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(2);
@@ -31,7 +31,7 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 	}
 
 	@Test
-	public void shoud_load_the_extension_with_tablecloth() throws ExtensionLoadingException {
+	public void shoud_load_the_extension_with_tablecloth() {
 		table.getTableConfiguration().setCssThemeOption(ThemeOption.TABLECLOTH);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
@@ -42,13 +42,13 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 	}
 
 	@Test(expected = ExtensionLoadingException.class)
-	public void shoud_not_load_the_extension_with_wrong_option() throws ExtensionLoadingException {
+	public void shoud_not_load_the_extension_with_wrong_option() {
 		table.getTableConfiguration().setCssThemeOption(ThemeOption.CUPERTINO);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 	}
 
 	@Test
-	public void shoud_load_the_extension_with_a_custom_domfeature() throws ExtensionLoadingException {
+	public void shoud_load_the_extension_with_a_custom_domfeature() {
 		table.getTableConfiguration().setFeatureDom("lft");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 

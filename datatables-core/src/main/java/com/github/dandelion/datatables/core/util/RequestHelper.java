@@ -29,15 +29,11 @@
  */
 package com.github.dandelion.datatables.core.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
-import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -72,49 +68,6 @@ public class RequestHelper {
 		}
 
 		return currentUrl.toString();
-	}
-
-	/**
-	 * Generates and returns the asset source that will be displayed HTML-side
-	 * either in a link tag or in a script tag.
-	 * 
-	 * @param resourceName
-	 *            Name of the asset.
-	 * @param tableId
-	 *            Current table id.
-	 * @param request
-	 *            The HTTP request.
-	 * @param isMainFile
-	 *            Boolean used to determine the asset's type.
-	 * @return the path to the asset that will be served by the Dandelion
-	 *         servlet.
-	 */
-	public static String getAssetSource(String resourceName, HtmlTable table, HttpServletRequest request,
-			boolean isMainFile) {
-		StringBuilder buffer = new StringBuilder(getBaseUrl(request, table));
-		buffer.append("/datatablesController/");
-		buffer.append(resourceName);
-		// Table id
-		buffer.append("?id=");
-		buffer.append(table.getId());
-		// File type
-		if (isMainFile) {
-			buffer.append("&t=main");
-		}
-		// URL parameters
-		if (request.getQueryString() != null) {
-			buffer.append("&");
-			buffer.append(request.getQueryString());
-		}
-		// Referer
-		buffer.append("&c=");
-		try {
-			buffer.append(URLEncoder.encode(RequestHelper.getCurrentURIWithParameters(request), "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			throw new DataTableProcessingException();
-		}
-
-		return buffer.toString();
 	}
 
 	/**

@@ -41,15 +41,13 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.ExtraConf;
 import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.exception.CompressionException;
-import com.github.dandelion.datatables.core.exception.DataNotFoundException;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
+import com.github.dandelion.datatables.core.exception.ExtraFileNotFoundException;
+import com.github.dandelion.datatables.core.exception.WebResourceGenerationException;
 import com.github.dandelion.datatables.core.export.ExportManager;
 import com.github.dandelion.datatables.core.extension.ExtensionLoader;
 import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
-import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.FileUtils;
 import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
 import com.github.dandelion.datatables.core.util.NameConstants;
@@ -98,14 +96,8 @@ public class WebResourceGenerator {
 	 *            Table from which the configuration is extracted.
 	 * @return A string corresponding to the Javascript code to return to the
 	 *         JSP.
-	 * @throws DataNotFoundException
-	 *             if the web service URL is wrong (only for AJAX datasource)
-	 * @throws IOException
-	 * @throws CompressionException
-	 * @throws BadConfigurationException
-	 * @throws ExtensionLoadingException 
 	 */
-	public JsResource generateWebResources() throws IOException, BadConfigurationException, ExtensionLoadingException {
+	public JsResource generateWebResources() {
 
 		/**
 		 * Main configuration file building
@@ -152,8 +144,12 @@ public class WebResourceGenerator {
 		 * Main configuration generation
 		 */
 		// Allways pretty prints the JSON
-		JSONValue.writeJSONString(mainConf, writer);
-		mainJsFile.appendToDataTablesConf(writer.toString());
+		try {
+			JSONValue.writeJSONString(mainConf, writer);
+			mainJsFile.appendToDataTablesConf(writer.toString());
+		} catch (IOException e) {
+			throw new WebResourceGenerationException("Unable to generate the JSON configuration", e);
+		}
 
 		/**
 		 * Extra HTML
@@ -220,37 +216,40 @@ public class WebResourceGenerator {
 	 *            The resource to update with extraFiles.
 	 * @param table
 	 *            The HTML tale.
-	 * @throws BadConfigurationException
-	 *             if
 	 */
-	private void extraFileManagement(JsResource mainFile, HtmlTable table) throws IOException,
-			BadConfigurationException {
+	private void extraFileManagement(JsResource mainFile, HtmlTable table) {
 
 		logger.info("Extra files found");
 
 		for (ExtraFile file : table.getTableConfiguration().getExtraFiles()) {
+			try {
 
-			switch (file.getInsert()) {
-			case BEFOREALL:
-				mainFile.appendToBeforeAll(FileUtils.getFileContentFromWebapp(file.getSrc()));
-				break;
+				switch (file.getInsert()) {
+				case BEFOREALL:
+					mainFile.appendToBeforeAll(FileUtils.getFileContentFromWebapp(file.getSrc()));
+					break;
 
-			case AFTERSTARTDOCUMENTREADY:
-				mainFile.appendToAfterStartDocumentReady(FileUtils
-						.getFileContentFromWebapp(file.getSrc()));
-				break;
+				case AFTERSTARTDOCUMENTREADY:
+					mainFile.appendToAfterStartDocumentReady(FileUtils.getFileContentFromWebapp(file.getSrc()));
+					break;
 
-			case BEFOREENDDOCUMENTREADY:
-				mainFile.appendToBeforeEndDocumentReady(FileUtils
-						.getFileContentFromWebapp(file.getSrc()));
-				break;
+				case BEFOREENDDOCUMENTREADY:
+					mainFile.appendToBeforeEndDocumentReady(FileUtils.getFileContentFromWebapp(file.getSrc()));
+					break;
 
-			case AFTERALL:
-				mainFile.appendToAfterAll(FileUtils.getFileContentFromWebapp(file.getSrc()));
-				break;
-
-			default:
-				throw new BadConfigurationException("Unable to get the extraFile " + file.getSrc());
+				case AFTERALL:
+					mainFile.appendToAfterAll(FileUtils.getFileContentFromWebapp(file.getSrc()));
+					break;
+					
+				case BEFORESTARTDOCUMENTREADY:
+					mainFile.appendToBeforeStartDocumentReady(FileUtils.getFileContentFromWebapp(file.getSrc()));
+					break;
+				}
+				
+			} catch (IOException e) {
+				StringBuilder msg = new StringBuilder("Unable to load the extra file ");
+				msg.append(file.getSrc());
+				throw new ExtraFileNotFoundException(msg.toString());
 			}
 		}
 	}
@@ -266,7 +265,7 @@ public class WebResourceGenerator {
 	 * @param table
 	 */
 	private void extraConfManagement(JsResource mainJsFile, Map<String, Object> mainConf,
-			HtmlTable table) throws BadConfigurationException {
+			HtmlTable table) {
 
 		for (ExtraConf conf : table.getTableConfiguration().getExtraConfs()) {
 			StringBuilder extaConf = new StringBuilder();

@@ -36,7 +36,6 @@ import java.util.Scanner;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
 
-import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.mock.Mock;
 
 /**
@@ -47,7 +46,7 @@ import com.github.dandelion.datatables.core.mock.Mock;
 public class CsvExportTest extends ExportTest {
 
 	@Test
-	public void should_generate_full_table() throws ExportException {
+	public void should_generate_full_table() {
 		
 		initDefaultTable();
 		configureExport(new ExportConf.Builder(ExportType.CSV).header(true).build());
@@ -62,7 +61,7 @@ public class CsvExportTest extends ExportTest {
 	}
 	
 	@Test
-	public void should_generate_table_without_header() throws ExportException {
+	public void should_generate_table_without_header() {
 		
 		initDefaultTable();
 		configureExport(new ExportConf.Builder(ExportType.CSV).header(false).build());
@@ -77,7 +76,7 @@ public class CsvExportTest extends ExportTest {
 	}
 	
 	@Test
-	public void should_generate_table_with_4_columns() throws ExportException {
+	public void should_generate_table_with_4_columns() {
 		
 		initTable();
 		configureExport(new ExportConf.Builder(ExportType.CSV).header(false).build());

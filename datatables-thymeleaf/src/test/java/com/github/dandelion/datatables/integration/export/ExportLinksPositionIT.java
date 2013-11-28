@@ -46,7 +46,7 @@ import com.github.dandelion.datatables.testing.utils.Constants;
 public class ExportLinksPositionIT extends ThymeleafBaseIT {
 
 	@Test
-	public void should_generate_bottom_right_link() throws Exception {
+	public void should_generate_bottom_right_link() {
 		goToPage("export/bottom_right_link");
 		
 		// Div position inside the Datatables' wrapper
@@ -61,7 +61,7 @@ public class ExportLinksPositionIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_bottom_middle_link() throws Exception {
+	public void should_generate_bottom_middle_link() {
 		goToPage("export/bottom_middle_link");
 		
 		// Div position inside the Datatables' wrapper
@@ -76,7 +76,7 @@ public class ExportLinksPositionIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_bottom_left_link() throws Exception {
+	public void should_generate_bottom_left_link() {
 		goToPage("export/bottom_left_link");
 		
 		// Div position inside the Datatables' wrapper
@@ -91,7 +91,7 @@ public class ExportLinksPositionIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_top_right_link() throws Exception {
+	public void should_generate_top_right_link() {
 		goToPage("export/top_right_link");
 		
 		// Div position inside the Datatables' wrapper
@@ -106,7 +106,7 @@ public class ExportLinksPositionIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_top_middle_link() throws Exception {
+	public void should_generate_top_middle_link() {
 		goToPage("export/top_middle_link");
 		
 		// Div position inside the Datatables' wrapper
@@ -121,7 +121,7 @@ public class ExportLinksPositionIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_top_middle_link_when_using_scrollY() throws Exception {
+	public void should_generate_top_middle_link_when_using_scrollY() {
 		goToPage("export/top_middle_link_with_scrollY");
 
 		// Div position inside the Datatables' wrapper
@@ -140,7 +140,7 @@ public class ExportLinksPositionIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_top_left_link() throws Exception {
+	public void should_generate_top_left_link() {
 		goToPage("export/top_left_link");
 		
 		// Div position inside the Datatables' wrapper
@@ -155,7 +155,7 @@ public class ExportLinksPositionIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_top_and_bottom_right_links() throws Exception {
+	public void should_generate_top_and_bottom_right_links() {
 		goToPage("export/top_and_bottom_right_links");
 		
 		// Div position inside the Datatables' wrapper

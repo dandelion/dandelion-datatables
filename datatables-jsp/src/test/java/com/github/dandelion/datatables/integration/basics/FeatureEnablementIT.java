@@ -46,7 +46,7 @@ import com.github.dandelion.datatables.testing.utils.Constants;
 public class FeatureEnablementIT extends JspBaseIT {
 
 	@Test
-	public void should_disable_paging() throws Exception {
+	public void should_disable_paging() {
 		goToPage("basics/disable_paging");
 
 		assertThat(find("#" + Constants.TABLE_ID + "_length")).hasSize(0);
@@ -56,7 +56,7 @@ public class FeatureEnablementIT extends JspBaseIT {
 	}
 	
 	@Test
-	public void should_disable_filtering() throws Exception {
+	public void should_disable_filtering() {
 		goToPage("basics/disable_filtering");
 
 		// If paging is disabled, the entire collection is displayed
@@ -64,7 +64,7 @@ public class FeatureEnablementIT extends JspBaseIT {
 	}
 
 	@Test
-	public void should_disable_info() throws Exception {
+	public void should_disable_info() {
 		goToPage("basics/disable_info");
 
 		// If paging is disabled, the entire collection is displayed
@@ -72,7 +72,7 @@ public class FeatureEnablementIT extends JspBaseIT {
 	}
 
 	@Test
-	public void should_disable_sorting() throws Exception {
+	public void should_disable_sorting() {
 		goToPage("basics/disable_sorting");
 
 		// If paging is disabled, the entire collection is displayed

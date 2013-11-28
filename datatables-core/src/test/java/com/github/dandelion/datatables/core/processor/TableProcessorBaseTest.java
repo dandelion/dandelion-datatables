@@ -51,7 +51,7 @@ public abstract class TableProcessorBaseTest {
 	protected Map<Configuration, Object> confToBeApplied;
 	
 	@Before
-	public void setup() throws Exception{
+	public void setup() {
 		processor = getProcessor();
 		MockServletContext mockServletContext = new MockServletContext();
 		MockPageContext mockPageContext = new MockPageContext(mockServletContext);
@@ -65,5 +65,5 @@ public abstract class TableProcessorBaseTest {
 		ConfigurationStore.clear();
 	}
 	
-	public abstract TableProcessor getProcessor() throws Exception;
+	public abstract TableProcessor getProcessor();
 }

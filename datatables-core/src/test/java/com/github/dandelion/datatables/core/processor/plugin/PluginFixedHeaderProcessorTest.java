@@ -45,26 +45,26 @@ public class PluginFixedHeaderProcessorTest extends TableProcessorBaseTest {
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
+	public void should_set_null_when_value_is_null() {
 		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginFixedHeader()).isNull();
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
+	public void should_set_null_when_value_is_empty() {
 		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginFixedHeader()).isNull();
 	}
 	
 	@Test
-	public void should_enable_plugin_when_value_is_true() throws Exception {
+	public void should_enable_plugin_when_value_is_true() {
 		processor.processConfiguration("true", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginFixedHeader()).isTrue();
 		assertThat(tableConfiguration.getInternalExtensions()).contains(new FixedHeaderPlugin());
 	}
 	
 	@Test
-	public void should_not_enable_plugin_when_value_is_false() throws Exception {
+	public void should_not_enable_plugin_when_value_is_false() {
 		processor.processConfiguration("false", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginFixedHeader()).isFalse();
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();

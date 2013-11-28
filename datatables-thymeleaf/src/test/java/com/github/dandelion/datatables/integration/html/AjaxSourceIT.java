@@ -2,8 +2,6 @@ package com.github.dandelion.datatables.integration.html;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
 
 import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
@@ -16,7 +14,7 @@ import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 public class AjaxSourceIT extends ThymeleafBaseIT {
 
 	@Test
-	public void should_generate_table_markup() throws IOException, Exception {
+	public void should_generate_table_markup() {
 		goToPage("ajax/table");
 
 		assertThat(getTable()).hasSize(1);

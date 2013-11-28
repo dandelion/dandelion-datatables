@@ -41,7 +41,7 @@ public class FeatureLengthMenuProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
+			Map<Configuration, Object> confToBeApplied) {
 		String retval = null;
 		if (StringUtils.isNotBlank(param)) {
 			String[] tmp = param.split(";");

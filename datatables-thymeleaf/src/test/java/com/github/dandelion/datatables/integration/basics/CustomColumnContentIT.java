@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.integration.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
 
 import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
@@ -46,7 +44,7 @@ import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 public class CustomColumnContentIT extends ThymeleafBaseIT {
 
 	@Test
-	public void should_generate_mailto_link() throws IOException, Exception {
+	public void should_generate_mailto_link() {
 		goToPage("basics/custom_column_content");
 
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);

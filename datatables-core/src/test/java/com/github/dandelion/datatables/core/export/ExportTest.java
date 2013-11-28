@@ -39,7 +39,6 @@ import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
 import com.github.dandelion.datatables.core.asset.DisplayType;
-import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.mock.Mock;
 import com.github.dandelion.datatables.core.mock.Person;
@@ -117,7 +116,7 @@ public class ExportTest {
 		table.getTableConfiguration().getExportConfs().add(exportConf);
 	}
 	
-	public void processExport(DatatablesExport export) throws ExportException{
+	public void processExport(DatatablesExport export) {
 		baos = new ByteArrayOutputStream();
 		export.initExport(table);
 		export.processExport(baos);

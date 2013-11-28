@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.integration.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
 
 import com.github.dandelion.datatables.integration.JspBaseIT;
@@ -46,7 +44,7 @@ import com.github.dandelion.datatables.integration.JspBaseIT;
 public class CustomColumnContentIT extends JspBaseIT {
 
 	@Test
-	public void should_generate_mailto_link() throws IOException, Exception {
+	public void should_generate_mailto_link() {
 		goToPage("basics/custom_column_content");
 
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
@@ -55,7 +53,7 @@ public class CustomColumnContentIT extends JspBaseIT {
 	}
 	
 	@Test
-	public void should_display_row_index() throws IOException, Exception {
+	public void should_display_row_index() {
 		goToPage("basics/using_rowindex");
 
 		assertThat(getTable().find("tbody").find("tr", 0).find("td", 4).getText()).isEqualTo("1");

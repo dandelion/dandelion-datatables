@@ -46,7 +46,7 @@ public class CdnIT extends ThymeleafBaseIT {
 
 
 	@Test
-	public void should_generate_html_markup_when_using_dom_source() throws Exception {
+	public void should_generate_html_markup_when_using_dom_source() {
 		goToPage("basics/cdn_dom");
 
 		assertThat(find("head").find("link", 0).getAttribute("href")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_CSS);
@@ -54,7 +54,7 @@ public class CdnIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_html_markup_when_using_ajax_source() throws Exception {
+	public void should_generate_html_markup_when_using_ajax_source() {
 		goToPage("basics/cdn_ajax");
 
 		assertThat(find("head").find("link", 0).getAttribute("href")).isEqualTo("http:" + CdnConstants.CDN_DATATABLES_CSS);

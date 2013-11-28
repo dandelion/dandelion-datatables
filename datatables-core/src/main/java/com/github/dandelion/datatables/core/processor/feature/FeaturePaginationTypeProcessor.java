@@ -49,7 +49,7 @@ public class FeaturePaginationTypeProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
+			Map<Configuration, Object> confToBeApplied) {
 		PaginationType type = null;
 		if (StringUtils.isNotBlank(param)) {
 			try {

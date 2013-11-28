@@ -47,7 +47,7 @@ public class MessageProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test
-	public void should_add_a_message() throws Exception {
+	public void should_add_a_message() {
 		processor.processConfiguration("myInfo", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getMessages().getProperty(DTMessages.INFO.getPropertyName())).isEqualTo("myInfo");
 	}

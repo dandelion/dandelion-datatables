@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.integration.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
 
 import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
@@ -46,7 +44,7 @@ import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 public class DomIT extends ThymeleafBaseIT {
 
 	@Test
-	public void should_apply_css_using_dom() throws IOException, Exception {
+	public void should_apply_css_using_dom() {
 		goToPage("basics/dom_dom");
 
 		assertThat(find("div.dataTables_wrapper").find("div.dataTables_filter")).hasSize(0);

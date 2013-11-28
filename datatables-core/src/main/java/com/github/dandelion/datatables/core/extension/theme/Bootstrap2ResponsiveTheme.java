@@ -33,7 +33,6 @@ import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -75,7 +74,7 @@ public class Bootstrap2ResponsiveTheme extends AbstractExtension {
 	}
 
 	@Override
-	public void setup(HtmlTable table) throws ExtensionLoadingException {
+	public void setup(HtmlTable table) {
 
 		// Add necessary web resources
 		addScope(Scope.DDL_DT_THEME_BOOTSTRAP2_RESPONSIVE);

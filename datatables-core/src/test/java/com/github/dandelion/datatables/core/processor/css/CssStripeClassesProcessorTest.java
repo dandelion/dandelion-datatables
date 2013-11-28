@@ -44,19 +44,19 @@ public class CssStripeClassesProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
+	public void should_set_null_when_value_is_null() {
 		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssStripeClasses()).isNull();
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
+	public void should_set_null_when_value_is_empty() {
 		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssStripeClasses()).isNull();
 	}
 	
 	@Test
-	public void should_set_a_js_array_when_using_one_class() throws Exception {
+	public void should_set_a_js_array_when_using_one_class() {
 		processor.processConfiguration("class1", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssStripeClasses()).isEqualTo("['class1']");
 		
@@ -65,7 +65,7 @@ public class CssStripeClassesProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test
-	public void should_set_a_js_array_when_using_two_classes() throws Exception {
+	public void should_set_a_js_array_when_using_two_classes() {
 		processor.processConfiguration("class1,class2", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssStripeClasses()).isEqualTo("['class1','class2']");
 		
@@ -74,7 +74,7 @@ public class CssStripeClassesProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test
-	public void should_set_a_js_array_when_using_three_classes() throws Exception {
+	public void should_set_a_js_array_when_using_three_classes() {
 		processor.processConfiguration("class1,class2,class3", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getCssStripeClasses()).isEqualTo("['class1','class2','class3']");
 		

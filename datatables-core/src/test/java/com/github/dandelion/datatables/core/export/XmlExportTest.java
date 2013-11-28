@@ -35,8 +35,6 @@ import java.util.Scanner;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.exception.ExportException;
-
 /**
  * Test the XML export.
  *
@@ -45,7 +43,7 @@ import com.github.dandelion.datatables.core.exception.ExportException;
 public class XmlExportTest extends ExportTest {
 
 	@Test
-	public void should_generate_full_table() throws ExportException {
+	public void should_generate_full_table() {
 		
 		initDefaultTable();
 		configureExport(new ExportConf.Builder(ExportType.XML).header(true).build());

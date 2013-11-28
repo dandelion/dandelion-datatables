@@ -257,10 +257,8 @@ public enum Configuration {
 	 * TODO
 	 * @param tableConfiguration
 	 * @param localConf
-	 * @throws ConfigurationLoadingException
 	 */
-	public static void applyConfiguration(TableConfiguration tableConfiguration, Map<Configuration, Object> localConf)
-			throws ConfigurationLoadingException {
+	public static void applyConfiguration(TableConfiguration tableConfiguration, Map<Configuration, Object> localConf) {
 
 		logger.trace("Applying staging configuration to the TableConfiguration instance...");
 		

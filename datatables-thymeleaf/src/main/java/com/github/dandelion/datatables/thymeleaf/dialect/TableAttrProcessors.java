@@ -35,7 +35,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.thymeleaf.processor.AttributeNameProcessorMatcher;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
-import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
+import com.github.dandelion.datatables.core.exception.DandelionDatatablesException;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ajax.TablePipeSizeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ajax.TablePipeliningAttrProcessor;
@@ -219,13 +219,13 @@ public enum TableAttrProcessors {
         try {
             return processorClass.getDeclaredConstructor(IAttributeNameProcessorMatcher.class).newInstance(matcher);
         } catch (InstantiationException e) {
-        	throw new DataTableProcessingException(e);
+        	throw new DandelionDatatablesException(e);
         } catch (IllegalAccessException e) {
-        	throw new DataTableProcessingException(e);
+        	throw new DandelionDatatablesException(e);
         } catch (InvocationTargetException e) {
-        	throw new DataTableProcessingException(e);
+        	throw new DandelionDatatablesException(e);
         } catch (NoSuchMethodException e) {
-        	throw new DataTableProcessingException(e);
+        	throw new DandelionDatatablesException(e);
         }
     }
 }

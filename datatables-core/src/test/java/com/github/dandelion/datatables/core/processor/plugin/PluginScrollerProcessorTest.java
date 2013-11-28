@@ -45,26 +45,26 @@ public class PluginScrollerProcessorTest extends TableProcessorBaseTest {
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
+	public void should_set_null_when_value_is_null() {
 		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginScroller()).isNull();
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
+	public void should_set_null_when_value_is_empty() {
 		processor.processConfiguration("", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginScroller()).isNull();
 	}
 	
 	@Test
-	public void should_enable_plugin_when_value_is_true() throws Exception {
+	public void should_enable_plugin_when_value_is_true() {
 		processor.processConfiguration("true", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginScroller()).isTrue();
 		assertThat(tableConfiguration.getInternalExtensions()).contains(new ScrollerPlugin());
 	}
 	
 	@Test
-	public void should_not_enable_plugin_when_value_is_false() throws Exception {
+	public void should_not_enable_plugin_when_value_is_false() {
 		processor.processConfiguration("false", tableConfiguration, confToBeApplied);
 		assertThat(tableConfiguration.getPluginScroller()).isFalse();
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();

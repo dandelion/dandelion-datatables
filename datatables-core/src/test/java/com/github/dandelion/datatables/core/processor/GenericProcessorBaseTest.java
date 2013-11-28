@@ -51,7 +51,7 @@ public abstract class GenericProcessorBaseTest {
 	protected Map<Configuration, Object> confToBeApplied;
 	
 	@Before
-	public void setup() throws Exception{
+	public void setup() throws Exception {
 		processor = getProcessor();
 		MockServletContext mockServletContext = new MockServletContext();
 		MockPageContext mockPageContext = new MockPageContext(mockServletContext);

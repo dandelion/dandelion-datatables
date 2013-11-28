@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.integration.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
 
 import com.github.dandelion.datatables.integration.JspBaseIT;
@@ -47,7 +45,7 @@ import com.github.dandelion.datatables.testing.utils.Constants;
 public class MutipleTablesIT extends JspBaseIT {
 
 	@Test
-	public void should_disable_paging() throws IOException, Exception {
+	public void should_disable_paging() {
 		goTo("/basics/multiple_tables.jsp");
 		
 		assertThat(find("#" + Constants.TABLE_ID + "_wrapper")).hasSize(1);

@@ -15,7 +15,7 @@ import com.github.dandelion.datatables.integration.JspBaseIT;
 public class MultipleFeaturesIT extends JspBaseIT {
 
 	@Test
-	public void should_generate_table_with_ajax_source_and_callback() throws Exception {
+	public void should_generate_table_with_ajax_source_and_callback() {
 		goToPage("ajax/table_with_callback");
 
 		String js = getConfigurationFromPage("ajax/table_with_callback");

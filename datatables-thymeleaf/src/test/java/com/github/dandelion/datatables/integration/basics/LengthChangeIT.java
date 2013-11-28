@@ -45,14 +45,14 @@ import com.github.dandelion.datatables.testing.utils.Constants;
 public class LengthChangeIT extends ThymeleafBaseIT {
 
 	@Test
-	public void should_disable_length_change() throws Exception {
+	public void should_disable_length_change() {
         goToPage("basics/disable_length_change");
 
 		assertThat(find("#" + Constants.TABLE_ID + "_length")).hasSize(0);
 	}
 
 	@Test
-	public void should_enable_length_change() throws Exception {
+	public void should_enable_length_change() {
         goToPage("basics/enable_length_change");
 
 		assertThat(find("#" + Constants.TABLE_ID + "_length")).hasSize(1);

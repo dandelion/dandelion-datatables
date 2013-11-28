@@ -44,7 +44,7 @@ import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 public class FilteringIT extends ThymeleafBaseIT {
 
 	@Test
-	public void should_filter_data_when_using_an_input_field() throws Exception {
+	public void should_filter_data_when_using_an_input_field() {
 		goToPage("basics/filtering/filtering_with_input");
 		
 		// Now we test the input that filters data
@@ -57,7 +57,7 @@ public class FilteringIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_generate_select_in_the_footer() throws Exception {
+	public void should_generate_select_in_the_footer() {
 		goToPage("basics/filtering/filtering_with_select");
 		
 		// A tfoot tag must be generated
@@ -78,7 +78,7 @@ public class FilteringIT extends ThymeleafBaseIT {
 	}
 	
 	@Test
-	public void should_filter_data_when_using_an_extra_form() throws Exception {
+	public void should_filter_data_when_using_an_extra_form() {
 		goToPage("basics/filtering/filtering_with_extra_form");
 		
 		assertThat(find("#firstNameFilter").find("span.filter_column")).hasSize(1);

@@ -55,7 +55,7 @@ public class CsvExport implements DatatablesExport {
 	}
 
 	@Override
-	public void processExport(OutputStream output) throws ExportException {
+	public void processExport(OutputStream output) {
 		StringBuilder buffer = new StringBuilder();
 
 		if(table.getTableConfiguration().getExportConf(ExportType.CSV).getIncludeHeader()){
@@ -83,7 +83,7 @@ public class CsvExport implements DatatablesExport {
 		try {
 			output.write(buffer.toString().getBytes());
 		} catch (IOException e) {
-			throw new ExportException(e);
+			throw new ExportException("Unable to write the content in the CSV format", e);
 		}
 	}
 }

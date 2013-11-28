@@ -49,7 +49,7 @@ import com.github.dandelion.datatables.testing.utils.Constants;
 public class Bootstrap2IT extends JspBaseIT {
 
 	@Test
-	public void should_generate_table_markup_using_dom_source() throws IOException, Exception {
+	public void should_generate_table_markup_using_dom_source()  {
 		goToPage("themes/bootstrap2_dom", true);
 	
 		StringBuilder baseHref = new StringBuilder(getDefaultBaseUrl());
@@ -66,7 +66,7 @@ public class Bootstrap2IT extends JspBaseIT {
 	
 	
 	@Test
-	public void should_generate_table_markup_using_ajax_source() throws IOException, Exception {
+	public void should_generate_table_markup_using_ajax_source()  {
 		goToPage("themes/bootstrap2_ajax");
 	
 		StringBuilder baseHref = new StringBuilder(getDefaultBaseUrl());
