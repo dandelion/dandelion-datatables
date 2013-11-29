@@ -54,6 +54,13 @@ public class HtmlTableTest {
 	}
 
 	@Test
+	public void should_generate_table_with_an_unallowed_character_in_the_id() {
+		table = new HtmlTable("table-id", request);
+		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"table-id\"><thead></thead><tbody></tbody></table>");
+		assertThat(table.getId()).isEqualTo("tableid");
+	}
+	
+	@Test
 	public void should_generate_table_with_id() {
 		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\"><thead></thead><tbody></tbody></table>");
 	}

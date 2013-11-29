@@ -68,12 +68,8 @@ package com.github.dandelion.datatables.core.asset;
  */
 public class JsResource {
 
-	/**
-	 * Table to initialize. Only used if the current JsResource has the MAIN
-	 * ResourceType.
-	 */
-	private String tableId;
-
+	private String processedId;
+	private String originalId;
 	private StringBuilder beforeAll;
 	private StringBuilder beforeStartDocumentReady;
 	private StringBuilder afterStartDocumentReady;
@@ -83,6 +79,11 @@ public class JsResource {
 	private StringBuilder dataTablesExtra;
 	private StringBuilder dataTablesExtraConf;
 
+	public JsResource(String tableId, String originalId){
+		this.processedId = tableId;
+		this.originalId = originalId;
+	}
+	
 	public StringBuilder getBeforeAll() {
 		return beforeAll;
 	}
@@ -171,11 +172,19 @@ public class JsResource {
 		this.dataTablesExtraConf.append(dataTablesExtraConf);
 	}
 
-	public String getTableId() {
-		return tableId;
+	public String getProcessedId() {
+		return processedId;
 	}
 
-	public void setTableId(String tableId) {
-		this.tableId = tableId;
+	public void setProcessedId(String processedId) {
+		this.processedId = processedId;
+	}
+
+	public String getOriginalId() {
+		return originalId;
+	}
+
+	public void setOriginalId(String originalId) {
+		this.originalId = originalId;
 	}
 }

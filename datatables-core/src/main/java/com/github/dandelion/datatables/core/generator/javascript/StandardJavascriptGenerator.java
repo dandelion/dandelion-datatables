@@ -100,7 +100,7 @@ public class StandardJavascriptGenerator implements JavascriptGenerator {
 	}
 
 	private void appendToDocumentReady(JsResource jsResource) {
-		String tableId = jsResource.getTableId();
+		String tableId = jsResource.getProcessedId();
 
 		if (documentReady == null) {
 			documentReady = new StringBuilder();
@@ -134,13 +134,14 @@ public class StandardJavascriptGenerator implements JavascriptGenerator {
 	}
 
 	private void appendVariables(JsResource jsResource) {
-		String tableId = jsResource.getTableId();
+		String tableId = jsResource.getProcessedId();
+		String originalId = jsResource.getOriginalId();
 
 		if (variables == null) {
 			variables = new StringBuilder();
 		}
 
-		variables.append("var oTable_").append(tableId).append(" = $('#").append(tableId).append("');").append(NEWLINE);
+		variables.append("var oTable_").append(tableId).append(" = $('#").append(originalId).append("');").append(NEWLINE);
 
 		variables.append("var oTable_").append(tableId).append("_params = ").append(jsResource.getDataTablesConf())
 				.append(NEWLINE);

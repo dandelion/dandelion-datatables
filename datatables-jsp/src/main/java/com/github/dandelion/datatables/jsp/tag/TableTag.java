@@ -42,7 +42,6 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.asset.web.AssetsRequestContext;
 import com.github.dandelion.core.asset.wrapper.impl.DelegatedLocationWrapper;
-import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
@@ -72,8 +71,6 @@ public class TableTag extends AbstractTableTag {
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TableTag.class);
 
-	private final static char[] DISALLOWED_CHAR = {'-'};
-	
 	public TableTag(){
 		stagingConf = new HashMap<Configuration, Object>();
 	}
@@ -83,15 +80,8 @@ public class TableTag extends AbstractTableTag {
 	 */
 	public int doStartTag() throws JspException {
 		
-		// We must ensure that the chosen table id doesn't contain any of the
-		// disallowed character because a Javascript variable will be created
-		// using this name
-		if(StringUtils.containsAny(id, DISALLOWED_CHAR)){
-			throw new JspException("The 'id' attribute cannot contain one of the following characters: " + String.valueOf(DISALLOWED_CHAR));
-		}
-		
-		// Init the table with its DOM id and a generated random number
 		table = new HtmlTable(id, (HttpServletRequest) pageContext.getRequest(), confGroup, dynamicAttributes);
+
 		try {
 			Configuration.applyConfiguration(table.getTableConfiguration(), stagingConf);
 		} catch (ConfigurationProcessingException e) {

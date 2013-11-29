@@ -24,7 +24,7 @@ public class AbstractExtensionTest {
 		table.addHeaderRow();
 		table.getLastHeaderRow().addHeaderColumn("column1");
 		table.getLastHeaderRow().addHeaderColumn("column2");
-		mainJsFile = new JsResource();
+		mainJsFile = new JsResource("fakeId", "fakeOriginalId");
 		mainConfig = new HashMap<String, Object>();
 		extensionProcessor = new ExtensionProcessor(table, mainJsFile, mainConfig);
 	}

@@ -45,6 +45,7 @@ import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 public class HtmlTable extends HtmlTag {
 
 	// Internal attributes
+	private String originalId;
 	private HtmlCaption caption;
 	private List<HtmlRow> head = new LinkedList<HtmlRow>();
 	private List<HtmlRow> body = new LinkedList<HtmlRow>();
@@ -53,26 +54,30 @@ public class HtmlTable extends HtmlTag {
 
 	public HtmlTable(String id, HttpServletRequest request) {
 		this.tag = "table";
-		this.id = id;
+		this.originalId = id;
+		this.id = processId(id);
 		tableConfiguration = TableConfiguration.getInstance(request);
 		tableConfiguration.setTableId(id);
 	}
 
 	public HtmlTable(String id, HttpServletRequest request, String groupName) {
 		this.tag = "table";
-		this.id = id;
+		this.originalId = id;
+		this.id = processId(id);
 		tableConfiguration = TableConfiguration.getInstance(request, groupName);
 		tableConfiguration.setTableId(id);
 	}
 
 	public HtmlTable(String id) {
 		this.tag = "table";
-		this.id = id;
+		this.originalId = id;
+		this.id = processId(id);
 	}
 
 	public HtmlTable(String id, HttpServletRequest request, String groupName, Map<String, String> dynamicAttributes) {
 		this.tag = "table";
-		this.id = id;
+		this.originalId = id;
+		this.id = processId(id);
 		this.dynamicAttributes = dynamicAttributes;
 		tableConfiguration = TableConfiguration.getInstance(request, groupName);
 		tableConfiguration.setTableId(id);
@@ -133,7 +138,7 @@ public class HtmlTable extends HtmlTag {
 
 	protected StringBuilder getHtmlAttributes() {
 		StringBuilder html = new StringBuilder();
-		html.append(writeAttribute("id", this.id));
+		html.append(writeAttribute("id", this.originalId));
 		html.append(writeAttribute("class", this.tableConfiguration.getCssClass()));
 		html.append(writeAttribute("style", this.tableConfiguration.getCssStyle()));
 		return html;
@@ -242,5 +247,17 @@ public class HtmlTable extends HtmlTag {
 
 	public void setTableConfiguration(TableConfiguration tableConfiguration) {
 		this.tableConfiguration = tableConfiguration;
+	}
+	
+	public String getOriginalId() {
+		return originalId;
+	}
+
+	public void setOriginalId(String originalId) {
+		this.originalId = originalId;
+	}
+
+	private String processId(String id){
+		return id.replaceAll("[^A-Za-z0-9 ]", "");
 	}
 }

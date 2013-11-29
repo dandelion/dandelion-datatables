@@ -101,8 +101,7 @@ public class WebResourceGenerator {
 		/**
 		 * Main configuration file building
 		 */
-		JsResource mainJsFile = new JsResource();
-		mainJsFile.setTableId(table.getId());
+		JsResource mainJsFile = new JsResource(table.getId(), table.getOriginalId());
 		
 		/**
 		 * Export management

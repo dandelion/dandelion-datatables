@@ -41,7 +41,7 @@ public abstract class HtmlTag {
 
 	public static final char CLASS_SEPARATOR = ' ';
 	public static final char CSS_SEPARATOR = ';';
-
+	
 	/**
 	 * Tag label.
 	 */
