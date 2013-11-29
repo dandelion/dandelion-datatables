@@ -49,7 +49,8 @@ public class CssThemeProcessor extends AbstractTableProcessor {
 			try {
 				theme = Theme.valueOf(param.trim().toUpperCase()).getInstance();
 			} catch (IllegalArgumentException e) {
-				throw new ConfigurationProcessingException(param + " is not a valid value among " + Theme.values(), e);
+				throw new ConfigurationProcessingException("'" + param + "' is not a valid value among "
+						+ Theme.possibleValues(), e);
 			}
 		}
 		

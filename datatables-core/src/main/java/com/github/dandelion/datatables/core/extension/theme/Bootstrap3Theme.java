@@ -30,7 +30,9 @@
 package com.github.dandelion.datatables.core.extension.theme;
 
 import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -54,5 +56,6 @@ public class Bootstrap3Theme extends AbstractExtension {
 
 		addScope(Scope.DDL_DT_THEME_BOOTSTRAP3);
 		addScope(Scope.DDL_DT_PAGING_BOOTSTRAP);
+		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
 	}
 }
