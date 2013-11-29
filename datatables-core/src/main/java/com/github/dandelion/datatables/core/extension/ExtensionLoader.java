@@ -41,7 +41,6 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.ClassUtils;
@@ -117,9 +116,7 @@ public class ExtensionLoader {
 					}
 				}
 			}
-		} else {
-			logger.warn("A base backage to scan has been detected but no custom extension has been found");
-		}
+		} 
 	}
 	
 	/**
@@ -152,9 +149,6 @@ public class ExtensionLoader {
 			} else {
 				logger.warn("A base backage to scan has been detected but no custom extension has been found");
 			}
-		}
-		else{
-			logger.debug("The {} property is blank. Unable to scan any class.", Configuration.MAIN_EXTENSION_PACKAGE.getName());
 		}
 	}
 	
