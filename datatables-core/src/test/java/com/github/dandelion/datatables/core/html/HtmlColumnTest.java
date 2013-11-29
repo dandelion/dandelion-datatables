@@ -61,6 +61,16 @@ public class HtmlColumnTest extends HtmlTagWithContentTest {
 	}
 
 	@Test
+	public void should_create_header_column_with_id() {
+		column = new HtmlColumn(true, "content");
+		column.getColumnConfiguration().setId("fakeId");
+		assertThat(column.isHeaderColumn()).isTrue();
+		assertThat(column.toHtml().toString()).isEqualTo(
+				"<" + column.getTag() + " id=\"" + column.getColumnConfiguration().getId() + "\">content</"
+						+ column.getTag() + ">");
+	}
+	
+	@Test
 	public void should_create_header_column_with_content() {
 		column = new HtmlColumn(true, "content");
 		assertThat(column.isHeaderColumn()).isTrue();

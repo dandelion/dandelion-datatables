@@ -506,6 +506,11 @@
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
+          <description>DOM id of the header cell (TH).</description>
+          <name>id</name>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
           <description>Column title.</description>
           <name>title</name>
           <rtexprvalue>true</rtexprvalue>

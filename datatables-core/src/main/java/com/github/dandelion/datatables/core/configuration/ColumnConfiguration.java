@@ -45,6 +45,7 @@ import com.github.dandelion.datatables.core.extension.feature.SortType;
 public class ColumnConfiguration {
 
 	private String uid;
+	private String id;
 	private String title;
 	private String titleKey;
 	private String property;
@@ -74,6 +75,14 @@ public class ColumnConfiguration {
 
 	public void setUid(String uid) {
 		this.uid = uid;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -238,12 +247,13 @@ public class ColumnConfiguration {
 
 	@Override
 	public String toString() {
-		return "ColumnConfiguration [uid=" + uid + ", title=" + title + ", titleKey=" + titleKey + ", property="
-				+ property + ", columnElements=" + columnElements + ", defaultValue=" + defaultValue + ", sortable="
-				+ sortable + ", sortDirections=" + sortDirections + ", sortInit=" + sortInit + ", sortType=" + sortType
-				+ ", filterable=" + filterable + ", searchable=" + searchable + ", visible=" + visible
-				+ ", filterType=" + filterType + ", filterValues=" + filterValues + ", filterCssClass="
-				+ filterCssClass + ", filterPlaceholder=" + filterPlaceholder + ", renderFunction=" + renderFunction
-				+ ", selector=" + selector + "]";
+		return "ColumnConfiguration [uid=" + uid + ", id=" + id + ", title=" + title + ", titleKey=" + titleKey
+				+ ", property=" + property + ", columnElements=" + columnElements + ", defaultValue=" + defaultValue
+				+ ", sortable=" + sortable + ", format=" + format + ", sortDirections=" + sortDirections
+				+ ", sortInit=" + sortInit + ", sortType=" + sortType + ", filterable=" + filterable + ", searchable="
+				+ searchable + ", visible=" + visible + ", filterType=" + filterType + ", filterValues=" + filterValues
+				+ ", filterCssClass=" + filterCssClass + ", filterPlaceholder=" + filterPlaceholder
+				+ ", renderFunction=" + renderFunction + ", selector=" + selector + ", cssCellClass=" + cssCellClass
+				+ "]";
 	}
 }

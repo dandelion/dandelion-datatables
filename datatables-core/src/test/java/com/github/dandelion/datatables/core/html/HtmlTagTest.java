@@ -49,12 +49,6 @@ public class HtmlTagTest {
 	}
 
 	@Test
-	public void should_generate_tag_with_id() {
-		tag.setId("anId");
-		assertThat(tag.toHtml().toString()).isEqualTo("<" + tag.getTag() + " id=\"anId\"></" + tag.getTag() + ">");
-	}
-
-	@Test
 	public void should_generate_tag_with_one_class() {
 		tag.addCssClass("aClass");
 		assertThat(tag.toHtml().toString()).isEqualTo("<" + tag.getTag() + " class=\"aClass\"></" + tag.getTag() + ">");

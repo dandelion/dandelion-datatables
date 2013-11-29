@@ -167,6 +167,7 @@ public enum Configuration {
 			
 	// Column configuration
 	COLUMN_UID("column.uid", "uid", String.class, StringProcessor.class),
+	COLUMN_ID("column.id", "id", String.class, StringProcessor.class),
 	COLUMN_TITLE("column.title", "title", String.class, StringProcessor.class),
 	COLUMN_TITLEKEY("column.titleKey", "titleKey", String.class, StringProcessor.class),
 	COLUMN_PROPERTY("", "property", String.class, StringProcessor.class),

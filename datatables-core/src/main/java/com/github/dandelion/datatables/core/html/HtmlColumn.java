@@ -121,10 +121,12 @@ public class HtmlColumn extends HtmlTagWithContent {
 	@Override
 	protected StringBuilder getHtmlAttributes() {
 		StringBuilder html = new StringBuilder();
-		html.append(writeAttribute("id", this.id));
 		if (this.isHeaderColumn) {
 			html.append(writeAttribute("class", this.cssClass));
 			html.append(writeAttribute("style", this.cssStyle));
+			if(StringUtils.isNotBlank(this.columnConfiguration.getId())){
+				html.append(writeAttribute("id", this.columnConfiguration.getId()));	
+			}
 		} else {
 			html.append(writeAttribute("class", this.cssCellClass));
 			html.append(writeAttribute("style", this.cssCellStyle));

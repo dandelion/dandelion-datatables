@@ -350,6 +350,10 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		stagingConf.put(Configuration.COLUMN_SORTTYPE, sortType);
 	}
 
+	public void setId(String id) {
+		stagingConf.put(Configuration.COLUMN_ID, id);
+	}
+	
 	public String getTitle() {
 		return title;
 	}
