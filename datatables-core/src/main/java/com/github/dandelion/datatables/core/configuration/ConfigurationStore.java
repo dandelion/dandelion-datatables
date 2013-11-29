@@ -41,6 +41,7 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.exception.UnkownGroupException;
+import com.github.dandelion.datatables.core.util.DandelionUtils;
 
 /**
  * Storage class for all configurations by Locale and group.
@@ -61,13 +62,13 @@ public class ConfigurationStore {
 	/**
 	 * <p>
 	 * Return the {@link TableConfiguration} prototype for the given locale
-	 * (extracted thanks to the request) and the given group.
+	 * (extracted from the request) and the given group.
 	 * 
 	 * @param request
 	 *            The request sent by the user.
 	 * @param groupName
-	 *            The group name requested by the user to active the corresponding
-	 *            configuration.
+	 *            The group name requested by the user to activate the
+	 *            corresponding configuration.
 	 * @return the stored proptotype of a {@link TableConfiguration}.
 	 */
 	public static TableConfiguration getPrototype(HttpServletRequest request, String groupName) {
@@ -82,6 +83,10 @@ public class ConfigurationStore {
 			locale = Locale.getDefault();
 		}
         
+		if(DandelionUtils.isDevModeEnabled()){
+			clear();
+		}
+		
 		if(!configurationStore.containsKey(locale)){
 			// resolution complete des configuration pour la locale (=> regarder tous les groupes)
 			resolveGroupsForLocale(locale, request);

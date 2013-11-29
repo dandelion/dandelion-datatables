@@ -60,6 +60,7 @@ import com.github.dandelion.core.utils.UTF8Control;
 import com.github.dandelion.datatables.core.constants.SystemConstants;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.util.BundleUtils;
+import com.github.dandelion.datatables.core.util.DandelionUtils;
 
 /**
  * <p>
@@ -128,6 +129,10 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 	 */
 	public Properties loadUserConfiguration(Locale locale) {
 
+		if(DandelionUtils.isDevModeEnabled()){
+			ResourceBundle.clearCache();
+		}
+		
 		ResourceBundle userBundle = null;
 		
 		// First check if the resource bundle is externalized
@@ -144,7 +149,6 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 			} catch (MissingResourceException e) {
 				logger.info("No *.properties file in {}. Trying to lookup in classpath...", path);
 			}
-
 		}
 
 		// No system property is set, retrieves the bundle from the classpath
@@ -188,7 +192,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		// The 'global' group is always added
 		groups.add(DEFAULT_GROUP_NAME);
 		
-		logger.debug("{} groups resolved ({}).", groups.size(), groups.toString());
+		logger.debug("{} groups declared {}.", groups.size(), groups.toString());
 		
 		this.groups = groups;
 		
@@ -228,8 +232,6 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		Map<String, List<String>> wrongKeys = new HashMap<String, List<String>>();
 		
 		for (String groupName : groups) {
-			
-			logger.debug("Resolving configurations for the group {}...", groupName);
 			
 			// groupedProperties = globalProperties + current group
 			Properties groupedProperties = new Properties();
@@ -286,7 +288,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 			throw new ConfigurationLoadingException(msg.toString());
 		}
 		
-		logger.debug("{} group(s) resolved ({}) for the locale {}", groups.size(), groups.toString(), locale);
+		logger.debug("{} group(s) resolved {} for the locale {}", groups.size(), groups.toString(), locale);
 	}
 	
 
