@@ -50,7 +50,6 @@ import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.FileUtils;
 import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
-import com.github.dandelion.datatables.core.util.NameConstants;
 
 /**
  * <p>
@@ -102,10 +101,7 @@ public class WebResourceGenerator {
 		/**
 		 * Main configuration file building
 		 */
-		// We need to append a randomUUID in case of multiple tables exists in
-		// the same JSP
-		String tableId = table.getRandomId();
-		JsResource mainJsFile = new JsResource(NameConstants.DT_MAIN_JS + tableId + ".js");
+		JsResource mainJsFile = new JsResource();
 		mainJsFile.setTableId(table.getId());
 		
 		/**

@@ -69,11 +69,6 @@ package com.github.dandelion.datatables.core.asset;
 public class JsResource {
 
 	/**
-	 * Name of the JS file.
-	 */
-	private String name;
-
-	/**
 	 * Table to initialize. Only used if the current JsResource has the MAIN
 	 * ResourceType.
 	 */
@@ -87,24 +82,6 @@ public class JsResource {
 	private StringBuilder dataTablesConf;
 	private StringBuilder dataTablesExtra;
 	private StringBuilder dataTablesExtraConf;
-
-	/**
-	 * Public default constructor.
-	 */
-	public JsResource() {
-	}
-
-	public JsResource(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public StringBuilder getBeforeAll() {
 		return beforeAll;

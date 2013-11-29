@@ -65,13 +65,13 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 
 			// Add a "finalizing div" after the HTML table tag in order to
 			// finalize the Dandelion-datatables configuration generation
-			// The div will be removed in its processor
+			// The div will be removed in its corresponding processor
 			Element div = new Element("div");
 			div.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":tmp", "internalUse");
 			div.setRecomputeProcessorsImmediately(true);
 			element.getParent().insertAfter(element, div);
 
-			// Store the htmlTable POJO as a request attribute, so all the
+			// Store the htmlTable POJO as a request attribute, so that all the
 			// others following HTML tags can access it and particularly the
 			// "finalizing div"
 			request.setAttribute(DataTablesDialect.INTERNAL_TABLE_BEAN, htmlTable);
@@ -82,9 +82,7 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 			// Map used to store the table local configuration
 			request.setAttribute(DataTablesDialect.INTERNAL_TABLE_LOCAL_CONF, new HashMap<Configuration, Object>());
 			
-			// Don't forget to remove the attribute
-			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":table");
-
+			// TODO this has to be moved
 			// Export has been enabled
 			if(element.hasAttribute("dt:export")){
 
@@ -121,7 +119,10 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 				
 				request.setAttribute(DataTablesDialect.INTERNAL_EXPORT_CONF_MAP, exportConfMap);
 			}
-			
+
+			// Cleaning attribute
+			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":table");
+						
 			return ProcessorResult.OK;
 		}
 	}
