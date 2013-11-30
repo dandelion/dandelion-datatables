@@ -32,9 +32,6 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import com.github.dandelion.datatables.core.asset.ExtraConf;
-import com.github.dandelion.datatables.core.util.RequestHelper;
-
 /**
  * Tag used to add some extra Javascript configuration to the DataTable.
  *
@@ -61,9 +58,9 @@ public class ExtraConfTag extends TagSupport {
 
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-		if (parent.isFirstIteration()) {
-			parent.getTable().getTableConfiguration().addExtraConf(new ExtraConf(getLocation(this.src)));
-		}
+//		if (parent.isFirstIteration()) {
+//			parent.getTable().getTableConfiguration().addExtraConf(new ExtraConf(getLocation(this.src)));
+//		}
 		return EVAL_PAGE;
 	}
 
@@ -72,10 +69,10 @@ public class ExtraConfTag extends TagSupport {
 	 * @param src
 	 * @return
 	 */
-	private String getLocation(String src){
-		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
-		return RequestHelper.getBaseUrl(pageContext.getRequest(), parent.getTable()) + src;
-	}
+//	private String getLocation(String src){
+//		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
+//		return RequestHelper.getBaseUrl(pageContext.getRequest(), parent.getTable()) + src;
+//	}
 
 	public String getSrc() {
 		return src;

@@ -40,6 +40,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -101,14 +102,14 @@ public class DatatablesGeneratorTest {
 
 	@Before
 	public void createTable() {
-		table = new HtmlTable("aTable", (HttpServletRequest) mockPageContext.getRequest());
+		table = new HtmlTable("aTable", (HttpServletRequest) mockPageContext.getRequest(), (HttpServletResponse) mockPageContext.getResponse());
 		headerRow = table.addHeaderRow();
 		firstColumn = headerRow.addHeaderColumn("firstColumn");
 	}
 
 	@Test
 	public void should_have_default_values() {
-		table = new HtmlTable("aTable", (HttpServletRequest) mockPageContext.getRequest());
+		table = new HtmlTable("aTable", (HttpServletRequest) mockPageContext.getRequest(), (HttpServletResponse) mockPageContext.getResponse());
 		headerRow = table.addHeaderRow();
 
 		Map<String, Object> mainConf = generator.generateConfig(table);

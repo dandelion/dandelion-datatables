@@ -40,18 +40,17 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
-import com.github.dandelion.datatables.core.util.RequestHelper;
+import com.github.dandelion.datatables.core.util.UrlUtils;
 
 /**
  * This processor is particular in the sense that it's returning null. Indeed,
- * it actually updates the exportConfMap attribute instead of the exportTypes that doesn't
- * exist.
+ * it actually updates the exportConfMap attribute instead of the exportTypes
+ * that doesn't exist.
  * 
  * @author Thibault Duchateau
  */
@@ -61,15 +60,14 @@ public class ExportConfsProcessor extends AbstractTableProcessor {
 	private static Logger logger = LoggerFactory.getLogger(ExportConfsProcessor.class);
 
 	@Override
-	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) {
-		
+	public void process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
+
 		Set<ExportConf> retval = null;
-		
+
 		if (StringUtils.isNotBlank(param)) {
 
 			retval = new HashSet<ExportConf>();
-			
+
 			ExportType type = null;
 
 			// Init the exportable flag in order to add export links
@@ -82,39 +80,26 @@ public class ExportConfsProcessor extends AbstractTableProcessor {
 				try {
 					type = ExportType.valueOf(exportTypeString);
 				} catch (IllegalArgumentException e) {
-					logger.error("{} is not a valid value among {}", exportTypeString,
-							ExportType.values());
+					logger.error("{} is not a valid value among {}", exportTypeString, ExportType.values());
 					throw new ConfigurationProcessingException("Invalid value", e);
 				}
 
 				// The exportConf may already exist due to the ExportTag
 				if (tableConfiguration.getExportConf(type) == null) {
 
-					StringBuilder url = new StringBuilder(RequestHelper.getCurrentURIWithParameters(tableConfiguration
-							.getRequest()));
-					if(url.toString().contains("?")){
-						url.append("&");
-					}
-					else{
-						url.append("?");
-					}
-					url.append(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE).append("=")
-							.append(type.getUrlParameter());
-					url.append("&");
-					url.append(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID).append("=")
-							.append(tableConfiguration.getTableId());
-
-					ExportConf exportConf = new ExportConf(type, url.toString());
+					String url = UrlUtils.getExportUrl(tableConfiguration.getRequest(),
+							tableConfiguration.getResponse(), type, tableConfiguration.getTableId());
+					ExportConf exportConf = new ExportConf(type, url);
 					retval.add(exportConf);
 				}
 			}
-			
-			if(tableConfiguration.getExportLinkPositions() == null){
-				tableConfiguration.setExportLinkPositions(
-						new HashSet<ExportLinkPosition>(Arrays.asList(ExportLinkPosition.TOP_RIGHT)));
+
+			if (tableConfiguration.getExportLinkPositions() == null) {
+				tableConfiguration.setExportLinkPositions(new HashSet<ExportLinkPosition>(Arrays
+						.asList(ExportLinkPosition.TOP_RIGHT)));
 			}
 		}
-		
+
 		tableConfiguration.setExportConfs(retval);
 	}
 }

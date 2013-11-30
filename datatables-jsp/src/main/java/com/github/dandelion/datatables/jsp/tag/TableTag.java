@@ -56,7 +56,7 @@ import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
 import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.RequestHelper;
+import com.github.dandelion.datatables.core.util.UrlUtils;
 
 /**
  * <p>
@@ -80,7 +80,8 @@ public class TableTag extends AbstractTableTag {
 	 */
 	public int doStartTag() throws JspException {
 		
-		table = new HtmlTable(id, (HttpServletRequest) pageContext.getRequest(), confGroup, dynamicAttributes);
+		table = new HtmlTable(id, (HttpServletRequest) pageContext.getRequest(),
+				(HttpServletResponse) pageContext.getResponse(), confGroup, dynamicAttributes);
 
 		try {
 			Configuration.applyConfiguration(table.getTableConfiguration(), stagingConf);
@@ -129,7 +130,7 @@ public class TableTag extends AbstractTableTag {
 	public int doEndTag() throws JspException {
 
 		// The table is being exported
-		if (RequestHelper.isTableBeingExported(pageContext.getRequest(), table)) {
+		if (UrlUtils.isTableBeingExported(pageContext.getRequest(), table)) {
 			return setupExport();
 		}
 		// The table must be generated and displayed

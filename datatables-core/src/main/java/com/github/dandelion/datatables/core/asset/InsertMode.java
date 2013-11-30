@@ -35,10 +35,10 @@ package com.github.dandelion.datatables.core.asset;
  * @author Thibault Duchateau
  */
 public enum InsertMode {
-	// The javascript is inserted before all instruction.
+	// The javascript is inserted before all other instructions.
 	BEFOREALL, 
 	
-	// The javascript is inserted after all instruction.
+	// The javascript is inserted after all other instructions.
 	AFTERALL, 
 	
 	// The javascript is inserted just after the start of the jQuery $(document).ready() function.

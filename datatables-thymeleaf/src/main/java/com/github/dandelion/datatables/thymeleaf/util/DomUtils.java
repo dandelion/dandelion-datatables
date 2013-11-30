@@ -30,7 +30,6 @@
 package com.github.dandelion.datatables.thymeleaf.util;
 
 import org.thymeleaf.dom.Element;
-import org.thymeleaf.dom.Node;
 
 /**
  * Utility methods to manipulate the DOM.

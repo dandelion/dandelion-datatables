@@ -32,6 +32,7 @@ package com.github.dandelion.datatables.core.html;
 import static org.fest.assertions.Assertions.assertThat;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -44,18 +45,20 @@ public class HtmlTableTest {
 	private MockServletContext mockServletContext;
 	private MockPageContext mockPageContext;
 	private HttpServletRequest request;
+	private HttpServletResponse response;
 	
 	@Before
 	public void createHtmlTable() {
 		mockServletContext = new MockServletContext();
 		mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
-		table = new HtmlTable("tableId", request);
+		response = (HttpServletResponse) mockPageContext.getResponse();
+		table = new HtmlTable("tableId", request, response);
 	}
 
 	@Test
 	public void should_generate_table_with_an_unallowed_character_in_the_id() {
-		table = new HtmlTable("table-id", request);
+		table = new HtmlTable("table-id", request, response);
 		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"table-id\"><thead></thead><tbody></tbody></table>");
 		assertThat(table.getId()).isEqualTo("tableid");
 	}

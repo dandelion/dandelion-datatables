@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -79,7 +80,7 @@ public class ColumnFilteringGeneratorTest {
 
 	@Before
 	public void createTable() {
-		table = new HtmlTable("aTable", (HttpServletRequest) mockPageContext.getRequest());
+		table = new HtmlTable("aTable", (HttpServletRequest) mockPageContext.getRequest(), (HttpServletResponse) mockPageContext.getResponse());
 		headerRow = table.addHeaderRow();
 		firstColumn = headerRow.addHeaderColumn("firstColumn");
 	}

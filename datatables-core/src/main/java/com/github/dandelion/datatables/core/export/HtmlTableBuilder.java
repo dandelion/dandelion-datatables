@@ -37,6 +37,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -107,6 +108,7 @@ public class HtmlTableBuilder<T> {
 		private List<T> data;
 		private LinkedList<HtmlColumn> headerColumns = new LinkedList<HtmlColumn>();
 		private HttpServletRequest request;
+		private HttpServletResponse response;
 		private ExportConf exportConf;
 
 		public Steps(String id, List<T> data, HttpServletRequest request) {
@@ -209,7 +211,7 @@ public class HtmlTableBuilder<T> {
 		}
 
 		public HtmlTable build() {
-			HtmlTable table = new HtmlTable(id, request);
+			HtmlTable table = new HtmlTable(id, request, response);
 			table.getTableConfiguration().setExportConfs(new HashSet<ExportConf>(Arrays.asList(exportConf)));
 
 			if (data != null && data.size() > 0) {

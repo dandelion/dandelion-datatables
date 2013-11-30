@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 
@@ -52,7 +53,7 @@ public class HtmlTable extends HtmlTag {
 	private List<HtmlRow> foot = new LinkedList<HtmlRow>();
 	private TableConfiguration tableConfiguration;
 
-	public HtmlTable(String id, HttpServletRequest request) {
+	public HtmlTable(String id, HttpServletRequest request, HttpServletResponse response) {
 		this.tag = "table";
 		this.originalId = id;
 		this.id = processId(id);
@@ -60,7 +61,7 @@ public class HtmlTable extends HtmlTag {
 		tableConfiguration.setTableId(id);
 	}
 
-	public HtmlTable(String id, HttpServletRequest request, String groupName) {
+	public HtmlTable(String id, HttpServletRequest request, HttpServletResponse response, String groupName) {
 		this.tag = "table";
 		this.originalId = id;
 		this.id = processId(id);
@@ -74,7 +75,7 @@ public class HtmlTable extends HtmlTag {
 		this.id = processId(id);
 	}
 
-	public HtmlTable(String id, HttpServletRequest request, String groupName, Map<String, String> dynamicAttributes) {
+	public HtmlTable(String id, HttpServletRequest request, HttpServletResponse response, String groupName, Map<String, String> dynamicAttributes) {
 		this.tag = "table";
 		this.originalId = id;
 		this.id = processId(id);

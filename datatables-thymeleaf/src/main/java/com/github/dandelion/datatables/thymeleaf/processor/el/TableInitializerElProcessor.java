@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +15,11 @@ import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.RequestHelper;
+import com.github.dandelion.datatables.core.util.UrlUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesElProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
@@ -50,7 +50,8 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 		logger.debug("{} element found with id {}", element.getNormalizedName(), tableId);
 
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-
+		HttpServletResponse response = ((IWebContext) arguments.getContext()).getHttpServletResponse();
+		
 		if (tableId == null) {
 			logger.error("The 'id' attribute is required.");
 			throw new IllegalArgumentException();
@@ -58,7 +59,7 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 			
 			String confGroup = (String) request.getAttribute(DataTablesDialect.INTERNAL_CONF_GROUP);
 			
-			HtmlTable htmlTable = new HtmlTable(tableId, request, confGroup);
+			HtmlTable htmlTable = new HtmlTable(tableId, request, response, confGroup);
 
 			// Add default footer and header row
 			htmlTable.addHeaderRow();
@@ -100,17 +101,19 @@ public class TableInitializerElProcessor extends AbstractDatatablesElProcessor {
 					}
 
 					ExportConf exportConf = new ExportConf(type);
-					String exportUrl = RequestHelper.getCurrentURIWithParameters(request);
-					if(exportUrl.contains("?")){
-						exportUrl += "&";
-					}
-					else{
-						exportUrl += "?";
-					}
-					exportUrl += ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
-						+ type.getUrlParameter() + "&"
-						+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID + "="
-						+ tableId;
+					String exportUrl = UrlUtils.getExportUrl(request, response, type, tableId);
+					
+//							RequestHelper.getCurrentURIWithParameters(request);
+//					if(exportUrl.contains("?")){
+//						exportUrl += "&";
+//					}
+//					else{
+//						exportUrl += "?";
+//					}
+//					exportUrl += ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
+//						+ type.getUrlParameter() + "&"
+//						+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID + "="
+//						+ tableId;
 						
 					exportConf.setUrl(exportUrl);
 					exportConf.setCustom(false);

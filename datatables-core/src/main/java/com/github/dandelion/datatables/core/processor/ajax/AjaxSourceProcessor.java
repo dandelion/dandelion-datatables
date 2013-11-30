@@ -37,6 +37,7 @@ import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.extension.feature.AjaxFeature;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.CollectionUtils;
+import com.github.dandelion.datatables.core.util.UrlUtils;
 
 /**
  * Processor used when the table uses an AJAX source.
@@ -59,7 +60,8 @@ public class AjaxSourceProcessor extends AbstractTableProcessor {
 				tableConfiguration.registerExtension(new AjaxFeature());
 			}
 
-			tableConfiguration.setAjaxSource(param);
+			String sourceUrl = UrlUtils.getProcessedUrl(param, tableConfiguration.getRequest(), tableConfiguration.getResponse());
+			tableConfiguration.setAjaxSource(sourceUrl);
 		}
 	}
 }

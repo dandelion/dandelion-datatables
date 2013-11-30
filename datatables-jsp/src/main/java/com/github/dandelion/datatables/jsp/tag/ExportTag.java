@@ -30,6 +30,7 @@
 package com.github.dandelion.datatables.jsp.tag;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
@@ -37,12 +38,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.util.RequestHelper;
+import com.github.dandelion.datatables.core.util.UrlUtils;
 
 /**
  * Tag which allows to configure an export type for the current table.
@@ -88,6 +88,7 @@ public class ExportTag extends TagSupport {
 	public int doEndTag() throws JspException {
 
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+		HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
 		
 		// Get parent tag
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
@@ -119,23 +120,12 @@ public class ExportTag extends TagSupport {
 			// Default mode
 			String exportUrl = null;
 			if(StringUtils.isBlank(url)){
-				exportUrl = RequestHelper.getCurrentURIWithParameters(request);
-				if(exportUrl.contains("?")){
-					exportUrl += "&";
-				}
-				else{
-					exportUrl += "?";
-				}
-				exportUrl += ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
-						+ exportType.getUrlParameter() + "&"
-						+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID + "="
-						+ parent.getTable().getId();
-				
+				exportUrl = UrlUtils.getExportUrl(request, response, exportType, parent.getTable().getId());
 				conf.setCustom(false);
 			}
 			// Custom mode
 			else{
-				exportUrl = url;
+				exportUrl = UrlUtils.getCustomExportUrl(request, response, url.trim());
 				conf.setCustom(true);
 			}
 			

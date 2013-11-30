@@ -35,6 +35,7 @@ import java.util.HashSet;
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Before;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
@@ -55,6 +56,7 @@ public class ExportTest {
 	private MockServletContext mockServletContext;
 	private MockPageContext mockPageContext;
 	private HttpServletRequest request;
+	private MockHttpServletResponse response;
 	
 	@Before
 	public void setup(){
@@ -66,7 +68,7 @@ public class ExportTest {
 	public void initDefaultTable(){
 		
 		// Data
-		table = new HtmlTable("dummyId", request);
+		table = new HtmlTable("dummyId", request, response);
 		table.addFooterRow();
 		table.addHeaderRow();
 		table.getLastHeaderRow().addColumn("Id");
@@ -89,7 +91,7 @@ public class ExportTest {
 	public void initTable(){
 	
 		// Data
-		table = new HtmlTable("dummyId", request);
+		table = new HtmlTable("dummyId", request, response);
 		table.addFooterRow();
 		table.addHeaderRow();
 		table.getLastHeaderRow().addColumn("Id");

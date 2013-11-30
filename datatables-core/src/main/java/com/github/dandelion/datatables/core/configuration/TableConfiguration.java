@@ -37,6 +37,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.ExtraConf;
@@ -149,6 +150,7 @@ public class TableConfiguration {
 	private String tableId;
 	private List<ExtraHtml> extraHtmlSnippets;
 	private HttpServletRequest request;
+	private HttpServletResponse response;
 
 	/**
 	 * Return an instance of {@link TableConfiguration} for the
@@ -913,6 +915,10 @@ public class TableConfiguration {
 		return request;
 	}
 	
+	public HttpServletResponse getResponse() {
+		return response;
+	}
+
 	public Set<ExportConf> getExportConfs() {
 		return exportConfs;
 	}
