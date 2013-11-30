@@ -56,11 +56,11 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.DevMode;
 import com.github.dandelion.core.utils.ClassUtils;
+import com.github.dandelion.core.utils.PropertiesUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.utils.UTF8Control;
 import com.github.dandelion.datatables.core.constants.SystemConstants;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
-import com.github.dandelion.datatables.core.util.BundleUtils;
 
 /**
  * <p>
@@ -167,7 +167,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 			}
 		}
 
-		userProperties = BundleUtils.toProperties(userBundle);
+		userProperties = PropertiesUtils.bundleToProperties(userBundle);
 		return userProperties;
 	}
 
