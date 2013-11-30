@@ -38,10 +38,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.DevMode;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.exception.UnkownGroupException;
-import com.github.dandelion.datatables.core.util.DandelionUtils;
 
 /**
  * Storage class for all configurations by Locale and group.
@@ -83,7 +82,7 @@ public class ConfigurationStore {
 			locale = Locale.getDefault();
 		}
         
-		if(DandelionUtils.isDevModeEnabled()){
+		if(DevMode.isDevModeEnabled()){
 			clear();
 		}
 		

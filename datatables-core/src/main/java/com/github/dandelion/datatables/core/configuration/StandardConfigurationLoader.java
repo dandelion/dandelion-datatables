@@ -54,13 +54,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.DevMode;
 import com.github.dandelion.core.utils.ClassUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.utils.UTF8Control;
 import com.github.dandelion.datatables.core.constants.SystemConstants;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.util.BundleUtils;
-import com.github.dandelion.datatables.core.util.DandelionUtils;
 
 /**
  * <p>
@@ -129,7 +129,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 	 */
 	public Properties loadUserConfiguration(Locale locale) {
 
-		if(DandelionUtils.isDevModeEnabled()){
+		if(DevMode.isDevModeEnabled()){
 			ResourceBundle.clearCache();
 		}
 		
