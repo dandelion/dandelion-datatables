@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,32 +29,62 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import java.io.IOException;
+
+import com.github.dandelion.datatables.core.asset.ExtraFile;
+import com.github.dandelion.datatables.core.exception.ExtraFileNotFoundException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.util.FileUtils;
 
 /**
  * <p>
- * Feature automatically added to the table when using AJAX sources.
+ * Feature used to insert end-user Javascript file in the generated DataTables
+ * confguration.
  * 
- * @see Configuration#AJAX_SOURCE
  * @author Thibault Duchateau
- * @since 0.8.2
+ * @since 0.10.0
  */
-public class AjaxFeature extends AbstractExtension {
+public class ExtraFileFeature extends AbstractExtension {
 
 	@Override
 	public String getName() {
-		return "AjaxFeature";
+		return "extraFile";
 	}
 
 	@Override
 	public void setup(HtmlTable table) {
-		addParameter(DTConstants.DT_B_DEFER_RENDER, true);
-		addParameter(DTConstants.DT_S_AJAXDATAPROP, "");
-		addParameter(DTConstants.DT_S_AJAX_SOURCE, table.getTableConfiguration().getAjaxSource());
-		addCallback(CallbackType.INIT, "oTable_" + table.getId() + ".fnAdjustColumnSizing(true);");
+		for (ExtraFile file : table.getTableConfiguration().getExtraFiles()) {
+			try {
+
+				switch (file.getInsert()) {
+				case BEFOREALL:
+					appendToBeforeAll(FileUtils.getFileContentFromWebapp(file.getSrc()));
+					break;
+
+				case AFTERSTARTDOCUMENTREADY:
+					appendToAfterStartDocumentReady(FileUtils.getFileContentFromWebapp(file.getSrc()));
+					break;
+
+				case BEFOREENDDOCUMENTREADY:
+					appendToBeforeEndDocumentReady(FileUtils.getFileContentFromWebapp(file.getSrc()));
+					break;
+
+				case AFTERALL:
+					appendToAfterAll(FileUtils.getFileContentFromWebapp(file.getSrc()));
+					break;
+
+				case BEFORESTARTDOCUMENTREADY:
+					appendToBeforeStartDocumentReady(FileUtils.getFileContentFromWebapp(file.getSrc()));
+					break;
+				}
+
+			} catch (IOException e) {
+				StringBuilder msg = new StringBuilder("Unable to load the extra file ");
+				msg.append(file.getSrc());
+				throw new ExtraFileNotFoundException(msg.toString());
+			}
+		}
 	}
+
 }

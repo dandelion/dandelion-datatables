@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,32 +29,51 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
+import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * <p>
- * Feature automatically added to the table when using AJAX sources.
  * 
- * @see Configuration#AJAX_SOURCE
  * @author Thibault Duchateau
- * @since 0.8.2
+ * @since 0.10.0
  */
-public class AjaxFeature extends AbstractExtension {
+public class ExtraHtmlFeature extends AbstractExtension {
 
 	@Override
 	public String getName() {
-		return "AjaxFeature";
+		return "extraHtml";
 	}
 
 	@Override
 	public void setup(HtmlTable table) {
-		addParameter(DTConstants.DT_B_DEFER_RENDER, true);
-		addParameter(DTConstants.DT_S_AJAXDATAPROP, "");
-		addParameter(DTConstants.DT_S_AJAX_SOURCE, table.getTableConfiguration().getAjaxSource());
-		addCallback(CallbackType.INIT, "oTable_" + table.getId() + ".fnAdjustColumnSizing(true);");
+		for(ExtraHtml group : table.getTableConfiguration().getExtraHtmlSnippets()){
+			StringBuilder jsGroup = new StringBuilder();
+
+			jsGroup.append("$.fn.dataTableExt.aoFeatures.push({");
+			jsGroup.append("\"fnInit\": function( oDTSettings ){");
+			jsGroup.append("var container = document.createElement('" + group.getContainer() + "');");
+			
+			if(StringUtils.isNotBlank(group.getCssClass())){
+				jsGroup.append("$(container).attr('class', '" + group.getCssClass() + "');");
+			}
+			if(StringUtils.isNotBlank(group.getCssStyle())){
+				jsGroup.append("$(container).attr('style', '" + group.getCssStyle() + "');");
+			}
+			
+			jsGroup.append("$(container).html('" + group.getContent().replaceAll("'", "&quot;") + "');");
+			jsGroup.append("return container;");
+			jsGroup.append("},");
+			jsGroup.append("\"cFeature\": \"" + group.getUid() + "\",");
+			jsGroup.append("\"sFeature\": \"" + "Group" + group.getUid() + "\"");
+			jsGroup.append("} );");
+			
+			appendToAfterStartDocumentReady(JavascriptGenerator.INDENTATION);
+			appendToAfterStartDocumentReady(jsGroup.toString());
+			appendToAfterStartDocumentReady(JavascriptGenerator.NEWLINE);
+		}	
 	}
+
 }

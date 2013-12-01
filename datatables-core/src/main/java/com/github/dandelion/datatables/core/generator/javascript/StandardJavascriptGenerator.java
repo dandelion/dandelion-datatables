@@ -70,31 +70,28 @@ public class StandardJavascriptGenerator implements JavascriptGenerator {
 	}
 
 	private void appendToAfterStartDocumentReady(JsResource jsResource) {
-		if (afterStartDocumentReady == null) {
-			afterStartDocumentReady = new StringBuilder();
-		}
-
 		if (jsResource.getAfterStartDocumentReady() != null) {
-			afterStartDocumentReady.append(INDENTATION).append(jsResource.getAfterStartDocumentReady());
+			if (afterStartDocumentReady == null) {
+				afterStartDocumentReady = new StringBuilder();
+			}
+			afterStartDocumentReady.append(jsResource.getAfterStartDocumentReady());
 		}
 	}
 
 	private void appendToAfterAll(JsResource jsResource) {
-		if (afterAll == null) {
-			afterAll = new StringBuilder();
-		}
-
 		if (jsResource.getAfterAll() != null) {
+			if (afterAll == null) {
+				afterAll = new StringBuilder();
+			}
 			afterAll.append(jsResource.getAfterAll());
 		}
 	}
 
 	private void appendToBeforeEndDocumentReady(JsResource jsResource) {
-		if (beforeEndDocumentReady == null) {
-			beforeEndDocumentReady = new StringBuilder();
-		}
-
 		if (jsResource.getBeforeEndDocumentReady() != null) {
+			if (beforeEndDocumentReady == null) {
+				beforeEndDocumentReady = new StringBuilder();
+			}
 			beforeEndDocumentReady.append(INDENTATION).append(jsResource.getBeforeEndDocumentReady());
 		}
 	}
@@ -124,11 +121,10 @@ public class StandardJavascriptGenerator implements JavascriptGenerator {
 	}
 
 	private void appendToBeforeStartDocumentReady(JsResource jsResource) {
-		if (beforeStartDocumentReady == null) {
-			beforeStartDocumentReady = new StringBuilder();
-		}
-
 		if (jsResource.getBeforeStartDocumentReady() != null) {
+			if (beforeStartDocumentReady == null) {
+				beforeStartDocumentReady = new StringBuilder();
+			}
 			beforeStartDocumentReady.append(jsResource.getBeforeStartDocumentReady());
 		}
 	}
@@ -148,11 +144,10 @@ public class StandardJavascriptGenerator implements JavascriptGenerator {
 	}
 
 	private void appendToBeforeAll(JsResource jsResource) {
-		if (beforeAll == null) {
-			beforeAll = new StringBuilder();
-		}
-
 		if (jsResource.getBeforeAll() != null) {
+			if (beforeAll == null) {
+				beforeAll = new StringBuilder();
+			}
 			beforeAll.append(jsResource.getBeforeAll());
 		}
 	}
@@ -165,30 +160,30 @@ public class StandardJavascriptGenerator implements JavascriptGenerator {
 		StringBuilder retval = new StringBuilder();
 
 		if (beforeAll != null) {
-			retval.append(beforeAll).append(NEWLINE);
+			retval.append(beforeAll);
 		}
 
 		retval.append(variables).append(NEWLINE);
 
 		if (beforeStartDocumentReady != null) {
-			retval.append(beforeStartDocumentReady).append(NEWLINE);
+			retval.append(beforeStartDocumentReady);
 		}
 
-		retval.append("$(document).ready(function(){");
+		retval.append("$(document).ready(function(){").append(NEWLINE);
 		if (afterStartDocumentReady != null) {
-			retval.append(afterStartDocumentReady).append(NEWLINE);
+			retval.append(afterStartDocumentReady);
 		}
 		if (documentReady != null) {
 			retval.append(documentReady);
 		}
 
 		if (beforeEndDocumentReady != null) {
-			retval.append(beforeEndDocumentReady).append(NEWLINE);
+			retval.append(beforeEndDocumentReady);
 		}
 		retval.append("});").append(NEWLINE);
 
 		if (afterEndDocumentReady != null) {
-			retval.append(afterEndDocumentReady).append(NEWLINE);
+			retval.append(afterEndDocumentReady);
 		}
 
 		if (afterAll != null) {

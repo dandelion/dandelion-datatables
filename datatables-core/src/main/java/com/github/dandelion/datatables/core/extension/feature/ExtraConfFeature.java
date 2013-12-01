@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -27,39 +27,42 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.feature;
+package com.github.dandelion.datatables.core.extension.feature;
 
-import java.util.Map;
+import com.github.dandelion.datatables.core.asset.ExtraConf;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 
-import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.extension.feature.AppearFeature;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
-
-public class FeatureAppearProcessor extends AbstractTableProcessor {
+/**
+ * <p>
+ * Feature used to merge extra DataTables configuration into the generated one.
+ * 
+ * @author Thibault Duchateau
+ * @since 0.10.0
+ */
+public class ExtraConfFeature extends AbstractExtension {
 
 	@Override
-	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) {
-		String retval = null;
-		
-		if(StringUtils.isNotBlank(param)){
-		
-			if(param.contains(",") || "fadein".equals(param.toLowerCase().trim())){
-				String[] tmp = param.toLowerCase().trim().split(",");
-				
-				retval = "fadein";
-				if(tmp.length > 1){
-					tableConfiguration.setFeatureAppearDuration(tmp[1]);
-				}
-			}
-			else{
-				retval = "block";
-			}
+	public String getName() {
+		return "extraConf";
+	}
+
+	@Override
+	public void setup(HtmlTable table) {
+		for (ExtraConf conf : table.getTableConfiguration().getExtraConfs()) {
+			StringBuilder extaConf = new StringBuilder();
+			extaConf.append("$.ajax({url:\"");
+			extaConf.append(conf.getSrc());
+			extaConf.append("\",dataType: \"text\",type: \"GET\", async: false, success: function(extraProperties, xhr, response) {");
+			extaConf.append("$.extend(true, oTable_");
+			extaConf.append(table.getId());
+			extaConf.append("_params, eval('(' + extraProperties + ')'));");
+			extaConf.append("}, error : function(jqXHR, textStatus, errorThrown){");
+			extaConf.append("console.log(textStatus);");
+			extaConf.append("console.log(errorThrown);");
+			extaConf.append("}});");
+			extaConf.append("console.log(oTable_" + table.getId() + "_params);");
+			appendToBeforeStartDocumentReady(extaConf.toString());
 		}
-		
-		tableConfiguration.setFeatureAppear(retval);
-		tableConfiguration.registerExtension(new AppearFeature());
 	}
 }

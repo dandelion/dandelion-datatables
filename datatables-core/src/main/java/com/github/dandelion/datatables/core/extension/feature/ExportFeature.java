@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -27,64 +27,51 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.export;
-
-import java.io.IOException;
+package com.github.dandelion.datatables.core.extension.feature;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.asset.JavascriptFunction;
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.callback.Callback;
+import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.CallbackType;
+import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
+import com.github.dandelion.datatables.core.export.ExportConf;
+import com.github.dandelion.datatables.core.export.ExportLinkPosition;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlDiv;
 import com.github.dandelion.datatables.core.html.HtmlHyperlink;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.FileUtils;
+import com.github.dandelion.datatables.core.processor.export.ExportConfsProcessor;
+import com.github.dandelion.datatables.core.processor.export.ExportLinkPositionsProcessor;
 
 /**
+ * <p>
+ * Extension used to generate export links, depending on the export
+ * configurations.
  * 
- *
+ * @see ExportConfsProcessor
+ * @see ExportLinkPositionsProcessor
  * @author Thibault Duchateau
+ * @since 0.10.0
  */
-public class ExportManager {
+public class ExportFeature extends AbstractExtension {
 
 	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ExportManager.class);
+	private static Logger logger = LoggerFactory.getLogger(ExportFeature.class);
 		
-	/**
-	 * <p>
-	 * If the export attribute of the table tag has been set to true, this
-	 * method will convert every ExportConf bean to a HTML link, corresponding
-	 * to each activated export type.
-	 * 
-	 * <p>
-	 * All links are surrounded by a div which is inserted in the DOM using
-	 * jQuery. The wrapping div can be inserted at multiple positions, depending
-	 * on the tag configuration.
-	 * 
-	 * <p>
-	 * If the user didn't add any ExportTag, Dandelion-datatables will use the default
-	 * configuration.
-	 * 
-	 * @param table
-	 *            The HTML table where to get ExportConf beans.
-	 * @param mainJsFile
-	 *            The web resource to update
-	 */
-	public void exportManagement(HtmlTable table, JsResource mainJsFile) {
+	@Override
+	public String getName() {
+		return "export";
+	}
+
+	@Override
+	public void setup(HtmlTable table) {
 
 		for(ExportConf exportConf : table.getTableConfiguration().getExportConfs()){
 			if(exportConf.getMethod().equals(HttpMethod.POST)){
-				try {
-					mainJsFile.appendToBeforeAll(FileUtils.getFileContentFromClasspath("datatables/export/download.js"));
-				} catch (IOException e) {
-					logger.warn("Unable to retrieve the content of the download.js file");
-				}
-				break;
+				addScope(Scope.DDL_DT_EXPORT);
 			}
 		}
 		
@@ -92,7 +79,7 @@ public class ExportManager {
 		for (ExportLinkPosition position : table.getTableConfiguration().getExportLinkPositions()) {
 
 			// Init the wrapping HTML div
-			HtmlDiv divExport = initExportDiv(table, mainJsFile);
+			HtmlDiv divExport = initExportDiv(table);
 			
 			switch (position) {
 			case BOTTOM_LEFT:
@@ -137,17 +124,10 @@ public class ExportManager {
 			}
 		}
 
-		if(table.getTableConfiguration().hasCallback(CallbackType.INIT)){
-			table.getTableConfiguration().getCallback(CallbackType.INIT).appendCode(links.toString());
-		}
-		else{
-			Callback initCallback = new Callback(CallbackType.INIT, new JavascriptFunction(links.toString(),
-					CallbackType.INIT.getArgs()));
-			table.getTableConfiguration().registerCallback(initCallback);
-		}
+		addCallback(CallbackType.INIT, links.toString(), Mode.APPEND);
 	}
-	
-	private HtmlDiv initExportDiv(HtmlTable table, JsResource mainJsfile){
+
+	private HtmlDiv initExportDiv(HtmlTable table){
 		
 		// Init the wrapping HTML div
 		HtmlDiv divExport = new HtmlDiv();
@@ -220,7 +200,7 @@ public class ExportManager {
 						exportFunc.append(params.toString());
 						exportFunc.append("));}");
 						
-						mainJsfile.appendToBeforeAll(exportFunc.toString());
+						appendToBeforeAll(exportFunc.toString());
 					}
 					// HTTP POST/PUT/DELETE
 					else{
@@ -251,7 +231,7 @@ public class ExportManager {
 						exportFunc.append("');");
 						exportFunc.append("}");
 						
-						mainJsfile.appendToBeforeAll(exportFunc.toString());					
+						appendToBeforeAll(exportFunc.toString());					
 					}
 					link.setOnclick(exportFuncName.toString().concat("();"));
 				}

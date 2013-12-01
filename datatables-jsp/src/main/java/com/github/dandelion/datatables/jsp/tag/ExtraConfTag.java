@@ -32,6 +32,8 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import com.github.dandelion.datatables.core.extension.feature.ExtraConfFeature;
+
 /**
  * Tag used to add some extra Javascript configuration to the DataTable.
  *
@@ -58,9 +60,10 @@ public class ExtraConfTag extends TagSupport {
 
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-//		if (parent.isFirstIteration()) {
+		if (parent.isFirstIteration()) {
 //			parent.getTable().getTableConfiguration().addExtraConf(new ExtraConf(getLocation(this.src)));
-//		}
+			parent.getTable().getTableConfiguration().registerExtension(new ExtraConfFeature());
+		}
 		return EVAL_PAGE;
 	}
 

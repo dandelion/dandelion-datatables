@@ -44,6 +44,7 @@ import com.github.dandelion.datatables.core.exception.ConfigurationProcessingExc
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportType;
+import com.github.dandelion.datatables.core.extension.feature.ExportFeature;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.UrlUtils;
 
@@ -101,5 +102,6 @@ public class ExportConfsProcessor extends AbstractTableProcessor {
 		}
 
 		tableConfiguration.setExportConfs(retval);
+		tableConfiguration.registerExtension(new ExportFeature());
 	}
 }

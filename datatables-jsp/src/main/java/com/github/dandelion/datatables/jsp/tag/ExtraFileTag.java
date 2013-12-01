@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.asset.InsertMode;
+import com.github.dandelion.datatables.core.extension.feature.ExtraFileFeature;
 
 /**
  * Tag used to add an extra Javascript configuration file.
@@ -83,6 +84,7 @@ public class ExtraFileTag extends TagSupport {
 				mode = InsertMode.BEFOREALL;
 			}
 			parent.getTable().getTableConfiguration().addExtraFile(new ExtraFile(getRealSource(this.src), mode));
+			parent.getTable().getTableConfiguration().registerExtension(new ExtraFileFeature());
 		}
 		return EVAL_PAGE;
 	}

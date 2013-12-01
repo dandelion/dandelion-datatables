@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -27,39 +27,47 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.feature;
-
-import java.util.Map;
+package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.extension.feature.AppearFeature;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.processor.feature.FeatureAppearProcessor;
 
-public class FeatureAppearProcessor extends AbstractTableProcessor {
+/**
+ * <p>
+ * Extension used to add an effect when the table has finished being drawed.
+ * 
+ * @see FeatureAppearProcessor
+ * @see Configuration#FEATURE_APPEAR
+ * @author Thibault Duchateau
+ * @since 0.10.0
+ */
+public class AppearFeature extends AbstractExtension {
 
 	@Override
-	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) {
-		String retval = null;
-		
-		if(StringUtils.isNotBlank(param)){
-		
-			if(param.contains(",") || "fadein".equals(param.toLowerCase().trim())){
-				String[] tmp = param.toLowerCase().trim().split(",");
-				
-				retval = "fadein";
-				if(tmp.length > 1){
-					tableConfiguration.setFeatureAppearDuration(tmp[1]);
-				}
-			}
-			else{
-				retval = "block";
-			}
+	public String getName() {
+		return "appear";
+	}
+
+	@Override
+	public void setup(HtmlTable table) {
+
+		if("fadein".equals(table.getTableConfiguration().getFeatureAppear())){
+			table.addCssStyle("display:none;");
 		}
 		
-		tableConfiguration.setFeatureAppear(retval);
-		tableConfiguration.registerExtension(new AppearFeature());
+		if("block".equals(table.getTableConfiguration().getFeatureAppear())){
+			appendToBeforeEndDocumentReady("$('#" + table.getId() + "').show();");			
+		}
+		else{
+			if(StringUtils.isNotBlank(table.getTableConfiguration().getFeatureAppearDuration())){
+				appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn(" + table.getTableConfiguration().getFeatureAppearDuration() + ");");
+			}
+			else{
+				appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn();");
+			}
+		}		
 	}
 }

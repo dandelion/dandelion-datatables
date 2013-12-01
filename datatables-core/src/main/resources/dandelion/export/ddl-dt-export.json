@@ -1,0 +1,14 @@
+{
+    "scope" : "ddl-dt-export",
+    "parent": "datatables",
+    "assets": [
+        {
+            "name": "download-js",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/export/download.js"
+            }
+        }
+    ]
+}

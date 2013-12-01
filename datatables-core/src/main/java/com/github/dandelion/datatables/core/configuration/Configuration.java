@@ -80,7 +80,17 @@ import com.github.dandelion.datatables.core.processor.plugin.PluginFixedHeaderPr
 import com.github.dandelion.datatables.core.processor.plugin.PluginScrollerProcessor;
 
 /**
- * Enumeration containing all possible configuration.
+ * <p>
+ * Enumeration containing all possible configurations.
+ * <p>
+ * Each configuration is defined with:
+ * <ul>
+ * <li>The corresponding property name if the configuration can be set via a
+ * datatables_XX.properties file</li>
+ * <li>The corresponding field name in the {@link TableConfiguration}</li>
+ * <li>The type of the corresponding field name</li>
+ * <li>The processor that has to be applied on the configuration value</li>
+ * </ul>
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -255,9 +265,15 @@ public enum Configuration {
 	}
 	
 	/**
-	 * TODO
+	 * <p>
+	 * Processes all the configuration stored in the localConf map and applies
+	 * them on the passed tableConfiguration instance.
+	 * 
 	 * @param tableConfiguration
+	 *            the table configuration to update.
 	 * @param localConf
+	 *            a map containing the {@link Configuration} to process and
+	 *            apply to the table configuration.
 	 */
 	public static void applyConfiguration(TableConfiguration tableConfiguration, Map<Configuration, Object> localConf) {
 
@@ -348,7 +364,6 @@ public enum Configuration {
 					ColumnProcessor columnProcessor = (ColumnProcessor) entry.getKey().getProcessor().newInstance();
 					columnProcessor.processConfiguration(entry.getValue().toString(), columnConfiguration, tableConfiguration, stagingConf);
 				}
-				
 				
 				logger.trace(" --> Processing completed successfully");
 			} 

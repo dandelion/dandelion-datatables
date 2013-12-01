@@ -33,11 +33,14 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.extension.feature.ExtraHtmlFeature;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
 
 /**
- * Allows to create a HTML snippet and insert it anywhere around the table
- * thanks to the dom attribute.
+ * <p>
+ * Creates a HTML snippet and insert it anywhere around the table thanks to the
+ * {@link Configuration#FEATURE_DOM} configuration.
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
@@ -61,16 +64,18 @@ public class ExtraHtmlTag extends BodyTagSupport {
 
 		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
+		// Processes the tag only once, on the first iteration
 		if (parent.isFirstIteration()) {
 			ExtraHtml extraHtml = new ExtraHtml();
 			extraHtml.setUid(uid);
 			extraHtml.setContainer(StringUtils.isNotBlank(container) ? container : "div");
 			extraHtml.setCssStyle(cssStyle);
 			extraHtml.setCssClass(cssClass);
-			if(getBodyContent() != null){
+			if (getBodyContent() != null) {
 				extraHtml.setContent(getBodyContent().getString().replaceAll("[\n\r]", "").trim());
 			}
 			parent.getTable().getTableConfiguration().addExtraHtmlSnippet(extraHtml);
+			parent.getTable().getTableConfiguration().registerExtension(new ExtraHtmlFeature());
 		}
 
 		return EVAL_PAGE;
