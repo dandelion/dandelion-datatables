@@ -30,22 +30,20 @@
 package com.github.dandelion.datatables.core.html;
 
 import static org.fest.assertions.Assertions.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
-import com.github.dandelion.datatables.core.asset.DisplayType;
 
-public class HtmlColumnTest extends HtmlTagWithContentTest {
+import com.github.dandelion.datatables.core.asset.DisplayType;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+
+public class HtmlColumnTest {
 
 	private HtmlColumn column;
 
 	@Before
-	@Override
-	public void createHtmlTag(){
-		tag = column = new HtmlColumn(true);
-	}
-
 	public void createHtmlCellTag(){
-		tag = column = new HtmlColumn();
+		column = new HtmlColumn(false);
 	}
 
 	@Test
@@ -63,10 +61,10 @@ public class HtmlColumnTest extends HtmlTagWithContentTest {
 	@Test
 	public void should_create_header_column_with_id() {
 		column = new HtmlColumn(true, "content");
-		column.getColumnConfiguration().setId("fakeId");
+		ColumnConfig.ID.setIn(column.getColumnConfiguration(), "fakeId");
 		assertThat(column.isHeaderColumn()).isTrue();
 		assertThat(column.toHtml().toString()).isEqualTo(
-				"<" + column.getTag() + " id=\"" + column.getColumnConfiguration().getId() + "\">content</"
+				"<" + column.getTag() + " id=\"" + ColumnConfig.ID.valueFrom(column.getColumnConfiguration()) + "\">content</"
 						+ column.getTag() + ">");
 	}
 	

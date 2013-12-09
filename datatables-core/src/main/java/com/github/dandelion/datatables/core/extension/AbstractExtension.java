@@ -34,15 +34,27 @@ import java.util.List;
 
 import com.github.dandelion.core.asset.web.AssetsRequestContext;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
+import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.Parameter.Mode;
+import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.generator.configuration.AbstractConfigurationGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
+ * <p>
  * Abstract superclass for all extensions.
+ * <p>
+ * Lots of utilities are available in this class, allowing you to:
+ * <ul>
+ * <li>bufferize Javascript code before flushing it in the final
+ * {@link JsResource}</li>
+ * <li>add some {@link Parameter} to the generated DataTables configuration</li>
+ * <li>add some {@link Scope}</li>
+ * <li>add some {@link Callback} to the generated DataTables configuration</li>
+ * </ul>
  * 
  * @author Thibault Duchateau
  */

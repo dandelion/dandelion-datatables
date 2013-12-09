@@ -36,7 +36,7 @@ import org.thymeleaf.processor.AttributeNameProcessorMatcher;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
 import com.github.dandelion.datatables.core.exception.DandelionDatatablesException;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ajax.TablePipeSizeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ajax.TablePipeliningAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ajax.TableProcessingAttrProcessor;
@@ -47,7 +47,6 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.ajax.TableServer
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ajax.TableUrlAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableAppearAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableAutoWidthAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableCdnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableConfGroupAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableDisplayLengthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableDomAttrProcessor;
@@ -104,7 +103,6 @@ public enum TableAttrProcessors {
 	
     // Basic processors
     BASIC_AUTO_WIDTH(TableAutoWidthAttrProcessor.class, "autowidth", "table"),
-    BASIC_CDN(TableCdnAttrProcessor.class, "cdn", "table"),
     BASIC_FILTER(TableFilterAttrProcessor.class, "filter", "table"),
     BASIC_INFO(TableInfoAttrProcessor.class, "info", "table"),
     BASIC_PAGINATE(TablePaginateAttrProcessor.class, "paginate", "table"),
@@ -204,17 +202,17 @@ public enum TableAttrProcessors {
     CALLBACK_PRE_DRAW(TbodyCallbackPreDrawProcessor.class, "cbk:predraw", "tbody"),
     CALLBACK_ROW(TbodyCallbackRowProcessor.class, "cbk:row", "tbody");
 
-    private Class<? extends AbstractDatatablesAttrProcessor> processorClass;
+    private Class<? extends AbstractTableAttrProcessor> processorClass;
     private String attributeName;
     private String elementNameFilter;
 
-    private TableAttrProcessors(Class<? extends AbstractDatatablesAttrProcessor> processorClass, String attributeName, String elementNameFilter) {
+    private TableAttrProcessors(Class<? extends AbstractTableAttrProcessor> processorClass, String attributeName, String elementNameFilter) {
         this.processorClass = processorClass;
         this.attributeName = attributeName;
         this.elementNameFilter = elementNameFilter;
     }
 
-    public AbstractDatatablesAttrProcessor getProcessor() {
+    public AbstractTableAttrProcessor getProcessor() {
         AttributeNameProcessorMatcher matcher = new AttributeNameProcessorMatcher(attributeName, elementNameFilter);
         try {
             return processorClass.getDeclaredConstructor(IAttributeNameProcessorMatcher.class).newInstance(matcher);

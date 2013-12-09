@@ -6,6 +6,7 @@ import static org.fest.assertions.MapAssert.entry;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.dandelion.core.asset.web.AssetsRequestContext;
@@ -14,6 +15,7 @@ import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
 
+@Ignore
 public class PipeliningFeatureTest extends AbstractExtensionTest {
 
 	@Test

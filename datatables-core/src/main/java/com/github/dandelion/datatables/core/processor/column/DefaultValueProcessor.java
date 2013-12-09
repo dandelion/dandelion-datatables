@@ -29,19 +29,13 @@
  */
 package com.github.dandelion.datatables.core.processor.column;
 
-import java.util.Map;
-
-import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
 
 public class DefaultValueProcessor extends AbstractColumnProcessor {
 
 	@Override
-	protected void process(String param, ColumnConfiguration columnConfiguration,
-			TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
-		
-		columnConfiguration.setDefaultValue(param);
+	public void doProcess(ConfigToken<?> configToken, String value) {
+		columnConfiguration.set(configToken, value);
 	}
 }

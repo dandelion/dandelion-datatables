@@ -27,28 +27,43 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.internal;
+package com.github.dandelion.datatables.core.processor.i18n;
 
-import static org.fest.assertions.Assertions.assertThat;
+import javax.servlet.http.HttpServletRequest;
 
-import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.constants.DTMessages;
-import com.github.dandelion.datatables.core.processor.TableProcessor;
-import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
-import com.github.dandelion.datatables.core.processor.i18n.MessageProcessor;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.i18n.MessageResolver;
+import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
+import com.github.dandelion.datatables.core.util.ClassUtils;
 
-public class MessageProcessorTest extends TableProcessorBaseTest {
+public class MessageResolverProcessor extends AbstractTableProcessor {
+
+	// Logger
+	private static Logger logger = LoggerFactory.getLogger(MessageResolverProcessor.class);
 
 	@Override
-	public TableProcessor getProcessor() {
-		String messageKey = DTMessages.INFO.getPropertyName();
-		return new MessageProcessor(messageKey);
-	}
-	
-	@Test
-	public void should_add_a_message() {
-		processor.processConfiguration("myInfo", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getMessages().getProperty(DTMessages.INFO.getPropertyName())).isEqualTo("myInfo");
+	@SuppressWarnings("unchecked")
+	public void doProcess(ConfigToken<?> configToken, String value) {
+		MessageResolver resourceProvider = null;
+
+		if (value != null) {
+			try {
+				Class<MessageResolver> classProperty = (Class<MessageResolver>) ClassUtils.getClass(value);
+				resourceProvider = classProperty.getDeclaredConstructor(new Class[] { HttpServletRequest.class })
+						.newInstance(tableConfiguration.getRequest());
+
+				logger.info("MessageResolver initialized with {}", resourceProvider.getClass().getSimpleName());
+			} catch (Exception e) {
+				logger.warn("Unable to instantiate the configured {} due to a {} exception", value, e.getClass()
+						.getName(), e);
+			}
+		} else {
+			logger.info("No {} configured", MessageResolver.class.getSimpleName());
+		}
+
+		tableConfiguration.setInternalMessageResolver(resourceProvider);
 	}
 }

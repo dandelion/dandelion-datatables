@@ -35,12 +35,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.ClassUtils;
@@ -84,8 +86,10 @@ public class ExtensionLoader {
 		
 		ExtensionProcessor extensionProcessor = new ExtensionProcessor(table, mainJsFile, mainConf);
 		extensionProcessor.process(table.getTableConfiguration().getInternalExtensions());
-		if(table.getTableConfiguration().getCssTheme() != null){
-			extensionProcessor.process(new HashSet<Extension>(Arrays.asList(table.getTableConfiguration().getCssTheme())));			
+		
+		Extension theme = TableConfig.CSS_THEME.valueFrom(table);
+		if(theme != null){
+			extensionProcessor.process(new HashSet<Extension>(Arrays.asList(theme)));			
 		}
 	}
 	
@@ -106,8 +110,9 @@ public class ExtensionLoader {
 				"com.github.dandelion.datatables.core.extension.theme");
 
 		// Load custom extension if enabled
-		if (builtinExtensions != null && !builtinExtensions.isEmpty() && table.getTableConfiguration().getMainExtensionNames() != null) {
-			for (String extensionToRegister : table.getTableConfiguration().getMainExtensionNames()) {
+		Set<String> extensionNames = TableConfig.MAIN_EXTENSION_NAMES.valueFrom(table);
+		if (builtinExtensions != null && !builtinExtensions.isEmpty() && extensionNames != null && !extensionNames.isEmpty()) {
+			for (String extensionToRegister : extensionNames) {
 				for (Extension extension : builtinExtensions) {
 					if (extensionToRegister.equalsIgnoreCase(extension.getName())) {
 						table.getTableConfiguration().registerExtension(extension);
@@ -128,16 +133,18 @@ public class ExtensionLoader {
 	 */
 	private void registerCustomExtensions(HtmlTable table) {
 
-		if (StringUtils.isNotBlank(table.getTableConfiguration().getMainExtensionPackage())) {
+		String packageToScan = TableConfig.MAIN_EXTENSION_PACKAGE.valueFrom(table);
+		if (StringUtils.isNotBlank(packageToScan)) {
 
 			logger.debug("Scanning custom extensions...");
 
 			// Scanning custom extension based on the base.package property
-			List<Extension> customExtensions = scanForExtensions(table.getTableConfiguration().getMainExtensionPackage());
+			List<Extension> customExtensions = scanForExtensions(packageToScan);
 
 			// Load custom extension if enabled
-			if (customExtensions != null && !customExtensions.isEmpty() && table.getTableConfiguration().getMainExtensionNames() != null) {
-				for (String extensionToRegister : table.getTableConfiguration().getMainExtensionNames()) {
+			Set<String> extensionNames = TableConfig.MAIN_EXTENSION_NAMES.valueFrom(table);
+			if (customExtensions != null && !customExtensions.isEmpty() && extensionNames != null && !extensionNames.isEmpty()) {
+				for (String extensionToRegister : extensionNames) {
 					for (Extension customExtension : customExtensions) {
 						if (extensionToRegister.equals(customExtension.getName().toLowerCase())) {
 							table.getTableConfiguration().registerExtension(customExtension);

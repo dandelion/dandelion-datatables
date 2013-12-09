@@ -32,7 +32,9 @@ package com.github.dandelion.datatables.core.extension.feature;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -48,6 +50,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
+ * @see ColumnConfig#SORTTYPE
  */
 public class SortingFeature extends AbstractExtension {
 
@@ -61,8 +64,9 @@ public class SortingFeature extends AbstractExtension {
 		Set<SortType> enabledSortTypes = new HashSet<SortType>();
 
 		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
-			if (column.getColumnConfiguration().getSortType() != null) {
-				enabledSortTypes.add(column.getColumnConfiguration().getSortType());
+			SortType sortType = ColumnConfig.SORTTYPE.valueFrom(column.getColumnConfiguration());
+			if (sortType != null) {
+				enabledSortTypes.add(sortType);
 			}
 		}
 

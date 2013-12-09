@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,9 @@
  */
 package com.github.dandelion.datatables.core.export;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
+import com.github.dandelion.datatables.core.processor.export.ExportEnabledFormatProcessor;
 
 /**
  * POJO that stores an export type configuration.
@@ -38,37 +40,64 @@ import com.github.dandelion.datatables.core.constants.HttpMethod;
  */
 public class ExportConf {
 
-	private String fileName = "export";
-	private ExportType type;
+	private String format;
+	private String fileName;
+	private String mimeType;
 	private String label;
 	private StringBuilder cssStyle;
 	private StringBuilder cssClass;
 	private Boolean includeHeader;
 	private String url;
-	private HttpMethod method = HttpMethod.GET;
+	private HttpMethod method;
 	private Boolean autoSize;
 	private Boolean custom = false;
-	private DatatablesExport exportClass;
+	private String exportClass;
+	private String extension;
 	
-	public ExportConf(ExportType type){
-		this.type = type;
+	public ExportConf(String format){
+		this.format = format;
 		init();
 	}
 	
-	public ExportConf(ExportType type, String url) {
-		this.type = type;
-		this.url = url;
+	public ExportConf(String format, String exportUrl){
+		this.format = format;
+		this.url = exportUrl;
 		init();
 	}
-
+	
 	/**
 	 * Initialize the default values.
 	 */
 	private void init() {
 		this.fileName = "export";
-		this.label = this.type.toString();
+		this.label = this.format.toUpperCase();
 		this.includeHeader = true;
 		this.autoSize = false;
+		this.method = HttpMethod.GET;
+		if(StringUtils.isBlank(this.extension)){
+			this.extension = this.format;
+		}
+		
+		if(this.format.equals("csv")){
+			this.exportClass = ExportEnabledFormatProcessor.DEFAULT_CSV_CLASS;
+			this.mimeType = "text/csv";
+		}
+		if(this.format.equals("xml")){
+			this.exportClass = ExportEnabledFormatProcessor.DEFAULT_XML_CLASS;
+			this.mimeType = "text/xml";
+		}
+		if(this.format.equals("pdf")){
+			this.exportClass = ExportEnabledFormatProcessor.DEFAULT_PDF_CLASS;
+			this.mimeType = "application/pdf";
+		}
+		if(this.format.equals("xls")){
+			this.exportClass = ExportEnabledFormatProcessor.DEFAULT_XLS_CLASS;
+			this.mimeType = "application/vnd.ms-excel";
+		}
+		if(this.format.equals("xlsx")){
+			this.exportClass = ExportEnabledFormatProcessor.DEFAULT_XLSX_CLASS;
+			this.mimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+		}
 	}
 
 	public String getFileName() {
@@ -77,14 +106,6 @@ public class ExportConf {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
-	}
-
-	public ExportType getType() {
-		return type;
-	}
-
-	public void setType(ExportType type) {
-		this.type = type;
 	}
 
 	public String getLabel() {
@@ -127,6 +148,15 @@ public class ExportConf {
 		this.url = url;
 	}
 
+	
+	public String getMimeType() {
+		return mimeType;
+	}
+
+	public void setMimeType(String mimeType) {
+		this.mimeType = mimeType;
+	}
+
 	public Boolean isCustom() {
 		return custom;
 	}
@@ -143,11 +173,11 @@ public class ExportConf {
 		this.autoSize = autoSize;
 	}
 
-	public DatatablesExport getExportClass() {
+	public String getExportClass() {
 		return exportClass;
 	}
 
-	public void setExportClass(DatatablesExport exportClass) {
+	public void setExportClass(String exportClass) {
 		this.exportClass = exportClass;
 	}
 
@@ -159,35 +189,25 @@ public class ExportConf {
 		this.method = method;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ExportConf other = (ExportConf) obj;
-		if (type != other.type)
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "ExportConf [fileName=" + fileName + ", type=" + type + ", label=" + label + ", cssStyle=" + cssStyle
-				+ ", cssClass=" + cssClass + ", includeHeader=" + includeHeader + ", url=" + url + ", autoSize="
-				+ autoSize + ", custom=" + custom + "]";
-	}
 	
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
+	}
+
+	
+	public String getExtension() {
+		return extension;
+	}
+
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
+
+
 	/**
 	 * HtmlTable builder, allowing you to build a table in an export controller
 	 * for example.
@@ -196,10 +216,20 @@ public class ExportConf {
 
 		private ExportConf exportConf;
 		
-		public Builder(ExportType exportType) {
-			exportConf = new ExportConf(exportType);
+		public Builder(String format) {
+			exportConf = new ExportConf(format);
 		}
 
+		public Builder mimeType(String mimeType) {
+			exportConf.setMimeType(mimeType);
+			return this;
+		}
+		
+		public Builder extension(String extension) {
+			exportConf.setExtension(extension);
+			return this;
+		}
+		
 		public Builder fileName(String fileName) {
 			exportConf.setFileName(fileName);
 			return this;
@@ -215,22 +245,21 @@ public class ExportConf {
 			return this;
 		}
 		
-		public Builder exportClass(DatatablesExport exportClass) {
+		public Builder exportClass(String exportClass) {
 			exportConf.setExportClass(exportClass);
 			return this;
 		}
 		
 		public ExportConf build() {
-			return new ExportConf(this);
+			return exportConf;
 		}
 	}
 
-	private ExportConf(Builder builder) {
-		this.type = builder.exportConf.getType();
-		init();
-		this.fileName = builder.exportConf.getFileName();
-		this.includeHeader = builder.exportConf.getIncludeHeader();
-		this.autoSize = builder.exportConf.getAutoSize();
-		this.exportClass = builder.exportConf.getExportClass();
+	@Override
+	public String toString() {
+		return "ExportConf [format=" + format + ", fileName=" + fileName + ", mimeType=" + mimeType + ", label="
+				+ label + ", cssStyle=" + cssStyle + ", cssClass=" + cssClass + ", includeHeader=" + includeHeader
+				+ ", url=" + url + ", method=" + method + ", autoSize=" + autoSize + ", custom=" + custom
+				+ ", exportClass=" + exportClass + ", extension=" + extension + "]";
 	}
 }

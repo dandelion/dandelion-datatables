@@ -30,6 +30,7 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.callback.CallbackType;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -43,6 +44,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * @author Thibault Duchateau
  * @since 0.8.2
+ * @see TableConfig#AJAX_SERVERSIDE
  */
 public class ServerSideFeature extends AbstractExtension {
 

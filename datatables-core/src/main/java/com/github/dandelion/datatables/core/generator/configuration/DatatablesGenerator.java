@@ -43,10 +43,15 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.callback.Callback;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.constants.DTMessages;
 import com.github.dandelion.datatables.core.constants.Direction;
+import com.github.dandelion.datatables.core.extension.feature.PaginationType;
+import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -84,6 +89,7 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 
 		generateFeatureEnablementConfiguration(mainConf, tableConfiguration);
 
+		generateScrollingConfiguration(mainConf, tableConfiguration);
 		generateMiscConfiguration(mainConf, tableConfiguration);
 
 		generateAjaxConfiguration(mainConf, tableConfiguration);
@@ -95,121 +101,161 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 		return mainConf;
 	}
 
+	private void generateScrollingConfiguration(Map<String, Object> mainConf,
+			TableConfiguration tableConfiguration) {
+		String featureScrollY = TableConfig.FEATURE_SCROLLY.valueFrom(tableConfiguration);
+		Boolean featureScrollCollapse = TableConfig.FEATURE_SCROLLCOLLAPSE.valueFrom(tableConfiguration);
+		String featureScrollX = TableConfig.FEATURE_SCROLLX.valueFrom(tableConfiguration);
+		String featureScrollXInner = TableConfig.FEATURE_SCROLLXINNER.valueFrom(tableConfiguration);
+		
+		if (StringUtils.isNotBlank(featureScrollY)) {
+			mainConf.put(DTConstants.DT_SCROLLY, featureScrollY);
+		}
+		if (featureScrollCollapse != null) {
+			mainConf.put(DTConstants.DT_SCROLLCOLLAPSE, featureScrollCollapse);
+		}
+		if (StringUtils.isNotBlank(featureScrollX)) {
+			mainConf.put(DTConstants.DT_SCROLLX, featureScrollX);
+		}
+		if (StringUtils.isNotBlank(featureScrollXInner)) {
+			mainConf.put(DTConstants.DT_SCROLLXINNER, featureScrollXInner);
+		}
+	}
 	private void generateFeatureEnablementConfiguration(Map<String, Object> mainConf,
 			TableConfiguration tableConfiguration) {
-		if (tableConfiguration.getFeatureFilterable() != null) {
-			mainConf.put(DTConstants.DT_FILTER, tableConfiguration.getFeatureFilterable());
+		
+		Boolean featureFilterable = TableConfig.FEATURE_FILTERABLE.valueFrom(tableConfiguration);
+		Boolean featureInfo = TableConfig.FEATURE_INFO.valueFrom(tableConfiguration);
+		Boolean featurePaginate = TableConfig.FEATURE_PAGINATE.valueFrom(tableConfiguration);
+		Boolean featureSort = TableConfig.FEATURE_SORT.valueFrom(tableConfiguration);
+		
+		if (featureFilterable != null) {
+			mainConf.put(DTConstants.DT_FILTER, featureFilterable);
 		}
-		if (tableConfiguration.getFeatureInfo() != null) {
-			mainConf.put(DTConstants.DT_INFO, tableConfiguration.getFeatureInfo());
+		if (featureInfo != null) {
+			mainConf.put(DTConstants.DT_INFO, featureInfo);
 		}
-		if (tableConfiguration.getFeaturePaginate() != null) {
-			mainConf.put(DTConstants.DT_PAGINATE, tableConfiguration.getFeaturePaginate());
+		if (featurePaginate != null) {
+			mainConf.put(DTConstants.DT_PAGINATE, featurePaginate);
 		}
-		if (tableConfiguration.getFeatureSort() != null) {
-			mainConf.put(DTConstants.DT_SORT, tableConfiguration.getFeatureSort());
+		if (featureSort != null) {
+			mainConf.put(DTConstants.DT_SORT, featureSort);
 		}
 	}
 
 	private void generateMiscConfiguration(Map<String, Object> mainConf, TableConfiguration tableConfiguration) {
-		if (StringUtils.isNotBlank(tableConfiguration.getFeatureDom())) {
-			mainConf.put(DTConstants.DT_DOM, tableConfiguration.getFeatureDom());
+		
+		String featureDom = TableConfig.FEATURE_DOM.valueFrom(tableConfiguration);
+		Boolean featureAutoWidth = TableConfig.FEATURE_AUTOWIDTH.valueFrom(tableConfiguration);
+		String featureLengthMenu = TableConfig.FEATURE_LENGTHMENU.valueFrom(tableConfiguration);
+		String cssStripeClasses = TableConfig.CSS_STRIPECLASSES.valueFrom(tableConfiguration);
+		Integer featureDisplayLength = TableConfig.FEATURE_DISPLAYLENGTH.valueFrom(tableConfiguration);
+		Boolean featureLengthChange = TableConfig.FEATURE_LENGTHCHANGE.valueFrom(tableConfiguration);
+		PaginationType featurePaginationType = TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(tableConfiguration);
+		Boolean featureStateSave = TableConfig.FEATURE_STATESAVE.valueFrom(tableConfiguration);
+		Boolean featureJqueryUi = TableConfig.FEATURE_JQUERYUI.valueFrom(tableConfiguration);
+		
+		if (StringUtils.isNotBlank(featureDom)) {
+			mainConf.put(DTConstants.DT_DOM, featureDom);
 		}
-		if (tableConfiguration.getFeatureAutoWidth() != null) {
-			mainConf.put(DTConstants.DT_AUTO_WIDTH, tableConfiguration.getFeatureAutoWidth());
+		if(featureAutoWidth != null){
+			mainConf.put(DTConstants.DT_AUTO_WIDTH, featureAutoWidth);
 		}
-		if (tableConfiguration.getAjaxDeferRender() != null) {
-			mainConf.put(DTConstants.DT_DEFER_RENDER, tableConfiguration.getAjaxDeferRender());
+		if (featureDisplayLength != null) {
+			mainConf.put(DTConstants.DT_I_DISPLAY_LENGTH, featureDisplayLength);
 		}
-		if (tableConfiguration.getFeatureDisplayLength() != null) {
-			mainConf.put(DTConstants.DT_I_DISPLAY_LENGTH, tableConfiguration.getFeatureDisplayLength());
+		if (featureLengthChange != null) {
+			mainConf.put(DTConstants.DT_LENGTH_CHANGE, featureLengthChange);
 		}
-		if (tableConfiguration.getFeatureLengthChange() != null) {
-			mainConf.put(DTConstants.DT_LENGTH_CHANGE, tableConfiguration.getFeatureLengthChange());
+		if (featurePaginationType != null) {
+			mainConf.put(DTConstants.DT_PAGINATION_TYPE, featurePaginationType.toString());
 		}
-		if (tableConfiguration.getFeaturePaginationType() != null) {
-			mainConf.put(DTConstants.DT_PAGINATION_TYPE, tableConfiguration.getFeaturePaginationType().toString());
+		if (featureStateSave != null) {
+			mainConf.put(DTConstants.DT_STATE_SAVE, featureStateSave);
 		}
-		if (tableConfiguration.getFeatureStateSave() != null) {
-			mainConf.put(DTConstants.DT_STATE_SAVE, tableConfiguration.getFeatureStateSave());
+		if (featureJqueryUi != null) {
+			mainConf.put(DTConstants.DT_JQUERYUI, featureJqueryUi);
 		}
-		if (tableConfiguration.getFeatureJqueryUI() != null) {
-			mainConf.put(DTConstants.DT_JQUERYUI, tableConfiguration.getFeatureJqueryUI());
+		if (StringUtils.isNotBlank(featureLengthMenu)) {
+			mainConf.put(DTConstants.DT_A_LENGTH_MENU, new JavascriptSnippet(featureLengthMenu));
 		}
-		if (StringUtils.isNotBlank(tableConfiguration.getFeatureLengthMenu())) {
-			mainConf.put(DTConstants.DT_A_LENGTH_MENU, new JavascriptSnippet(tableConfiguration.getFeatureLengthMenu()));
-		}
-		if (StringUtils.isNotBlank(tableConfiguration.getCssStripeClasses())) {
+		if (StringUtils.isNotBlank(cssStripeClasses)) {
 			mainConf.put(DTConstants.DT_AS_STRIPE_CLASSES,
-					new JavascriptSnippet(tableConfiguration.getCssStripeClasses()));
+					new JavascriptSnippet(cssStripeClasses));
 		}
-		if (StringUtils.isNotBlank(tableConfiguration.getFeatureScrollY())) {
-			mainConf.put(DTConstants.DT_SCROLLY, tableConfiguration.getFeatureScrollY());
-		}
-		if (tableConfiguration.getFeatureScrollCollapse() != null) {
-			mainConf.put(DTConstants.DT_SCROLLCOLLAPSE, tableConfiguration.getFeatureScrollCollapse());
-		}
-		if (StringUtils.isNotBlank(tableConfiguration.getFeatureScrollX())) {
-			mainConf.put(DTConstants.DT_SCROLLX, tableConfiguration.getFeatureScrollX());
-		}
-		if (StringUtils.isNotBlank(tableConfiguration.getFeatureScrollXInner())) {
-			mainConf.put(DTConstants.DT_SCROLLXINNER, tableConfiguration.getFeatureScrollXInner());
-		}
+		
 	}
 
 	private void generateColumnConfiguration(Map<String, Object> mainConf, HtmlTable table,
 			TableConfiguration tableConfiguration) {
+		
 		// Columns configuration using aoColumn
 		Map<String, Object> tmp = null;
 		List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
 		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
+			ColumnConfiguration columnConfiguration = column.getColumnConfiguration();
 
 			Set<DisplayType> enabledDisplayTypes = column.getEnabledDisplayTypes();
 			if (enabledDisplayTypes.contains(DisplayType.ALL) || enabledDisplayTypes.contains(DisplayType.HTML)) {
 				tmp = new HashMap<String, Object>();
 
+				
 				// Sortable
-				tmp.put(DTConstants.DT_SORTABLE, column.getColumnConfiguration().getSortable());
+				Boolean sortable = ColumnConfig.SORTABLE.valueFrom(columnConfiguration);
+				if(sortable != null) {
+					tmp.put(DTConstants.DT_SORTABLE, sortable);
+				}
 
 				// Searchable
-				tmp.put(DTConstants.DT_SEARCHABLE, column.getColumnConfiguration().getSearchable());
+				Boolean searchable = ColumnConfig.SEARCHABLE.valueFrom(columnConfiguration);
+				if(searchable != null){
+					tmp.put(DTConstants.DT_SEARCHABLE, searchable);
+				}
 
 				// Visible
-				tmp.put(DTConstants.DT_VISIBLE, column.getColumnConfiguration().getVisible());
+				Boolean visible = ColumnConfig.VISIBLE.valueFrom(columnConfiguration);
+				if(visible != null){
+					tmp.put(DTConstants.DT_VISIBLE, visible);
+				}
 
 				// Column's content
-				if (StringUtils.isNotBlank(column.getColumnConfiguration().getProperty())) {
-					tmp.put(DTConstants.DT_DATA, column.getColumnConfiguration().getProperty());
+				String property = ColumnConfig.PROPERTY.valueFrom(columnConfiguration);
+				if (StringUtils.isNotBlank(property)) {
+					tmp.put(DTConstants.DT_DATA, property);
 				}
 
-				if (StringUtils.isNotBlank(column.getColumnConfiguration().getRenderFunction())) {
-					tmp.put(DTConstants.DT_COLUMN_RENDERER, new JavascriptSnippet(column.getColumnConfiguration()
-							.getRenderFunction()));
+				String renderFunction = ColumnConfig.RENDERFUNCTION.valueFrom(columnConfiguration);
+				if (StringUtils.isNotBlank(renderFunction)) {
+					tmp.put(DTConstants.DT_COLUMN_RENDERER, new JavascriptSnippet(renderFunction));
 				}
 
-				if (column.getColumnConfiguration().getDefaultValue() != null) {
-					tmp.put(DTConstants.DT_S_DEFAULT_CONTENT, column.getColumnConfiguration().getDefaultValue());
+				String defaultValue = ColumnConfig.DEFAULTVALUE.valueFrom(columnConfiguration);
+				if (defaultValue != null) {
+					tmp.put(DTConstants.DT_S_DEFAULT_CONTENT, defaultValue);
 				}
 
 				// Column's style (AJAX only)
-				if (StringUtils.isNotBlank(table.getTableConfiguration().getAjaxSource())) {
-					if (StringUtils.isNotBlank(column.getColumnConfiguration().getCssCellClass())) {
-						tmp.put(DTConstants.DT_S_CLASS, column.getColumnConfiguration().getCssCellClass());
+				String cssCellClass = ColumnConfig.CSSCELLCLASS.valueFrom(columnConfiguration);
+				if (StringUtils.isNotBlank(TableConfig.AJAX_SOURCE.valueFrom(table))) {
+					if (StringUtils.isNotBlank(cssCellClass)) {
+						tmp.put(DTConstants.DT_S_CLASS, cssCellClass);
 					}
 				}
 
 				// Sorting direction
-				if (column.getColumnConfiguration().getSortDirections() != null) {
+				List<Direction> sortDirections = ColumnConfig.SORTDIRECTION.valueFrom(columnConfiguration);
+				if (sortDirections != null) {
 					List<String> directions = new ArrayList<String>();
-					for (Direction direction : column.getColumnConfiguration().getSortDirections()) {
+					for (Direction direction : sortDirections) {
 						directions.add(direction.value);
 					}
 					tmp.put(DTConstants.DT_SORT_DIR, directions);
 				}
 
 				// Sorting type
-				if (column.getColumnConfiguration().getSortType() != null) {
-					tmp.put(DTConstants.DT_S_TYPE, column.getColumnConfiguration().getSortType().getName());
+				SortType sortType = ColumnConfig.SORTTYPE.valueFrom(columnConfiguration);
+				if (sortType!= null) {
+					tmp.put(DTConstants.DT_S_TYPE, sortType.getName());
 				}
 
 				aoColumnsContent.add(tmp);
@@ -224,10 +270,11 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
 
 			// Sorting direction
-			if (StringUtils.isNotBlank(column.getColumnConfiguration().getSortInit())) {
+			String sortInit = ColumnConfig.SORTINIT.valueFrom(column.getColumnConfiguration());
+			if (StringUtils.isNotBlank(sortInit)) {
 				aaSortingtmp = new ArrayList<Object>();
 				aaSortingtmp.add(columnIndex);
-				aaSortingtmp.add(column.getColumnConfiguration().getSortInit());
+				aaSortingtmp.add(sortInit);
 				aaSortingContent.add(aaSortingtmp);
 			}
 			if (column.getEnabledDisplayTypes().contains(DisplayType.HTML)
@@ -285,27 +332,48 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 		}
 	}
 
+	/**
+	 * <p>
+	 * Fill the configuration map with all AJAX-related parameters.
+	 * 
+	 * @param mainConf
+	 *            The map that is to be used to generate the JSON configuration.
+	 * @param tableConfiguration
+	 *            The table configuration to read from.
+	 */
 	private void generateAjaxConfiguration(Map<String, Object> mainConf, TableConfiguration tableConfiguration) {
-		// AJAX
-		if (tableConfiguration.getAjaxProcessing() != null) {
-			mainConf.put(DTConstants.DT_B_PROCESSING, tableConfiguration.getAjaxProcessing());
+		Boolean ajaxProcessing = TableConfig.AJAX_PROCESSING.valueFrom(tableConfiguration);
+		Boolean ajaxDeferRender = TableConfig.AJAX_DEFERRENDER.valueFrom(tableConfiguration);
+		Boolean ajaxServerSide = TableConfig.AJAX_SERVERSIDE.valueFrom(tableConfiguration);
+		
+		if (ajaxProcessing != null) {
+			mainConf.put(DTConstants.DT_B_PROCESSING, ajaxProcessing);
 		}
-		if (tableConfiguration.getAjaxServerSide() != null) {
-			mainConf.put(DTConstants.DT_B_SERVER_SIDE, tableConfiguration.getAjaxServerSide());
+		if (ajaxDeferRender != null) {
+			mainConf.put(DTConstants.DT_DEFER_RENDER, ajaxDeferRender);
+		}
+		
+		if (ajaxServerSide != null) {
+			String ajaxSource = TableConfig.AJAX_SOURCE.valueFrom(tableConfiguration);
+			String ajaxServerData = TableConfig.AJAX_SERVERDATA.valueFrom(tableConfiguration);
+			String ajaxServerParam = TableConfig.AJAX_SERVERPARAM.valueFrom(tableConfiguration);
+			String ajaxServerMethod = TableConfig.AJAX_SERVERMETHOD.valueFrom(tableConfiguration);
+			
+			mainConf.put(DTConstants.DT_B_SERVER_SIDE, ajaxServerSide);
 
-			if (StringUtils.isNotBlank(tableConfiguration.getAjaxSource())) {
-				mainConf.put(DTConstants.DT_S_AJAX_SOURCE, tableConfiguration.getAjaxSource());
+			if (StringUtils.isNotBlank(ajaxSource)) {
+				mainConf.put(DTConstants.DT_S_AJAX_SOURCE, ajaxSource);
 			}
-			if (StringUtils.isNotBlank(tableConfiguration.getAjaxServerData())) {
+			if (StringUtils.isNotBlank(ajaxServerData)) {
 				mainConf.put(DTConstants.DT_FN_SERVERDATA,
-						new JavascriptSnippet(tableConfiguration.getAjaxServerData()));
+						new JavascriptSnippet(ajaxServerData));
 			}
-			if (StringUtils.isNotBlank(tableConfiguration.getAjaxServerParam())) {
+			if (StringUtils.isNotBlank(ajaxServerParam)) {
 				mainConf.put(DTConstants.DT_FN_SERVERPARAMS,
-						new JavascriptSnippet(tableConfiguration.getAjaxServerParam()));
+						new JavascriptSnippet(ajaxServerParam));
 			}
-			if (StringUtils.isNotBlank(tableConfiguration.getAjaxServerMethod())) {
-				mainConf.put(DTConstants.DT_S_SERVERMETHOD, tableConfiguration.getAjaxServerMethod());
+			if (StringUtils.isNotBlank(ajaxServerMethod)) {
+				mainConf.put(DTConstants.DT_S_SERVERMETHOD, ajaxServerMethod);
 			}
 		}
 	}

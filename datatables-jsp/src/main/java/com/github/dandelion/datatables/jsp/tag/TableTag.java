@@ -43,16 +43,16 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.core.asset.web.AssetsRequestContext;
 import com.github.dandelion.core.asset.wrapper.impl.DelegatedLocationWrapper;
 import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
 import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
-import com.github.dandelion.datatables.core.export.ExportProperties;
-import com.github.dandelion.datatables.core.export.ExportType;
+import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
 import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -72,7 +72,7 @@ public class TableTag extends AbstractTableTag {
 	private static Logger logger = LoggerFactory.getLogger(TableTag.class);
 
 	public TableTag(){
-		stagingConf = new HashMap<Configuration, Object>();
+		stagingConf = new HashMap<ConfigToken<?>, Object>();
 	}
 	
 	/**
@@ -84,7 +84,8 @@ public class TableTag extends AbstractTableTag {
 				(HttpServletResponse) pageContext.getResponse(), confGroup, dynamicAttributes);
 
 		try {
-			Configuration.applyConfiguration(table.getTableConfiguration(), stagingConf);
+			TableConfig.applyConfiguration(stagingConf, table.getTableConfiguration());
+//			Configuration.applyConfiguration(table.getTableConfiguration(), stagingConf);
 		} catch (ConfigurationProcessingException e) {
 			throw new JspException(e);
 		} catch (ConfigurationLoadingException e) {
@@ -152,20 +153,14 @@ public class TableTag extends AbstractTableTag {
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 		HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
 
-		// Init the export properties
-		ExportProperties exportProperties = new ExportProperties();
+		String currentExportType = ExportUtils.getCurrentExportType(request);
 
-		ExportType currentExportType = getCurrentExportType();
-
-		exportProperties.setCurrentExportType(currentExportType);
-		exportProperties.setExportConf(table.getTableConfiguration().getExportConf(currentExportType));
-
-		this.table.getTableConfiguration().setExportProperties(exportProperties);
 		this.table.getTableConfiguration().setExporting(true);
+		this.table.getTableConfiguration().setCurrentExportFormat(currentExportType);
 		
 		try {
 			// Call the export delegate
-			ExportDelegate exportDelegate = new ExportDelegate(table, exportProperties, request);
+			ExportDelegate exportDelegate = new ExportDelegate(table, request);
 			exportDelegate.launchExport();
 
 		} catch (ExportException e) {
@@ -235,91 +230,87 @@ public class TableTag extends AbstractTableTag {
 	}
 	
 	public void setAutoWidth(Boolean autoWidth) {
-		stagingConf.put(Configuration.FEATURE_AUTOWIDTH, autoWidth);
+		stagingConf.put(TableConfig.FEATURE_AUTOWIDTH, autoWidth);
 	}
 
 	public void setDeferRender(String deferRender) {
-		stagingConf.put(Configuration.AJAX_DEFERRENDER, deferRender);
+		stagingConf.put(TableConfig.AJAX_DEFERRENDER, deferRender);
 	}
 
 	public void setFilter(Boolean filterable) {
-		stagingConf.put(Configuration.FEATURE_FILTERABLE, filterable);
+		stagingConf.put(TableConfig.FEATURE_FILTERABLE, filterable);
 	}
 
 	public void setInfo(Boolean info) {
-		stagingConf.put(Configuration.FEATURE_INFO, info);
+		stagingConf.put(TableConfig.FEATURE_INFO, info);
 	}
 
 	public void setPaginate(Boolean paginate) {
-		stagingConf.put(Configuration.FEATURE_PAGINATE, paginate);
+		stagingConf.put(TableConfig.FEATURE_PAGINATE, paginate);
 	}
 
 	public void setLengthChange(Boolean lengthChange) {
-		stagingConf.put(Configuration.FEATURE_LENGTHCHANGE, lengthChange);
+		stagingConf.put(TableConfig.FEATURE_LENGTHCHANGE, lengthChange);
 	}
 
 	public void setProcessing(Boolean processing) {
-		stagingConf.put(Configuration.AJAX_PROCESSING, processing);
+		stagingConf.put(TableConfig.AJAX_PROCESSING, processing);
 	}
 
 	public void setServerSide(Boolean serverSide) {
-		stagingConf.put(Configuration.AJAX_SERVERSIDE, serverSide);
+		stagingConf.put(TableConfig.AJAX_SERVERSIDE, serverSide);
 	}
 	
 	public void setPaginationType(String paginationType) {
-		stagingConf.put(Configuration.FEATURE_PAGINATIONTYPE, paginationType);
+		stagingConf.put(TableConfig.FEATURE_PAGINATIONTYPE, paginationType);
 	}
 
 	public void setSort(Boolean sort) {
-		stagingConf.put(Configuration.FEATURE_SORT, sort);
+		stagingConf.put(TableConfig.FEATURE_SORT, sort);
 	}
 
 	public void setStateSave(String stateSave) {
-		stagingConf.put(Configuration.FEATURE_STATESAVE, stateSave);
+		stagingConf.put(TableConfig.FEATURE_STATESAVE, stateSave);
 	}
 
 	public void setFixedHeader(String fixedHeader) {
-		stagingConf.put(Configuration.PLUGIN_FIXEDHEADER, fixedHeader);
+		stagingConf.put(TableConfig.PLUGIN_FIXEDHEADER, fixedHeader);
 	}
 
 	public void setScroller(String scroller) {
-		stagingConf.put(Configuration.PLUGIN_SCROLLER, scroller);
+		stagingConf.put(TableConfig.PLUGIN_SCROLLER, scroller);
 	}
 
 	public void setColReorder(String colReorder) {
-		stagingConf.put(Configuration.PLUGIN_COLREORDER, colReorder);
+		stagingConf.put(TableConfig.PLUGIN_COLREORDER, colReorder);
 	}
 
 	public void setScrollY(String scrollY) {
-		stagingConf.put(Configuration.FEATURE_SCROLLY, scrollY);
+		stagingConf.put(TableConfig.FEATURE_SCROLLY, scrollY);
 	}
 
 	public void setScrollCollapse(String scrollCollapse) {
-		stagingConf.put(Configuration.FEATURE_SCROLLCOLLAPSE, scrollCollapse);
+		stagingConf.put(TableConfig.FEATURE_SCROLLCOLLAPSE, scrollCollapse);
 	}
 
 	public void setScrollX(String scrollX) {
-		stagingConf.put(Configuration.FEATURE_SCROLLX, scrollX);
+		stagingConf.put(TableConfig.FEATURE_SCROLLX, scrollX);
 	}
 
 	public void setScrollXInner(String scrollXInner) {
-		stagingConf.put(Configuration.FEATURE_SCROLLXINNER, scrollXInner);
+		stagingConf.put(TableConfig.FEATURE_SCROLLXINNER, scrollXInner);
 	}
 
 	public void setFixedPosition(String fixedPosition) {
-		stagingConf.put(Configuration.PLUGIN_FIXEDPOSITION, fixedPosition);
+		stagingConf.put(TableConfig.PLUGIN_FIXEDPOSITION, fixedPosition);
 	}
 
 	public void setOffsetTop(Integer fixedOffsetTop) {
-		stagingConf.put(Configuration.PLUGIN_FIXEDOFFSETTOP, fixedOffsetTop);
-	}
-
-	public void setCdn(Boolean cdn) {
-		stagingConf.put(Configuration.MAIN_CDN, cdn);
+		stagingConf.put(TableConfig.PLUGIN_FIXEDOFFSETTOP, fixedOffsetTop);
 	}
 
 	public void setExport(String export) {
-		stagingConf.put(Configuration.EXPORT_TYPES, export);
+		stagingConf.put(TableConfig.EXPORT_ENABLED_FORMATS, export);
 	}
 
 	public String getLoadingType() {
@@ -327,33 +318,33 @@ public class TableTag extends AbstractTableTag {
 	}
 
 	public void setUrl(String url) {
-		stagingConf.put(Configuration.AJAX_SOURCE, url);
+		stagingConf.put(TableConfig.AJAX_SOURCE, url);
 		this.loadingType = "AJAX";
 		this.url = url;
 	}
 
 	public void setJqueryUI(String jqueryUI) {
-		stagingConf.put(Configuration.FEATURE_JQUERYUI, jqueryUI);
+		stagingConf.put(TableConfig.FEATURE_JQUERYUI, jqueryUI);
 	}
 
 	public void setPipelining(String pipelining) {
-		stagingConf.put(Configuration.AJAX_PIPELINING, pipelining);
+		stagingConf.put(TableConfig.AJAX_PIPELINING, pipelining);
 	}
 	
 	public void setPipeSize(Integer pipeSize){
-		stagingConf.put(Configuration.AJAX_PIPESIZE, pipeSize);
+		stagingConf.put(TableConfig.AJAX_PIPESIZE, pipeSize);
 	}
 	
 	public void setExportLinks(String exportLinks) {
-		stagingConf.put(Configuration.EXPORT_LINKS, exportLinks);
+		stagingConf.put(TableConfig.EXPORT_LINK_POSITIONS, exportLinks);
 	}
 
 	public void setTheme(String theme) {
-		stagingConf.put(Configuration.CSS_THEME, theme);
+		stagingConf.put(TableConfig.CSS_THEME, theme);
 	}
 
 	public void setThemeOption(String themeOption) {
-		stagingConf.put(Configuration.CSS_THEMEOPTION, themeOption);
+		stagingConf.put(TableConfig.CSS_THEMEOPTION, themeOption);
 	}
 
 	public void setFooter(String footer) {
@@ -361,39 +352,39 @@ public class TableTag extends AbstractTableTag {
 	}
 
 	public void setAppear(String appear) {
-		stagingConf.put(Configuration.FEATURE_APPEAR, appear);
+		stagingConf.put(TableConfig.FEATURE_APPEAR, appear);
 	}
 	
 	public void setLengthMenu(String lengthMenu){
-		stagingConf.put(Configuration.FEATURE_LENGTHMENU, lengthMenu);
+		stagingConf.put(TableConfig.FEATURE_LENGTHMENU, lengthMenu);
 	}
 	
 	public void setCssStripes(String cssStripesClasses){
-		stagingConf.put(Configuration.CSS_STRIPECLASSES, cssStripesClasses);
+		stagingConf.put(TableConfig.CSS_STRIPECLASSES, cssStripesClasses);
 	}
 	
 	public void setServerData(String serverData) {
-		stagingConf.put(Configuration.AJAX_SERVERDATA, serverData);
+		stagingConf.put(TableConfig.AJAX_SERVERDATA, serverData);
 	}
 
 	public void setServerParams(String serverParams) {
-		stagingConf.put(Configuration.AJAX_SERVERPARAM, serverParams);
+		stagingConf.put(TableConfig.AJAX_SERVERPARAM, serverParams);
 	}
 
 	public void setServerMethod(String serverMethod) {
-		stagingConf.put(Configuration.AJAX_SERVERMETHOD, serverMethod);
+		stagingConf.put(TableConfig.AJAX_SERVERMETHOD, serverMethod);
 	}
 
 	public void setDisplayLength(Integer displayLength) {
-		stagingConf.put(Configuration.FEATURE_DISPLAYLENGTH, displayLength);
+		stagingConf.put(TableConfig.FEATURE_DISPLAYLENGTH, displayLength);
 	}
 
 	public void setDom(String dom) {
-		stagingConf.put(Configuration.FEATURE_DOM, dom);
+		stagingConf.put(TableConfig.FEATURE_DOM, dom);
 	}
 
 	public void setExt(String extensions){
-		stagingConf.put(Configuration.MAIN_EXTENSION_NAMES, extensions);	
+		stagingConf.put(TableConfig.MAIN_EXTENSION_NAMES, extensions);	
 	}
 	
 	public void setConfGroup(String confGroup) {
@@ -426,14 +417,14 @@ public class TableTag extends AbstractTableTag {
 	}
 	
 	public void setCssStyle(String cssStyle) {
-		stagingConf.put(Configuration.CSS_STYLE, cssStyle);
+		stagingConf.put(TableConfig.CSS_STYLE, cssStyle);
 	}
 
 	public void setCssClass(String cssClass) {
-		stagingConf.put(Configuration.CSS_CLASS, cssClass);
+		stagingConf.put(TableConfig.CSS_CLASS, cssClass);
 	}
 	
 	public void setFilterPlaceholder(String filterPlaceholder) {
-		stagingConf.put(Configuration.FEATURE_FILTER_PLACEHOLDER, filterPlaceholder);
+		stagingConf.put(TableConfig.FEATURE_FILTER_PLACEHOLDER, filterPlaceholder);
 	}
 }

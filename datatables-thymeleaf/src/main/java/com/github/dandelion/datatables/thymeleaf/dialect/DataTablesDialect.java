@@ -61,6 +61,7 @@ public class DataTablesDialect extends AbstractDialect {
 	public static final String INTERNAL_CONF_GROUP = "confGroup";
 	public static final String INTERNAL_TABLE_LOCAL_CONF = "tableLocalConf";
 	public static final String INTERNAL_COLUMN_LOCAL_CONF = "columnLocalConf";
+	public static final String INTERNAL_COLUMN_LOCAL_EXT = "columnLocalExtension";
 	public static final String INTERNAL_EXPORT_CONF_MAP = "exportConfMap";
 	
 	public String getPrefix() {

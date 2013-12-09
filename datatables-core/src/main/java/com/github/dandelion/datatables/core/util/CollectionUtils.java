@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 
 public class CollectionUtils {
 
@@ -71,9 +71,9 @@ public class CollectionUtils {
 		return result;
 	}
 	
-	public static Boolean hasConfigurationWithValue(Map<Configuration, Object> confMap, Configuration configuration, Object value) {
+	public static Boolean hasConfigurationWithValue(Map<ConfigToken<?>, Object> confMap, ConfigToken<?> config, Object value) {
 
-		if(confMap.containsKey(configuration) && confMap.get(configuration).equals(value)){
+		if(confMap.containsKey(config) && confMap.get(config).equals(value)){
 			return true;
 		}
 

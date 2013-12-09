@@ -30,6 +30,7 @@
 package com.github.dandelion.datatables.core.extension.theme;
 
 import com.github.dandelion.datatables.core.asset.Parameter;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -39,6 +40,8 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * JQueryUI DataTables theme.
  * 
  * @since 0.7.1
+ * @see TableConfig#CSS_THEME
+ * @see TableConfig#CSS_THEMEOPTION
  */
 public class JQueryUITheme extends AbstractExtension {
 
@@ -57,8 +60,10 @@ public class JQueryUITheme extends AbstractExtension {
 		addScope(Scope.DDL_DT_THEME_JQUERYUI);
 		addParameter(new Parameter(DTConstants.DT_JQUERYUI, true));
 
-		if (table.getTableConfiguration().getCssThemeOption() != null) {
-			switch(table.getTableConfiguration().getCssThemeOption()){
+		ThemeOption themeOption = TableConfig.CSS_THEMEOPTION.valueFrom(table);
+		
+		if (themeOption != null) {
+			switch(themeOption){
 			case BASE:
 				addScope(Scope.DDL_DT_THEME_JQUERYUI_BASE);
 				break;

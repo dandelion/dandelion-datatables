@@ -40,19 +40,21 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 
 /**
- * Base for all Datatables Thymeleaf column attribute processors.
- * 
- * @author Thibault Duchateau
- * @since 0.9.0 
+ * Base for all Datatables Thymeleaf AttrProcessor.
  */
-public abstract class AbstractDatatablesColumnAttrProcessor extends AbstractAttrProcessor {
+public abstract class AbstractTableAttrProcessor extends AbstractAttrProcessor {
 
-	public AbstractDatatablesColumnAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	protected Map<ConfigToken<?>, Object> localConf;
+	protected Map<ConfigToken<?>, Extension> stagingExt;
+	protected HtmlTable table;
+	
+	public AbstractTableAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
@@ -62,12 +64,11 @@ public abstract class AbstractDatatablesColumnAttrProcessor extends AbstractAttr
     	
     	HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 		
-		Map<Configuration, Object> stagingConf = (Map<Configuration, Object>) arguments
-				.getLocalVariable(DataTablesDialect.INTERNAL_COLUMN_LOCAL_CONF);
+    	localConf = (Map<ConfigToken<?>, Object>) request.getAttribute(DataTablesDialect.INTERNAL_TABLE_LOCAL_CONF); 
+
+		table = (HtmlTable) request.getAttribute(DataTablesDialect.INTERNAL_TABLE_BEAN);
 		
-		HtmlTable table = (HtmlTable) request.getAttribute(DataTablesDialect.INTERNAL_TABLE_BEAN);
-		
-        ProcessorResult processorResult = processColumnAttribute(arguments, element, attributeName, table, stagingConf);
+        ProcessorResult processorResult = doProcessAttribute(arguments, element, attributeName);
         element.removeAttribute(attributeName);
         return processorResult;
     }
@@ -83,5 +84,5 @@ public abstract class AbstractDatatablesColumnAttrProcessor extends AbstractAttr
      * @param attributeName attribute name
      * @return result of process
      */
-    protected abstract ProcessorResult processColumnAttribute(Arguments arguments, Element element, String attributeName, HtmlTable table, Map<Configuration, Object> statingConf);
+    protected abstract ProcessorResult doProcessAttribute(Arguments arguments, Element element, String attributeName);
 }

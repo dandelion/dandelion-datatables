@@ -29,16 +29,13 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr.basic;
 
-import java.util.Map;
-
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesColumnAttrProcessor;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
@@ -46,7 +43,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * 
  * @author Thibault Duchateau
  */
-public class ThSelectorAttrProcessor extends AbstractDatatablesColumnAttrProcessor {
+public class ThSelectorAttrProcessor extends AbstractColumnAttrProcessor {
 
 	public ThSelectorAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
@@ -56,16 +53,16 @@ public class ThSelectorAttrProcessor extends AbstractDatatablesColumnAttrProcess
 	public int getPrecedence() {
 		return 8000;
 	}
-	
-	@Override
-	protected ProcessorResult processColumnAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table, Map<Configuration, Object> stagingConf) {
-		
-		// Get attribute value
-		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
-		stagingConf.put(Configuration.COLUMN_SELECTOR, attrValue);
-		
-        return ProcessorResult.ok();
+	@Override
+	protected ProcessorResult processColumnAttribute(Arguments arguments, Element element, String attributeName) {
+
+		// Get attribute value
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null,
+				String.class);
+
+		stagingConf.put(ColumnConfig.SELECTOR, attrValue);
+
+		return ProcessorResult.ok();
 	}
 }

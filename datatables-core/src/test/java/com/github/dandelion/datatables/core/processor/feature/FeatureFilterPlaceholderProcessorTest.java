@@ -33,6 +33,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
@@ -47,32 +48,39 @@ public class FeatureFilterPlaceholderProcessorTest extends TableProcessorBaseTes
 
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureFilterPlaceholder()).isNull();
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, null, tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.processConfiguration("", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureFilterPlaceholder()).isNull();
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_filterplaceholder() {
-		processor.processConfiguration("none", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureFilterPlaceholder()).isEqualTo(FilterPlaceholder.NONE);
-		processor.processConfiguration("NONE", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureFilterPlaceholder()).isEqualTo(FilterPlaceholder.NONE);
-		processor.processConfiguration("head_after", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureFilterPlaceholder()).isEqualTo(FilterPlaceholder.HEAD_AFTER);
-		processor.processConfiguration("head_before", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureFilterPlaceholder()).isEqualTo(FilterPlaceholder.HEAD_BEFORE);
-		processor.processConfiguration("foot", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureFilterPlaceholder()).isEqualTo(FilterPlaceholder.FOOT);
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, null, tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isNull();
+		
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "none", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isEqualTo(FilterPlaceholder.NONE);
+		
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "NONE", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isEqualTo(FilterPlaceholder.NONE);
+		
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "head_after", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isEqualTo(FilterPlaceholder.HEAD_AFTER);
+
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "head_before", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isEqualTo(FilterPlaceholder.HEAD_BEFORE);
+
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "foot", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isEqualTo(FilterPlaceholder.FOOT);
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_raise_an_exception() {
-		processor.processConfiguration("noooone", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "noooooone", tableConfiguration, confToBeApplied);
 	}
 }

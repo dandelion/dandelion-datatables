@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.core.ajax;
 
+import java.io.Serializable;
+
 /**
  * <p>
  * A column definition, containing different informations used when server-side
@@ -37,8 +39,9 @@ package com.github.dandelion.datatables.core.ajax;
  * @author Thibault Duchateau
  * @since 0.8.2
  */
-public class ColumnDef {
+public class ColumnDef implements Serializable {
 
+	private static final long serialVersionUID = 6349611254914115218L;
 	private String name;
 	private boolean sortable;
 	private boolean sorted;

@@ -32,6 +32,7 @@ package com.github.dandelion.datatables.core.extension.theme;
 import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -65,6 +66,8 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
+ * @see TableConfig#CSS_THEME
+ * @see TableConfig#CSS_THEMEOPTION
  */
 public class Bootstrap2ResponsiveTheme extends AbstractExtension {
 

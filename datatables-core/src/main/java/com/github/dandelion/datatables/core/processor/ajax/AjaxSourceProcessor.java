@@ -29,11 +29,9 @@
  */
 package com.github.dandelion.datatables.core.processor.ajax;
 
-import java.util.Map;
-
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.feature.AjaxFeature;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.CollectionUtils;
@@ -48,20 +46,21 @@ import com.github.dandelion.datatables.core.util.UrlUtils;
 public class AjaxSourceProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) {
+	public void doProcess(ConfigToken<?> configToken, String value) {
+		if (StringUtils.isNotBlank(value)) {
 
-		if (StringUtils.isNotBlank(param)) {
-
+			Boolean serverSide = TableConfig.AJAX_SERVERSIDE.valueFrom(tableConfiguration);
+			
 			Boolean serverSideEnabled = 
-					CollectionUtils.hasConfigurationWithValue(confToBeApplied, Configuration.AJAX_SERVERSIDE, true)
-					|| ( tableConfiguration.getAjaxServerSide() != null && tableConfiguration.getAjaxServerSide());
+					CollectionUtils.hasConfigurationWithValue(stagingConf, TableConfig.AJAX_SERVERSIDE, true)
+					|| ( serverSide != null && serverSide);
 			if (!serverSideEnabled) {
 				tableConfiguration.registerExtension(new AjaxFeature());
 			}
 
-			String sourceUrl = UrlUtils.getProcessedUrl(param, tableConfiguration.getRequest(), tableConfiguration.getResponse());
-			tableConfiguration.setAjaxSource(sourceUrl);
+			String sourceUrl = UrlUtils.getProcessedUrl(value, tableConfiguration.getRequest(), tableConfiguration.getResponse());
+			
+			tableConfiguration.set(configToken, sourceUrl);
 		}
 	}
 }

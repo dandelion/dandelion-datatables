@@ -31,7 +31,7 @@ package com.github.dandelion.datatables.core.configuration;
 
 /**
  * <p>
- * All Dandelion scopes used in the Dandelion-Datatables component.
+ * All Dandelion {@link Scope}s used in all the Dandelion-Datatables components.
  * 
  * @author Thibault Duchateau
  * @since 0.10.0

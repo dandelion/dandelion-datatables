@@ -46,7 +46,7 @@ public class XmlExportTest extends ExportTest {
 	public void should_generate_full_table() {
 		
 		initDefaultTable();
-		configureExport(new ExportConf.Builder(ExportType.XML).header(true).build());
+		configureExport(new ExportConf.Builder("xml").header(true).build());
 		processExport(new XmlExport());
 		
 		// The header must exist

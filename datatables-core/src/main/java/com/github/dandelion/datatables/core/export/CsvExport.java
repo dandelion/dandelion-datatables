@@ -37,6 +37,7 @@ import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.processor.export.ExportFormatProcessor;
 
 /**
  * Default class used to export in the CSV format.
@@ -48,17 +49,20 @@ public class CsvExport implements DatatablesExport {
 	private static final DisplayType CURRENT_DISPLAY_TYPE = DisplayType.CSV;
 	private static final String SEPARATOR_CHAR = ";";
 	private HtmlTable table;
+	private ExportConf exportConf;
 
 	@Override
 	public void initExport(HtmlTable table) {
 		this.table = table;
+		this.exportConf = table.getTableConfiguration().getExportConfiguration()
+				.get(ExportFormatProcessor.RESERVED_CSV_FORMAT);
 	}
 
 	@Override
 	public void processExport(OutputStream output) {
 		StringBuilder buffer = new StringBuilder();
 
-		if(table.getTableConfiguration().getExportConf(ExportType.CSV).getIncludeHeader()){
+		if (exportConf.getIncludeHeader()) {
 			for(HtmlRow row : table.getHeadRows()){
 				for(HtmlColumn column : row.getColumns()){
 					if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)

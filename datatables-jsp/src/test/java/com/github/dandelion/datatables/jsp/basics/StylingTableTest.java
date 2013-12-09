@@ -34,6 +34,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.mock.Mock;
 import com.github.dandelion.datatables.jsp.tag.DomBaseTest;
 import com.github.dandelion.datatables.utils.TableTagBuilder;
@@ -56,16 +57,16 @@ public class StylingTableTest extends DomBaseTest {
 	
 	@Test
 	public void should_set_css_style_using_class() {
-		assertThat(table.getTableConfiguration().getCssClass().toString()).isEqualTo("myClass");
+		assertThat(TableConfig.CSS_CLASS.valueFrom(table.getTableConfiguration()).toString()).isEqualTo("myClass");
 	}
 	
 	@Test
 	public void should_set_strip_classes() {
-		assertThat(table.getTableConfiguration().getCssStripeClasses()).isEqualTo("['myStrip1','myStrip2']");
+		assertThat(TableConfig.CSS_STRIPECLASSES.valueFrom(table.getTableConfiguration())).isEqualTo("['myStrip1','myStrip2']");
 	}
 	
 	@Test
 	public void should_set_css_style() {
-		assertThat(table.getTableConfiguration().getCssStyle().toString()).isEqualTo("myStyle");
+		assertThat(TableConfig.CSS_STYLE.valueFrom(table.getTableConfiguration()).toString()).isEqualTo("myStyle");
 	}
 }

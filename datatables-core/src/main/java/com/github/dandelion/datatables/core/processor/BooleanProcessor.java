@@ -31,26 +31,38 @@ package com.github.dandelion.datatables.core.processor;
 
 import java.util.Map;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-
+import com.github.dandelion.datatables.core.extension.Extension;
 
 /**
- * <p>
- * Common abstract superclass for all processors.
- * <p>
- * All processors contain the actual processing applied on each Datatables
- * configuration.
+ * Processor used for all Boolean parameters.
  * 
  * @author Thibault Duchateau
- * @since 0.9.0
+ * @since 0.10.0
  */
-public abstract class AbstractMessageProcessor extends AbstractTableProcessor {
+public class BooleanProcessor implements TableProcessor, ColumnProcessor {
 
-	protected String messageKey;
+	@Override
+	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration, Map<ConfigToken<?>, Object> stagingConf) {
+		Boolean retval = null;
+		if (StringUtils.isNotBlank(value)) {
+			retval = Boolean.parseBoolean(value);
+		}
+	
+		tableConfiguration.set(configToken, retval);
+	}
+	
+	@Override
+	public void process(ConfigToken<?> configToken, String value, ColumnConfiguration columnConfiguration,
+			TableConfiguration tableConfiguration, Map<ConfigToken<?>, Object> stagingConf, Map<ConfigToken<?>, Extension> stagingExtension) {
+		Boolean retval = null;
+		if (StringUtils.isNotBlank(value)) {
+			retval = Boolean.parseBoolean(value);
+		}
 
-	protected void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied){
-		tableConfiguration.getMessages().setProperty(messageKey, param);
+		columnConfiguration.set(configToken, retval);
 	}
 }

@@ -31,6 +31,7 @@ package com.github.dandelion.datatables.core.extension.theme;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
@@ -43,6 +44,8 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * @author Thibault Duchateau
  * @since 0.7.1
+ * @see TableConfig#CSS_THEME
+ * @see TableConfig#CSS_THEMEOPTION
  */
 public class Bootstrap2Theme extends AbstractExtension {
 
@@ -60,8 +63,10 @@ public class Bootstrap2Theme extends AbstractExtension {
 		addScope(Scope.DDL_DT_THEME_BOOTSTRAP2);
 		addScope(Scope.DDL_DT_PAGING_BOOTSTRAP);
 		
-		if (table.getTableConfiguration().getCssThemeOption() != null) {
-			if(table.getTableConfiguration().getCssThemeOption().equals(ThemeOption.TABLECLOTH)){
+		ThemeOption themeOption = TableConfig.CSS_THEMEOPTION.valueFrom(table);
+		
+		if (themeOption != null) {
+			if(themeOption.equals(ThemeOption.TABLECLOTH)){
 				addScope(Scope.DDL_DT_THEME_BOOTSTRAP2_TABLECLOTH);
 			}
 			else{
@@ -70,7 +75,7 @@ public class Bootstrap2Theme extends AbstractExtension {
 		}
 		
 		// DataTables parameters
-		if (StringUtils.isBlank(table.getTableConfiguration().getFeatureDom())) {
+		if (StringUtils.isBlank(TableConfig.FEATURE_DOM.valueFrom(table))) {
 			addParameter(DTConstants.DT_DOM,
 					"<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>");
 		}

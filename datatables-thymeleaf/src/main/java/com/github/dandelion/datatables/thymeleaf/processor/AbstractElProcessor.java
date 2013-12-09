@@ -29,43 +29,34 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.thymeleaf.Arguments;
-import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
-import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
+import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
-import org.thymeleaf.processor.attr.AbstractAttrProcessor;
+import org.thymeleaf.processor.element.AbstractElementProcessor;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
- * Base for all Datatables Thymeleaf AttrProcessor.
+ * <p>Abstract superclass for all Datatables element processors.
+ * 
+ * @author Thibault Duchateau
  */
-public abstract class AbstractDatatablesAttrProcessor extends AbstractAttrProcessor {
+public abstract class AbstractElProcessor extends AbstractElementProcessor {
 
-	public AbstractDatatablesAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	protected HtmlTable table;
+	
+    public AbstractElProcessor(IElementNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
     @Override
-    protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
-    	
-    	HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-		
-		@SuppressWarnings("unchecked")
-		Map<Configuration, Object> localConf = (Map<Configuration, Object>) request.getAttribute(DataTablesDialect.INTERNAL_TABLE_LOCAL_CONF); 
-
-		HtmlTable table = (HtmlTable) request.getAttribute(DataTablesDialect.INTERNAL_TABLE_BEAN);
-		
-        ProcessorResult processorResult = doProcessAttribute(arguments, element, attributeName, table, localConf);
-        element.removeAttribute(attributeName);
-        return processorResult;
+	protected ProcessorResult processElement(Arguments arguments, Element element) {
+    	// Get HtmlTable POJO from the HttpServletRequest
+    	table = Utils.getTable(arguments);
+    	ProcessorResult processorResult = doProcessElement(arguments, element);
+    	return processorResult;
     }
 
     @Override
@@ -79,5 +70,5 @@ public abstract class AbstractDatatablesAttrProcessor extends AbstractAttrProces
      * @param attributeName attribute name
      * @return result of process
      */
-    protected abstract ProcessorResult doProcessAttribute(Arguments arguments, Element element, String attributeName, HtmlTable table, Map<Configuration, Object> localConf);
+    protected abstract ProcessorResult doProcessElement(Arguments arguments, Element element);
 }

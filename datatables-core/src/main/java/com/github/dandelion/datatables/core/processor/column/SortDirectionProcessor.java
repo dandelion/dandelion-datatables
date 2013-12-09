@@ -31,13 +31,10 @@ package com.github.dandelion.datatables.core.processor.column;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
-import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
@@ -45,22 +42,21 @@ import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
 public class SortDirectionProcessor extends AbstractColumnProcessor {
 
 	@Override
-	protected void process(String param, ColumnConfiguration columnConfiguration,
-			TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
-		if (StringUtils.isNotBlank(param)) {
+	public void doProcess(ConfigToken<?> configToken, String value) {
+		if (StringUtils.isNotBlank(value)) {
 			List<Direction> sortDirections = new ArrayList<Direction>();
-			String[] sortDirectionArray = param.trim().toUpperCase().split(",");
+			String[] sortDirectionArray = value.toUpperCase().split(",");
 
 			for (String direction : sortDirectionArray) {
 				try {
 					sortDirections.add(Direction.valueOf(direction));
 				} catch (IllegalArgumentException e) {
-					throw new ConfigurationProcessingException(param + " is not a valid value among " + SortDirection.values(), e);
+					throw new ConfigurationProcessingException(value + " is not a valid value among "
+							+ SortDirection.values(), e);
 				}
 			}
 
-			columnConfiguration.setSortDirections(sortDirections);
+			columnConfiguration.set(configToken, sortDirections);
 		}
-		
 	}
 }

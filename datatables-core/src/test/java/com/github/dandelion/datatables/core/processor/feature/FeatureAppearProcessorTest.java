@@ -33,9 +33,9 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
-import com.github.dandelion.datatables.core.processor.feature.FeatureAppearProcessor;
 
 public class FeatureAppearProcessorTest extends TableProcessorBaseTest {
 
@@ -46,34 +46,34 @@ public class FeatureAppearProcessorTest extends TableProcessorBaseTest {
 	
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureAppear()).isNull();
+		processor.process(TableConfig.FEATURE_APPEAR, null, tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_APPEAR.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.processConfiguration("", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureAppear()).isNull();
+		processor.process(TableConfig.FEATURE_APPEAR, "", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_APPEAR.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_return_fadein() throws Exception{
-		processor.processConfiguration("fadein", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureAppear()).isEqualTo("fadein");
+		processor.process(TableConfig.FEATURE_APPEAR, "fadein", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_APPEAR.valueFrom(tableConfiguration)).isEqualTo("fadein");
 	}
 	
 	@Test
 	public void should_return_fadein_and_set_appear_duration() {
-		processor.processConfiguration("fadein,1500", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureAppear()).isEqualTo("fadein");
-		assertThat(tableConfiguration.getFeatureAppearDuration()).isEqualTo("1500");
+		processor.process(TableConfig.FEATURE_APPEAR, "fadein,1500", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_APPEAR.valueFrom(tableConfiguration)).isEqualTo("fadein");
+		assertThat(TableConfig.FEATURE_APPEAR_DURATION.valueFrom(tableConfiguration)).isEqualTo("1500");
 	}
 	
 	@Test
 	public void should_set_default_value_when_a_wrong_format_is_used() throws Exception{
-		processor.processConfiguration("blockkk", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureAppear()).isEqualTo("block");
-		processor.processConfiguration("fadein;12", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureAppear()).isEqualTo("block");
+		processor.process(TableConfig.FEATURE_APPEAR, "blockkk", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_APPEAR.valueFrom(tableConfiguration)).isEqualTo("block");
+		processor.process(TableConfig.FEATURE_APPEAR, "fadein;12", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_APPEAR.valueFrom(tableConfiguration)).isEqualTo("block");
 	}
 }

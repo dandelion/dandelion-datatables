@@ -33,19 +33,18 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-public class HtmlDivTest extends HtmlTagWithContentTest {
+public class HtmlDivTest {
 
 	private HtmlDiv div;
 
 	@Before
-	@Override
 	public void createHtmlTag() {
-		tag = div = new HtmlDiv();
+		div = new HtmlDiv();
 	}
 
 	@Test
 	public void should_generate_div_tag_with_id() {
-		tag = div = new HtmlDiv("myId");
+		div = new HtmlDiv("myId");
 		assertThat(div.toHtml().toString()).isEqualTo("<div id=\"myId\"></div>");
 	}
 

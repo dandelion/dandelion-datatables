@@ -33,8 +33,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.github.dandelion.core.utils.ClassUtils;
+import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -46,6 +52,9 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class ExportUtils {
 
+	// Logger
+	private static Logger logger = LoggerFactory.getLogger(ExportUtils.class);
+		
 	/**
 	 * Renders the passed table by writing the data to the response.
 	 * 
@@ -59,14 +68,34 @@ public class ExportUtils {
 	public static void renderExport(HtmlTable table, ExportConf exportConf, HttpServletResponse response) {
 
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		DatatablesExport exportClass = exportConf.getExportClass();
+		String exportClass = exportConf.getExportClass();
 
-		exportClass.initExport(table);
-		exportClass.processExport(stream);
+		// Check that the class can be instanciated
+		if (!ClassUtils.canBeUsed(exportClass)) {
+			logger.error("Did you forget to add an extra dependency?");
+			throw new ExportException("Unable to export in " + exportConf.getFormat() + " format");
+		}
 
+		// Get the class
+		Class<?> klass = null;
+		Object obj = null;
 		try {
-			writeToResponse(response, stream, exportConf.getFileName() + "." + exportConf.getType().getExtension(),
-					exportConf.getType().getMimeType());
+			klass = ClassUtils.getClass(exportClass);
+			obj = ClassUtils.getNewInstance(klass);
+		} catch (ClassNotFoundException e) {
+			throw new ExportException("Unable to load the class '" + exportClass + "'", e);
+		} catch (InstantiationException e) {
+			throw new ExportException("Unable to instanciate the class '" + exportClass + "'", e);
+		} catch (IllegalAccessException e) {
+			throw new ExportException("Unable to access the class '" + exportClass + "'", e);
+		}
+		
+		((DatatablesExport) obj).initExport(table);
+		((DatatablesExport) obj).processExport(stream);
+				
+		try {
+			writeToResponse(response, stream, exportConf.getFileName() + "." + exportConf.getExtension(),
+					exportConf.getMimeType());
 		} catch (IOException e) {
 			throw new ExportException(
 					"Unable to write to response using the " + exportClass.getClass().getSimpleName(), e);
@@ -97,5 +126,15 @@ public class ExportUtils {
 		ServletOutputStream out = response.getOutputStream();
 		baos.writeTo(out);
 		out.flush();
+	}
+	
+	
+	public static String getCurrentExportType(HttpServletRequest request) {
+
+		// Get the URL parameter used to identify the export type
+		String exportTypeString = request.getParameter(
+				ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE).toString();
+
+		return exportTypeString;
 	}
 }

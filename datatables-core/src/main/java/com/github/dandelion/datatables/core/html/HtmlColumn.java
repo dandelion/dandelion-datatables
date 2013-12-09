@@ -35,6 +35,7 @@ import java.util.Set;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.DisplayType;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 
@@ -122,10 +123,12 @@ public class HtmlColumn extends HtmlTagWithContent {
 	protected StringBuilder getHtmlAttributes() {
 		StringBuilder html = new StringBuilder();
 		if (this.isHeaderColumn) {
-			html.append(writeAttribute("class", this.cssClass));
-			html.append(writeAttribute("style", this.cssStyle));
-			if(StringUtils.isNotBlank(this.columnConfiguration.getId())){
-				html.append(writeAttribute("id", this.columnConfiguration.getId()));	
+			html.append(writeAttribute("class", ColumnConfig.CSSCLASS.valueFrom(this.getColumnConfiguration())));
+			html.append(writeAttribute("style", ColumnConfig.CSSSTYLE.valueFrom(this.getColumnConfiguration())));
+			
+			String columnId = ColumnConfig.ID.valueFrom(this.getColumnConfiguration());
+			if (StringUtils.isNotBlank(columnId)) {
+				html.append(writeAttribute("id", columnId));
 			}
 		} else {
 			html.append(writeAttribute("class", this.cssCellClass));
@@ -188,5 +191,4 @@ public class HtmlColumn extends HtmlTagWithContent {
 	public StringBuilder getCssCellClass() {
 		return cssCellClass;
 	}
-
 }

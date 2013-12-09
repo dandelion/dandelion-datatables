@@ -27,48 +27,27 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.main;
+package com.github.dandelion.datatables.core.processor.i18n;
 
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.constants.DTMessages;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
-import com.github.dandelion.datatables.core.processor.main.MainExtensionNamesProcessor;
 
-public class MainCustomExtensionsProcessorTest extends TableProcessorBaseTest {
+public class MessageProcessorTest extends TableProcessorBaseTest {
 
 	@Override
 	public TableProcessor getProcessor() {
-		return new MainExtensionNamesProcessor();
-	}
-
-	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
-		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getMainExtensionNames()).isNull();
+		return new MessageProcessor();
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.processConfiguration("", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getMainExtensionNames()).isNull();
-	}
-	
-	@Test
-	public void should_set_a_set_containing_only_one_feature() throws Exception{
-		processor.processConfiguration("feature1", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getMainExtensionNames()).contains("feature1");
-		processor.processConfiguration("FEATURE1 ", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getMainExtensionNames()).contains("feature1");
-	}
-	
-	@Test
-	public void should_set_a_set_containing_multiple_features() throws Exception{
-		processor.processConfiguration("feature1,feature2", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getMainExtensionNames()).contains("feature1","feature2");
-		processor.processConfiguration(" feature1, Feature2", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getMainExtensionNames()).contains("feature1","feature2");
+	public void should_add_a_message() {
+		processor.process(TableConfig.I18N_MSG_INFO, "myInfo", tableConfiguration, confToBeApplied);
+		assertThat(tableConfiguration.getMessages().getProperty(DTMessages.INFO.getPropertyName())).isEqualTo("myInfo");
 	}
 }

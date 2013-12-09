@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.core.constants;
 
+import com.github.dandelion.datatables.core.configuration.TableConfig;
+
 /**
  * 
  *
@@ -37,24 +39,24 @@ package com.github.dandelion.datatables.core.constants;
  */
 public enum DTMessages {
 
-	PROCESSING("sProcessing", "msg.processing"),
-	SEARC("sSearch", "msg.search"),
-	LENGTHMENU("sLengthMenu", "msg.lengthmenu"),
-	INFO("sInfo", "msg.info"),
-	INFOEMPTY("sInfoEmpty", "msg.info.empty"),
-	INFOFILTERED("sInfoFiltered", "msg.info.filtered"),
-	INFOPOSTFIX("sInfoPostFix", "msg.info.postfix"),
-	LOADINGRECORDS("sLoadingRecords", "msg.loadingrecords"),
-	ZERORECORDS("sZeroRecords", "msg.zerorecords"),
-	EMPTYTABLE("sEmptyTable", "msg.emptytable"),
+	PROCESSING("sProcessing", TableConfig.P_I18N_MSG_PROCESSING),
+	SEARC("sSearch", TableConfig.P_I18N_MSG_SEARCH),
+	LENGTHMENU("sLengthMenu", TableConfig.P_I18N_MSG_LENGTHMENU),
+	INFO("sInfo", TableConfig.P_I18N_MSG_INFO),
+	INFOEMPTY("sInfoEmpty", TableConfig.P_I18N_MSG_INFOEMPTY),
+	INFOFILTERED("sInfoFiltered", TableConfig.P_I18N_MSG_INFOFILTERED),
+	INFOPOSTFIX("sInfoPostFix", TableConfig.P_I18N_MSG_INFOPOSTFIX),
+	LOADINGRECORDS("sLoadingRecords", TableConfig.P_I18N_MSG_LOADINGRECORDS),
+	ZERORECORDS("sZeroRecords", TableConfig.P_I18N_MSG_ZERORECORDS),
+	EMPTYTABLE("sEmptyTable", TableConfig.P_I18N_MSG_EMPTYTABLE),
 	PAGINATE("oPaginate", ""),
-	PAGINATE_FIRST("sFirst", "msg.paginate.first"),
-	PAGINATE_PREVIOUS("sPrevious", "msg.paginate.previous"),
-	PAGINATE_NEXT("sNext", "msg.paginate.next"),
-	PAGINATE_LAST("sLast", "msg.paginate.last"),
+	PAGINATE_FIRST("sFirst", TableConfig.P_I18N_MSG_PAGINATE_FIRST),
+	PAGINATE_PREVIOUS("sPrevious", TableConfig.P_I18N_MSG_PAGINATE_PREVIOUS),
+	PAGINATE_NEXT("sNext", TableConfig.P_I18N_MSG_PAGINATE_NEXT),
+	PAGINATE_LAST("sLast", TableConfig.P_I18N_MSG_PAGINATE_LAST),
 	ARIA("oAria", ""),
-	ARIA_SORT_ASC("sSortAscending", "msg.aria.sortasc"),
-	ARIA_SORT_DESC("sSortDescending", "msg.aria.sortdesc");
+	ARIA_SORT_ASC("sSortAscending", TableConfig.P_I18N_MSG_ARIA_SORTASC),
+	ARIA_SORT_DESC("sSortDescending", TableConfig.P_I18N_MSG_ARIA_SORTDESC);
 	
 	private String realName;
 	

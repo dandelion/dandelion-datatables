@@ -33,6 +33,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.feature.ServerSideFeature;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
@@ -46,28 +47,28 @@ public class AjaxServerSideProcessorTest extends TableProcessorBaseTest {
 
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getAjaxServerSide()).isNull();
+		processor.process(TableConfig.AJAX_SERVERSIDE, null, tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.AJAX_SERVERSIDE.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.processConfiguration("", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getAjaxServerSide()).isNull();
+		processor.process(TableConfig.AJAX_SERVERSIDE, "", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.AJAX_SERVERSIDE.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_true_and_register_a_feature_when_value_is_true() {
-		processor.processConfiguration("true", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getAjaxServerSide()).isTrue();
+		processor.process(TableConfig.AJAX_SERVERSIDE, "true", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.AJAX_SERVERSIDE.valueFrom(tableConfiguration)).isTrue();
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
 		assertThat(new ServerSideFeature()).isIn(tableConfiguration.getInternalExtensions());
 	}
 	
 	@Test
 	public void should_set_null_and_not_register_anything_when_value_is_false() {
-		processor.processConfiguration("false", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getAjaxServerSide()).isFalse();
+		processor.process(TableConfig.AJAX_SERVERSIDE, "false", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.AJAX_SERVERSIDE.valueFrom(tableConfiguration)).isFalse();
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}
 }

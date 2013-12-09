@@ -29,12 +29,8 @@
  */
 package com.github.dandelion.datatables.core.processor.column;
 
-import java.util.Map;
-
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
@@ -42,19 +38,17 @@ import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
 public class FilterTypeProcessor extends AbstractColumnProcessor {
 
 	@Override
-	protected void process(String param, ColumnConfiguration columnConfiguration,
-			TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
-		if (StringUtils.isNotBlank(param)) {
+	public void doProcess(ConfigToken<?> configToken, String value) {
+		if (StringUtils.isNotBlank(value)) {
 
 			FilterType filterType = null;
 			try {
-				filterType = FilterType.valueOf(param.toUpperCase().trim());
+				filterType = FilterType.valueOf(value.toUpperCase());
 			} catch (IllegalArgumentException e) {
-				throw new ConfigurationProcessingException(param + " is not a valid value among " + FilterType.values(), e);
+				throw new ConfigurationProcessingException(value + " is not a valid value among " + FilterType.values(), e);
 			}
 			
-			columnConfiguration.setFilterType(filterType);
+			columnConfiguration.set(configToken, filterType);
 		}
-		
 	}
 }

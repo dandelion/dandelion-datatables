@@ -228,7 +228,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		}
 
 		// Compute configuration to apply on each group
-		Map<Configuration, Object> stagingConf = null;
+		Map<ConfigToken<?>, Object> userConf = null;
 		Map<String, List<String>> wrongKeys = new HashMap<String, List<String>>();
 		
 		for (String groupName : groups) {
@@ -246,13 +246,14 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 			logger.debug("Group '{}' initialized with {} properties", groupName,
 					groupedProperties.size());
 
-			stagingConf = new HashMap<Configuration, Object>();
+			userConf = new HashMap<ConfigToken<?>, Object>();
 
 			for (Entry<Object, Object> entry : groupedProperties.entrySet()) {
-				String key = entry.getKey().toString();
-				Configuration configuration = Configuration.findByName(key);
-				if (configuration != null) {
-					stagingConf.put(configuration, entry.getValue().toString());
+				String key = entry.getKey().toString().trim().toLowerCase();
+				
+				ConfigToken<?> configToken = TableConfig.findByPropertyName(key);
+				if (configToken != null) {
+					userConf.put(configToken, entry.getValue().toString());
 				} 
 				else {
 					if(wrongKeys.containsKey(groupName)){
@@ -266,20 +267,23 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 				}
 			}
 
-			map.put(groupName, new TableConfiguration(stagingConf, request));
+			TableConfiguration tableConfiguration = new TableConfiguration(userConf, request);
+			map.put(groupName, tableConfiguration);
 		}
 
 		if (!wrongKeys.isEmpty()) {
-			StringBuilder msg = new StringBuilder("");
+			StringBuilder msg = new StringBuilder("Some properties of your configuration file are not recognized.\n");
 			for (Entry<String, List<String>> entry : wrongKeys.entrySet()) {
 				msg.append("The group '");
 				msg.append(entry.getKey());
-				msg.append("' contains unknown propert");
-				msg.append(entry.getValue().size() > 1 ? "ies: " : "y: ");
+				msg.append("' contains ");
+				msg.append(entry.getValue().size());
+				msg.append(" unknown propert");
+				msg.append(entry.getValue().size() > 1 ? "ies:\n" : "y:\n");
 				for (int i = 0; i < entry.getValue().size(); i++) {
 					msg.append(entry.getValue().get(i));
 					if (i < entry.getValue().size() - 1) {
-						msg.append(", ");
+						msg.append("\n");
 					}
 				}
 				msg.append("\n");
@@ -304,14 +308,14 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 			if(!userProps.isEmpty()){
 				for(Entry<Object, Object> entry : userProps.entrySet()){
 					String key = entry.getKey().toString();
-					if (key.contains(Configuration.INTERNAL_MESSAGE_RESOLVER.getName())
+					if (key.contains(TableConfig.I18N_MESSAGE_RESOLVER.getPropertyName())
 							&& StringUtils.isBlank(entry.getValue().toString())) {
 						userProps.put(entry.getKey(), "com.github.dandelion.datatables.jsp.i18n.JstlMessageResolver");
 					}
 				}
 			}
 			else{
-				userProps.put("global." + Configuration.INTERNAL_MESSAGE_RESOLVER.getName(),
+				userProps.put("global." + TableConfig.I18N_MESSAGE_RESOLVER.getPropertyName(),
 						"com.github.dandelion.datatables.jsp.i18n.JstlMessageResolver");
 			}
 		}

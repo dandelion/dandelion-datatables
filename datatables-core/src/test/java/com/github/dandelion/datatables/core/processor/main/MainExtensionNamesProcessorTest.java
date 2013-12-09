@@ -27,50 +27,48 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.plugin;
+package com.github.dandelion.datatables.core.processor.main;
 
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.extension.plugin.ScrollerPlugin;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
-public class PluginScrollerProcessorTest extends TableProcessorBaseTest {
+public class MainExtensionNamesProcessorTest extends TableProcessorBaseTest {
 
 	@Override
 	public TableProcessor getProcessor() {
-		return new PluginScrollerProcessor();
+		return new MainExtensionNamesProcessor();
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() {
-		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getPluginScroller()).isNull();
+	public void should_set_null_when_value_is_null() throws Exception {
+		processor.process(TableConfig.MAIN_EXTENSION_NAMES, null, tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.MAIN_EXTENSION_NAMES.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() {
-		processor.processConfiguration("", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getPluginScroller()).isNull();
+	public void should_set_null_when_value_is_empty() throws Exception {
+		processor.process(TableConfig.MAIN_EXTENSION_NAMES, "", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.MAIN_EXTENSION_NAMES.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
-	public void should_enable_plugin_when_value_is_true() {
-		processor.processConfiguration("true", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getPluginScroller()).isTrue();
-		assertThat(tableConfiguration.getInternalExtensions()).contains(new ScrollerPlugin());
+	public void should_set_a_set_containing_only_one_feature() throws Exception{
+		processor.process(TableConfig.MAIN_EXTENSION_NAMES, "feature1", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.MAIN_EXTENSION_NAMES.valueFrom(tableConfiguration)).contains("feature1");
+		processor.process(TableConfig.MAIN_EXTENSION_NAMES, "FEATURE1", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.MAIN_EXTENSION_NAMES.valueFrom(tableConfiguration)).contains("feature1");
 	}
 	
 	@Test
-	public void should_not_enable_plugin_when_value_is_false() {
-		processor.processConfiguration("false", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getPluginScroller()).isFalse();
-		assertThat(tableConfiguration.getInternalExtensions()).isNull();
-		
-		processor.processConfiguration("weird value", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getPluginScroller()).isFalse();
-		assertThat(tableConfiguration.getInternalExtensions()).isNull();
+	public void should_set_a_set_containing_multiple_features() throws Exception{
+		processor.process(TableConfig.MAIN_EXTENSION_NAMES, "feature1,feature2", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.MAIN_EXTENSION_NAMES.valueFrom(tableConfiguration)).contains("feature1", "feature2");
+		processor.process(TableConfig.MAIN_EXTENSION_NAMES, "FEATURE1 , feature2", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.MAIN_EXTENSION_NAMES.valueFrom(tableConfiguration)).contains("feature1", "feature2");
 	}
 }

@@ -90,18 +90,6 @@
            <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
-          <description>(true|false) Enable the DataTables source files
-              to
-              be loaded
-              from the Microsoft CDN (Content Delivery
-              Framework)
-              preventing you from hosting the files
-              yourself. (Default :
-              false)</description>
-          <name>cdn</name>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
          <description>CSS style applied on the HTML table. (HTML
             style
             attribute)</description>

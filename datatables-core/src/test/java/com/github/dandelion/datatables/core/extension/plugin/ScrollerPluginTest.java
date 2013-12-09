@@ -9,6 +9,7 @@ import java.util.HashSet;
 import org.junit.Test;
 
 import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
@@ -26,7 +27,7 @@ public class ScrollerPluginTest extends AbstractExtensionTest {
 
 	@Test
 	public void shoud_load_the_extension_with_already_configured_dom() {
-		table.getTableConfiguration().setFeatureDom("lfr");
+		TableConfig.FEATURE_DOM.setIn(table.getTableConfiguration(), "lfr");
 		mainConfig.put(DTConstants.DT_DOM, "lfr");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new ScrollerPlugin())));
 
@@ -37,7 +38,7 @@ public class ScrollerPluginTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_jqueryui_enabled() {
-		table.getTableConfiguration().setFeatureJqueryUi(true);
+		TableConfig.FEATURE_JQUERYUI.setIn(table.getTableConfiguration(), true);
 		mainConfig.put(DTConstants.DT_DOM, "lfr");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new ScrollerPlugin())));
 

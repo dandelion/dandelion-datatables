@@ -59,9 +59,6 @@ public class WebResourceGenerator {
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(WebResourceGenerator.class);
 
-	// Custom writer used to pretty print JSON
-	private Writer writer = new JsonIndentingWriter();
-
 	private HtmlTable table;
 	
 	/**
@@ -109,6 +106,7 @@ public class WebResourceGenerator {
 		logger.debug("Transforming configuration to JSON...");
 		// Allways pretty prints the JSON
 		try {
+			Writer writer = new JsonIndentingWriter();
 			JSONValue.writeJSONString(mainConf, writer);
 			mainJsFile.appendToDataTablesConf(writer.toString());
 		} catch (IOException e) {

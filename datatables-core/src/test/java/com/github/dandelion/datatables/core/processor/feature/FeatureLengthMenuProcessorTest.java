@@ -33,6 +33,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
@@ -46,30 +47,30 @@ public class FeatureLengthMenuProcessorTest extends TableProcessorBaseTest {
 
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureLengthMenu()).isNull();
+		processor.process(TableConfig.FEATURE_LENGTHMENU, null, tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_LENGTHMENU.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.processConfiguration("", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureLengthMenu()).isNull();
+		processor.process(TableConfig.FEATURE_LENGTHMENU, "", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_LENGTHMENU.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_lenghtmenu_with_2D_array() {
-		processor.processConfiguration("10,15,25;10,15,25", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureLengthMenu()).isEqualTo("[[10,15,25],[10,15,25]]");
+		processor.process(TableConfig.FEATURE_LENGTHMENU, "10,15,25;10,15,25", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_LENGTHMENU.valueFrom(tableConfiguration)).isEqualTo("[[10,15,25],[10,15,25]]");
 	}
 	
 	@Test
 	public void should_set_lenghtmenu_with_1D_array() {
-		processor.processConfiguration("10,20", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureLengthMenu()).isEqualTo("[10,20]");
+		processor.process(TableConfig.FEATURE_LENGTHMENU, "10,20", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.FEATURE_LENGTHMENU.valueFrom(tableConfiguration)).isEqualTo("[10,20]");
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_raise_an_exception() {
-		processor.processConfiguration("10,15,25;10,15", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_LENGTHMENU, "10,15,25;10,15", tableConfiguration, confToBeApplied);
 	}
 }

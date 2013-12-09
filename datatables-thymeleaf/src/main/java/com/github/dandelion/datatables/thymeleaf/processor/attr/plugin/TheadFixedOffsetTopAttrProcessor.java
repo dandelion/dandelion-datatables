@@ -30,16 +30,14 @@
 package com.github.dandelion.datatables.thymeleaf.processor.attr.plugin;
 
 import java.math.BigDecimal;
-import java.util.Map;
 
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
@@ -47,7 +45,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * 
  * @author Thibault Duchateau
  */
-public class TheadFixedOffsetTopAttrProcessor extends AbstractDatatablesAttrProcessor {
+public class TheadFixedOffsetTopAttrProcessor extends AbstractTableAttrProcessor {
 
 	public TheadFixedOffsetTopAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
@@ -59,15 +57,14 @@ public class TheadFixedOffsetTopAttrProcessor extends AbstractDatatablesAttrProc
 	}
 
 	@Override
-	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element, String attributeName) {
 
 		// Get attribute value
 		BigDecimal attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, BigDecimal.class);
 
 		System.out.println("element.getAttributeValue(attributeName) = " + element.getAttributeValue(attributeName));
 		System.out.println("attrValue = " + attrValue);
-		localConf.put(Configuration.PLUGIN_FIXEDOFFSETTOP, attrValue);
+		localConf.put(TableConfig.PLUGIN_FIXEDOFFSETTOP, attrValue);
 
 		return ProcessorResult.ok();
 	}

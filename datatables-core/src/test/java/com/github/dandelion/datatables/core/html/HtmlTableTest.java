@@ -39,6 +39,8 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
+import com.github.dandelion.core.DevMode;
+
 public class HtmlTableTest {
 
 	private HtmlTable table;
@@ -53,29 +55,32 @@ public class HtmlTableTest {
 		mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
 		response = (HttpServletResponse) mockPageContext.getResponse();
-		table = new HtmlTable("tableId", request, response);
+		DevMode.setDevMode(true);
 	}
 
 	@Test
 	public void should_generate_table_with_an_unallowed_character_in_the_id() {
 		table = new HtmlTable("table-id", request, response);
-		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"table-id\"><thead></thead><tbody></tbody></table>");
+		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableid\"><thead></thead><tbody></tbody></table>");
 		assertThat(table.getId()).isEqualTo("tableid");
 	}
 	
 	@Test
 	public void should_generate_table_with_id() {
+		table = new HtmlTable("tableId", request, response);
 		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\"><thead></thead><tbody></tbody></table>");
 	}
 
 	@Test
 	public void should_generate_table_with_one_class() {
+		table = new HtmlTable("tableId", request, response);
 		table.getTableConfiguration().addCssClass("aClass");
 		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" class=\"aClass\"><thead></thead><tbody></tbody></table>");
 	}
 
 	@Test
 	public void should_generate_table_with_several_classes() {
+		table = new HtmlTable("tableId", request, response);
 		table.getTableConfiguration().addCssClass("oneClass");
 		table.getTableConfiguration().addCssClass("twoClass");
 		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" class=\"oneClass twoClass\"><thead></thead><tbody></tbody></table>");
@@ -83,12 +88,14 @@ public class HtmlTableTest {
 
 	@Test
 	public void should_generate_table_with_one_style() {
+		table = new HtmlTable("tableId", request, response);
 		table.getTableConfiguration().addCssStyle("border:1px");
 		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" style=\"border:1px\"><thead></thead><tbody></tbody></table>");
 	}
 
 	@Test
 	public void should_generate_table_with_several_styles() {
+		table = new HtmlTable("tableId", request, response);
 		table.getTableConfiguration().addCssStyle("border:1px");
 		table.getTableConfiguration().addCssStyle("align:center");
 		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" style=\"border:1px;align:center\"><thead></thead><tbody></tbody></table>");
@@ -96,6 +103,7 @@ public class HtmlTableTest {
 
 	@Test
 	public void should_generate_table_with_caption() {
+		table = new HtmlTable("tableId", request, response);
 		HtmlCaption caption = new HtmlCaption();
 		caption.setTitle("title");
 		table.setCaption(caption);
@@ -104,6 +112,7 @@ public class HtmlTableTest {
 
 	@Test
 	public void should_generate_table_with_head_rows() {
+		table = new HtmlTable("tableId", request, response);
 		HtmlRow header1 = table.addHeaderRow();
 		header1.setId("head1");
 		HtmlRow header2 = table.addHeaderRow();
@@ -113,6 +122,7 @@ public class HtmlTableTest {
 
 	@Test
 	public void should_generate_table_with_body_rows() {
+		table = new HtmlTable("tableId", request, response);
 		HtmlRow body1 = table.addRow("body1");
 		HtmlRow body2 = table.addRow();
 		body2.setId("body2");
@@ -121,6 +131,7 @@ public class HtmlTableTest {
 
 	@Test
 	public void should_generate_table_with_body_rows_2() {
+		table = new HtmlTable("tableId", request, response);
 		HtmlRow body3 = new HtmlRow("body3");
 		HtmlRow body4 = new HtmlRow("body4");
 		table.addRows(body3, body4);
@@ -129,6 +140,7 @@ public class HtmlTableTest {
 
 	@Test
 	public void should_generate_table_with_foot_rows() {
+		table = new HtmlTable("tableId", request, response);
 		HtmlRow foot1 = table.addFooterRow();
 		foot1.setId("foot1");
 		HtmlRow foot2 = table.addFooterRow();
@@ -138,6 +150,7 @@ public class HtmlTableTest {
 
 	@Test
 	public void should_generate_table_with_outstanding_rows() {
+		table = new HtmlTable("tableId", request, response);
 		HtmlRow header1 = table.addHeaderRow();
 		header1.setId("head1");
 		HtmlRow header2 = table.addHeaderRow();
@@ -157,6 +170,7 @@ public class HtmlTableTest {
 	
 	@Test
 	public void should_get_last_rows(){
+		table = new HtmlTable("tableId", request, response);
 		HtmlRow header1 = table.addHeaderRow();
 		header1.setId("head1");
 		HtmlRow header2 = table.addHeaderRow();

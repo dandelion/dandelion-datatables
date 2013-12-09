@@ -29,27 +29,24 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr.basic;
 
-import java.util.Map;
-
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesColumnAttrProcessor;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
  * <p>
- * Attribute processor applied to the <tt>th</tt> tag for the <tt>cssCellClass</tt>
- * attribute.
+ * Attribute processor applied to the <tt>th</tt> tag for the
+ * <tt>cssCellClass</tt> attribute.
  * 
  * @author Thibault Duchateau
  * @since 0.9.2
  */
-public class ThCssCellClassAttrProcessor extends AbstractDatatablesColumnAttrProcessor {
+public class ThCssCellClassAttrProcessor extends AbstractColumnAttrProcessor {
 
 	public ThCssCellClassAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
@@ -61,13 +58,13 @@ public class ThCssCellClassAttrProcessor extends AbstractDatatablesColumnAttrPro
 	}
 
 	@Override
-	protected ProcessorResult processColumnAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table, Map<Configuration, Object> stagingConf) {
-		
-		// Get attribute value
-		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
+	protected ProcessorResult processColumnAttribute(Arguments arguments, Element element, String attributeName) {
 
-		stagingConf.put(Configuration.COLUMN_CSSCELLCLASS, attrValue);
+		// Get attribute value
+		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null,
+				String.class);
+
+		stagingConf.put(ColumnConfig.CSSCELLCLASS, attrValue);
 
 		return ProcessorResult.ok();
 	}

@@ -44,9 +44,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.jsp.extension.feature.FilteringFeature;
 
@@ -72,7 +72,8 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	/**
 	 * Map holding the staging configuration to apply to the column.
 	 */
-	protected Map<Configuration, Object> stagingConf;
+	protected Map<ConfigToken<?>, Object> stagingConf;
+	protected Map<ConfigToken<?>, Extension> stagingExtension;
 	
 	// Tag attributes
 	protected String title;
@@ -100,31 +101,18 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		// Get the parent tag to access the HtmlTable
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-		// TODO For sake of consistency, cssClass and cssStyle attributes should
-		// be handled directly via the ColumnConfiguration
+//		// TODO For sake of consistency, cssClass and cssStyle attributes should
+//		// be handled directly via the ColumnConfiguration
 		HtmlColumn headColumn = new HtmlColumn(true, content, dynamicAttributes, display);
-		if (StringUtils.isNotBlank(this.cssClass)) {
-			headColumn.setCssClass(new StringBuilder(this.cssClass));
-		}
-		if (StringUtils.isNotBlank(this.cssStyle)) {
-			headColumn.setCssStyle(new StringBuilder(this.cssStyle));
-		}
-		
-		try {
-			Configuration.applyColumnConfiguration(headColumn.getColumnConfiguration(), parent.getTable().getTableConfiguration(), stagingConf);
-		} catch (ConfigurationProcessingException e) {
-			throw new JspException(e);
-		} catch (ConfigurationLoadingException e) {
-			throw new JspException(e);
-		}
-		
-		// TODO The FilteringFeature cannot be registered in a dedicated
-		// core processor because it's an abstract feature. Implementations only
-		// exist in datatables-jsp and datatables-thymeleaf, not in
-		// datatables-core
-		if(headColumn.getColumnConfiguration().getFilterable()){
-			parent.getTable().getTableConfiguration().registerExtension(new FilteringFeature());
-		}
+//		if (StringUtils.isNotBlank(this.cssClass)) {
+//			headColumn.setCssClass(new StringBuilder(this.cssClass));
+//		}
+//		if (StringUtils.isNotBlank(this.cssStyle)) {
+//			headColumn.setCssStyle(new StringBuilder(this.cssStyle));
+//		}
+				
+		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headColumn.getColumnConfiguration(), parent
+					.getTable().getTableConfiguration());
 		
 		parent.getTable().getLastHeaderRow().addColumn(headColumn);
 	}
@@ -145,12 +133,12 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		
 		HtmlColumn bodyColumn = new HtmlColumn(false, content, dynamicAttributes, display);
 
-		if (StringUtils.isNotBlank(this.cssCellClass)) {
-			bodyColumn.addCssCellClass(this.cssCellClass);
-		}
-		if (StringUtils.isNotBlank(this.cssCellStyle)) {
-			bodyColumn.addCssCellStyle(this.cssCellStyle);
-		}
+//		if (StringUtils.isNotBlank(this.cssCellClass)) {
+//			bodyColumn.addCssCellClass(this.cssCellClass);
+//		}
+//		if (StringUtils.isNotBlank(this.cssCellStyle)) {
+//			bodyColumn.addCssCellStyle(this.cssCellStyle);
+//		}
 		
 		parent.getTable().getLastBodyRow().addColumn(bodyColumn);
 	}
@@ -177,22 +165,9 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		if (StringUtils.isNotBlank(this.cssStyle)) {
 			headColumn.setCssStyle(new StringBuilder(this.cssStyle));
 		}
-		headColumn.getColumnConfiguration().setDefaultValue(StringUtils.isNotBlank(defaultValue) ? defaultValue : "");
+		ColumnConfig.DEFAULTVALUE.setIn(headColumn.getColumnConfiguration(), StringUtils.isNotBlank(defaultValue) ? defaultValue : "");
 		
-		try {
-			Configuration.applyColumnConfiguration(headColumn.getColumnConfiguration(), parent.getTable().getTableConfiguration(), stagingConf);
-		} catch (ConfigurationProcessingException e) {
-			throw new JspException(e);
-		} catch (ConfigurationLoadingException e) {
-			throw new JspException(e);
-		}
-		
-		// TODO The FilteringFeature cannot be registered in a dedicated
-		// processor because it's an abstract feature. Implementations only
-		// exist in datatables-jsp and datatables-thymeleaf
-		if(headColumn.getColumnConfiguration().getFilterable()){
-			parent.getTable().getTableConfiguration().registerExtension(new FilteringFeature());
-		}
+		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headColumn.getColumnConfiguration(), parent.getTable().getTableConfiguration());
 				
 		parent.getTable().getLastHeaderRow().addColumn(headColumn);
 	}
@@ -256,102 +231,105 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	}
 
 	public void setUid(String uid) {
-		stagingConf.put(Configuration.COLUMN_UID, uid);
+		stagingConf.put(ColumnConfig.UID, uid);
 	}
 
 	public void setProperty(String property) {
 		this.property = property;
-		stagingConf.put(Configuration.COLUMN_PROPERTY, property);
+		stagingConf.put(ColumnConfig.PROPERTY, property);
 	}
 
 	public void setCssStyle(String cssStyle) {
-		this.cssStyle = cssStyle;
+		stagingConf.put(ColumnConfig.CSSSTYLE, property);
+//		this.cssStyle = cssStyle;
 	}
 
 	public void setCssClass(String cssClass) {
-		this.cssClass = cssClass;
+		stagingConf.put(ColumnConfig.CSSCLASS, property);
+//		this.cssClass = cssClass;
 	}
 
 	public void setSortable(Boolean sortable) {
-		stagingConf.put(Configuration.COLUMN_SORTABLE, sortable);
+		stagingConf.put(ColumnConfig.SORTABLE, sortable);
 	}
 
 	public void setCssCellStyle(String cssCellStyle) {
-		this.cssCellStyle = cssCellStyle;
+//		this.cssCellStyle = cssCellStyle;
+		stagingConf.put(ColumnConfig.CSSCELLSTYLE, cssCellStyle);
 	}
 
 	public void setCssCellClass(String cssCellClass) {
 		// For DOM sources
-		this.cssCellClass = cssCellClass;
+//		this.cssCellClass = cssCellClass;
 		// For AJAX sources
-		stagingConf.put(Configuration.COLUMN_CSSCELLCLASS, cssCellClass);
+		stagingConf.put(ColumnConfig.CSSCELLCLASS, cssCellClass);
 	}
 
 	public void setFilterable(Boolean filterable) {
-		stagingConf.put(Configuration.COLUMN_FILTERABLE, filterable);
+		stagingConf.put(ColumnConfig.FILTERABLE, filterable);
+		stagingExtension.put(ColumnConfig.FILTERABLE, new FilteringFeature());
 	}
 
 	public void setSearchable(Boolean searchable) {
-		stagingConf.put(Configuration.COLUMN_SEARCHABLE, searchable);
+		stagingConf.put(ColumnConfig.SEARCHABLE, searchable);
 	}
 
 	public void setVisible(Boolean visible) {
-		stagingConf.put(Configuration.COLUMN_VISIBLE, visible);
+		stagingConf.put(ColumnConfig.VISIBLE, visible);
 	}
 	
 	public void setFilterType(String filterType) {
-		stagingConf.put(Configuration.COLUMN_FILTERTYPE, filterType);
+		stagingConf.put(ColumnConfig.FILTERTYPE, filterType);
 	}
 
 	public void setFilterValues(String filterValues) {
-		stagingConf.put(Configuration.COLUMN_FILTERVALUES, filterValues);
+		stagingConf.put(ColumnConfig.FILTERVALUES, filterValues);
 	}
 
 	public void setFilterCssClass(String filterCssClass) {
-		stagingConf.put(Configuration.COLUMN_FILTERCSSCLASS, filterCssClass);
+		stagingConf.put(ColumnConfig.FILTERCSSCLASS, filterCssClass);
 	}
 
 	public void setFilterPlaceholder(String filterPlaceholder) {
-		stagingConf.put(Configuration.COLUMN_FILTERPLACEHOLDER, filterPlaceholder);
+		stagingConf.put(ColumnConfig.FILTERPLACEHOLDER, filterPlaceholder);
 	}
 
 	public void setSortDirection(String sortDirection) {
-		stagingConf.put(Configuration.COLUMN_SORTDIRECTION, sortDirection);
+		stagingConf.put(ColumnConfig.SORTDIRECTION, sortDirection);
 	}
 
 	public void setSortInit(String sortInit) {
-		stagingConf.put(Configuration.COLUMN_SORTINIT, sortInit);
+		stagingConf.put(ColumnConfig.SORTINIT, sortInit);
 	}
 
 	public void setDisplay(String display) {
-//		stagingConf.put(Configuration.COLUMN_DISPLAY, display);
 		this.display = display;
 	}
 
 	public void setDefault(String defaultValue) {
 		this.defaultValue = defaultValue;
-		stagingConf.put(Configuration.COLUMN_DEFAULTVALUE, defaultValue);
+		stagingConf.put(ColumnConfig.DEFAULTVALUE, defaultValue);
 	}
 	
 	public void setRenderFunction(String renderFunction) {
-		stagingConf.put(Configuration.COLUMN_RENDERFUNCTION, renderFunction);
+		stagingConf.put(ColumnConfig.RENDERFUNCTION, renderFunction);
 	}
 
 	public void setFormat(String format) {
 		this.format = format;
-		stagingConf.put(Configuration.COLUMN_FORMAT, format);
+		stagingConf.put(ColumnConfig.FORMAT, format);
 	}
 
 	public void setSelector(String selector) {
-		stagingConf.put(Configuration.COLUMN_SELECTOR, selector);
+		stagingConf.put(ColumnConfig.SELECTOR, selector);
 	}
 
 	public void setSortType(String sortType) {
-		stagingConf.put(Configuration.COLUMN_SORTTYPE, sortType);
+		stagingConf.put(ColumnConfig.SORTTYPE, sortType);
 	}
 
 	public void setId(String id) {
-		stagingConf.put(Configuration.COLUMN_ID, id);
+		stagingConf.put(ColumnConfig.ID, id);
 	}
 	
 	public String getTitle() {
@@ -377,7 +355,9 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		return this.dynamicAttributes;
 	}
 
-	/** {@inheritDoc} */
+	/** 
+	 * {@inheritDoc} 
+	 */
 	public void setDynamicAttribute(String uri, String localName, Object value ) 
 		throws JspException {
 		if (this.dynamicAttributes == null) {

@@ -29,11 +29,8 @@
  */
 package com.github.dandelion.datatables.core.processor.ajax;
 
-import java.util.Map;
-
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.extension.feature.ServerSideFeature;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 
@@ -46,19 +43,16 @@ import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 public class AjaxServerSideProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) {
-
+	public void doProcess(ConfigToken<?> configToken, String value) {
 		Boolean retval = null;
-		if (StringUtils.isNotBlank(param)) {
-			retval = Boolean.parseBoolean(param);
+		if (StringUtils.isNotBlank(value)) {
+			retval = Boolean.parseBoolean(value);
 
 			if (retval != null && retval) {
 				tableConfiguration.registerExtension(new ServerSideFeature());
 			}
 		}
 
-		tableConfiguration.setAjaxServerSide(retval);
+		tableConfiguration.set(configToken, retval);
 	}
-
 }

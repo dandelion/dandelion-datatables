@@ -29,16 +29,13 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr.basic;
 
-import java.util.Map;
-
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesColumnAttrProcessor;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
@@ -52,7 +49,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * @author Thibault Duchateau
  * @since 0.8.12
  */
-public class ThVisibleAttrProcessor extends AbstractDatatablesColumnAttrProcessor {
+public class ThVisibleAttrProcessor extends AbstractColumnAttrProcessor {
 
 	public ThVisibleAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
@@ -64,13 +61,13 @@ public class ThVisibleAttrProcessor extends AbstractDatatablesColumnAttrProcesso
 	}
 
 	@Override
-	protected ProcessorResult processColumnAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table, Map<Configuration, Object> stagingConf) {
+	protected ProcessorResult processColumnAttribute(Arguments arguments, Element element, String attributeName) {
 
 		// Get attribute value
-		Boolean attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), false, Boolean.class);
+		Boolean attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), false,
+				Boolean.class);
 
-		stagingConf.put(Configuration.COLUMN_VISIBLE, attrValue);
+		stagingConf.put(ColumnConfig.VISIBLE, attrValue);
 
 		return ProcessorResult.ok();
 	}

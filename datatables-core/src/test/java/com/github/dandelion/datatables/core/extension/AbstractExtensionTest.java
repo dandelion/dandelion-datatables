@@ -23,6 +23,7 @@ public class AbstractExtensionTest {
 	public void setup() {
 		request = new MockHttpServletRequest();
 		table = new HtmlTable("fakeId", request, response);
+		table.getTableConfiguration().getConfigurations().clear();
 		table.addHeaderRow();
 		table.getLastHeaderRow().addHeaderColumn("column1");
 		table.getLastHeaderRow().addHeaderColumn("column2");

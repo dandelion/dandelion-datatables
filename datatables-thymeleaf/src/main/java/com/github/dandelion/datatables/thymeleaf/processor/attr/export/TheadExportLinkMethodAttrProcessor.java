@@ -29,25 +29,16 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr.export;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.thymeleaf.Arguments;
-import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.Configuration;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
@@ -64,7 +55,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * @author Thibault Duchateau
  * @since 0.8.13
  */
-public class TheadExportLinkMethodAttrProcessor extends AbstractDatatablesAttrProcessor {
+public class TheadExportLinkMethodAttrProcessor extends AbstractTableAttrProcessor {
 
 	public TheadExportLinkMethodAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
@@ -75,19 +66,21 @@ public class TheadExportLinkMethodAttrProcessor extends AbstractDatatablesAttrPr
 		return 8000;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element, String attributeName) {
 
-		// Get the HTTP request
-		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-				
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
-		ExportType exportType = ExportType.valueOf(attributeName.split(":")[1].toUpperCase().trim());
+		String exportFormat = attributeName.split(":")[1].toLowerCase().trim();
 		
-		Map<ExportType, ExportConf> exportConfMap = (Map<ExportType, ExportConf>) request
-				.getAttribute(DataTablesDialect.INTERNAL_EXPORT_CONF_MAP);
+		ExportConf conf = null;
+		
+		if (table.getTableConfiguration().getExportConfiguration().get(exportFormat) != null) {
+			conf = table.getTableConfiguration().getExportConfiguration().get(exportFormat);
+		}
+		else{
+			conf = new ExportConf(exportFormat);
+			table.getTableConfiguration().getExportConfiguration().put(exportFormat, conf);
+		}
 		
 		if(StringUtils.isNotBlank(attrValue)){
 			HttpMethod httpMethod = null;
@@ -96,9 +89,8 @@ public class TheadExportLinkMethodAttrProcessor extends AbstractDatatablesAttrPr
 			} catch (IllegalArgumentException e) {
 				throw new ConfigurationProcessingException("Invalid value", e);
 			}
-			exportConfMap.get(exportType).setMethod(httpMethod);
+			conf.setMethod(httpMethod);
 		}
-		
 			
 		return ProcessorResult.ok();
 	}

@@ -98,10 +98,10 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.containsKey("global")).isTrue();
 		
 		// Default values
-		assertThat(map.get("global").getFeatureInfo()).isNull();
+		assertThat(map.get("global").getConfigurations().get(TableConfig.FEATURE_INFO)).isNull();
 		
 		// Overriden values
-		assertThat(map.get("global").getMainExtensionPackage()).isEqualTo("my.custom.package");
+		assertThat(map.get("global").getConfigurations().get(TableConfig.MAIN_EXTENSION_PACKAGE)).isEqualTo("my.custom.package");
 	}
 	
 	@Test
@@ -121,25 +121,17 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.containsKey("group2")).isTrue();
 		
 		// Global group
-		assertThat(map.get("global").getFeatureInfo()).isNull(); // Default value
-		assertThat(map.get("global").getCssClass()).isNull(); // Default value
-		assertThat(map.get("global").getCssStyle()).isNull(); // Default value
-		assertThat(map.get("global").getMainExtensionPackage()).isEqualTo("my.custom.package"); // Overriden value from global
-		assertThat(map.get("global").getMessage(DTMessages.INFO.getPropertyName())).isNull(); // Default value
+		assertThat(map.get("global").getConfigurations().get(TableConfig.MAIN_EXTENSION_PACKAGE)).isEqualTo("my.custom.packagee"); // Overriden value from global
 		
 		// Group1 group
-		assertThat(map.get("group1").getFeatureInfo()).isNull(); // Default value
-		assertThat(map.get("group1").getCssClass().toString()).isEqualTo("group1-class"); // Overriden value
-		assertThat(map.get("group1").getCssStyle().toString()).isEqualTo("group1-style"); // Overriden value
-		assertThat(map.get("group1").getMainExtensionPackage()).isEqualTo("my.custom.package"); // Overriden value from global
-		assertThat(map.get("group1").getMessage(DTMessages.INFO.getPropertyName())).isNull(); // Default value
+		assertThat(map.get("group1").getConfigurations().get(TableConfig.CSS_CLASS).toString()).isEqualTo("group1-class"); // Overriden value
+		assertThat(map.get("group1").getConfigurations().get(TableConfig.CSS_STYLE).toString()).isEqualTo("group1-style"); // Overriden value
+		assertThat(map.get("group1").getConfigurations().get(TableConfig.MAIN_EXTENSION_PACKAGE)).isEqualTo("my.custom.packagee"); // Overriden value from global
 		
 		// Group2 group
-		assertThat(map.get("group2").getFeatureInfo()).isNull(); // Default value
-		assertThat(map.get("group2").getCssClass().toString()).isEqualTo("group2-class"); // Overriden value
-		assertThat(map.get("group2").getCssStyle().toString()).isEqualTo("group2-style"); // Overriden value
-		assertThat(map.get("group2").getMainExtensionPackage()).isEqualTo("my.custom.package"); // Overriden value from global
-		assertThat(map.get("group2").getMessage(DTMessages.INFO.getPropertyName())).isNull(); // Default value
+		assertThat(map.get("group2").getConfigurations().get(TableConfig.CSS_CLASS).toString()).isEqualTo("group2-class"); // Overriden value
+		assertThat(map.get("group2").getConfigurations().get(TableConfig.CSS_STYLE).toString()).isEqualTo("group2-style"); // Overriden value
+		assertThat(map.get("group2").getConfigurations().get(TableConfig.MAIN_EXTENSION_PACKAGE)).isEqualTo("my.custom.packagee"); // Overriden value from global
 	}
 	
 	@Test
@@ -158,18 +150,10 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.containsKey("group1")).isTrue();
 		
 		// Global group
-		assertThat(map.get("global").getFeatureInfo()).isNull(); // Default value
-		assertThat(map.get("global").getCssClass()).isNull(); // Default value
-		assertThat(map.get("global").getCssStyle()).isNull(); // Default value
-		assertThat(map.get("global").getMainExtensionPackage()).isNull(); // Default value
-		assertThat(map.get("global").getMessage(DTMessages.INFO.getPropertyName())).isNull(); // Default value
+		assertThat(map.get("global").getConfigurations().get(TableConfig.CSS_CLASS)).isNull(); // Default value
 
 		// Group1 group
-		assertThat(map.get("group1").getFeatureInfo()).isNull(); // Default value
-		assertThat(map.get("group1").getCssClass().toString()).isEqualTo("group1-class"); // Overriden value
-		assertThat(map.get("group1").getCssStyle()).isNull(); // Overriden value
-		assertThat(map.get("group1").getMainExtensionPackage()).isNull(); // Default value
-		assertThat(map.get("group1").getMessage(DTMessages.INFO.getPropertyName())).isNull(); // Default value
+		assertThat(map.get("group1").getConfigurations().get(TableConfig.CSS_CLASS).toString()).isEqualTo("group1-class"); // Overriden value
 	}
 	
 	@Test
@@ -187,10 +171,6 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.containsKey("global")).isTrue();
 		
 		// Global group
-		assertThat(map.get("global").getFeatureInfo()).isNull(); // Default value
-		assertThat(map.get("global").getCssClass()).isNull(); // Default value
-		assertThat(map.get("global").getCssStyle()).isNull(); // Default value
-		assertThat(map.get("global").getMainExtensionPackage()).isNull(); // Default value
 		assertThat(map.get("global").getMessage(DTMessages.INFO.getPropertyName())).isEqualTo(
 				"Showing _START_ to _END_ of _TOTAL_ entries"); // Overriden value
 	}

@@ -29,31 +29,54 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor;
 
-import org.thymeleaf.Arguments;
-import org.thymeleaf.dom.Element;
-import org.thymeleaf.processor.IElementNameProcessorMatcher;
-import org.thymeleaf.processor.ProcessorResult;
-import org.thymeleaf.processor.element.AbstractElementProcessor;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.thymeleaf.Arguments;
+import org.thymeleaf.context.IWebContext;
+import org.thymeleaf.dom.Element;
+import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
+import org.thymeleaf.processor.ProcessorResult;
+import org.thymeleaf.processor.attr.AbstractAttrProcessor;
+
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.util.Utils;
+import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 
 /**
- * Base for all Datatables Thymeleaf AttrProcessor.
+ * Base for all Datatables Thymeleaf column attribute processors.
+ * 
+ * @author Thibault Duchateau
+ * @since 0.9.0 
  */
-public abstract class AbstractDatatablesElProcessor extends AbstractElementProcessor {
+public abstract class AbstractColumnAttrProcessor extends AbstractAttrProcessor {
 
+	protected Map<ConfigToken<?>, Object> stagingConf;
+	protected Map<ConfigToken<?>, Extension> stagingExt;
+	protected HtmlTable table;
 
-    public AbstractDatatablesElProcessor(IElementNameProcessorMatcher matcher) {
+	public AbstractColumnAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
-
+	
     @Override
-	protected ProcessorResult processElement(Arguments arguments, Element element) {
-    	// Get HtmlTable POJO from the HttpServletRequest
-    	HtmlTable table = Utils.getTable(arguments);
-    	ProcessorResult processorResult = doProcessElement(arguments, element, table);
-    	return processorResult;
+    @SuppressWarnings("unchecked")
+    protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
+    	
+    	HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
+		
+		stagingConf = (Map<ConfigToken<?>, Object>) arguments
+				.getLocalVariable(DataTablesDialect.INTERNAL_COLUMN_LOCAL_CONF);
+
+		stagingExt = (Map<ConfigToken<?>, Extension>) arguments.getLocalVariable(DataTablesDialect.INTERNAL_COLUMN_LOCAL_EXT);
+		
+		table = (HtmlTable) request.getAttribute(DataTablesDialect.INTERNAL_TABLE_BEAN);
+		
+        ProcessorResult processorResult = processColumnAttribute(arguments, element, attributeName);
+        element.removeAttribute(attributeName);
+        return processorResult;
     }
 
     @Override
@@ -67,5 +90,5 @@ public abstract class AbstractDatatablesElProcessor extends AbstractElementProce
      * @param attributeName attribute name
      * @return result of process
      */
-    protected abstract ProcessorResult doProcessElement(Arguments arguments, Element element, HtmlTable table);
+    protected abstract ProcessorResult processColumnAttribute(Arguments arguments, Element element, String attributeName);
 }

@@ -27,32 +27,49 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.generic;
+package com.github.dandelion.datatables.core.processor;
 
-import java.lang.reflect.Method;
+import java.util.Map;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.processor.AbstractGenericProcessor;
+import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.extension.Extension;
 
 /**
- * Processor used for all Boolean parameters.
+ * Processor used for all Integer parameters.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class BooleanProcessor extends AbstractGenericProcessor {
-
-	public BooleanProcessor(Method setter) {
-		this.setter = setter;
-	}
+public class IntegerProcessor implements TableProcessor, ColumnProcessor {
 
 	@Override
-	protected Boolean process(String param) {
-		Boolean retval = null;
-		if (StringUtils.isNotBlank(param)) {
-			retval = Boolean.parseBoolean(param);
+	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration,
+			Map<ConfigToken<?>, Object> stagingConf) {
+		Integer result = null;
+		try {
+			result = StringUtils.isNotBlank(value) ? Integer.parseInt(value) : null;
+		} catch (NumberFormatException e) {
+			throw new ConfigurationProcessingException(e);
 		}
-
-		return retval;
+		
+		tableConfiguration.set(configToken, result);
+	}
+	
+	@Override
+	public void process(ConfigToken<?> configToken, String value, ColumnConfiguration columnConfiguration,
+			TableConfiguration tableConfiguration, Map<ConfigToken<?>, Object> stagingConf, Map<ConfigToken<?>, Extension> stagingExtension) {
+		Integer result = null;
+		try {
+			result = StringUtils.isNotBlank(value) ? Integer.parseInt(value) : null;
+		} catch (NumberFormatException e) {
+			throw new ConfigurationProcessingException(e);
+		}
+		
+		
+		columnConfiguration.set(configToken, result);
 	}
 }

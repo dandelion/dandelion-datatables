@@ -41,7 +41,12 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
+import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -63,8 +68,9 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
         // Filtering configuration object
         Map<String, Object> filteringConf = new HashMap<String, Object>();
 
-        if(table.getTableConfiguration().getFeatureFilterPlaceholder() != null){
-        	filteringConf.put(DTConstants.DT_S_PLACEHOLDER, table.getTableConfiguration().getFeatureFilterPlaceholder().getName());
+        FilterPlaceholder filterPlaceholder = TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(table);
+        if(filterPlaceholder != null){
+        	filteringConf.put(DTConstants.DT_S_PLACEHOLDER, filterPlaceholder.getName());
         }
         
         // Columns configuration
@@ -77,11 +83,13 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
 					|| enabledDisplayTypes.contains(DisplayType.HTML)) {
         		tmp = new HashMap<String, Object>();
         		
-				if (column.getColumnConfiguration().getFilterable() != null
-						&& column.getColumnConfiguration().getFilterable()
-						&& column.getColumnConfiguration().getFilterType() != null) {
+        		ColumnConfiguration columnConfiguration = column.getColumnConfiguration();
         		
-        			switch(column.getColumnConfiguration().getFilterType()){
+        		Boolean filterable = ColumnConfig.FILTERABLE.valueFrom(columnConfiguration);
+        		FilterType filterType = ColumnConfig.FILTERTYPE.valueFrom(columnConfiguration);
+				if (filterable != null && filterable && filterType != null) {
+        		
+        			switch(filterType){
 					case INPUT:
 						tmp.put(DTConstants.DT_FILTER_TYPE, "text");
 						break;
@@ -103,12 +111,14 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
         			tmp.put(DTConstants.DT_FILTER_TYPE, "null");
         		}
         		
-        		if(StringUtils.isNotBlank(column.getColumnConfiguration().getSelector())){
-        			tmp.put(DTConstants.DT_S_SELECTOR, column.getColumnConfiguration().getSelector());
+				String selector = ColumnConfig.SELECTOR.valueFrom(columnConfiguration);
+        		if(StringUtils.isNotBlank(selector)){
+        			tmp.put(DTConstants.DT_S_SELECTOR, selector);
         		}
 
-        		if(StringUtils.isNotBlank(column.getColumnConfiguration().getFilterValues())){
-					tmp.put(DTConstants.DT_FILTER_VALUES, new JavascriptSnippet(column.getColumnConfiguration().getFilterValues()));
+        		String filterValues = ColumnConfig.FILTERVALUES.valueFrom(columnConfiguration);
+        		if(StringUtils.isNotBlank(filterValues)){
+					tmp.put(DTConstants.DT_FILTER_VALUES, new JavascriptSnippet(filterValues));
 				}
         		
         		aoColumnsContent.add(tmp);

@@ -29,8 +29,6 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr.feature;
 
-import java.util.Map;
-
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
@@ -39,9 +37,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
@@ -51,7 +47,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * @author Thibault Duchateau
  * @since 0.8.9
  */
-public class TbodyCallbackHeaderProcessor extends AbstractDatatablesAttrProcessor {
+public class TbodyCallbackHeaderProcessor extends AbstractTableAttrProcessor {
 
 	public TbodyCallbackHeaderProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
@@ -63,8 +59,7 @@ public class TbodyCallbackHeaderProcessor extends AbstractDatatablesAttrProcesso
 	}
 
 	@Override
-	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element, String attributeName) {
 
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 

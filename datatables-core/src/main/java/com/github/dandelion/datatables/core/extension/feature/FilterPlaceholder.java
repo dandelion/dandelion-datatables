@@ -30,8 +30,9 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 /**
- * TODO
- *
+ * Placeholder use for all elements added when individual column filtering is
+ * enabled.
+ * 
  * @author Thibault Duchateau
  */
 public enum FilterPlaceholder {

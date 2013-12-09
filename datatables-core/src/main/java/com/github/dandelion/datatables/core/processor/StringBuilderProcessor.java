@@ -27,52 +27,33 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.thymeleaf.processor.attr.basic;
+package com.github.dandelion.datatables.core.processor;
 
 import java.util.Map;
 
-import org.thymeleaf.Arguments;
-import org.thymeleaf.dom.Element;
-import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
-import org.thymeleaf.processor.ProcessorResult;
-
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.util.Utils;
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.extension.Extension;
 
 /**
- * <p>
- * Attribute processor applied to the <tt>table</tt> tag for the
- * <tt>cdn</tt> attribute.
- * 
- * <p>
- * When the <tt>cdn</tt> is set to <code>true</code>, <tt>link</tt> and
- * <tt>script</tt> HTML tag are generated and point to the Microsoft's CDN
- * to include DataTables resources in the page.
+ * Processor used for all String parameters.
  * 
  * @author Thibault Duchateau
+ * @since 0.9.0
  */
-public class TableCdnAttrProcessor extends AbstractDatatablesAttrProcessor {
+public class StringBuilderProcessor implements TableProcessor, ColumnProcessor {
 
-	public TableCdnAttrProcessor(IAttributeNameProcessorMatcher matcher) {
-		super(matcher);
+	@Override
+	public void process(ConfigToken<?> configToken, String value, ColumnConfiguration columnConfiguration,
+			TableConfiguration tableConfiguration, Map<ConfigToken<?>, Object> stagingConf, Map<ConfigToken<?>, Extension> stagingExtension) {
+		columnConfiguration.set(configToken, StringUtils.isNotBlank(value) ? new StringBuilder(value) : null);
 	}
 
 	@Override
-	public int getPrecedence() {
-		return 11000;
-	}
-
-	@Override
-	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
-
-		// Get attribute value
-		Boolean attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), false, Boolean.class);
-
-		localConf.put(Configuration.MAIN_CDN, attrValue);
-		
-		return ProcessorResult.ok();
+	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration,
+			Map<ConfigToken<?>, Object> stagingConf) {
+		tableConfiguration.set(configToken, StringUtils.isNotBlank(value) ? new StringBuilder(value) : null);		
 	}
 }

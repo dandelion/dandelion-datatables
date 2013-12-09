@@ -87,7 +87,6 @@ public class ConfigurationStore {
 		}
 		
 		if(!configurationStore.containsKey(locale)){
-			// resolution complete des configuration pour la locale (=> regarder tous les groupes)
 			resolveGroupsForLocale(locale, request);
 		}
 			

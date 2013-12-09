@@ -29,9 +29,9 @@
  */
 package com.github.dandelion.datatables.core.extension.plugin;
 
-
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -41,6 +41,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * @see <a href="http://datatables.net/extras/colreorder/">Reference</a>
  * @author Thibault Duchateau
+ * @see TableConfig#PLUGIN_COLREORDER
  */
 public class ColReorderPlugin extends AbstractExtension {
 

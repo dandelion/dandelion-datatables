@@ -42,7 +42,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.github.dandelion.datatables.core.constants.ExportConstants;
-import com.github.dandelion.datatables.core.export.ExportProperties;
+import com.github.dandelion.datatables.core.export.ExportConf;
 
 /**
  * Filter used to render DataTables exported files.
@@ -83,14 +83,12 @@ public class DatatablesFilter implements Filter {
 
 				chain.doFilter(request, resWrapper);
 
-				ExportProperties exportProperties = (ExportProperties) request
-						.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_PROPERTIES);
+				ExportConf exportConf = (ExportConf) request
+						.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONF);
 
-				String finalFileName = exportProperties.getExportConf().getFileName() + "."
-						+ exportProperties.getExportConf().getType().getExtension();
+				String finalFileName = exportConf.getFileName() + "." + exportConf.getExtension();
 				response.setHeader("Content-Disposition", "attachment; filename=\"" + finalFileName + "\"");
-
-				response.setContentType(exportProperties.getCurrentExportType().getMimeType());
+				response.setContentType(exportConf.getMimeType());
 
 				byte[] content = (byte[]) servletRequest.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT);
 

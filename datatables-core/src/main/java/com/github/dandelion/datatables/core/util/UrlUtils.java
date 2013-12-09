@@ -40,7 +40,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -161,11 +160,11 @@ public class UrlUtils {
 		return url.startsWith("~/");
 	}
 
-	public static String getExportUrl(HttpServletRequest request, HttpServletResponse response, ExportType exportType,
+	public static String getExportUrl(HttpServletRequest request, HttpServletResponse response, String exportFormat,
 			String tableId) {
 
 		StringBuilder exportUrl = getCurrentUri(request);
-		addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE, exportType.getUrlParameter());
+		addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE, exportFormat);
 		addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID, tableId);
 		addParameter(exportUrl, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
 		return response != null ? response.encodeURL(exportUrl.toString()) : exportUrl.toString();

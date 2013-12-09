@@ -36,7 +36,9 @@ import javax.servlet.jsp.JspException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
@@ -56,7 +58,8 @@ public class ColumnTag extends AbstractColumnTag {
 	private static Logger logger = LoggerFactory.getLogger(ColumnTag.class);
 		
 	public ColumnTag(){
-		stagingConf = new HashMap<Configuration, Object>();
+		stagingConf = new HashMap<ConfigToken<?>, Object>();
+		stagingExtension = new HashMap<ConfigToken<?>, Extension>();
 	}
 	
 	/**
@@ -96,7 +99,7 @@ public class ColumnTag extends AbstractColumnTag {
 					columnTitle = MessageResolver.UNDEFINED_KEY + titleKey + MessageResolver.UNDEFINED_KEY;
 					logger.warn(
 							"You cannot use the 'titleKey' attribute if no message resolver is configured. Please take a look at the {} property in the configuration reference.",
-							Configuration.INTERNAL_MESSAGE_RESOLVER.getName());
+							TableConfig.I18N_MESSAGE_RESOLVER.getPropertyName());
 				}
 			}
 			

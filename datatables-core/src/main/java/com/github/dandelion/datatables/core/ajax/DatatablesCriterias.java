@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.core.ajax;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,8 +49,10 @@ import com.github.dandelion.datatables.core.constants.DTConstants;
  * @author Thibault Duchateau
  * @since 0.8.2
  */
-public class DatatablesCriterias {
+public class DatatablesCriterias implements Serializable {
 
+	private static final long serialVersionUID = 8661357461501153387L;
+	
 	private String search;
 	private Integer displayStart;
 	private Integer displaySize;

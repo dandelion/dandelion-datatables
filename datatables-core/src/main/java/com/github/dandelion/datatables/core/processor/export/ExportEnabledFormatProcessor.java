@@ -31,19 +31,16 @@ package com.github.dandelion.datatables.core.processor.export;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
-import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.extension.feature.ExportFeature;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.UrlUtils;
@@ -54,54 +51,60 @@ import com.github.dandelion.datatables.core.util.UrlUtils;
  * that doesn't exist.
  * 
  * @author Thibault Duchateau
+ * @since 0.10.0
+ * @see ExportEnabledFormatProcessor
  */
-public class ExportConfsProcessor extends AbstractTableProcessor {
+public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
 
 	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ExportConfsProcessor.class);
+	private static Logger logger = LoggerFactory.getLogger(ExportEnabledFormatProcessor.class);
+
+	public static final String DEFAULT_CSV_CLASS = "com.github.dandelion.datatables.core.export.CsvExport";
+	public static final String DEFAULT_XML_CLASS = "com.github.dandelion.datatables.core.export.XmlExport";
+	public static final String DEFAULT_PDF_CLASS = "com.github.dandelion.datatables.extras.export.itext.PdfExport";
+	public static final String DEFAULT_XLS_CLASS = "com.github.dandelion.datatables.extras.export.poi.XlsExport";
+	public static final String DEFAULT_XLSX_CLASS = "com.github.dandelion.datatables.extras.export.poi.XlsxExport";
 
 	@Override
-	public void process(String param, TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
-
+	public void doProcess(ConfigToken<?> configToken, String value) {
 		Set<ExportConf> retval = null;
 
-		if (StringUtils.isNotBlank(param)) {
+		if (StringUtils.isNotBlank(value)) {
 
 			retval = new HashSet<ExportConf>();
-
-			ExportType type = null;
 
 			// Init the exportable flag in order to add export links
 			tableConfiguration.setIsExportable(true);
 
 			// Allowed export types
-			String[] types = param.trim().toUpperCase().split(",");
-			for (String exportTypeString : types) {
+			String[] enabledFormats = value.toUpperCase().split(",");
+			for (String enabledFormat : enabledFormats) {
+				enabledFormat = enabledFormat.toLowerCase().trim();
 
-				try {
-					type = ExportType.valueOf(exportTypeString);
-				} catch (IllegalArgumentException e) {
-					logger.error("{} is not a valid value among {}", exportTypeString, ExportType.values());
-					throw new ConfigurationProcessingException("Invalid value", e);
-				}
-
+				ExportConf exportConf = null;
+				
 				// The exportConf may already exist due to the ExportTag
-				if (tableConfiguration.getExportConf(type) == null) {
-
+				if(!tableConfiguration.getExportConfiguration().containsKey(enabledFormat)){
 					String url = UrlUtils.getExportUrl(tableConfiguration.getRequest(),
-							tableConfiguration.getResponse(), type, tableConfiguration.getTableId());
-					ExportConf exportConf = new ExportConf(type, url);
+							tableConfiguration.getResponse(), enabledFormat, tableConfiguration.getTableId());
+					exportConf = new ExportConf(enabledFormat, url);
 					retval.add(exportConf);
+					tableConfiguration.getExportConfiguration().put(enabledFormat, exportConf);
+				}
+				else{
+					exportConf = tableConfiguration.getExportConfiguration().get(enabledFormat);
+					exportConf.setUrl(UrlUtils.getExportUrl(tableConfiguration.getRequest(),
+							tableConfiguration.getResponse(), enabledFormat, tableConfiguration.getTableId()));
 				}
 			}
 
-			if (tableConfiguration.getExportLinkPositions() == null) {
-				tableConfiguration.setExportLinkPositions(new HashSet<ExportLinkPosition>(Arrays
+			// Apply default export links if nothing is configured
+			if(!stagingConf.containsKey(TableConfig.EXPORT_LINK_POSITIONS)){
+				tableConfiguration.set(TableConfig.EXPORT_LINK_POSITIONS, new HashSet<ExportLinkPosition>(Arrays
 						.asList(ExportLinkPosition.TOP_RIGHT)));
 			}
 		}
 
-		tableConfiguration.setExportConfs(retval);
 		tableConfiguration.registerExtension(new ExportFeature());
 	}
 }

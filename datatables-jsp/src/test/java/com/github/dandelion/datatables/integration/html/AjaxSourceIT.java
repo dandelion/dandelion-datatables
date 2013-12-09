@@ -15,7 +15,7 @@ public class AjaxSourceIT extends JspBaseIT {
 
 	@Test
 	public void should_generate_table_markup() {
-		goToPage("html/ajax/table");
+		goToPage("html/ajax/table", true);
 
 		assertThat(getTable()).hasSize(1);
 		assertThat(getTable().find("thead")).hasSize(1);

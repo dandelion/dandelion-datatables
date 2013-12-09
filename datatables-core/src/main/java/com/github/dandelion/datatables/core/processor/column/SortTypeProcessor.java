@@ -29,12 +29,8 @@
  */
 package com.github.dandelion.datatables.core.processor.column;
 
-import java.util.Map;
-
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.extension.feature.SortingFeature;
@@ -43,21 +39,18 @@ import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
 public class SortTypeProcessor extends AbstractColumnProcessor {
 
 	@Override
-	protected void process(String param, ColumnConfiguration columnConfiguration,
-			TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
-		
-		if (StringUtils.isNotBlank(param)) {
+	public void doProcess(ConfigToken<?> configToken, String value) {
+		if (StringUtils.isNotBlank(value)) {
 
 			SortType sortType = null;
 			try {
-				sortType = SortType.valueOf(param.toUpperCase().trim());
+				sortType = SortType.valueOf(value.toUpperCase().trim());
 			} catch (IllegalArgumentException e) {
-				throw new ConfigurationProcessingException(param + " is not a valid value among " + SortType.values(), e);
+				throw new ConfigurationProcessingException(value + " is not a valid value among " + SortType.values(), e);
 			}
 			
-			columnConfiguration.setSortType(sortType);
+			columnConfiguration.set(configToken, sortType);
 			tableConfiguration.registerExtension(new SortingFeature());
 		}
-		
 	}
 }

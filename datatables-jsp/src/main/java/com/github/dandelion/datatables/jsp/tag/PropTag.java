@@ -35,7 +35,8 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 
 /**
  * Tag used to locally override the Dandelion global configuration.
@@ -78,14 +79,14 @@ public class PropTag extends TagSupport {
 		// Evaluate the tag only once using the isFirstIteration method
 		if(parent.isFirstIteration()){
 			
-			Configuration configuration = Configuration.findByName(name);
+			ConfigToken<?> configToken = TableConfig.findByPropertyName(name);
 			
-			if(configuration == null){
+			if(configToken == null){
 				logger.warn("{} is not a valid property.", name);
 				throw new JspException(name + " is not a valid property");
 			}
 			else{
-				parent.stagingConf.put(configuration, value);
+				parent.stagingConf.put(configToken, value);
 			}
 		}
 		

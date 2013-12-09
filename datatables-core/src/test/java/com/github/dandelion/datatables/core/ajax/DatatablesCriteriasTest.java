@@ -77,7 +77,7 @@ public class DatatablesCriteriasTest {
 	}
 
 	@Test
-	public void should_return_criterias_when_no_sorting_no_filtering() {
+	public void should_return_criterias_when_sorting_disabled_and_filtering_disabled() {
 
 		request.addParameter(DTConstants.DT_S_ECHO, "1");
 		request.addParameter(DTConstants.DT_I_COLUMNS, "2");
@@ -111,7 +111,7 @@ public class DatatablesCriteriasTest {
 	}
 
 	@Test
-	public void should_return_criterias_when_sorting_no_filtering() {
+	public void should_return_criterias_when_sorting_enabled_and_filtering_disabled() {
 
 		request.addParameter(DTConstants.DT_S_ECHO, "1");
 		request.addParameter(DTConstants.DT_I_COLUMNS, "2");

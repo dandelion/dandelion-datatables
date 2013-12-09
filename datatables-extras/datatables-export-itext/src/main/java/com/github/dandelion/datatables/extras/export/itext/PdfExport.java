@@ -36,10 +36,10 @@ import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.export.DatatablesExport;
 import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.processor.export.ExportFormatProcessor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -62,9 +62,8 @@ public class PdfExport implements DatatablesExport {
 	@Override
 	public void initExport(HtmlTable table) {
 		this.htmlTable = table;
-		if (table.getTableConfiguration().getExportConfs() != null && table.getTableConfiguration().getExportConf(ExportType.PDF) != null) {
-			this.exportConf = table.getTableConfiguration().getExportConf(ExportType.PDF);
-		}
+		this.exportConf = table.getTableConfiguration().getExportConfiguration()
+				.get(ExportFormatProcessor.RESERVED_PDF_FORMAT);
 	}
 
 	@Override

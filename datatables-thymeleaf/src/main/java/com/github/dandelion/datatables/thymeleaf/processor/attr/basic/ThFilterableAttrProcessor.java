@@ -29,17 +29,14 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr.basic;
 
-import java.util.Map;
-
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.thymeleaf.extension.feature.FilteringFeature;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesColumnAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
@@ -48,7 +45,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * 
  * @author Thibault Duchateau
  */
-public class ThFilterableAttrProcessor extends AbstractDatatablesColumnAttrProcessor {
+public class ThFilterableAttrProcessor extends AbstractColumnAttrProcessor {
 
 	public ThFilterableAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
@@ -61,23 +58,13 @@ public class ThFilterableAttrProcessor extends AbstractDatatablesColumnAttrProce
 
 	@Override
 	protected ProcessorResult processColumnAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table, Map<Configuration, Object> stagingConf) {
+			String attributeName) {
 
 		// Get attribute value
 		Boolean attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), false, Boolean.class);
 
-		// Override default value with the attribute's one
-		if (table != null) {
-			stagingConf.put(Configuration.COLUMN_FILTERABLE, attrValue);
-
-			// TODO The FilteringFeature cannot be registered in a dedicated
-			// core processor because it's an abstract feature. Implementations
-			// only exist in datatables-jsp and datatables-thymeleaf, not in
-			// datatables-core
-			if(attrValue){
-				table.getTableConfiguration().registerExtension(new FilteringFeature(arguments));
-			}
-		}
+		stagingConf.put(ColumnConfig.FILTERABLE, attrValue);
+		stagingExt.put(ColumnConfig.FILTERABLE, new FilteringFeature(arguments));
 
 		return ProcessorResult.ok();
 	}

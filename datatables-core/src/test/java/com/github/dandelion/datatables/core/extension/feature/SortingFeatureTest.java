@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
@@ -17,7 +18,7 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 
 	@Test
 	public void shoud_load_the_extension_with_alt_string() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().setSortType(SortType.ALT_STRING);
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.ALT_STRING);
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
@@ -28,7 +29,7 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_anti_the() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().setSortType(SortType.ANTI_THE);
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.ANTI_THE);
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
@@ -39,7 +40,7 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_currency() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().setSortType(SortType.CURRENCY);
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.CURRENCY);
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
@@ -50,7 +51,7 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_date() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().setSortType(SortType.DATE);
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.DATE);
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
@@ -61,7 +62,7 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_filesize() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().setSortType(SortType.FILESIZE);
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.FILESIZE);
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
@@ -72,7 +73,7 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_formatted_numbers() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().setSortType(SortType.FORMATTED_NUMBERS);
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.FORMATTED_NUMBERS);
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
@@ -83,7 +84,7 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_natural() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().setSortType(SortType.NATURAL);
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.NATURAL);
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 

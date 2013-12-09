@@ -41,7 +41,6 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
-import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.util.UrlUtils;
 
 /**
@@ -96,31 +95,23 @@ public class ExportTag extends TagSupport {
 		// Evaluate the tag only once using the parent's isFirstRow method
 		if (parent.isFirstIteration()) {
 
-			ExportType exportType = null;
-			try {
-				exportType = ExportType.valueOf(type.toUpperCase().trim());
-			} catch (IllegalArgumentException e) {
-				logger.error("The export cannot be activated for the table {}. ", parent.getTable()
-						.getId());
-				logger.error("{} is not a valid value among {}", type, ExportType.values());
-				throw new JspException(e);
-			}
-
+			String format = type.toLowerCase().trim();
+			
 			// Export URL build
 			ExportConf conf = null;
 			
-			if (parent.getTable().getTableConfiguration().getExportConf(exportType) != null) {
-				conf = parent.getTable().getTableConfiguration().getExportConf(exportType);
+			if (parent.getTable().getTableConfiguration().getExportConfiguration().get(format) != null) {
+				conf = parent.getTable().getTableConfiguration().getExportConfiguration().get(format);
 			}
 			else{
-				conf = new ExportConf(exportType);
-				parent.getTable().getTableConfiguration().getExportConfs().add(conf);
+				conf = new ExportConf(format);
+				parent.getTable().getTableConfiguration().getExportConfiguration().put(format, conf);
 			}
 			
 			// Default mode
 			String exportUrl = null;
 			if(StringUtils.isBlank(url)){
-				exportUrl = UrlUtils.getExportUrl(request, response, exportType, parent.getTable().getId());
+				exportUrl = UrlUtils.getExportUrl(request, response, format, parent.getTable().getId());
 				conf.setCustom(false);
 			}
 			// Custom mode
@@ -163,7 +154,7 @@ public class ExportTag extends TagSupport {
 				conf.setAutoSize(autoSize);				
 			}
 			
-			logger.debug("Export configuration for the type {} has been updated", exportType);
+			logger.debug("Export configuration for the type {} has been updated", format);
 		}
 
 		return EVAL_PAGE;

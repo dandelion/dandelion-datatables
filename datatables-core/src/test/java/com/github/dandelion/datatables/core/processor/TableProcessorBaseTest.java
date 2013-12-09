@@ -39,7 +39,7 @@ import org.junit.Before;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.ConfigurationStore;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 
@@ -48,7 +48,7 @@ public abstract class TableProcessorBaseTest {
 	protected TableProcessor processor;
 	protected TableConfiguration tableConfiguration;
 	protected HttpServletRequest request;
-	protected Map<Configuration, Object> confToBeApplied;
+	protected Map<ConfigToken<?>, Object> confToBeApplied;
 	
 	@Before
 	public void setup() {
@@ -56,8 +56,9 @@ public abstract class TableProcessorBaseTest {
 		MockServletContext mockServletContext = new MockServletContext();
 		MockPageContext mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
-		tableConfiguration = TableConfiguration.getInstance(request);
-		confToBeApplied = new HashMap<Configuration, Object>();
+		confToBeApplied = new HashMap<ConfigToken<?>, Object>();
+		tableConfiguration = new TableConfiguration(confToBeApplied, request);
+		tableConfiguration.setTableId("fakeId");
 	}
 	
 	@After

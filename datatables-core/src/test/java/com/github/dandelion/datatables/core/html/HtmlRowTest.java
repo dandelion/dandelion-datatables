@@ -34,7 +34,7 @@ import org.junit.Before;
 import org.junit.Test;
 import com.github.dandelion.datatables.core.asset.DisplayType;
 
-public class HtmlRowTest extends HtmlTagTest {
+public class HtmlRowTest {
 
 	private HtmlRow row;
 	private HtmlColumn headerColumn;
@@ -42,9 +42,8 @@ public class HtmlRowTest extends HtmlTagTest {
 	private HtmlColumn column2;
 
 	@Before
-	@Override
 	public void createHtmlTag() {
-		tag = row = new HtmlRow();
+		 row = new HtmlRow();
 	}
 
 	@Test

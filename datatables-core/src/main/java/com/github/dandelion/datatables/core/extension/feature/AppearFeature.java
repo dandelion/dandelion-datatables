@@ -30,19 +30,18 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.processor.feature.FeatureAppearProcessor;
 
 /**
  * <p>
  * Extension used to add an effect when the table has finished being drawed.
  * 
- * @see FeatureAppearProcessor
- * @see Configuration#FEATURE_APPEAR
  * @author Thibault Duchateau
  * @since 0.10.0
+ * @see TableConfig#FEATURE_APPEAR
+ * @see TableConfig#FEATURE_APPEAR_DURATION
  */
 public class AppearFeature extends AbstractExtension {
 
@@ -54,20 +53,21 @@ public class AppearFeature extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 
-		if("fadein".equals(table.getTableConfiguration().getFeatureAppear())){
+		String appear = TableConfig.FEATURE_APPEAR.valueFrom(table);
+		String appearDuration = TableConfig.FEATURE_APPEAR_DURATION.valueFrom(table);
+
+		if ("fadein".equals(appear)) {
 			table.addCssStyle("display:none;");
 		}
-		
-		if("block".equals(table.getTableConfiguration().getFeatureAppear())){
-			appendToBeforeEndDocumentReady("$('#" + table.getId() + "').show();");			
-		}
-		else{
-			if(StringUtils.isNotBlank(table.getTableConfiguration().getFeatureAppearDuration())){
-				appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn(" + table.getTableConfiguration().getFeatureAppearDuration() + ");");
-			}
-			else{
+
+		if ("block".equals(appear)) {
+			appendToBeforeEndDocumentReady("$('#" + table.getId() + "').show();");
+		} else {
+			if (StringUtils.isNotBlank(appearDuration)) {
+				appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn(" + appearDuration + ");");
+			} else {
 				appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn();");
 			}
-		}		
+		}
 	}
 }

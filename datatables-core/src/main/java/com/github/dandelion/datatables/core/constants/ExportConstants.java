@@ -39,7 +39,7 @@ public class ExportConstants {
 	/** Request attributes */
 
 	// Export properties
-	public static final String DDL_DT_REQUESTATTR_EXPORT_PROPERTIES = "ddl-dt-export-properties";
+	public static final String DDL_DT_REQUESTATTR_EXPORT_CONF = "ddl-dt-export-conf";
 
 	// Export content
 	public static final String DDL_DT_REQUESTATTR_EXPORT_CONTENT = "ddl-dt-export-content";

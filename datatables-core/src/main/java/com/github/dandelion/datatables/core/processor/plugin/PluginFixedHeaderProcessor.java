@@ -29,28 +29,24 @@
  */
 package com.github.dandelion.datatables.core.processor.plugin;
 
-import java.util.Map;
-
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.extension.plugin.FixedHeaderPlugin;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 
 public class PluginFixedHeaderProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) {
+	public void doProcess(ConfigToken<?> configToken, String value) {
 		Boolean retval = null;
-		if (StringUtils.isNotBlank(param)) {
-			retval = Boolean.parseBoolean(param);
+		if (StringUtils.isNotBlank(value)) {
+			retval = Boolean.parseBoolean(value);
 
 			if (retval != null && retval) {
 				tableConfiguration.registerExtension(new FixedHeaderPlugin());
 			}
 		}
 
-		tableConfiguration.setPluginFixedHeader(retval);
+		tableConfiguration.set(configToken, retval);
 	}
 }

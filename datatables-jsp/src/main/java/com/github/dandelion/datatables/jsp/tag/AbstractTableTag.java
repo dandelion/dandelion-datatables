@@ -44,9 +44,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
-import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlLink;
 import com.github.dandelion.datatables.core.html.HtmlScript;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -74,7 +74,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 	/**
 	 * Map holding the staging configuration to apply to the table.
 	 */
-	protected Map<Configuration, Object> stagingConf;
+	protected Map<ConfigToken<?>, Object> stagingConf;
 	
 	/**
 	 * First way to populate the table: using a Collection previously set in
@@ -128,7 +128,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 				Object object = iterator.next();
 				
 				this.setCurrentObject(object);
-				stagingConf.put(Configuration.INTERNAL_OBJECTTYPE, object.getClass().getSimpleName());
+				stagingConf.put(TableConfig.INTERNAL_OBJECTTYPE, object.getClass().getSimpleName());
 				
 				if (row != null) {
 					pageContext.setAttribute(row, object);
@@ -155,25 +155,6 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 		} else {
 			return SKIP_BODY;
 		}
-	}
-
-	/**
-	 * Return the current export type asked by the user on export link click.
-	 * 
-	 * @return An enum corresponding to the type of export.
-	 */
-	protected ExportType getCurrentExportType() {
-
-		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-
-		// Get the URL parameter used to identify the export type
-		String exportTypeString = request.getParameter(
-				ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE).toString();
-
-		// Convert it to the corresponding enum
-		ExportType exportType = ExportType.findByUrlParameter(Integer.parseInt(exportTypeString));
-
-		return exportType;
 	}
 
 	/**

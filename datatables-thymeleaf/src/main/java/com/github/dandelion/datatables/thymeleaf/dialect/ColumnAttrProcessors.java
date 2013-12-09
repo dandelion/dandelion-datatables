@@ -36,7 +36,7 @@ import org.thymeleaf.processor.AttributeNameProcessorMatcher;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
 import com.github.dandelion.datatables.core.exception.DandelionDatatablesException;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesColumnAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThCssCellClassAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThFilterTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThFilterValuesAttrProcessor;
@@ -68,17 +68,17 @@ public enum ColumnAttrProcessors {
     BASIC_SELECTOR(ThSelectorAttrProcessor.class, "selector", "th"),
     BASIC_CSS_CELLCLASS(ThCssCellClassAttrProcessor.class, "cssCellClass", "th");
     
-    private Class<? extends AbstractDatatablesColumnAttrProcessor> processorClass;
+    private Class<? extends AbstractColumnAttrProcessor> processorClass;
     private String attributeName;
     private String elementNameFilter;
 
-    private ColumnAttrProcessors(Class<? extends AbstractDatatablesColumnAttrProcessor> processorClass, String attributeName, String elementNameFilter) {
+    private ColumnAttrProcessors(Class<? extends AbstractColumnAttrProcessor> processorClass, String attributeName, String elementNameFilter) {
         this.processorClass = processorClass;
         this.attributeName = attributeName;
         this.elementNameFilter = elementNameFilter;
     }
 
-    public AbstractDatatablesColumnAttrProcessor getProcessor() {
+    public AbstractColumnAttrProcessor getProcessor() {
         AttributeNameProcessorMatcher matcher = new AttributeNameProcessorMatcher(attributeName, elementNameFilter);
         try {
             return processorClass.getDeclaredConstructor(IAttributeNameProcessorMatcher.class).newInstance(matcher);

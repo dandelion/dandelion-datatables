@@ -33,6 +33,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
@@ -47,51 +48,51 @@ public class ExportLinkPositionsProcessorTest extends TableProcessorBaseTest {
 	
 	@Test
 	public void should_set_default_value_when_value_is_empty() {
-		processor.processConfiguration("", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(1);
-		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT);
+		processor.process(TableConfig.EXPORT_LINK_POSITIONS, "", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.EXPORT_LINK_POSITIONS.valueFrom(tableConfiguration)).hasSize(1);
+		assertThat(TableConfig.EXPORT_LINK_POSITIONS.valueFrom(tableConfiguration)).contains(ExportLinkPosition.TOP_RIGHT);
 	}
 	
 	@Test
 	public void should_set_default_value_when_value_is_null() {
-		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(1);
-		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT);
+		processor.process(TableConfig.EXPORT_LINK_POSITIONS, null, tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.EXPORT_LINK_POSITIONS.valueFrom(tableConfiguration)).hasSize(1);
+		assertThat(TableConfig.EXPORT_LINK_POSITIONS.valueFrom(tableConfiguration)).contains(ExportLinkPosition.TOP_RIGHT);
 	}
 	
 	@Test
 	public void should_override_default_value_when_using_one_value() {
-		processor.processConfiguration("top_right", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(1);
-		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT);
-		
-		processor.processConfiguration("TOP_RIGHT", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(1);
-		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT);
-		
-		processor.processConfiguration("top_left", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(1);
-		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_LEFT);
+		processor.process(TableConfig.EXPORT_LINK_POSITIONS, "top_right", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.EXPORT_LINK_POSITIONS.valueFrom(tableConfiguration)).hasSize(1);
+		assertThat(TableConfig.EXPORT_LINK_POSITIONS.valueFrom(tableConfiguration)).contains(ExportLinkPosition.TOP_RIGHT);
+
+		processor.process(TableConfig.EXPORT_LINK_POSITIONS, "TOP_RIGHT", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.EXPORT_LINK_POSITIONS.valueFrom(tableConfiguration)).hasSize(1);
+		assertThat(TableConfig.EXPORT_LINK_POSITIONS.valueFrom(tableConfiguration)).contains(ExportLinkPosition.TOP_RIGHT);
+
+		processor.process(TableConfig.EXPORT_LINK_POSITIONS, "top_left", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.EXPORT_LINK_POSITIONS.valueFrom(tableConfiguration)).hasSize(1);
+		assertThat(TableConfig.EXPORT_LINK_POSITIONS.valueFrom(tableConfiguration)).contains(ExportLinkPosition.TOP_LEFT);
 	}
 	
 	@Test
 	public void should_set_two_links_when_using_two_values() {
-		processor.processConfiguration("top_right,bottom_right", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(2);
-		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT, ExportLinkPosition.BOTTOM_RIGHT);
-		
-		processor.processConfiguration(" top_right, bottom_right", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getExportLinkPositions()).hasSize(2);
-		assertThat(tableConfiguration.getExportLinkPositions()).contains(ExportLinkPosition.TOP_RIGHT, ExportLinkPosition.BOTTOM_RIGHT);
+		processor.process(TableConfig.EXPORT_LINK_POSITIONS, "top_right,bottom_right", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.EXPORT_LINK_POSITIONS.valueFrom(tableConfiguration)).hasSize(2);
+		assertThat(TableConfig.EXPORT_LINK_POSITIONS.valueFrom(tableConfiguration)).contains(ExportLinkPosition.TOP_RIGHT, ExportLinkPosition.BOTTOM_RIGHT);
+
+		processor.process(TableConfig.EXPORT_LINK_POSITIONS, " top_right, bottom_right", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.EXPORT_LINK_POSITIONS.valueFrom(tableConfiguration)).hasSize(2);
+		assertThat(TableConfig.EXPORT_LINK_POSITIONS.valueFrom(tableConfiguration)).contains(ExportLinkPosition.TOP_RIGHT, ExportLinkPosition.BOTTOM_RIGHT);
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_throw_an_exception() {
-		processor.processConfiguration("top_righhhhht", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.EXPORT_LINK_POSITIONS, "top_righhht", tableConfiguration, confToBeApplied);
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_throw_an_exception_as_well() {
-		processor.processConfiguration("top_right,bottooooom_left", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.EXPORT_LINK_POSITIONS, "top_right,bottooooom_left", tableConfiguration, confToBeApplied);
 	}
 }

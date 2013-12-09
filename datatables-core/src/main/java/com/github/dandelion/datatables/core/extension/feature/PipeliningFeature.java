@@ -30,6 +30,7 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -42,6 +43,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * @author Thibault Duchateau
  * @since 0.8.2
  * @see ServerSideFeature
+ * @see TableConfig#AJAX_PIPESIZE
  */
 // TODO asset template
 public class PipeliningFeature extends AbstractExtension {
@@ -58,9 +60,10 @@ public class PipeliningFeature extends AbstractExtension {
 		
 		addScopeParameter("pipelining-js", "oCache", "oCache_" + table.getId());
 		
+		Integer pipeSize = TableConfig.AJAX_PIPESIZE.valueFrom(table);
 		// Adapt the pipe size if it has been overriden
-		if (table.getTableConfiguration().getAjaxPipeSize() != 5) {
-			addScopeParameter("pipelining-js", "var iPipe = 5", "var iPipe = " + table.getTableConfiguration().getAjaxPipeSize());
+		if (pipeSize != 5) {
+			addScopeParameter("pipelining-js", "var iPipe = 5", "var iPipe = " + pipeSize);
 		} 
 
 		addParameter(DTConstants.DT_FN_SERVERDATA, new JavascriptSnippet("fnDataTablesPipeline"));

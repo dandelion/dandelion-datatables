@@ -36,6 +36,7 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
@@ -43,18 +44,16 @@ import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlDiv;
 import com.github.dandelion.datatables.core.html.HtmlHyperlink;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.processor.export.ExportConfsProcessor;
-import com.github.dandelion.datatables.core.processor.export.ExportLinkPositionsProcessor;
 
 /**
  * <p>
  * Extension used to generate export links, depending on the export
  * configurations.
  * 
- * @see ExportConfsProcessor
- * @see ExportLinkPositionsProcessor
  * @author Thibault Duchateau
  * @since 0.10.0
+ * @see TableConfig#EXPORT_ENABLED_FORMATS
+ * @see TableConfig#EXPORT_LINK_POSITIONS
  */
 public class ExportFeature extends AbstractExtension {
 
@@ -69,14 +68,14 @@ public class ExportFeature extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 
-		for(ExportConf exportConf : table.getTableConfiguration().getExportConfs()){
+		for(ExportConf exportConf : table.getTableConfiguration().getExportConfiguration().values()){
 			if(exportConf.getMethod().equals(HttpMethod.POST)){
 				addScope(Scope.DDL_DT_EXPORT);
 			}
 		}
 		
 		StringBuilder links = new StringBuilder();
-		for (ExportLinkPosition position : table.getTableConfiguration().getExportLinkPositions()) {
+		for (ExportLinkPosition position : TableConfig.EXPORT_LINK_POSITIONS.valueFrom(table.getTableConfiguration())) {
 
 			// Init the wrapping HTML div
 			HtmlDiv divExport = initExportDiv(table);
@@ -106,7 +105,7 @@ public class ExportFeature extends AbstractExtension {
 
 			case TOP_MIDDLE:
 				divExport.addCssStyle("float:left;margin-left:10px;");
-				if(StringUtils.isNotBlank(table.getTableConfiguration().getFeatureScrollY())){
+				if(StringUtils.isNotBlank(TableConfig.FEATURE_SCROLLY.valueFrom(table))){
 					links.append("$('div.dataTables_scroll').before('" + divExport.toHtml() + "');");
 				}
 				else{
@@ -133,14 +132,14 @@ public class ExportFeature extends AbstractExtension {
 		HtmlDiv divExport = new HtmlDiv();
 		divExport.addCssClass("dandelion_dataTables_export");
 		
-		// ExportTag have been added to the TableTag
-		if (table.getTableConfiguration().getExportConfs() != null && table.getTableConfiguration().getExportConfs().size() > 0) {
+		// Export is enabled in the table
+		if (!table.getTableConfiguration().getExportConfiguration().isEmpty()) {
 			logger.debug("Generating export links");
 
 			HtmlHyperlink link = null;
 
 			// A HTML link is generated for each ExportConf bean
-			for (ExportConf conf : table.getTableConfiguration().getExportConfs()) {
+			for (ExportConf conf : table.getTableConfiguration().getExportConfiguration().values()) {
 
 				link = new HtmlHyperlink();
 
@@ -162,7 +161,7 @@ public class ExportFeature extends AbstractExtension {
 					StringBuilder exportFuncName = new StringBuilder("ddl_dt_launch_export_");
 					exportFuncName.append(tableId);
 					exportFuncName.append("_");
-					exportFuncName.append(conf.getType().name());
+					exportFuncName.append(conf.getFormat());
 					
 					StringBuilder exportFunc = new StringBuilder("function ");
 					exportFunc.append(exportFuncName.toString());
@@ -171,13 +170,13 @@ public class ExportFeature extends AbstractExtension {
 					// HTTP GET
 					if(conf.getMethod().equals(HttpMethod.GET)){
 						StringBuilder params = new StringBuilder();
-						if(StringUtils.isNotBlank(table.getTableConfiguration().getAjaxServerParam())){
+						if(StringUtils.isNotBlank(TableConfig.AJAX_SERVERPARAM.valueFrom(table))){
 							exportFunc.append("var aoData = ");
 							exportFunc.append(tableId);
 							exportFunc.append(".oApi._fnAjaxParameters(");
 							exportFunc.append(tableId);
 							exportFunc.append(".fnSettings());");
-							exportFunc.append(table.getTableConfiguration().getAjaxServerParam());
+							exportFunc.append(TableConfig.AJAX_SERVERPARAM.valueFrom(table));
 							exportFunc.append("(aoData);");
 							params.append("aoData");
 						}
@@ -205,13 +204,13 @@ public class ExportFeature extends AbstractExtension {
 					// HTTP POST/PUT/DELETE
 					else{
 						StringBuilder params = new StringBuilder();
-						if(StringUtils.isNotBlank(table.getTableConfiguration().getAjaxServerParam())){
+						if(StringUtils.isNotBlank(TableConfig.AJAX_SERVERPARAM.valueFrom(table))){
 							exportFunc.append("var aoData = ");
 							exportFunc.append(tableId);
 							exportFunc.append(".oApi._fnAjaxParameters(");
 							exportFunc.append(tableId);
 							exportFunc.append(".fnSettings());");
-							exportFunc.append(table.getTableConfiguration().getAjaxServerParam());
+							exportFunc.append(TableConfig.AJAX_SERVERPARAM.valueFrom(table));
 							exportFunc.append("(aoData);");
 							params.append("aoData");
 						}

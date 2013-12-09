@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.github.dandelion.core.asset.web.AssetsRequestContext;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
@@ -32,7 +33,7 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 
 	@Test
 	public void shoud_load_the_extension_with_tablecloth() {
-		table.getTableConfiguration().setCssThemeOption(ThemeOption.TABLECLOTH);
+		TableConfig.CSS_THEMEOPTION.setIn(table.getTableConfiguration(), ThemeOption.TABLECLOTH);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
 		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(3);
@@ -43,13 +44,13 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 
 	@Test(expected = ExtensionLoadingException.class)
 	public void shoud_not_load_the_extension_with_wrong_option() {
-		table.getTableConfiguration().setCssThemeOption(ThemeOption.CUPERTINO);
+		TableConfig.CSS_THEMEOPTION.setIn(table.getTableConfiguration(), ThemeOption.CUPERTINO);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 	}
 
 	@Test
 	public void shoud_load_the_extension_with_a_custom_domfeature() {
-		table.getTableConfiguration().setFeatureDom("lft");
+		TableConfig.FEATURE_DOM.setIn(table.getTableConfiguration(), "lft");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
 		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(2);

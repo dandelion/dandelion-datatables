@@ -29,17 +29,26 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.generator.configuration.ColumnFilteringGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * Java implementation of the DataTables Column Filter Add-on written by Jovan Popovic.
- *
- * @see http://code.google.com/p/jquery-datatables-column-filter/
+ * <p>
+ * Java implementation of the DataTables Column Filter Add-on written by Jovan
+ * Popovic.
+ * <p>
+ * The add-on now lives in its own repository <a
+ * href="https://github.com/tduchateau/jquery-datatables-column-filter"
+ * >here</a>.
+ * 
  * @author Thibault Duchateau
  * @since 0.7.1
+ * @see ColumnConfig#FILTERABLE
+ * @see TableConfig#FEATURE_FILTER_PLACEHOLDER
  */
 public abstract class AbstractFilteringFeature extends AbstractExtension {
 
@@ -52,9 +61,10 @@ public abstract class AbstractFilteringFeature extends AbstractExtension {
 	public void setup(HtmlTable table) {
 
 		addScope(Scope.DDL_DT_FILTERING);
-		
-		if(table.getTableConfiguration().getFeatureFilterPlaceholder() != null){
-			switch (table.getTableConfiguration().getFeatureFilterPlaceholder()){
+
+		FilterPlaceholder filterPlaceHolder = TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(table);
+		if (filterPlaceHolder != null) {
+			switch (filterPlaceHolder) {
 			case FOOT:
 				adaptFooter(table);
 				break;
@@ -69,14 +79,15 @@ public abstract class AbstractFilteringFeature extends AbstractExtension {
 			}
 		}
 		// Default: footer
-		else{
+		else {
 			adaptFooter(table);
 		}
-		
+
 		setFunction("columnFilter");
 		setConfigGenerator(new ColumnFilteringGenerator());
 	}
-	
+
 	protected abstract void adaptHeader(HtmlTable table);
+
 	protected abstract void adaptFooter(HtmlTable table);
 }

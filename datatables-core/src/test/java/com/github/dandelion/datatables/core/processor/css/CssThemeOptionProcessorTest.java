@@ -33,11 +33,11 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
-import com.github.dandelion.datatables.core.processor.css.CssThemeOptionProcessor;
 
 public class CssThemeOptionProcessorTest extends TableProcessorBaseTest {
 
@@ -48,26 +48,26 @@ public class CssThemeOptionProcessorTest extends TableProcessorBaseTest {
 	
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getCssThemeOption()).isNull();
+		processor.process(TableConfig.CSS_THEMEOPTION, null, tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.CSS_THEMEOPTION.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.processConfiguration("", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getCssThemeOption()).isNull();
+		processor.process(TableConfig.CSS_THEMEOPTION, "", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.CSS_THEMEOPTION.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_theme_option() {
-		processor.processConfiguration("blacktie", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getCssThemeOption()).isEqualTo(ThemeOption.BLACKTIE);
-		processor.processConfiguration("BLACKTIE", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getCssThemeOption()).isEqualTo(ThemeOption.BLACKTIE);
+		processor.process(TableConfig.CSS_THEMEOPTION, "blacktie", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.CSS_THEMEOPTION.valueFrom(tableConfiguration)).isEqualTo(ThemeOption.BLACKTIE);
+		processor.process(TableConfig.CSS_THEMEOPTION, "BLACKTIE", tableConfiguration, confToBeApplied);
+		assertThat(TableConfig.CSS_THEMEOPTION.valueFrom(tableConfiguration)).isEqualTo(ThemeOption.BLACKTIE);
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_raise_an_exception() {
-		processor.processConfiguration("unknownThemeOption", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_THEMEOPTION, "unknownThemeOption", tableConfiguration, confToBeApplied);
 	}
 }

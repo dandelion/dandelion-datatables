@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,15 +30,13 @@
 package com.github.dandelion.datatables.core.processor.export;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
@@ -50,13 +48,12 @@ public class ExportLinkPositionsProcessor extends AbstractTableProcessor {
 	private static Logger logger = LoggerFactory.getLogger(ExportLinkPositionsProcessor.class);
 		
 	@Override
-	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) {
+	public void doProcess(ConfigToken<?> configToken, String value) {
 		Set<ExportLinkPosition> retval = new HashSet<ExportLinkPosition>();
 
-		if(StringUtils.isNotBlank(param)){
+		if(StringUtils.isNotBlank(value)){
 		
-			String[] positions = param.trim().split(",");
+			String[] positions = value.split(",");
 
 			for (String position : positions) {
 				try {
@@ -72,6 +69,6 @@ public class ExportLinkPositionsProcessor extends AbstractTableProcessor {
 			retval.add(ExportLinkPosition.TOP_RIGHT);
 		}
 		
-		tableConfiguration.setExportLinkPositions(retval);
+		tableConfiguration.set(configToken, retval);
 	}
 }

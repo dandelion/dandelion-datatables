@@ -30,22 +30,22 @@
 package com.github.dandelion.datatables.core.html;
 
 import static org.fest.assertions.Assertions.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
 
-public class HtmlHyperlinkTest extends HtmlTagWithContentTest {
+public class HtmlHyperlinkTest {
 
 	private HtmlHyperlink hyperlink;
 
 	@Before
-	@Override
 	public void createHtmlTag() {
-		tag = hyperlink = new HtmlHyperlink();
+		hyperlink = new HtmlHyperlink();
 	}
 
 	@Test
 	public void should_generate_div_tag_with_id() {
-		tag = hyperlink = new HtmlHyperlink("myHref", "myLabel");
+		hyperlink = new HtmlHyperlink("myHref", "myLabel");
 		assertThat(hyperlink.toHtml().toString()).isEqualTo("<a href=\"myHref\">myLabel</a>");
 	}
 

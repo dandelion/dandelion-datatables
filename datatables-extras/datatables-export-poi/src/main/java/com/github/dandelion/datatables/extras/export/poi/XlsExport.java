@@ -42,10 +42,10 @@ import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.export.DatatablesExport;
 import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.export.ExportType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.processor.export.ExportFormatProcessor;
 
 /**
  * Default Excel export class.
@@ -60,9 +60,8 @@ public class XlsExport implements DatatablesExport {
 	@Override
 	public void initExport(HtmlTable table) {
 		this.table = table;
-		if (table.getTableConfiguration().getExportConfs() != null && table.getTableConfiguration().getExportConf(ExportType.XLS) != null) {
-			this.exportConf = table.getTableConfiguration().getExportConf(ExportType.XLS);
-		}
+		this.exportConf = table.getTableConfiguration().getExportConfiguration()
+				.get(ExportFormatProcessor.RESERVED_XLS_FORMAT);
 	}
 
 	@Override

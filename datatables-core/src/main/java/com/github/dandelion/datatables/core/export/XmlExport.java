@@ -39,6 +39,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.DisplayType;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
@@ -76,14 +77,16 @@ public class XmlExport implements DatatablesExport {
 
 		XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
 		XMLStreamWriter writer = null;
+		String objectType = TableConfig.INTERNAL_OBJECTTYPE.valueFrom(table.getTableConfiguration()).toLowerCase();
 		
 		try {
 			writer = outputFactory.createXMLStreamWriter(output);
 			writer.writeStartDocument("1.0");
-			writer.writeStartElement(table.getTableConfiguration().getInternalObjectType().toLowerCase() + "s");
+			
+			writer.writeStartElement(objectType + "s");
 
 			for (HtmlRow row : table.getBodyRows()) {
-				writer.writeStartElement(table.getTableConfiguration().getInternalObjectType().toLowerCase());
+				writer.writeStartElement(objectType);
 
 				int i = 0;
 				for (HtmlColumn column : row.getColumns()) {

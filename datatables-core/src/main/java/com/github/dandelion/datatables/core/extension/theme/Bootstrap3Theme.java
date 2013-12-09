@@ -30,16 +30,39 @@
 package com.github.dandelion.datatables.core.extension.theme;
 
 import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
+ * <p>
  * Bootstrap v3 DataTables theme.
+ * <p>
+ * Example usage with JSP:
+ * 
+ * <pre>
+ * &lt;datatables:table id="myTableId" data="${persons}" cssClass="table" theme="bootstrap3">
+ *    &lt;datatables:column title="Id" property="id" />
+ *    &lt;datatables:column title="FirstName" property="firstName" />
+ *    &lt;datatables:column title="LastName" property="lastName" />
+ *    &lt;datatables:column title="Street" property="address.town.name" />
+ *    &lt;datatables:column title="Mail" property="mail" />
+ * &lt;/datatables:table>
+ * </pre>
+ * <p>
+ * Example usage with Thymeleaf:
+ * 
+ * <pre>
+ * &lt;table id="myTableId" dt:table="true" dt:theme="bootstrap3"&gt;
+ *    ...
+ * &lt;table/>
+ * </pre>
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
+ * @see TableConfig#CSS_THEME
  */
 public class Bootstrap3Theme extends AbstractExtension {
 

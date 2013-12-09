@@ -44,6 +44,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -126,8 +128,7 @@ public class HtmlTableBuilder<T> {
 		}
 
 		public Steps<T> title(String title) {
-			headerColumns.getLast().getColumnConfiguration().setTitle(title);
-			;
+			ColumnConfig.TITLE.setIn(headerColumns.getLast().getColumnConfiguration(), title);
 			return this;
 		}
 
@@ -212,19 +213,20 @@ public class HtmlTableBuilder<T> {
 
 		public HtmlTable build() {
 			HtmlTable table = new HtmlTable(id, request, response);
-			table.getTableConfiguration().setExportConfs(new HashSet<ExportConf>(Arrays.asList(exportConf)));
+			TableConfig.EXPORT_ENABLED_FORMATS.setIn(table.getTableConfiguration(), new HashSet<ExportConf>(Arrays.asList(exportConf)));
 
 			if (data != null && data.size() > 0) {
-				table.getTableConfiguration().setInternalObjectType(data.get(0).getClass().getSimpleName());
+				TableConfig.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), data.get(0).getClass().getSimpleName());
 			} else {
-				table.getTableConfiguration().setInternalObjectType("???");
+				TableConfig.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), "???");
 			}
 
 			table.addHeaderRow();
 
 			for (HtmlColumn column : headerColumns) {
-				if (StringUtils.isNotBlank(column.getColumnConfiguration().getTitle())) {
-					column.setContent(new StringBuilder(column.getColumnConfiguration().getTitle()));
+				String title = ColumnConfig.TITLE.valueFrom(column.getColumnConfiguration());
+				if (StringUtils.isNotBlank(title)) {
+					column.setContent(new StringBuilder(title));
 				} else {
 					column.setContent(new StringBuilder(""));
 				}

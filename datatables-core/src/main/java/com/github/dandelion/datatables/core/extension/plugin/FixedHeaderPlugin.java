@@ -35,6 +35,7 @@ import java.util.Map;
 import org.json.simple.JSONValue;
 
 import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -44,7 +45,9 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * Java implementation of the DataTables FixedHeader plugin.
  * 
  * @author Thibault Duchateau
- * @see <a href="http://datatables.net/extras/fixedheader/">Reference</a>
+ * @see TableConfig#PLUGIN_FIXEDHEADER
+ * @see TableConfig#PLUGIN_FIXEDOFFSETTOP
+ * @see TableConfig#PLUGIN_FIXEDPOSITION
  */
 public class FixedHeaderPlugin extends AbstractExtension {
 
@@ -81,13 +84,16 @@ public class FixedHeaderPlugin extends AbstractExtension {
 	private Map<String, Object> getSpecificCongiguration(HtmlTable table) {
 		Map<String, Object> conf = new HashMap<String, Object>();
 
+		String fixedPosition = TableConfig.PLUGIN_FIXEDPOSITION.valueFrom(table);
+		Integer fixedOffset = TableConfig.PLUGIN_FIXEDOFFSETTOP.valueFrom(table);
+		
 		// fixedPosition attribute (default "top")
-		if (StringUtils.isNotBlank(table.getTableConfiguration().getPluginFixedPosition())) {
-			if (table.getTableConfiguration().getPluginFixedPosition().toLowerCase().equals("bottom")) {
+		if (StringUtils.isNotBlank(fixedPosition)) {
+			if (fixedPosition.toLowerCase().equals("bottom")) {
 				conf.put("bottom", true);
-			} else if (table.getTableConfiguration().getPluginFixedPosition().toLowerCase().equals("right")) {
+			} else if (fixedPosition.toLowerCase().equals("right")) {
 				conf.put("right", true);
-			} else if (table.getTableConfiguration().getPluginFixedPosition().toLowerCase().equals("left")) {
+			} else if (fixedPosition.toLowerCase().equals("left")) {
 				conf.put("left", true);
 			} else {
 				conf.put("top", true);
@@ -97,8 +103,8 @@ public class FixedHeaderPlugin extends AbstractExtension {
 		}
 
 		// offsetTop attribute
-		if (table.getTableConfiguration().getPluginFixedOffsetTop() != null) {
-			conf.put(DTConstants.DT_OFFSETTOP, table.getTableConfiguration().getPluginFixedOffsetTop());
+		if (fixedOffset != null) {
+			conf.put(DTConstants.DT_OFFSETTOP, fixedOffset);
 		}
 
 		return conf;

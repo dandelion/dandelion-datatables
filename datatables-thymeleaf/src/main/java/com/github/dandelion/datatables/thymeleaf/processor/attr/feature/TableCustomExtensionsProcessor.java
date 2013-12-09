@@ -29,16 +29,13 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr.feature;
 
-import java.util.Map;
-
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesAttrProcessor;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.Utils;
 
 /**
@@ -48,7 +45,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class TableCustomExtensionsProcessor extends AbstractDatatablesAttrProcessor {
+public class TableCustomExtensionsProcessor extends AbstractTableAttrProcessor {
 
 	public TableCustomExtensionsProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
@@ -60,12 +57,11 @@ public class TableCustomExtensionsProcessor extends AbstractDatatablesAttrProces
 	}
 
 	@Override
-	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element,
-			String attributeName, HtmlTable table, Map<Configuration, Object> localConf) {
+	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element, String attributeName) {
 
 		String attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, String.class);
 
-		localConf.put(Configuration.MAIN_EXTENSION_NAMES, attrValue);
+		localConf.put(TableConfig.MAIN_EXTENSION_NAMES, attrValue);
 		
 		return ProcessorResult.ok();
 	}
