@@ -31,7 +31,6 @@ package com.github.dandelion.datatables.core.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Map.Entry;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -88,60 +87,20 @@ public class UrlUtils {
 
 	public static String getProcessedUrl(String url, HttpServletRequest request, HttpServletResponse response) {
 		String processedUrl = null;
-		StringBuilder parameters = extractParameters(url, request);
 
 		if (isContextRelative(url)) {
-			System.out.println("isLinkBaseContextRelative");
-			processedUrl = request.getContextPath() + url + parameters;
+			processedUrl = request.getContextPath() + url;
 		} else if (isServerRelative(url)) {
 			// remove the "~" from the link base
-			processedUrl = url.substring(1) + parameters;
-			System.out.println("isLinkBaseServerRelative");
+			processedUrl = url.substring(1) ;
 		} else if (isAbsolute(url)) {
-			System.out.println("isLinkBaseAbsolute");
-			processedUrl = url + parameters;
+			processedUrl = url ;
 		} else {
-			System.out.println("else");
 			// Link base is current-URL-relative
-			processedUrl = url + parameters;
+			processedUrl = url;
 		}
 
 		return response != null ? response.encodeURL(processedUrl) : processedUrl;
-	}
-
-	private static StringBuilder extractParameters(String url, HttpServletRequest request) {
-		StringBuilder parameters = new StringBuilder();
-		System.out.println("request.getQueryString() = " + request.getQueryString());
-		System.out.println(request.getParameterMap());
-		for (Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-			System.out.println("key = " + entry.getKey());
-			System.out.println("value = " + entry.getValue());
-		}
-		System.out.println(request.getQueryString());
-
-		System.out.println("javax.servlet.include.request_uri = "
-				+ request.getParameter("javax.servlet.include.request_uri"));
-		System.out.println("javax.servlet.include.context_path = "
-				+ request.getParameter("javax.servlet.include.context_path"));
-		System.out.println("javax.servlet.include.servlet_path = "
-				+ request.getParameter("javax.servlet.include.servlet_path"));
-		System.out.println("javax.servlet.include.path_info = "
-				+ request.getParameter("javax.servlet.include.path_info"));
-		System.out.println("javax.servlet.include.query_string = "
-				+ request.getParameter("javax.servlet.include.query_string"));
-
-		System.out.println("javax.servlet.forward.request_uri = "
-				+ request.getParameter("javax.servlet.forward.request_uri"));
-		System.out.println("javax.servlet.forward.context_path = "
-				+ request.getParameter("javax.servlet.forward.context_path"));
-		System.out.println("javax.servlet.forward.servlet_path = "
-				+ request.getParameter("javax.servlet.forward.servlet_path"));
-		System.out.println("javax.servlet.forward.path_info = "
-				+ request.getParameter("javax.servlet.forward.path_info"));
-		System.out.println("javax.servlet.forward.query_string = "
-				+ request.getParameter("javax.servlet.forward.query_string"));
-
-		return parameters;
 	}
 
 	/**

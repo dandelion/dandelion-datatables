@@ -76,6 +76,7 @@ import com.github.dandelion.datatables.core.processor.plugin.PluginScrollerProce
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
+ * @see ConfigToken
  */
 public final class TableConfig {
 

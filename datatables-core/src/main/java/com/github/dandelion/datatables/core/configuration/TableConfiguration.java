@@ -32,9 +32,9 @@ package com.github.dandelion.datatables.core.configuration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
@@ -130,7 +130,7 @@ public class TableConfiguration {
 	public TableConfiguration(Map<ConfigToken<?>, Object> userConf, HttpServletRequest request) {
 		this.request = request;
 		this.configurations = new HashMap<ConfigToken<?>, Object>();
-		this.exportConfiguration = new HashMap<String, ExportConf>();
+		this.exportConfiguration = new LinkedHashMap<String, ExportConf>();
 		TableConfig.applyConfiguration(userConf, this);
 	}
 
@@ -179,9 +179,6 @@ public class TableConfiguration {
 	}
 
 	public Map<ConfigToken<?>, Object> getConfigurations() {
-		for(Entry<ConfigToken<?>, Object> entry : configurations.entrySet()){
-			System.out.println(entry.getKey().getPropertyName() + " (value = " + entry.getValue() + ")");
-		}
 		return configurations;
 	}
 

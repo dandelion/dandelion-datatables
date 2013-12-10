@@ -30,6 +30,7 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -44,6 +45,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * </ul>
  * 
  * @author Thibault Duchateau
+ * @see TableConfig#FEATURE_PAGINATIONTYPE
  */
 public class PaginationTypeFourButtonFeature extends AbstractExtension {
 

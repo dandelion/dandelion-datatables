@@ -33,9 +33,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
@@ -55,15 +52,6 @@ import com.github.dandelion.datatables.core.util.UrlUtils;
  * @see ExportEnabledFormatProcessor
  */
 public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
-
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ExportEnabledFormatProcessor.class);
-
-	public static final String DEFAULT_CSV_CLASS = "com.github.dandelion.datatables.core.export.CsvExport";
-	public static final String DEFAULT_XML_CLASS = "com.github.dandelion.datatables.core.export.XmlExport";
-	public static final String DEFAULT_PDF_CLASS = "com.github.dandelion.datatables.extras.export.itext.PdfExport";
-	public static final String DEFAULT_XLS_CLASS = "com.github.dandelion.datatables.extras.export.poi.XlsExport";
-	public static final String DEFAULT_XLSX_CLASS = "com.github.dandelion.datatables.extras.export.poi.XlsxExport";
 
 	@Override
 	public void doProcess(ConfigToken<?> configToken, String value) {

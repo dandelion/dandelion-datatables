@@ -46,11 +46,11 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.export.Format;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.generator.configuration.ColumnFilteringGenerator;
@@ -91,8 +91,8 @@ public class ColumnFilteringGeneratorTest {
 
 	@Test
 	public void should_not_generate_filter_conf_when_using_pdf_displaytype() {
-		Set<DisplayType> displayTypes = new HashSet<DisplayType>();
-		displayTypes.add(DisplayType.PDF);
+		Set<String> displayTypes = new HashSet<String>();
+		displayTypes.add(Format.PDF);
 		firstColumn.setEnabledDisplayTypes(displayTypes);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
@@ -103,8 +103,8 @@ public class ColumnFilteringGeneratorTest {
 
 	@Test
 	public void should_generate_filter_conf_when_using_html_displaytype() {
-		Set<DisplayType> displayTypes = new HashSet<DisplayType>();
-		displayTypes.add(DisplayType.HTML);
+		Set<String> displayTypes = new HashSet<String>();
+		displayTypes.add(Format.HTML);
 		firstColumn.setEnabledDisplayTypes(displayTypes);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);

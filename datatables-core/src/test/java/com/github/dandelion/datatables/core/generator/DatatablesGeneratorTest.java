@@ -47,7 +47,6 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.callback.Callback;
@@ -57,6 +56,7 @@ import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.constants.DTMessages;
 import com.github.dandelion.datatables.core.constants.Direction;
+import com.github.dandelion.datatables.core.export.Format;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
@@ -67,23 +67,21 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 @SuppressWarnings("unchecked")
 public class DatatablesGeneratorTest {
 
-	private static Set<DisplayType> displayTypeAllUsedForColumnDefinition = new HashSet<DisplayType>();
-	private static Set<DisplayType> displayTypeHtmlUsedForColumnDefinition = new HashSet<DisplayType>();
-	private static Set<DisplayType> displayTypeNotUsedForColumnDefinition = new HashSet<DisplayType>();
+	private static Set<String> displayTypeAllUsedForColumnDefinition = new HashSet<String>();
+	private static Set<String> displayTypeHtmlUsedForColumnDefinition = new HashSet<String>();
+	private static Set<String> displayTypeNotUsedForColumnDefinition = new HashSet<String>();
 	private static Map<String, Object> defaultProperties = new HashMap<String, Object>();
 	private MockServletContext mockServletContext;
 	private MockPageContext mockPageContext;
 
 	static {
-		displayTypeAllUsedForColumnDefinition.add(DisplayType.ALL);
-		displayTypeHtmlUsedForColumnDefinition.add(DisplayType.HTML);
-		displayTypeNotUsedForColumnDefinition.add(DisplayType.CSV);
-		displayTypeNotUsedForColumnDefinition.add(DisplayType.XML);
-		displayTypeNotUsedForColumnDefinition.add(DisplayType.XLS);
-		displayTypeNotUsedForColumnDefinition.add(DisplayType.XLSX);
-		displayTypeNotUsedForColumnDefinition.add(DisplayType.PDF);
-		displayTypeNotUsedForColumnDefinition.add(DisplayType.RTF);
-		displayTypeNotUsedForColumnDefinition.add(DisplayType.JSON);
+		displayTypeAllUsedForColumnDefinition.add(Format.ALL);
+		displayTypeHtmlUsedForColumnDefinition.add(Format.HTML);
+		displayTypeNotUsedForColumnDefinition.add(Format.CSV);
+		displayTypeNotUsedForColumnDefinition.add(Format.XML);
+		displayTypeNotUsedForColumnDefinition.add(Format.XLS);
+		displayTypeNotUsedForColumnDefinition.add(Format.XLSX);
+		displayTypeNotUsedForColumnDefinition.add(Format.PDF);
 
 //		defaultProperties.put(DTConstants.DT_VISIBLE, true);
 //		defaultProperties.put(DTConstants.DT_SEARCHABLE, true);
@@ -248,8 +246,8 @@ public class DatatablesGeneratorTest {
 		firstColumn.getColumnConfiguration().set(ColumnConfig.SORTINIT, "desc");
 		headerRow.addHeaderColumn("secondColumn");
 		HtmlColumn thirdColumn = headerRow.addHeaderColumn("thirdColumn");
-		Set<DisplayType> enabledDisplayTypes = new HashSet<DisplayType>();
-		enabledDisplayTypes.add(DisplayType.XLS);
+		Set<String> enabledDisplayTypes = new HashSet<String>();
+		enabledDisplayTypes.add(Format.XLS);
 		thirdColumn.setEnabledDisplayTypes(enabledDisplayTypes);
 		HtmlColumn fourthColumn = headerRow.addHeaderColumn("fourthColumn");
 		fourthColumn.getColumnConfiguration().set(ColumnConfig.SORTINIT, "asc");

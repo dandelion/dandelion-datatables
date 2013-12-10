@@ -80,9 +80,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	protected String titleKey;
 	protected String property;
 	protected String defaultValue;
-	protected String cssStyle;
 	protected String cssCellStyle;
-	protected String cssClass;
 	protected String cssCellClass;
 	protected String format;
 	protected String display;
@@ -101,15 +99,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		// Get the parent tag to access the HtmlTable
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-//		// TODO For sake of consistency, cssClass and cssStyle attributes should
-//		// be handled directly via the ColumnConfiguration
 		HtmlColumn headColumn = new HtmlColumn(true, content, dynamicAttributes, display);
-//		if (StringUtils.isNotBlank(this.cssClass)) {
-//			headColumn.setCssClass(new StringBuilder(this.cssClass));
-//		}
-//		if (StringUtils.isNotBlank(this.cssStyle)) {
-//			headColumn.setCssStyle(new StringBuilder(this.cssStyle));
-//		}
 				
 		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headColumn.getColumnConfiguration(), parent
 					.getTable().getTableConfiguration());
@@ -133,12 +123,12 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		
 		HtmlColumn bodyColumn = new HtmlColumn(false, content, dynamicAttributes, display);
 
-//		if (StringUtils.isNotBlank(this.cssCellClass)) {
-//			bodyColumn.addCssCellClass(this.cssCellClass);
-//		}
-//		if (StringUtils.isNotBlank(this.cssCellStyle)) {
-//			bodyColumn.addCssCellStyle(this.cssCellStyle);
-//		}
+		if (StringUtils.isNotBlank(this.cssCellClass)) {
+			bodyColumn.addCssCellClass(this.cssCellClass);
+		}
+		if (StringUtils.isNotBlank(this.cssCellStyle)) {
+			bodyColumn.addCssCellStyle(this.cssCellStyle);
+		}
 		
 		parent.getTable().getLastBodyRow().addColumn(bodyColumn);
 	}
@@ -159,12 +149,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
 		HtmlColumn headColumn = new HtmlColumn(true, content, dynamicAttributes);
-		if (StringUtils.isNotBlank(this.cssClass)) {
-			headColumn.setCssClass(new StringBuilder(this.cssClass));
-		}
-		if (StringUtils.isNotBlank(this.cssStyle)) {
-			headColumn.setCssStyle(new StringBuilder(this.cssStyle));
-		}
+
 		ColumnConfig.DEFAULTVALUE.setIn(headColumn.getColumnConfiguration(), StringUtils.isNotBlank(defaultValue) ? defaultValue : "");
 		
 		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headColumn.getColumnConfiguration(), parent.getTable().getTableConfiguration());
@@ -241,7 +226,6 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 
 	public void setCssStyle(String cssStyle) {
 		stagingConf.put(ColumnConfig.CSSSTYLE, property);
-//		this.cssStyle = cssStyle;
 	}
 
 	public void setCssClass(String cssClass) {
@@ -254,13 +238,13 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	}
 
 	public void setCssCellStyle(String cssCellStyle) {
-//		this.cssCellStyle = cssCellStyle;
+		this.cssCellStyle = cssCellStyle;
 		stagingConf.put(ColumnConfig.CSSCELLSTYLE, cssCellStyle);
 	}
 
 	public void setCssCellClass(String cssCellClass) {
 		// For DOM sources
-//		this.cssCellClass = cssCellClass;
+		this.cssCellClass = cssCellClass;
 		// For AJAX sources
 		stagingConf.put(ColumnConfig.CSSCELLCLASS, cssCellClass);
 	}

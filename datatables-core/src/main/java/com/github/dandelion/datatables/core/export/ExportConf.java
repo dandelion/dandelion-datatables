@@ -31,7 +31,6 @@ package com.github.dandelion.datatables.core.export;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
-import com.github.dandelion.datatables.core.processor.export.ExportEnabledFormatProcessor;
 
 /**
  * POJO that stores an export type configuration.
@@ -40,6 +39,12 @@ import com.github.dandelion.datatables.core.processor.export.ExportEnabledFormat
  */
 public class ExportConf {
 
+	public static final String DEFAULT_CSV_CLASS = "com.github.dandelion.datatables.core.export.CsvExport";
+	public static final String DEFAULT_XML_CLASS = "com.github.dandelion.datatables.core.export.XmlExport";
+	public static final String DEFAULT_PDF_CLASS = "com.github.dandelion.datatables.extras.export.itext.PdfExport";
+	public static final String DEFAULT_XLS_CLASS = "com.github.dandelion.datatables.extras.export.poi.XlsExport";
+	public static final String DEFAULT_XLSX_CLASS = "com.github.dandelion.datatables.extras.export.poi.XlsxExport";
+	
 	private String format;
 	private String fileName;
 	private String mimeType;
@@ -78,24 +83,24 @@ public class ExportConf {
 			this.extension = this.format;
 		}
 		
-		if(this.format.equals("csv")){
-			this.exportClass = ExportEnabledFormatProcessor.DEFAULT_CSV_CLASS;
+		if(this.format.equals(Format.CSV)){
+			this.exportClass = DEFAULT_CSV_CLASS;
 			this.mimeType = "text/csv";
 		}
-		if(this.format.equals("xml")){
-			this.exportClass = ExportEnabledFormatProcessor.DEFAULT_XML_CLASS;
+		if(this.format.equals(Format.XML)){
+			this.exportClass = DEFAULT_XML_CLASS;
 			this.mimeType = "text/xml";
 		}
-		if(this.format.equals("pdf")){
-			this.exportClass = ExportEnabledFormatProcessor.DEFAULT_PDF_CLASS;
+		if(this.format.equals(Format.PDF)){
+			this.exportClass = DEFAULT_PDF_CLASS;
 			this.mimeType = "application/pdf";
 		}
-		if(this.format.equals("xls")){
-			this.exportClass = ExportEnabledFormatProcessor.DEFAULT_XLS_CLASS;
+		if(this.format.equals(Format.XLS)){
+			this.exportClass = DEFAULT_XLS_CLASS;
 			this.mimeType = "application/vnd.ms-excel";
 		}
-		if(this.format.equals("xlsx")){
-			this.exportClass = ExportEnabledFormatProcessor.DEFAULT_XLSX_CLASS;
+		if(this.format.equals(Format.XLSX)){
+			this.exportClass = DEFAULT_XLSX_CLASS;
 			this.mimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 		}
 	}

@@ -75,7 +75,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getUrl()).isEqualTo("?dtt=csv&dti=fakeId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(csvExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(csvExportConf.getAutoSize()).isFalse();
-		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportEnabledFormatProcessor.DEFAULT_CSV_CLASS);
+		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
 		assertThat(csvExportConf.getExtension()).isEqualTo("csv");
 	}
 	
@@ -95,7 +95,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getUrl()).isEqualTo("?dtt=csv&dti=fakeId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(csvExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(csvExportConf.getAutoSize()).isFalse();
-		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportEnabledFormatProcessor.DEFAULT_CSV_CLASS);
+		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
 		assertThat(csvExportConf.getExtension()).isEqualTo("csv");
 		
 		ExportConf pdfExportConf = tableConfiguration.getExportConfiguration().get("pdf");
@@ -107,7 +107,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(pdfExportConf.getUrl()).isEqualTo("?dtt=pdf&dti=fakeId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(pdfExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(pdfExportConf.getAutoSize()).isFalse();
-		assertThat(pdfExportConf.getExportClass()).isEqualTo(ExportEnabledFormatProcessor.DEFAULT_PDF_CLASS);
+		assertThat(pdfExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_PDF_CLASS);
 		assertThat(pdfExportConf.getExtension()).isEqualTo("pdf");
 	}
 	

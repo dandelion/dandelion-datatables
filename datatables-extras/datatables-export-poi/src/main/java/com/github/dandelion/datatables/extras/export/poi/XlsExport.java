@@ -38,14 +38,14 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
-import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.export.DatatablesExport;
 import com.github.dandelion.datatables.core.export.ExportConf;
+import com.github.dandelion.datatables.core.export.Format;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.processor.export.ExportFormatProcessor;
+import com.github.dandelion.datatables.core.util.CollectionUtils;
 
 /**
  * Default Excel export class.
@@ -60,8 +60,7 @@ public class XlsExport implements DatatablesExport {
 	@Override
 	public void initExport(HtmlTable table) {
 		this.table = table;
-		this.exportConf = table.getTableConfiguration().getExportConfiguration()
-				.get(ExportFormatProcessor.RESERVED_XLS_FORMAT);
+		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(Format.XLS);
 	}
 
 	@Override
@@ -85,9 +84,8 @@ public class XlsExport implements DatatablesExport {
 
 					for (HtmlColumn column : htmlRow.getColumns()) {
 
-						Set<DisplayType> enabledDisplayTypes = column.getEnabledDisplayTypes();
-						if (enabledDisplayTypes.contains(DisplayType.ALL)
-								|| enabledDisplayTypes.contains(DisplayType.XLS)) {
+						Set<String> enabledDisplayTypes = column.getEnabledDisplayTypes();
+						if (CollectionUtils.containsAny(enabledDisplayTypes, Format.ALL, Format.XLS)) {
 
 							cell = row.createCell(cellnum++);
 							cell.setCellValue(column.getContent().toString());
@@ -108,9 +106,8 @@ public class XlsExport implements DatatablesExport {
 				
 				for (HtmlColumn column : htmlRow.getColumns()) {
 
-					Set<DisplayType> enabledDisplayTypes = column.getEnabledDisplayTypes();
-					if (enabledDisplayTypes.contains(DisplayType.ALL)
-							|| enabledDisplayTypes.contains(DisplayType.XLS)) {
+					Set<String> enabledDisplayTypes = column.getEnabledDisplayTypes();
+					if (CollectionUtils.containsAny(enabledDisplayTypes, Format.ALL, Format.XLS)) {
 
 						cell = row.createCell(cellnum++);
 						cell.setCellValue(column.getContent().toString());

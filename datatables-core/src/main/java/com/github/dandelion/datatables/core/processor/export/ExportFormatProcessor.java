@@ -60,15 +60,11 @@ public class ExportFormatProcessor extends AbstractTableProcessor {
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(ExportFormatProcessor.class);
 
-	public static final String RESERVED_CSV_FORMAT = "csv";
-	public static final String RESERVED_XML_FORMAT = "xml";
-	public static final String RESERVED_PDF_FORMAT = "pdf";
-	public static final String RESERVED_XLS_FORMAT = "xls";
-	public static final String RESERVED_XLSX_FORMAT = "xlsx";
 	public static final String REGEX_EXPORT_CLASS = "export\\.(.*?)\\.class";
 	public static final String REGEX_EXPORT_LABEL = "export\\.(.*?)\\.label";
 	public static final String REGEX_EXPORT_FILENAME = "export\\.(.*?)\\.fileName";
 	public static final String REGEX_EXPORT_MIMETYPE = "export\\.(.*?)\\.mimeType";
+	
 	private static final Pattern PATTERN_EXPORT_CLASS = Pattern.compile(REGEX_EXPORT_CLASS, Pattern.CASE_INSENSITIVE);
 	private static final Pattern PATTERN_EXPORT_LABEL = Pattern.compile(REGEX_EXPORT_LABEL, Pattern.CASE_INSENSITIVE);
 	private static final Pattern PATTERN_EXPORT_FILENAME = Pattern.compile(REGEX_EXPORT_FILENAME,

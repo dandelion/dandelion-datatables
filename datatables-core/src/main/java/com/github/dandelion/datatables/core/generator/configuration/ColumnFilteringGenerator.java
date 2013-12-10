@@ -39,16 +39,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.export.Format;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.util.CollectionUtils;
 
 /**
  * <p>
@@ -78,9 +79,8 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
         List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
         for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
         	
-        	Set<DisplayType> enabledDisplayTypes = column.getEnabledDisplayTypes();
-			if (enabledDisplayTypes.contains(DisplayType.ALL)
-					|| enabledDisplayTypes.contains(DisplayType.HTML)) {
+        	Set<String> enabledDisplayTypes = column.getEnabledDisplayTypes();
+			if (CollectionUtils.containsAny(enabledDisplayTypes, Format.ALL,  Format.HTML)) {
         		tmp = new HashMap<String, Object>();
         		
         		ColumnConfiguration columnConfiguration = column.getColumnConfiguration();

@@ -32,12 +32,11 @@ package com.github.dandelion.datatables.core.export;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.processor.export.ExportFormatProcessor;
+import com.github.dandelion.datatables.core.util.CollectionUtils;
 
 /**
  * Default class used to export in the CSV format.
@@ -46,7 +45,6 @@ import com.github.dandelion.datatables.core.processor.export.ExportFormatProcess
  */
 public class CsvExport implements DatatablesExport {
 
-	private static final DisplayType CURRENT_DISPLAY_TYPE = DisplayType.CSV;
 	private static final String SEPARATOR_CHAR = ";";
 	private HtmlTable table;
 	private ExportConf exportConf;
@@ -54,8 +52,7 @@ public class CsvExport implements DatatablesExport {
 	@Override
 	public void initExport(HtmlTable table) {
 		this.table = table;
-		this.exportConf = table.getTableConfiguration().getExportConfiguration()
-				.get(ExportFormatProcessor.RESERVED_CSV_FORMAT);
+		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(Format.CSV);
 	}
 
 	@Override
@@ -65,8 +62,7 @@ public class CsvExport implements DatatablesExport {
 		if (exportConf.getIncludeHeader()) {
 			for(HtmlRow row : table.getHeadRows()){
 				for(HtmlColumn column : row.getColumns()){
-					if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
-							|| column.getEnabledDisplayTypes().contains(CURRENT_DISPLAY_TYPE)) {
+					if (CollectionUtils.containsAny(column.getEnabledDisplayTypes(), Format.ALL, Format.CSV)) {
 						buffer.append(column.getContent()).append(SEPARATOR_CHAR);						
 					}
 				}
@@ -75,9 +71,8 @@ public class CsvExport implements DatatablesExport {
 		}
 		for(HtmlRow row : table.getBodyRows()){
 			for(HtmlColumn column : row.getColumns()){
-				if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
-						|| column.getEnabledDisplayTypes().contains(CURRENT_DISPLAY_TYPE)) {
-					buffer.append(column.getContent()).append(SEPARATOR_CHAR);					
+				if (CollectionUtils.containsAny(column.getEnabledDisplayTypes(), Format.ALL, Format.CSV)) {
+					buffer.append(column.getContent()).append(SEPARATOR_CHAR);
 				}
 			}
 			

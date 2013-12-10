@@ -40,7 +40,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
@@ -50,10 +49,12 @@ import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.constants.DTMessages;
 import com.github.dandelion.datatables.core.constants.Direction;
+import com.github.dandelion.datatables.core.export.Format;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.util.CollectionUtils;
 
 /**
  * <p>
@@ -195,8 +196,8 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
 			ColumnConfiguration columnConfiguration = column.getColumnConfiguration();
 
-			Set<DisplayType> enabledDisplayTypes = column.getEnabledDisplayTypes();
-			if (enabledDisplayTypes.contains(DisplayType.ALL) || enabledDisplayTypes.contains(DisplayType.HTML)) {
+			Set<String> enabledDisplayTypes = column.getEnabledDisplayTypes();
+			if (CollectionUtils.containsAny(enabledDisplayTypes, Format.ALL, Format.HTML)) {
 				tmp = new HashMap<String, Object>();
 
 				
@@ -277,8 +278,7 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 				aaSortingtmp.add(sortInit);
 				aaSortingContent.add(aaSortingtmp);
 			}
-			if (column.getEnabledDisplayTypes().contains(DisplayType.HTML)
-					|| column.getEnabledDisplayTypes().contains(DisplayType.ALL)) {
+			if (CollectionUtils.containsAny(column.getEnabledDisplayTypes(), Format.ALL, Format.HTML)) {
 				columnIndex++;
 			}
 		}

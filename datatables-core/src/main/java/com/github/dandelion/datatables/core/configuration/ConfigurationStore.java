@@ -35,9 +35,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.github.dandelion.core.DevMode;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.exception.UnkownGroupException;
@@ -50,9 +47,6 @@ import com.github.dandelion.datatables.core.exception.UnkownGroupException;
  */
 public class ConfigurationStore {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ConfigurationStore.class);
-	
 	/**
 	 * Static map containing all configurations
 	 */

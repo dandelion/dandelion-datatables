@@ -34,10 +34,9 @@ import java.util.Map;
 import java.util.Set;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.export.Format;
 
 /**
  * Plain old HTML <code>td</code> and <code>th</code> tags.
@@ -51,21 +50,21 @@ public class HtmlColumn extends HtmlTagWithContent {
 	private Boolean isHeaderColumn;
 	protected StringBuilder cssCellStyle;
 	protected StringBuilder cssCellClass;
-	private Set<DisplayType> enabledDisplayTypes = new HashSet<DisplayType>();
+	private Set<String> enabledDisplayTypes = new HashSet<String>();
 	
 	public HtmlColumn() {
 		setHeaderColumn(false);
-		enabledDisplayTypes.add(DisplayType.ALL);
+		enabledDisplayTypes.add(Format.ALL);
 	};
 
-	public HtmlColumn(DisplayType displayType) {
+	public HtmlColumn(String displayFormat) {
 		setHeaderColumn(false);
-		enabledDisplayTypes.add(displayType);
+		enabledDisplayTypes.add(displayFormat);
 	};
 
 	public HtmlColumn(Boolean isHeader) {
 		setHeaderColumn(isHeader);
-		enabledDisplayTypes.add(DisplayType.ALL);
+		enabledDisplayTypes.add(Format.ALL);
 		if(isHeader){
 			this.columnConfiguration = new ColumnConfiguration();
 		}
@@ -73,7 +72,7 @@ public class HtmlColumn extends HtmlTagWithContent {
 
 	public HtmlColumn(Boolean isHeader, String content) {
 		setHeaderColumn(isHeader);
-		enabledDisplayTypes.add(DisplayType.ALL);
+		enabledDisplayTypes.add(Format.ALL);
 		if(isHeader){
 			this.columnConfiguration = new ColumnConfiguration();
 		}
@@ -84,7 +83,7 @@ public class HtmlColumn extends HtmlTagWithContent {
 
 	public HtmlColumn(Boolean isHeader, String content, Map<String, String> dynamicAttributes) {
 		setHeaderColumn(isHeader);
-		enabledDisplayTypes.add(DisplayType.ALL);
+		enabledDisplayTypes.add(Format.ALL);
 		if(isHeader){
 			this.columnConfiguration = new ColumnConfiguration();
 		}
@@ -104,18 +103,13 @@ public class HtmlColumn extends HtmlTagWithContent {
 		}
 		this.dynamicAttributes = dynamicAttributes;
 		if (StringUtils.isNotBlank(displayTypes)) {
-			String[] displayTypesTab = displayTypes.trim().toUpperCase().split(",");
-
+			String[] displayTypesTab = displayTypes.trim().split(",");
 			for (String displayType : displayTypesTab) {
-				try {
-					this.enabledDisplayTypes.add(DisplayType.valueOf(displayType));
-				} catch (IllegalArgumentException e) {
-					throw new ConfigurationProcessingException(displayTypes + " is not a valid value among " + DisplayType.values(), e);
-				}
+				this.enabledDisplayTypes.add(displayType.toLowerCase().trim());
 			}
 		}
 		else{
-			enabledDisplayTypes.add(DisplayType.ALL);
+			enabledDisplayTypes.add(Format.ALL);
 		}
 	}
 	
@@ -176,11 +170,11 @@ public class HtmlColumn extends HtmlTagWithContent {
 		this.cssCellStyle.append(cssCellStyle);
 	}
 
-	public Set<DisplayType> getEnabledDisplayTypes() {
+	public Set<String> getEnabledDisplayTypes() {
 		return enabledDisplayTypes;
 	}
 
-	public void setEnabledDisplayTypes(Set<DisplayType> enabledDisplayTypes) {
+	public void setEnabledDisplayTypes(Set<String> enabledDisplayTypes) {
 		this.enabledDisplayTypes = enabledDisplayTypes;
 	}
 	

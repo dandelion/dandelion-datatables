@@ -38,7 +38,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.mock.Mock;
@@ -98,14 +97,14 @@ public class ExportTest {
 		table.addHeaderRow();
 		table.getLastHeaderRow().addColumn("Id");
 		table.getLastHeaderRow().addColumn("FirstName");
-		table.getLastHeaderRow().addColumn("LastName", DisplayType.HTML);
+		table.getLastHeaderRow().addColumn("LastName", Format.HTML);
 		table.getLastHeaderRow().addColumn("City");
 		table.getLastHeaderRow().addColumn("Mail");
 		for (Person person : Mock.persons) {
 			table.addRow();
 			table.getLastBodyRow().addColumn(String.valueOf(person.getId()));
 			table.getLastBodyRow().addColumn(person.getFirstName());
-			table.getLastBodyRow().addColumn(person.getLastName(), DisplayType.HTML);
+			table.getLastBodyRow().addColumn(person.getLastName(), Format.HTML);
 			table.getLastBodyRow()
 					.addColumn(person.getAddress() != null ? person.getAddress().getTown().getName() : "");
 			table.getLastBodyRow().addColumn(person.getMail());

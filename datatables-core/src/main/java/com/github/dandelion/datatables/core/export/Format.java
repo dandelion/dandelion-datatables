@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -27,14 +27,32 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.asset;
+
+package com.github.dandelion.datatables.core.export;
 
 /**
- * TODO
- *
+ * All constants declared here represents a display format that is used in
+ * multiple ways:
+ * <ul>
+ * <li>First, to identify reserved words when export is enabled for a table. As
+ * soon as one of these reserved words is used, some configuration will be
+ * applied by default</li>
+ * <li>
+ * But it is also used to decide whether a format should appear in the processed
+ * template (HTML page, export file).</li>
+ * </ul>
+ * 
  * @author Thibault Duchateau
- * @since 0.7.1
+ * @since 0.10.0
+ * @see ExportConf
  */
-public enum DisplayType {
-	ALL, HTML, CSV, XML, XLS, XLSX, PDF, RTF, JSON
+public class Format {
+
+	public static final String ALL = "all";
+	public static final String HTML = "html";
+	public static final String CSV = "csv";
+	public static final String XML = "xml";
+	public static final String PDF = "pdf";
+	public static final String XLS = "xls";
+	public static final String XLSX = "xlsx";
 }
