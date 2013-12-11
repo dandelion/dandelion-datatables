@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.asset;
 
 /**
- * Enum containing the available modes of insertion for extraFile management.
+ * Enum containing the available insertion modes for an {@link ExtraFile}.
  * 
  * @author Thibault Duchateau
  */

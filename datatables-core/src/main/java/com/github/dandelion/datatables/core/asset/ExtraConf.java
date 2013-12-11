@@ -29,6 +29,12 @@
  */
 package com.github.dandelion.datatables.core.asset;
 
+/**
+ * Bean encapsulating extra DataTables parameters to be merged client-side with
+ * the generated configuration.
+ * 
+ * @author Thibault Duchateau
+ */
 public class ExtraConf {
 
 	private String src;

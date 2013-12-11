@@ -46,9 +46,14 @@ public class SortTypeProcessor extends AbstractColumnProcessor {
 			try {
 				sortType = SortType.valueOf(value.toUpperCase().trim());
 			} catch (IllegalArgumentException e) {
-				throw new ConfigurationProcessingException(value + " is not a valid value among " + SortType.values(), e);
+				StringBuilder sb = new StringBuilder();
+				sb.append("'");
+				sb.append(value);
+				sb.append("' is not a valid sort type. Possible values are: ");
+				sb.append(SortType.possibleValues());
+				throw new ConfigurationProcessingException(sb.toString(), e);
 			}
-			
+
 			columnConfiguration.set(configToken, sortType);
 			tableConfiguration.registerExtension(new SortingFeature());
 		}

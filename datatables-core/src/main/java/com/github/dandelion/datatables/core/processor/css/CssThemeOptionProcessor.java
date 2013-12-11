@@ -10,15 +10,22 @@ public class CssThemeOptionProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void doProcess(ConfigToken<?> configToken, String value) {
-		ThemeOption themeOption = null;
 		if (StringUtils.isNotBlank(value)) {
+
+			ThemeOption themeOption = null;
+
 			try {
 				themeOption = ThemeOption.valueOf(value.toUpperCase());
 			} catch (IllegalArgumentException e) {
-				throw new ConfigurationProcessingException(value + " is not a valid value among " + ThemeOption.values());
+				StringBuilder sb = new StringBuilder();
+				sb.append("'");
+				sb.append(value);
+				sb.append("' is not a valid theme option. Possible values are: ");
+				sb.append(ThemeOption.possibleValues());
+				throw new ConfigurationProcessingException(sb.toString(), e);
 			}
-		}
 
-		tableConfiguration.set(configToken, themeOption);
+			tableConfiguration.set(configToken, themeOption);
+		}
 	}
 }

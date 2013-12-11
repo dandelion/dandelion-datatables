@@ -28,7 +28,6 @@
  */
 package com.github.dandelion.datatables.jsp.tag;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -39,14 +38,10 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.DynamicAttributes;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.html.HtmlLink;
-import com.github.dandelion.datatables.core.html.HtmlScript;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -65,9 +60,6 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 public abstract class AbstractTableTag extends BodyTagSupport implements DynamicAttributes {
 
 	private static final long serialVersionUID = 4788079931487986884L;
-
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(AbstractTableTag.class);
 
 	/**
 	 * Map holding the staging configuration to apply to the table.
@@ -178,14 +170,11 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 				Object propertyValue = PropertyUtils.getNestedProperty(this.currentObject, this.rowIdBase);
 				rowId.append(propertyValue != null ? propertyValue : "");
 			} catch (IllegalAccessException e) {
-				logger.error("Unable to get the value for the given rowIdBase {}", this.rowIdBase);
-				throw new JspException(e);
+				throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
 			} catch (InvocationTargetException e) {
-				logger.error("Unable to get the value for the given rowIdBase {}", this.rowIdBase);
-				throw new JspException(e);
+				throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
 			} catch (NoSuchMethodException e) {
-				logger.error("Unable to get the value for the given rowIdBase {}", this.rowIdBase);
-				throw new JspException(e);
+				throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
 			}
 		}
 
@@ -195,28 +184,6 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 
 		return rowId.toString();
 	}
-
-	/**
-	 * Generate and write a new HTML link tag.
-	 * 
-	 * @param href
-	 * @throws IOException
-	 */
-	protected void generateLinkTag(String href) throws IOException {
-		pageContext.getOut().println(new HtmlLink(href).toHtml().toString());
-	}
-
-	/**
-	 * Generate and write a new HTML script tag.
-	 * 
-	 * @param href
-	 * @throws IOException
-	 */
-	protected void generateScriptTag(String src) throws IOException {
-		pageContext.getOut().println(new HtmlScript(src).toHtml().toString());
-	}
-
-	/** Getters and setters for all attributes */
 
 	public HtmlTable getTable() {
 		return this.table;

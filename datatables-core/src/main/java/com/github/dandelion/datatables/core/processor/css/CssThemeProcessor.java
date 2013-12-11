@@ -11,16 +11,21 @@ public class CssThemeProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void doProcess(ConfigToken<?> configToken, String value) {
-		Extension theme = null;
 		if (StringUtils.isNotBlank(value)) {
+			Extension theme = null;
+			
 			try {
 				theme = Theme.valueOf(value.toUpperCase()).getInstance();
 			} catch (IllegalArgumentException e) {
-				throw new ConfigurationProcessingException("'" + value + "' is not a valid value among "
-						+ Theme.possibleValues(), e);
+				StringBuilder sb = new StringBuilder();
+				sb.append("'");
+				sb.append(value);
+				sb.append("' is not a valid theme name. Possible values are: ");
+				sb.append(Theme.possibleValues());
+				throw new ConfigurationProcessingException(sb.toString());
 			}
+			
+			tableConfiguration.set(configToken, theme);
 		}
-		
-		tableConfiguration.set(configToken, theme);
 	}
 }

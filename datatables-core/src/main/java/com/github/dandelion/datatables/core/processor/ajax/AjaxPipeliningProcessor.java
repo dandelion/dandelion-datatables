@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -36,16 +36,22 @@ import com.github.dandelion.datatables.core.extension.feature.PipeliningFeature;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 
 /**
- * Processor used when server-side processing is enabled.
+ * <p>
+ * Table Processor used to register the {@link PipeliningFeature} when
+ * server-side processing is enabled.
+ * <p>
+ * If the {@link TableConfig#AJAX_PIPESIZE} is not set, a default value is used.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
+ * @see TableConfig#AJAX_PIPELINING
+ * @see TableConfig#AJAX_PIPESIZE
  */
 public class AjaxPipeliningProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void doProcess(ConfigToken<?> configToken, String value) {
-		
+
 		Boolean retval = null;
 		if (StringUtils.isNotBlank(value)) {
 			retval = Boolean.parseBoolean(value);
@@ -54,10 +60,12 @@ public class AjaxPipeliningProcessor extends AbstractTableProcessor {
 				tableConfiguration.registerExtension(new PipeliningFeature());
 			}
 		}
-
-		if(!stagingConf.containsKey(TableConfig.AJAX_PIPESIZE)){
+		
+		if (!stagingConf.containsKey(TableConfig.AJAX_PIPESIZE)) {
 			TableConfig.AJAX_PIPESIZE.setIn(tableConfiguration, 5);
 		}
+
 		tableConfiguration.set(configToken, retval);
+
 	}
 }

@@ -95,7 +95,6 @@ public class DatatablesFilter implements Filter {
 				response.setContentLength(content.length);
 	            OutputStream out = response.getOutputStream();
 	            out.write(content);
-	            out.flush();
 	            out.close();
 			}
 

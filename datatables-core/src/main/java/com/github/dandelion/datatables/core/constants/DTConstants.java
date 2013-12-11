@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -28,15 +28,16 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.github.dandelion.datatables.core.constants;
+
 /**
- * DataTables internal constants.
+ * DataTables parameters.
  * 
  * @author Thibault Duchateau
  */
-public class DTConstants {
+public final class DTConstants {
 
 	public static final String DT_DOM = "sDom";
-	public static final String DT_AUTO_WIDTH = "bAutoWidth"; 
+	public static final String DT_AUTO_WIDTH = "bAutoWidth";
 	public static final String DT_DEFER_RENDER = "bDeferRender";
 	public static final String DT_FILTER = "bFilter";
 	public static final String DT_INFO = "bInfo";
@@ -66,17 +67,17 @@ public class DTConstants {
 	public static final String DT_S_COLUMNS = "sColumns";
 	public static final String DT_I_DISPLAY_START = "iDisplayStart";
 	public static final String DT_I_DISPLAY_LENGTH = "iDisplayLength";
-	public static final String DT_M_DATA_PROP= "mDataProp_";
-	public static final String DT_S_SEARCH= "sSearch";
-	public static final String DT_S_COLUMN_SEARCH= "sSearch_";
-	public static final String DT_B_REGEX= "bRegex";
-	public static final String DT_B_SEARCHABLE= "bSearchable_";
-	public static final String DT_B_SORTABLE= "bSortable_";
-	public static final String DT_I_SORT_COL= "iSortCol_";
-	public static final String DT_S_SORT_DIR= "sSortDir_";
+	public static final String DT_M_DATA_PROP = "mDataProp_";
+	public static final String DT_S_SEARCH = "sSearch";
+	public static final String DT_S_COLUMN_SEARCH = "sSearch_";
+	public static final String DT_B_REGEX = "bRegex";
+	public static final String DT_B_SEARCHABLE = "bSearchable_";
+	public static final String DT_B_SORTABLE = "bSortable_";
+	public static final String DT_I_SORT_COL = "iSortCol_";
+	public static final String DT_S_SORT_DIR = "sSortDir_";
 	public static final String DT_I_SORTING_COLS = "iSortingCols";
 	public static final String DT_B_REGEX_COL = "bRegex_";
-	
+
 	// Advanced configuration
 	public static final String DT_PAGINATION_TYPE = "sPaginationType";
 	public static final String DT_DS_DATA = "aaData";
@@ -84,7 +85,7 @@ public class DTConstants {
 	public static final String DT_LANGUAGE = "oLanguage";
 	public static final String DT_URL = "sUrl";
 	public static final String DT_JQUERYUI = "bJQueryUI";
-	
+
 	// Extra features
 	public static final String DT_SCROLLY = "sScrollY";
 	public static final String DT_SCROLLX = "sScrollX";
@@ -95,7 +96,8 @@ public class DTConstants {
 	public static final String DT_FILTER_VALUES = "values";
 	public static final String DT_S_PLACEHOLDER = "sPlaceHolder";
 	public static final String DT_S_SELECTOR = "sSelector";
-	
+	public static final String DT_FILTER_LENGTH = "iFilterLength";
+
 	// Column configuration
 	public static final String DT_SORTABLE = "bSortable";
 	public static final String DT_SEARCHABLE = "bSearchable";
@@ -104,7 +106,7 @@ public class DTConstants {
 	public static final String DT_SORT_DIR = "asSorting";
 	public static final String DT_DATA = "mData";
 	public static final String DT_COLUMN_RENDERER = "mRender";
-	
+
 	// Callbacks
 	public static final String DT_FN_COOKIE_CBK = "fnCookieCallback";
 	public static final String DT_FN_CREATED_ROW = "fnCreatedRow";
@@ -116,4 +118,11 @@ public class DTConstants {
 	public static final String DT_FN_INIT_COMPLETE = "fnInitComplete";
 	public static final String DT_FN_PRE_DRAW_CBK = "fnPreDrawCallback";
 	public static final String DT_FN_ROW_CBK = "fnRowCallback";
+
+	/**
+	 * Hidden construtor.
+	 */
+	private DTConstants() {
+
+	}
 }

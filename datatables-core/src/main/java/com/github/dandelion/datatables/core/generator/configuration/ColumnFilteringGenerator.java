@@ -121,6 +121,10 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
 					tmp.put(DTConstants.DT_FILTER_VALUES, new JavascriptSnippet(filterValues));
 				}
         		
+        		Integer filterLength = ColumnConfig.FILTERLENGTH.valueFrom(columnConfiguration);
+        		if(filterLength != null){
+        			tmp.put(DTConstants.DT_FILTER_LENGTH, filterLength);
+        		}
         		aoColumnsContent.add(tmp);
         	}
         }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,24 +30,39 @@
 package com.github.dandelion.datatables.core.processor.column;
 
 import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
 
+/**
+ * <p>
+ * Column processor used to configure a filter type.
+ * 
+ * @author Thibault Duchateau
+ * @see ColumnConfig#FILTERTYPE
+ */
 public class FilterTypeProcessor extends AbstractColumnProcessor {
 
 	@Override
 	public void doProcess(ConfigToken<?> configToken, String value) {
+
 		if (StringUtils.isNotBlank(value)) {
 
 			FilterType filterType = null;
+
 			try {
 				filterType = FilterType.valueOf(value.toUpperCase());
 			} catch (IllegalArgumentException e) {
-				throw new ConfigurationProcessingException(value + " is not a valid value among " + FilterType.values(), e);
+				StringBuilder sb = new StringBuilder();
+				sb.append("'");
+				sb.append(value);
+				sb.append("' is not a valid filter type. Possible values are: ");
+				sb.append(FilterType.possibleValues());
+				throw new ConfigurationProcessingException(sb.toString(), e);
 			}
-			
+
 			columnConfiguration.set(configToken, filterType);
 		}
 	}

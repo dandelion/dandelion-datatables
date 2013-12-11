@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,6 @@
 package com.github.dandelion.datatables.core.asset;
 
 import com.github.dandelion.core.utils.StringUtils;
-
 
 /**
  * <p>

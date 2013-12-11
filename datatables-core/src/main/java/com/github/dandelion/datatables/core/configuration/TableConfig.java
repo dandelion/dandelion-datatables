@@ -45,7 +45,6 @@ import com.github.dandelion.datatables.core.i18n.LocaleResolver;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
 import com.github.dandelion.datatables.core.processor.BooleanProcessor;
 import com.github.dandelion.datatables.core.processor.IntegerProcessor;
-import com.github.dandelion.datatables.core.processor.NoOpProcessor;
 import com.github.dandelion.datatables.core.processor.StringBuilderProcessor;
 import com.github.dandelion.datatables.core.processor.StringProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
@@ -179,7 +178,7 @@ public final class TableConfig {
 	public static ConfigToken<String> FEATURE_SCROLLX = new ConfigToken<String>(P_FEATURE_SCROLLX, new StringProcessor());
 	public static ConfigToken<String> FEATURE_SCROLLXINNER = new ConfigToken<String>(P_FEATURE_SCROLLXINNER, new StringProcessor());
 	public static ConfigToken<String> FEATURE_APPEAR = new ConfigToken<String>(P_FEATURE_APPEAR, new FeatureAppearProcessor());
-	public static ConfigToken<String> FEATURE_APPEAR_DURATION = new ConfigToken<String>(P_FEATURE_APPEAR_DURATION, new NoOpProcessor());
+	public static ConfigToken<String> FEATURE_APPEAR_DURATION = new ConfigToken<String>(P_FEATURE_APPEAR_DURATION, null);
 	
 	public static ConfigToken<Boolean> AJAX_PROCESSING = new ConfigToken<Boolean>(P_AJAX_PROCESSING, new BooleanProcessor());
 	public static ConfigToken<Boolean> AJAX_DEFERRENDER = new ConfigToken<Boolean>(P_AJAX_DEFERRENDER, new BooleanProcessor());

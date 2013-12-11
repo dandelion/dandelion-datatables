@@ -312,6 +312,10 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		stagingConf.put(ColumnConfig.SORTTYPE, sortType);
 	}
 
+	public void setFilterLength(Integer filterLength) {
+		stagingConf.put(ColumnConfig.FILTERLENGTH, filterLength);
+	}
+	
 	public void setId(String id) {
 		stagingConf.put(ColumnConfig.ID, id);
 	}

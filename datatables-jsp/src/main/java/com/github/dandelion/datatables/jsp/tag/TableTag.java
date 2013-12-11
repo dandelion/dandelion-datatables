@@ -47,8 +47,6 @@ import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
@@ -77,20 +75,14 @@ public class TableTag extends AbstractTableTag {
 	
 	/**
 	 * {@inheritDoc}
+	 * @throws JspException 
 	 */
 	public int doStartTag() throws JspException {
 		
 		table = new HtmlTable(id, (HttpServletRequest) pageContext.getRequest(),
 				(HttpServletResponse) pageContext.getResponse(), confGroup, dynamicAttributes);
 
-		try {
-			TableConfig.applyConfiguration(stagingConf, table.getTableConfiguration());
-//			Configuration.applyConfiguration(table.getTableConfiguration(), stagingConf);
-		} catch (ConfigurationProcessingException e) {
-			throw new JspException(e);
-		} catch (ConfigurationLoadingException e) {
-			throw new JspException(e);
-		}
+		TableConfig.applyConfiguration(stagingConf, table.getTableConfiguration());
 		
 		// Just used to identify the first row (header)
 		iterationNumber = 1;

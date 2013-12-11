@@ -64,7 +64,7 @@ public class ExportFormatProcessor extends AbstractTableProcessor {
 	public static final String REGEX_EXPORT_LABEL = "export\\.(.*?)\\.label";
 	public static final String REGEX_EXPORT_FILENAME = "export\\.(.*?)\\.fileName";
 	public static final String REGEX_EXPORT_MIMETYPE = "export\\.(.*?)\\.mimeType";
-	
+
 	private static final Pattern PATTERN_EXPORT_CLASS = Pattern.compile(REGEX_EXPORT_CLASS, Pattern.CASE_INSENSITIVE);
 	private static final Pattern PATTERN_EXPORT_LABEL = Pattern.compile(REGEX_EXPORT_LABEL, Pattern.CASE_INSENSITIVE);
 	private static final Pattern PATTERN_EXPORT_FILENAME = Pattern.compile(REGEX_EXPORT_FILENAME,
@@ -88,49 +88,53 @@ public class ExportFormatProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void doProcess(ConfigToken<?> configToken, String value) {
-		// Extract the export format
-		String format = null;
-		ExportConfToken currentExportConfToken = null;
-		for (Entry<ExportConfToken, Pattern> entry : patterns.entrySet()) {
-			Matcher m = entry.getValue().matcher(configToken.getPropertyName());
-			if (m.find()) {
-				format = m.group(1);
-				currentExportConfToken = entry.getKey();
-				break;
-			}
-		}
+		if (StringUtils.isNotBlank(value)) {
 
-		if (StringUtils.isNotBlank(format)) {
-			logger.debug("Export format {} found", format);
-
-			ExportConf exportConf = null;
-			// The export configuration already exists for this export format
-			if (tableConfiguration.getExportConfiguration().containsKey(format)) {
-
-				exportConf = tableConfiguration.getExportConfiguration().get(format);
-			}
-			// The export configuration must be initialized
-			else {
-				exportConf = new ExportConf(format);
-				tableConfiguration.getExportConfiguration().put(format, exportConf);
+			// Extract the export format
+			String format = null;
+			ExportConfToken currentExportConfToken = null;
+			for (Entry<ExportConfToken, Pattern> entry : patterns.entrySet()) {
+				Matcher m = entry.getValue().matcher(configToken.getPropertyName());
+				if (m.find()) {
+					format = m.group(1);
+					currentExportConfToken = entry.getKey();
+					break;
+				}
 			}
 
-			switch (currentExportConfToken) {
-			case CLASS:
-				exportConf.setExportClass(value);
-				break;
-			case FILENAME:
-				exportConf.setFileName(value);
-				break;
-			case LABEL:
-				exportConf.setLabel(value);
-				break;
-			case MIMETYPE:
-				exportConf.setMimeType(value);
-				break;
+			if (StringUtils.isNotBlank(format)) {
+				logger.debug("Export format {} found", format);
+
+				ExportConf exportConf = null;
+				// The export configuration already exists for this export
+				// format
+				if (tableConfiguration.getExportConfiguration().containsKey(format)) {
+
+					exportConf = tableConfiguration.getExportConfiguration().get(format);
+				}
+				// The export configuration must be initialized
+				else {
+					exportConf = new ExportConf(format);
+					tableConfiguration.getExportConfiguration().put(format, exportConf);
+				}
+
+				switch (currentExportConfToken) {
+				case CLASS:
+					exportConf.setExportClass(value);
+					break;
+				case FILENAME:
+					exportConf.setFileName(value);
+					break;
+				case LABEL:
+					exportConf.setLabel(value);
+					break;
+				case MIMETYPE:
+					exportConf.setMimeType(value);
+					break;
+				}
+			} else {
+				throw new ConfigurationProcessingException("Format " + format + " unknown");
 			}
-		} else {
-			throw new ConfigurationProcessingException("Format " + format + " unknown");
 		}
 	}
 }

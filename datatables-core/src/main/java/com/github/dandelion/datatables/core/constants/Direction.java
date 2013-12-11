@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -51,5 +51,19 @@ public enum Direction {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+	
+	public static String possibleValues() {
+		StringBuilder possibleValues = new StringBuilder();
+		for (int i = 0; i < values().length; i++) {
+			possibleValues.append("'").append(values()[i].name().toLowerCase()).append("'");
+			if (i < values().length - 2) {
+				possibleValues.append(", ");
+			} else if (i == (values().length - 2)) {
+				possibleValues.append(" and ");
+			}
+		}
+		possibleValues.append(".");
+		return possibleValues.toString();
 	}
 }

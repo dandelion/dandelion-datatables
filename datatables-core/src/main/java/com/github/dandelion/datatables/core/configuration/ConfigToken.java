@@ -115,4 +115,11 @@ public class ConfigToken<T> {
 	public void setIn(T value, HtmlTable table) {
 		table.getTableConfiguration().getConfigurations().put(this, value);
 	}
+
+	@Override
+	public String toString() {
+		return "['" + propertyName + "' / " + processor.getClass().getSimpleName() + "]";
+	}
+	
+	
 }

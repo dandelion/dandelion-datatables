@@ -55,9 +55,9 @@ public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void doProcess(ConfigToken<?> configToken, String value) {
-		Set<ExportConf> retval = null;
-
 		if (StringUtils.isNotBlank(value)) {
+
+			Set<ExportConf> retval = null;
 
 			retval = new HashSet<ExportConf>();
 
@@ -70,16 +70,15 @@ public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
 				enabledFormat = enabledFormat.toLowerCase().trim();
 
 				ExportConf exportConf = null;
-				
+
 				// The exportConf may already exist due to the ExportTag
-				if(!tableConfiguration.getExportConfiguration().containsKey(enabledFormat)){
+				if (!tableConfiguration.getExportConfiguration().containsKey(enabledFormat)) {
 					String url = UrlUtils.getExportUrl(tableConfiguration.getRequest(),
 							tableConfiguration.getResponse(), enabledFormat, tableConfiguration.getTableId());
 					exportConf = new ExportConf(enabledFormat, url);
 					retval.add(exportConf);
 					tableConfiguration.getExportConfiguration().put(enabledFormat, exportConf);
-				}
-				else{
+				} else {
 					exportConf = tableConfiguration.getExportConfiguration().get(enabledFormat);
 					exportConf.setUrl(UrlUtils.getExportUrl(tableConfiguration.getRequest(),
 							tableConfiguration.getResponse(), enabledFormat, tableConfiguration.getTableId()));
@@ -87,12 +86,12 @@ public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
 			}
 
 			// Apply default export links if nothing is configured
-			if(!stagingConf.containsKey(TableConfig.EXPORT_LINK_POSITIONS)){
-				tableConfiguration.set(TableConfig.EXPORT_LINK_POSITIONS, new HashSet<ExportLinkPosition>(Arrays
-						.asList(ExportLinkPosition.TOP_RIGHT)));
+			if (!stagingConf.containsKey(TableConfig.EXPORT_LINK_POSITIONS)) {
+				tableConfiguration.set(TableConfig.EXPORT_LINK_POSITIONS,
+						new HashSet<ExportLinkPosition>(Arrays.asList(ExportLinkPosition.TOP_RIGHT)));
 			}
-		}
 
-		tableConfiguration.registerExtension(new ExportFeature());
+			tableConfiguration.registerExtension(new ExportFeature());
+		}
 	}
 }

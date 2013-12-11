@@ -575,6 +575,11 @@
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
+         <description>Number of characters entered in the filter text box before filtering is performed</description>
+          <name>filterLength</name>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
          <description>If filterable is enabled and filterType is
             'INPUT', you can apply a CSS class to the input field
             with

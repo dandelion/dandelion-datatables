@@ -11,9 +11,10 @@ public class CssStripeClassesProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void doProcess(ConfigToken<?> configToken, String value) {
-		String retval = null;
-
 		if (StringUtils.isNotBlank(value)) {
+
+			String retval = null;
+
 			StringBuilder stripeTmp = new StringBuilder("[");
 			if (value.contains(",")) {
 				String[] tmp = value.trim().split(",");
@@ -28,8 +29,8 @@ public class CssStripeClassesProcessor extends AbstractTableProcessor {
 			}
 			stripeTmp.append("]");
 			retval = stripeTmp.toString();
-		}
 
-		tableConfiguration.set(configToken, retval);
+			tableConfiguration.set(configToken, retval);
+		}
 	}
 }

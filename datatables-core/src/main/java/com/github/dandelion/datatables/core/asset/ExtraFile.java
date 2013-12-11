@@ -29,10 +29,12 @@
  */
 package com.github.dandelion.datatables.core.asset;
 
+import com.github.dandelion.datatables.core.configuration.Scope;
 
 /**
- * TODO
- *
+ * Bean encapsulating extra Javascript code to be inserted in the file generated
+ * by Dandelion-Datatables and pointed by the scope {@link Scope#DDL_DT}.
+ * 
  * @author Thibault Duchateau
  */
 public class ExtraFile {

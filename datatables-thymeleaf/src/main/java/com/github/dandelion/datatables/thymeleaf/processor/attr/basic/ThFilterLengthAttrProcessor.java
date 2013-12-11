@@ -27,15 +27,43 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.column;
+package com.github.dandelion.datatables.thymeleaf.processor.attr.basic;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
+import org.thymeleaf.Arguments;
+import org.thymeleaf.dom.Element;
+import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
+import org.thymeleaf.processor.ProcessorResult;
 
-public class DefaultValueProcessor extends AbstractColumnProcessor {
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.Utils;
+
+/**
+ * Attribute processor applied to the <code>th</code> tag for the
+ * <code>filterLength</code> attribute.
+ * 
+ * @author Thibault Duchateau
+ * @see ColumnConfig#FILTERLENGTH
+ */
+public class ThFilterLengthAttrProcessor extends AbstractColumnAttrProcessor {
+
+	public ThFilterLengthAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+		super(matcher);
+	}
 
 	@Override
-	public void doProcess(ConfigToken<?> configToken, String value) {
-		columnConfiguration.set(configToken, value);
+	public int getPrecedence() {
+		return 8000;
+	}
+
+	@Override
+	protected ProcessorResult processColumnAttribute(Arguments arguments, Element element, String attributeName) {
+
+		Integer attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null,
+				Integer.class);
+
+		stagingConf.put(ColumnConfig.FILTERLENGTH, attrValue);
+
+		return ProcessorResult.ok();
 	}
 }

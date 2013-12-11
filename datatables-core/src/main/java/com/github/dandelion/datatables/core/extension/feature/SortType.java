@@ -54,4 +54,18 @@ public enum SortType {
 	public String getName() {
 		return name;
 	}
+	
+	public static String possibleValues() {
+		StringBuilder possibleValues = new StringBuilder();
+		for (int i = 0; i < values().length; i++) {
+			possibleValues.append("'").append(values()[i].name().toLowerCase()).append("'");
+			if (i < values().length - 2) {
+				possibleValues.append(", ");
+			} else if (i == (values().length - 2)) {
+				possibleValues.append(" and ");
+			}
+		}
+		possibleValues.append(".");
+		return possibleValues.toString();
+	}
 }

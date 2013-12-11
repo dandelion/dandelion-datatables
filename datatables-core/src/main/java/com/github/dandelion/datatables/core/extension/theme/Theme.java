@@ -37,6 +37,7 @@ import com.github.dandelion.datatables.core.extension.AbstractExtension;
  * @author Thibault Duchateau
  */
 public enum Theme {
+	
 	BOOTSTRAP2(Bootstrap2Theme.class),
 	BOOTSTRAP3(Bootstrap3Theme.class),
 	JQUERYUI(JQueryUITheme.class);
@@ -58,14 +59,17 @@ public enum Theme {
 		return null;
 	}
 	
-	public static String possibleValues(){
+	public static String possibleValues() {
 		StringBuilder possibleValues = new StringBuilder();
-		for(int i=0 ; i<values().length ; i++){
+		for (int i = 0; i < values().length; i++) {
 			possibleValues.append("'").append(values()[i].name().toLowerCase()).append("'");
-			if(i < values().length -1){
+			if (i < values().length - 2) {
 				possibleValues.append(", ");
+			} else if (i == (values().length - 2)) {
+				possibleValues.append(" and ");
 			}
 		}
+		possibleValues.append(".");
 		return possibleValues.toString();
 	}
 }
