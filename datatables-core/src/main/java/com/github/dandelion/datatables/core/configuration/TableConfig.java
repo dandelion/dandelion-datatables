@@ -370,7 +370,7 @@ public final class TableConfig {
 	
 	
 	/**
-	 * Hide constructor.
+	 * Hidden constructor.
 	 */
 	private TableConfig() {
 	}
