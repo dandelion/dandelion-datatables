@@ -11,8 +11,7 @@ import com.github.dandelion.datatables.core.extension.Extension;
 public class StringProcessor implements TableProcessor, ColumnProcessor {
 
 	@Override
-	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration,
-			Map<ConfigToken<?>, Object> stagingConf) {
+	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration) {
 		
 		tableConfiguration.set(configToken, StringUtils.isNotBlank(value) ? value : null);
 	}

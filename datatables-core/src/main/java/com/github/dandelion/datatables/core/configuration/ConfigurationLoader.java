@@ -51,6 +51,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface ConfigurationLoader {
 
 	public final static String DT_DEFAULT_PROPERTIES = "config/datatables-default.properties";
+	public final static String DT_USER_PROPERTIES_LOCATION = "dandelion/";
 	public final static String DT_USER_PROPERTIES = "datatables";
 	public final static String DEFAULT_GROUP_NAME = "global";
 
@@ -114,13 +115,13 @@ public interface ConfigurationLoader {
 	 * <p>
 	 * For example, if the user properties file contains:<br />
 	 * <code>
-	 * group1.msg.search=My label<br/>
-	 * group1.msg.processing=My other label<br/>
+	 * group1.i18n.msg.search=My label<br/>
+	 * group1.i18n.msg.processing=My other label<br/>
 	 * </code> <br/>
 	 * the {@link ConfigurationLoader} must create a group called 'group1'
 	 * containing all properties present in the 'global' group but where
-	 * <code>msg.search</code> and <code>msg.processing</code> are overriden
-	 * with the user's ones.
+	 * <code>i18n.msg.search</code> and <code>i18n.msg.processing</code> are
+	 * overriden with the user's ones.
 	 * 
 	 * <p>
 	 * Note that:
@@ -128,6 +129,8 @@ public interface ConfigurationLoader {
 	 * <li>A configuration group can be enabled locally in a table thanks to an
 	 * tag attribute.</li>
 	 * <li>A configuration group always extends the 'global' group.</li>
+	 * <li>All properties must be prefixed by the group name (even for the
+	 * 'global' group).</li>
 	 * </ul>
 	 * 
 	 * @param map
@@ -139,5 +142,6 @@ public interface ConfigurationLoader {
 	 * @param request
 	 *            The request sent by the browser.
 	 */
-	public void resolveConfigurations(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request);
+	public void resolveConfigurations(Map<String, Map<ConfigToken<?>, Object>> map, Locale locale,
+			HttpServletRequest request);
 }

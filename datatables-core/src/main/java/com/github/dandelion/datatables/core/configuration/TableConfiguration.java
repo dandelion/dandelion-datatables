@@ -30,7 +30,6 @@
 package com.github.dandelion.datatables.core.configuration;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -129,9 +128,8 @@ public class TableConfiguration {
 	 */
 	public TableConfiguration(Map<ConfigToken<?>, Object> userConf, HttpServletRequest request) {
 		this.request = request;
-		this.configurations = new HashMap<ConfigToken<?>, Object>();
+		this.configurations = userConf;
 		this.exportConfiguration = new LinkedHashMap<String, ExportConf>();
-		TableConfig.applyConfiguration(userConf, this);
 	}
 
 	/**

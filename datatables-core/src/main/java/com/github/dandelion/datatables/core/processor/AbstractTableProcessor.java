@@ -29,8 +29,6 @@
  */
 package com.github.dandelion.datatables.core.processor;
 
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,16 +59,13 @@ public abstract class AbstractTableProcessor implements TableProcessor {
 	private static Logger logger = LoggerFactory.getLogger(AbstractTableProcessor.class);
 
 	protected TableConfiguration tableConfiguration;
-	protected Map<ConfigToken<?>, Object> stagingConf;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration,
-			Map<ConfigToken<?>, Object> stagingConf) {
+	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration) {
 		this.tableConfiguration = tableConfiguration;
-		this.stagingConf = stagingConf;
 
 		logger.trace("Processing '{}' with the config token {}", value, configToken);
 		

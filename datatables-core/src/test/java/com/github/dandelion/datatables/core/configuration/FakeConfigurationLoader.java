@@ -57,7 +57,8 @@ public class FakeConfigurationLoader implements ConfigurationLoader {
 	}
 
 	@Override
-	public void resolveConfigurations(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request) {
+	public void resolveConfigurations(Map<String, Map<ConfigToken<?>, Object>> map, Locale locale,
+			HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		
 	}

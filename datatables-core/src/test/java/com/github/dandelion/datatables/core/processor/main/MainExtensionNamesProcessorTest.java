@@ -46,29 +46,29 @@ public class MainExtensionNamesProcessorTest extends TableProcessorBaseTest {
 
 	@Test
 	public void should_set_null_when_value_is_null() throws Exception {
-		processor.process(TableConfig.MAIN_EXTENSION_NAMES, null, tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.MAIN_EXTENSION_NAMES, null, tableConfiguration);
 		assertThat(TableConfig.MAIN_EXTENSION_NAMES.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.process(TableConfig.MAIN_EXTENSION_NAMES, "", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.MAIN_EXTENSION_NAMES, "", tableConfiguration);
 		assertThat(TableConfig.MAIN_EXTENSION_NAMES.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_a_set_containing_only_one_feature() throws Exception{
-		processor.process(TableConfig.MAIN_EXTENSION_NAMES, "feature1", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.MAIN_EXTENSION_NAMES, "feature1", tableConfiguration);
 		assertThat(TableConfig.MAIN_EXTENSION_NAMES.valueFrom(tableConfiguration)).contains("feature1");
-		processor.process(TableConfig.MAIN_EXTENSION_NAMES, "FEATURE1", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.MAIN_EXTENSION_NAMES, "FEATURE1", tableConfiguration);
 		assertThat(TableConfig.MAIN_EXTENSION_NAMES.valueFrom(tableConfiguration)).contains("feature1");
 	}
 	
 	@Test
 	public void should_set_a_set_containing_multiple_features() throws Exception{
-		processor.process(TableConfig.MAIN_EXTENSION_NAMES, "feature1,feature2", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.MAIN_EXTENSION_NAMES, "feature1,feature2", tableConfiguration);
 		assertThat(TableConfig.MAIN_EXTENSION_NAMES.valueFrom(tableConfiguration)).contains("feature1", "feature2");
-		processor.process(TableConfig.MAIN_EXTENSION_NAMES, "FEATURE1 , feature2", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.MAIN_EXTENSION_NAMES, "FEATURE1 , feature2", tableConfiguration);
 		assertThat(TableConfig.MAIN_EXTENSION_NAMES.valueFrom(tableConfiguration)).contains("feature1", "feature2");
 	}
 }

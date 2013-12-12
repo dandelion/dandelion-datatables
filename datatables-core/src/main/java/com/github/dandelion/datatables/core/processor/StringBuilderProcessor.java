@@ -52,8 +52,7 @@ public class StringBuilderProcessor implements TableProcessor, ColumnProcessor {
 	}
 
 	@Override
-	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration,
-			Map<ConfigToken<?>, Object> stagingConf) {
+	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration) {
 		tableConfiguration.set(configToken, StringUtils.isNotBlank(value) ? new StringBuilder(value) : null);		
 	}
 }

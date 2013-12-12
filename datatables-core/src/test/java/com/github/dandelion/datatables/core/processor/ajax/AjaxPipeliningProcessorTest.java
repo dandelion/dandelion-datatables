@@ -47,19 +47,19 @@ public class AjaxPipeliningProcessorTest extends TableProcessorBaseTest {
 
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.AJAX_PIPELINING, null, tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.AJAX_PIPELINING, null, tableConfiguration);
 		assertThat(TableConfig.AJAX_PIPELINING.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.AJAX_PIPELINING, "", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.AJAX_PIPELINING, "", tableConfiguration);
 		assertThat(TableConfig.AJAX_PIPELINING.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_true_and_register_a_feature_when_value_is_true() {
-		processor.process(TableConfig.AJAX_PIPELINING, "true", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.AJAX_PIPELINING, "true", tableConfiguration);
 		assertThat(TableConfig.AJAX_PIPELINING.valueFrom(tableConfiguration)).isTrue();
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
 		assertThat(new PipeliningFeature()).isIn(tableConfiguration.getInternalExtensions());
@@ -67,7 +67,7 @@ public class AjaxPipeliningProcessorTest extends TableProcessorBaseTest {
 	
 	@Test
 	public void should_set_null_and_not_register_anything_when_value_is_false() {
-		processor.process(TableConfig.AJAX_PIPELINING, "false", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.AJAX_PIPELINING, "false", tableConfiguration);
 		assertThat(TableConfig.AJAX_PIPELINING.valueFrom(tableConfiguration)).isFalse();
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}

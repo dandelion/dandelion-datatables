@@ -49,19 +49,19 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.EXPORT_ENABLED_FORMATS, null, tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.EXPORT_ENABLED_FORMATS, null, tableConfiguration);
 		assertThat(tableConfiguration.getExportConfiguration()).isEmpty();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.EXPORT_ENABLED_FORMATS, "", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.EXPORT_ENABLED_FORMATS, "", tableConfiguration);
 		assertThat(tableConfiguration.getExportConfiguration()).isEmpty();
 	}
 	
 	@Test
 	public void should_enable_csv_export_with_default_configuration() {
-		processor.process(TableConfig.EXPORT_ENABLED_FORMATS, "csv", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.EXPORT_ENABLED_FORMATS, "csv", tableConfiguration);
 		
 		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
 		assertThat(tableConfiguration.getExportConfiguration()).hasSize(1);
@@ -74,14 +74,14 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getIncludeHeader()).isTrue();
 		assertThat(csvExportConf.getUrl()).isEqualTo("?dtt=csv&dti=fakeId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(csvExportConf.getMethod()).isEqualTo(HttpMethod.GET);
-		assertThat(csvExportConf.getAutoSize()).isFalse();
+		assertThat(csvExportConf.getAutoSize()).isTrue();
 		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
 		assertThat(csvExportConf.getExtension()).isEqualTo("csv");
 	}
 	
 	@Test
 	public void should_enable_csv_and_pdf_export() {
-		processor.process(TableConfig.EXPORT_ENABLED_FORMATS, "csv,pdf", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.EXPORT_ENABLED_FORMATS, "csv,pdf", tableConfiguration);
 		
 		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
 		assertThat(tableConfiguration.getExportConfiguration()).hasSize(2);
@@ -94,7 +94,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getIncludeHeader()).isTrue();
 		assertThat(csvExportConf.getUrl()).isEqualTo("?dtt=csv&dti=fakeId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(csvExportConf.getMethod()).isEqualTo(HttpMethod.GET);
-		assertThat(csvExportConf.getAutoSize()).isFalse();
+		assertThat(csvExportConf.getAutoSize()).isTrue();
 		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
 		assertThat(csvExportConf.getExtension()).isEqualTo("csv");
 		
@@ -106,14 +106,14 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(pdfExportConf.getIncludeHeader()).isTrue();
 		assertThat(pdfExportConf.getUrl()).isEqualTo("?dtt=pdf&dti=fakeId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(pdfExportConf.getMethod()).isEqualTo(HttpMethod.GET);
-		assertThat(pdfExportConf.getAutoSize()).isFalse();
+		assertThat(pdfExportConf.getAutoSize()).isTrue();
 		assertThat(pdfExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_PDF_CLASS);
 		assertThat(pdfExportConf.getExtension()).isEqualTo("pdf");
 	}
 	
 	@Test
 	public void should_enable_totally_custom_export() {
-		processor.process(TableConfig.EXPORT_ENABLED_FORMATS, "myformat", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.EXPORT_ENABLED_FORMATS, "myformat", tableConfiguration);
 		
 		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
 		assertThat(tableConfiguration.getExportConfiguration()).hasSize(1);
@@ -126,7 +126,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(myFormatExportConf.getIncludeHeader()).isTrue();
 		assertThat(myFormatExportConf.getUrl()).isEqualTo("?dtt=myformat&dti=fakeId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(myFormatExportConf.getMethod()).isEqualTo(HttpMethod.GET);
-		assertThat(myFormatExportConf.getAutoSize()).isFalse();
+		assertThat(myFormatExportConf.getAutoSize()).isTrue();
 		assertThat(myFormatExportConf.getExportClass()).isNull();
 		assertThat(myFormatExportConf.getExtension()).isEqualTo("myformat");
 	}

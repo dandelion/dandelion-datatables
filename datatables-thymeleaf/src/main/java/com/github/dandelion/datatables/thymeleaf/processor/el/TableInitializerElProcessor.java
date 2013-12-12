@@ -71,7 +71,6 @@ public class TableInitializerElProcessor extends AbstractElProcessor {
 	protected ProcessorResult doProcessElement(Arguments arguments, Element element) {
 		
 		String tableId = element.getAttributeValue("id");
-		logger.debug("{} element found with id {}", element.getNormalizedName(), tableId);
 
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 		HttpServletResponse response = ((IWebContext) arguments.getContext()).getHttpServletResponse();

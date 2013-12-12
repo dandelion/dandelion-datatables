@@ -46,34 +46,34 @@ public class FeatureAppearProcessorTest extends TableProcessorBaseTest {
 	
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.FEATURE_APPEAR, null, tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_APPEAR, null, tableConfiguration);
 		assertThat(TableConfig.FEATURE_APPEAR.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.FEATURE_APPEAR, "", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_APPEAR, "", tableConfiguration);
 		assertThat(TableConfig.FEATURE_APPEAR.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_return_fadein() throws Exception{
-		processor.process(TableConfig.FEATURE_APPEAR, "fadein", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_APPEAR, "fadein", tableConfiguration);
 		assertThat(TableConfig.FEATURE_APPEAR.valueFrom(tableConfiguration)).isEqualTo("fadein");
 	}
 	
 	@Test
 	public void should_return_fadein_and_set_appear_duration() {
-		processor.process(TableConfig.FEATURE_APPEAR, "fadein,1500", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_APPEAR, "fadein,1500", tableConfiguration);
 		assertThat(TableConfig.FEATURE_APPEAR.valueFrom(tableConfiguration)).isEqualTo("fadein");
 		assertThat(TableConfig.FEATURE_APPEAR_DURATION.valueFrom(tableConfiguration)).isEqualTo("1500");
 	}
 	
 	@Test
 	public void should_set_default_value_when_a_wrong_format_is_used() throws Exception{
-		processor.process(TableConfig.FEATURE_APPEAR, "blockkk", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_APPEAR, "blockkk", tableConfiguration);
 		assertThat(TableConfig.FEATURE_APPEAR.valueFrom(tableConfiguration)).isEqualTo("block");
-		processor.process(TableConfig.FEATURE_APPEAR, "fadein;12", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_APPEAR, "fadein;12", tableConfiguration);
 		assertThat(TableConfig.FEATURE_APPEAR.valueFrom(tableConfiguration)).isEqualTo("block");
 	}
 }

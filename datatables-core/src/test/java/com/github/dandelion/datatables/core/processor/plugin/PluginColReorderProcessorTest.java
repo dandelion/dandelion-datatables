@@ -47,30 +47,30 @@ public class PluginColReorderProcessorTest extends TableProcessorBaseTest {
 
 	@Test
 	public void should_set_null_when_value_is_null() throws Exception {
-		processor.process(TableConfig.PLUGIN_COLREORDER, null, tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.PLUGIN_COLREORDER, null, tableConfiguration);
 		assertThat(TableConfig.PLUGIN_COLREORDER.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.process(TableConfig.PLUGIN_COLREORDER, "", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.PLUGIN_COLREORDER, "", tableConfiguration);
 		assertThat(TableConfig.PLUGIN_COLREORDER.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_enable_plugin_when_value_is_true() throws Exception {
-		processor.process(TableConfig.PLUGIN_COLREORDER, "true", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.PLUGIN_COLREORDER, "true", tableConfiguration);
 		assertThat(TableConfig.PLUGIN_COLREORDER.valueFrom(tableConfiguration)).isTrue();
 		assertThat(tableConfiguration.getInternalExtensions()).contains(new ColReorderPlugin());
 	}
 	
 	@Test
 	public void should_not_enable_plugin_when_value_is_false() throws Exception {
-		processor.process(TableConfig.PLUGIN_COLREORDER, "false", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.PLUGIN_COLREORDER, "false", tableConfiguration);
 		assertThat(TableConfig.PLUGIN_COLREORDER.valueFrom(tableConfiguration)).isFalse();
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 		
-		processor.process(TableConfig.PLUGIN_COLREORDER, "weird value", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.PLUGIN_COLREORDER, "weird value", tableConfiguration);
 		assertThat(TableConfig.PLUGIN_COLREORDER.valueFrom(tableConfiguration)).isFalse();
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}

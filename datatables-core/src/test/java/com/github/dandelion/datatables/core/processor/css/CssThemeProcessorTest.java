@@ -49,35 +49,35 @@ public class CssThemeProcessorTest extends TableProcessorBaseTest {
 
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.CSS_THEME, null, tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_THEME, null, tableConfiguration);
 		assertThat(TableConfig.CSS_THEME.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.CSS_THEME, "", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_THEME, "", tableConfiguration);
 		assertThat(TableConfig.CSS_THEME.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_theme() {
-		processor.process(TableConfig.CSS_THEME, "bootstrap2", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_THEME, "bootstrap2", tableConfiguration);
 		assertThat(TableConfig.CSS_THEME.valueFrom(tableConfiguration)).isEqualTo(new Bootstrap2Theme());
-		processor.process(TableConfig.CSS_THEME, "BOOTSTRAP2", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_THEME, "BOOTSTRAP2", tableConfiguration);
 		assertThat(TableConfig.CSS_THEME.valueFrom(tableConfiguration)).isEqualTo(new Bootstrap2Theme());
-		processor.process(TableConfig.CSS_THEME, "jqueryui", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_THEME, "jqueryui", tableConfiguration);
 		assertThat(TableConfig.CSS_THEME.valueFrom(tableConfiguration)).isEqualTo(new JQueryUITheme());
-		processor.process(TableConfig.CSS_THEME, "jqueryUI", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_THEME, "jqueryUI", tableConfiguration);
 		assertThat(TableConfig.CSS_THEME.valueFrom(tableConfiguration)).isEqualTo(new JQueryUITheme());
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_raise_an_exception() {
-		processor.process(TableConfig.CSS_THEME, "booootstrap2", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_THEME, "booootstrap2", tableConfiguration);
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_raise_an_exception_as_well() {
-		processor.process(TableConfig.CSS_THEME, "jquery", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_THEME, "jquery", tableConfiguration);
 	}
 }

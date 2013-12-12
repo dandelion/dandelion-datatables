@@ -48,26 +48,26 @@ public class CssThemeOptionProcessorTest extends TableProcessorBaseTest {
 	
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.CSS_THEMEOPTION, null, tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_THEMEOPTION, null, tableConfiguration);
 		assertThat(TableConfig.CSS_THEMEOPTION.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.CSS_THEMEOPTION, "", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_THEMEOPTION, "", tableConfiguration);
 		assertThat(TableConfig.CSS_THEMEOPTION.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_theme_option() {
-		processor.process(TableConfig.CSS_THEMEOPTION, "blacktie", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_THEMEOPTION, "blacktie", tableConfiguration);
 		assertThat(TableConfig.CSS_THEMEOPTION.valueFrom(tableConfiguration)).isEqualTo(ThemeOption.BLACKTIE);
-		processor.process(TableConfig.CSS_THEMEOPTION, "BLACKTIE", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_THEMEOPTION, "BLACKTIE", tableConfiguration);
 		assertThat(TableConfig.CSS_THEMEOPTION.valueFrom(tableConfiguration)).isEqualTo(ThemeOption.BLACKTIE);
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_raise_an_exception() {
-		processor.process(TableConfig.CSS_THEMEOPTION, "unknownThemeOption", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_THEMEOPTION, "unknownThemeOption", tableConfiguration);
 	}
 }

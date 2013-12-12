@@ -39,22 +39,22 @@ import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
+import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.core.asset.web.AssetsRequestContext;
 import com.github.dandelion.core.asset.wrapper.impl.DelegatedLocationWrapper;
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
 import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
-import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.UrlUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
@@ -73,8 +73,6 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TableFinalizerElProcessor.class);
 
-	private HtmlTable htmlTable;
-
 	public TableFinalizerElProcessor(IElementNameProcessorMatcher matcher) {
 		super(matcher);
 	}
@@ -90,27 +88,20 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 		// Get the HTTP request
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 
-        this.htmlTable = table;
-
-		if (this.htmlTable != null) {
+		if (this.table != null) {
 
 			@SuppressWarnings("unchecked")
 			Map<ConfigToken<?>, Object> localConf = (Map<ConfigToken<?>, Object>) request.getAttribute(DataTablesDialect.INTERNAL_TABLE_LOCAL_CONF);
 			
-			try {
-				TableConfig.applyConfiguration(localConf, htmlTable.getTableConfiguration());
-//				Configuration.applyConfiguration(htmlTable.getTableConfiguration(), localConf);
-			} catch (ConfigurationLoadingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			TableConfig.applyConfiguration(localConf, table);
+			TableConfig.processConfiguration(table);
 
-//			applyCssConfiguration(arguments);
+			applyCssConfiguration(arguments);
 			
 //			applyExportConfiguration(arguments);
 			
 			// The table is being exported
-			if (UrlUtils.isTableBeingExported(request, this.htmlTable)) {
+			if (UrlUtils.isTableBeingExported(request, table)) {
 				setupExport(arguments);
 			}
 			// The table must be generated and displayed
@@ -148,35 +139,37 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 	
 	private void applyCssConfiguration(Arguments arguments){
 		
-//		// CSS class
-//		if(htmlTable.getTableConfiguration().getCssClass() != null){
-//			Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(
-//					DataTablesDialect.INTERNAL_TABLE_NODE);
-//			
-//			String cssClass = ((Element) tableNode).getAttributeValue("class");
-//			if(StringUtils.isNotBlank(cssClass)){
-//				cssClass += " " + htmlTable.getTableConfiguration().getCssClass();
-//				((Element) tableNode).setAttribute("class", cssClass);
-//			}
-//			else{
-//				((Element) tableNode).setAttribute("class", htmlTable.getTableConfiguration().getCssClass().toString());
-//			}
-//		}
-//		
+		// CSS class
+		StringBuilder configuredCssClass = TableConfig.CSS_CLASS.valueFrom(table.getTableConfiguration());
+		if(configuredCssClass != null){
+			Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(
+					DataTablesDialect.INTERNAL_TABLE_NODE);
+			
+			String currentCssClass = ((Element) tableNode).getAttributeValue("class");
+			if(StringUtils.isNotBlank(currentCssClass)){
+				currentCssClass += " " + configuredCssClass.toString();
+				((Element) tableNode).setAttribute("class", currentCssClass);
+			}
+			else{
+				((Element) tableNode).setAttribute("class", configuredCssClass.toString());
+			}
+		}
+		
 		// CSS style
-//		if(htmlTable.getTableConfiguration().getCssStyle() != null){
-//			Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(
-//					DataTablesDialect.INTERNAL_TABLE_NODE);
-//			
-//			String cssStyle = ((Element) tableNode).getAttributeValue("style");
-//			if(StringUtils.isNotBlank(cssStyle)){
-//				cssStyle += ";" + htmlTable.getTableConfiguration().getCssStyle();
-//				((Element) tableNode).setAttribute("style", cssStyle);
-//			}
-//			else{
-//				((Element) tableNode).setAttribute("style", htmlTable.getTableConfiguration().getCssStyle().toString());
-//			}
-//		}
+		StringBuilder configuredCssStyle = TableConfig.CSS_STYLE.valueFrom(table.getTableConfiguration());
+		if(configuredCssStyle != null){
+			Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(
+					DataTablesDialect.INTERNAL_TABLE_NODE);
+			
+			String currentCssStyle = ((Element) tableNode).getAttributeValue("style");
+			if(StringUtils.isNotBlank(currentCssStyle)){
+				currentCssStyle += ";" + configuredCssStyle.toString();
+				((Element) tableNode).setAttribute("style", currentCssStyle);
+			}
+			else{
+				((Element) tableNode).setAttribute("style", currentCssStyle.toString());
+			}
+		}
 	}
 	
 
@@ -191,11 +184,11 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 
 		String currentExportType = ExportUtils.getCurrentExportType(request);
 
-		this.htmlTable.getTableConfiguration().setExporting(true);
-		this.htmlTable.getTableConfiguration().setCurrentExportFormat(currentExportType);
+		this.table.getTableConfiguration().setExporting(true);
+		this.table.getTableConfiguration().setCurrentExportFormat(currentExportType);
 
 		// Call the export delegate
-		ExportDelegate exportDelegate = new ExportDelegate(this.htmlTable, request);
+		ExportDelegate exportDelegate = new ExportDelegate(this.table, request);
 		exportDelegate.launchExport();
 
 		response.reset();
@@ -206,10 +199,10 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 	 */
 	private void setupHtmlGeneration(Arguments arguments, Element element, HttpServletRequest request) {
 		
-		this.htmlTable.getTableConfiguration().setExporting(false);
+		table.getTableConfiguration().setExporting(false);
 
 		// Init the web resources generator
-		WebResourceGenerator contentGenerator = new WebResourceGenerator(htmlTable);
+		WebResourceGenerator contentGenerator = new WebResourceGenerator(table);
 
 		// Generate the web resources (JS, CSS) and wrap them into a
 		// WebResources POJO

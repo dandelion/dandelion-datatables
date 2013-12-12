@@ -47,19 +47,19 @@ public class AjaxServerSideProcessorTest extends TableProcessorBaseTest {
 
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.AJAX_SERVERSIDE, null, tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.AJAX_SERVERSIDE, null, tableConfiguration);
 		assertThat(TableConfig.AJAX_SERVERSIDE.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.AJAX_SERVERSIDE, "", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.AJAX_SERVERSIDE, "", tableConfiguration);
 		assertThat(TableConfig.AJAX_SERVERSIDE.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_true_and_register_a_feature_when_value_is_true() {
-		processor.process(TableConfig.AJAX_SERVERSIDE, "true", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.AJAX_SERVERSIDE, "true", tableConfiguration);
 		assertThat(TableConfig.AJAX_SERVERSIDE.valueFrom(tableConfiguration)).isTrue();
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
 		assertThat(new ServerSideFeature()).isIn(tableConfiguration.getInternalExtensions());
@@ -67,7 +67,7 @@ public class AjaxServerSideProcessorTest extends TableProcessorBaseTest {
 	
 	@Test
 	public void should_set_null_and_not_register_anything_when_value_is_false() {
-		processor.process(TableConfig.AJAX_SERVERSIDE, "false", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.AJAX_SERVERSIDE, "false", tableConfiguration);
 		assertThat(TableConfig.AJAX_SERVERSIDE.valueFrom(tableConfiguration)).isFalse();
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}

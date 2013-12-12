@@ -29,8 +29,6 @@
  */
 package com.github.dandelion.datatables.core.processor;
 
-import java.util.Map;
-
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 
@@ -53,11 +51,6 @@ public interface TableProcessor extends ConfigurationProcessor {
 	 *            The string to process.
 	 * @param tableConfiguration
 	 *            The table configuration to be updated.
-	 * @param stagingConf
-	 *            The staging configuration to be applied, in case of some
-	 *            processor result would depend on the result of other
-	 *            configuration.
 	 */
-	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration,
-			Map<ConfigToken<?>, Object> stagingConf);
+	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration);
 }

@@ -36,24 +36,24 @@ public class IntegerProcessorTest {
 	
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.AJAX_PIPESIZE, null, tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.AJAX_PIPESIZE, null, tableConfiguration);
 		assertThat(TableConfig.AJAX_PIPESIZE.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.AJAX_PIPESIZE, "", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.AJAX_PIPESIZE, "", tableConfiguration);
 		assertThat(TableConfig.AJAX_PIPESIZE.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_1_when_value_is_1() throws Exception{
-		processor.process(TableConfig.AJAX_PIPESIZE, "1", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.AJAX_PIPESIZE, "1", tableConfiguration);
 		assertThat(TableConfig.AJAX_PIPESIZE.valueFrom(tableConfiguration)).isEqualTo(1);
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_throw_an_exception_when_not_using_an_integer() throws Exception{
-		processor.process(TableConfig.AJAX_PIPESIZE, "number", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.AJAX_PIPESIZE, "number", tableConfiguration);
 	}
 }

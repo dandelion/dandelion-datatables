@@ -154,12 +154,12 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		// No system property is set, retrieves the bundle from the classpath
 		if (userBundle == null) {
 			try {
-				userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale, new UTF8Control());
+				userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES_LOCATION + DT_USER_PROPERTIES, locale, new UTF8Control());
 			} catch (MissingResourceException e) {
 				// if no resource bundle is found, try using the context
 				// classloader
 				try {
-					userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale, Thread.currentThread()
+					userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES_LOCATION + DT_USER_PROPERTIES, locale, Thread.currentThread()
 							.getContextClassLoader(), new UTF8Control());
 				} catch (MissingResourceException mre) {
 					logger.debug("No custom configuration. Using default one.");
@@ -202,7 +202,8 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void resolveConfigurations(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request) {
+	public void resolveConfigurations(Map<String, Map<ConfigToken<?>, Object>> map, Locale locale,
+			HttpServletRequest request) {
 
 		logger.debug("Resolving configurations for the locale {}...", locale);
 
@@ -267,8 +268,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 				}
 			}
 
-			TableConfiguration tableConfiguration = new TableConfiguration(userConf, request);
-			map.put(groupName, tableConfiguration);
+			map.put(groupName, userConf);
 		}
 
 		if (!wrongKeys.isEmpty()) {

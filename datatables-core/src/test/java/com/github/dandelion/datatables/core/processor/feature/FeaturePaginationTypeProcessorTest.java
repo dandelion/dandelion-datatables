@@ -48,46 +48,46 @@ public class FeaturePaginationTypeProcessorTest extends TableProcessorBaseTest {
 
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, null, tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, null, tableConfiguration);
 		assertThat(TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "", tableConfiguration);
 		assertThat(TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_paginationtype() {
 
-		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "bootstrap", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "bootstrap", tableConfiguration);
 		assertThat(TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(tableConfiguration)).isEqualTo(PaginationType.BOOTSTRAP);
 
-		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "BOOTSTRAP", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "BOOTSTRAP", tableConfiguration);
 		assertThat(TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(tableConfiguration)).isEqualTo(PaginationType.BOOTSTRAP);
 
-		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "input", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "input", tableConfiguration);
 		assertThat(TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(tableConfiguration)).isEqualTo(PaginationType.INPUT);
 
-		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "listbox", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "listbox", tableConfiguration);
 		assertThat(TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(tableConfiguration)).isEqualTo(PaginationType.LISTBOX);
 
-		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "scrolling", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "scrolling", tableConfiguration);
 		assertThat(TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(tableConfiguration)).isEqualTo(PaginationType.SCROLLING);
 		
-		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "four_button", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "four_button", tableConfiguration);
 		assertThat(TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(tableConfiguration)).isEqualTo(PaginationType.FOUR_BUTTON);
 
-		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "two_button", tableConfiguration, confToBeApplied);		
+		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "two_button", tableConfiguration);		
 		assertThat(TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(tableConfiguration)).isEqualTo(PaginationType.TWO_BUTTON);
 
-		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "full_numbers", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "full_numbers", tableConfiguration);
 		assertThat(TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(tableConfiguration)).isEqualTo(PaginationType.FULL_NUMBERS);
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_raise_an_exception() {
-		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "boooootstrap", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_PAGINATIONTYPE, "boooootstrap", tableConfiguration);
 	}
 }

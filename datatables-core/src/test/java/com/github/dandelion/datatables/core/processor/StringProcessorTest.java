@@ -35,19 +35,19 @@ public class StringProcessorTest {
 
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.AJAX_SERVERDATA, null, tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.AJAX_SERVERDATA, null, tableConfiguration);
 		assertThat(TableConfig.AJAX_SERVERDATA.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.AJAX_SERVERDATA, "", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.AJAX_SERVERDATA, "", tableConfiguration);
 		assertThat(TableConfig.AJAX_SERVERDATA.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_a_string_true_when_value_is_a_string() throws Exception{
-		processor.process(TableConfig.AJAX_SERVERDATA, "someString", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.AJAX_SERVERDATA, "someString", tableConfiguration);
 		assertThat(TableConfig.AJAX_SERVERDATA.valueFrom(tableConfiguration)).isEqualTo("someString");
 	}
 }

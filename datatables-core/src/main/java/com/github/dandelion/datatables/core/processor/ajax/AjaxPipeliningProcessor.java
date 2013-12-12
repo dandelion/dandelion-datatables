@@ -61,7 +61,7 @@ public class AjaxPipeliningProcessor extends AbstractTableProcessor {
 			}
 		}
 		
-		if (!stagingConf.containsKey(TableConfig.AJAX_PIPESIZE)) {
+		if (!tableConfiguration.getConfigurations().containsKey(TableConfig.AJAX_PIPESIZE)) {
 			TableConfig.AJAX_PIPESIZE.setIn(tableConfiguration, 5);
 		}
 

@@ -35,19 +35,19 @@ public class StringBuilderProcessorTest {
 
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.CSS_CLASS, null, tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_CLASS, null, tableConfiguration);
 		assertThat(TableConfig.CSS_CLASS.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.CSS_CLASS, "", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_CLASS, "", tableConfiguration);
 		assertThat(TableConfig.CSS_CLASS.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_a_string_true_when_value_is_a_string() throws Exception{
-		processor.process(TableConfig.CSS_CLASS, "someString", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.CSS_CLASS, "someString", tableConfiguration);
 		assertThat(TableConfig.CSS_CLASS.valueFrom(tableConfiguration).toString()).isEqualTo("someString");
 	}
 }

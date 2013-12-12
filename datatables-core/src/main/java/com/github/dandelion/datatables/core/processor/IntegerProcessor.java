@@ -47,8 +47,7 @@ import com.github.dandelion.datatables.core.extension.Extension;
 public class IntegerProcessor implements TableProcessor, ColumnProcessor {
 
 	@Override
-	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration,
-			Map<ConfigToken<?>, Object> stagingConf) {
+	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration) {
 		Integer result = null;
 		try {
 			result = StringUtils.isNotBlank(value) ? Integer.parseInt(value) : null;

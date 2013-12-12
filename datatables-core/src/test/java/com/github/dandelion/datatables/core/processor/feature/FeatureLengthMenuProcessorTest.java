@@ -47,30 +47,30 @@ public class FeatureLengthMenuProcessorTest extends TableProcessorBaseTest {
 
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.FEATURE_LENGTHMENU, null, tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_LENGTHMENU, null, tableConfiguration);
 		assertThat(TableConfig.FEATURE_LENGTHMENU.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.FEATURE_LENGTHMENU, "", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_LENGTHMENU, "", tableConfiguration);
 		assertThat(TableConfig.FEATURE_LENGTHMENU.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_lenghtmenu_with_2D_array() {
-		processor.process(TableConfig.FEATURE_LENGTHMENU, "10,15,25;10,15,25", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_LENGTHMENU, "10,15,25;10,15,25", tableConfiguration);
 		assertThat(TableConfig.FEATURE_LENGTHMENU.valueFrom(tableConfiguration)).isEqualTo("[[10,15,25],[10,15,25]]");
 	}
 	
 	@Test
 	public void should_set_lenghtmenu_with_1D_array() {
-		processor.process(TableConfig.FEATURE_LENGTHMENU, "10,20", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_LENGTHMENU, "10,20", tableConfiguration);
 		assertThat(TableConfig.FEATURE_LENGTHMENU.valueFrom(tableConfiguration)).isEqualTo("[10,20]");
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_raise_an_exception() {
-		processor.process(TableConfig.FEATURE_LENGTHMENU, "10,15,25;10,15", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_LENGTHMENU, "10,15,25;10,15", tableConfiguration);
 	}
 }

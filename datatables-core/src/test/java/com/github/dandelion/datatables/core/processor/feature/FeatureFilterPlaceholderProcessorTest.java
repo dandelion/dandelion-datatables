@@ -48,39 +48,39 @@ public class FeatureFilterPlaceholderProcessorTest extends TableProcessorBaseTes
 
 	@Test
 	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, null, tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, null, tableConfiguration);
 		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "", tableConfiguration);
 		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isNull();
 	}
 	
 	@Test
 	public void should_set_filterplaceholder() {
-		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, null, tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, null, tableConfiguration);
 		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isNull();
 		
-		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "none", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "none", tableConfiguration);
 		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isEqualTo(FilterPlaceholder.NONE);
 		
-		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "NONE", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "NONE", tableConfiguration);
 		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isEqualTo(FilterPlaceholder.NONE);
 		
-		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "head_after", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "head_after", tableConfiguration);
 		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isEqualTo(FilterPlaceholder.HEAD_AFTER);
 
-		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "head_before", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "head_before", tableConfiguration);
 		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isEqualTo(FilterPlaceholder.HEAD_BEFORE);
 
-		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "foot", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "foot", tableConfiguration);
 		assertThat(TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(tableConfiguration)).isEqualTo(FilterPlaceholder.FOOT);
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_raise_an_exception() {
-		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "noooooone", tableConfiguration, confToBeApplied);
+		processor.process(TableConfig.FEATURE_FILTER_PLACEHOLDER, "noooooone", tableConfiguration);
 	}
 }

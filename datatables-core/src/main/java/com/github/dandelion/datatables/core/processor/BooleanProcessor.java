@@ -46,7 +46,7 @@ import com.github.dandelion.datatables.core.extension.Extension;
 public class BooleanProcessor implements TableProcessor, ColumnProcessor {
 
 	@Override
-	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration, Map<ConfigToken<?>, Object> stagingConf) {
+	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration) {
 		Boolean retval = null;
 		if (StringUtils.isNotBlank(value)) {
 			retval = Boolean.parseBoolean(value);

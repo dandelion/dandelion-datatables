@@ -43,7 +43,6 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.datatables.core.constants.DTMessages;
 import com.github.dandelion.datatables.core.constants.SystemConstants;
 
 public class StandardConfigurationLoaderTest {
@@ -88,7 +87,7 @@ public class StandardConfigurationLoaderTest {
 		String path = new File("src/test/resources/loadingTest/test1/").getAbsolutePath();
 		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
 		
-		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
+		Map<String, Map<ConfigToken<?>, Object>> map = new HashMap<String, Map<ConfigToken<?>, Object>>();
 
 		loader.loadUserConfiguration(request.getLocale());
 		loader.resolveGroups(request.getLocale());
@@ -98,10 +97,10 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.containsKey("global")).isTrue();
 		
 		// Default values
-		assertThat(map.get("global").getConfigurations().get(TableConfig.FEATURE_INFO)).isNull();
+		assertThat(map.get("global").get(TableConfig.FEATURE_INFO)).isNull();
 		
 		// Overriden values
-		assertThat(map.get("global").getConfigurations().get(TableConfig.MAIN_EXTENSION_PACKAGE)).isEqualTo("my.custom.package");
+		assertThat(map.get("global").get(TableConfig.MAIN_EXTENSION_PACKAGE)).isEqualTo("my.custom.package");
 	}
 	
 	@Test
@@ -109,7 +108,7 @@ public class StandardConfigurationLoaderTest {
 		String path = new File("src/test/resources/loadingTest/test2/").getAbsolutePath();
 		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
 		
-		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
+		Map<String, Map<ConfigToken<?>, Object>> map = new HashMap<String, Map<ConfigToken<?>, Object>>();
 
 		loader.loadUserConfiguration(request.getLocale());
 		loader.resolveGroups(request.getLocale());
@@ -121,17 +120,17 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.containsKey("group2")).isTrue();
 		
 		// Global group
-		assertThat(map.get("global").getConfigurations().get(TableConfig.MAIN_EXTENSION_PACKAGE)).isEqualTo("my.custom.packagee"); // Overriden value from global
+		assertThat(map.get("global").get(TableConfig.MAIN_EXTENSION_PACKAGE)).isEqualTo("my.custom.packagee"); // Overriden value from global
 		
 		// Group1 group
-		assertThat(map.get("group1").getConfigurations().get(TableConfig.CSS_CLASS).toString()).isEqualTo("group1-class"); // Overriden value
-		assertThat(map.get("group1").getConfigurations().get(TableConfig.CSS_STYLE).toString()).isEqualTo("group1-style"); // Overriden value
-		assertThat(map.get("group1").getConfigurations().get(TableConfig.MAIN_EXTENSION_PACKAGE)).isEqualTo("my.custom.packagee"); // Overriden value from global
+		assertThat(map.get("group1").get(TableConfig.CSS_CLASS).toString()).isEqualTo("group1-class"); // Overriden value
+		assertThat(map.get("group1").get(TableConfig.CSS_STYLE).toString()).isEqualTo("group1-style"); // Overriden value
+		assertThat(map.get("group1").get(TableConfig.MAIN_EXTENSION_PACKAGE)).isEqualTo("my.custom.packagee"); // Overriden value from global
 		
 		// Group2 group
-		assertThat(map.get("group2").getConfigurations().get(TableConfig.CSS_CLASS).toString()).isEqualTo("group2-class"); // Overriden value
-		assertThat(map.get("group2").getConfigurations().get(TableConfig.CSS_STYLE).toString()).isEqualTo("group2-style"); // Overriden value
-		assertThat(map.get("group2").getConfigurations().get(TableConfig.MAIN_EXTENSION_PACKAGE)).isEqualTo("my.custom.packagee"); // Overriden value from global
+		assertThat(map.get("group2").get(TableConfig.CSS_CLASS).toString()).isEqualTo("group2-class"); // Overriden value
+		assertThat(map.get("group2").get(TableConfig.CSS_STYLE).toString()).isEqualTo("group2-style"); // Overriden value
+		assertThat(map.get("group2").get(TableConfig.MAIN_EXTENSION_PACKAGE)).isEqualTo("my.custom.packagee"); // Overriden value from global
 	}
 	
 	@Test
@@ -139,7 +138,7 @@ public class StandardConfigurationLoaderTest {
 		String path = new File("src/test/resources/loadingTest/test3/").getAbsolutePath();
 		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
 		
-		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
+		Map<String, Map<ConfigToken<?>, Object>> map = new HashMap<String, Map<ConfigToken<?>, Object>>();
 
 		loader.loadUserConfiguration(request.getLocale());
 		loader.resolveGroups(request.getLocale());
@@ -150,10 +149,10 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.containsKey("group1")).isTrue();
 		
 		// Global group
-		assertThat(map.get("global").getConfigurations().get(TableConfig.CSS_CLASS)).isNull(); // Default value
+		assertThat(map.get("global").get(TableConfig.CSS_CLASS)).isNull(); // Default value
 
 		// Group1 group
-		assertThat(map.get("group1").getConfigurations().get(TableConfig.CSS_CLASS).toString()).isEqualTo("group1-class"); // Overriden value
+		assertThat(map.get("group1").get(TableConfig.CSS_CLASS).toString()).isEqualTo("group1-class"); // Overriden value
 	}
 	
 	@Test
@@ -161,7 +160,7 @@ public class StandardConfigurationLoaderTest {
 		String path = new File("src/test/resources/loadingTest/test4/").getAbsolutePath();
 		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
 		
-		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
+		Map<String, Map<ConfigToken<?>, Object>> map = new HashMap<String, Map<ConfigToken<?>, Object>>();
 
 		loader.loadUserConfiguration(request.getLocale());
 		loader.resolveGroups(request.getLocale());
@@ -171,7 +170,7 @@ public class StandardConfigurationLoaderTest {
 		assertThat(map.containsKey("global")).isTrue();
 		
 		// Global group
-		assertThat(map.get("global").getMessage(DTMessages.INFO.getPropertyName())).isEqualTo(
+		assertThat(map.get("global").get(TableConfig.I18N_MSG_INFO)).isEqualTo(
 				"Showing _START_ to _END_ of _TOTAL_ entries"); // Overriden value
 	}
 }

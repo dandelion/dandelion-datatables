@@ -50,7 +50,8 @@ public class ConfigurationStore {
 	/**
 	 * Static map containing all configurations
 	 */
-	private static Map<Locale, Map<String, TableConfiguration>> configurationStore = new HashMap<Locale, Map<String, TableConfiguration>>();
+	private static Map<Locale, Map<String, Map<ConfigToken<?>, Object>>> configurationStore = 
+			new HashMap<Locale, Map<String, Map<ConfigToken<?>, Object>>>();
 	
 	/**
 	 * <p>
@@ -92,7 +93,7 @@ public class ConfigurationStore {
 			throw new UnkownGroupException(msg.toString());
 		}
 		
-		return configurationStore.get(locale).get(group);
+		return new TableConfiguration(configurationStore.get(locale).get(group), request);
 	}
 
 	/**
@@ -102,7 +103,7 @@ public class ConfigurationStore {
 	 * @param locale
 	 */
 	public static void resolveGroupsForLocale(Locale locale, HttpServletRequest request) {
-		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
+		Map<String, Map<ConfigToken<?>, Object>> map = new HashMap<String, Map<ConfigToken<?>, Object>>();
 		
 		ConfigurationLoader confLoader = DatatablesConfigurator.getConfigurationLoader();
 
@@ -119,7 +120,7 @@ public class ConfigurationStore {
 	 * 
 	 * @return
 	 */
-	public static Map<Locale, Map<String, TableConfiguration>> getConfigurationStore(){
+	public static Map<Locale, Map<String, Map<ConfigToken<?>, Object>>> getConfigurationStore(){
 		return configurationStore;
 	}
 	

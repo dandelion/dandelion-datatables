@@ -34,7 +34,6 @@ import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.feature.AjaxFeature;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
-import com.github.dandelion.datatables.core.util.CollectionUtils;
 import com.github.dandelion.datatables.core.util.UrlUtils;
 
 /**
@@ -51,9 +50,7 @@ public class AjaxSourceProcessor extends AbstractTableProcessor {
 
 			Boolean serverSide = TableConfig.AJAX_SERVERSIDE.valueFrom(tableConfiguration);
 			
-			Boolean serverSideEnabled = 
-					CollectionUtils.hasConfigurationWithValue(stagingConf, TableConfig.AJAX_SERVERSIDE, true)
-					|| ( serverSide != null && serverSide);
+			Boolean serverSideEnabled = serverSide != null && serverSide;
 			if (!serverSideEnabled) {
 				tableConfiguration.registerExtension(new AjaxFeature());
 			}

@@ -82,7 +82,8 @@ public class TableTag extends AbstractTableTag {
 		table = new HtmlTable(id, (HttpServletRequest) pageContext.getRequest(),
 				(HttpServletResponse) pageContext.getResponse(), confGroup, dynamicAttributes);
 
-		TableConfig.applyConfiguration(stagingConf, table.getTableConfiguration());
+		TableConfig.applyConfiguration(stagingConf, table);
+		TableConfig.processConfiguration(table);
 		
 		// Just used to identify the first row (header)
 		iterationNumber = 1;

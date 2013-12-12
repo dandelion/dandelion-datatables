@@ -41,6 +41,7 @@ import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.i18n.LocaleResolver;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
 import com.github.dandelion.datatables.core.processor.BooleanProcessor;
@@ -340,32 +341,50 @@ public final class TableConfig {
 
 		return null;
 	}
+
+	/**
+	 * <p>
+	 * Overloads the configurations stored in the {@link TableConfiguration}
+	 * instance with the one passed as parameter.
+	 * 
+	 * @param stagingConf
+	 *            The staging configurations filled either with the JSP taglib
+	 *            or with the Thymeleaf dialect.
+	 * @param table
+	 *            The table which holds the {@link TableConfiguration} to
+	 *            overload.
+	 */
+	public static Map<ConfigToken<?>, Object> applyConfiguration(Map<ConfigToken<?>, Object> stagingConf,
+			HtmlTable table) {
+		
+		table.getTableConfiguration().getConfigurations().putAll(stagingConf);
+		
+		return stagingConf;
+	}
 	
 	/**
 	 * <p>
-	 * Applies the staging configurations against the passed
-	 * {@link TableConfiguration} instance.
+	 * At this point, the configuration stored inside the
+	 * {@link TableConfiguration} contains only Strings. All these strings will
+	 * be processed in this method, depending on the {@link ConfigToken} they
+	 * are bound to.
 	 * 
-	 * @param stagingConf
-	 *            The staging configurations filled inside the JSP or Thymeleaf
-	 *            processing.
-	 * @param tableConfiguration
-	 *            The {@link TableConfiguration} to update with the processed
-	 *            values.
+	 * <p>
+	 * Once processed, all strings will be replaced by the typed value.
+	 * 
+	 * @param table
+	 *            The table which holds the configuration to process.
 	 */
-	public static Map<ConfigToken<?>, Object> applyConfiguration(Map<ConfigToken<?>, Object> stagingConf,
-			TableConfiguration tableConfiguration) {
+	public static Map<ConfigToken<?>, Object> processConfiguration(HtmlTable table) {
 		
-		if (stagingConf != null) {
-			TableProcessor tableProcessor = null;
-			for (Entry<ConfigToken<?>, Object> entry : stagingConf.entrySet()) {
-				tableProcessor = (TableProcessor) entry.getKey().getProcessor();
-				tableProcessor.process(entry.getKey(), String.valueOf(entry.getValue()).trim(), tableConfiguration,
-						stagingConf);
+		if(table.getTableConfiguration().getConfigurations() != null){
+			for(Entry<ConfigToken<?>, Object> entry : table.getTableConfiguration().getConfigurations().entrySet()) {
+				TableProcessor tableProcessor = (TableProcessor) entry.getKey().getProcessor();
+				tableProcessor.process(entry.getKey(), String.valueOf(entry.getValue()).trim(), table.getTableConfiguration());
 			}
 		}
 		
-		return stagingConf;
+		return table.getTableConfiguration().getConfigurations();
 	}
 	
 	
