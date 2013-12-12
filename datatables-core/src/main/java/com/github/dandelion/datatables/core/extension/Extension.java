@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,13 @@ package com.github.dandelion.datatables.core.extension;
 
 import java.util.List;
 
+import com.github.dandelion.datatables.core.asset.InsertMode;
 import com.github.dandelion.datatables.core.asset.Parameter;
+import com.github.dandelion.datatables.core.extension.feature.AbstractFilteringFeature;
+import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFeature;
+import com.github.dandelion.datatables.core.extension.plugin.ColReorderPlugin;
+import com.github.dandelion.datatables.core.extension.plugin.ScrollerPlugin;
+import com.github.dandelion.datatables.core.extension.theme.Bootstrap2Theme;
 import com.github.dandelion.datatables.core.generator.configuration.AbstractConfigurationGenerator;
 import com.github.dandelion.datatables.core.generator.configuration.ColumnFilteringGenerator;
 import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
@@ -39,10 +45,12 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * <p>
- * Common interface for all extensions. An extension can be a plugin
- * (e.g. Scroller, ColReorder), a feature (e.g. Bootstrap pagination type,
- * filtering add-on) or a theme (e.g. Bootstrap 2 theme).
+ * Common interface for all extensions. An extension can be a plugin (e.g.
+ * {@link ScrollerPlugin}, {@link ColReorderPlugin}), a feature (e.g.
+ * {@link PaginationTypeBootstrapFeature}, {@link AbstractFilteringFeature}
+ * add-on) or a theme (e.g. {@link Bootstrap2Theme}).
  * <p>
+ * 
  * An extension can be composed of :
  * <ul>
  * <li>one or more JsResource, i.e. Javascript code externalized in a file</li>
@@ -63,10 +71,9 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * </pre>
  * 
  * </blockquote></li>
- * <li>specific Javascript snippets to add in the main JS resource, i.e. the
- * resource that contains the DataTables initilization Javascript code. You can
- * add snippet at multiple locations in this file thanks to the following
- * attributes :
+ * <li>Javascript code to add in the main JS resource, i.e. the resource that
+ * contains the DataTables initilization Javascript code. You can add Javascript
+ * code at multiple locations in this file thanks to the following attributes :
  * <ul>
  * <li>beforeAll</li>
  * <li>beforeStartDocumentReady</li>
@@ -79,7 +86,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * <pre>
  * => <b>BEFOREALL</b>
- * var oTable_tableId;
+ * var oTable_tableId = $('#myTableId');
  * var oTable_tableId_params = {...};
  * => <b>BEFORESTARTDOCUMENTREADY</b>
  * $(document).ready(function(){
@@ -95,6 +102,8 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * @author Thibault Duchateau
  * @since 0.7.1
+ * @see ExtensionLoader
+ * @see ExtensionProcessor
  */
 public interface Extension {
 
@@ -115,15 +124,37 @@ public interface Extension {
      */
     public void setupWrapper(HtmlTable table);
 
+    /**
+	 * @return the Javascript code to be inserted at the
+	 *         {@link InsertMode#BEFOREALL} placeholder.
+	 */
     public StringBuilder getBeforeAll();
 
+    /**
+	 * @return the Javascript code to be inserted at the
+	 *         {@link InsertMode#AFTERALL} placeholder.
+	 */
     public StringBuilder getAfterAll();
 
+    /**
+	 * @return the Javascript code to be inserted at the
+	 *         {@link InsertMode#BEFORESTARTDOCUMENTREADY} placeholder.
+	 */
+    public StringBuilder getBeforeStartDocumentReady();
+    
+    /**
+	 * @return the Javascript code to be inserted at the
+	 *         {@link InsertMode#AFTERSTARTDOCUMENTREADY} placeholder.
+	 */
     public StringBuilder getAfterStartDocumentReady();
 
+    /**
+	 * @return the Javascript code to be inserted at the
+	 *         {@link InsertMode#BEFOREENDDOCUMENTREADY} placeholder.
+	 */
     public StringBuilder getBeforeEndDocumentReady();
 
-    public List<Parameter> getConfs();
+    public List<Parameter> getParameters();
 
     public void setConfs(List<Parameter> confs);
 

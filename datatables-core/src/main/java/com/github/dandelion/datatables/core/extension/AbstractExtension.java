@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * <li>bufferize Javascript code before flushing it in the final
  * {@link JsResource}</li>
  * <li>add some {@link Parameter} to the generated DataTables configuration</li>
- * <li>add some {@link Scope}</li>
+ * <li>add some {@link Scope} to the current request</li>
  * <li>add some {@link Callback} to the generated DataTables configuration</li>
  * </ul>
  * 
@@ -91,6 +91,10 @@ public abstract class AbstractExtension implements Extension {
 		return afterAll;
 	}
 
+	public StringBuilder getBeforeStartDocumentReady() {
+		return beforeStartDocumentReady;
+	}
+	
 	public StringBuilder getAfterStartDocumentReady() {
 		return afterStartDocumentReady;
 	}
@@ -99,7 +103,7 @@ public abstract class AbstractExtension implements Extension {
 		return beforeEndDocumentReady;
 	}
 
-	public List<Parameter> getConfs() {
+	public List<Parameter> getParameters() {
 		return confs;
 	}
 
@@ -142,7 +146,6 @@ public abstract class AbstractExtension implements Extension {
 	public void addCallback(CallbackType callbackType, String javascript) {
 		addParameter(new Parameter(callbackType.getName(), new JavascriptFunction(javascript, callbackType.getArgs()),
 				Mode.APPEND));
-
 	}
 
 	public void addCallback(CallbackType callbackType, String javascript, Mode mode) {

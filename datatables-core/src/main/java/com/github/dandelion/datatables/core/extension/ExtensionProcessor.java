@@ -47,8 +47,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
 
 /**
- * 
- * TODO
+ * Processor used to execute a processor against an {@link Extension}.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -64,7 +63,7 @@ public class ExtensionProcessor {
 	private HtmlTable table;
 
 	/**
-	 * The container used to hold Javascript code.
+	 * The container used for the DataTables initialization code.
 	 */
 	private JsResource mainJsFile;
 
@@ -108,17 +107,18 @@ public class ExtensionProcessor {
 		if (extension.getBeforeAll() != null) {
 			mainJsFile.appendToBeforeAll(extension.getBeforeAll().toString());
 		}
+		if (extension.getBeforeStartDocumentReady() != null) {
+			mainJsFile.appendToBeforeStartDocumentReady(extension.getBeforeStartDocumentReady().toString());
+		}
 		if (extension.getAfterStartDocumentReady() != null) {
 			mainJsFile.appendToAfterStartDocumentReady(extension.getAfterStartDocumentReady().toString());
 		}
 		if (extension.getBeforeEndDocumentReady() != null) {
 			mainJsFile.appendToBeforeEndDocumentReady(extension.getBeforeEndDocumentReady().toString());
 		}
-
 		if (extension.getAfterAll() != null) {
 			mainJsFile.appendToAfterAll(extension.getAfterAll().toString());
 		}
-
 		if (extension.getFunction() != null) {
 			mainJsFile.appendToDataTablesExtra(extension.getFunction());
 		}
@@ -150,26 +150,26 @@ public class ExtensionProcessor {
 	private void injectIntoMainConfiguration(Extension extension) {
 
 		// Extra configuration setting
-		if (extension.getConfs() != null) {
+		if (extension.getParameters() != null) {
 
-			for (Parameter conf : extension.getConfs()) {
+			for (Parameter param : extension.getParameters()) {
 
 				// The module configuration already exists in the main
 				// configuration
-				if (mainConfig.containsKey(conf.getName())) {
+				if (mainConfig.containsKey(param.getName())) {
 
-					if (mainConfig.get(conf.getName()) instanceof JavascriptFunction) {
-						processJavascriptFunction(conf);
-					} else if (mainConfig.get(conf.getName()) instanceof JavascriptSnippet) {
-						processJavascriptSnippet(conf);
+					if (mainConfig.get(param.getName()) instanceof JavascriptFunction) {
+						processJavascriptFunction(param);
+					} else if (mainConfig.get(param.getName()) instanceof JavascriptSnippet) {
+						processJavascriptSnippet(param);
 					} else {
-						processString(conf);
+						processString(param);
 					}
 				}
 				// No existing configuration in the main configuration, so we
 				// just add it
 				else {
-					mainConfig.put(conf.getName(), conf.getValue());
+					mainConfig.put(param.getName(), param.getValue());
 				}
 			}
 		}

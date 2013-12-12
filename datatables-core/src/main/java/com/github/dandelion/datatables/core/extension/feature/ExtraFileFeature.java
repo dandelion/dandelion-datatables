@@ -39,7 +39,7 @@ import com.github.dandelion.datatables.core.util.FileUtils;
 
 /**
  * <p>
- * Feature used to insert end-user Javascript file in the generated DataTables
+ * Feature used to insert end-user Javascript files in the generated DataTables
  * confguration.
  * 
  * @author Thibault Duchateau
@@ -57,25 +57,30 @@ public class ExtraFileFeature extends AbstractExtension {
 		for (ExtraFile file : table.getTableConfiguration().getExtraFiles()) {
 			try {
 
+				String fileContent = FileUtils.getFileContentFromWebapp(file.getSrc());
+				if(!fileContent.endsWith("\n")){
+					fileContent += "\n";
+				}
 				switch (file.getInsert()) {
 				case BEFOREALL:
-					appendToBeforeAll(FileUtils.getFileContentFromWebapp(file.getSrc()));
+					appendToBeforeAll(fileContent);
 					break;
 
 				case AFTERSTARTDOCUMENTREADY:
-					appendToAfterStartDocumentReady(FileUtils.getFileContentFromWebapp(file.getSrc()));
+					appendToAfterStartDocumentReady(fileContent);
 					break;
 
 				case BEFOREENDDOCUMENTREADY:
-					appendToBeforeEndDocumentReady(FileUtils.getFileContentFromWebapp(file.getSrc()));
+					appendToBeforeEndDocumentReady(fileContent);
 					break;
 
 				case AFTERALL:
-					appendToAfterAll(FileUtils.getFileContentFromWebapp(file.getSrc()));
+					appendToAfterAll(fileContent);
 					break;
 
 				case BEFORESTARTDOCUMENTREADY:
-					appendToBeforeStartDocumentReady(FileUtils.getFileContentFromWebapp(file.getSrc()));
+					System.out.println("AJOUT");
+					appendToBeforeStartDocumentReady(fileContent);
 					break;
 				}
 
@@ -86,5 +91,4 @@ public class ExtraFileFeature extends AbstractExtension {
 			}
 		}
 	}
-
 }
