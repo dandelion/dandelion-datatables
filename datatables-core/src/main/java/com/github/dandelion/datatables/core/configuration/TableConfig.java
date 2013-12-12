@@ -295,8 +295,8 @@ public final class TableConfig {
 		internalConf.put(formalize(P_I18N_MSG_PAGINATE_PREVIOUS), I18N_MSG_PAGINATE_PREVIOUS);
 		internalConf.put(formalize(P_I18N_MSG_PAGINATE_NEXT), I18N_MSG_PAGINATE_NEXT);
 		internalConf.put(formalize(P_I18N_MSG_PAGINATE_LAST), I18N_MSG_PAGINATE_LAST);
-		internalConf.put(formalize(P_I18N_MSG_ARIA_SORTASC), I18N_MSG_SEARCH);
-		internalConf.put(formalize(P_I18N_MSG_ARIA_SORTDESC), I18N_MSG_SEARCH);
+		internalConf.put(formalize(P_I18N_MSG_ARIA_SORTASC), I18N_MSG_ARIA_SORTASC);
+		internalConf.put(formalize(P_I18N_MSG_ARIA_SORTDESC), I18N_MSG_ARIA_SORTDESC);
 	}
 	
 	private static String formalize(String propertyName){
