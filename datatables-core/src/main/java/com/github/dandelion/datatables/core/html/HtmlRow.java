@@ -83,6 +83,29 @@ public class HtmlRow extends HtmlTag {
 		return html;
 	}
 
+	/**
+	 * <p>
+	 * Returns a filtered list of {@link HtmlColumn} for this current
+	 * {@link HtmlRow}.
+	 * <p>
+	 * The columns are filtering using the enabled format.
+	 * 
+	 * @param enabledFormats
+	 *            The enabled formats used to filter the columns.
+	 * @return a filtered list of {@link HtmlColumn}.
+	 */
+	public List<HtmlColumn> getColumns(String... enabledFormats) {
+		List<HtmlColumn> result = new ArrayList<HtmlColumn>();
+		for(HtmlColumn column : this.columns){
+			for(String enabledFormat : enabledFormats){
+				if(column.getEnabledDisplayTypes().contains(enabledFormat)){
+					result.add(column);
+				}
+			}
+		}
+		return result;
+	}
+	
 	public List<HtmlColumn> getColumns() {
 		return this.columns;
 	}

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,6 @@ import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.CollectionUtils;
 
 /**
  * Default class used to export in the XML format.
@@ -53,10 +52,12 @@ import com.github.dandelion.datatables.core.util.CollectionUtils;
 public class XmlExport implements DatatablesExport {
 
 	private HtmlTable table;
-
+	private ExportConf exportConf;
+	
 	@Override
 	public void initExport(HtmlTable table) {
 		this.table = table;
+		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(Format.XML);
 	}
 
 	@Override
@@ -66,11 +67,8 @@ public class XmlExport implements DatatablesExport {
 		List<String> headers = new ArrayList<String>();
 		
 		for(HtmlRow row : table.getHeadRows()){
-			for(HtmlColumn column : row.getColumns()){
-				if (CollectionUtils.containsAny(column.getEnabledDisplayTypes(), Format.ALL, Format.XML)) {
-					headers.add(StringUtils.uncapitalize(column.getContent().toString()));
-				}
-						
+			for(HtmlColumn column : row.getColumns(Format.ALL, Format.XML)){
+				headers.add(StringUtils.uncapitalize(column.getContent().toString()));
 			}
 		}
 
@@ -88,11 +86,9 @@ public class XmlExport implements DatatablesExport {
 				writer.writeStartElement(objectType);
 
 				int i = 0;
-				for (HtmlColumn column : row.getColumns()) {
-					if (CollectionUtils.containsAny(column.getEnabledDisplayTypes(), Format.ALL, Format.XML)) {
-						writer.writeAttribute(headers.get(i), column.getContent().toString());
-						i++;
-					}
+				for (HtmlColumn column : row.getColumns(Format.ALL, Format.XML)) {
+					writer.writeAttribute(headers.get(i), column.getContent().toString());
+					i++;
 				}
 
 				writer.writeEndElement();
@@ -103,13 +99,21 @@ public class XmlExport implements DatatablesExport {
 			writer.flush();
 
 		} catch (XMLStreamException e) {
-			throw new ExportException(e);
+			StringBuilder sb = new StringBuilder("Something went wrong during the XML generation of the table '");
+			sb.append(table.getOriginalId());
+			sb.append("' and with the following export configuration: ");
+			sb.append(exportConf.toString());
+			throw new ExportException(sb.toString(), e);
 		} 
 		finally {
 			try {
 				writer.close();
 			} catch (XMLStreamException e) {
-				throw new ExportException(e);
+				StringBuilder sb = new StringBuilder("Something went wrong during the XML generation of the table '");
+				sb.append(table.getOriginalId());
+				sb.append("' and with the following export configuration: ");
+				sb.append(exportConf.toString());
+				throw new ExportException(sb.toString(), e);
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -36,11 +36,10 @@ import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.CollectionUtils;
 
 /**
  * Default class used to export in the CSV format.
- *
+ * 
  * @author Thibault Duchateau
  */
 public class CsvExport implements DatatablesExport {
@@ -60,29 +59,29 @@ public class CsvExport implements DatatablesExport {
 		StringBuilder buffer = new StringBuilder();
 
 		if (exportConf.getIncludeHeader()) {
-			for(HtmlRow row : table.getHeadRows()){
-				for(HtmlColumn column : row.getColumns()){
-					if (CollectionUtils.containsAny(column.getEnabledDisplayTypes(), Format.ALL, Format.CSV)) {
-						buffer.append(column.getContent()).append(SEPARATOR_CHAR);						
-					}
-				}
-				buffer.append("\n");
-			}			
-		}
-		for(HtmlRow row : table.getBodyRows()){
-			for(HtmlColumn column : row.getColumns()){
-				if (CollectionUtils.containsAny(column.getEnabledDisplayTypes(), Format.ALL, Format.CSV)) {
+			for (HtmlRow row : table.getHeadRows()) {
+				for (HtmlColumn column : row.getColumns(Format.ALL, Format.CSV)) {
 					buffer.append(column.getContent()).append(SEPARATOR_CHAR);
 				}
+				buffer.append("\n");
 			}
-			
+		}
+		for (HtmlRow row : table.getBodyRows()) {
+			for (HtmlColumn column : row.getColumns(Format.ALL, Format.CSV)) {
+				buffer.append(column.getContent()).append(SEPARATOR_CHAR);
+			}
+
 			buffer.append("\n");
 		}
-		
+
 		try {
 			output.write(buffer.toString().getBytes());
 		} catch (IOException e) {
-			throw new ExportException("Unable to write the content in the CSV format", e);
+			StringBuilder sb = new StringBuilder("Something went wrong during the CSV generation of the table '");
+			sb.append(table.getOriginalId());
+			sb.append("' and with the following export configuration: ");
+			sb.append(exportConf.toString());
+			throw new ExportException(sb.toString(), e);
 		}
 	}
 }

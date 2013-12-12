@@ -77,7 +77,7 @@ public class ExportConf {
 		this.fileName = "export";
 		this.label = this.format.toUpperCase();
 		this.includeHeader = true;
-		this.autoSize = false;
+		this.autoSize = true;
 		this.method = HttpMethod.GET;
 		if(StringUtils.isBlank(this.extension)){
 			this.extension = this.format;

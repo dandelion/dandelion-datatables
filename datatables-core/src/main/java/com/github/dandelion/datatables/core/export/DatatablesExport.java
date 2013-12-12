@@ -6,7 +6,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * Interface for all export classes.
- *
+ * 
  * @author Thibault Duchateau
  */
 public interface DatatablesExport {
@@ -31,6 +31,8 @@ public interface DatatablesExport {
 	 * @param output
 	 *            The stream to fill and which will override the default
 	 *            response during export.
+	 * @throws ExportException
+	 *             if something goes wrong during the export.
 	 */
 	public void processExport(OutputStream output);
 }
