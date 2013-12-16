@@ -86,6 +86,11 @@ public class TheadElProcessor extends AbstractElProcessor {
 			}
 		}
 
+		// House cleaning
+		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":data")) {
+			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":data");
+		}
+				
 		return ProcessorResult.ok();
 	}
 }

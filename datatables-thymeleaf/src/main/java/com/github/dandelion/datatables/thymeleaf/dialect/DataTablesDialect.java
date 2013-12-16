@@ -82,9 +82,9 @@ public class DataTablesDialect extends AbstractDialect {
 		// Element processors
 		processors.add(new TableInitializerElProcessor(new ElementNameProcessorMatcher("table", DataTablesDialect.DIALECT_PREFIX + ":table", "true", false)));
 		processors.add(new TableFinalizerElProcessor(new ElementNameProcessorMatcher("div", DataTablesDialect.DIALECT_PREFIX + ":tmp", "internalUse", false)));
-		processors.add(new TheadElProcessor(new ElementNameProcessorMatcher("thead", false)));
-		processors.add(new TbodyElProcessor(new ElementNameProcessorMatcher("tbody", false)));
-		processors.add(new ColumnInitializerElProcessor(new ElementNameProcessorMatcher("th", false)));
+		processors.add(new TheadElProcessor(new ElementNameProcessorMatcher("thead", DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse", false)));
+		processors.add(new TbodyElProcessor(new ElementNameProcessorMatcher("tbody", DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse", false)));
+		processors.add(new ColumnInitializerElProcessor(new ElementNameProcessorMatcher("th", DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse", false)));
 		processors.add(new ColumnFinalizerProcessor(new ElementNameProcessorMatcher("th", DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse", false)));
 		processors.add(new TrElProcessor(new ElementNameProcessorMatcher("tr", DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse", false)));
 		processors.add(new TdElProcessor(new ElementNameProcessorMatcher("td", DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse", false)));

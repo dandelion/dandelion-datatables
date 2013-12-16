@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
+import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
@@ -149,7 +150,36 @@ public class TableInitializerElProcessor extends AbstractElProcessor {
 			// Cleaning attribute
 			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":table");
 						
+			applyMarkers(element);
+			
 			return ProcessorResult.OK;
+		}
+	}
+	
+	/**
+	 * <p>
+	 * Markers are applied on {@code thead} and {@code tbody} elements in order
+	 * to limit the scope of application of the processors.
+	 * 
+	 * @param element
+	 *            The {@code table} element.
+	 * 
+	 * @see DataTablesDialect
+	 */
+	private void applyMarkers(Element element) {
+		for (Node child : element.getChildren()) {
+
+			if (child != null && child instanceof Element) {
+
+				Element childTag = (Element) child;
+				String childTagName = childTag.getNormalizedName();
+
+				if (childTagName.equals("thead") || childTagName.equals("tbody")) {
+					childTag.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse");
+				}
+				
+				childTag.setProcessable(true);
+			}
 		}
 	}
 }
