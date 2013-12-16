@@ -236,10 +236,10 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 				}
 
 				// Column's style (AJAX only)
-				String cssCellClass = ColumnConfig.CSSCELLCLASS.valueFrom(columnConfiguration);
+				StringBuilder cssCellClass = ColumnConfig.CSSCELLCLASS.valueFrom(columnConfiguration);
 				if (StringUtils.isNotBlank(TableConfig.AJAX_SOURCE.valueFrom(table))) {
-					if (StringUtils.isNotBlank(cssCellClass)) {
-						tmp.put(DTConstants.DT_S_CLASS, cssCellClass);
+					if (cssCellClass != null && StringUtils.isNotBlank(cssCellClass.toString())) {
+						tmp.put(DTConstants.DT_S_CLASS, cssCellClass.toString());
 					}
 				}
 
