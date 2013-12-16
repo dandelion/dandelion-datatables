@@ -8,5 +8,4 @@ package com.github.dandelion.datatables.core.processor;
  * @since 0.10.0
  */
 public interface ConfigurationProcessor {
-
 }

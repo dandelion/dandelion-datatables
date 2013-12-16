@@ -87,7 +87,7 @@ public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
 
 			// Apply default export links if nothing is already configured
 			if(isNonPresent(TableConfig.EXPORT_LINK_POSITIONS)){
-				addStagingEntry(TableConfig.EXPORT_LINK_POSITIONS, new HashSet<ExportLinkPosition>(
+				addEntry(TableConfig.EXPORT_LINK_POSITIONS, new HashSet<ExportLinkPosition>(
 						Arrays.asList(ExportLinkPosition.TOP_RIGHT)));
 			}
 

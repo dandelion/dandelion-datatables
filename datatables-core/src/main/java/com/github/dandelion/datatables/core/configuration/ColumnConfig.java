@@ -141,6 +141,7 @@ public final class ColumnConfig {
 				columnProcessor.process(entry, column.getColumnConfiguration(), table.getTableConfiguration());
 			}
 		
+			// Merging staging configuration into to the final configuration map
 			column.getColumnConfiguration().getConfigurations()
 					.putAll(column.getColumnConfiguration().getStagingConfigurations());
 		}

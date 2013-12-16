@@ -392,6 +392,7 @@ public final class TableConfig {
 				tableProcessor.process(entry, table.getTableConfiguration());
 			}
 			
+			// Merging staging configuration into to the final configuration map
 			table.getTableConfiguration().getConfigurations()
 					.putAll(table.getTableConfiguration().getStagingConfiguration());
 		}

@@ -90,26 +90,82 @@ public abstract class AbstractColumnProcessor implements ColumnProcessor {
 
 	public abstract void doProcess();
 	
+	/**
+	 * <p>
+	 * Utility method used to register an extension to the current
+	 * {@link TableConfiguration} instance.
+	 * 
+	 * @param extension
+	 *            The extension to register.
+	 */
 	protected void registerExtension(Extension extension){
 		this.tableConfiguration.registerExtension(extension);
 	}
 	
+	/**
+	 * <p>
+	 * Update the entry using with the new value.
+	 * <p>
+	 * Note that {@link Entry#setValue(Object)} must be used because the
+	 * configuration map is being iterated on.
+	 * 
+	 * @param value
+	 *            The new typed value to set in the entry.
+	 */
 	protected void updateEntry(Object value){
 		this.configEntry.setValue(value);
 	}
 	
+	/**
+	 * <p>
+	 * Add a new entry to the staging configuration map of the current
+	 * {@link ColumnConfiguration} instance.
+	 * 
+	 * <p>
+	 * The new entry cannot be directly added to the configuration map because
+	 * this map is being iterated on (ConcurrentModificationException).
+	 * 
+	 * <p>
+	 * The staging configuration map will be merged in the final map just after
+	 * the end of the loop. See the
+	 * {@link ColumnConfig#processConfiguration(com.github.dandelion.datatables.core.html.HtmlColumn, com.github.dandelion.datatables.core.html.HtmlTable)}
+	 * method.
+	 * 
+	 * @param configToken
+	 *            The new {@link ConfigToken} to add.
+	 * @param value
+	 *            The value associated with the {@link ConfigToken}.
+	 */
 	protected void addEntry(ConfigToken<?> configToken, Object value){
-		this.columnConfiguration.getConfigurations().put(configToken, value);
-	}
-	
-	protected void addStagingEntry(ConfigToken<?> configToken, Object value){
 		this.columnConfiguration.getStagingConfigurations().put(configToken, value);
 	}
 	
+	/**
+	 * <p>
+	 * Test whether the passed {@link ConfigToken} is already present in the
+	 * configuration map.
+	 * <p>
+	 * In most of the cases, this is useful to initialize a entry with a
+	 * default value.
+	 * 
+	 * @param configToken
+	 * @return {@code true} if present, otherwise {@code false}.
+	 */
 	protected boolean isPresent(ConfigToken<?> configToken){
 		return columnConfiguration.getConfigurations().containsKey(configToken) || stagingConf.containsKey(configToken);
 	}
 	
+	/**
+	 * <p>
+	 * Test whether the passed {@link ConfigToken} is <b>not</b> already present
+	 * in the configuration map.
+	 * <p>
+	 * In most of the cases, this is useful to initialize a entry with a default
+	 * value.
+	 * 
+	 * @param configToken
+	 * @return {@code true} if non present, otherwise {@code false}.
+	 */
 	protected boolean isNonPresent(ConfigToken<?> configToken){
 		return !isPresent(configToken);
 	}

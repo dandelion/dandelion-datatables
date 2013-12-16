@@ -76,7 +76,8 @@ public class ColumnFinalizerProcessor extends AbstractElProcessor {
 		HtmlColumn htmlColumn = new HtmlColumn(true, content);
 
 		// Applies the staging configuration against the current column configuration
-		ColumnConfig.applyConfiguration(stagingConf, stagingExt, htmlColumn.getColumnConfiguration(), table.getTableConfiguration());
+		ColumnConfig.applyConfiguration(stagingConf, stagingExt, htmlColumn);
+		ColumnConfig.processConfiguration(htmlColumn, table);
 		
 		// Add it to the table
 		if (table != null) {

@@ -47,7 +47,7 @@ public class FilterableProcessor extends AbstractColumnProcessor {
 		registerExtension(stagingExtensions.get(ColumnConfig.FILTERABLE));
 
 		if(isNonPresent(ColumnConfig.FILTERTYPE)){
-			addStagingEntry(ColumnConfig.FILTERTYPE, FilterType.INPUT);
+			addEntry(ColumnConfig.FILTERTYPE, FilterType.INPUT);
 		}
 
 		updateEntry(true);
