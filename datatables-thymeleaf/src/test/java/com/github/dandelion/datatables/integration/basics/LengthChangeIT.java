@@ -35,7 +35,6 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
-import com.github.dandelion.datatables.testing.utils.Constants;
 
 /**
  * Test the pagination options.
@@ -48,13 +47,13 @@ public class LengthChangeIT extends ThymeleafBaseIT {
 	public void should_disable_length_change() {
         goToPage("basics/disable_length_change");
 
-		assertThat(find("#" + Constants.TABLE_ID + "_length")).hasSize(0);
+		assertThat(find("#" + TABLE_ID + "_length")).hasSize(0);
 	}
 
 	@Test
 	public void should_enable_length_change() {
         goToPage("basics/enable_length_change");
 
-		assertThat(find("#" + Constants.TABLE_ID + "_length")).hasSize(1);
+		assertThat(find("#" + TABLE_ID + "_length")).hasSize(1);
 	}
 }

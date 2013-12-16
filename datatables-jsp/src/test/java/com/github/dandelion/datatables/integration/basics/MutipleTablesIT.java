@@ -35,7 +35,6 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.integration.JspBaseIT;
-import com.github.dandelion.datatables.testing.utils.Constants;
 
 /**
  * Test the multiple tables.
@@ -48,7 +47,7 @@ public class MutipleTablesIT extends JspBaseIT {
 	public void should_disable_paging() {
 		goTo("/basics/multiple_tables.jsp");
 		
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper")).hasSize(1);
-		assertThat(find("#" + Constants.TABLE_ID2 + "_wrapper")).hasSize(1);
+		assertThat(find("#" + TABLE_ID + "_wrapper")).hasSize(1);
+		assertThat(find("#" + TABLE_ID2 + "_wrapper")).hasSize(1);
 	}
 }

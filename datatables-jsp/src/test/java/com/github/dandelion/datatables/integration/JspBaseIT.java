@@ -46,6 +46,7 @@ import org.junit.Rule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
@@ -54,9 +55,8 @@ import org.openqa.selenium.remote.service.DriverService;
 
 import com.github.dandelion.core.asset.AssetType;
 import com.github.dandelion.core.asset.cache.AssetsCacheSystem;
-import com.github.dandelion.datatables.core.mock.Mock;
-import com.github.dandelion.datatables.core.mock.Person;
-import com.github.dandelion.datatables.testing.utils.Constants;
+import com.github.dandelion.datatables.mock.Mock;
+import com.github.dandelion.datatables.mock.Person;
 
 /**
  * <p>
@@ -71,6 +71,12 @@ import com.github.dandelion.datatables.testing.utils.Constants;
  */
 public abstract class JspBaseIT extends Fluent {
 
+	public static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(1024, 768);
+	public static final String TABLE_ID = "myTableId";
+	public static final String TABLE_ID2 = "mySecondTableId";
+	public static final String SERVER_HOST = "127.0.0.1";
+	public static final int SERVER_PORT = 9190;
+	
 	protected static Server server;
 	protected static WebDriver driver;
 	protected static WebAppContext context;
@@ -83,8 +89,8 @@ public abstract class JspBaseIT extends Fluent {
 		// Create a new web server
 		server = new Server();
 		SelectChannelConnector connector = new SelectChannelConnector();
-		connector.setHost(Constants.SERVER_HOST);
-		connector.setPort(Constants.SERVER_PORT);
+		connector.setHost(SERVER_HOST);
+		connector.setPort(SERVER_PORT);
 		server.addConnector(connector);
 
 		context = new WebAppContext("src/test/webapp", "/");
@@ -137,7 +143,7 @@ public abstract class JspBaseIT extends Fluent {
 			}
 
 			driver.manage().deleteAllCookies();
-			driver.manage().window().setSize(Constants.DEFAULT_WINDOW_SIZE);
+			driver.manage().window().setSize(DEFAULT_WINDOW_SIZE);
 			initFluent(driver).withDefaultUrl(defaultUrl());
 		}
 
@@ -157,16 +163,16 @@ public abstract class JspBaseIT extends Fluent {
 	};
 
 	public String defaultUrl() {
-		return "http://" + Constants.SERVER_HOST + ":" + Constants.SERVER_PORT;
+		return "http://" + SERVER_HOST + ":" + SERVER_PORT;
 	}
 	
 	public String getDefaultBaseUrl() {
-		return "http://" + Constants.SERVER_HOST + ":" + Constants.SERVER_PORT;
+		return "http://" + SERVER_HOST + ":" + SERVER_PORT;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public FluentList<FluentWebElement> getTable() {
-		return find("#" + Constants.TABLE_ID + "_wrapper").find("table");
+		return find("#" + TABLE_ID + "_wrapper").find("table");
 	}
 
 	public FluentWebElement getHtmlBody() {
@@ -199,7 +205,7 @@ public abstract class JspBaseIT extends Fluent {
 	
 	public String getConfigurationFromPage(String page) {
 		String url = "/" + page + ".jsp";
-		String cacheKey = AssetsCacheSystem.generateCacheKey("http://" + Constants.SERVER_HOST + ":" + Constants.SERVER_PORT + url, "dandelion-datatables.js", "dandelion-datatables", AssetType.js);
+		String cacheKey = AssetsCacheSystem.generateCacheKey("http://" + SERVER_HOST + ":" + SERVER_PORT + url, "dandelion-datatables.js", "dandelion-datatables", AssetType.js);
 		return AssetsCacheSystem.getCacheContent(cacheKey);
 	}
 }

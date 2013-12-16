@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
-import com.github.dandelion.datatables.core.mock.Mock;
-import com.github.dandelion.datatables.core.mock.Person;
+import com.github.dandelion.datatables.mock.Mock;
+import com.github.dandelion.datatables.mock.Person;
 
 /**
  * Controller used in the Spring web application.

@@ -36,7 +36,6 @@ import org.junit.Test;
 import org.springframework.util.StringUtils;
 
 import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
-import com.github.dandelion.datatables.testing.utils.Constants;
 
 /**
  * Test the possible export link positions.
@@ -50,11 +49,11 @@ public class ExportLinksPositionIT extends ThymeleafBaseIT {
 		goToPage("export/bottom_right_link");
 		
 		// Div position inside the Datatables' wrapper
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dandelion_dataTables_export");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_info");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_paginate");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dandelion_dataTables_export");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_info");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_paginate");
 		
 		// Div style
 		assertThat(StringUtils.trimAllWhitespace(find("div.dandelion_dataTables_export").getAttribute("style"))).contains("float:right;");
@@ -65,11 +64,11 @@ public class ExportLinksPositionIT extends ThymeleafBaseIT {
 		goToPage("export/bottom_middle_link");
 		
 		// Div position inside the Datatables' wrapper
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dataTables_info");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_paginate");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dandelion_dataTables_export");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dataTables_info");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_paginate");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dandelion_dataTables_export");
 		
 		// Div style
 		assertThat(StringUtils.trimAllWhitespace(find("div.dandelion_dataTables_export").getAttribute("style"))).contains("float:left;margin-left:10px;");
@@ -80,11 +79,11 @@ public class ExportLinksPositionIT extends ThymeleafBaseIT {
 		goToPage("export/bottom_left_link");
 		
 		// Div position inside the Datatables' wrapper
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dandelion_dataTables_export");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_info");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_paginate");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dandelion_dataTables_export");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_info");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_paginate");
 				
 		// Div style
 		assertThat(StringUtils.trimAllWhitespace(find("div.dandelion_dataTables_export").getAttribute("style"))).contains("float:left;margin-right:10px;");		
@@ -95,11 +94,11 @@ public class ExportLinksPositionIT extends ThymeleafBaseIT {
 		goToPage("export/top_right_link");
 		
 		// Div position inside the Datatables' wrapper
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dandelion_dataTables_export");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_length");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dataTables_filter");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_info");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_paginate");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dandelion_dataTables_export");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_length");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dataTables_filter");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_info");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_paginate");
 				
 		// Div style
 		assertThat(StringUtils.trimAllWhitespace(find("div.dandelion_dataTables_export").getAttribute("style"))).contains("float:right");
@@ -110,11 +109,11 @@ public class ExportLinksPositionIT extends ThymeleafBaseIT {
 		goToPage("export/top_middle_link");
 		
 		// Div position inside the Datatables' wrapper
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dandelion_dataTables_export");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_info");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_paginate");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dandelion_dataTables_export");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_info");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_paginate");
 				
 		// Div style
 		assertThat(StringUtils.trimAllWhitespace(find("div.dandelion_dataTables_export").getAttribute("style"))).contains("float:left;margin-left:10px;");
@@ -125,15 +124,15 @@ public class ExportLinksPositionIT extends ThymeleafBaseIT {
 		goToPage("export/top_middle_link_with_scrollY");
 
 		// Div position inside the Datatables' wrapper
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dandelion_dataTables_export");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_scroll");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_scrollHead");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 5).getAttribute("class")).contains("dataTables_scrollHeadInner");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 6).getAttribute("class")).contains("dataTables_scrollBody");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 7).getAttribute("class")).contains("dataTables_info");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 8).getAttribute("class")).contains("dataTables_paginate");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dataTables_length");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_filter");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dandelion_dataTables_export");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_scroll");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_scrollHead");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 5).getAttribute("class")).contains("dataTables_scrollHeadInner");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 6).getAttribute("class")).contains("dataTables_scrollBody");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 7).getAttribute("class")).contains("dataTables_info");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 8).getAttribute("class")).contains("dataTables_paginate");
 				
 		// Div style
 		assertThat(StringUtils.trimAllWhitespace(find("div.dandelion_dataTables_export").getAttribute("style"))).contains("float:left;margin-left:10px;");
@@ -144,11 +143,11 @@ public class ExportLinksPositionIT extends ThymeleafBaseIT {
 		goToPage("export/top_left_link");
 		
 		// Div position inside the Datatables' wrapper
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dandelion_dataTables_export");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_length");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dataTables_filter");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_info");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_paginate");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dandelion_dataTables_export");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_length");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dataTables_filter");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dataTables_info");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_paginate");
 				
 		// Div style
 		assertThat(StringUtils.trimAllWhitespace(find("div.dandelion_dataTables_export").getAttribute("style"))).contains("float:left;margin-right:10px;");
@@ -159,11 +158,11 @@ public class ExportLinksPositionIT extends ThymeleafBaseIT {
 		goToPage("export/top_and_bottom_right_links");
 		
 		// Div position inside the Datatables' wrapper
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dandelion_dataTables_export");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_length");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dataTables_filter");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dandelion_dataTables_export");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_info");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 5).getAttribute("class")).contains("dataTables_paginate");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).contains("dandelion_dataTables_export");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 1).getAttribute("class")).contains("dataTables_length");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 2).getAttribute("class")).contains("dataTables_filter");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).contains("dandelion_dataTables_export");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 4).getAttribute("class")).contains("dataTables_info");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 5).getAttribute("class")).contains("dataTables_paginate");
 	}
 }

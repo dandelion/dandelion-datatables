@@ -28,55 +28,48 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.integration.basics;
-
-import static org.fest.assertions.Assertions.assertThat;
-
-import org.junit.Test;
-
-import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
-import com.github.dandelion.datatables.mock.Mock;
+package com.github.dandelion.datatables.mock;
 
 /**
- * Test the basic Features of Dandelion-Datatables.
+ * A typical Town entity.
  * 
- * @author Thibault Duchateau
+ * @author tduchateau
  */
-public class FeatureEnablementIT extends ThymeleafBaseIT {
+public class Town {
 
-	@Test
-	public void should_disable_paging() {
-		goToPage("basics/disable_paging");
+	private Long id;
+	private String name;
+	private String postcode;
 
-		assertThat(find("#" + TABLE_ID + "_length")).hasSize(0);
+	public Town() {
 
-		// If paging is disabled, the entire collection is displayed
-		assertThat(getTable().find("tbody").find("tr")).hasSize(Mock.persons.size());
-	}
-	
-	@Test
-	public void should_disable_filtering() {
-		goToPage("basics/disable_filtering");
-
-		// If paging is disabled, the entire collection is displayed
-		assertThat(find("#" + TABLE_ID + "_filter")).hasSize(0);
 	}
 
-	@Test
-	public void should_disable_info() {
-		goToPage("basics/disable_info");
-
-		// If paging is disabled, the entire collection is displayed
-		assertThat(find("#" + TABLE_ID + "_info")).hasSize(0);
+	public Long getId() {
+		return id;
 	}
 
-	@Test
-	public void should_disable_sorting() {
-		goToPage("basics/disable_sorting");
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-		// If paging is disabled, the entire collection is displayed
-		assertThat(getTable().find("tbody").find(".sorting")).hasSize(0);
-		assertThat(getTable().find("tbody").find(".sorting_desc")).hasSize(0);
-		assertThat(getTable().find("tbody").find(".sorting_asc")).hasSize(0);
+	public Town(String label) {
+		this.name = label;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String label) {
+		this.name = label;
+	}
+
+	public String getPostcode() {
+		return postcode;
+	}
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
 	}
 }

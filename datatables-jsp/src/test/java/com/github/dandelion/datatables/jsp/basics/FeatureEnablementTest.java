@@ -36,8 +36,8 @@ import org.junit.Test;
 
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.mock.Mock;
 import com.github.dandelion.datatables.jsp.tag.DomBaseTest;
+import com.github.dandelion.datatables.mock.Mock;
 import com.github.dandelion.datatables.utils.TableTagBuilder;
 
 public class FeatureEnablementTest extends DomBaseTest {

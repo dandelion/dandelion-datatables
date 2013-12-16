@@ -34,9 +34,8 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.mock.Mock;
 import com.github.dandelion.datatables.integration.JspBaseIT;
-import com.github.dandelion.datatables.testing.utils.Constants;
+import com.github.dandelion.datatables.mock.Mock;
 
 /**
  * Test the basic Features of Dandelion-Datatables.
@@ -49,7 +48,7 @@ public class FeatureEnablementIT extends JspBaseIT {
 	public void should_disable_paging() {
 		goToPage("basics/disable_paging");
 
-		assertThat(find("#" + Constants.TABLE_ID + "_length")).hasSize(0);
+		assertThat(find("#" + TABLE_ID + "_length")).hasSize(0);
 
 		// If paging is disabled, the entire collection is displayed
 		assertThat(getTable().find("tbody").find("tr")).hasSize(Mock.persons.size());
@@ -60,7 +59,7 @@ public class FeatureEnablementIT extends JspBaseIT {
 		goToPage("basics/disable_filtering");
 
 		// If paging is disabled, the entire collection is displayed
-		assertThat(find("#" + Constants.TABLE_ID + "_filter")).hasSize(0);
+		assertThat(find("#" + TABLE_ID + "_filter")).hasSize(0);
 	}
 
 	@Test
@@ -68,7 +67,7 @@ public class FeatureEnablementIT extends JspBaseIT {
 		goToPage("basics/disable_info");
 
 		// If paging is disabled, the entire collection is displayed
-		assertThat(find("#" + Constants.TABLE_ID + "_info")).hasSize(0);
+		assertThat(find("#" + TABLE_ID + "_info")).hasSize(0);
 	}
 
 	@Test

@@ -9,10 +9,10 @@ import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.mock.Mock;
 import com.github.dandelion.datatables.jsp.tag.ColumnTag;
 import com.github.dandelion.datatables.jsp.tag.ExtraHtmlTag;
 import com.github.dandelion.datatables.jsp.tag.TableTag;
+import com.github.dandelion.datatables.mock.Mock;
 import com.github.dandelion.datatables.utils.TableTagBuilder;
 
 public abstract class ExtraHtmlBaseTest {

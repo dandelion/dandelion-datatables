@@ -36,7 +36,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.integration.JspBaseIT;
-import com.github.dandelion.datatables.testing.utils.Constants;
 
 /**
  * Test the Bootstrap2 theme feature.
@@ -52,14 +51,14 @@ public class Bootstrap2IT extends JspBaseIT {
 	
 		StringBuilder baseHref = new StringBuilder(getDefaultBaseUrl());
 		baseHref.append("/datatablesController/datatables-bootstrap2.css?id=");
-		baseHref.append(Constants.TABLE_ID);
+		baseHref.append(TABLE_ID);
 		baseHref.append("&c=%2Fthemes%2Fbootstrap2_dom.jsp");
 		
 		// Custom Bootstrap CSS must exist
 		assertThat(getHtmlBody().findFirst("link").getAttribute("href")).isEqualTo(baseHref.toString());
 		
 		// Looking for the paging div
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div.paging_bootstrap ")).hasSize(1);
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div.paging_bootstrap ")).hasSize(1);
 	}
 	
 	
@@ -69,13 +68,13 @@ public class Bootstrap2IT extends JspBaseIT {
 	
 		StringBuilder baseHref = new StringBuilder(getDefaultBaseUrl());
 		baseHref.append("/datatablesController/datatables-bootstrap2.css?id=");
-		baseHref.append(Constants.TABLE_ID);
+		baseHref.append(TABLE_ID);
 		baseHref.append("&c=%2Fthemes%2Fbootstrap2_ajax.jsp");
 		
 		// Custom Bootstrap CSS must exist
 		assertThat(getHtmlBody().findFirst("link").getAttribute("href")).isEqualTo(baseHref.toString());
 		
 		// Looking for the paging div
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div.paging_bootstrap ")).hasSize(1);
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div.paging_bootstrap ")).hasSize(1);
 	}
 }

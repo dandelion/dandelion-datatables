@@ -28,55 +28,58 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.dandelion.datatables.integration.basics;
+package com.github.dandelion.datatables.mock;
 
-import static org.fest.assertions.Assertions.assertThat;
 
-import org.junit.Test;
-
-import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
-import com.github.dandelion.datatables.mock.Mock;
 
 /**
- * Test the basic Features of Dandelion-Datatables.
+ * A typical Address entity.
  * 
- * @author Thibault Duchateau
+ * @author tduchateau
  */
-public class FeatureEnablementIT extends ThymeleafBaseIT {
+public class Address {
 
-	@Test
-	public void should_disable_paging() {
-		goToPage("basics/disable_paging");
+	private Long id;
+	private String street;
+	private Town town;
 
-		assertThat(find("#" + TABLE_ID + "_length")).hasSize(0);
+	public Address() {
 
-		// If paging is disabled, the entire collection is displayed
-		assertThat(getTable().find("tbody").find("tr")).hasSize(Mock.persons.size());
 	}
 	
-	@Test
-	public void should_disable_filtering() {
-		goToPage("basics/disable_filtering");
-
-		// If paging is disabled, the entire collection is displayed
-		assertThat(find("#" + TABLE_ID + "_filter")).hasSize(0);
+	public Address(String street, Town town){
+		this.street = street;
+		this.town = town;
 	}
 
-	@Test
-	public void should_disable_info() {
-		goToPage("basics/disable_info");
-
-		// If paging is disabled, the entire collection is displayed
-		assertThat(find("#" + TABLE_ID + "_info")).hasSize(0);
+	public Address(String street) {
+		this.street = street;
 	}
 
-	@Test
-	public void should_disable_sorting() {
-		goToPage("basics/disable_sorting");
-
-		// If paging is disabled, the entire collection is displayed
-		assertThat(getTable().find("tbody").find(".sorting")).hasSize(0);
-		assertThat(getTable().find("tbody").find(".sorting_desc")).hasSize(0);
-		assertThat(getTable().find("tbody").find(".sorting_asc")).hasSize(0);
+	public Town getTown() {
+		return town;
 	}
+
+	public void setTown(Town town) {
+		this.town = town;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	
+
 }

@@ -53,13 +53,9 @@
          <artifactId>slf4j-api</artifactId>
       </dependency>
 
-      <!-- Test -->
-      <dependency>
-         <groupId>com.github.dandelion</groupId>
-         <artifactId>datatables-testing</artifactId>
-         <version>0.10.0-SNAPSHOT</version>
-         <scope>test</scope>
-      </dependency>
+      <!-- Test dependencies -->
+      
+      <!-- Thymeleaf -->
       <dependency>
          <groupId>org.thymeleaf</groupId>
          <artifactId>thymeleaf-spring3</artifactId>
@@ -70,6 +66,98 @@
          <groupId>org.thymeleaf</groupId>
          <artifactId>thymeleaf-testing</artifactId>
          <version>${thymeleaf-testing.version}</version>
+         <scope>test</scope>
+      </dependency>
+      
+      <!-- PhantomJS + GhostDriver -->
+      <dependency>
+         <groupId>com.github.detro.ghostdriver</groupId>
+         <artifactId>phantomjsdriver</artifactId>
+         <version>${phantomjsdriver.version}</version>
+         <scope>test</scope>
+         <exclusions>
+            <exclusion>
+               <groupId>org.seleniumhq.selenium</groupId>
+               <artifactId>selenium-server</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      
+      <!-- Fluentlenium -->
+      <dependency>
+         <groupId>org.fluentlenium</groupId>
+         <artifactId>fluentlenium-core</artifactId>
+         <version>${fluentlenium.version}</version>
+         <scope>test</scope>
+         <exclusions>
+            <exclusion>
+               <groupId>junit</groupId>
+               <artifactId>junit-dep</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      
+      <!-- Jetty -->
+      <dependency>
+         <groupId>org.eclipse.jetty</groupId>
+         <artifactId>jetty-server</artifactId>
+         <version>${jetty.test.version}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.eclipse.jetty</groupId>
+         <artifactId>jetty-webapp</artifactId>
+         <version>${jetty.test.version}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.eclipse.jetty</groupId>
+         <artifactId>jetty-jsp</artifactId>
+         <version>${jetty.test.version}</version>
+         <scope>test</scope>
+      </dependency>
+      
+      <!-- Junit -->
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit-dep</artifactId>
+         <version>${junit.dep.version}</version>
+         <scope>test</scope>
+      </dependency>
+      
+      <!-- FestAssert -->
+      <dependency>
+         <groupId>org.easytesting</groupId>
+         <artifactId>fest-assert</artifactId>
+         <version>${festassert.version}</version>
+         <scope>test</scope>
+      </dependency>
+      
+      <!-- Spring + Jackson -->
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-test</artifactId>
+         <version>${spring.version}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-webmvc</artifactId>
+         <version>${spring.version}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.codehaus.jackson</groupId>
+         <artifactId>jackson-mapper-asl</artifactId>
+         <version>${jackson.version}</version>
+         <scope>test</scope>
+      </dependency>
+
+      <!-- XML API -->
+      <dependency>
+         <groupId>xml-apis</groupId>
+         <artifactId>xml-apis</artifactId>
+         <version>${xml-apis.version}</version>
          <scope>test</scope>
       </dependency>
    </dependencies>

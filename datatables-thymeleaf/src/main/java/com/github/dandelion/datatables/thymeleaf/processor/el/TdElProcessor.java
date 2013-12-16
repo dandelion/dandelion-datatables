@@ -38,7 +38,6 @@ import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.standard.expression.StandardExpressionParser;
 import org.thymeleaf.standard.expression.StandardExpressionProcessor;
-import org.thymeleaf.standard.expression.StandardExpressions;
 
 import com.github.dandelion.datatables.core.export.Format;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
