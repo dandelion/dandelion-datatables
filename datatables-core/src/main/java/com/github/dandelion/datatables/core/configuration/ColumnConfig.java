@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
@@ -44,6 +43,7 @@ import com.github.dandelion.datatables.core.processor.BooleanProcessor;
 import com.github.dandelion.datatables.core.processor.ColumnProcessor;
 import com.github.dandelion.datatables.core.processor.IntegerProcessor;
 import com.github.dandelion.datatables.core.processor.StringBuilderProcessor;
+import com.github.dandelion.datatables.core.processor.EmptyStringProcessor;
 import com.github.dandelion.datatables.core.processor.StringProcessor;
 import com.github.dandelion.datatables.core.processor.column.FilterTypeProcessor;
 import com.github.dandelion.datatables.core.processor.column.FilterableProcessor;
@@ -67,7 +67,7 @@ public final class ColumnConfig {
 	public static ConfigToken<String> TITLE = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> TITLEKEY = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> PROPERTY = new ConfigToken<String>("", new StringProcessor());
-	public static ConfigToken<String> DEFAULTVALUE = new ConfigToken<String>("", new StringProcessor());
+	public static ConfigToken<String> DEFAULTVALUE = new ConfigToken<String>("", new EmptyStringProcessor());
 	public static ConfigToken<StringBuilder> CSSSTYLE = new ConfigToken<StringBuilder>("", new StringBuilderProcessor());
 	public static ConfigToken<StringBuilder> CSSCELLSTYLE = new ConfigToken<StringBuilder>("", new StringBuilderProcessor());
 	public static ConfigToken<StringBuilder> CSSCLASS = new ConfigToken<StringBuilder>("", new StringBuilderProcessor());
@@ -110,9 +110,7 @@ public final class ColumnConfig {
 			HtmlColumn column) {
 
 		for(Entry<ConfigToken<?>, Object> stagingEntry : stagingConf.entrySet()){
-			if(StringUtils.isNotBlank(String.valueOf(stagingEntry.getValue()))){
-				column.getColumnConfiguration().getConfigurations().put(stagingEntry.getKey(), stagingEntry.getValue());
-			}
+			column.getColumnConfiguration().getConfigurations().put(stagingEntry.getKey(), stagingEntry.getValue());
 		}
 		
 		column.getColumnConfiguration().getStagingExtension().putAll(stagingExtensions);
