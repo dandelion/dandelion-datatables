@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.export.ExportConf;
@@ -65,7 +66,7 @@ public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
 			tableConfiguration.setIsExportable(true);
 
 			// Allowed export types
-			String[] enabledFormats = stringifiedValue.toUpperCase().split(",");
+			String[] enabledFormats = stringifiedValue.split(",");
 			for (String enabledFormat : enabledFormats) {
 				enabledFormat = enabledFormat.toLowerCase().trim();
 
@@ -80,8 +81,14 @@ public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
 					tableConfiguration.getExportConfiguration().put(enabledFormat, exportConf);
 				} else {
 					exportConf = tableConfiguration.getExportConfiguration().get(enabledFormat);
-					exportConf.setUrl(UrlUtils.getExportUrl(tableConfiguration.getRequest(),
-							tableConfiguration.getResponse(), enabledFormat, tableConfiguration.getTableId()));
+					if (exportConf.isCustom()) {
+						StringBuilder url = new StringBuilder(exportConf.getUrl());
+						UrlUtils.addParameter(url, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
+						exportConf.setUrl(url.toString());
+					} else {
+						exportConf.setUrl(UrlUtils.getExportUrl(tableConfiguration.getRequest(),
+								tableConfiguration.getResponse(), enabledFormat, tableConfiguration.getTableId()));
+					}
 				}
 			}
 
