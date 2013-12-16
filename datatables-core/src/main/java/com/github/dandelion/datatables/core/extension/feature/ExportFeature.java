@@ -159,7 +159,7 @@ public class ExportFeature extends AbstractExtension {
 					String tableId = "oTable_" + table.getId();
 					
 					StringBuilder exportFuncName = new StringBuilder("ddl_dt_launch_export_");
-					exportFuncName.append(tableId);
+					exportFuncName.append(table.getId());
 					exportFuncName.append("_");
 					exportFuncName.append(conf.getFormat());
 					
