@@ -144,7 +144,8 @@ public class UrlUtils {
 		try {
 			url.append(name).append("=").append(URLEncoder.encode(String.valueOf(value), "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
-			throw new ConfigurationProcessingException("Exception while building URL");
+			throw new ConfigurationProcessingException("Exception while adding the parameter " + name + "=" + value
+					+ "to the URL " + url);
 		}
 	}
 
