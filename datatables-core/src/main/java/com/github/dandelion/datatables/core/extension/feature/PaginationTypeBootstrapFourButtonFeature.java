@@ -53,6 +53,6 @@ public class PaginationTypeBootstrapFourButtonFeature extends AbstractExtension 
 	@Override
 	public void setup(HtmlTable table) {
 		addScope(Scope.DDL_DT_PAGING_BOOTSTRAP_FOURBUTTON);
-		addParameter(DTConstants.DT_PAGINATION_TYPE, "bootstrap_four_button");
+		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP_FOUR_BUTTON.toString());
 	}
 }

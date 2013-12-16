@@ -57,6 +57,6 @@ public class PaginationTypeListboxFeature extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 		addScope(Scope.DDL_DT_PAGING_LISTBOX);
-		addParameter(DTConstants.DT_PAGINATION_TYPE, "listbox");
+		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.LISTBOX.toString());
 	}
 }

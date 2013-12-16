@@ -57,6 +57,6 @@ public class PaginationTypeInputFeature extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 		addScope(Scope.DDL_DT_PAGING_INPUT);
-		addParameter(DTConstants.DT_PAGINATION_TYPE, "input");
+		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.INPUT.toString());
 	}
 }

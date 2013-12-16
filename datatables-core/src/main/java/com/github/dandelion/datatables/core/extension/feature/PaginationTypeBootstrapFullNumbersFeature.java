@@ -53,6 +53,6 @@ public class PaginationTypeBootstrapFullNumbersFeature extends AbstractExtension
 	@Override
 	public void setup(HtmlTable table) {
 		addScope(Scope.DDL_DT_PAGING_BOOTSTRAP_FULLNUMBERS);
-		addParameter(DTConstants.DT_PAGINATION_TYPE, "bootstrap_full_numbers");
+		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP_FULL_NUMBERS.toString());
 	}
 }

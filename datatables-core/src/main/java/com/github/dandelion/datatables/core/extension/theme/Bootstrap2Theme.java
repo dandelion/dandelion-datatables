@@ -79,7 +79,10 @@ public class Bootstrap2Theme extends AbstractExtension {
 			addParameter(DTConstants.DT_DOM,
 					"<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>");
 		}
-		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
+		
+		if(TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(table.getTableConfiguration()) == null){
+			addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
+		}
 		addParameter(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]"));
 	}
 }

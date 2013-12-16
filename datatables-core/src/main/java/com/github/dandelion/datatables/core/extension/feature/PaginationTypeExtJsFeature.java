@@ -57,6 +57,6 @@ public class PaginationTypeExtJsFeature extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 		addScope(Scope.DDL_DT_PAGING_EXTJS);
-		addParameter(DTConstants.DT_PAGINATION_TYPE, "extStyle");
+		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.EXTSTYLE.toString());
 	}
 }

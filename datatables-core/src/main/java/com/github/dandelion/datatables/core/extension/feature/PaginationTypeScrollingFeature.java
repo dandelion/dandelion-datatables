@@ -57,6 +57,6 @@ public class PaginationTypeScrollingFeature extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 		addScope(Scope.DDL_DT_PAGING_SCROLLING);
-		addParameter(DTConstants.DT_PAGINATION_TYPE, "scrolling");
+		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.SCROLLING.toString());
 	}
 }
