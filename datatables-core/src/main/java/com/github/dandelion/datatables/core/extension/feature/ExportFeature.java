@@ -198,6 +198,7 @@ public class ExportFeature extends AbstractExtension {
 						exportFunc.append("' + $.param(");
 						exportFunc.append(params.toString());
 						exportFunc.append("));}");
+						exportFunc.append("\n");
 						
 						appendToBeforeAll(exportFunc.toString());
 					}
@@ -229,6 +230,7 @@ public class ExportFeature extends AbstractExtension {
 						exportFunc.append(conf.getMethod());
 						exportFunc.append("');");
 						exportFunc.append("}");
+						exportFunc.append("\n");
 						
 						appendToBeforeAll(exportFunc.toString());					
 					}
