@@ -34,6 +34,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 
 /**
@@ -45,11 +46,11 @@ public class ExportLinksIT extends ThymeleafBaseIT {
 
 	@Test
 	public void should_generate_default_csv_link_with_one_existing_url_parameter() {
-		goToPage("export/default_csv_link?param1=val1");
+		goToPage("export/default_csv_link?param1=val1", true);
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href"))
-			.isEqualTo(getDefaultBaseUrl() + "/thymeleaf/export/default_csv_link?param1=val1&dtt=1&dti=myTableId");
+			.isEqualTo(getDefaultBaseUrl() + "/thymeleaf/export/default_csv_link?param1=val1&dtt=csv&dti=myTableId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
 	}
 	
 	@Test
@@ -58,7 +59,7 @@ public class ExportLinksIT extends ThymeleafBaseIT {
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href"))
-			.isEqualTo(getDefaultBaseUrl() + "/thymeleaf/export/default_csv_link?param1=val1&param2=val2&dtt=1&dti=myTableId");
+			.isEqualTo(getDefaultBaseUrl() + "/thymeleaf/export/default_csv_link?param1=val1&param2=val2&dtt=csv&dti=myTableId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
 	}
 	
 	@Test
@@ -73,10 +74,10 @@ public class ExportLinksIT extends ThymeleafBaseIT {
 
 		assertThat(find("div.dandelion_dataTables_export")).hasSize(1);
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_CSV();");
+		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_myTableId_csv();");
 
 		String js = getConfigurationFromPage("export/custom_csv_url");
-		assertThat(js).contains("function ddl_dt_launch_export_CSV(){window.location='/context/customCsvUrl?' + $.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));};");
+		assertThat(js).contains("function ddl_dt_launch_export_myTableId_csv(){window.location='/context/customCsvUrl?' + $.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));};");
 	}
 	
 	@Test
@@ -85,10 +86,10 @@ public class ExportLinksIT extends ThymeleafBaseIT {
 
 		assertThat(find("div.dandelion_dataTables_export")).hasSize(1);
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("PDF");
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_PDF();");
+		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_myTableId_pdf();");
 
 		String js = getConfigurationFromPage("export/custom_pdf_url");
-		assertThat(js).contains("function ddl_dt_launch_export_PDF(){window.location='/context/customPdfUrl?' + $.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));};");
+		assertThat(js).contains("function ddl_dt_launch_export_myTableId_pdf(){window.location='/context/customPdfUrl?' + $.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));};");
 	}
 	
 	@Test
@@ -97,10 +98,10 @@ public class ExportLinksIT extends ThymeleafBaseIT {
 
 		assertThat(find("div.dandelion_dataTables_export")).hasSize(1);
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("XLS");
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_XLS();");
+		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_myTableId_xls();");
 
 		String js = getConfigurationFromPage("export/custom_xls_url");
-		assertThat(js).contains("function ddl_dt_launch_export_XLS(){window.location='/context/customXlsUrl?' + $.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));};");
+		assertThat(js).contains("function ddl_dt_launch_export_myTableId_xls(){window.location='/context/customXlsUrl?' + $.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));};");
 	}
 	
 	@Test
@@ -109,10 +110,10 @@ public class ExportLinksIT extends ThymeleafBaseIT {
 
 		assertThat(find("div.dandelion_dataTables_export")).hasSize(1);
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("XLSX");
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_XLSX();");
+		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_myTableId_xlsx();");
 
 		String js = getConfigurationFromPage("export/custom_xlsx_url");
-		assertThat(js).contains("function ddl_dt_launch_export_XLSX(){window.location='/context/customXlsxUrl?' + $.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));};");
+		assertThat(js).contains("function ddl_dt_launch_export_myTableId_xlsx(){window.location='/context/customXlsxUrl?' + $.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));};");
 	}
 	
 	@Test
@@ -121,9 +122,9 @@ public class ExportLinksIT extends ThymeleafBaseIT {
 
 		assertThat(find("div.dandelion_dataTables_export")).hasSize(1);
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("XML");
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_XML();");
+		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_myTableId_xml();");
 
 		String js = getConfigurationFromPage("export/custom_xml_url");
-		assertThat(js).contains("function ddl_dt_launch_export_XML(){window.location='/context/customXmlUrl?' + $.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));};");
+		assertThat(js).contains("function ddl_dt_launch_export_myTableId_XML(){window.location='/context/customXmlUrl?' + $.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));};");
 	}
 }

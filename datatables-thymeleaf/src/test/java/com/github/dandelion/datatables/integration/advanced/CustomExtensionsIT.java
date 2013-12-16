@@ -45,14 +45,14 @@ public class CustomExtensionsIT extends ThymeleafBaseIT {
 
 	@Test
 	public void should_enable_myCustomFeature() {
-		goToPage("advanced/custom-extensions/custom_extensions");
-		assertThat(getConfigurationFromPage("advanced/custom-extensions/custom_extensions")).contains("\"bStateSave\":true");
+		goToPage("advanced/custom-extension/custom_extensions", true);
+		assertThat(getConfigurationFromPage("advanced/custom-extension/custom_extensions")).contains("\"bStateSave\":true");
 	}
 	
 	@Test
 	public void should_enable_myCustomFeature_and_myOtherCustomFeature() {
-		goToPage("advanced/custom-extensions/custom_extensions2");
-		assertThat(getConfigurationFromPage("advanced/custom-extensions/custom_extensions2")).contains("\"bStateSave\":true");
-		assertThat(getConfigurationFromPage("advanced/custom-extensions/custom_extensions2")).contains("\"bAutoWidth\":true");
+		goToPage("advanced/custom-extension/custom_extensions2");
+		assertThat(getConfigurationFromPage("advanced/custom-extension/custom_extensions2")).contains("\"bStateSave\":true");
+		assertThat(getConfigurationFromPage("advanced/custom-extension/custom_extensions2")).contains("\"bAutoWidth\":true");
 	}
 }

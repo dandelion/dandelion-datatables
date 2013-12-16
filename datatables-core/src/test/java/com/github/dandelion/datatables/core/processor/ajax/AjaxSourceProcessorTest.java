@@ -33,8 +33,10 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.feature.AjaxFeature;
+import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
@@ -46,33 +48,23 @@ public class AjaxSourceProcessorTest extends TableProcessorBaseTest {
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.AJAX_SOURCE, null, tableConfiguration);
-		assertThat(TableConfig.AJAX_SOURCE.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
-	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.AJAX_SOURCE, "", tableConfiguration);
-		assertThat(TableConfig.AJAX_SOURCE.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
 	public void should_set_the_source_and_register_a_feature_when_serverside_is_disabled() {
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SOURCE, "/myAjaxSource");
 		tableConfiguration.getConfigurations().put(TableConfig.AJAX_SERVERSIDE, false);
-		processor.process(TableConfig.AJAX_SOURCE, "/myAjaxSource", tableConfiguration);
+		processor.process(entry, tableConfiguration);
 		
-		assertThat(TableConfig.AJAX_SOURCE.valueFrom(tableConfiguration)).isEqualTo("/myAjaxSource");
+		assertThat(entry.getValue()).isEqualTo("/myAjaxSource");
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
 		assertThat(new AjaxFeature()).isIn(tableConfiguration.getInternalExtensions());
 	}
 	
 	@Test
 	public void should_set_the_source_and_not_register_a_feature_when_serverside_is_enabled() {
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SOURCE, "/myAjaxSource");
 		tableConfiguration.getConfigurations().put(TableConfig.AJAX_SERVERSIDE, true);
-		processor.process(TableConfig.AJAX_SOURCE, "/myAjaxSource", tableConfiguration);
+		processor.process(entry, tableConfiguration);
 		
-		assertThat(TableConfig.AJAX_SOURCE.valueFrom(tableConfiguration)).isEqualTo("/myAjaxSource");
+		assertThat(entry.getValue()).isEqualTo("/myAjaxSource");
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}
 }

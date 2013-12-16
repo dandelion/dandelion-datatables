@@ -15,7 +15,7 @@ public class AjaxSourceIT extends ThymeleafBaseIT {
 
 	@Test
 	public void should_generate_table_markup() {
-		goToPage("ajax/table");
+		goToPage("ajax/table", true);
 
 		assertThat(getTable()).hasSize(1);
 		assertThat(getTable().find("thead")).hasSize(1);
@@ -32,7 +32,7 @@ public class AjaxSourceIT extends ThymeleafBaseIT {
 		assertThat(getTable().find("tbody").find("tr", 1).find("td", 4).getText()).isEqualTo("bibendum.fermentum.metus@ante.ca");
 		
 		// A script tag must be generated
-		assertThat(getHtmlBody().find("script")).hasSize(1);
+		assertThat(getHtmlBody().find("script")).hasSize(3);
 	}
 	
 

@@ -33,10 +33,12 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.theme.Bootstrap2Theme;
 import com.github.dandelion.datatables.core.extension.theme.JQueryUITheme;
+import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
@@ -48,36 +50,33 @@ public class CssThemeProcessorTest extends TableProcessorBaseTest {
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.CSS_THEME, null, tableConfiguration);
-		assertThat(TableConfig.CSS_THEME.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
-	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.CSS_THEME, "", tableConfiguration);
-		assertThat(TableConfig.CSS_THEME.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
 	public void should_set_theme() {
-		processor.process(TableConfig.CSS_THEME, "bootstrap2", tableConfiguration);
-		assertThat(TableConfig.CSS_THEME.valueFrom(tableConfiguration)).isEqualTo(new Bootstrap2Theme());
-		processor.process(TableConfig.CSS_THEME, "BOOTSTRAP2", tableConfiguration);
-		assertThat(TableConfig.CSS_THEME.valueFrom(tableConfiguration)).isEqualTo(new Bootstrap2Theme());
-		processor.process(TableConfig.CSS_THEME, "jqueryui", tableConfiguration);
-		assertThat(TableConfig.CSS_THEME.valueFrom(tableConfiguration)).isEqualTo(new JQueryUITheme());
-		processor.process(TableConfig.CSS_THEME, "jqueryUI", tableConfiguration);
-		assertThat(TableConfig.CSS_THEME.valueFrom(tableConfiguration)).isEqualTo(new JQueryUITheme());
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_THEME, "bootstrap2");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(new Bootstrap2Theme());
+		
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_THEME, "BOOTSTRAP2");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(new Bootstrap2Theme());
+		
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_THEME, "jqueryui");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(new JQueryUITheme());
+		
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_THEME, "jqueryUI");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(new JQueryUITheme());
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_raise_an_exception() {
-		processor.process(TableConfig.CSS_THEME, "booootstrap2", tableConfiguration);
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_THEME, "booooootstrap2");
+		processor.process(entry, tableConfiguration);
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_raise_an_exception_as_well() {
-		processor.process(TableConfig.CSS_THEME, "jquery", tableConfiguration);
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_THEME, "jquery");
+		processor.process(entry, tableConfiguration);
 	}
 }

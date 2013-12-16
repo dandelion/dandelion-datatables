@@ -4,20 +4,19 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 
 public class CssStripeClassesProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void doProcess(ConfigToken<?> configToken, String value) {
-		if (StringUtils.isNotBlank(value)) {
+	public void doProcess() {
+		if (StringUtils.isNotBlank(stringifiedValue)) {
 
 			String retval = null;
 
 			StringBuilder stripeTmp = new StringBuilder("[");
-			if (value.contains(",")) {
-				String[] tmp = value.trim().split(",");
+			if (stringifiedValue.contains(",")) {
+				String[] tmp = stringifiedValue.trim().split(",");
 				Iterator<String> iterator = Arrays.asList(tmp).iterator();
 				stripeTmp.append("'").append(iterator.next().trim()).append("'");
 				while (iterator.hasNext()) {
@@ -25,12 +24,12 @@ public class CssStripeClassesProcessor extends AbstractTableProcessor {
 				}
 				retval = stripeTmp.toString();
 			} else {
-				stripeTmp.append("'").append(value).append("'");
+				stripeTmp.append("'").append(stringifiedValue).append("'");
 			}
 			stripeTmp.append("]");
 			retval = stripeTmp.toString();
 
-			tableConfiguration.set(configToken, retval);
+			updateEntry(retval);
 		}
 	}
 }

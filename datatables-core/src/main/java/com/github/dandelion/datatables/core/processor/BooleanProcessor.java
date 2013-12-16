@@ -29,13 +29,12 @@
  */
 package com.github.dandelion.datatables.core.processor;
 
-import java.util.Map;
+import java.util.Map.Entry;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.extension.Extension;
 
 /**
  * Processor used for all Boolean parameters.
@@ -46,23 +45,27 @@ import com.github.dandelion.datatables.core.extension.Extension;
 public class BooleanProcessor implements TableProcessor, ColumnProcessor {
 
 	@Override
-	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration) {
-		Boolean retval = null;
-		if (StringUtils.isNotBlank(value)) {
-			retval = Boolean.parseBoolean(value);
-		}
-	
-		tableConfiguration.set(configToken, retval);
-	}
-	
-	@Override
-	public void process(ConfigToken<?> configToken, String value, ColumnConfiguration columnConfiguration,
-			TableConfiguration tableConfiguration, Map<ConfigToken<?>, Object> stagingConf, Map<ConfigToken<?>, Extension> stagingExtension) {
+	public void process(Entry<ConfigToken<?>, Object> configEntry, TableConfiguration tableConfiguration) {
+		String value = String.valueOf(configEntry.getValue());
+
 		Boolean retval = null;
 		if (StringUtils.isNotBlank(value)) {
 			retval = Boolean.parseBoolean(value);
 		}
 
-		columnConfiguration.set(configToken, retval);
+		configEntry.setValue(retval);
+	}
+
+	@Override
+	public void process(Entry<ConfigToken<?>, Object> configEntry, ColumnConfiguration columnConfiguration,
+			TableConfiguration tableConfiguration) {
+		String value = String.valueOf(configEntry.getValue());
+
+		Boolean retval = null;
+		if (StringUtils.isNotBlank(value)) {
+			retval = Boolean.parseBoolean(value);
+		}
+
+		configEntry.setValue(retval);
 	}
 }

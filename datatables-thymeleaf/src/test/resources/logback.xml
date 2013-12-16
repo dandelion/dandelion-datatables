@@ -8,12 +8,12 @@
       </encoder>
    </appender>
 
-   <logger name="com.github.dandelion" level="ERROR" />
+   <logger name="com.github.dandelion" level="DEBUG" />
    <logger name="org.eclipse.jetty" level="ERROR" />
-   <logger name="org.springframework" level="ERROR" />
-   <logger name="org.apache" level="ERROR" />
+   <logger name="org.springframework" level="DEBUG" />
+   <logger name="org.apache" level="DEBUG" />
 
-   <root level="ERROR">
+   <root level="DEBUG">
       <appender-ref ref="STDOUT" />
    </root>
 

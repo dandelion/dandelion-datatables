@@ -33,7 +33,9 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
@@ -45,41 +47,35 @@ public class CssStripeClassesProcessorTest extends TableProcessorBaseTest {
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.CSS_STRIPECLASSES, null, tableConfiguration);
-		assertThat(TableConfig.CSS_STRIPECLASSES.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
-	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.CSS_STRIPECLASSES, "", tableConfiguration);
-		assertThat(TableConfig.CSS_STRIPECLASSES.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
 	public void should_set_a_js_array_when_using_one_class() {
-		processor.process(TableConfig.CSS_STRIPECLASSES, "class1", tableConfiguration);
-		assertThat(TableConfig.CSS_STRIPECLASSES.valueFrom(tableConfiguration)).isEqualTo("['class1']");
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_STRIPECLASSES, "class1");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("['class1']");
 		
-		processor.process(TableConfig.CSS_STRIPECLASSES, " class1, ", tableConfiguration);
-		assertThat(TableConfig.CSS_STRIPECLASSES.valueFrom(tableConfiguration)).isEqualTo("['class1']");
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_STRIPECLASSES, "  class1");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("['class1']");
 	}
 	
 	@Test
 	public void should_set_a_js_array_when_using_two_classes() {
-		processor.process(TableConfig.CSS_STRIPECLASSES, "class1,class2", tableConfiguration);
-		assertThat(TableConfig.CSS_STRIPECLASSES.valueFrom(tableConfiguration)).isEqualTo("['class1','class2']");
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_STRIPECLASSES, "class1,class2");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("['class1','class2']");
 		
-		processor.process(TableConfig.CSS_STRIPECLASSES, " class1, class2 ", tableConfiguration);
-		assertThat(TableConfig.CSS_STRIPECLASSES.valueFrom(tableConfiguration)).isEqualTo("['class1','class2']");
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_STRIPECLASSES, " class1, class2 ");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("['class1','class2']");
 	}
 	
 	@Test
 	public void should_set_a_js_array_when_using_three_classes() {
-		processor.process(TableConfig.CSS_STRIPECLASSES, "class1,class2,class3", tableConfiguration);
-		assertThat(TableConfig.CSS_STRIPECLASSES.valueFrom(tableConfiguration)).isEqualTo("['class1','class2','class3']");
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_STRIPECLASSES, "class1,class2,class3");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("['class1','class2','class3']");
 		
-		processor.process(TableConfig.CSS_STRIPECLASSES, " class1, class2,class3 ", tableConfiguration);
-		assertThat(TableConfig.CSS_STRIPECLASSES.valueFrom(tableConfiguration)).isEqualTo("['class1','class2','class3']");
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_STRIPECLASSES, " class1, class2,class3 ");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("['class1','class2','class3']");
 	}
 }

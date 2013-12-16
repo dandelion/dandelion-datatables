@@ -34,7 +34,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 import com.github.dandelion.datatables.core.util.ClassUtils;
@@ -46,18 +45,18 @@ public class MessageResolverProcessor extends AbstractTableProcessor {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void doProcess(ConfigToken<?> configToken, String value) {
+	public void doProcess() {
 		MessageResolver resourceProvider = null;
 
-		if (value != null) {
+		if (stringifiedValue != null) {
 			try {
-				Class<MessageResolver> classProperty = (Class<MessageResolver>) ClassUtils.getClass(value);
+				Class<MessageResolver> classProperty = (Class<MessageResolver>) ClassUtils.getClass(stringifiedValue);
 				resourceProvider = classProperty.getDeclaredConstructor(new Class[] { HttpServletRequest.class })
 						.newInstance(tableConfiguration.getRequest());
 
 				logger.info("MessageResolver initialized with {}", resourceProvider.getClass().getSimpleName());
 			} catch (Exception e) {
-				logger.warn("Unable to instantiate the configured {} due to a {} exception", value, e.getClass()
+				logger.warn("Unable to instantiate the configured {} due to a {} exception", stringifiedValue, e.getClass()
 						.getName(), e);
 			}
 		} else {

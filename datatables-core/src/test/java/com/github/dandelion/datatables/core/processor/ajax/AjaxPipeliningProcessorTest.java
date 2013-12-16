@@ -33,8 +33,10 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.feature.PipeliningFeature;
+import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
@@ -46,29 +48,39 @@ public class AjaxPipeliningProcessorTest extends TableProcessorBaseTest {
 	}	
 
 	@Test
-	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.AJAX_PIPELINING, null, tableConfiguration);
-		assertThat(TableConfig.AJAX_PIPELINING.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
-	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.AJAX_PIPELINING, "", tableConfiguration);
-		assertThat(TableConfig.AJAX_PIPELINING.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
-	public void should_set_true_and_register_a_feature_when_value_is_true() {
-		processor.process(TableConfig.AJAX_PIPELINING, "true", tableConfiguration);
-		assertThat(TableConfig.AJAX_PIPELINING.valueFrom(tableConfiguration)).isTrue();
+	public void should_register_a_feature_and_use_default_pipelinig_when_value_is_true() {
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPELINING, "true");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(true);
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
+		assertThat(tableConfiguration.getConfigurations().get(TableConfig.AJAX_PIPESIZE)).isEqualTo(5);
 		assertThat(new PipeliningFeature()).isIn(tableConfiguration.getInternalExtensions());
 	}
 	
 	@Test
-	public void should_set_null_and_not_register_anything_when_value_is_false() {
-		processor.process(TableConfig.AJAX_PIPELINING, "false", tableConfiguration);
-		assertThat(TableConfig.AJAX_PIPELINING.valueFrom(tableConfiguration)).isFalse();
+	public void should_register_a_feature_and_leave_pipelining_untouched_when_value_is_true() {
+		tableConfiguration.getConfigurations().put(TableConfig.AJAX_PIPESIZE, 3);
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPELINING, "true");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(true);
+		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
+		assertThat(tableConfiguration.getConfigurations().get(TableConfig.AJAX_PIPESIZE)).isEqualTo(3);
+		assertThat(new PipeliningFeature()).isIn(tableConfiguration.getInternalExtensions());
+	}
+	
+	@Test
+	public void should_not_register_anything_when_value_is_false() {
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPELINING, "false");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(false);
+		assertThat(tableConfiguration.getInternalExtensions()).isNull();
+	}
+	
+	@Test
+	public void should_not_register_anything_when_value_is_wrong() {
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPELINING, "weird");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(false);
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}
 }

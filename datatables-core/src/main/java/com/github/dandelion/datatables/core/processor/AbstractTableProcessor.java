@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.core.processor;
 
+import java.util.Map.Entry;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,18 +61,46 @@ public abstract class AbstractTableProcessor implements TableProcessor {
 	private static Logger logger = LoggerFactory.getLogger(AbstractTableProcessor.class);
 
 	protected TableConfiguration tableConfiguration;
-
+	protected Entry<ConfigToken<?>, Object> configEntry;
+	protected String stringifiedValue;
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration) {
+	public void process(Entry<ConfigToken<?>, Object> configEntry, TableConfiguration tableConfiguration) {
+		this.configEntry = configEntry;
 		this.tableConfiguration = tableConfiguration;
-
-		logger.trace("Processing '{}' with the config token {}", value, configToken);
+		this.stringifiedValue = String.valueOf(configEntry.getValue()).trim();
 		
-		doProcess(configToken, value);
+		logger.trace("Processing '{}' with the config token {}", configEntry.getValue(), configEntry.getKey());
+		
+		doProcess();
 	}
 
-	public abstract void doProcess(ConfigToken<?> configToken, String value);
+	public abstract void doProcess();
+	
+	protected void registerExtension(Extension extension){
+		this.tableConfiguration.registerExtension(extension);
+	}
+	
+	protected void updateEntry(Object value){
+		this.configEntry.setValue(value);
+	}
+	
+	protected void addEntry(ConfigToken<?> configToken, Object value){
+		this.tableConfiguration.getConfigurations().put(configToken, value);
+	}
+	
+	protected void addStagingEntry(ConfigToken<?> configToken, Object value){
+		this.tableConfiguration.getStagingConfiguration().put(configToken, value);
+	}
+	
+	protected boolean isPresent(ConfigToken<?> configToken){
+		return tableConfiguration.getConfigurations().containsKey(configToken);
+	}
+	
+	protected boolean isNonPresent(ConfigToken<?> configToken){
+		return !isPresent(configToken);
+	}
 }

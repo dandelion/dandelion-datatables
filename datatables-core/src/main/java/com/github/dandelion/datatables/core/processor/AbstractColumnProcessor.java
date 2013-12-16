@@ -30,11 +30,11 @@
 package com.github.dandelion.datatables.core.processor;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
@@ -63,29 +63,54 @@ public abstract class AbstractColumnProcessor implements ColumnProcessor {
 	private static Logger logger = LoggerFactory.getLogger(AbstractColumnProcessor.class);
 
 	protected TableConfiguration tableConfiguration;
+	protected Entry<ConfigToken<?>, Object> configEntry;
 	protected ColumnConfiguration columnConfiguration;
 	protected Map<ConfigToken<?>, Object> stagingConf;
 	protected Map<ConfigToken<?>, Extension> stagingExtensions;
+	protected String stringifiedValue;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void process(ConfigToken<?> configToken, String value, ColumnConfiguration columnConfiguration,
-			TableConfiguration tableConfiguration, Map<ConfigToken<?>, Object> stagingConf,
-			Map<ConfigToken<?>, Extension> stagingExtension) {
+	public void process(Entry<ConfigToken<?>, Object> configEntry, ColumnConfiguration columnConfiguration,
+			TableConfiguration tableConfiguration) {
+		
 		this.tableConfiguration = tableConfiguration;
+		this.configEntry = configEntry;
 		this.columnConfiguration = columnConfiguration;
-		this.stagingConf = stagingConf;
-		this.stagingExtensions = stagingExtension;
-		logger.trace("Processing '{}' with the config token {}", value, configToken);
+		this.stagingConf = columnConfiguration.getStagingConfigurations();
+		this.stagingExtensions = columnConfiguration.getStagingExtension();
+		this.stringifiedValue = String.valueOf(configEntry.getValue()).trim();
+		
+		logger.trace("Processing '{}' with the config token {}", configEntry.getValue(), configEntry.getKey());
 
-		if (StringUtils.isNotBlank(value)) {
-			doProcess(configToken, value);
-		} else {
-			logger.debug("Nothing to process.");
-		}
+		doProcess();
 	}
 
-	public abstract void doProcess(ConfigToken<?> configToken, String value);
+	public abstract void doProcess();
+	
+	protected void registerExtension(Extension extension){
+		this.tableConfiguration.registerExtension(extension);
+	}
+	
+	protected void updateEntry(Object value){
+		this.configEntry.setValue(value);
+	}
+	
+	protected void addEntry(ConfigToken<?> configToken, Object value){
+		this.columnConfiguration.getConfigurations().put(configToken, value);
+	}
+	
+	protected void addStagingEntry(ConfigToken<?> configToken, Object value){
+		this.columnConfiguration.getStagingConfigurations().put(configToken, value);
+	}
+	
+	protected boolean isPresent(ConfigToken<?> configToken){
+		return columnConfiguration.getConfigurations().containsKey(configToken) || stagingConf.containsKey(configToken);
+	}
+	
+	protected boolean isNonPresent(ConfigToken<?> configToken){
+		return !isPresent(configToken);
+	}
 }

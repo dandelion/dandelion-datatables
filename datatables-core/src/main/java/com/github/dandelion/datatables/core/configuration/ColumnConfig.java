@@ -33,12 +33,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.annotation.processing.Processor;
-
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
+import com.github.dandelion.datatables.core.html.HtmlColumn;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.processor.BooleanProcessor;
 import com.github.dandelion.datatables.core.processor.ColumnProcessor;
 import com.github.dandelion.datatables.core.processor.IntegerProcessor;
@@ -67,10 +68,10 @@ public final class ColumnConfig {
 	public static ConfigToken<String> TITLEKEY = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> PROPERTY = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> DEFAULTVALUE = new ConfigToken<String>("", new StringProcessor());
-	public static ConfigToken<String> CSSSTYLE = new ConfigToken<String>("", new StringBuilderProcessor());
+	public static ConfigToken<StringBuilder> CSSSTYLE = new ConfigToken<StringBuilder>("", new StringBuilderProcessor());
 	public static ConfigToken<StringBuilder> CSSCELLSTYLE = new ConfigToken<StringBuilder>("", new StringBuilderProcessor());
-	public static ConfigToken<String> CSSCLASS = new ConfigToken<String>("", new StringBuilderProcessor());
-	public static ConfigToken<String> CSSCELLCLASS = new ConfigToken<String>("", new StringBuilderProcessor());
+	public static ConfigToken<StringBuilder> CSSCLASS = new ConfigToken<StringBuilder>("", new StringBuilderProcessor());
+	public static ConfigToken<StringBuilder> CSSCELLCLASS = new ConfigToken<StringBuilder>("", new StringBuilderProcessor());
 	public static ConfigToken<Boolean> SORTABLE = new ConfigToken<Boolean>("", new BooleanProcessor());
 	public static ConfigToken<List<Direction>> SORTDIRECTION = new ConfigToken<List<Direction>>("", new SortDirectionProcessor());
 	public static ConfigToken<String> SORTINIT = new ConfigToken<String>("", new StringProcessor());
@@ -89,32 +90,59 @@ public final class ColumnConfig {
 	
 	/**
 	 * <p>
-	 * Applies the staging configurations and extensions against the passed
+	 * Overloads the configurations stored in the {@link ColumnConfiguration}
+	 * instance with the one passed as parameter.
+	 * <p>
+	 * Only configuration token with not blank values will be merged into the
 	 * {@link ColumnConfiguration} instance.
 	 * 
 	 * @param stagingConf
-	 *            The staging configurations filled inside the JSP or Thymeleaf
-	 *            processing.
-	 * @param stagingExtension
-	 *            The staging extensions filled inside the JSP or Thymeleaf
-	 *            processing.
-	 * @param columnConfiguration
-	 *            The {@link ColumnConfiguration} instance to update with the
-	 *            processed values.
-	 * @param tableConfiguration
-	 *            Some {@link Processor} may need to update the
-	 *            {@link TableConfiguration}, e.g. by registering
-	 *            {@link Extension}.
+	 *            The staging configurations filled either with the JSP taglib
+	 *            or with the Thymeleaf dialect.
+	 * @param stagingExtensions
+	 *            The staging extensions filled either with the JSP taglib or
+	 *            with the Thymeleaf dialect.
+	 * @param column
+	 *            The column which holds the {@link ColumnConfiguration} to
+	 *            overload.
 	 */
-	public static void applyConfiguration(Map<ConfigToken<?>, Object> stagingConf,
-			Map<ConfigToken<?>, Extension> stagingExtension, ColumnConfiguration columnConfiguration,
-			TableConfiguration tableConfiguration) {
+	public static void applyConfiguration(Map<ConfigToken<?>, Object> stagingConf, Map<ConfigToken<?>, Extension> stagingExtensions,
+			HtmlColumn column) {
 
-		ColumnProcessor columnProcessor = null;
-		for (Entry<ConfigToken<?>, Object> entry : stagingConf.entrySet()) {
-			columnProcessor = (ColumnProcessor) entry.getKey().getProcessor();
-			columnProcessor.process(entry.getKey(), String.valueOf(entry.getValue()).trim(), columnConfiguration,
-					tableConfiguration, stagingConf, stagingExtension);
+		for(Entry<ConfigToken<?>, Object> stagingEntry : stagingConf.entrySet()){
+			if(StringUtils.isNotBlank(String.valueOf(stagingEntry.getValue()))){
+				column.getColumnConfiguration().getConfigurations().put(stagingEntry.getKey(), stagingEntry.getValue());
+			}
+		}
+		
+		column.getColumnConfiguration().getStagingExtension().putAll(stagingExtensions);
+	}
+	
+	/**
+	 * <p>
+	 * At this point, the configuration stored inside the
+	 * {@link ColumnConfiguration} contains only Strings. All these strings will
+	 * be processed in this method, depending on the {@link ConfigToken} they
+	 * are bound to.
+	 * 
+	 * <p>
+	 * Once processed, all strings will be replaced by the typed value.
+	 * 
+	 * @param column
+	 *            The column which contains the configurations to process.
+	 * @param table
+	 *            The table may be used by processor to register extensions.
+	 */
+	public static void processConfiguration(HtmlColumn column, HtmlTable table) {
+		
+		if(column.getColumnConfiguration().getConfigurations() != null){
+			for(Entry<ConfigToken<?>, Object> entry : column.getColumnConfiguration().getConfigurations().entrySet()) {
+				ColumnProcessor columnProcessor = (ColumnProcessor) entry.getKey().getProcessor();
+				columnProcessor.process(entry, column.getColumnConfiguration(), table.getTableConfiguration());
+			}
+		
+			column.getColumnConfiguration().getConfigurations()
+					.putAll(column.getColumnConfiguration().getStagingConfigurations());
 		}
 	}
 	

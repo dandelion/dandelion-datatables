@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -27,25 +27,70 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.plugin;
+package com.github.dandelion.datatables.core.processor;
 
-import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.extension.plugin.ColReorderPlugin;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
+import java.util.Map;
 
-public class PluginColReorderProcessor extends AbstractTableProcessor {
+public class MapEntry<K, V> implements Map.Entry<K, V>, Cloneable {
+	K key;
+	V value;
+
+	public interface Type<RT, KT, VT> {
+		RT get(MapEntry<KT, VT> entry);
+	}
+
+	public MapEntry(K theKey) {
+		key = theKey;
+	}
+
+	public MapEntry(K theKey, V theValue) {
+		key = theKey;
+		value = theValue;
+	}
 
 	@Override
-	public void doProcess() {
-		Boolean retval = null;
-		if (StringUtils.isNotBlank(stringifiedValue)) {
-			retval = Boolean.parseBoolean(stringifiedValue);
-
-			if (retval != null && retval) {
-				tableConfiguration.registerExtension(new ColReorderPlugin());
-			}
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			return null;
 		}
+	}
 
-		updateEntry(retval);
+	@Override
+	public boolean equals(Object object) {
+		if (this == object) {
+			return true;
+		}
+		if (object instanceof Map.Entry) {
+			Map.Entry<?, ?> entry = (Map.Entry<?, ?>) object;
+			return (key == null ? entry.getKey() == null : key.equals(entry.getKey()))
+					&& (value == null ? entry.getValue() == null : value.equals(entry.getValue()));
+		}
+		return false;
+	}
+
+	public K getKey() {
+		return key;
+	}
+
+	public V getValue() {
+		return value;
+	}
+
+	@Override
+	public int hashCode() {
+		return (key == null ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode());
+	}
+
+	public V setValue(V object) {
+		V result = value;
+		value = object;
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return key + "=" + value;
 	}
 }

@@ -30,7 +30,6 @@
 package com.github.dandelion.datatables.core.processor.ajax;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.feature.PipeliningFeature;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
@@ -50,22 +49,19 @@ import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 public class AjaxPipeliningProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void doProcess(ConfigToken<?> configToken, String value) {
-
-		Boolean retval = null;
-		if (StringUtils.isNotBlank(value)) {
-			retval = Boolean.parseBoolean(value);
+	public void doProcess() {
+		if (StringUtils.isNotBlank(stringifiedValue)) {
+			Boolean retval = Boolean.parseBoolean(stringifiedValue);
 
 			if (retval != null && retval) {
-				tableConfiguration.registerExtension(new PipeliningFeature());
+				registerExtension(new PipeliningFeature());
 			}
+			
+			if(isNonPresent(TableConfig.AJAX_PIPESIZE)){
+				addEntry(TableConfig.AJAX_PIPESIZE, 5);
+			}
+			
+			updateEntry(retval);
 		}
-		
-		if (!tableConfiguration.getConfigurations().containsKey(TableConfig.AJAX_PIPESIZE)) {
-			TableConfig.AJAX_PIPESIZE.setIn(tableConfiguration, 5);
-		}
-
-		tableConfiguration.set(configToken, retval);
-
 	}
 }

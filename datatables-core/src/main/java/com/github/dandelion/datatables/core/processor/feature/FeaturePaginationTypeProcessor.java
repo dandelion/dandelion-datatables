@@ -30,7 +30,6 @@
 package com.github.dandelion.datatables.core.processor.feature;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFeature;
@@ -45,14 +44,14 @@ import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 public class FeaturePaginationTypeProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void doProcess(ConfigToken<?> configToken, String value) {
+	public void doProcess() {
 		PaginationType type = null;
-		if (StringUtils.isNotBlank(value)) {
+		if (StringUtils.isNotBlank(stringifiedValue)) {
 			try {
-				type = PaginationType.valueOf(value.toUpperCase());
+				type = PaginationType.valueOf(stringifiedValue.toUpperCase());
 			} catch (IllegalArgumentException e) {
 				throw new ConfigurationProcessingException(
-						value + " is not a valid value among " + PaginationType.values(), e);
+						stringifiedValue + " is not a valid value among " + PaginationType.values(), e);
 			}
 
 			switch (type) {
@@ -85,6 +84,6 @@ public class FeaturePaginationTypeProcessor extends AbstractTableProcessor {
 			}
 		}
 		
-		tableConfiguration.set(configToken, type);
+		updateEntry(type);
 	}
 }

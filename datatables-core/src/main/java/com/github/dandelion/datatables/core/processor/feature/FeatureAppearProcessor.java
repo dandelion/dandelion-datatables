@@ -1,7 +1,6 @@
 package com.github.dandelion.datatables.core.processor.feature;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.feature.AppearFeature;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
@@ -9,13 +8,13 @@ import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 public class FeatureAppearProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void doProcess(ConfigToken<?> configToken, String value) {
+	public void doProcess() {
 		String retval = null;
 
-		if (StringUtils.isNotBlank(value)) {
+		if (StringUtils.isNotBlank(stringifiedValue)) {
 
-			if (value.contains(",") || "fadein".equals(value.toLowerCase())) {
-				String[] tmp = value.toLowerCase().split(",");
+			if (stringifiedValue.contains(",") || "fadein".equals(stringifiedValue.toLowerCase())) {
+				String[] tmp = stringifiedValue.toLowerCase().split(",");
 
 				retval = "fadein";
 				if (tmp.length > 1) {
@@ -26,7 +25,7 @@ public class FeatureAppearProcessor extends AbstractTableProcessor {
 			}
 		}
 
-		tableConfiguration.set(configToken, retval);
-		tableConfiguration.registerExtension(new AppearFeature());
+		updateEntry(retval);
+		registerExtension(new AppearFeature());
 	}
 }

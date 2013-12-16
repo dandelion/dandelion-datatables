@@ -33,8 +33,10 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
@@ -46,31 +48,22 @@ public class FeatureLengthMenuProcessorTest extends TableProcessorBaseTest {
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.FEATURE_LENGTHMENU, null, tableConfiguration);
-		assertThat(TableConfig.FEATURE_LENGTHMENU.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
-	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.FEATURE_LENGTHMENU, "", tableConfiguration);
-		assertThat(TableConfig.FEATURE_LENGTHMENU.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
 	public void should_set_lenghtmenu_with_2D_array() {
-		processor.process(TableConfig.FEATURE_LENGTHMENU, "10,15,25;10,15,25", tableConfiguration);
-		assertThat(TableConfig.FEATURE_LENGTHMENU.valueFrom(tableConfiguration)).isEqualTo("[[10,15,25],[10,15,25]]");
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_LENGTHMENU, "10,15,25;10,15,25");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("[[10,15,25],[10,15,25]]");
 	}
 	
 	@Test
 	public void should_set_lenghtmenu_with_1D_array() {
-		processor.process(TableConfig.FEATURE_LENGTHMENU, "10,20", tableConfiguration);
-		assertThat(TableConfig.FEATURE_LENGTHMENU.valueFrom(tableConfiguration)).isEqualTo("[10,20]");
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_LENGTHMENU, "10,20");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("[10,20]");
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_raise_an_exception() {
-		processor.process(TableConfig.FEATURE_LENGTHMENU, "10,15,25;10,15", tableConfiguration);
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_LENGTHMENU, "10,15,25;10,15");
+		processor.process(entry, tableConfiguration);
 	}
 }

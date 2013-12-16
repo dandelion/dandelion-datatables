@@ -34,7 +34,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
@@ -54,8 +53,9 @@ import com.github.dandelion.datatables.core.util.UrlUtils;
 public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void doProcess(ConfigToken<?> configToken, String value) {
-		if (StringUtils.isNotBlank(value)) {
+	public void doProcess() {
+		
+		if (StringUtils.isNotBlank(stringifiedValue)) {
 
 			Set<ExportConf> retval = null;
 
@@ -65,7 +65,7 @@ public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
 			tableConfiguration.setIsExportable(true);
 
 			// Allowed export types
-			String[] enabledFormats = value.toUpperCase().split(",");
+			String[] enabledFormats = stringifiedValue.toUpperCase().split(",");
 			for (String enabledFormat : enabledFormats) {
 				enabledFormat = enabledFormat.toLowerCase().trim();
 
@@ -86,12 +86,12 @@ public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
 			}
 
 			// Apply default export links if nothing is already configured
-			if (!tableConfiguration.getConfigurations().containsKey(TableConfig.EXPORT_LINK_POSITIONS)) {
-				tableConfiguration.set(TableConfig.EXPORT_LINK_POSITIONS,
-						new HashSet<ExportLinkPosition>(Arrays.asList(ExportLinkPosition.TOP_RIGHT)));
+			if(isNonPresent(TableConfig.EXPORT_LINK_POSITIONS)){
+				addStagingEntry(TableConfig.EXPORT_LINK_POSITIONS, new HashSet<ExportLinkPosition>(
+						Arrays.asList(ExportLinkPosition.TOP_RIGHT)));
 			}
 
-			tableConfiguration.registerExtension(new ExportFeature());
+			registerExtension(new ExportFeature());
 		}
 	}
 }

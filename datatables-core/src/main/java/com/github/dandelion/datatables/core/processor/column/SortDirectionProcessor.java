@@ -34,7 +34,6 @@ import java.util.List;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
@@ -49,11 +48,11 @@ import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
 public class SortDirectionProcessor extends AbstractColumnProcessor {
 
 	@Override
-	public void doProcess(ConfigToken<?> configToken, String value) {
-		if (StringUtils.isNotBlank(value)) {
+	public void doProcess() {
+		if (StringUtils.isNotBlank(stringifiedValue)) {
 
 			List<Direction> sortDirections = new ArrayList<Direction>();
-			String[] sortDirectionArray = value.split(",");
+			String[] sortDirectionArray = stringifiedValue.split(",");
 
 			for (String direction : sortDirectionArray) {
 				try {
@@ -61,14 +60,14 @@ public class SortDirectionProcessor extends AbstractColumnProcessor {
 				} catch (IllegalArgumentException e) {
 					StringBuilder sb = new StringBuilder();
 					sb.append("'");
-					sb.append(value);
+					sb.append(stringifiedValue);
 					sb.append("' is not a valid sort direction. Possible values are: ");
 					sb.append(Direction.possibleValues());
 					throw new ConfigurationProcessingException(sb.toString(), e);
 				}
 			}
 
-			columnConfiguration.set(configToken, sortDirections);
+			updateEntry(sortDirections);
 		}
 	}
 }

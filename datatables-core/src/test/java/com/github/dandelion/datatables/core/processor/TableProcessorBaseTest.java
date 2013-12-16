@@ -31,6 +31,7 @@ package com.github.dandelion.datatables.core.processor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -49,6 +50,7 @@ public abstract class TableProcessorBaseTest {
 	protected TableConfiguration tableConfiguration;
 	protected HttpServletRequest request;
 	protected Map<ConfigToken<?>, Object> confToBeApplied;
+	protected Entry<ConfigToken<?>, Object> entry;
 	
 	@Before
 	public void setup() {

@@ -67,7 +67,7 @@ public class DomSourceIT extends ThymeleafBaseIT {
 	public void should_generate_script_tag() {
 		goToPage("html/default");
 		FluentWebElement body = findFirst("body");
-		assertThat(body.find("script")).hasSize(1);
+		assertThat(body.find("script")).hasSize(3);
 	}
 	
 	@Test

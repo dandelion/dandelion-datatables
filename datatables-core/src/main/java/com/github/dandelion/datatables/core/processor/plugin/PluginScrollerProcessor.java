@@ -30,23 +30,22 @@
 package com.github.dandelion.datatables.core.processor.plugin;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.extension.plugin.ScrollerPlugin;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 
 public class PluginScrollerProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void doProcess(ConfigToken<?> configToken, String value) {
+	public void doProcess() {
 		Boolean retval = null;
-		if (StringUtils.isNotBlank(value)) {
-			retval = Boolean.parseBoolean(value);
+		if (StringUtils.isNotBlank(stringifiedValue)) {
+			retval = Boolean.parseBoolean(stringifiedValue);
 
 			if (retval != null && retval) {
-				tableConfiguration.registerExtension(new ScrollerPlugin());
+				registerExtension(new ScrollerPlugin());
 			}
 		}
 
-		tableConfiguration.set(configToken, retval);
+		updateEntry(retval);
 	}
 }

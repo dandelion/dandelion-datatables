@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@ include file="../common/head.jsp"%>
 </head>
 <body>
    <datatables:table id="myTableId" data="${persons}" sort="false">

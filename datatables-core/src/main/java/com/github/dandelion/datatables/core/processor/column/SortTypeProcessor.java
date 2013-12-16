@@ -30,7 +30,6 @@
 package com.github.dandelion.datatables.core.processor.column;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.extension.feature.SortingFeature;
@@ -39,23 +38,23 @@ import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
 public class SortTypeProcessor extends AbstractColumnProcessor {
 
 	@Override
-	public void doProcess(ConfigToken<?> configToken, String value) {
-		if (StringUtils.isNotBlank(value)) {
+	public void doProcess() {
+		if (StringUtils.isNotBlank(stringifiedValue)) {
 
 			SortType sortType = null;
 			try {
-				sortType = SortType.valueOf(value.toUpperCase().trim());
+				sortType = SortType.valueOf(stringifiedValue.toUpperCase().trim());
 			} catch (IllegalArgumentException e) {
 				StringBuilder sb = new StringBuilder();
 				sb.append("'");
-				sb.append(value);
+				sb.append(stringifiedValue);
 				sb.append("' is not a valid sort type. Possible values are: ");
 				sb.append(SortType.possibleValues());
 				throw new ConfigurationProcessingException(sb.toString(), e);
 			}
 
-			columnConfiguration.set(configToken, sortType);
-			tableConfiguration.registerExtension(new SortingFeature());
+			updateEntry(sortType);
+			registerExtension(new SortingFeature());
 		}
 	}
 }

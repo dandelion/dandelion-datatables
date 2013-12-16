@@ -31,7 +31,6 @@ package com.github.dandelion.datatables.core.processor.column;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
@@ -46,24 +45,24 @@ import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
 public class FilterTypeProcessor extends AbstractColumnProcessor {
 
 	@Override
-	public void doProcess(ConfigToken<?> configToken, String value) {
+	public void doProcess() {
 
-		if (StringUtils.isNotBlank(value)) {
+		if (StringUtils.isNotBlank(stringifiedValue)) {
 
 			FilterType filterType = null;
 
 			try {
-				filterType = FilterType.valueOf(value.toUpperCase());
+				filterType = FilterType.valueOf(stringifiedValue.toUpperCase());
 			} catch (IllegalArgumentException e) {
 				StringBuilder sb = new StringBuilder();
 				sb.append("'");
-				sb.append(value);
+				sb.append(stringifiedValue);
 				sb.append("' is not a valid filter type. Possible values are: ");
 				sb.append(FilterType.possibleValues());
 				throw new ConfigurationProcessingException(sb.toString(), e);
 			}
 
-			columnConfiguration.set(configToken, filterType);
+			updateEntry(filterType);
 		}
 	}
 }

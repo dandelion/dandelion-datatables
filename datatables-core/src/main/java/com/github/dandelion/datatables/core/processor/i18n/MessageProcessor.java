@@ -1,6 +1,5 @@
 package com.github.dandelion.datatables.core.processor.i18n;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 
 /**
@@ -11,7 +10,8 @@ import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 public class MessageProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void doProcess(ConfigToken<?> configToken, String value) {
-		tableConfiguration.getMessages().setProperty(configToken.getPropertyName(), value);
+	public void doProcess() {
+		tableConfiguration.getMessages().setProperty(configEntry.getKey().getPropertyName(),
+				String.valueOf(configEntry.getValue()));
 	}
 }

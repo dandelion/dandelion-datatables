@@ -48,7 +48,6 @@ import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ExportException;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
@@ -58,7 +57,20 @@ import com.github.dandelion.datatables.core.util.UrlUtils;
 
 /**
  * <p>
- * Tag used to generate a HTML table.
+ * JSP Tag for creating HTML tables.
+ * 
+ * <p>
+ * Example usage:
+ * 
+ * <pre>
+ * &lt;datatables:table id="myTableId" data="${persons}">
+ *    &lt;datatables:column title="Id" property="id" />
+ *    &lt;datatables:column title="LastName" property="lastName" />
+ *    &lt;datatables:column title="FirstName" property="firstName" />
+ *    &lt;datatables:column title="City" property="address.town.name" />
+ *    &lt;datatables:column title="Mail" property="mail" />
+ * &lt;/datatables:table>
+ * </pre>
  * 
  * @author Thibault Duchateau
  * @since 0.1.0
@@ -75,7 +87,6 @@ public class TableTag extends AbstractTableTag {
 	
 	/**
 	 * {@inheritDoc}
-	 * @throws JspException 
 	 */
 	public int doStartTag() throws JspException {
 		
@@ -202,14 +213,10 @@ public class TableTag extends AbstractTableTag {
 			// HTML generation
 			pageContext.getOut().println(this.table.toHtml());
 
-		} catch (IOException e) {
-			logger.error("Something went wront with the datatables tag");
-			throw new JspException(e);
 		} 
-		catch (ExtensionLoadingException e) {
-			logger.error("Something went wront during the extension loading");
-			throw new JspException(e);
-		}
+		catch (IOException e) {
+			throw new JspException("Unable to generate the HTML markup for the table " + id, e);
+		} 
 
 		return EVAL_PAGE;
 	}

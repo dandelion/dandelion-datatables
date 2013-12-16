@@ -33,8 +33,10 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.plugin.ColReorderPlugin;
+import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
@@ -46,32 +48,23 @@ public class PluginColReorderProcessorTest extends TableProcessorBaseTest {
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
-		processor.process(TableConfig.PLUGIN_COLREORDER, null, tableConfiguration);
-		assertThat(TableConfig.PLUGIN_COLREORDER.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.process(TableConfig.PLUGIN_COLREORDER, "", tableConfiguration);
-		assertThat(TableConfig.PLUGIN_COLREORDER.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
 	public void should_enable_plugin_when_value_is_true() throws Exception {
-		processor.process(TableConfig.PLUGIN_COLREORDER, "true", tableConfiguration);
-		assertThat(TableConfig.PLUGIN_COLREORDER.valueFrom(tableConfiguration)).isTrue();
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.PLUGIN_COLREORDER, "true");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(true);
 		assertThat(tableConfiguration.getInternalExtensions()).contains(new ColReorderPlugin());
 	}
 	
 	@Test
-	public void should_not_enable_plugin_when_value_is_false() throws Exception {
-		processor.process(TableConfig.PLUGIN_COLREORDER, "false", tableConfiguration);
-		assertThat(TableConfig.PLUGIN_COLREORDER.valueFrom(tableConfiguration)).isFalse();
+	public void should_not_enable_plugin_when_value_is_false_or_wrong() throws Exception {
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.PLUGIN_COLREORDER, "false");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(false);
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 		
-		processor.process(TableConfig.PLUGIN_COLREORDER, "weird value", tableConfiguration);
-		assertThat(TableConfig.PLUGIN_COLREORDER.valueFrom(tableConfiguration)).isFalse();
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.PLUGIN_COLREORDER, "weird");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(false);
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}
 }

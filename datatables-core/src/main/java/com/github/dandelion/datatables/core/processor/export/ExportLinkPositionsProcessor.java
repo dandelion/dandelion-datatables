@@ -36,7 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
@@ -48,12 +47,12 @@ public class ExportLinkPositionsProcessor extends AbstractTableProcessor {
 	private static Logger logger = LoggerFactory.getLogger(ExportLinkPositionsProcessor.class);
 		
 	@Override
-	public void doProcess(ConfigToken<?> configToken, String value) {
+	public void doProcess() {
 		Set<ExportLinkPosition> retval = new HashSet<ExportLinkPosition>();
 
-		if(StringUtils.isNotBlank(value)){
+		if(StringUtils.isNotBlank(stringifiedValue)){
 		
-			String[] positions = value.split(",");
+			String[] positions = stringifiedValue.split(",");
 
 			for (String position : positions) {
 				try {
@@ -69,6 +68,6 @@ public class ExportLinkPositionsProcessor extends AbstractTableProcessor {
 			retval.add(ExportLinkPosition.TOP_RIGHT);
 		}
 		
-		tableConfiguration.set(configToken, retval);
+		updateEntry(retval);
 	}
 }

@@ -33,8 +33,10 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTMessages;
+import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
@@ -47,7 +49,8 @@ public class MessageProcessorTest extends TableProcessorBaseTest {
 	
 	@Test
 	public void should_add_a_message() {
-		processor.process(TableConfig.I18N_MSG_INFO, "myInfo", tableConfiguration);
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.I18N_MSG_INFO, "myInfo");
+		processor.process(entry, tableConfiguration);
 		assertThat(tableConfiguration.getMessages().getProperty(DTMessages.INFO.getPropertyName())).isEqualTo("myInfo");
 	}
 }

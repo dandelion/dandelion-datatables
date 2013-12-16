@@ -71,7 +71,7 @@ public abstract class ThymeleafBaseIT extends Fluent {
 	protected static Server server;
 	
 	@BeforeClass
-	private static void beforeClass() {
+	public static void beforeClass() {
 
 		// Add system property to disable asset caching
 		System.setProperty("dandelion.dev.mode", "true");
@@ -136,7 +136,7 @@ public abstract class ThymeleafBaseIT extends Fluent {
 	};
 
 	@AfterClass
-	private static void afterClass() {
+	public static void afterClass() {
 		try {
 			server.stop();
 		} catch (Exception e) {
@@ -181,7 +181,7 @@ public abstract class ThymeleafBaseIT extends Fluent {
 		goToPage(page);
 		if(display){
 			System.out.println(driver.getPageSource());
-//			System.out.println(getConfigurationFromPage(page).getContent());
+			System.out.println(getConfigurationFromPage(page));
 		}
 	}
 	

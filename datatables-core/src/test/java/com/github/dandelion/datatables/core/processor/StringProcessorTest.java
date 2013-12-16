@@ -4,6 +4,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,20 +35,9 @@ public class StringProcessorTest {
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.AJAX_SERVERDATA, null, tableConfiguration);
-		assertThat(TableConfig.AJAX_SERVERDATA.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
-	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.AJAX_SERVERDATA, "", tableConfiguration);
-		assertThat(TableConfig.AJAX_SERVERDATA.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
 	public void should_set_a_string_true_when_value_is_a_string() throws Exception{
-		processor.process(TableConfig.AJAX_SERVERDATA, "someString", tableConfiguration);
-		assertThat(TableConfig.AJAX_SERVERDATA.valueFrom(tableConfiguration)).isEqualTo("someString");
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "someString");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("someString");
 	}
 }

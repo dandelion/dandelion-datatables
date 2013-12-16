@@ -34,9 +34,11 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
 
 import com.github.dandelion.core.asset.web.AssetFilter;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf;
+import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
@@ -48,20 +50,9 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.EXPORT_ENABLED_FORMATS, null, tableConfiguration);
-		assertThat(tableConfiguration.getExportConfiguration()).isEmpty();
-	}
-	
-	@Test
-	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.EXPORT_ENABLED_FORMATS, "", tableConfiguration);
-		assertThat(tableConfiguration.getExportConfiguration()).isEmpty();
-	}
-	
-	@Test
 	public void should_enable_csv_export_with_default_configuration() {
-		processor.process(TableConfig.EXPORT_ENABLED_FORMATS, "csv", tableConfiguration);
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.EXPORT_ENABLED_FORMATS, "csv");
+		processor.process(entry, tableConfiguration);
 		
 		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
 		assertThat(tableConfiguration.getExportConfiguration()).hasSize(1);
@@ -77,11 +68,62 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getAutoSize()).isTrue();
 		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
 		assertThat(csvExportConf.getExtension()).isEqualTo("csv");
+		
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.EXPORT_ENABLED_FORMATS, "csv  ");
+		processor.process(entry, tableConfiguration);
+		
+		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
+		assertThat(tableConfiguration.getExportConfiguration()).hasSize(1);
+		
+		assertThat(csvExportConf.getFormat()).isEqualTo("csv");
+		assertThat(csvExportConf.getFileName()).isEqualTo("export");
+		assertThat(csvExportConf.getMimeType()).isEqualTo("text/csv");
+		assertThat(csvExportConf.getLabel()).isEqualTo("CSV");
+		assertThat(csvExportConf.getIncludeHeader()).isTrue();
+		assertThat(csvExportConf.getUrl()).isEqualTo("?dtt=csv&dti=fakeId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
+		assertThat(csvExportConf.getMethod()).isEqualTo(HttpMethod.GET);
+		assertThat(csvExportConf.getAutoSize()).isTrue();
+		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
+		assertThat(csvExportConf.getExtension()).isEqualTo("csv");
 	}
 	
 	@Test
 	public void should_enable_csv_and_pdf_export() {
-		processor.process(TableConfig.EXPORT_ENABLED_FORMATS, "csv,pdf", tableConfiguration);
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.EXPORT_ENABLED_FORMATS, "csv,pdf");
+		processor.process(entry, tableConfiguration);
+		
+		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
+		assertThat(tableConfiguration.getExportConfiguration()).hasSize(2);
+		
+		ExportConf csvExportConf = tableConfiguration.getExportConfiguration().get("csv");
+		assertThat(csvExportConf.getFormat()).isEqualTo("csv");
+		assertThat(csvExportConf.getFileName()).isEqualTo("export");
+		assertThat(csvExportConf.getMimeType()).isEqualTo("text/csv");
+		assertThat(csvExportConf.getLabel()).isEqualTo("CSV");
+		assertThat(csvExportConf.getIncludeHeader()).isTrue();
+		assertThat(csvExportConf.getUrl()).isEqualTo("?dtt=csv&dti=fakeId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
+		assertThat(csvExportConf.getMethod()).isEqualTo(HttpMethod.GET);
+		assertThat(csvExportConf.getAutoSize()).isTrue();
+		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
+		assertThat(csvExportConf.getExtension()).isEqualTo("csv");
+		
+		ExportConf pdfExportConf = tableConfiguration.getExportConfiguration().get("pdf");
+		assertThat(pdfExportConf.getFormat()).isEqualTo("pdf");
+		assertThat(pdfExportConf.getFileName()).isEqualTo("export");
+		assertThat(pdfExportConf.getMimeType()).isEqualTo("application/pdf");
+		assertThat(pdfExportConf.getLabel()).isEqualTo("PDF");
+		assertThat(pdfExportConf.getIncludeHeader()).isTrue();
+		assertThat(pdfExportConf.getUrl()).isEqualTo("?dtt=pdf&dti=fakeId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
+		assertThat(pdfExportConf.getMethod()).isEqualTo(HttpMethod.GET);
+		assertThat(pdfExportConf.getAutoSize()).isTrue();
+		assertThat(pdfExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_PDF_CLASS);
+		assertThat(pdfExportConf.getExtension()).isEqualTo("pdf");
+	}
+	
+	@Test
+	public void should_enable_csv_and_pdf_export_with_malformatted_string() {
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.EXPORT_ENABLED_FORMATS, "csv, pdf  ");
+		processor.process(entry, tableConfiguration);
 		
 		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
 		assertThat(tableConfiguration.getExportConfiguration()).hasSize(2);
@@ -113,7 +155,8 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 	
 	@Test
 	public void should_enable_totally_custom_export() {
-		processor.process(TableConfig.EXPORT_ENABLED_FORMATS, "myformat", tableConfiguration);
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.EXPORT_ENABLED_FORMATS, "myformat");
+		processor.process(entry, tableConfiguration);
 		
 		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
 		assertThat(tableConfiguration.getExportConfiguration()).hasSize(1);

@@ -30,7 +30,6 @@
 package com.github.dandelion.datatables.core.processor.ajax;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.feature.AjaxFeature;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
@@ -45,19 +44,18 @@ import com.github.dandelion.datatables.core.util.UrlUtils;
 public class AjaxSourceProcessor extends AbstractTableProcessor {
 
 	@Override
-	public void doProcess(ConfigToken<?> configToken, String value) {
-		if (StringUtils.isNotBlank(value)) {
-
+	public void doProcess() {
+		if (StringUtils.isNotBlank(stringifiedValue)) {
 			Boolean serverSide = TableConfig.AJAX_SERVERSIDE.valueFrom(tableConfiguration);
 			
 			Boolean serverSideEnabled = serverSide != null && serverSide;
 			if (!serverSideEnabled) {
-				tableConfiguration.registerExtension(new AjaxFeature());
+				registerExtension(new AjaxFeature());
 			}
 
-			String sourceUrl = UrlUtils.getProcessedUrl(value, tableConfiguration.getRequest(), tableConfiguration.getResponse());
-			
-			tableConfiguration.set(configToken, sourceUrl);
+			String sourceUrl = UrlUtils.getProcessedUrl(stringifiedValue, tableConfiguration.getRequest(), tableConfiguration.getResponse());
+
+			updateEntry(sourceUrl);
 		}
 	}
 }

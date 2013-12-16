@@ -29,14 +29,13 @@
  */
 package com.github.dandelion.datatables.core.processor;
 
-import java.util.Map;
+import java.util.Map.Entry;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.extension.Extension;
 
 /**
  * Processor used for all Integer parameters.
@@ -47,7 +46,8 @@ import com.github.dandelion.datatables.core.extension.Extension;
 public class IntegerProcessor implements TableProcessor, ColumnProcessor {
 
 	@Override
-	public void process(ConfigToken<?> configToken, String value, TableConfiguration tableConfiguration) {
+	public void process(Entry<ConfigToken<?>, Object> configEntry, TableConfiguration tableConfiguration) {
+		String value = String.valueOf(configEntry.getValue());
 		Integer result = null;
 		try {
 			result = StringUtils.isNotBlank(value) ? Integer.parseInt(value) : null;
@@ -55,12 +55,13 @@ public class IntegerProcessor implements TableProcessor, ColumnProcessor {
 			throw new ConfigurationProcessingException(e);
 		}
 		
-		tableConfiguration.set(configToken, result);
+		configEntry.setValue(result);
 	}
-	
+
 	@Override
-	public void process(ConfigToken<?> configToken, String value, ColumnConfiguration columnConfiguration,
-			TableConfiguration tableConfiguration, Map<ConfigToken<?>, Object> stagingConf, Map<ConfigToken<?>, Extension> stagingExtension) {
+	public void process(Entry<ConfigToken<?>, Object> configEntry, ColumnConfiguration columnConfiguration,
+			TableConfiguration tableConfiguration) {
+		String value = String.valueOf(configEntry.getValue());
 		Integer result = null;
 		try {
 			result = StringUtils.isNotBlank(value) ? Integer.parseInt(value) : null;
@@ -69,6 +70,6 @@ public class IntegerProcessor implements TableProcessor, ColumnProcessor {
 		}
 		
 		
-		columnConfiguration.set(configToken, result);
+		configEntry.setValue(result);
 	}
 }

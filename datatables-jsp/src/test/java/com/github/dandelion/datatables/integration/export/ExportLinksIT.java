@@ -36,6 +36,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
 
+import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.datatables.integration.JspBaseIT;
 import com.github.dandelion.datatables.testing.utils.Constants;
 
@@ -48,9 +49,11 @@ public class ExportLinksIT extends JspBaseIT {
 
 	@Test
 	public void should_generate_default_csv_link() {
-		goToPage("export/default_csv_link");
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href")).isEqualTo(getDefaultBaseUrl() + "/export/default_csv_link.jsp?dtt=1&dti=myTableId");
+		goToPage("export/default_csv_link", true);
+			assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
+		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href")).isEqualTo(
+				getDefaultBaseUrl() + "/export/default_csv_link.jsp?dtt=csv&dti=myTableId&"
+						+ AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
 		assertThat(StringUtils.trimAllWhitespace(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 0).getAttribute("style"))).isEqualTo("float:right;");
 	}
@@ -61,7 +64,7 @@ public class ExportLinksIT extends JspBaseIT {
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href"))
-			.isEqualTo(getDefaultBaseUrl() + "/export/default_csv_link.jsp?param1=val1&dtt=1&dti=myTableId");
+			.isEqualTo(getDefaultBaseUrl() + "/export/default_csv_link.jsp?param1=val1&dtt=csv&dti=myTableId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
 	}
 	
 	@Test
@@ -70,7 +73,7 @@ public class ExportLinksIT extends JspBaseIT {
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href"))
-			.isEqualTo(getDefaultBaseUrl() + "/export/default_csv_link.jsp?param1=val1&param2=val2&dtt=1&dti=myTableId");
+			.isEqualTo(getDefaultBaseUrl() + "/export/default_csv_link.jsp?param1=val1&param2=val2&dtt=1&dti=myTableId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
 	}
 	
 	@Ignore
@@ -92,7 +95,7 @@ public class ExportLinksIT extends JspBaseIT {
 	
 	@Test
 	public void should_generate_csv_link_with_custom_url() throws Exception {
-		goToPage("export/custom_csv_url");
+		goToPage("export/custom_csv_url", true);
 
 		assertThat(find("div.dandelion_dataTables_export")).hasSize(1);
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
@@ -120,10 +123,10 @@ public class ExportLinksIT extends JspBaseIT {
 
 		assertThat(find("div.dandelion_dataTables_export")).hasSize(1);
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("XLS");
-		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_XLS();");
+		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_myTableId_xls();");
 
 		String js = getConfigurationFromPage("export/custom_xls_url");
-		assertThat(js).contains("function ddl_dt_launch_export_XLS(){window.location='/context/customXlsUrl?' + $.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));};");
+		assertThat(js).contains("function ddl_dt_launch_export_myTableId_xls(){window.location='/context/customXlsUrl?' + $.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));};");
 	}
 	
 	@Test

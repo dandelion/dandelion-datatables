@@ -39,7 +39,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
@@ -87,14 +86,15 @@ public class ExportFormatProcessor extends AbstractTableProcessor {
 	}
 
 	@Override
-	public void doProcess(ConfigToken<?> configToken, String value) {
-		if (StringUtils.isNotBlank(value)) {
+	public void doProcess() {
+		
+		if (StringUtils.isNotBlank(stringifiedValue)) {
 
 			// Extract the export format
 			String format = null;
 			ExportConfToken currentExportConfToken = null;
 			for (Entry<ExportConfToken, Pattern> entry : patterns.entrySet()) {
-				Matcher m = entry.getValue().matcher(configToken.getPropertyName());
+				Matcher m = entry.getValue().matcher(configEntry.getKey().getPropertyName());
 				if (m.find()) {
 					format = m.group(1);
 					currentExportConfToken = entry.getKey();
@@ -120,16 +120,16 @@ public class ExportFormatProcessor extends AbstractTableProcessor {
 
 				switch (currentExportConfToken) {
 				case CLASS:
-					exportConf.setExportClass(value);
+					exportConf.setExportClass(stringifiedValue);
 					break;
 				case FILENAME:
-					exportConf.setFileName(value);
+					exportConf.setFileName(stringifiedValue);
 					break;
 				case LABEL:
-					exportConf.setLabel(value);
+					exportConf.setLabel(stringifiedValue);
 					break;
 				case MIMETYPE:
-					exportConf.setMimeType(value);
+					exportConf.setMimeType(stringifiedValue);
 					break;
 				}
 			} else {

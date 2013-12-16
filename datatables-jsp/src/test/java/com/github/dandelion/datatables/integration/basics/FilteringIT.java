@@ -44,7 +44,7 @@ public class FilteringIT extends JspBaseIT {
 
 	@Test
 	public void should_filter_data_when_using_an_input_field() {
-		goToPage("basics/filtering/filtering_with_input");
+		goToPage("basics/filtering/filtering_with_input", true);
 		
 		// Now we test the input that filters data
 		fill(getTable().find("tfoot").find("input", 0)).with("vanna");
@@ -57,7 +57,7 @@ public class FilteringIT extends JspBaseIT {
 	
 	@Test
 	public void should_generate_select_in_the_footer() {
-		goToPage("basics/filtering/filtering_with_select");
+		goToPage("basics/filtering/filtering_with_select", true);
 		
 		// A tfoot tag must be generated
 		assertThat(getTable().find("tfoot")).hasSize(1);

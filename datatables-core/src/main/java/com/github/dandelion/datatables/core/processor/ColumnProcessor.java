@@ -29,12 +29,12 @@
  */
 package com.github.dandelion.datatables.core.processor;
 
-import java.util.Map;
+import java.util.Map.Entry;
 
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.extension.Extension;
 
 /**
  * <p>
@@ -45,27 +45,23 @@ import com.github.dandelion.datatables.core.extension.Extension;
 public interface ColumnProcessor extends ConfigurationProcessor {
 
 	/**
-	 * Processes the passed value and stores the result in the
+	 * <p>
+	 * Processes the passed entry which is a {@link ConfigToken} from
+	 * {@link ColumnConfig}. The value stored in the entry will be updated
+	 * depending on the processor declared in the {@link ConfigToken}.
+	 * 
+	 * <p>
+	 * If new entries are to be added, they will be added in the
+	 * {@code stagingConfigurations} field of the passed
 	 * {@link ColumnConfiguration} instance.
 	 * 
-	 * @param configToken
-	 *            The token used to store the processed value in the
-	 *            {@link TableConfiguration}.
-	 * @param value
-	 *            The configuration to process.
+	 * @param configEntry
+	 *            The map entry to update.
 	 * @param columnConfiguration
 	 *            The column configuration to be updated.
 	 * @param tableConfiguration
 	 *            The table configuration to be updated.
-	 * @param stagingConf
-	 *            The staging configuration to be applied, in case of some
-	 *            processor result would depend on the result of other
-	 *            configuration.
-	 * @param stagingExtension
-	 *            The staging extension to be register in the
-	 *            {@link TableConfiguration} instance.
 	 */
-	public void process(ConfigToken<?> configToken, String value, ColumnConfiguration columnConfiguration,
-			TableConfiguration tableConfiguration, Map<ConfigToken<?>, Object> stagingConf,
-			Map<ConfigToken<?>, Extension> stagingExtension);
+	public void process(Entry<ConfigToken<?>, Object> configEntry, ColumnConfiguration columnConfiguration,
+			TableConfiguration tableConfiguration);
 }

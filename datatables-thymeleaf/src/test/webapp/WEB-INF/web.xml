@@ -14,16 +14,27 @@
       <url-pattern>/</url-pattern>
    </servlet-mapping>
 
-   <!-- Dandelion-Datatables servlet definition -->
+   <!-- Dandelion servlet definition and mapping -->
    <servlet>
-      <servlet-name>datatablesController</servlet-name>
-      <servlet-class>com.github.dandelion.datatables.core.web.servlet.DatatablesServlet</servlet-class>
+      <servlet-name>dandelionServlet</servlet-name>
+      <servlet-class>com.github.dandelion.core.asset.web.AssetServlet</servlet-class>
+      <load-on-startup>2</load-on-startup>
    </servlet>
    <servlet-mapping>
-      <servlet-name>datatablesController</servlet-name>
-      <url-pattern>/datatablesController/*</url-pattern>
+      <servlet-name>dandelionServlet</servlet-name>
+      <url-pattern>/dandelion-assets/*</url-pattern>
    </servlet-mapping>
-
+   
+   <!-- Dandelion filter definition and mapping -->
+   <filter>
+      <filter-name>dandelion</filter-name>
+      <filter-class>com.github.dandelion.core.asset.web.AssetFilter</filter-class>
+   </filter>
+   <filter-mapping>
+      <filter-name>dandelion</filter-name>
+      <url-pattern>/*</url-pattern>
+   </filter-mapping>
+   
    <!-- Dandelion-Datatables filter definition (used for export) -->
    <filter>
       <filter-name>datatablesFilter</filter-name>

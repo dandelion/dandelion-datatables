@@ -100,9 +100,9 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
 		HtmlColumn headColumn = new HtmlColumn(true, content, dynamicAttributes, display);
-				
-		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headColumn.getColumnConfiguration(), parent
-					.getTable().getTableConfiguration());
+		
+		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headColumn);
+		ColumnConfig.processConfiguration(headColumn, parent.getTable());
 		
 		parent.getTable().getLastHeaderRow().addColumn(headColumn);
 	}
@@ -152,8 +152,9 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 
 		ColumnConfig.DEFAULTVALUE.setIn(headColumn.getColumnConfiguration(), StringUtils.isNotBlank(defaultValue) ? defaultValue : "");
 		
-		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headColumn.getColumnConfiguration(), parent.getTable().getTableConfiguration());
-				
+		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headColumn);
+		ColumnConfig.processConfiguration(headColumn, parent.getTable());
+		
 		parent.getTable().getLastHeaderRow().addColumn(headColumn);
 	}
 	
@@ -225,12 +226,11 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	}
 
 	public void setCssStyle(String cssStyle) {
-		stagingConf.put(ColumnConfig.CSSSTYLE, property);
+		stagingConf.put(ColumnConfig.CSSSTYLE, cssStyle);
 	}
 
 	public void setCssClass(String cssClass) {
-		stagingConf.put(ColumnConfig.CSSCLASS, property);
-//		this.cssClass = cssClass;
+		stagingConf.put(ColumnConfig.CSSCLASS, cssClass);
 	}
 
 	public void setSortable(Boolean sortable) {

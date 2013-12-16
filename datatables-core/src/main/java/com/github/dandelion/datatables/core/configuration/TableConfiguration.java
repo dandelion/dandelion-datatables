@@ -30,6 +30,7 @@
 package com.github.dandelion.datatables.core.configuration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -59,6 +60,7 @@ import com.github.dandelion.datatables.core.i18n.MessageResolver;
 public class TableConfiguration {
 
 	private Map<ConfigToken<?>, Object> configurations;
+	private Map<ConfigToken<?>, Object> stagingConfiguration;
 	private Map<String, ExportConf> exportConfiguration;
 
 	// Dandelion-Datatables parameters
@@ -129,6 +131,7 @@ public class TableConfiguration {
 	public TableConfiguration(Map<ConfigToken<?>, Object> userConf, HttpServletRequest request) {
 		this.request = request;
 		this.configurations = userConf;
+		this.stagingConfiguration = new HashMap<ConfigToken<?>, Object>();
 		this.exportConfiguration = new LinkedHashMap<String, ExportConf>();
 	}
 
@@ -145,6 +148,7 @@ public class TableConfiguration {
 		this.request = request;
 		this.tableId = tableId;
 		this.configurations = objectToClone.configurations;
+		this.stagingConfiguration = objectToClone.stagingConfiguration;
 		this.exportConfiguration = objectToClone.exportConfiguration;
 
 		// Dandelion-Datatables parameters
@@ -368,5 +372,17 @@ public class TableConfiguration {
 
 	public void setCurrentExportFormat(String currentExport) {
 		this.currentExportFormat = currentExport;
+	}
+
+	public Map<ConfigToken<?>, Object> getStagingConfiguration() {
+		return stagingConfiguration;
+	}
+
+	public void setStagingConfiguration(Map<ConfigToken<?>, Object> stagingConfiguration) {
+		this.stagingConfiguration = stagingConfiguration;
+	}
+	
+	public void addStagingConf(ConfigToken<?> configToken, Object value){
+		this.stagingConfiguration.put(configToken, value);
 	}
 }

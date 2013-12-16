@@ -35,6 +35,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.extension.Extension;
@@ -357,7 +358,11 @@ public final class TableConfig {
 	public static Map<ConfigToken<?>, Object> applyConfiguration(Map<ConfigToken<?>, Object> stagingConf,
 			HtmlTable table) {
 		
-		table.getTableConfiguration().getConfigurations().putAll(stagingConf);
+		for(Entry<ConfigToken<?>, Object> stagingEntry : stagingConf.entrySet()){
+			if(StringUtils.isNotBlank(String.valueOf(stagingEntry.getValue()))){
+				table.getTableConfiguration().getConfigurations().put(stagingEntry.getKey(), stagingEntry.getValue());
+			}
+		}
 		
 		return stagingConf;
 	}
@@ -372,6 +377,10 @@ public final class TableConfig {
 	 * <p>
 	 * Once processed, all strings will be replaced by the typed value.
 	 * 
+	 * <p>
+	 * Only configuration token with not blank values will be merged into the
+	 * {@link TableConfiguration} instance.
+	 * 
 	 * @param table
 	 *            The table which holds the configuration to process.
 	 */
@@ -380,8 +389,11 @@ public final class TableConfig {
 		if(table.getTableConfiguration().getConfigurations() != null){
 			for(Entry<ConfigToken<?>, Object> entry : table.getTableConfiguration().getConfigurations().entrySet()) {
 				TableProcessor tableProcessor = (TableProcessor) entry.getKey().getProcessor();
-				tableProcessor.process(entry.getKey(), String.valueOf(entry.getValue()).trim(), table.getTableConfiguration());
+				tableProcessor.process(entry, table.getTableConfiguration());
 			}
+			
+			table.getTableConfiguration().getConfigurations()
+					.putAll(table.getTableConfiguration().getStagingConfiguration());
 		}
 		
 		return table.getTableConfiguration().getConfigurations();

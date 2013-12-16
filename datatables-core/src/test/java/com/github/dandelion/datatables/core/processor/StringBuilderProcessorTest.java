@@ -4,6 +4,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,20 +35,9 @@ public class StringBuilderProcessorTest {
 	}
 
 	@Test
-	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.CSS_CLASS, null, tableConfiguration);
-		assertThat(TableConfig.CSS_CLASS.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
-	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.CSS_CLASS, "", tableConfiguration);
-		assertThat(TableConfig.CSS_CLASS.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
 	public void should_set_a_string_true_when_value_is_a_string() throws Exception{
-		processor.process(TableConfig.CSS_CLASS, "someString", tableConfiguration);
-		assertThat(TableConfig.CSS_CLASS.valueFrom(tableConfiguration).toString()).isEqualTo("someString");
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_CLASS, "someString");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue().toString()).isEqualTo("someString");
 	}
 }

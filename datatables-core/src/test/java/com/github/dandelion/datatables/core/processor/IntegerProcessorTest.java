@@ -4,6 +4,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,25 +36,15 @@ public class IntegerProcessorTest {
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_null() {
-		processor.process(TableConfig.AJAX_PIPESIZE, null, tableConfiguration);
-		assertThat(TableConfig.AJAX_PIPESIZE.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
-	public void should_set_null_when_value_is_empty() {
-		processor.process(TableConfig.AJAX_PIPESIZE, "", tableConfiguration);
-		assertThat(TableConfig.AJAX_PIPESIZE.valueFrom(tableConfiguration)).isNull();
-	}
-	
-	@Test
 	public void should_set_1_when_value_is_1() throws Exception{
-		processor.process(TableConfig.AJAX_PIPESIZE, "1", tableConfiguration);
-		assertThat(TableConfig.AJAX_PIPESIZE.valueFrom(tableConfiguration)).isEqualTo(1);
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPESIZE, "1");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(1);
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_throw_an_exception_when_not_using_an_integer() throws Exception{
-		processor.process(TableConfig.AJAX_PIPESIZE, "number", tableConfiguration);
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPESIZE, "number");
+		processor.process(entry, tableConfiguration);
 	}
 }

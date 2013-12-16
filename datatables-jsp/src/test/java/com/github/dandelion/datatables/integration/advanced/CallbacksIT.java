@@ -115,7 +115,7 @@ public class CallbacksIT extends JspBaseIT {
 	
 	@Test
 	public void should_generate_row_callback() {
-		goToPage("advanced/callbacks/callback_row");
+		goToPage("advanced/callbacks/callback_row", true);
 		assertThat(getConfigurationFromPage("advanced/callbacks/callback_row")).contains(DTConstants.DT_FN_ROW_CBK);
 	}
 }
