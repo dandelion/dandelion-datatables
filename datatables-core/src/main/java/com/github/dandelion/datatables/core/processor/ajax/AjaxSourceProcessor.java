@@ -33,10 +33,14 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.feature.AjaxFeature;
 import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
-import com.github.dandelion.datatables.core.util.UrlUtils;
 
 /**
+ * <p>
  * Processor used when the table uses an AJAX source.
+ * 
+ * <p>
+ * Note that the passed URL is not processed here but in each module
+ * corresponding to the template engine currently being used.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -53,9 +57,7 @@ public class AjaxSourceProcessor extends AbstractTableProcessor {
 				registerExtension(new AjaxFeature());
 			}
 
-			String sourceUrl = UrlUtils.getProcessedUrl(stringifiedValue, tableConfiguration.getRequest(), tableConfiguration.getResponse());
-
-			updateEntry(sourceUrl);
+			updateEntry(stringifiedValue);
 		}
 	}
 }

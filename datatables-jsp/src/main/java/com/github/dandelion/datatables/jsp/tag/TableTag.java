@@ -83,6 +83,8 @@ public class TableTag extends AbstractTableTag {
 
 	public TableTag(){
 		stagingConf = new HashMap<ConfigToken<?>, Object>();
+		request = (HttpServletRequest) pageContext.getRequest();
+		response = (HttpServletResponse) pageContext.getResponse();
 	}
 	
 	/**
@@ -318,7 +320,8 @@ public class TableTag extends AbstractTableTag {
 	}
 
 	public void setUrl(String url) {
-		stagingConf.put(TableConfig.AJAX_SOURCE, url);
+		String processedUrl = UrlUtils.getProcessedUrl(url, request, response);
+		stagingConf.put(TableConfig.AJAX_SOURCE, processedUrl);
 		this.loadingType = "AJAX";
 		this.url = url;
 	}
