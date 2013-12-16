@@ -11,7 +11,8 @@
    <logger name="com.github.dandelion" level="DEBUG" />
    <logger name="org.eclipse.jetty" level="DEBUG" />
    <logger name="org.springframework" level="ERROR" />
-   <logger name="org.apache" level="DEBUG" />
+   <logger name="org.apache" level="ERROR" />
+   <logger name="org.eclipse.jetty" level="ERROR" />
    <logger name="org.apache.http.wire" level="ERROR" />
 
    <root level="ERROR">

@@ -46,7 +46,7 @@ public class DynamicAttributesIT extends JspBaseIT {
 
 	@Test
 	public void should_accept_allowed_dynamic_attributes(){
-		goToPage("advanced/dynamic_allowed_attributes", true);
+		goToPage("advanced/dynamic_allowed_attributes");
 		
 		assertThat(getTable().getAttribute("name")).isEqualTo("myName");
 		assertThat(getTable().getAttribute("border")).isEqualTo("2px solid black");

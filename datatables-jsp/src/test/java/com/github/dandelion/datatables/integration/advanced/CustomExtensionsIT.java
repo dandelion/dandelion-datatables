@@ -45,7 +45,7 @@ public class CustomExtensionsIT extends JspBaseIT {
 
 	@Test
 	public void should_enable_myCustomFeature() {
-		goToPage("advanced/custom-extensions/custom_extensions", true);
+		goToPage("advanced/custom-extensions/custom_extensions");
 		assertThat(getConfigurationFromPage("advanced/custom-extensions/custom_extensions")).contains("\"bStateSave\":true");
 	}
 	

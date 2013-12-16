@@ -32,8 +32,6 @@ package com.github.dandelion.datatables.integration.theme;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -50,7 +48,7 @@ public class Bootstrap2IT extends JspBaseIT {
 
 	@Test
 	public void should_generate_table_markup_using_dom_source()  {
-		goToPage("themes/bootstrap2_dom", true);
+		goToPage("themes/bootstrap2_dom");
 	
 		StringBuilder baseHref = new StringBuilder(getDefaultBaseUrl());
 		baseHref.append("/datatablesController/datatables-bootstrap2.css?id=");

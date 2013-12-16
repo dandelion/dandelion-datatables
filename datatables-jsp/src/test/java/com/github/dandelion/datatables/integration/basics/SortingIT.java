@@ -45,7 +45,7 @@ public class SortingIT extends JspBaseIT {
 
 	@Test
 	public void should_disable_sorting_only_on_the_first_column_using_dom() {
-		goToPage("basics/sorting/sorting_disabled_dom", true);
+		goToPage("basics/sorting/sorting_disabled_dom");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).isEqualTo("sorting_disabled");
 		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).isEqualTo("sorting");

@@ -15,7 +15,7 @@ public class AjaxSourceIT extends ThymeleafBaseIT {
 
 	@Test
 	public void should_generate_table_markup() {
-		goToPage("ajax/table", true);
+		goToPage("ajax/table");
 
 		assertThat(getTable()).hasSize(1);
 		assertThat(getTable().find("thead")).hasSize(1);

@@ -69,12 +69,6 @@ public class HtmlTable extends HtmlTag {
 		this.tableConfiguration = TableConfiguration.getInstance(id, request, groupName);
 	}
 
-//	public HtmlTable(String id) {
-//		this.tag = "table";
-//		this.originalId = id;
-//		this.id = processId(id);
-//	}
-
 	public HtmlTable(String id, HttpServletRequest request, HttpServletResponse response, String groupName, Map<String, String> dynamicAttributes) {
 		this.tag = "table";
 		this.originalId = id;

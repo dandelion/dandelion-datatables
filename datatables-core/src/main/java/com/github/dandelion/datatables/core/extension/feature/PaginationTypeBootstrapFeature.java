@@ -57,6 +57,6 @@ public class PaginationTypeBootstrapFeature extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 		addScope(Scope.DDL_DT_PAGING_BOOTSTRAP);
-		addParameter(DTConstants.DT_PAGINATION_TYPE, "bootstrap");
+		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
 	}
 }

@@ -20,7 +20,7 @@ import com.github.dandelion.datatables.integration.JspBaseIT;
 public class HiddenColumns extends JspBaseIT {
 
 	@Test
-	public void should_not_generate_markup_for_hiddne_columns() {
+	public void should_not_generate_markup_for_hidden_columns() {
 		goToPage("issues/hidden_columns");
 
 		assertThat(getTable().find("tbody").find("tr", 0).find("td")).hasSize(4);

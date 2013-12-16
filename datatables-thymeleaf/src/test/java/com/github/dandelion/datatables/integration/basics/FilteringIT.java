@@ -45,7 +45,7 @@ public class FilteringIT extends ThymeleafBaseIT {
 
 	@Test
 	public void should_filter_data_when_using_an_input_field() {
-		goToPage("basics/filtering/filtering_with_input", true);
+		goToPage("basics/filtering/filtering_with_input");
 		
 		// Now we test the input that filters data
 		fill(getTable().find("tfoot").find("input", 0)).with("vanna");
@@ -58,7 +58,7 @@ public class FilteringIT extends ThymeleafBaseIT {
 	
 	@Test
 	public void should_generate_select_in_the_footer() {
-		goToPage("basics/filtering/filtering_with_select", true);
+		goToPage("basics/filtering/filtering_with_select");
 		
 		// A tfoot tag must be generated
 		assertThat(getTable().find("tfoot")).hasSize(1);
@@ -79,7 +79,7 @@ public class FilteringIT extends ThymeleafBaseIT {
 	
 	@Test
 	public void should_filter_data_when_using_an_extra_form() {
-		goToPage("basics/filtering/filtering_with_extra_form", true);
+		goToPage("basics/filtering/filtering_with_extra_form");
 		
 		assertThat(find("#firstNameFilter").find("span.filter_column")).hasSize(1);
 		assertThat(find("#firstNameFilter").find("span.filter_column").find("select.dandelion_select_filter")).hasSize(1);

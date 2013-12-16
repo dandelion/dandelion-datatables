@@ -36,7 +36,9 @@ import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Text;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
+import org.thymeleaf.standard.expression.StandardExpressionParser;
 import org.thymeleaf.standard.expression.StandardExpressionProcessor;
+import org.thymeleaf.standard.expression.StandardExpressions;
 
 import com.github.dandelion.datatables.core.export.Format;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
@@ -70,6 +72,8 @@ public class TdElProcessor extends AbstractElProcessor {
 	protected ProcessorResult doProcessElement(Arguments arguments, Element element) {
 
 		if (table != null) {
+
+			StandardExpressionParser parser = new StandardExpressionParser();
 			
 			HtmlColumn column = null;
 			String content = null;
@@ -83,7 +87,9 @@ public class TdElProcessor extends AbstractElProcessor {
 				
 				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":csv")) {
 					attrValue = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":csv");
-					content =  StandardExpressionProcessor.processExpression(arguments, attrValue).toString();
+					content = parser.parseExpression(arguments.getConfiguration(), arguments
+							.getTemplateProcessingParameters().getProcessingContext(), attrValue).getStringRepresentation();
+//					content =  StandardExpressionProcessor.processExpression(arguments, attrValue).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":csv");
 					column = new HtmlColumn(Format.CSV);
 					column.setContent(new StringBuilder(content));

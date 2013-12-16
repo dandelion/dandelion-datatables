@@ -45,7 +45,7 @@ public class CustomExtensionsIT extends ThymeleafBaseIT {
 
 	@Test
 	public void should_enable_myCustomFeature() {
-		goToPage("advanced/custom-extension/custom_extensions", true);
+		goToPage("advanced/custom-extension/custom_extensions");
 		assertThat(getConfigurationFromPage("advanced/custom-extension/custom_extensions")).contains("\"bStateSave\":true");
 	}
 	

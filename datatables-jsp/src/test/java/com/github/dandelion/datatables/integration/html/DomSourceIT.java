@@ -64,7 +64,7 @@ public class DomSourceIT extends JspBaseIT {
 
 	@Test
 	public void should_generate_script_tag() {
-		goToPage("html/dom/table", true);
+		goToPage("html/dom/table");
 		assertThat(getHtmlBody().find("script")).hasSize(3);
 	}
 	

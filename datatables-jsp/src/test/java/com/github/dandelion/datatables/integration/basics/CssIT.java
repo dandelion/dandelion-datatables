@@ -56,7 +56,7 @@ public class CssIT extends JspBaseIT {
 	
 	@Test
 	public void should_apply_css_using_dom() {
-		goToPage("basics/css_dom", true);
+		goToPage("basics/css_dom");
 
 		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).contains("column1class");
 		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).contains("column2class");

@@ -44,7 +44,7 @@ public class NativeTableIT extends ThymeleafBaseIT {
 
 	@Test
 	public void should_display_native_table_only() {
-		goToPage("issues/native-table-only", true);
+		goToPage("issues/native-table-only");
 		
 		assertThat(find("table")).hasSize(1);
 		assertThat(find("div.dataTables_wrapper")).hasSize(0);
@@ -54,7 +54,7 @@ public class NativeTableIT extends ThymeleafBaseIT {
 	
 	@Test
 	public void should_display_native_tables_alongside_dataTable() {
-		goToPage("issues/native-tables-with-dataTable", true);
+		goToPage("issues/native-tables-with-dataTable");
 		
 		assertThat(find("table")).hasSize(4);
 		assertThat(find("div.dataTables_wrapper")).hasSize(1);
