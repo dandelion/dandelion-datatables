@@ -1,6 +1,6 @@
 {
     "scope" : "ddl-dt-theme-bootstrap2-responsive",
-    "parent": "bootstrap",
+    "parent": "bootstrap2",
     "assets": [
         {
             "name": "lodash",

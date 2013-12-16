@@ -1,6 +1,6 @@
 {
     "scope" : "ddl-dt-paging-bootstrap",
-    "parent": "bootstrap",
+    "parent": "bootstrap2",
     "assets": [
         {
             "name": "bootstrap-pagination",
