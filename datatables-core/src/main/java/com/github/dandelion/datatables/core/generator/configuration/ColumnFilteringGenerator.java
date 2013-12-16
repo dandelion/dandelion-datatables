@@ -102,9 +102,6 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
 					case NUMBER_RANGE:
 						tmp.put(DTConstants.DT_FILTER_TYPE, "number-range");        				
 						break;
-					default:
-						tmp.put(DTConstants.DT_FILTER_TYPE, "text");
-						break;
         			}
         		}
         		else{
