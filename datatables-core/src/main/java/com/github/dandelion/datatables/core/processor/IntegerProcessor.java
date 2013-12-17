@@ -52,7 +52,7 @@ public class IntegerProcessor implements TableProcessor, ColumnProcessor {
 		try {
 			result = StringUtils.isNotBlank(value) ? Integer.parseInt(value) : null;
 		} catch (NumberFormatException e) {
-			throw new ConfigurationProcessingException(e);
+			throw new ConfigurationProcessingException("The value '" + value + "' cannot be parsed to Integer", e);
 		}
 		
 		configEntry.setValue(result);
@@ -66,9 +66,8 @@ public class IntegerProcessor implements TableProcessor, ColumnProcessor {
 		try {
 			result = StringUtils.isNotBlank(value) ? Integer.parseInt(value) : null;
 		} catch (NumberFormatException e) {
-			throw new ConfigurationProcessingException(e);
+			throw new ConfigurationProcessingException("The value '" + value + "' cannot be parsed to Integer", e);
 		}
-		
 		
 		configEntry.setValue(result);
 	}

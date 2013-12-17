@@ -32,12 +32,14 @@ package com.github.dandelion.datatables.thymeleaf.processor.el;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
+import org.thymeleaf.Configuration;
+import org.thymeleaf.context.IProcessingContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Text;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
+import org.thymeleaf.standard.expression.IStandardExpressionParser;
 import org.thymeleaf.standard.expression.StandardExpressionParser;
-import org.thymeleaf.standard.expression.StandardExpressionProcessor;
 
 import com.github.dandelion.datatables.core.export.Format;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
@@ -70,10 +72,12 @@ public class TdElProcessor extends AbstractElProcessor {
 	@Override
 	protected ProcessorResult doProcessElement(Arguments arguments, Element element) {
 
+		IStandardExpressionParser parser = new StandardExpressionParser();
+		Configuration configuration = arguments.getConfiguration();
+		IProcessingContext processingContext = arguments.getTemplateProcessingParameters().getProcessingContext();
+		
 		if (table != null) {
 
-			StandardExpressionParser parser = new StandardExpressionParser();
-			
 			HtmlColumn column = null;
 			String content = null;
 			String attrValue = null;
@@ -86,9 +90,8 @@ public class TdElProcessor extends AbstractElProcessor {
 				
 				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":csv")) {
 					attrValue = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":csv");
-					content = parser.parseExpression(arguments.getConfiguration(), arguments
-							.getTemplateProcessingParameters().getProcessingContext(), attrValue).getStringRepresentation();
-//					content =  StandardExpressionProcessor.processExpression(arguments, attrValue).toString();
+					content = parser.parseExpression(configuration, processingContext, attrValue)
+							.execute(configuration, processingContext).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":csv");
 					column = new HtmlColumn(Format.CSV);
 					column.setContent(new StringBuilder(content));
@@ -96,7 +99,8 @@ public class TdElProcessor extends AbstractElProcessor {
 				}
 				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xml")) {
 					attrValue = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":xml");
-					content =  StandardExpressionProcessor.processExpression(arguments, attrValue).toString();
+					content = parser.parseExpression(configuration, processingContext, attrValue)
+							.execute(configuration, processingContext).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xml");
 					column = new HtmlColumn(Format.XML);
 					column.setContent(new StringBuilder(content));
@@ -104,7 +108,8 @@ public class TdElProcessor extends AbstractElProcessor {
 				}
 				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":pdf")) {
 					attrValue = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":pdf");
-					content =  StandardExpressionProcessor.processExpression(arguments, attrValue).toString();
+					content = parser.parseExpression(configuration, processingContext, attrValue)
+							.execute(configuration, processingContext).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":pdf");
 					column = new HtmlColumn(Format.PDF);
 					column.setContent(new StringBuilder(content));
@@ -112,7 +117,8 @@ public class TdElProcessor extends AbstractElProcessor {
 				}
 				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xls")) {
 					attrValue = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":xls");
-					content =  StandardExpressionProcessor.processExpression(arguments, attrValue).toString();
+					content = parser.parseExpression(configuration, processingContext, attrValue)
+							.execute(configuration, processingContext).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xls");
 					column = new HtmlColumn(Format.XLS);
 					column.setContent(new StringBuilder(content));
@@ -120,7 +126,8 @@ public class TdElProcessor extends AbstractElProcessor {
 				}
 				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xlsx")) {
 					attrValue = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":xlsx");
-					content =  StandardExpressionProcessor.processExpression(arguments, attrValue).toString();
+					content = parser.parseExpression(configuration, processingContext, attrValue)
+							.execute(configuration, processingContext).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xlsx");
 					column = new HtmlColumn(Format.XLSX);
 					column.setContent(new StringBuilder(content));

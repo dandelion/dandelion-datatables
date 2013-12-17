@@ -180,7 +180,7 @@ public enum TableAttrProcessors {
     AJAX_URL(TableUrlAttrProcessor.class, "url", "table"),
     AJAX_SERVER_SIDE(TableServerSideAttrProcessor.class, "serverside", "table"),
     AJAX_PIPELINING(TablePipeliningAttrProcessor.class, "pipelining", "table"),
-    AJAX_PIPE_SI(TablePipeSizeAttrProcessor.class, "pipesize", "table"),
+    AJAX_PIPESIZE(TablePipeSizeAttrProcessor.class, "pipeSize", "table"),
     AJAX_PROCESSING(TableProcessingAttrProcessor.class, "processing", "table"),
     AJAX_SERVER_DATA(TableServerDataAttrProcessor.class, "serverdata", "table"),
     AJAX_SERVER_PARAMS(TableServerParamsAttrProcessor.class, "serverparams", "table"),

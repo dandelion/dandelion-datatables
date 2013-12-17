@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr.ajax;
 
+import java.math.BigDecimal;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
@@ -44,6 +46,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * <tt>pipeSize</tt> attribute.
  * 
  * @author Thibault Duchateau
+ * @see TableConfig#AJAX_PIPESIZE
  */
 public class TablePipeSizeAttrProcessor extends AbstractTableAttrProcessor {
 
@@ -59,11 +62,10 @@ public class TablePipeSizeAttrProcessor extends AbstractTableAttrProcessor {
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element, String attributeName) {
 
-		// Get attribute value
-		Integer attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, Integer.class);
-
-		localConf.put(TableConfig.AJAX_PIPESIZE, attrValue);
+		BigDecimal attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null, BigDecimal.class);
 		
+		localConf.put(TableConfig.AJAX_PIPESIZE, attrValue);
+
 		return ProcessorResult.ok();
 	}
 }

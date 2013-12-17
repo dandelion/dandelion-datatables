@@ -59,7 +59,6 @@ public class TableProcessingAttrProcessor extends AbstractTableAttrProcessor {
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element, String attributeName) {
 
-		// Get attribute value
 		Boolean attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), false, Boolean.class);
 
 		localConf.put(TableConfig.AJAX_PROCESSING, attrValue);

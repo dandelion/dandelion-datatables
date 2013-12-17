@@ -34,8 +34,11 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import org.thymeleaf.Arguments;
+import org.thymeleaf.Configuration;
+import org.thymeleaf.context.IProcessingContext;
 import org.thymeleaf.context.IWebContext;
-import org.thymeleaf.standard.expression.StandardExpressionProcessor;
+import org.thymeleaf.standard.expression.IStandardExpressionParser;
+import org.thymeleaf.standard.expression.StandardExpressionParser;
 
 import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
@@ -231,16 +234,24 @@ public class Utils {
 	@SuppressWarnings("unchecked")
 	private static <T> T processStandardExpression(Arguments arguments, String value, T defaultValue, Class<T> clazz) {
 		
+		IStandardExpressionParser parser = new StandardExpressionParser();
+		Configuration configuration = arguments.getConfiguration();
+		IProcessingContext processingContext = arguments.getTemplateProcessingParameters().getProcessingContext();
+		
 		// Use the Thymeleaf Standard expression processor on the expression
-		Object result = StandardExpressionProcessor.processExpression(arguments, value.trim());
-
+		Object result = parser.parseExpression(configuration, processingContext, value.trim()).execute(configuration, processingContext);
+		
 		// Handling null value
-		if (result == null) return defaultValue;
+		if (result == null) {
+			return defaultValue;
+		}
 		
 		T tmpValue = defaultValue;
 
 		// Typing the result
-		if (clazz.isAssignableFrom(result.getClass())) tmpValue = (T) result;
+		if (clazz.isAssignableFrom(result.getClass())) {
+			tmpValue = (T) result;
+		}
 		
 		// Handling default value
 		return tmpValue;

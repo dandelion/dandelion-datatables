@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr.basic;
 
+import java.math.BigDecimal;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
@@ -59,8 +61,8 @@ public class ThFilterLengthAttrProcessor extends AbstractColumnAttrProcessor {
 	@Override
 	protected ProcessorResult processColumnAttribute(Arguments arguments, Element element, String attributeName) {
 
-		Integer attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null,
-				Integer.class);
+		BigDecimal attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null,
+				BigDecimal.class);
 
 		stagingConf.put(ColumnConfig.FILTERLENGTH, attrValue);
 

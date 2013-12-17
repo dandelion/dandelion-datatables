@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * <tt>pipelining</tt> attribute.
  * 
  * @author Thibault Duchateau
+ * @see TableConfig#AJAX_PIPELINING
  */
 public class TablePipeliningAttrProcessor extends AbstractTableAttrProcessor {
 
@@ -59,7 +60,6 @@ public class TablePipeliningAttrProcessor extends AbstractTableAttrProcessor {
 	@Override
 	protected ProcessorResult doProcessAttribute(Arguments arguments, Element element, String attributeName) {
 
-		// Get attribute value
 		Boolean attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), false, Boolean.class);
 		
 		localConf.put(TableConfig.AJAX_PIPELINING, attrValue);
