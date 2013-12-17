@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,6 @@
  */
 package com.github.dandelion.datatables.jsp.tag;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -37,27 +36,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.github.dandelion.core.asset.web.AssetsRequestContext;
-import com.github.dandelion.core.asset.wrapper.impl.DelegatedLocationWrapper;
-import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
-import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.exception.ExportException;
-import com.github.dandelion.datatables.core.export.ExportDelegate;
-import com.github.dandelion.datatables.core.export.ExportUtils;
-import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
-import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
+import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.UrlUtils;
 
 /**
  * <p>
- * JSP Tag for creating HTML tables.
+ * JSP tag used for creating HTML tables.
+ * 
+ * <p>
+ * Note that this tag supports dynamic attributes with only string values. See
+ * {@link #setDynamicAttribute(String, String, Object)} below.
  * 
  * <p>
  * Example usage:
@@ -76,15 +67,15 @@ import com.github.dandelion.datatables.core.util.UrlUtils;
  * @since 0.1.0
  */
 public class TableTag extends AbstractTableTag {
+	
 	private static final long serialVersionUID = 4528524566511084446L;
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(TableTag.class);
-
+	/**
+	 * Initializes a new staging configuration map to be applied to the
+	 * {@link TableConfiguration} instance.
+	 */
 	public TableTag(){
 		stagingConf = new HashMap<ConfigToken<?>, Object>();
-		request = (HttpServletRequest) pageContext.getRequest();
-		response = (HttpServletResponse) pageContext.getResponse();
 	}
 	
 	/**
@@ -92,17 +83,23 @@ public class TableTag extends AbstractTableTag {
 	 */
 	public int doStartTag() throws JspException {
 		
-		table = new HtmlTable(id, (HttpServletRequest) pageContext.getRequest(),
-				(HttpServletResponse) pageContext.getResponse(), confGroup, dynamicAttributes);
+		iterationNumber = 1; // Just used to identify the first row (header)
+		request = (HttpServletRequest) pageContext.getRequest();
+		response = (HttpServletResponse) pageContext.getResponse();
+		
+		table = new HtmlTable(id, request, response, confGroup, dynamicAttributes);
 
+		// At this point, all setters have been called and the staging
+		// configuration map should have been filled with user configuration
+		// The user configuration can now be applied to the default
+		// configuration
 		TableConfig.applyConfiguration(stagingConf, table);
+		
+		// Once all configuration are merged, they can be processed
 		TableConfig.processConfiguration(table);
 		
-		// Just used to identify the first row (header)
-		iterationNumber = 1;
-
-		// The table data are loaded using AJAX source
-		if ("AJAX".equals(this.loadingType)) {
+		// The table data are loaded using an AJAX source
+		if ("AJAX".equals(this.dataSourceType)) {
 
 			this.table.addHeaderRow();
 			this.table.addRow();
@@ -110,7 +107,7 @@ public class TableTag extends AbstractTableTag {
 			return EVAL_BODY_BUFFERED;
 		}
 		// The table data are loaded using a DOM source (Collection)
-		else if ("DOM".equals(this.loadingType)) {
+		else if ("DOM".equals(this.dataSourceType)) {
 
 			this.table.addHeaderRow();
 			
@@ -126,7 +123,7 @@ public class TableTag extends AbstractTableTag {
 	 */
 	public int doAfterBody() throws JspException {
 
-		this.iterationNumber++;
+		iterationNumber++;
 
 		return processIteration();
 	}
@@ -137,7 +134,7 @@ public class TableTag extends AbstractTableTag {
 	public int doEndTag() throws JspException {
 
 		// The table is being exported
-		if (UrlUtils.isTableBeingExported(pageContext.getRequest(), table)) {
+		if (UrlUtils.isTableBeingExported(request, table)) {
 			return setupExport();
 		}
 		// The table must be generated and displayed
@@ -146,89 +143,49 @@ public class TableTag extends AbstractTableTag {
 		}
 	}
 
-	/**
-	 * Set up the export properties, before the filter intercepts the response.
-	 * 
-	 * @return allways SKIP_PAGE, because the export filter will override the
-	 *         response with the exported data instead of displaying the page.
-	 * @throws JspException
-	 *             if something went wrong during export.
-	 */
-	private int setupExport() throws JspException {
+	public void setData(Collection<Object> data) {
+		this.dataSourceType = "DOM";
+		this.data = data;
 
-		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-		HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
-
-		String currentExportType = ExportUtils.getCurrentExportType(request);
-
-		this.table.getTableConfiguration().setExporting(true);
-		this.table.getTableConfiguration().setCurrentExportFormat(currentExportType);
-		
-		try {
-			// Call the export delegate
-			ExportDelegate exportDelegate = new ExportDelegate(table, request);
-			exportDelegate.launchExport();
-
-		} catch (ExportException e) {
-			logger.error("Something went wront with the Dandelion export configuration.");
-			throw new JspException(e);
-		} 
-
-		response.reset();
-
-		return SKIP_PAGE;
+		Collection<Object> dataTmp = (Collection<Object>) data;
+		if (dataTmp != null && dataTmp.size() > 0) {
+			iterator = dataTmp.iterator();
+		} else {
+			iterator = null;
+			currentObject = null; 
+		}
 	}
-
-	/**
-	 * Set up the HTML table generation.
-	 * 
-	 * @return allways EVAL_PAGE to keep evaluating the page.
-	 * @throws JspException
-	 *             if something went wrong during the processing.
-	 */
-	private int setupHtmlGeneration() throws JspException {
-		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-		JsResource jsResource = null;
-		
-		this.table.getTableConfiguration().setExporting(false);
-
-		try {
-			// Init the web resources generator
-			WebResourceGenerator contentGenerator = new WebResourceGenerator(table);
 	
-			// Generate the web resources (JS, CSS) and wrap them into a
-			// WebResources POJO
-			jsResource = contentGenerator.generateWebResources();
-			logger.debug("Web content generated successfully");
-
-			// Scope update
-			AssetsRequestContext.get(request)
-				.addScopes(Scope.DDL_DT.getScopeName())
-				.addScopes(Scope.DATATABLES.getScopeName())
-				.addParameter("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM,
-							DatatablesConfigurator.getJavascriptGenerator(), false);
-			
-			// Buffering generated Javascript
-			JavascriptGenerator javascriptGenerator = AssetsRequestContext.get(request).getParameterValue("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM);
-			javascriptGenerator.addResource(jsResource);
-			
-			// HTML generation
-			pageContext.getOut().println(this.table.toHtml());
-
-		} 
-		catch (IOException e) {
-			throw new JspException("Unable to generate the HTML markup for the table " + id, e);
-		} 
-
-		return EVAL_PAGE;
+	public void setUrl(String url) {
+		String processedUrl = UrlUtils.getProcessedUrl(url, (HttpServletRequest) pageContext.getRequest(),
+				(HttpServletResponse) pageContext.getResponse());
+		stagingConf.put(TableConfig.AJAX_SOURCE, processedUrl);
+		this.dataSourceType = "AJAX";
+		this.url = url;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	public void setRow(String row) {
+		this.row = row;
+	}
+	
+	public void setConfGroup(String confGroup) {
+		this.confGroup = confGroup;
 	}
 
+	public void setRowIdBase(String rowIdBase) {
+		this.rowIdBase = rowIdBase;
+	}
 
-	/**
-	 * TODO
-	 */
-	public void release() {
-		super.release();
+	public void setRowIdPrefix(String rowIdPrefix) {
+		this.rowIdPrefix = rowIdPrefix;
+	}
+
+	public void setRowIdSuffix(String rowIdSuffix) {
+		this.rowIdSuffix = rowIdSuffix;
 	}
 	
 	public void setAutoWidth(Boolean autoWidth) {
@@ -315,17 +272,6 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(TableConfig.EXPORT_ENABLED_FORMATS, export);
 	}
 
-	public String getLoadingType() {
-		return this.loadingType;
-	}
-
-	public void setUrl(String url) {
-		String processedUrl = UrlUtils.getProcessedUrl(url, request, response);
-		stagingConf.put(TableConfig.AJAX_SOURCE, processedUrl);
-		this.loadingType = "AJAX";
-		this.url = url;
-	}
-
 	public void setJqueryUI(String jqueryUI) {
 		stagingConf.put(TableConfig.FEATURE_JQUERYUI, jqueryUI);
 	}
@@ -348,10 +294,6 @@ public class TableTag extends AbstractTableTag {
 
 	public void setThemeOption(String themeOption) {
 		stagingConf.put(TableConfig.CSS_THEMEOPTION, themeOption);
-	}
-
-	public void setFooter(String footer) {
-		this.footer = footer;
 	}
 
 	public void setAppear(String appear) {
@@ -392,35 +334,6 @@ public class TableTag extends AbstractTableTag {
 
 	public void setExt(String extensions){
 		stagingConf.put(TableConfig.MAIN_EXTENSION_NAMES, extensions);	
-	}
-	
-	public void setConfGroup(String confGroup) {
-		this.confGroup = confGroup;
-	}
-
-	public void setData(Collection<Object> data) {
-		this.loadingType = "DOM";
-		this.data = data;
-
-		Collection<Object> dataTmp = (Collection<Object>) data;
-		if (dataTmp != null && dataTmp.size() > 0) {
-			iterator = dataTmp.iterator();
-		} else {
-			iterator = null;
-			currentObject = null; 
-		}
-	}
-	
-	public void setRowIdBase(String rowIdBase) {
-		this.rowIdBase = rowIdBase;
-	}
-
-	public void setRowIdPrefix(String rowIdPrefix) {
-		this.rowIdPrefix = rowIdPrefix;
-	}
-
-	public void setRowIdSufix(String rowIdSufix) {
-		this.rowIdSufix = rowIdSufix;
 	}
 	
 	public void setCssStyle(String cssStyle) {

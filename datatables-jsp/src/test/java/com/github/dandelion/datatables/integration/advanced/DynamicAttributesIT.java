@@ -58,7 +58,7 @@ public class DynamicAttributesIT extends JspBaseIT {
 		assertThat(find("#" + TABLE_ID + "_wrapper")).hasSize(0);
 		assertThat(driver.getPageSource())
 				.contains(
-						"java.lang.IllegalArgumentException: The 'class' attribute is not allowed. Please use the 'cssClass' instead.");
+						"java.lang.IllegalArgumentException: The 'class' attribute is not allowed. Please use the 'cssClass' attribute instead.");
 	}
 	
 	@Test
@@ -68,6 +68,6 @@ public class DynamicAttributesIT extends JspBaseIT {
 		assertThat(find("#" + TABLE_ID + "_wrapper")).hasSize(0);
 		assertThat(driver.getPageSource())
 				.contains(
-						"java.lang.IllegalArgumentException: The 'style' attribute is not allowed. Please use the 'cssStyle' instead.");
+						"java.lang.IllegalArgumentException: The 'style' attribute is not allowed. Please use the 'cssStyle' attribute instead.");
 	}
 }

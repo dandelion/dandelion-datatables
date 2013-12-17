@@ -119,7 +119,7 @@
       <attribute>
          <description>String which is appended to the rowIdBase
              attribute, in order to build row id. (HTML id attribute)</description>
-          <name>rowIdSufix</name>
+          <name>rowIdSuffix</name>
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
@@ -284,13 +284,6 @@
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
-         <description>(header) Choose if you want to have the footer
-            appear.
-            (Default : none)</description>
-          <name>footer</name>
-          <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
          <description>Name of a theme to activate for the current table.
             (Default : none)</description>
           <name>theme</name>
@@ -416,7 +409,7 @@
    </tag>
 
    <!-- ====================================== -->
-   <!-- Extra features -->
+   <!-- Caption -->
    <!-- ====================================== -->
    <tag>
        <description>Allows to fill an HTML caption tag in the table.</description>
@@ -446,6 +439,10 @@
           <rtexprvalue>true</rtexprvalue>
       </attribute>
    </tag>
+   
+   <!-- ====================================== -->
+   <!-- ExtraHtml -->
+   <!-- ====================================== -->
    <tag>
        <description>Allows to create a HTML snippet and insert it anywhere around the table thanks to the dom attribute.</description>
        <name>extraHtml</name>
@@ -473,6 +470,10 @@
           <rtexprvalue>true</rtexprvalue>
        </attribute>
    </tag>
+   
+   <!-- ====================================== -->
+   <!-- ColumnHead -->
+   <!-- ====================================== -->
    <tag>
        <description>Allows to fill a column header with more complex
            content than a usual title.</description>
@@ -487,6 +488,10 @@
           <rtexprvalue>true</rtexprvalue>
       </attribute>
    </tag>
+   
+   <!-- ====================================== -->
+   <!-- Column -->
+   <!-- ====================================== -->
    <tag>
        <description>Describe a column of the HTML table.</description>
        <name>column</name>
@@ -665,26 +670,6 @@
               :
               BEFOREALL)</description>
           <name>insert</name>
-          <rtexprvalue>true</rtexprvalue>
-      </attribute>
-   </tag>
-
-   <!-- ====================================== -->
-   <!-- Extra conf -->
-   <!-- ====================================== -->
-   <tag>
-       <description>Allow to specify the location of a file containing
-           a
-           JSON-formatted DataTables configuration to merge with the
-           generated one.</description>
-       <name>extraConf</name>
-       <tag-class>com.github.dandelion.datatables.jsp.tag.ExtraConfTag</tag-class>
-       <body-content>empty</body-content>
-       <attribute>
-           <description>Location of the file containing the extra
-               DataTables configuration</description>
-           <name>src</name>
-          <required>true</required>
           <rtexprvalue>true</rtexprvalue>
       </attribute>
    </tag>

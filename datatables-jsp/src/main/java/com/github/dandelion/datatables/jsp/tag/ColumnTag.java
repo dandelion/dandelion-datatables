@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -33,19 +33,36 @@ import java.util.HashMap;
 
 import javax.servlet.jsp.JspException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
+import com.github.dandelion.datatables.jsp.extension.feature.FilteringFeature;
 
 /**
  * <p>
- * Tag used to generate a HTML table's column.
+ * JSP tag used for creating a table column.
+ * 
+ * <p>
+ * Note that this tag supports dynamic attributes with only string values. See
+ * {@link #setDynamicAttribute(String, String, Object)} below.
+ * 
+ * <p>
+ * Example usage:
+ * 
+ * <pre>
+ * &lt;datatables:table id="myTableId" data="${persons}">
+ *    &lt;datatables:column title="Id" property="id" />
+ *    &lt;datatables:column title="LastName" property="lastName" />
+ *    &lt;datatables:column title="FirstName" property="firstName" />
+ *    &lt;datatables:column title="City" property="address.town.name" />
+ *    &lt;datatables:column title="Mail" property="mail" />
+ * &lt;/datatables:table>
+ * </pre>
  * 
  * @author Thibault Duchateau
  * @since 0.1.0
@@ -54,35 +71,44 @@ public class ColumnTag extends AbstractColumnTag {
 
 	private static final long serialVersionUID = -8928415196287387948L;
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ColumnTag.class);
-		
+	/**
+	 * Initializes a new staging configuration map and a new staging extension
+	 * map to be applied to the {@link ColumnConfiguration} instance.
+	 */
 	public ColumnTag(){
 		stagingConf = new HashMap<ConfigToken<?>, Object>();
 		stagingExtension = new HashMap<ConfigToken<?>, Extension>();
 	}
 	
 	/**
-	 * Nothing happens in doStartTag.
+	 * {@inheritDoc}
 	 */
 	public int doStartTag() throws JspException {
-		return EVAL_BODY_BUFFERED;
+		
+		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+		if(parent != null){
+			return EVAL_BODY_BUFFERED;
+		}
+		
+		throw new JspException("The tag 'column' must be inside the 'table' tag.");
 	}
 
 	/**
 	 * <p>
 	 * Configure the current {@link HtmlColumn}.
+	 * 
 	 * <p>
 	 * Note that when using an AJAX source, since there is only one iteration,
-	 * it just adds a header column to the last header {@link HtmlRow} added.
-	 * When using a DOM source, first a header {@link HtmlColumn} is added at
+	 * it just adds a header column to the last added header {@link HtmlRow}.
+	 * When using a DOM source, a header {@link HtmlColumn} is added at the
 	 * first iteration and a {@link HtmlColumn} is added for each iteration.
 	 */
 	public int doEndTag() throws JspException {
+		
 		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
-		// A header column must be added at first iteration, regardless the data
-		// source type (DOM or AJAX)
+		// A header column must be added at the first iteration, regardless the
+		// data source type (DOM or AJAX)
 		if(parent.isFirstIteration()){
 
 			// The 'title' attribute has precedence over 'titleKey'
@@ -103,10 +129,10 @@ public class ColumnTag extends AbstractColumnTag {
 				}
 			}
 			
-			if ("DOM".equals(parent.getLoadingType())) {
+			if ("DOM".equals(parent.getDataSourceType())) {
 				addDomHeadColumn(columnTitle);
 			}
-			else if ("AJAX".equals(parent.getLoadingType())) {
+			else if ("AJAX".equals(parent.getDataSourceType())) {
 				addAjaxColumn(true, columnTitle);
 				return EVAL_PAGE;
 			}
@@ -129,5 +155,123 @@ public class ColumnTag extends AbstractColumnTag {
 		}
 
 		return EVAL_PAGE;
+	}
+	
+	public void setTitle(String titleKey) {
+		this.title = titleKey;
+	}
+	
+	public void setTitleKey(String titleKey) {
+		this.titleKey = titleKey;
+	}
+	
+	public void setUid(String uid) {
+		stagingConf.put(ColumnConfig.UID, uid);
+	}
+
+	public void setProperty(String property) {
+		// For DOM sources
+		this.property = property;
+		
+		// For AJAX sources
+		stagingConf.put(ColumnConfig.PROPERTY, property);
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
+	}
+	
+	public void setCssStyle(String cssStyle) {
+		stagingConf.put(ColumnConfig.CSSSTYLE, cssStyle);
+	}
+
+	public void setCssClass(String cssClass) {
+		stagingConf.put(ColumnConfig.CSSCLASS, cssClass);
+	}
+
+	public void setSortable(Boolean sortable) {
+		stagingConf.put(ColumnConfig.SORTABLE, sortable);
+	}
+
+	public void setCssCellStyle(String cssCellStyle) {
+		this.cssCellStyle = cssCellStyle;
+		stagingConf.put(ColumnConfig.CSSCELLSTYLE, cssCellStyle);
+	}
+
+	public void setCssCellClass(String cssCellClass) {
+		// For DOM sources
+		this.cssCellClass = cssCellClass;
+		
+		// For AJAX sources
+		stagingConf.put(ColumnConfig.CSSCELLCLASS, cssCellClass);
+	}
+
+	public void setFilterable(Boolean filterable) {
+		stagingConf.put(ColumnConfig.FILTERABLE, filterable);
+		stagingExtension.put(ColumnConfig.FILTERABLE, new FilteringFeature());
+	}
+
+	public void setSearchable(Boolean searchable) {
+		stagingConf.put(ColumnConfig.SEARCHABLE, searchable);
+	}
+
+	public void setVisible(Boolean visible) {
+		stagingConf.put(ColumnConfig.VISIBLE, visible);
+	}
+	
+	public void setFilterType(String filterType) {
+		stagingConf.put(ColumnConfig.FILTERTYPE, filterType);
+	}
+
+	public void setFilterValues(String filterValues) {
+		stagingConf.put(ColumnConfig.FILTERVALUES, filterValues);
+	}
+
+	public void setFilterCssClass(String filterCssClass) {
+		stagingConf.put(ColumnConfig.FILTERCSSCLASS, filterCssClass);
+	}
+
+	public void setFilterPlaceholder(String filterPlaceholder) {
+		stagingConf.put(ColumnConfig.FILTERPLACEHOLDER, filterPlaceholder);
+	}
+
+	public void setSortDirection(String sortDirection) {
+		stagingConf.put(ColumnConfig.SORTDIRECTION, sortDirection);
+	}
+
+	public void setSortInit(String sortInit) {
+		stagingConf.put(ColumnConfig.SORTINIT, sortInit);
+	}
+
+	public void setDisplay(String display) {
+		this.display = display;
+	}
+
+	public void setDefault(String defaultValue) {
+		// For DOM sources
+		this.defaultValue = defaultValue;
+		
+		// For AJAX sources
+		stagingConf.put(ColumnConfig.DEFAULTVALUE, defaultValue);
+	}
+	
+	public void setRenderFunction(String renderFunction) {
+		stagingConf.put(ColumnConfig.RENDERFUNCTION, renderFunction);
+	}
+
+	public void setSelector(String selector) {
+		stagingConf.put(ColumnConfig.SELECTOR, selector);
+	}
+
+	public void setSortType(String sortType) {
+		stagingConf.put(ColumnConfig.SORTTYPE, sortType);
+	}
+
+	public void setFilterLength(Integer filterLength) {
+		stagingConf.put(ColumnConfig.FILTERLENGTH, filterLength);
+	}
+	
+	public void setId(String id) {
+		stagingConf.put(ColumnConfig.ID, id);
 	}
 }

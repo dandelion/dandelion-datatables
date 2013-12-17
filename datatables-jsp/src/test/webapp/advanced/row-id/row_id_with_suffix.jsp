@@ -6,7 +6,7 @@
 <head>
 </head>
 <body>
-   <datatables:table id="myTableId" data="${persons}" row="person" rowIdBase="id" rowIdPrefix="id_" rowIdSufix="_di">
+   <datatables:table id="myTableId" data="${persons}" row="person" rowIdBase="id" rowIdSuffix="_id">
       <datatables:column title="Id" property="id" />
       <datatables:column title="FirstName" property="firstName" />
       <datatables:column title="LastName" property="lastName" />

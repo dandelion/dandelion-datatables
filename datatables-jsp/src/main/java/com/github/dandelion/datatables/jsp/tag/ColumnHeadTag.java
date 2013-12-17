@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,27 @@ import com.github.dandelion.datatables.core.html.HtmlColumn;
 
 /**
  * <p>
- * Tag used to custom the header of a table's column.
+ * JSP tag used to add a specific content inside a column header.
+ * 
+ * <p>
+ * Example usage:
+ * 
+ * <pre>
+ * &lt;datatables:table id="myTableId" data="${persons}" row="person">
+ *    &lt;datatables:column title="Id" property="id" />
+ *    &lt;datatables:column title="FirstName" property="firstName" />
+ *    &lt;datatables:column title="LastName" property="lastName" />
+ *    &lt;datatables:column title="City" property="address.town.name" />
+ *    &lt;datatables:column title="Mail" property="mail" />
+ *    &lt;%-- Displays a master checkbox in the column header --%>
+ *    &lt;datatables:columnHead uid="actionColumn">
+ *       &lt;input type="checkbox" onclick="$('#myTableId').find(':checkbox').attr('checked', this.checked);" />
+ *    &lt;/datatables:columnHead>
+ *    &lt;datatables:column uid="actionColumn" sortable="false" cssCellStyle="text-align:center;">
+ *       &lt;input type="checkbox" value="${person.id}" />
+ *    &lt;/datatables:column>
+ * &lt;/datatables:table>
+ * </pre>
  * 
  * @author Thibault Duchateau
  * @since 0.8.1
@@ -46,25 +66,34 @@ public class ColumnHeadTag extends BodyTagSupport {
 
 	private static final long serialVersionUID = -8928415196287387948L;
 
+	/**
+	 * Tag attributes
+	 */
 	private String uid;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int doStartTag() throws JspException {
-		// Never reached
-		return EVAL_BODY_BUFFERED;
+
+		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+		if(parent != null){
+			return EVAL_BODY_BUFFERED;
+		}
+		
+		throw new JspException("The tag 'columnHead' must be inside the 'table' tag.");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int doAfterBody() throws JspException {
 		return EVAL_PAGE;
 	}
 
-	public String getUid() {
-		return uid;
-	}
-
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public int doEndTag() throws JspException {
 
 		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
@@ -79,5 +108,9 @@ public class ColumnHeadTag extends BodyTagSupport {
 		}
 
 		return EVAL_PAGE;
+	}
+	
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 }

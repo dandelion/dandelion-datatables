@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -38,15 +38,37 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.util.UrlUtils;
 
 /**
- * Tag which allows to configure an export type for the current table.
+ * <p>
+ * JSP tag used to configure an export type in the current table.
+ * 
+ * <p>
+ * Note that this tag will be processed only once, at the first iteration.
+ * 
+ * <p>
+ * Example usage:
+ * 
+ * <pre>
+ * &lt;datatables:table id="myTableId" data="${persons}" row="person" export="xls">
+ *    &lt;datatables:column title="Id" property="id" />
+ *    &lt;datatables:column title="FirstName" property="firstName" />
+ *    &lt;datatables:column title="LastName" property="lastName" />
+ *    &lt;datatables:column title="City" property="address.town.name" />
+ *    &lt;datatables:column title="Mail" display="html">
+ *       &lt;a href="mailto:${person.mail}">${person.mail}&lt;/a>
+ *    &lt;/datatables:column>
+ *    &lt;datatables:column title="Mail" property="mail" display="xls" />
+ *    &lt;datatables:export type="xls" autoSize="true" cssClass="btn" label="XLS export!" />
+ * &lt;/datatables:table>
+ * </pre>
  * 
  * @author Thibault Duchateau
+ * @see ExportConf
  */
 public class ExportTag extends TagSupport {
 	private static final long serialVersionUID = -3453884184847355817L;
@@ -54,45 +76,43 @@ public class ExportTag extends TagSupport {
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(ExportTag.class);
 
-	// Tag attributes
+	/**
+	 * Tag attributes
+	 */
 	private String fileName;
 	private String type;
 	private String label;
 	private String cssStyle;
 	private String cssClass;
-	private ExportLinkPosition position;
 	private Boolean includeHeader;
 	private Boolean autoSize;
 	private String url;
 	private String method;
 
 	/**
-	 * An ExportTag has no body but we test here that it is in the right place.
+	 * {@inheritDoc}
 	 */
 	public int doStartTag() throws JspException {
 
-		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);	    
-
-		// There isn't an ancestor of given class
-		if (parent == null) {
-			throw new JspException("ExportTag must be inside AbstractTableTag");
+		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+		if(parent != null){
+			return SKIP_BODY;
 		}
 
-		return SKIP_BODY;
+		throw new JspException("The tag 'export' must be inside the 'table' tag.");
 	}
 
 	/**
-	 * Process the tag updating table properties.
+	 * {@inheritDoc}
 	 */
 	public int doEndTag() throws JspException {
 
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 		HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
 		
-		// Get parent tag
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-		// Evaluate the tag only once using the parent's isFirstRow method
+		// The tag is evaluated only once, at the first iteration
 		if (parent.isFirstIteration()) {
 
 			String format = type.toLowerCase().trim();
@@ -108,13 +128,13 @@ public class ExportTag extends TagSupport {
 				parent.getTable().getTableConfiguration().getExportConfiguration().put(format, conf);
 			}
 			
-			// Default mode
+			// Default mode (export using filter)
 			String exportUrl = null;
 			if(StringUtils.isBlank(url)){
 				exportUrl = UrlUtils.getExportUrl(request, response, format, parent.getTable().getId());
 				conf.setCustom(false);
 			}
-			// Custom mode
+			// Custom mode (export using controller)
 			else{
 				exportUrl = UrlUtils.getCustomExportUrl(request, response, url.trim());
 				conf.setCustom(true);
@@ -122,28 +142,32 @@ public class ExportTag extends TagSupport {
 			
 			conf.setUrl(exportUrl);
 
-			// Other fields
 			if(StringUtils.isNotBlank(fileName)){
-				conf.setFileName(fileName);				
+				conf.setFileName(fileName.trim());				
 			}
 			if(StringUtils.isNotBlank(label)){
-				conf.setLabel(label);				
+				conf.setLabel(label.trim());				
 			}
 			if(StringUtils.isNotBlank(cssClass)){
-				conf.setCssClass(new StringBuilder(cssClass));				
+				conf.setCssClass(new StringBuilder(cssClass.trim()));				
 			}
 			if(StringUtils.isNotBlank(cssStyle)){
-				conf.setCssStyle(new StringBuilder(cssStyle));				
+				conf.setCssStyle(new StringBuilder(cssStyle.trim()));				
 			}
 			
 			if(StringUtils.isNotBlank(method)){
 				HttpMethod httpMethod = null;
 				try {
-					httpMethod = HttpMethod.valueOf(method.toUpperCase().trim());
+					httpMethod = HttpMethod.valueOf(this.method.toUpperCase().trim());
 				} catch (IllegalArgumentException e) {
-					logger.error("{} is not a valid value among {}", method, HttpMethod.values());
-					throw new JspException(e);
+					StringBuilder sb = new StringBuilder();
+					sb.append("'");
+					sb.append(this.method);
+					sb.append("' is not a valid HTTP method. Possible values are: ");
+					sb.append(CallbackType.possibleValues());
+					throw new JspException(sb.toString());
 				}
+				
 				conf.setMethod(httpMethod);
 			}
 
@@ -160,72 +184,32 @@ public class ExportTag extends TagSupport {
 		return EVAL_PAGE;
 	}
 
-	public String getFileName() {
-		return fileName;
-	}
-
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
-	}
-
-	public String getType() {
-		return type;
 	}
 
 	public void setType(String type) {
 		this.type = type;
 	}
 
-	public String getLabel() {
-		return label;
-	}
-
 	public void setLabel(String label) {
 		this.label = label;
-	}
-
-	public String getCssStyle() {
-		return cssStyle;
 	}
 
 	public void setCssStyle(String cssStyle) {
 		this.cssStyle = cssStyle;
 	}
 
-	public String getCssClass() {
-		return cssClass;
-	}
-
 	public void setCssClass(String cssClass) {
 		this.cssClass = cssClass;
-	}
-
-	public ExportLinkPosition getPosition() {
-		return position;
-	}
-
-	public void setPosition(ExportLinkPosition position) {
-		this.position = position;
-	}
-
-	public Boolean getIncludeHeader() {
-		return includeHeader;
 	}
 
 	public void setIncludeHeader(Boolean includeHeader) {
 		this.includeHeader = includeHeader;
 	}
 
-	public Boolean getAutoSize() {
-		return autoSize;
-	}
-
 	public void setAutoSize(Boolean autoSize) {
 		this.autoSize = autoSize;
-	}
-
-	public String getUrl() {
-		return url;
 	}
 
 	public void setUrl(String url) {

@@ -32,64 +32,87 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 
 /**
- * Tag used to add DataTables' callbacks.
- *
+ * <p>
+ * JSP tag used to add a DataTables callback.
+ * <p>
+ * Note that this tag will be processed only once, at the first iteration.
+ * 
+ * <p>
+ * Example usage:
+ * 
+ * <pre>
+ * &lt;script>
+ *    function myInitCallback(oSettings, json) {
+ *      // some stuff
+ *    }
+ * &lt;/script>
+ * ...
+ * &lt;datatables:table id="myTableId" data="${persons}">
+ *    &lt;datatables:column title="Id" property="id" />
+ *    &lt;datatables:column title="Firstname" property="firstName" />
+ *    &lt;datatables:column title="LastName" property="lastName" />
+ *    &lt;datatables:column title="City" property="address.town.name" />
+ *    &lt;datatables:column title="Mail" property="mail" />
+ *    &lt;datatables:callback type="init" function="myInitCallback" />
+ * &lt;/datatables:table>
+ * </pre>
+ * 
  * @author Thibault Duchateau
  * @since 0.8.9
  */
 public class CallbackTag extends TagSupport {
+	
 	private static final long serialVersionUID = -3453884184847355817L;
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(CallbackTag.class);
-		
-	// Tag attributes
+	/**
+	 * Tag attributes
+	 */
+	// Type of the callback
 	private String type;
+	
+	// Name of the function
 	private String function;
 	
 	/**
-	 * We test that the tag is in the right place.
+	 * {@inheritDoc}
 	 */
 	public int doStartTag() throws JspException {
 
-		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
-
-		// There isn't an ancestor of given class
-		if (parent == null) { 
-			throw new JspException("CallbackTag must be inside the AbstractTableTag");
+		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+		if(parent != null){
+			return SKIP_BODY;
 		}
-
-		return SKIP_BODY;
+		
+		throw new JspException("The tag 'callback' must be inside the 'table' tag.");
 	}
 	
 	/**
-	 * Processes the tag.
+	 * {@inheritDoc}
 	 */
 	public int doEndTag() throws JspException {
 		
-		// Get parent tag
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-		// Evaluate the tag only once
+		// The tag is evaluated only once, at the first iteration
 		if(parent.isFirstIteration()){
 			
 			CallbackType callbackType = null;
 			try {
 				callbackType = CallbackType.valueOf(this.type.toUpperCase().trim());
 			} catch (IllegalArgumentException e) {
-				logger.error("{} is not a valid value among {}. Please choose a valid one.",
-						callbackType, CallbackType.values());
-				throw new JspException(e);
+				StringBuilder sb = new StringBuilder();
+				sb.append("'");
+				sb.append(this.type);
+				sb.append("' is not a valid callback type. Possible values are: ");
+				sb.append(CallbackType.possibleValues());
+				throw new JspException(sb.toString());
 			}
-
+			
 			// The callback has already been registered
 			if(parent.getTable().getTableConfiguration().hasCallback(callbackType)){
 				parent.getTable().getTableConfiguration().getCallback(callbackType)
@@ -109,16 +132,9 @@ public class CallbackTag extends TagSupport {
 		return EVAL_PAGE;
 	}
 
-	public String getType() {
-		return type;
-	}
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public String getFunction() {
-		return function;
 	}
 
 	public void setFunction(String function) {

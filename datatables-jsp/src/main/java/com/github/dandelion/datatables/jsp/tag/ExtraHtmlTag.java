@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -33,13 +33,36 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.feature.ExtraHtmlFeature;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
 
 /**
  * <p>
- * Creates a HTML snippet and insert it anywhere around the table thanks to the
- * {@link Configuration#FEATURE_DOM} configuration.
+ * JSP tag used to create a HTML snippet and insert it anywhere around the table thanks to the {@link TableConfig#FEATURE_DOM} configuration.
+ * 
+ * <p>
+ * Note that this tag will be processed only once, at the first iteration.
+ * 
+ * <p>
+ * Example usage:
+ * 
+ * <pre>
+ * &lt;script>
+ *    function myInitCallback(oSettings, json) {
+ *      // some stuff
+ *    }
+ * &lt;/script>
+ * ...
+ * &lt;datatables:table id="myTableId" data="${persons}">
+ *    &lt;datatables:column title="Id" property="id" />
+ *    &lt;datatables:column title="Firstname" property="firstName" />
+ *    &lt;datatables:column title="LastName" property="lastName" />
+ *    &lt;datatables:column title="City" property="address.town.name" />
+ *    &lt;datatables:column title="Mail" property="mail" />
+ *    &lt;datatables:callback type="init" function="myInitCallback" />
+ * &lt;/datatables:table>
+ * </pre>
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
@@ -48,23 +71,37 @@ public class ExtraHtmlTag extends BodyTagSupport {
 
 	private static final long serialVersionUID = -3060955123376442925L;
 
+	/**
+	 * Tag attributes
+	 */
 	private String uid;
 	private String container;
 	private String cssStyle;
 	private String cssClass;
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public int doStartTag() throws JspException {
-		return EVAL_BODY_BUFFERED;
+		
+		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+		if(parent != null){
+			return EVAL_BODY_BUFFERED;
+		}
+
+		throw new JspException("The tag 'extraHtml' must be inside the 'table' tag.");
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public int doEndTag() throws JspException {
 
 		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
-		// Processes the tag only once, on the first iteration
+		// The tag is evaluated only once, at the first iteration
 		if (parent.isFirstIteration()) {
+			
 			ExtraHtml extraHtml = new ExtraHtml();
 			extraHtml.setUid(uid);
 			extraHtml.setContainer(StringUtils.isNotBlank(container) ? container : "div");
@@ -73,6 +110,7 @@ public class ExtraHtmlTag extends BodyTagSupport {
 			if (getBodyContent() != null) {
 				extraHtml.setContent(getBodyContent().getString().replaceAll("[\n\r]", "").trim());
 			}
+			
 			parent.getTable().getTableConfiguration().addExtraHtmlSnippet(extraHtml);
 			parent.getTable().getTableConfiguration().registerExtension(new ExtraHtmlFeature());
 		}

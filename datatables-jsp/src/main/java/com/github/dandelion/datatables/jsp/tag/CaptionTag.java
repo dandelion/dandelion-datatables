@@ -22,73 +22,131 @@
  */
 package com.github.dandelion.datatables.jsp.tag;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+import javax.servlet.jsp.tagext.DynamicAttributes;
 
 import com.github.dandelion.datatables.core.html.HtmlCaption;
 
 /**
  * <p>
- * Tag used to generate a HTML table's caption.
+ * JSP tag used to generate a HTML {@code caption} tag.
+ * 
+ * <p>
+ * Note that this tag supports dynamic attributes with only string values. See
+ * {@link #setDynamicAttribute(String, String, Object)} below.
  * 
  * @author Gautier Dhordain
+ * @author Thibault Duchateau
  */
-public class CaptionTag extends BodyTagSupport{
+public class CaptionTag extends BodyTagSupport implements DynamicAttributes {
 
 	private static final long serialVersionUID = 273025310498552490L;
+	
+	/**
+	 * Tag attributes
+	 */
 	private String id;
 	private String cssClass;
 	private String cssStyle;
 	private String title;
 
-	@Override
+	/**
+	 * Internal attributes
+	 */
+	protected Map<String, String> dynamicAttributes;
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	public int doStartTag() throws JspException{
-		return EVAL_BODY_BUFFERED;
+
+		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+		if(parent != null){
+			return EVAL_BODY_BUFFERED;
+		}
+		
+		throw new JspException("The tag 'caption' must be inside the 'table' tag.");
 	}
 	
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public int doEndTag() throws JspException {
+		
 		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
-		HtmlCaption caption = new HtmlCaption();
-		caption.setId(id);
-		caption.addCssClass(cssClass);
-		caption.addCssStyle(cssStyle);
-		caption.setTitle(title);
-		caption.addContent(getBodyContent().getString());
-		
-		parent.getTable().setCaption(caption);
-		// TODO : gerer le body du tag
-		// TODO : inclure les attributs statndard HTML  id, class, style
+		// The tag is evaluated only once, at the first iteration
+		if (parent.isFirstIteration()) {
+			
+			HtmlCaption caption = new HtmlCaption();
+			caption.setId(id);
+			caption.addCssClass(cssClass);
+			caption.addCssStyle(cssStyle);
+			caption.setTitle(title);
+			caption.addContent(getBodyContent().getString());
+			
+			parent.getTable().setCaption(caption);
+		}
+
 		return EVAL_PAGE;
 	}
 
-	public String getId(){
-		return id;
-	}
+	/**
+	 * {@inheritDoc}
+	 */
+	public void setDynamicAttribute(String uri, String localName, Object value) throws JspException {
 
+		validateDynamicAttribute(localName, value);
+
+		if (this.dynamicAttributes == null) {
+			this.dynamicAttributes = new HashMap<String, String>();
+		}
+
+		dynamicAttributes.put(localName, (String) value);
+	}
+	
+	/**
+	 * <p>
+	 * Validates the passed dynamic attribute.
+	 * 
+	 * <p>
+	 * The dynamic attribute must not conflict with other attributes and must
+	 * have a valid type.
+	 * 
+	 * @param localName
+	 *            Name of the dynamic attribute.
+	 * @param value
+	 *            Value of the dynamic attribute.
+	 */
+	private void validateDynamicAttribute(String localName, Object value) {
+		if (localName.equals("class")) {
+			throw new IllegalArgumentException(
+					"The 'class' attribute is not allowed. Please use the 'cssClass' attribute instead.");
+		}
+		if (localName.equals("style")) {
+			throw new IllegalArgumentException(
+					"The 'style' attribute is not allowed. Please use the 'cssStyle' attribute instead.");
+		}
+		if (!(value instanceof String)) {
+			throw new IllegalArgumentException("The attribute " + localName
+					+ " won't be added to the table. Only string values are accepted.");
+		}
+	}
+	
 	public void setId(String id){
 		this.id = id;
-	}
-
-	public String getCssClass(){
-		return cssClass;
 	}
 
 	public void setCssClass(String cssClass){
 		this.cssClass = cssClass;
 	}
 
-	public String getCssStyle(){
-		return cssStyle;
-	}
-
 	public void setCssStyle(String cssStyle){
 		this.cssStyle = cssStyle;
-	}
-
-	public String getTitle(){
-		return title;
 	}
 
 	public void setTitle(String title){

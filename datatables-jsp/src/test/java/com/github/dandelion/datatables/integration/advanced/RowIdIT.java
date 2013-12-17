@@ -56,14 +56,14 @@ public class RowIdIT extends JspBaseIT {
 	}
 	
 	@Test
-	public void should_generate_rowid_with_sufix() {
-		goToPage("advanced/row-id/row_id_with_sufix");
+	public void should_generate_rowid_with_suffix() {
+		goToPage("advanced/row-id/row_id_with_suffix");
 		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("1_id");
 	}
 	
 	@Test
-	public void should_generate_rowid_with_prefix_and_sufix() {
-		goToPage("advanced/row-id/row_id_with_prefix_and_sufix");
+	public void should_generate_rowid_with_prefix_and_suffix() {
+		goToPage("advanced/row-id/row_id_with_prefix_and_suffix");
 		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("id_1_di");
 	}
 }

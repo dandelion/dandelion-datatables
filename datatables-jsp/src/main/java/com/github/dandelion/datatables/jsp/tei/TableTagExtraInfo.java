@@ -36,8 +36,10 @@ import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
 
+import com.github.dandelion.datatables.jsp.tag.TableTag;
+
 /**
- * TEI for TableTag.
+ * TEI associated with the {@link TableTag}.
  *
  * @author Thibault Duchateau
  */

@@ -41,7 +41,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.github.dandelion.datatables.core.asset.ExtraConf;
 import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
@@ -65,8 +64,8 @@ public class TableConfiguration {
 
 	// Dandelion-Datatables parameters
 	private List<ExtraFile> extraFiles;
-	private List<ExtraConf> extraConfs;
 	private List<Callback> extraCallbacks;
+	private List<ExtraHtml> extraHtmlSnippets;
 
 	// Export parameters
 	private Boolean exporting;
@@ -80,7 +79,6 @@ public class TableConfiguration {
 	// Class of the iterated objects. Only used in XML export.
 	private Set<Extension> internalExtensions;
 	private String tableId; // A CONSERVER
-	private List<ExtraHtml> extraHtmlSnippets;
 	private HttpServletRequest request; // A CONSERVER
 	private HttpServletResponse response;// A CONSERVER
 
@@ -153,8 +151,8 @@ public class TableConfiguration {
 
 		// Dandelion-Datatables parameters
 		this.extraFiles = objectToClone.extraFiles;
-		this.extraConfs = objectToClone.extraConfs;
 		this.extraCallbacks = objectToClone.extraCallbacks;
+		this.extraHtmlSnippets = objectToClone.extraHtmlSnippets;
 
 		// Export parameters
 		this.exporting = objectToClone.exporting;
@@ -211,18 +209,6 @@ public class TableConfiguration {
 			this.extraFiles = new ArrayList<ExtraFile>();
 		}
 		this.extraFiles.add(extraFile);
-		return this;
-	}
-
-	public List<ExtraConf> getExtraConfs() {
-		return extraConfs;
-	}
-
-	public TableConfiguration addExtraConf(ExtraConf extraConf) {
-		if (this.extraConfs == null) {
-			this.extraConfs = new ArrayList<ExtraConf>();
-		}
-		this.extraConfs.add(extraConf);
 		return this;
 	}
 
