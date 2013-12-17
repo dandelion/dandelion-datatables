@@ -97,6 +97,7 @@ public final class TableConfig {
 	public static final String P_FEATURE_AUTOWIDTH = "feature.autoWidth";
 	public static final String P_FEATURE_FILTERABLE = "feature.filterable";
 	public static final String P_FEATURE_FILTER_PLACEHOLDER = "feature.filterPlaceHolder";
+	public static final String P_FEATURE_FILTER_DELAY = "feature.filterDelay";
 	public static final String P_FEATURE_PAGINATE = "feature.paginate";
 	public static final String P_FEATURE_PAGINATIONTYPE = "feature.paginationType";
 	public static final String P_FEATURE_LENGTHCHANGE = "feature.lengthChange";
@@ -166,6 +167,7 @@ public final class TableConfig {
 	public static ConfigToken<Boolean> FEATURE_AUTOWIDTH = new ConfigToken<Boolean>(P_FEATURE_AUTOWIDTH, new BooleanProcessor());
 	public static ConfigToken<Boolean> FEATURE_FILTERABLE = new ConfigToken<Boolean>(P_FEATURE_FILTERABLE, new BooleanProcessor());
 	public static ConfigToken<FilterPlaceholder> FEATURE_FILTER_PLACEHOLDER = new ConfigToken<FilterPlaceholder>(P_FEATURE_FILTER_PLACEHOLDER, new FeatureFilterPlaceholderProcessor());
+	public static ConfigToken<Integer> FEATURE_FILTER_DELAY = new ConfigToken<Integer>(P_FEATURE_FILTER_DELAY, new IntegerProcessor());
 	public static ConfigToken<Boolean> FEATURE_PAGINATE = new ConfigToken<Boolean>(P_FEATURE_PAGINATE, new BooleanProcessor());
 	public static ConfigToken<PaginationType> FEATURE_PAGINATIONTYPE = new ConfigToken<PaginationType>(P_FEATURE_PAGINATIONTYPE, new FeaturePaginationTypeProcessor());
 	public static ConfigToken<Boolean> FEATURE_LENGTHCHANGE = new ConfigToken<Boolean>(P_FEATURE_LENGTHCHANGE, new BooleanProcessor());
@@ -242,6 +244,7 @@ public final class TableConfig {
 		internalConf.put(formalize(P_FEATURE_AUTOWIDTH), FEATURE_AUTOWIDTH);
 		internalConf.put(formalize(P_FEATURE_FILTERABLE), FEATURE_FILTERABLE);
 		internalConf.put(formalize(P_FEATURE_FILTER_PLACEHOLDER), FEATURE_FILTER_PLACEHOLDER);
+		internalConf.put(formalize(P_FEATURE_FILTER_DELAY), FEATURE_FILTER_DELAY);
 		internalConf.put(formalize(P_FEATURE_PAGINATE), FEATURE_PAGINATE);
 		internalConf.put(formalize(P_FEATURE_PAGINATIONTYPE), FEATURE_PAGINATIONTYPE);
 		internalConf.put(formalize(P_FEATURE_LENGTHCHANGE), FEATURE_LENGTHCHANGE);

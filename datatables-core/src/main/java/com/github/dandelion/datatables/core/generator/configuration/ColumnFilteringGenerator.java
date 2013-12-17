@@ -69,9 +69,16 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
         // Filtering configuration object
         Map<String, Object> filteringConf = new HashMap<String, Object>();
 
+        // Placeholder for filtering elements
         FilterPlaceholder filterPlaceholder = TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(table);
         if(filterPlaceholder != null){
         	filteringConf.put(DTConstants.DT_S_PLACEHOLDER, filterPlaceholder.getName());
+        }
+        
+        // Filtering delay
+        Integer filterColumnDelay = TableConfig.FEATURE_FILTER_DELAY.valueFrom(table);
+        if(filterColumnDelay != null){
+        	filteringConf.put(DTConstants.DT_I_FILTERING_DELAY, filterColumnDelay);
         }
         
         // Columns configuration

@@ -1,6 +1,6 @@
 /*
 * File:        jquery.dataTables.columnFilter.js
-* Version:     1.5.3.
+* Version:     1.5.4
 * Author:      Jovan Popovic 
 * Author:      Thibault Duchateau
 *  
@@ -755,16 +755,28 @@
                     aoData.push({ "name": "sRangeSeparator", "value": properties.sRangeSeparator });
 
                     if (fnServerDataOriginal != null) {
-                        try {
-                            fnServerDataOriginal(sSource, aoData, fnCallback, oTable.fnSettings()); //TODO: See Issue 18
-                        } catch (ex) {
-                            fnServerDataOriginal(sSource, aoData, fnCallback);
+                        if (properties.iFilteringDelay != 0) {
+                            if (oFunctionTimeout != null)
+                                window.clearTimeout(oFunctionTimeout);
+                                oFunctionTimeout = window.setTimeout(function () {
+                                    try {
+                                        fnServerDataOriginal(sSource, aoData, fnCallback, oTable.fnSettings());
+                                    } catch (ex) {
+                                        fnServerDataOriginal(sSource, aoData, fnCallback);
+                                    }
+                                }, properties.iFilteringDelay);
                         }
                     }
                     else {
-                        $.getJSON(sSource, aoData, function (json) {
-                            fnCallback(json)
-                        });
+                        if (properties.iFilteringDelay != 0) {
+                            if (oFunctionTimeout != null)
+                                window.clearTimeout(oFunctionTimeout);
+                                oFunctionTimeout = window.setTimeout(function () {
+                                    $.getJSON(sSource, aoData, function (json) {
+                                        fnCallback(json)
+                                    });
+                                }, properties.iFilteringDelay);
+                        }
                     }
                 };
 

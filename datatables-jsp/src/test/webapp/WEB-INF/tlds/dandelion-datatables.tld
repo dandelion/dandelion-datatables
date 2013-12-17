@@ -332,6 +332,11 @@
          <name>filterPlaceholder</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
+      <attribute>
+         <description>Delay (in ms) before the AJAX call performed to retrieved data (AJAX only)</description>
+         <name>filterDelay</name>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
       
       <!-- ====================================== -->
       <!-- Extra features -->

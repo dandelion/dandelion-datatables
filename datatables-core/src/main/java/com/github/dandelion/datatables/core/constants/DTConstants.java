@@ -95,6 +95,7 @@ public final class DTConstants {
 	public static final String DT_FILTER_TYPE = "type";
 	public static final String DT_FILTER_VALUES = "values";
 	public static final String DT_S_PLACEHOLDER = "sPlaceHolder";
+	public static final String DT_I_FILTERING_DELAY = "iFilteringDelay";
 	public static final String DT_S_SELECTOR = "sSelector";
 	public static final String DT_FILTER_LENGTH = "iFilterLength";
 

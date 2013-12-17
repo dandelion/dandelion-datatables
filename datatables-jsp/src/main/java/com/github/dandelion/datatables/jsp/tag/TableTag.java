@@ -382,6 +382,10 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(TableConfig.FEATURE_DISPLAYLENGTH, displayLength);
 	}
 
+	public void setFilterDelay(Integer filterDelay) {
+		stagingConf.put(TableConfig.FEATURE_FILTER_DELAY, filterDelay);
+	}
+	
 	public void setDom(String dom) {
 		stagingConf.put(TableConfig.FEATURE_DOM, dom);
 	}

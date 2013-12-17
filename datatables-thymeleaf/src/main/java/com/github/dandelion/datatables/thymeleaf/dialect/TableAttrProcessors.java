@@ -51,6 +51,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableConfG
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableDisplayLengthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableDomAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableFilterAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableFilterDelayAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableFilterPlaceholderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableInfoAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.TableLengthChangeAttrProcessor;
@@ -109,6 +110,7 @@ public enum TableAttrProcessors {
     BASIC_SORT(TableSortAttrProcessor.class, "sort", "table"),
     BASIC_APPEAR(TableAppearAttrProcessor.class, "appear", "table"),
     BASIC_FILTER_PLACEHOLDER(TableFilterPlaceholderAttrProcessor.class, "filterplaceholder", "table"),
+    BASIC_FILTER_DELAY(TableFilterDelayAttrProcessor.class, "filterDelay", "table"),
     BASIC_PAGINATION_TYPE(TablePaginationTypeAttrProcessor.class, "paginationtype", "table"),
     BASIC_LENGTH_MENU(TableLengthMenuAttrProcessor.class, "lengthmenu", "table"),
     BASIC_STRIP_CLASSES(TableStripeClassesAttrProcessor.class, "stripeclasses", "table"),
