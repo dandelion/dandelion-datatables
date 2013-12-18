@@ -267,8 +267,8 @@ public class ColumnTag extends AbstractColumnTag {
 		stagingConf.put(ColumnConfig.SORTTYPE, sortType);
 	}
 
-	public void setFilterLength(Integer filterLength) {
-		stagingConf.put(ColumnConfig.FILTERLENGTH, filterLength);
+	public void setFilterMinLength(Integer filterMinLength) {
+		stagingConf.put(ColumnConfig.FILTERMINLENGTH, filterMinLength);
 	}
 	
 	public void setId(String id) {

@@ -83,7 +83,7 @@ public final class ColumnConfig {
 	public static ConfigToken<String> FILTERVALUES = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> FILTERCSSCLASS = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> FILTERPLACEHOLDER = new ConfigToken<String>("", new StringProcessor());
-	public static ConfigToken<Integer> FILTERLENGTH = new ConfigToken<Integer>("", new IntegerProcessor());
+	public static ConfigToken<Integer> FILTERMINLENGTH = new ConfigToken<Integer>("", new IntegerProcessor());
 	public static ConfigToken<String> RENDERFUNCTION = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> SELECTOR = new ConfigToken<String>("", new StringProcessor());
 	

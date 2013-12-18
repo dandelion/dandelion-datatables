@@ -45,7 +45,7 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
  * <code>filterLength</code> attribute.
  * 
  * @author Thibault Duchateau
- * @see ColumnConfig#FILTERLENGTH
+ * @see ColumnConfig#FILTERMINLENGTH
  */
 public class ThFilterLengthAttrProcessor extends AbstractColumnAttrProcessor {
 
@@ -64,7 +64,7 @@ public class ThFilterLengthAttrProcessor extends AbstractColumnAttrProcessor {
 		BigDecimal attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null,
 				BigDecimal.class);
 
-		stagingConf.put(ColumnConfig.FILTERLENGTH, attrValue);
+		stagingConf.put(ColumnConfig.FILTERMINLENGTH, attrValue);
 
 		return ProcessorResult.ok();
 	}

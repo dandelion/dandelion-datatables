@@ -586,7 +586,7 @@
       </attribute>
       <attribute>
          <description>Number of characters entered in the filter text box before filtering is performed</description>
-          <name>filterLength</name>
+          <name>filterMinLength</name>
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
