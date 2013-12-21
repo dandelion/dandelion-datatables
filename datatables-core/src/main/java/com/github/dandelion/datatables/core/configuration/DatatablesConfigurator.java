@@ -122,7 +122,8 @@ public class DatatablesConfigurator {
 						}
 				}
 			} catch (ConfigurationLoadingException e) {
-				logger.error("Unable to retrieve the LocaleResolver using the class {}", className, e);
+				throw new ConfigurationLoadingException("Unable to retrieve the LocaleResolver using the class '"
+						+ className + "'", e);
 			}
 		}
 		return localeResolver;
