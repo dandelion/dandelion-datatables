@@ -38,7 +38,7 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import com.github.dandelion.datatables.core.exception.DandelionDatatablesException;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThCssCellClassAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThFilterLengthAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThFilterMinLengthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThFilterTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThFilterValuesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThFilterableAttrProcessor;
@@ -63,7 +63,7 @@ public enum ColumnAttrProcessors {
     BASIC_VISIBLE(ThVisibleAttrProcessor.class, "visible", "th"),
     BASIC_FILTER_TYPE(ThFilterTypeAttrProcessor.class, "filterType", "th"),
     BASIC_FILTER_VALUES(ThFilterValuesAttrProcessor.class, "filterValues", "th"),
-    BASIC_FILTER_LENGTH(ThFilterLengthAttrProcessor.class, "filterLength", "th"),
+    BASIC_FILTER_LENGTH(ThFilterMinLengthAttrProcessor.class, "filterMinLength", "th"),
     BASIC_SORT_INIT(ThSortInitAttrProcessor.class, "sortinit", "th"),
     BASIC_SORT_DIR(ThSortDirectionAttrProcessor.class, "sortdir", "th"),
     BASIC_SORT_TYPE(ThSortTypeAttrProcessor.class, "sorttype", "th"),
