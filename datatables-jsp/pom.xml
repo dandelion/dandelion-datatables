@@ -85,6 +85,7 @@
          <groupId>org.fluentlenium</groupId>
          <artifactId>fluentlenium-core</artifactId>
          <version>${fluentlenium.version}</version>
+         <scope>test</scope>
          <exclusions>
             <exclusion>
                <groupId>junit</groupId>
