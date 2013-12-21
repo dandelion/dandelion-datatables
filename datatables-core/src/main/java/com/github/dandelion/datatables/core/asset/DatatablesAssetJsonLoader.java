@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -27,45 +27,41 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.thymeleaf.processor.attr.basic;
+package com.github.dandelion.datatables.core.asset;
 
-import java.math.BigDecimal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.thymeleaf.Arguments;
-import org.thymeleaf.dom.Element;
-import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
-import org.thymeleaf.processor.ProcessorResult;
-
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.util.Utils;
+import com.github.dandelion.core.asset.loader.impl.AbstractAssetsJsonLoader;
 
 /**
- * Attribute processor applied to the <code>th</code> tag for the
- * <code>filterLength</code> attribute.
+ * <p>
+ * Asset loader specialized for Dandelion-Datatables.
+ * 
+ * <p>
+ * This loader just says that JSON files are under the
+ * {@code dandelion/datatables} folder.
  * 
  * @author Thibault Duchateau
- * @see ColumnConfig#FILTERMINLENGTH
+ * @since 0.10.0
  */
-public class ThFilterLengthAttrProcessor extends AbstractColumnAttrProcessor {
+public class DatatablesAssetJsonLoader extends AbstractAssetsJsonLoader {
 
-	public ThFilterLengthAttrProcessor(IAttributeNameProcessorMatcher matcher) {
-		super(matcher);
+	// Logger
+    private static final Logger LOG = LoggerFactory.getLogger(DatatablesAssetJsonLoader.class);
+    
+	@Override
+	protected Logger getLogger() {
+		return LOG;
 	}
 
 	@Override
-	public int getPrecedence() {
-		return 8000;
+	public String getFolder() {
+		return "dandelion/datatables";
 	}
 
 	@Override
-	protected ProcessorResult processColumnAttribute(Arguments arguments, Element element, String attributeName) {
-
-		BigDecimal attrValue = Utils.parseElementAttribute(arguments, element.getAttributeValue(attributeName), null,
-				BigDecimal.class);
-
-		stagingConf.put(ColumnConfig.FILTERMINLENGTH, attrValue);
-
-		return ProcessorResult.ok();
+	public boolean isRecursive() {
+		return true;
 	}
 }
