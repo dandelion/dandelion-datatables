@@ -18,7 +18,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockPageContext;
 
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
-import com.github.dandelion.datatables.jsp.tag.ColumnTag;
 
 public class JstlMessageResolverTest {
 
@@ -28,14 +27,12 @@ public class JstlMessageResolverTest {
 	@Test
 	public void should_return_error_message_when_the_bundle_doesnt_exist() throws UnsupportedEncodingException, IOException{
 		// Setup
-//		InputStream stream = getClass().getClassLoader().getResourceAsStream("com/github/dandelion/datatables/jsp/i18n/datatables_en.properties");
-//		ResourceBundle bundle = new PropertyResourceBundle(new InputStreamReader(stream, "UTF-8"));
 		pageContext = new MockPageContext();
 		pageContext.setAttribute(Config.FMT_LOCALIZATION_CONTEXT + ".page", null);
 		JstlMessageResolver messageResolver = new JstlMessageResolver(request);
 
 		// Test
-		String message = messageResolver.getResource("undefinedKey", "default", new ColumnTag(), pageContext);
+		String message = messageResolver.getResource("undefinedKey", "default", pageContext);
 		assertThat(message).isEqualTo(MessageResolver.UNDEFINED_KEY + "undefinedKey" + MessageResolver.UNDEFINED_KEY);
 	}
 	
@@ -49,7 +46,7 @@ public class JstlMessageResolverTest {
 		JstlMessageResolver messageResolver = new JstlMessageResolver(request);
 
 		// Test
-		String message = messageResolver.getResource("undefinedKey", "default", new ColumnTag(), pageContext);
+		String message = messageResolver.getResource("undefinedKey", "default", pageContext);
 		assertThat(message).isEqualTo(MessageResolver.UNDEFINED_KEY + "undefinedKey" + MessageResolver.UNDEFINED_KEY);
 	}
 	
@@ -63,7 +60,7 @@ public class JstlMessageResolverTest {
 		JstlMessageResolver messageResolver = new JstlMessageResolver(request);
 
 		// Test
-		String message = messageResolver.getResource("global.blank.value", "default", new ColumnTag(), pageContext);
+		String message = messageResolver.getResource("global.blank.value", "default", pageContext);
 		assertThat(message).isEqualTo("");
 	}
 	
@@ -77,7 +74,7 @@ public class JstlMessageResolverTest {
 		JstlMessageResolver messageResolver = new JstlMessageResolver(request);
 		
 		// Test
-		String message = messageResolver.getResource(null, "default", new ColumnTag(), pageContext);
+		String message = messageResolver.getResource(null, "default", pageContext);
 		assertThat(message).isEqualTo("Default");
 	}
 	
@@ -91,7 +88,7 @@ public class JstlMessageResolverTest {
 		JstlMessageResolver messageResolver = new JstlMessageResolver(request);
 
 		// Test
-		String message = messageResolver.getResource("global.msg.info", "default", new ColumnTag(), pageContext);
+		String message = messageResolver.getResource("global.msg.info", "default", pageContext);
 		assertThat(message).isEqualTo("My infos");
 	}
 	
@@ -105,7 +102,7 @@ public class JstlMessageResolverTest {
 		JstlMessageResolver messageResolver = new JstlMessageResolver(request);
 
 		// Test
-		String message = messageResolver.getResource(null, "default", new ColumnTag(), pageContext);
+		String message = messageResolver.getResource(null, "default", pageContext);
 		assertThat(message).isEqualTo("Default");
 	}
 }

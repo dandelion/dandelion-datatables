@@ -67,7 +67,7 @@ public class JstlMessageResolver extends AbstractMessageResolver {
 
 	public String getResource(String messageKey, String defaultValue, Object... params) {
 
-		PageContext pageContext = (PageContext) params[1];
+		PageContext pageContext = (PageContext) params[0];
 		String message = null;
 		ResourceBundle bundle = null;
 
