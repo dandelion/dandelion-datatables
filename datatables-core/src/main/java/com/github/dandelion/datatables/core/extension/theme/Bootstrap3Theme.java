@@ -78,7 +78,6 @@ public class Bootstrap3Theme extends AbstractExtension {
 	public void setup(HtmlTable table) {
 
 		addScope(Scope.DDL_DT_THEME_BOOTSTRAP3);
-		addScope(Scope.DDL_DT_PAGING_BOOTSTRAP);
 		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
 	}
 }

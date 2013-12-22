@@ -20,7 +20,7 @@ public class Bootstrap3ThemeTest extends AbstractExtensionTest {
 	public void shoud_load_the_extension() {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap3Theme())));
 
-		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(2);
+		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
 		assertThat(mainConfig).includes(
 				entry(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString()));
 	}
