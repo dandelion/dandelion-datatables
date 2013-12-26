@@ -38,6 +38,7 @@ import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf;
+import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
@@ -68,6 +69,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getAutoSize()).isTrue();
 		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
 		assertThat(csvExportConf.getExtension()).isEqualTo("csv");
+		assertThat(csvExportConf.getOrientation()).isNull();
 		
 		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.EXPORT_ENABLED_FORMATS, "csv  ");
 		processor.process(entry, tableConfiguration);
@@ -106,6 +108,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getAutoSize()).isTrue();
 		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
 		assertThat(csvExportConf.getExtension()).isEqualTo("csv");
+		assertThat(csvExportConf.getOrientation()).isNull();
 		
 		ExportConf pdfExportConf = tableConfiguration.getExportConfiguration().get("pdf");
 		assertThat(pdfExportConf.getFormat()).isEqualTo("pdf");
@@ -118,6 +121,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(pdfExportConf.getAutoSize()).isTrue();
 		assertThat(pdfExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_PDF_CLASS);
 		assertThat(pdfExportConf.getExtension()).isEqualTo("pdf");
+		assertThat(pdfExportConf.getOrientation()).isEqualTo(Orientation.LANDSCAPE);
 	}
 	
 	@Test
@@ -139,6 +143,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getAutoSize()).isTrue();
 		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
 		assertThat(csvExportConf.getExtension()).isEqualTo("csv");
+		assertThat(csvExportConf.getOrientation()).isNull();
 		
 		ExportConf pdfExportConf = tableConfiguration.getExportConfiguration().get("pdf");
 		assertThat(pdfExportConf.getFormat()).isEqualTo("pdf");
@@ -151,6 +156,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(pdfExportConf.getAutoSize()).isTrue();
 		assertThat(pdfExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_PDF_CLASS);
 		assertThat(pdfExportConf.getExtension()).isEqualTo("pdf");
+		assertThat(pdfExportConf.getOrientation()).isEqualTo(Orientation.LANDSCAPE);
 	}
 	
 	@Test
@@ -172,5 +178,6 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(myFormatExportConf.getAutoSize()).isTrue();
 		assertThat(myFormatExportConf.getExportClass()).isNull();
 		assertThat(myFormatExportConf.getExtension()).isEqualTo("myformat");
+		assertThat(myFormatExportConf.getOrientation()).isNull();
 	}
 }

@@ -58,6 +58,25 @@ public class ExportConf {
 	private Boolean custom = false;
 	private String exportClass;
 	private String extension;
+	private Orientation orientation;
+	
+	public enum Orientation {
+		PORTRAIT, LANDSCAPE;
+		
+		public static String possibleValues() {
+			StringBuilder possibleValues = new StringBuilder();
+			for (int i = 0; i < values().length; i++) {
+				possibleValues.append("'").append(values()[i].name().toLowerCase()).append("'");
+				if (i < values().length - 2) {
+					possibleValues.append(", ");
+				} else if (i == (values().length - 2)) {
+					possibleValues.append(" and ");
+				}
+			}
+			possibleValues.append(".");
+			return possibleValues.toString();
+		}
+	}
 	
 	public ExportConf(String format){
 		this.format = format;
@@ -94,6 +113,7 @@ public class ExportConf {
 		if(this.format.equals(Format.PDF)){
 			this.exportClass = DEFAULT_PDF_CLASS;
 			this.mimeType = "application/pdf";
+			this.orientation = Orientation.LANDSCAPE;
 		}
 		if(this.format.equals(Format.XLS)){
 			this.exportClass = DEFAULT_XLS_CLASS;
@@ -260,11 +280,19 @@ public class ExportConf {
 		}
 	}
 
+	public Orientation getOrientation() {
+		return orientation;
+	}
+
+	public void setOrientation(Orientation orientation) {
+		this.orientation = orientation;
+	}
+
 	@Override
 	public String toString() {
 		return "ExportConf [format=" + format + ", fileName=" + fileName + ", mimeType=" + mimeType + ", label="
 				+ label + ", cssStyle=" + cssStyle + ", cssClass=" + cssClass + ", includeHeader=" + includeHeader
 				+ ", url=" + url + ", method=" + method + ", autoSize=" + autoSize + ", custom=" + custom
-				+ ", exportClass=" + exportClass + ", extension=" + extension + "]";
+				+ ", exportClass=" + exportClass + ", extension=" + extension + ", orientation=" + orientation + "]";
 	}
 }

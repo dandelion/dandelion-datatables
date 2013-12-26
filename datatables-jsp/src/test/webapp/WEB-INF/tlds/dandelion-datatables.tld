@@ -757,6 +757,11 @@
          <name>method</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
+      <attribute>
+         <description>(landscape|portrait) Indicates the orientation of the generated document (only for PDF export)
+            (Default : landscape)</description>
+          <name>orientation</name>
+      </attribute>
    </tag>
    
    <!-- ====================================== -->

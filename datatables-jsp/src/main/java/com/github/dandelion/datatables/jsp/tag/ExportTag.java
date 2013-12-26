@@ -41,6 +41,7 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf;
+import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
 import com.github.dandelion.datatables.core.util.UrlUtils;
 
 /**
@@ -88,6 +89,7 @@ public class ExportTag extends TagSupport {
 	private Boolean autoSize;
 	private String url;
 	private String method;
+	private String orientation;
 
 	/**
 	 * {@inheritDoc}
@@ -170,13 +172,25 @@ public class ExportTag extends TagSupport {
 				
 				conf.setMethod(httpMethod);
 			}
+			
+			if(StringUtils.isNotBlank(orientation)){
+				Orientation orientationEnum = null;
+				try {
+					orientationEnum = Orientation.valueOf(this.orientation.toUpperCase().trim());
+				} catch (IllegalArgumentException e) {
+					StringBuilder sb = new StringBuilder();
+					sb.append("'");
+					sb.append(this.orientation);
+					sb.append("' is not a valid orientation. Possible values are: ");
+					sb.append(Orientation.possibleValues());
+					throw new JspException(sb.toString());
+				}
+				
+				conf.setOrientation(orientationEnum);
+			}
 
-			if(includeHeader != null){
-				conf.setIncludeHeader(includeHeader != null ? includeHeader : true);				
-			}
-			if(autoSize != null){
-				conf.setAutoSize(autoSize);				
-			}
+			conf.setIncludeHeader(includeHeader);				
+			conf.setAutoSize(autoSize);				
 			
 			logger.debug("Export configuration for the type {} has been updated", format);
 		}
@@ -218,5 +232,9 @@ public class ExportTag extends TagSupport {
 
 	public void setMethod(String method) {
 		this.method = method;
+	}
+
+	public void setOrientation(String orientation) {
+		this.orientation = orientation;
 	}
 }

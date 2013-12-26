@@ -34,6 +34,7 @@ import java.io.OutputStream;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.export.DatatablesExport;
 import com.github.dandelion.datatables.core.export.ExportConf;
+import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
 import com.github.dandelion.datatables.core.export.Format;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
@@ -41,6 +42,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -66,8 +68,14 @@ public class PdfExport implements DatatablesExport {
 	@Override
 	public void processExport(OutputStream output) {
 
-		Document document = new Document();
-
+		Document document = null;
+		if(Orientation.LANDSCAPE.equals(exportConf.getOrientation())){
+			document = new Document(PageSize.LETTER.rotate());
+		}
+		else{
+			document = new Document();
+		}
+		
 		PdfWriter pdfWriter;
 		try {
 			pdfWriter = PdfWriter.getInstance(document, output);
