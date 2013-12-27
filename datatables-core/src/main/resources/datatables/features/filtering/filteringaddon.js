@@ -1,6 +1,6 @@
 /*
 * File:        jquery.dataTables.columnFilter.js
-* Version:     1.5.4
+* Version:     1.5.5
 * Author:      Jovan Popovic 
 * Author:      Thibault Duchateau
 *  
@@ -677,8 +677,15 @@
                         return;
                     aoColumn = properties.aoColumns[i];
                 }
-                //label = $(this).text(); //Before fix for ColVis
+                
                 label = $($(this)[0].cell).text(); //Fix for ColVis
+                
+                // Clear text inside the duplicated cells (containing the filtering elements)
+                // Except if filtering is done in an external form
+                if(properties.sPlaceHolder != "none" && aoColumn.type == "null") {
+                	$($(this)[0].cell).text("");
+                }
+                
                 if (aoColumn.sSelector == null) {
                     //th = $($(this)[0]);//Before fix for ColVis
                     th = $($(this)[0].cell); //Fix for ColVis
