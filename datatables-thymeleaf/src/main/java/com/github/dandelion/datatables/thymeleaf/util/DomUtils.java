@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,30 +32,31 @@ package com.github.dandelion.datatables.thymeleaf.util;
 import org.thymeleaf.dom.Element;
 
 /**
- * Utility methods to manipulate the DOM.
+ * <p>
+ * Utilities used to manipulate the DOM.
  * 
  * @author Thibault Duchateau
  */
 public class DomUtils {
-	
+
 	/**
 	 * Recursive search for an element within the given node in the DOM tree.
 	 * Many thanks to Emanuel Rabina :-)
 	 * 
 	 * @param element
 	 *            Node to initiate the search from.
-	 * @param name
+	 * @param elementName
 	 *            Name of the element to look for.
 	 * @return Element with the given name, or <tt>null</tt> if the element
 	 *         could not be found.
 	 */
-	public static Element findElement(Element element, String name) {
+	public static Element findElement(Element element, String elementName) {
 
-		if (element.getOriginalName().equals(name)) {
+		if (element.getOriginalName().equals(elementName)) {
 			return element;
 		}
-		for (Element child: element.getElementChildren()) {
-			Element result = findElement(child, name);
+		for (Element child : element.getElementChildren()) {
+			Element result = findElement(child, elementName);
 			if (result != null) {
 				return result;
 			}

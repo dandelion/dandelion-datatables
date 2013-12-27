@@ -42,7 +42,7 @@ import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
-import com.github.dandelion.datatables.thymeleaf.util.Utils;
+import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
  * TODO
@@ -62,39 +62,43 @@ public class ColumnInitializerElProcessor extends AbstractElProcessor {
 
 	@Override
 	protected ProcessorResult doProcessElement(Arguments arguments, Element element) {
-		
+
 		Map<ConfigToken<?>, Object> stagingConf = new HashMap<ConfigToken<?>, Object>();
 		Map<ConfigToken<?>, Extension> stagingExtension = new HashMap<ConfigToken<?>, Extension>();
-		
+
 		// AJAX sources require to set dt:property attribute
 		// This attribute is processed here, before being removed
 		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":property")) {
-			stagingConf.put(ColumnConfig.PROPERTY, Utils.parseElementAttribute(arguments,
-					element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":property"), null, String.class));
+			stagingConf.put(
+					ColumnConfig.PROPERTY,
+					AttributeUtils.parseStringAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX
+							+ ":property"));
 			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":property");
 		}
 
 		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":renderFunction")) {
-			stagingConf.put(ColumnConfig.RENDERFUNCTION,
-					Utils.parseElementAttribute(arguments,
-							element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":renderFunction"), null,
-							String.class));
+			stagingConf.put(
+					ColumnConfig.RENDERFUNCTION,
+					AttributeUtils.parseStringAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX
+							+ ":renderFunction"));
 			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":renderFunction");
 		}
 
 		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":default")) {
-			stagingConf.put(ColumnConfig.DEFAULTVALUE, Utils.parseElementAttribute(arguments,
-					element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":default"), null, String.class));
+			stagingConf.put(
+					ColumnConfig.DEFAULTVALUE,
+					AttributeUtils.parseStringAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX
+							+ ":default"));
 			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":default");
 		} else {
 			stagingConf.put(ColumnConfig.DEFAULTVALUE, "");
 		}
-				
+
 		// The staging configuration is stored as a local variable. It must be
 		// accessible in all column head processors.
 		Map<String, Object> newVariable = new HashMap<String, Object>();
-		newVariable.put(DataTablesDialect.INTERNAL_COLUMN_LOCAL_CONF, stagingConf);
-		newVariable.put(DataTablesDialect.INTERNAL_COLUMN_LOCAL_EXT, stagingExtension);
+		newVariable.put(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF, stagingConf);
+		newVariable.put(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT, stagingExtension);
 		return ProcessorResult.setLocalVariables(newVariable);
 	}
 }

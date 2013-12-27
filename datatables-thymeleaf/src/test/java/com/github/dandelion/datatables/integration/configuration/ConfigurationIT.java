@@ -53,4 +53,18 @@ public class ConfigurationIT extends ThymeleafBaseIT {
 		goToPage("configuration/enable_custom_group");
 		assertThat(getTable().getAttribute("class")).contains("my-group1-class");
 	}
+	
+	@Test
+	public void should_overload_configuration_locally() {
+		goToPage("configuration/local_overloading", true);
+		assertThat(getTable().getAttribute("style")).contains("text-align: center;");
+	}
+	
+	@Test
+	public void should_raise_an_exception_when_defining_a_property() {
+		goToPage("configuration/wrong_markup", true);
+		assertThat(driver.getPageSource())
+				.contains(
+						"ConfigurationProcessingException: The attribute 'dt:name' is required when overloading a configuration property.");
+	}
 }

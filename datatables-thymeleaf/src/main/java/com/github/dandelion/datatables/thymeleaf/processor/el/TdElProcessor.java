@@ -41,18 +41,21 @@ import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.standard.expression.IStandardExpressionParser;
 import org.thymeleaf.standard.expression.StandardExpressionParser;
 
+import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.github.dandelion.datatables.core.export.Format;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
+import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 
 /**
  * <p>
- * Element processor applied to the <tt>td</tt> HTML tag. Whenever Thymeleaf
- * meets a <tt>td</tt> tag, a HtmlColumn is added to the last added HtmlRow.
+ * Element processor applied to the {@code td} tag. Whenever Thymeleaf meets a
+ * {@code td} tag, a {@link HtmlColumn} is added to the last added
+ * {@link HtmlRow}.
  * <p>
- * Important note : the unique goal of this processor is to fill the HtmlTable
- * bean (with HtmlRows and HtmlColumns) for the export feature
+ * Important note : the unique goal of this processor is to fill the
+ * {@link HtmlTable} bean in order to make it exportable.
  * 
  * @author Thibault Duchateau
  */
@@ -60,6 +63,7 @@ public class TdElProcessor extends AbstractElProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TdElProcessor.class);
+	
 	public TdElProcessor(IElementNameProcessorMatcher matcher) {
 		super(matcher);
 	}

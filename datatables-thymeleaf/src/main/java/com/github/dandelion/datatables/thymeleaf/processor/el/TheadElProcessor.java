@@ -39,7 +39,6 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 
 /**
- * TODO
  * 
  * @author Thibault Duchateau
  */
@@ -86,7 +85,7 @@ public class TheadElProcessor extends AbstractElProcessor {
 			}
 		}
 
-		// House cleaning
+		// Housekeeping
 		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":data")) {
 			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":data");
 		}

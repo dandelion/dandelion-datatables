@@ -85,8 +85,9 @@ public class ExtraFileFeature extends AbstractExtension {
 				}
 
 			} catch (IOException e) {
-				StringBuilder msg = new StringBuilder("Unable to load the extra file ");
+				StringBuilder msg = new StringBuilder("Unable to load the extra file '");
 				msg.append(file.getSrc());
+				msg.append("'. Check that this resource exists within your webapp folder.");
 				throw new ExtraFileNotFoundException(msg.toString());
 			}
 		}

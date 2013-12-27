@@ -46,10 +46,10 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 
 /**
- * Base for all Datatables Thymeleaf column attribute processors.
+ * Abstract superclass for all processors applied to the {@code th} tag.
  * 
  * @author Thibault Duchateau
- * @since 0.9.0 
+ * @since 0.9.0
  */
 public abstract class AbstractColumnAttrProcessor extends AbstractAttrProcessor {
 
@@ -68,15 +68,18 @@ public abstract class AbstractColumnAttrProcessor extends AbstractAttrProcessor 
     	HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 		
 		stagingConf = (Map<ConfigToken<?>, Object>) arguments
-				.getLocalVariable(DataTablesDialect.INTERNAL_COLUMN_LOCAL_CONF);
+				.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF);
 
-		stagingExt = (Map<ConfigToken<?>, Extension>) arguments.getLocalVariable(DataTablesDialect.INTERNAL_COLUMN_LOCAL_EXT);
+		stagingExt = (Map<ConfigToken<?>, Extension>) arguments.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT);
 		
-		table = (HtmlTable) request.getAttribute(DataTablesDialect.INTERNAL_TABLE_BEAN);
+		table = (HtmlTable) request.getAttribute(DataTablesDialect.INTERNAL_BEAN_TABLE);
 		
-        ProcessorResult processorResult = processColumnAttribute(arguments, element, attributeName);
+        doProcessAttribute(arguments, element, attributeName);
+        
+        // Housekeeping
         element.removeAttribute(attributeName);
-        return processorResult;
+        
+        return ProcessorResult.ok();
     }
 
     @Override
@@ -90,5 +93,5 @@ public abstract class AbstractColumnAttrProcessor extends AbstractAttrProcessor 
      * @param attributeName attribute name
      * @return result of process
      */
-    protected abstract ProcessorResult processColumnAttribute(Arguments arguments, Element element, String attributeName);
+    protected abstract void doProcessAttribute(Arguments arguments, Element element, String attributeName);
 }

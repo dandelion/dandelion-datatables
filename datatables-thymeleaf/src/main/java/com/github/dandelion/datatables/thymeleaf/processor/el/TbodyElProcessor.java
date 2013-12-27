@@ -35,17 +35,18 @@ import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
+import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 
 /**
  * <p>
- * Element processor applied to the HTML <tt>tbody</tt> tag.
+ * Element processor applied to the HTML {@code tbody} tag.
  * <p>
- * This processor adds the <code>dt:data</code> attribute to HTML <tt>tr</tt>
- * and <tt>td</tt> tags which will be duplicated (by <tt>th:each</tt> attribute)
- * and internally processed by other attributes to fill the
- * <code>HtmlTable</code> bean.
+ * This processor adds the {@code dt:data} attribute to all {@code tr} and
+ * {@code td} tags which will be duplicated (by {@code th:each} attribute) and
+ * internally processed by other attribute processors to fill the
+ * {@link HtmlTable} bean.
  * 
  * @author Thibault Duchateau
  */
@@ -64,11 +65,11 @@ public class TbodyElProcessor extends AbstractElProcessor {
 	protected ProcessorResult doProcessElement(Arguments arguments, Element element) {
 
 		// All the tbody tag are iterated over
-		for (Node child : element.getChildren()) {
+		for (Node trChild : element.getChildren()) {
 
-			if (child != null && child instanceof Element) {
+			if (trChild != null && trChild instanceof Element) {
 
-				Element trChildTag = (Element) child;
+				Element trChildTag = (Element) trChild;
 				String trChildTagName = trChildTag.getNormalizedName();
 
 				// The tr nodes must be processed (for HtmlRow creation)
@@ -97,7 +98,7 @@ public class TbodyElProcessor extends AbstractElProcessor {
 			}
 		}
 
-		// House cleaning
+		// Housekeeping
 		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":data")) {
 			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":data");
 		}

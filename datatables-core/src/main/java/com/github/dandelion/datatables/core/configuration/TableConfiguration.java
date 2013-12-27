@@ -212,6 +212,10 @@ public class TableConfiguration {
 		return this;
 	}
 
+	public void setExtraFiles(List<ExtraFile> extraFiles) {
+		this.extraFiles = extraFiles;
+	}
+
 	public Set<Extension> getInternalExtensions() {
 		return internalExtensions;
 	}

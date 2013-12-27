@@ -3,8 +3,11 @@
 <head>
 </head>
 <body>
+   <div dt:conf="myTableId">
+      <div dt:confType="export" dt:type="csv" dt:url="@{/context/customCsvUrl}"></div>
+   </div>
    <table id="myTableId" dt:table="true" dt:export="csv">
-      <thead dt:csv:url="@{/context/customCsvUrl}">
+      <thead>
          <tr>
             <th>Id</th>
             <th>Firstname</th>
@@ -13,7 +16,7 @@
             <th>Mail</th>
          </tr>
       </thead>
-      <tbody th:remove="all-but-first">
+      <tbody>
          <tr th:each="person : ${persons}">
             <td th:text="${person.id}">1</td>
             <td th:text="${person.firstName}">John</td>

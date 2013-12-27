@@ -3,8 +3,11 @@
 <head>
 </head>
 <body>
+   <div dt:conf="myTableId">
+      <div dt:confType="export" dt:type="xlsx" dt:url="@{/context/customXlsxUrl}"></div>
+   </div>
    <table id="myTableId" dt:table="true" dt:export="xlsx">
-      <thead dt:xlsx:url="@{/context/customXlsxUrl}">
+      <thead>
          <tr>
             <th>Id</th>
             <th>Firstname</th>

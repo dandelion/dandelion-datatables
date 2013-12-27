@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -33,9 +33,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.thymeleaf.dialect.AbstractDialect;
+import org.thymeleaf.processor.AttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ElementNameProcessorMatcher;
 import org.thymeleaf.processor.IProcessor;
 
+import com.github.dandelion.datatables.thymeleaf.processor.config.DivConfAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.el.ColumnFinalizerProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.el.ColumnInitializerElProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.el.TableFinalizerElProcessor;
@@ -55,14 +58,17 @@ public class DataTablesDialect extends AbstractDialect {
 	public static final String DIALECT_PREFIX = "dt";
 	public static final String LAYOUT_NAMESPACE = "http://www.thymeleaf.org/dandelion/datatables";
 	public static final int DT_HIGHEST_PRECEDENCE = 3500;
+	public static final int DT_DEFAULT_PRECEDENCE = 8000;
 
-	public static final String INTERNAL_TABLE_BEAN = "htmlTable";
-	public static final String INTERNAL_TABLE_NODE = "tableNode";
+	public static final String INTERNAL_BEAN_TABLE = "htmlTable";
+	public static final String INTERNAL_BEAN_TABLE_CONFIGURATION = "tableConfiguration";
+	public static final String INTERNAL_BEAN_CONFIGS = "configs";
+	public static final String INTERNAL_NODE_CONFIG = "nodeConfig";
+	public static final String INTERNAL_NODE_TABLE = "tableNode";
 	public static final String INTERNAL_CONF_GROUP = "confGroup";
-	public static final String INTERNAL_TABLE_LOCAL_CONF = "tableLocalConf";
-	public static final String INTERNAL_COLUMN_LOCAL_CONF = "columnLocalConf";
-	public static final String INTERNAL_COLUMN_LOCAL_EXT = "columnLocalExtension";
-	public static final String INTERNAL_EXPORT_CONF_MAP = "exportConfMap";
+	public static final String INTERNAL_BEAN_TABLE_STAGING_CONF = "tableStagingConf";
+	public static final String INTERNAL_BEAN_COLUMN_LOCAL_CONF = "columnLocalConf";
+	public static final String INTERNAL_BEAN_COLUMN_LOCAL_EXT = "columnLocalExtension";
 	
 	public String getPrefix() {
 		return DIALECT_PREFIX;
@@ -73,7 +79,7 @@ public class DataTablesDialect extends AbstractDialect {
 	}
 
 	/*
-	 * The processors.
+	 * The processors contained inside the Dandelion-Datatables dialect.
 	 */
 	@Override
 	public Set<IProcessor> getProcessors() {
@@ -89,7 +95,11 @@ public class DataTablesDialect extends AbstractDialect {
 		processors.add(new TrElProcessor(new ElementNameProcessorMatcher("tr", DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse", false)));
 		processors.add(new TdElProcessor(new ElementNameProcessorMatcher("td", DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse", false)));
 		
-		// Attribute processors
+		// Config processors
+		processors.add(new DivConfAttrProcessor(new AttributeNameProcessorMatcher("conf", "div")));
+		processors.add(new DivConfTypeAttrProcessor(new AttributeNameProcessorMatcher("confType", "div")));
+		
+		// Table attribute processors
 		for (TableAttrProcessors processor : TableAttrProcessors.values()) {
 			processors.add(processor.getProcessor());
 		}

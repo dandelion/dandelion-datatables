@@ -60,9 +60,9 @@ public class ColumnFinalizerProcessor extends AbstractElProcessor {
 	protected ProcessorResult doProcessElement(Arguments arguments, Element element) {
 		
 		Map<ConfigToken<?>, Object> stagingConf = (Map<ConfigToken<?>, Object>) arguments
-				.getLocalVariable(DataTablesDialect.INTERNAL_COLUMN_LOCAL_CONF);
+				.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF);
 		Map<ConfigToken<?>, Extension> stagingExt = (Map<ConfigToken<?>, Extension>) arguments
-				.getLocalVariable(DataTablesDialect.INTERNAL_COLUMN_LOCAL_EXT);
+				.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT);
 		
 		// Get the TH content
 		String content = null;

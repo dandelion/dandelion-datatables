@@ -31,19 +31,14 @@ package com.github.dandelion.datatables.thymeleaf.processor.el;
 
 import java.util.HashMap;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
-import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.exception.DandelionDatatablesException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
@@ -55,9 +50,6 @@ import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
  * @author Thibault Duchateau
  */
 public class TableInitializerElProcessor extends AbstractElProcessor {
-
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(TableInitializerElProcessor.class);
 
 	public TableInitializerElProcessor(IElementNameProcessorMatcher matcher) {
 		super(matcher);
@@ -73,100 +65,60 @@ public class TableInitializerElProcessor extends AbstractElProcessor {
 		
 		String tableId = element.getAttributeValue("id");
 
-		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-		HttpServletResponse response = ((IWebContext) arguments.getContext()).getHttpServletResponse();
-		
-		if (tableId == null) {
-			logger.error("The 'id' attribute is required.");
-			throw new IllegalArgumentException();
-		} else {
+		if (tableId != null) {
 			
-			String confGroup = (String) request.getAttribute(DataTablesDialect.INTERNAL_CONF_GROUP);
+			String confGroup = (String) getFromRequest(DataTablesDialect.INTERNAL_CONF_GROUP);
 			
 			HtmlTable htmlTable = new HtmlTable(tableId, request, response, confGroup);
 
-			// Add default footer and header row
+			// Add a default header row
 			htmlTable.addHeaderRow();
-
-			// Add a "finalizing div" after the HTML table tag in order to
-			// finalize the Dandelion-datatables configuration generation
-			// The div will be removed in its corresponding processor
-			Element div = new Element("div");
-			div.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":tmp", "internalUse");
-			div.setRecomputeProcessorsImmediately(true);
-			element.getParent().insertAfter(element, div);
 
 			// Store the htmlTable POJO as a request attribute, so that all the
 			// others following HTML tags can access it and particularly the
 			// "finalizing div"
-			request.setAttribute(DataTablesDialect.INTERNAL_TABLE_BEAN, htmlTable);
+			storeInRequest(DataTablesDialect.INTERNAL_BEAN_TABLE, htmlTable);
 
 			// The table node is also saved in the request, to be easily accessed later
-			request.setAttribute(DataTablesDialect.INTERNAL_TABLE_NODE, element);
+			storeInRequest(DataTablesDialect.INTERNAL_NODE_TABLE, element);
 			
 			// Map used to store the table local configuration
-			request.setAttribute(DataTablesDialect.INTERNAL_TABLE_LOCAL_CONF, new HashMap<ConfigToken<?>, Object>());
-			
-			// TODO this has to be moved
-			// Export has been enabled
-//			if(element.hasAttribute("dt:export")){
-//
-//				Map<ExportType, ExportConf> exportConfMap = new HashMap<ExportType, ExportConf>();
-//				ExportType type = null;
-//				String val = Utils.parseElementAttribute(arguments, element.getAttributeValue("dt:export"), null, String.class);
-//				
-//				String[] types = val.trim().toUpperCase().split(",");
-//				for (String exportTypeString : types) {
-//
-//					try {
-//						type = ExportType.valueOf(exportTypeString);
-//					} catch (IllegalArgumentException e) {
-//						throw new ConfigurationProcessingException("Invalid value", e);
-//					}
-//
-//					ExportConf exportConf = new ExportConf(type);
-//					String exportUrl = UrlUtils.getExportUrl(request, response, type, tableId);
-//					
-//							RequestHelper.getCurrentURIWithParameters(request);
-//					if(exportUrl.contains("?")){
-//						exportUrl += "&";
-//					}
-//					else{
-//						exportUrl += "?";
-//					}
-//					exportUrl += ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE + "="
-//						+ type.getUrlParameter() + "&"
-//						+ ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID + "="
-//						+ tableId;
-//						
-//					exportConf.setUrl(exportUrl);
-//					exportConf.setCustom(false);
-//					exportConfMap.put(type, exportConf);
-//				}
-//				
-//				request.setAttribute(DataTablesDialect.INTERNAL_EXPORT_CONF_MAP, exportConfMap);
-//			}
+			storeInRequest(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF, new HashMap<ConfigToken<?>, Object>());
 
-			// Cleaning attribute
-			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":table");
-						
-			applyMarkers(element);
+			// The HTML needs to be updated
+			processMarkup(element);
 			
 			return ProcessorResult.OK;
+		}
+		else{
+			throw new DandelionDatatablesException("The 'id' attribute is required by Dandelion-Datatables.");
 		}
 	}
 	
 	/**
 	 * <p>
-	 * Markers are applied on {@code thead} and {@code tbody} elements in order
-	 * to limit the scope of application of the processors.
+	 * The HTML markup needs to be updated for several reasons:
+	 * <ul>
+	 * <li>First for housekeeping: all Dandelion-Datatables attributes must be
+	 * removed before the table is displayed</li>
+	 * <li>Markers are applied on {@code thead} and {@code tbody} elements in
+	 * order to limit the scope of application of the processors, thus avoiding
+	 * any conflict with native HTML tables</li>
+	 * <li>A "finalizing {@code div}" must be added after the HTML {@code table}
+	 * tag in order to finalize the Dandelion-Datatables configuration. The
+	 * {@code div} will be removed in its corresponding processor.</li>
+	 * </ul>
+	 * <p>
 	 * 
 	 * @param element
-	 *            The {@code table} element.
-	 * 
-	 * @see DataTablesDialect
+	 *            The {@code table} tag.
 	 */
-	private void applyMarkers(Element element) {
+	private void processMarkup(Element element) {
+		
+		// Housekeeping
+		element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":table");
+		
+		// Markers on THEAD and TBODY tags
 		for (Node child : element.getChildren()) {
 
 			if (child != null && child instanceof Element) {
@@ -181,5 +133,11 @@ public class TableInitializerElProcessor extends AbstractElProcessor {
 				childTag.setProcessable(true);
 			}
 		}
+		
+		// "Finalizing div"
+		Element div = new Element("div");
+		div.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":tmp", "internalUse");
+		div.setRecomputeProcessorsImmediately(true);
+		element.getParent().insertAfter(element, div);
 	}
 }

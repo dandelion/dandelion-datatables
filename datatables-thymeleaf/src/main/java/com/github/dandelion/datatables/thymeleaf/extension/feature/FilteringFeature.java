@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,7 @@ public class FilteringFeature extends AbstractFilteringFeature {
 	@Override
 	protected void adaptHeader(HtmlTable table) {
 		
-		Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(DataTablesDialect.INTERNAL_TABLE_NODE);
+		Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(DataTablesDialect.INTERNAL_NODE_TABLE);
 		Element thead = DomUtils.findElement((Element) tableNode, "thead");
 		
 		Element tr = new Element("tr");
@@ -84,7 +84,7 @@ public class FilteringFeature extends AbstractFilteringFeature {
 		
 		Element tfoot = new Element("tfoot");
 
-		Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(DataTablesDialect.INTERNAL_TABLE_NODE);
+		Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(DataTablesDialect.INTERNAL_NODE_TABLE);
 		
 		for(HtmlColumn column : table.getLastHeaderRow().getColumns()){
 			Element th = new Element("th");

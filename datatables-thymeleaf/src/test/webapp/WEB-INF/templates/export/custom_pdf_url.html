@@ -3,8 +3,11 @@
 <head>
 </head>
 <body>
+   <div dt:conf="myTableId">
+      <div dt:confType="export" dt:type="pdf" dt:url="@{/context/customPdfUrl}"></div>
+   </div>
    <table id="myTableId" dt:table="true" dt:export="pdf">
-      <thead dt:pdf:url="@{/context/customPdfUrl}">
+      <thead>
          <tr>
             <th>Id</th>
             <th>Firstname</th>

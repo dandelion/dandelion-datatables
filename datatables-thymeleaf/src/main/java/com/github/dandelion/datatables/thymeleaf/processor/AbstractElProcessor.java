@@ -29,14 +29,18 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.thymeleaf.Arguments;
+import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.element.AbstractElementProcessor;
 
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.thymeleaf.util.Utils;
+import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 
 /**
  * <p>Abstract superclass for all Datatables element processors.
@@ -46,6 +50,8 @@ import com.github.dandelion.datatables.thymeleaf.util.Utils;
 public abstract class AbstractElProcessor extends AbstractElementProcessor {
 
 	protected HtmlTable table;
+	protected HttpServletRequest request;
+	protected HttpServletResponse response;
 	
     public AbstractElProcessor(IElementNameProcessorMatcher matcher) {
 		super(matcher);
@@ -53,8 +59,11 @@ public abstract class AbstractElProcessor extends AbstractElementProcessor {
 
     @Override
 	protected ProcessorResult processElement(Arguments arguments, Element element) {
-    	// Get HtmlTable POJO from the HttpServletRequest
-    	table = Utils.getTable(arguments);
+    	
+    	request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
+    	response = ((IWebContext) arguments.getContext()).getHttpServletResponse();
+    	table = (HtmlTable) getFromRequest(DataTablesDialect.INTERNAL_BEAN_TABLE);
+    	
     	ProcessorResult processorResult = doProcessElement(arguments, element);
     	return processorResult;
     }
@@ -71,4 +80,12 @@ public abstract class AbstractElProcessor extends AbstractElementProcessor {
      * @return result of process
      */
     protected abstract ProcessorResult doProcessElement(Arguments arguments, Element element);
+    
+    public void storeInRequest(String referenceName, Object value){
+    	request.setAttribute(referenceName, value);
+    }
+    
+    public Object getFromRequest(String referenceName){
+    	return request.getAttribute(referenceName);
+    }
 }
