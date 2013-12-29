@@ -114,7 +114,8 @@ public class DatatablesCriterias implements Serializable {
 	 */
 	public Boolean hasOneFilteredColumn() {
 		for (ColumnDef columnDef : this.columnDefs) {
-			if (StringUtils.isNotBlank(columnDef.getSearch())) {
+			if (StringUtils.isNotBlank(columnDef.getSearch()) || StringUtils.isNotBlank(columnDef.getSearchFrom())
+					|| StringUtils.isNotBlank(columnDef.getSearchTo())) {
 				return true;
 			}
 		}
@@ -163,7 +164,27 @@ public class DatatablesCriterias implements Serializable {
 				columnDef.setName(request.getParameter(DTConstants.DT_M_DATA_PROP + i));
 				columnDef.setFilterable(Boolean.parseBoolean(request.getParameter(DTConstants.DT_B_SEARCHABLE + i)));
 				columnDef.setSortable(Boolean.parseBoolean(request.getParameter(DTConstants.DT_B_SORTABLE + i)));
-				columnDef.setSearch(request.getParameter(DTConstants.DT_S_COLUMN_SEARCH + i));
+				
+				String columnSearch = request.getParameter(DTConstants.DT_S_COLUMN_SEARCH + i);
+				if(StringUtils.isNotBlank(columnSearch)) {
+					String[] splittedSearch = columnSearch.split("~");
+					if("~".equals(columnSearch)) {
+						columnDef.setSearch("");
+					}
+					else if(columnSearch.startsWith("~")) {
+						columnDef.setSearchTo(splittedSearch[1]);
+					}
+					else if(columnSearch.endsWith("~")) {
+						columnDef.setSearchFrom(splittedSearch[0]);
+					}
+					else if(columnSearch.contains("~")){
+						columnDef.setSearchFrom(splittedSearch[0]);
+						columnDef.setSearchTo(splittedSearch[1]);
+					}
+					else{
+						columnDef.setSearch(columnSearch);
+					}
+				}
 				
 				columnDefs.add(columnDef);
 			}
