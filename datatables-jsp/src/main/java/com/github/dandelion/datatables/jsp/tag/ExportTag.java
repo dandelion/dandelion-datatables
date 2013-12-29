@@ -37,8 +37,8 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
@@ -134,12 +134,12 @@ public class ExportTag extends TagSupport {
 			String exportUrl = null;
 			if(StringUtils.isBlank(url)){
 				exportUrl = UrlUtils.getExportUrl(request, response, format, parent.getTable().getId());
-				conf.setCustom(false);
+				conf.setHasCustomUrl(false);
 			}
 			// Custom mode (export using controller)
 			else{
 				exportUrl = UrlUtils.getCustomExportUrl(request, response, url.trim());
-				conf.setCustom(true);
+				conf.setHasCustomUrl(true);
 			}
 			
 			conf.setUrl(exportUrl);
@@ -166,7 +166,7 @@ public class ExportTag extends TagSupport {
 					sb.append("'");
 					sb.append(this.method);
 					sb.append("' is not a valid HTTP method. Possible values are: ");
-					sb.append(CallbackType.possibleValues());
+					sb.append(EnumUtils.printPossibleValuesOf(HttpMethod.class));
 					throw new JspException(sb.toString());
 				}
 				
@@ -182,7 +182,7 @@ public class ExportTag extends TagSupport {
 					sb.append("'");
 					sb.append(this.orientation);
 					sb.append("' is not a valid orientation. Possible values are: ");
-					sb.append(Orientation.possibleValues());
+					sb.append(EnumUtils.printPossibleValuesOf(Orientation.class));
 					throw new JspException(sb.toString());
 				}
 				

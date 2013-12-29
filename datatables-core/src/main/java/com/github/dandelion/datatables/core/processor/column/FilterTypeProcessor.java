@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.core.processor.column;
 
+import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
@@ -58,7 +59,7 @@ public class FilterTypeProcessor extends AbstractColumnProcessor {
 				sb.append("'");
 				sb.append(stringifiedValue);
 				sb.append("' is not a valid filter type. Possible values are: ");
-				sb.append(FilterType.possibleValues());
+				sb.append(EnumUtils.printPossibleValuesOf(FilterType.class));
 				throw new ConfigurationProcessingException(sb.toString(), e);
 			}
 

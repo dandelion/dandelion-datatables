@@ -81,7 +81,10 @@ public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
 					tableConfiguration.getExportConfiguration().put(enabledFormat, exportConf);
 				} else {
 					exportConf = tableConfiguration.getExportConfiguration().get(enabledFormat);
-					if (exportConf.isCustom()) {
+					
+					// Custom URL must have the parameter that tells Dandelion
+					// to disable the AssetFilter during the export request
+					if (exportConf.hasCustomUrl()) {
 						StringBuilder url = new StringBuilder(exportConf.getUrl());
 						UrlUtils.addParameter(url, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
 						exportConf.setUrl(url.toString());
@@ -92,7 +95,8 @@ public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
 				}
 			}
 
-			// Apply default export links if nothing is already configured
+			// Apply default export link position if nothing is already
+			// configured
 			if(isNonPresent(TableConfig.EXPORT_LINK_POSITIONS)){
 				addEntry(TableConfig.EXPORT_LINK_POSITIONS, new HashSet<ExportLinkPosition>(
 						Arrays.asList(ExportLinkPosition.TOP_RIGHT)));

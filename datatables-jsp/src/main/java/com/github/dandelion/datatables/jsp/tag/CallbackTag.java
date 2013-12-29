@@ -32,6 +32,7 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
@@ -109,7 +110,7 @@ public class CallbackTag extends TagSupport {
 				sb.append("'");
 				sb.append(this.type);
 				sb.append("' is not a valid callback type. Possible values are: ");
-				sb.append(CallbackType.possibleValues());
+				sb.append(EnumUtils.printPossibleValuesOf(CallbackType.class));
 				throw new JspException(sb.toString());
 			}
 			

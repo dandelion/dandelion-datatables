@@ -1,5 +1,6 @@
 package com.github.dandelion.datatables.core.processor.css;
 
+import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
@@ -20,7 +21,7 @@ public class CssThemeOptionProcessor extends AbstractTableProcessor {
 				sb.append("'");
 				sb.append(stringifiedValue);
 				sb.append("' is not a valid theme option. Possible values are: ");
-				sb.append(ThemeOption.possibleValues());
+				sb.append(EnumUtils.printPossibleValuesOf(ThemeOption.class));
 				throw new ConfigurationProcessingException(sb.toString(), e);
 			}
 

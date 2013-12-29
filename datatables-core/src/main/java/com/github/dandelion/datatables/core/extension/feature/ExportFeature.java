@@ -155,7 +155,7 @@ public class ExportFeature extends AbstractExtension {
 					link.addCssStyle("margin-left:2px;");
 				}
 
-				if(conf.isCustom()){
+				if(conf.hasCustomUrl()){
 					String tableId = "oTable_" + table.getId();
 					
 					StringBuilder exportFuncName = new StringBuilder("ddl_dt_launch_export_");

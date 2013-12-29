@@ -50,20 +50,4 @@ public enum InsertMode {
 	
 	// The javascript is inserted just before the start of the jQuery $(document).ready() function.
 	BEFORESTARTDOCUMENTREADY;
-	
-	public static String possibleValues() {
-		StringBuilder possibleValues = new StringBuilder();
-		for (int i = 0; i < values().length; i++) {
-			possibleValues.append("'").append(values()[i].name().toLowerCase()).append("'");
-			if (i < values().length - 2) {
-				possibleValues.append(", ");
-			} else if (i == (values().length - 2)) {
-				possibleValues.append(" and ");
-			}
-		}
-		possibleValues.append(".");
-		return possibleValues.toString();
-	}
-	
-	
 }

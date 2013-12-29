@@ -55,27 +55,13 @@ public class ExportConf {
 	private String url;
 	private HttpMethod method;
 	private Boolean autoSize;
-	private Boolean custom = false;
+	private Boolean hasCustomUrl = false;
 	private String exportClass;
 	private String extension;
 	private Orientation orientation;
 	
 	public enum Orientation {
 		PORTRAIT, LANDSCAPE;
-		
-		public static String possibleValues() {
-			StringBuilder possibleValues = new StringBuilder();
-			for (int i = 0; i < values().length; i++) {
-				possibleValues.append("'").append(values()[i].name().toLowerCase()).append("'");
-				if (i < values().length - 2) {
-					possibleValues.append(", ");
-				} else if (i == (values().length - 2)) {
-					possibleValues.append(" and ");
-				}
-			}
-			possibleValues.append(".");
-			return possibleValues.toString();
-		}
 	}
 	
 	public ExportConf(String format){
@@ -182,12 +168,12 @@ public class ExportConf {
 		this.mimeType = mimeType;
 	}
 
-	public Boolean isCustom() {
-		return custom;
+	public Boolean hasCustomUrl() {
+		return hasCustomUrl;
 	}
 
-	public void setCustom(Boolean custom) {
-		this.custom = custom;
+	public void setHasCustomUrl(Boolean custom) {
+		this.hasCustomUrl = custom;
 	}
 
 	public Boolean getAutoSize() {
@@ -292,7 +278,7 @@ public class ExportConf {
 	public String toString() {
 		return "ExportConf [format=" + format + ", fileName=" + fileName + ", mimeType=" + mimeType + ", label="
 				+ label + ", cssStyle=" + cssStyle + ", cssClass=" + cssClass + ", includeHeader=" + includeHeader
-				+ ", url=" + url + ", method=" + method + ", autoSize=" + autoSize + ", custom=" + custom
+				+ ", url=" + url + ", method=" + method + ", autoSize=" + autoSize + ", custom=" + hasCustomUrl
 				+ ", exportClass=" + exportClass + ", extension=" + extension + ", orientation=" + orientation + "]";
 	}
 }

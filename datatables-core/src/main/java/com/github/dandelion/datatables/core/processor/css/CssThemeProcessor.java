@@ -1,5 +1,6 @@
 package com.github.dandelion.datatables.core.processor.css;
 
+import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.Extension;
@@ -11,6 +12,7 @@ public class CssThemeProcessor extends AbstractTableProcessor {
 	@Override
 	public void doProcess() {
 		if (StringUtils.isNotBlank(stringifiedValue)) {
+			
 			Extension theme = null;
 			
 			try {
@@ -20,7 +22,7 @@ public class CssThemeProcessor extends AbstractTableProcessor {
 				sb.append("'");
 				sb.append(stringifiedValue);
 				sb.append("' is not a valid theme name. Possible values are: ");
-				sb.append(Theme.possibleValues());
+				sb.append(EnumUtils.printPossibleValuesOf(Theme.class));
 				throw new ConfigurationProcessingException(sb.toString());
 			}
 		

@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.core.processor.column;
 
+import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
@@ -49,7 +50,7 @@ public class SortTypeProcessor extends AbstractColumnProcessor {
 				sb.append("'");
 				sb.append(stringifiedValue);
 				sb.append("' is not a valid sort type. Possible values are: ");
-				sb.append(SortType.possibleValues());
+				sb.append(EnumUtils.printPossibleValuesOf(SortType.class));
 				throw new ConfigurationProcessingException(sb.toString(), e);
 			}
 

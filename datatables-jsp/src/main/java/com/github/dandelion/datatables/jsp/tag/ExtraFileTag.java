@@ -32,10 +32,10 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.asset.InsertMode;
-import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.extension.feature.ExtraFileFeature;
 
 /**
@@ -104,7 +104,7 @@ public class ExtraFileTag extends TagSupport {
 					sb.append("'");
 					sb.append(this.insert);
 					sb.append("' is not a valid insert mode. Possible values are: ");
-					sb.append(CallbackType.possibleValues());
+					sb.append(EnumUtils.printPossibleValuesOf(InsertMode.class));
 					throw new JspException(sb.toString());
 				}
 			} else {

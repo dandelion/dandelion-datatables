@@ -32,6 +32,7 @@ package com.github.dandelion.datatables.core.processor.column;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.constants.Direction;
@@ -62,7 +63,7 @@ public class SortDirectionProcessor extends AbstractColumnProcessor {
 					sb.append("'");
 					sb.append(stringifiedValue);
 					sb.append("' is not a valid sort direction. Possible values are: ");
-					sb.append(Direction.possibleValues());
+					sb.append(EnumUtils.printPossibleValuesOf(Direction.class));
 					throw new ConfigurationProcessingException(sb.toString(), e);
 				}
 			}
