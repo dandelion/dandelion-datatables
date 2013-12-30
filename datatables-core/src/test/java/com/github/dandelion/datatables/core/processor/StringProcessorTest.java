@@ -13,14 +13,17 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
+import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 
 public class StringProcessorTest {
 
-	protected TableProcessor processor;
 	protected TableConfiguration tableConfiguration;
+	protected ColumnConfiguration columnConfiguration;
 	protected HttpServletRequest request;
 	protected Map<ConfigToken<?>, Object> confToBeApplied;
 
@@ -31,13 +34,54 @@ public class StringProcessorTest {
 		request = (HttpServletRequest) mockPageContext.getRequest();
 		confToBeApplied = new HashMap<ConfigToken<?>, Object>();
 		tableConfiguration = new TableConfiguration(confToBeApplied, request);
-		processor = new StringProcessor();
+		columnConfiguration = new ColumnConfiguration();
 	}
 
 	@Test
-	public void should_set_a_string_true_when_value_is_a_string() throws Exception{
+	public void should_update_the_entry_with_null_when_using_an_empty_string() throws Exception{
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "");
+		TableProcessor processor = new StringProcessor();
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isNull();
+	}
+	
+	@Test
+	public void should_update_the_entry_with_the_same_string() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "someString");
+		TableProcessor processor = new StringProcessor();
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo("someString");
+	}
+	
+	@Test
+	public void should_update_the_table_entry_with_the_same_string_and_update_active_scopes() throws Exception{
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "scopeToAdd#someString");
+		TableProcessor processor = new StringProcessor(true);
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("someString");
+		assertThat(AssetsRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scopeToAdd");
+	}
+	
+	@Test
+	public void should_update_the_column_entry_with_the_same_string_and_update_active_scopes() throws Exception{
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "scopeToAdd#someString");
+		ColumnProcessor processor = new StringProcessor(true);
+		processor.process(entry, columnConfiguration, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("someString");
+		assertThat(AssetsRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scopeToAdd");
+	}
+	
+	@Test(expected = ConfigurationProcessingException.class)
+	public void should_throw_an_exception_when_using_a_wrong_format() throws Exception{
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "scopeToAdd#");
+		TableProcessor processor = new StringProcessor(true);
+		processor.process(entry, tableConfiguration);
+	}
+	
+	@Test(expected = ConfigurationProcessingException.class)
+	public void should_throw_an_exception_when_using_a_wrong_format2() throws Exception{
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "#someString");
+		TableProcessor processor = new StringProcessor(true);
+		processor.process(entry, tableConfiguration);
 	}
 }
