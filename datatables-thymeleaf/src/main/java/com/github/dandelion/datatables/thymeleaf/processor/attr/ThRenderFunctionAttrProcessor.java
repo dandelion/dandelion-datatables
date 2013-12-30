@@ -27,29 +27,26 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.thymeleaf.processor.el;
-
-import java.util.HashMap;
-import java.util.Map;
+package com.github.dandelion.datatables.thymeleaf.processor.attr;
 
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
-import org.thymeleaf.processor.IElementNameProcessorMatcher;
-import org.thymeleaf.processor.ProcessorResult;
+import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.extension.Extension;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
- * TODO
+ * Attribute processor applied to the {@code th} tag for the
+ * {@link ColumnConfig#RENDERFUNCTION} configuration.
  * 
  * @author Thibault Duchateau
  */
-public class ColumnInitializerElProcessor extends AbstractElProcessor {
+public class ThRenderFunctionAttrProcessor extends AbstractColumnAttrProcessor {
 
-	public ColumnInitializerElProcessor(IElementNameProcessorMatcher matcher) {
+	public ThRenderFunctionAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
@@ -59,16 +56,10 @@ public class ColumnInitializerElProcessor extends AbstractElProcessor {
 	}
 
 	@Override
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element) {
+	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName) {
 
-		Map<ConfigToken<?>, Object> stagingConf = new HashMap<ConfigToken<?>, Object>();
-		Map<ConfigToken<?>, Extension> stagingExtension = new HashMap<ConfigToken<?>, Extension>();
+		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-		// The staging configuration is stored as a local variable. It must be
-		// accessible in all column head processors.
-		Map<String, Object> newVariable = new HashMap<String, Object>();
-		newVariable.put(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF, stagingConf);
-		newVariable.put(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT, stagingExtension);
-		return ProcessorResult.setLocalVariables(newVariable);
+		stagingConf.put(ColumnConfig.RENDERFUNCTION, attrValue);
 	}
 }

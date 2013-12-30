@@ -83,9 +83,7 @@ public class DatatablesGeneratorTest {
 		displayTypeNotUsedForColumnDefinition.add(Format.XLSX);
 		displayTypeNotUsedForColumnDefinition.add(Format.PDF);
 
-//		defaultProperties.put(DTConstants.DT_VISIBLE, true);
-//		defaultProperties.put(DTConstants.DT_SEARCHABLE, true);
-//		defaultProperties.put(DTConstants.DT_SORTABLE, true);
+		defaultProperties.put(DTConstants.DT_S_DEFAULT_CONTENT, "");
 	}
 
 	private DatatablesGenerator generator;
@@ -177,6 +175,7 @@ public class DatatablesGeneratorTest {
 		Map<String, Object> firstColumnProperties = columnsProperties.get(0);
 		Map<String, Object> customProperties = new HashMap<String, Object>(defaultProperties);
 		customProperties.put(DTConstants.DT_DATA, "aProperty");
+		customProperties.put(DTConstants.DT_S_DEFAULT_CONTENT, "");
 		assertThat(firstColumnProperties).isEqualTo(customProperties);
 	}
 
@@ -191,6 +190,7 @@ public class DatatablesGeneratorTest {
 		Map<String, Object> firstColumnProperties = columnsProperties.get(0);
 		Map<String, Object> customProperties = new HashMap<String, Object>(defaultProperties);
 		customProperties.put(DTConstants.DT_COLUMN_RENDERER, new JavascriptSnippet("aRenderFunction"));
+		customProperties.put(DTConstants.DT_S_DEFAULT_CONTENT, "");
 		assertThat(firstColumnProperties).isEqualTo(customProperties);
 	}
 

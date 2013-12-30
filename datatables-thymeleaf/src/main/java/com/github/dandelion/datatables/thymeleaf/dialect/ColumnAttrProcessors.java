@@ -38,10 +38,13 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import com.github.dandelion.datatables.core.exception.DandelionDatatablesException;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThCssCellClassAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThDefaultValueAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterMinLengthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterValuesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThPropertyAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThRenderFunctionAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSearchableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSelectorAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSortDirectionAttrProcessor;
@@ -70,6 +73,9 @@ public enum ColumnAttrProcessors {
     BASIC_SELECTOR(ThSelectorAttrProcessor.class, "selector", "th"),
     BASIC_CSS_CELLCLASS(ThCssCellClassAttrProcessor.class, "cssCellClass", "th");
     
+	PROPERTY(ThPropertyAttrProcessor.class, "property", "th"), 
+	DEFAULTVALUE(ThDefaultValueAttrProcessor.class, "default", "th"), 
+	RENDER_FUNCTION(ThRenderFunctionAttrProcessor.class, "renderFunction", "th"), 
 	private Class<? extends AbstractColumnAttrProcessor> processorClass;
 	private String attributeName;
 	private String elementNameFilter;

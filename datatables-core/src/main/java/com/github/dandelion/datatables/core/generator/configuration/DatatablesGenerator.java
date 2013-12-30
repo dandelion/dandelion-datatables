@@ -234,6 +234,9 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 				if (defaultValue != null) {
 					tmp.put(DTConstants.DT_S_DEFAULT_CONTENT, defaultValue);
 				}
+				else {
+					tmp.put(DTConstants.DT_S_DEFAULT_CONTENT, "");
+				}
 
 				// Column's style (AJAX only)
 				StringBuilder cssCellClass = ColumnConfig.CSSCELLCLASS.valueFrom(columnConfiguration);
