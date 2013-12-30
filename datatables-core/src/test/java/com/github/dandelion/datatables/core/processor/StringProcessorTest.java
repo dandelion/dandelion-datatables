@@ -63,12 +63,21 @@ public class StringProcessorTest {
 	}
 	
 	@Test
-	public void should_update_the_column_entry_with_the_same_string_and_update_active_scopes() throws Exception{
+	public void should_update_the_column_entry_with_the_same_string_and_update_active_scopes_with_one_scope() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "scopeToAdd#someString");
 		ColumnProcessor processor = new StringProcessor(true);
 		processor.process(entry, columnConfiguration, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo("someString");
 		assertThat(AssetsRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scopeToAdd");
+	}
+	
+	@Test
+	public void should_update_the_column_entry_with_the_same_string_and_update_active_scopes_with_multiple_scopes() throws Exception{
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, " scope1,scope2#someString");
+		ColumnProcessor processor = new StringProcessor(true);
+		processor.process(entry, columnConfiguration, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("someString");
+		assertThat(AssetsRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scope1", "scope2");
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)

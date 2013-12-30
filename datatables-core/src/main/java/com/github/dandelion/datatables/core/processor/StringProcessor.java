@@ -45,7 +45,14 @@ public class StringProcessor implements TableProcessor, ColumnProcessor {
 					sb.append("The right format is: 'scopeToAdd#JavascriptObject'");
 					throw new ConfigurationProcessingException(sb.toString());
 				} else {
-					AssetsRequestContext.get(tableConfiguration.getRequest()).addScopes(splittedValue[0]);
+					if (splittedValue[0].contains(",")) {
+						String[] splittedScopes = splittedValue[0].trim().split(",");
+						for (String scope : splittedScopes) {
+							AssetsRequestContext.get(tableConfiguration.getRequest()).addScopes(scope.trim());
+						}
+					} else {
+						AssetsRequestContext.get(tableConfiguration.getRequest()).addScopes(splittedValue[0].trim());
+					}
 					configEntry.setValue(StringUtils.isNotBlank(splittedValue[1]) ? splittedValue[1] : null);
 				}
 			}
