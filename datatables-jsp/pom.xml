@@ -29,6 +29,7 @@
          <artifactId>datatables-core</artifactId>
          <version>0.10.0-SNAPSHOT</version>
       </dependency>
+      
       <!-- Dandelion -->
       <dependency>
          <groupId>com.github.dandelion</groupId>

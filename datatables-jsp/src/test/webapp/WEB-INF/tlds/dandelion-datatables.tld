@@ -330,6 +330,21 @@
          <name>filterDelay</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
+      <attribute>
+         <description>jQuery selector used to grab the element on which a 'click' event will be bound to trigger the filtering.</description>
+         <name>filterSelector</name>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <description>jQuery selector used to grab the element on which a 'click' event will be bound to trigger the clearing of all filter elements.</description>
+         <name>filterClearSelector</name>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <description>TODO</description>
+         <name>filterTrigger</name>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
       
       <!-- ====================================== -->
       <!-- Extra features -->
@@ -516,6 +531,11 @@
       <attribute>
           <description>Resource key used to lookup the title value in the configured resource bundle</description>
           <name>titleKey</name>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+          <description>Name to be applied on a column. Mainly used in server-side processing.</description>
+          <name>name</name>
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>

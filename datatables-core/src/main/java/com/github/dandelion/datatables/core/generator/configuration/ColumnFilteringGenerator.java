@@ -59,44 +59,50 @@ import com.github.dandelion.datatables.core.util.CollectionUtils;
  */
 public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
 
-    // Logger
-    private static Logger logger = LoggerFactory.getLogger(ColumnFilteringGenerator.class);
+	// Logger
+	private static Logger logger = LoggerFactory.getLogger(ColumnFilteringGenerator.class);
 
-    public Map<String, Object> generateConfig(HtmlTable table) {
+	public Map<String, Object> generateConfig(HtmlTable table) {
 
-        logger.debug("Generating Column Filtering configuration...");
+		logger.debug("Generating Column Filtering configuration...");
 
-        // Filtering configuration object
-        Map<String, Object> filteringConf = new HashMap<String, Object>();
+		// Filtering configuration object
+		Map<String, Object> filteringConf = new HashMap<String, Object>();
 
-        // Placeholder for filtering elements
-        FilterPlaceholder filterPlaceholder = TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(table);
-        if(filterPlaceholder != null){
-        	filteringConf.put(DTConstants.DT_S_PLACEHOLDER, filterPlaceholder.getName());
-        }
-        
-        // Filtering delay
-        Integer filterColumnDelay = TableConfig.FEATURE_FILTER_DELAY.valueFrom(table);
-        if(filterColumnDelay != null){
-        	filteringConf.put(DTConstants.DT_I_FILTERING_DELAY, filterColumnDelay);
-        }
-        
-        // Columns configuration
-        Map<String, Object> tmp = null;
-        List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
-        for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
-        	
-        	Set<String> enabledDisplayTypes = column.getEnabledDisplayTypes();
-			if (CollectionUtils.containsAny(enabledDisplayTypes, Format.ALL,  Format.HTML)) {
-        		tmp = new HashMap<String, Object>();
-        		
-        		ColumnConfiguration columnConfiguration = column.getColumnConfiguration();
-        		
-        		Boolean filterable = ColumnConfig.FILTERABLE.valueFrom(columnConfiguration);
-        		FilterType filterType = ColumnConfig.FILTERTYPE.valueFrom(columnConfiguration);
+		// Placeholder for filtering elements
+		FilterPlaceholder filterPlaceholder = TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(table);
+		if (filterPlaceholder != null) {
+			filteringConf.put(DTConstants.DT_S_PLACEHOLDER, filterPlaceholder.getName());
+		}
+
+		// Filtering trigger
+		String filterTrigger = TableConfig.FEATURE_FILTER_TRIGGER.valueFrom(table);
+		if (StringUtils.isNotBlank(filterTrigger)) {
+			filteringConf.put(DTConstants.DT_S_FILTERING_TRIGGER, filterTrigger);
+		}
+
+		// Filtering delay
+		Integer filterColumnDelay = TableConfig.FEATURE_FILTER_DELAY.valueFrom(table);
+		if (filterColumnDelay != null) {
+			filteringConf.put(DTConstants.DT_I_FILTERING_DELAY, filterColumnDelay);
+		}
+
+		// Columns configuration
+		Map<String, Object> tmp = null;
+		List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
+		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
+
+			Set<String> enabledDisplayTypes = column.getEnabledDisplayTypes();
+			if (CollectionUtils.containsAny(enabledDisplayTypes, Format.ALL, Format.HTML)) {
+				tmp = new HashMap<String, Object>();
+
+				ColumnConfiguration columnConfiguration = column.getColumnConfiguration();
+
+				Boolean filterable = ColumnConfig.FILTERABLE.valueFrom(columnConfiguration);
+				FilterType filterType = ColumnConfig.FILTERTYPE.valueFrom(columnConfiguration);
 				if (filterable != null && filterable && filterType != null) {
-        		
-        			switch(filterType){
+
+					switch (filterType) {
 					case INPUT:
 						tmp.put(DTConstants.DT_FILTER_TYPE, "text");
 						break;
@@ -107,35 +113,51 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
 						tmp.put(DTConstants.DT_FILTER_TYPE, "select");
 						break;
 					case NUMBER_RANGE:
-						tmp.put(DTConstants.DT_FILTER_TYPE, "number-range");        				
+						tmp.put(DTConstants.DT_FILTER_TYPE, "number-range");
 						break;
-        			}
-        		}
-        		else{
-        			tmp.put(DTConstants.DT_FILTER_TYPE, "null");
-        		}
-        		
-				String selector = ColumnConfig.SELECTOR.valueFrom(columnConfiguration);
-        		if(StringUtils.isNotBlank(selector)){
-        			tmp.put(DTConstants.DT_S_SELECTOR, selector);
-        		}
+					case DATE_RANGE:
+						tmp.put(DTConstants.DT_FILTER_TYPE, "date-range");
+						String dateFormat = ColumnConfig.FILTERDATEFORMAT.valueFrom(columnConfiguration);
+						if (StringUtils.isNotBlank(dateFormat)) {
+							tmp.put(DTConstants.DT_S_DATEFORMAT, dateFormat);
+						}
+						break;
+					}
+				} else {
+					tmp.put(DTConstants.DT_FILTER_TYPE, "null");
+				}
 
-        		String filterValues = ColumnConfig.FILTERVALUES.valueFrom(columnConfiguration);
-        		if(StringUtils.isNotBlank(filterValues)){
+				String name = ColumnConfig.NAME.valueFrom(columnConfiguration);
+				if (StringUtils.isNotBlank(name)) {
+					tmp.put(DTConstants.DT_S_NAME, name);
+				}
+
+				String selector = ColumnConfig.SELECTOR.valueFrom(columnConfiguration);
+				if (StringUtils.isNotBlank(selector)) {
+					tmp.put(DTConstants.DT_S_SELECTOR, selector);
+				}
+
+				String filterValues = ColumnConfig.FILTERVALUES.valueFrom(columnConfiguration);
+				if (StringUtils.isNotBlank(filterValues)) {
 					tmp.put(DTConstants.DT_FILTER_VALUES, new JavascriptSnippet(filterValues));
 				}
-        		
-        		Integer filterMinLength = ColumnConfig.FILTERMINLENGTH.valueFrom(columnConfiguration);
-        		if(filterMinLength != null){
-        			tmp.put(DTConstants.DT_FILTER_LENGTH, filterMinLength);
-        		}
-        		aoColumnsContent.add(tmp);
-        	}
-        }
-        filteringConf.put(DTConstants.DT_AOCOLUMNS, aoColumnsContent);
 
-        logger.debug("Column filtering configuration generated");
+				Integer filterMinLength = ColumnConfig.FILTERMINLENGTH.valueFrom(columnConfiguration);
+				if (filterMinLength != null) {
+					tmp.put(DTConstants.DT_FILTER_LENGTH, filterMinLength);
+				}
+				aoColumnsContent.add(tmp);
 
-        return filteringConf;
-    }
+				String filterCssClass = ColumnConfig.FILTERCSSCLASS.valueFrom(columnConfiguration);
+				if (StringUtils.isNotBlank(filterCssClass)) {
+					tmp.put(DTConstants.DT_FILTER_CLASS, filterCssClass);
+				}
+			}
+		}
+		filteringConf.put(DTConstants.DT_AOCOLUMNS, aoColumnsContent);
+
+		logger.debug("Column filtering configuration generated");
+
+		return filteringConf;
+	}
 }

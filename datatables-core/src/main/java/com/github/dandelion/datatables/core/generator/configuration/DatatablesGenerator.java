@@ -85,16 +85,11 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 		Map<String, Object> mainConf = new HashMap<String, Object>();
 
 		generateColumnConfiguration(mainConf, table, tableConfiguration);
-
 		generateI18nConfiguration(mainConf, tableConfiguration);
-
 		generateFeatureEnablementConfiguration(mainConf, tableConfiguration);
-
 		generateScrollingConfiguration(mainConf, tableConfiguration);
 		generateMiscConfiguration(mainConf, tableConfiguration);
-
 		generateAjaxConfiguration(mainConf, tableConfiguration);
-
 		generateCallbackConfiguration(mainConf, tableConfiguration);
 
 		logger.debug("DataTables configuration generated");
@@ -200,6 +195,11 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 			if (CollectionUtils.containsAny(enabledDisplayTypes, Format.ALL, Format.HTML)) {
 				tmp = new HashMap<String, Object>();
 
+				// Name
+				String name = ColumnConfig.NAME.valueFrom(columnConfiguration);
+				if(StringUtils.isNotBlank(name)) {
+					tmp.put(DTConstants.DT_S_NAME, name);
+				}
 				
 				// Sortable
 				Boolean sortable = ColumnConfig.SORTABLE.valueFrom(columnConfiguration);

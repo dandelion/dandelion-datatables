@@ -27,33 +27,39 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.column;
+package com.github.dandelion.datatables.thymeleaf.processor.attr;
 
-import com.github.dandelion.core.utils.StringUtils;
+import org.thymeleaf.Arguments;
+import org.thymeleaf.dom.Element;
+import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
+
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.extension.feature.FilterType;
-import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
+import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
- * 
- * TODO
+ * Attribute processor applied to the {@code th} tag for the
+ * {@link ColumnConfig#FILTERDATEFORMAT} configuration.
  * 
  * @author Thibault Duchateau
- * @since 0.10.0
  */
-public class FilterableProcessor extends AbstractColumnProcessor {
+public class ThFilterDateFormatAttrProcessor extends AbstractColumnAttrProcessor {
+
+	public ThFilterDateFormatAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+		super(matcher);
+	}
 
 	@Override
-	public void doProcess() {
+	public int getPrecedence() {
+		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
+	}
 
-		if (StringUtils.isNotBlank(stringifiedValue) && stringifiedValue.toLowerCase().equals("true")) {
-			registerExtension(stagingExtensions.get(ColumnConfig.FILTERABLE));
+	@Override
+	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName) {
 
-			if (isNonPresent(ColumnConfig.FILTERTYPE)) {
-				addEntry(ColumnConfig.FILTERTYPE, FilterType.INPUT);
-			}
+		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-			updateEntry(true);
-		}
+		stagingConf.put(ColumnConfig.FILTERDATEFORMAT, element.getAttributeValue(attributeName));
 	}
 }

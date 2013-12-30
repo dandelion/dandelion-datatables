@@ -45,9 +45,12 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TableDisplayLeng
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableDomAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportLinksAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterClearSelectorAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterDelayAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterPlaceholderAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterSelectorAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterTriggerAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableInfoAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableLengthChangeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableLengthMenuAttrProcessor;
@@ -93,6 +96,9 @@ public enum TableAttrProcessors {
     BASIC_APPEAR(TableAppearAttrProcessor.class, "appear", "table"),
     BASIC_FILTER_PLACEHOLDER(TableFilterPlaceholderAttrProcessor.class, "filterPlaceholder", "table"),
     BASIC_FILTER_DELAY(TableFilterDelayAttrProcessor.class, "filterDelay", "table"),
+    BASIC_FILTER_SELECTOR(TableFilterSelectorAttrProcessor.class, "filterSelector", "table"),
+    BASIC_FILTER_CLEAR_SELECTOR(TableFilterClearSelectorAttrProcessor.class, "filterClearSelector", "table"),
+    BASIC_FILTER_TRIGGER(TableFilterTriggerAttrProcessor.class, "filterTrigger", "table"),
     BASIC_PAGINATION_TYPE(TablePaginationTypeAttrProcessor.class, "paginationType", "table"),
     BASIC_LENGTH_MENU(TableLengthMenuAttrProcessor.class, "lengthMenu", "table"),
     BASIC_LENGTH_CHANGE(TableLengthChangeAttrProcessor.class, "lengthChange", "table"),

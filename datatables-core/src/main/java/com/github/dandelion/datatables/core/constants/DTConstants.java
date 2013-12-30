@@ -94,12 +94,16 @@ public final class DTConstants {
 	public static final String DT_OFFSETTOP = "offsetTop";
 	public static final String DT_FILTER_TYPE = "type";
 	public static final String DT_FILTER_VALUES = "values";
+	public static final String DT_FILTER_CLASS = "sClass";
 	public static final String DT_S_PLACEHOLDER = "sPlaceHolder";
+	public static final String DT_S_FILTERING_TRIGGER = "sFilteringTrigger";
 	public static final String DT_I_FILTERING_DELAY = "iFilteringDelay";
 	public static final String DT_S_SELECTOR = "sSelector";
 	public static final String DT_FILTER_LENGTH = "iFilterLength";
 
 	// Column configuration
+	public static final String DT_S_NAME = "sName";
+	public static final String DT_S_DATEFORMAT = "sDateFormat";
 	public static final String DT_SORTABLE = "bSortable";
 	public static final String DT_SEARCHABLE = "bSearchable";
 	public static final String DT_VISIBLE = "bVisible";

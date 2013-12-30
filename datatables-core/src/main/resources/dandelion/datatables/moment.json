@@ -1,0 +1,14 @@
+{
+    "scope" : "moment",
+    "parent": "none",
+    "assets": [
+		{
+		    "name": "moment",
+		    "version": "2.4.0",
+		    "type": "js",
+		    "locations": {
+		        "remote": "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/moment.min.js"
+		    }
+		}
+    ]
+}

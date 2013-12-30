@@ -1,0 +1,14 @@
+{
+    "scope" : "ddl-dt-multifilter",
+    "parent": "datatables",
+    "assets": [
+        {
+            "name": "multi-filter-js",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "classpath": "datatables/features/filtering/multifilter.js"
+            }
+        }
+    ]
+}

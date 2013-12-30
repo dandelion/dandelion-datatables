@@ -39,6 +39,7 @@ package com.github.dandelion.datatables.core.configuration;
 public enum Scope {
 
 	DATATABLES("datatables"),
+	BOOTSTRAP_DATEPICKER("bootstrap-datepicker"),
 	
 	DDL_DT_ROOT("ddl-dt-root"),
 	DDL_DT("ddl-dt"),
@@ -84,6 +85,7 @@ public enum Scope {
 	DDL_DT_THEME("ddl-dt-theme-bootstrap-responsive"),
 	
 	DDL_DT_FILTERING("ddl-dt-filtering"),
+	DDL_DT_MULTIFILTER("ddl-dt-multifilter"),
 	
 	DDL_DT_SORTING_ALT_STRING("ddl-ddt-sorting-alt-string"),
 	DDL_DT_SORTING_CURRENCY("ddl-ddt-sorting-currency"),

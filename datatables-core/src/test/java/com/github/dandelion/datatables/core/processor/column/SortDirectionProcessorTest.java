@@ -29,31 +29,44 @@
  */
 package com.github.dandelion.datatables.core.processor.column;
 
-import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.extension.feature.FilterType;
-import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
+import static org.fest.assertions.Assertions.assertThat;
 
-/**
- * 
- * TODO
- * 
- * @author Thibault Duchateau
- * @since 0.10.0
- */
-public class FilterableProcessor extends AbstractColumnProcessor {
+import java.util.Arrays;
+
+import org.junit.Test;
+
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.constants.Direction;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.processor.ColumnProcessor;
+import com.github.dandelion.datatables.core.processor.ColumnProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.MapEntry;
+
+public class SortDirectionProcessorTest extends ColumnProcessorBaseTest {
 
 	@Override
-	public void doProcess() {
+	public ColumnProcessor getProcessor() {
+		return new SortDirectionProcessor();
+	}
 
-		if (StringUtils.isNotBlank(stringifiedValue) && stringifiedValue.toLowerCase().equals("true")) {
-			registerExtension(stagingExtensions.get(ColumnConfig.FILTERABLE));
+	@Test
+	public void should_leave_the_value_untouched_when_empty() {
+		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.SORTDIRECTION, "");
+		processor.process(entry, columnConfiguration, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("");
+	}
 
-			if (isNonPresent(ColumnConfig.FILTERTYPE)) {
-				addEntry(ColumnConfig.FILTERTYPE, FilterType.INPUT);
-			}
-
-			updateEntry(true);
-		}
+	@Test
+	public void should_map_to_an_enum_when_using_an_existing_value() {
+		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.SORTDIRECTION, " asc");
+		processor.process(entry, columnConfiguration, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(Arrays.asList(Direction.ASC));
+	}
+	
+	@Test(expected = ConfigurationProcessingException.class)
+	public void should_throw_an_exception_wiwth_message() {
+		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.SORTDIRECTION, "assssc");
+		processor.process(entry, columnConfiguration, tableConfiguration);
 	}
 }

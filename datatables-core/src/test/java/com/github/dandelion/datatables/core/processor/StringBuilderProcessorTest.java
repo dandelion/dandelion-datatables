@@ -13,14 +13,15 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
+import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 
 public class StringBuilderProcessorTest {
 
-	protected TableProcessor processor;
 	protected TableConfiguration tableConfiguration;
+	protected ColumnConfiguration columnConfiguration;
 	protected HttpServletRequest request;
 	protected Map<ConfigToken<?>, Object> confToBeApplied;
 
@@ -31,13 +32,22 @@ public class StringBuilderProcessorTest {
 		request = (HttpServletRequest) mockPageContext.getRequest();
 		confToBeApplied = new HashMap<ConfigToken<?>, Object>();
 		tableConfiguration = new TableConfiguration(confToBeApplied, request);
-		processor = new StringBuilderProcessor();
+		columnConfiguration = new ColumnConfiguration();
 	}
 
 	@Test
-	public void should_set_a_string_true_when_value_is_a_string() throws Exception{
+	public void should_update_the_table_entry() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_CLASS, "someString");
+		TableProcessor processor = new StringBuilderProcessor();
 		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue().toString()).isEqualTo("someString");
+	}
+	
+	@Test
+	public void should_update_the_column_entry() throws Exception{
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_CLASS, "someString");
+		ColumnProcessor processor = new StringBuilderProcessor();
+		processor.process(entry, columnConfiguration, tableConfiguration);
 		assertThat(entry.getValue().toString()).isEqualTo("someString");
 	}
 }

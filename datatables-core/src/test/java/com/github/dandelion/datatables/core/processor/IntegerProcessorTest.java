@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
+import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
@@ -20,8 +21,8 @@ import com.github.dandelion.datatables.core.exception.ConfigurationProcessingExc
 
 public class IntegerProcessorTest {
 	
-	protected TableProcessor processor;
 	protected TableConfiguration tableConfiguration;
+	protected ColumnConfiguration columnConfiguration;
 	protected HttpServletRequest request;
 	protected Map<ConfigToken<?>, Object> confToBeApplied;
 
@@ -32,19 +33,29 @@ public class IntegerProcessorTest {
 		request = (HttpServletRequest) mockPageContext.getRequest();
 		confToBeApplied = new HashMap<ConfigToken<?>, Object>();
 		tableConfiguration = new TableConfiguration(confToBeApplied, request);
-		processor = new IntegerProcessor();
+		columnConfiguration = new ColumnConfiguration();
 	}
 	
 	@Test
-	public void should_set_1_when_value_is_1() throws Exception{
+	public void should_update_the_table_entry_with_1() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPESIZE, "1");
+		TableProcessor processor = new IntegerProcessor();
 		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(1);
+	}
+	
+	@Test
+	public void should_update_the_column_entry_with_1() throws Exception{
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPESIZE, "1");
+		ColumnProcessor processor = new IntegerProcessor();
+		processor.process(entry, columnConfiguration, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo(1);
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_throw_an_exception_when_not_using_an_integer() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPESIZE, "number");
+		TableProcessor processor = new IntegerProcessor();
 		processor.process(entry, tableConfiguration);
 	}
 }

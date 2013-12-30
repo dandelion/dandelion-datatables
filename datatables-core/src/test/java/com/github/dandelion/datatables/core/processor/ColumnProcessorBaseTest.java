@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2012 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,42 +29,50 @@
  */
 package com.github.dandelion.datatables.core.processor;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
-import com.github.dandelion.core.utils.StringUtils;
+import javax.servlet.http.HttpServletRequest;
+
+import org.junit.After;
+import org.junit.Before;
+import org.springframework.mock.web.MockPageContext;
+import org.springframework.mock.web.MockServletContext;
+
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.configuration.ConfigurationStore;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.extension.Extension;
+import com.github.dandelion.datatables.core.processor.column.FakeFilteringFeature;
 
-/**
- * Processor used for all Integer parameters.
- * 
- * @author Thibault Duchateau
- * @since 0.9.0
- */
-public class IntegerProcessor implements TableProcessor, ColumnProcessor {
+public abstract class ColumnProcessorBaseTest {
 
-	@Override
-	public void process(Entry<ConfigToken<?>, Object> configEntry, TableConfiguration tableConfiguration) {
-		doProcess(configEntry, tableConfiguration);
+	protected ColumnProcessor processor;
+	protected TableConfiguration tableConfiguration;
+	protected ColumnConfiguration columnConfiguration;
+	protected HttpServletRequest request;
+	protected Map<ConfigToken<?>, Object> confToBeApplied;
+	protected Entry<ConfigToken<?>, Object> entry;
+	
+	@Before
+	public void setup() {
+		processor = getProcessor();
+		MockServletContext mockServletContext = new MockServletContext();
+		MockPageContext mockPageContext = new MockPageContext(mockServletContext);
+		request = (HttpServletRequest) mockPageContext.getRequest();
+		confToBeApplied = new HashMap<ConfigToken<?>, Object>();
+		tableConfiguration = new TableConfiguration(confToBeApplied, request);
+		tableConfiguration.setTableId("fakeId");
+		columnConfiguration = new ColumnConfiguration();
 	}
-
-	@Override
-	public void process(Entry<ConfigToken<?>, Object> configEntry, ColumnConfiguration columnConfiguration,
-			TableConfiguration tableConfiguration) {
-		doProcess(configEntry, tableConfiguration);
+	
+	@After
+	public void after(){
+		ConfigurationStore.clear();
 	}
-
-	private void doProcess(Entry<ConfigToken<?>, Object> configEntry, TableConfiguration tableConfiguration) {
-		String value = String.valueOf(configEntry.getValue());
-		Integer result = null;
-		try {
-			result = StringUtils.isNotBlank(value) ? Integer.parseInt(value) : null;
-		} catch (NumberFormatException e) {
-			throw new ConfigurationProcessingException("The value '" + value + "' cannot be parsed to Integer", e);
-		}
-
-		configEntry.setValue(result);
-	}
+	
+	public abstract ColumnProcessor getProcessor();
 }

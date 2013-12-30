@@ -27,33 +27,27 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.column;
+package com.github.dandelion.datatables.core.util;
 
-import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.extension.feature.FilterType;
-import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
+import java.util.Collection;
+import java.util.Iterator;
 
-/**
- * 
- * TODO
- * 
- * @author Thibault Duchateau
- * @since 0.10.0
- */
-public class FilterableProcessor extends AbstractColumnProcessor {
+public class JavascriptUtils {
 
-	@Override
-	public void doProcess() {
+	public static String toArray(Collection<String> collection){
+		StringBuilder sb = new StringBuilder("[");
 
-		if (StringUtils.isNotBlank(stringifiedValue) && stringifiedValue.toLowerCase().equals("true")) {
-			registerExtension(stagingExtensions.get(ColumnConfig.FILTERABLE));
-
-			if (isNonPresent(ColumnConfig.FILTERTYPE)) {
-				addEntry(ColumnConfig.FILTERTYPE, FilterType.INPUT);
+		Iterator<String> it = collection.iterator();
+		while(it.hasNext()){
+			sb.append("'");
+			sb.append(it.next());
+			sb.append("'");
+			if(it.hasNext()){
+				sb.append(",");
 			}
-
-			updateEntry(true);
 		}
+		sb.append("]");
+		
+		return sb.toString();
 	}
 }

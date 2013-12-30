@@ -328,6 +328,18 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(TableConfig.FEATURE_FILTER_DELAY, filterDelay);
 	}
 	
+	public void setFilterSelector(String filterSelector) {
+		stagingConf.put(TableConfig.FEATURE_FILTER_SELECTOR, filterSelector);
+	}
+	
+	public void setFilterClearSelector(String filterClearSelector) {
+		stagingConf.put(TableConfig.FEATURE_FILTER_CLEAR_SELECTOR, filterClearSelector);
+	}
+	
+	public void setFilterTrigger(String filterTrigger) {
+		stagingConf.put(TableConfig.FEATURE_FILTER_TRIGGER, filterTrigger);
+	}
+	
 	public void setDom(String dom) {
 		stagingConf.put(TableConfig.FEATURE_DOM, dom);
 	}

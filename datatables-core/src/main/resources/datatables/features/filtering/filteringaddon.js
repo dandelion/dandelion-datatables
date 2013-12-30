@@ -95,10 +95,11 @@
             //return oTable.fnSettings().oApi._fnColumnIndexToVisible(oTable.fnSettings(), iColumnIndex);
         }
 
-        function fnCreateInput(oTable, regex, smart, bIsNumber, iFilterLength, iMaxLenght) {
-            var sCSSClass = "dandelion_text_filter";
-            if (bIsNumber)
-                sCSSClass = "dandelion_number_filter";
+        function fnCreateInput(oTable, regex, smart, bIsNumber, iFilterLength, iMaxLenght, sName, sClass) {
+            var sCSSClass = "dandelion_column_filter dandelion_text_filter " + sClass;
+            if (bIsNumber) {
+            	sCSSClass = "dandelion_column_filter dandelion_number_filter " + sClass;
+            }
 
             label = label.replace(/(^\s*)|(\s*$)/g, "");
             var currentFilter = oTable.fnSettings().aoPreSearchCols[i].sSearch;
@@ -116,6 +117,11 @@
             if (iMaxLenght != undefined && iMaxLenght != -1) {
                 input.attr('maxlength', iMaxLenght);
             }
+            
+            // Stores the column name
+            if(sName != undefined && sName != ""){
+            	input.attr('data-column-name', sName);
+            }
             th.html(input);
             if (bIsNumber)
                 th.wrapInner('<span class="filter_column filter_number" />');
@@ -125,40 +131,42 @@
             asInitVals[i] = label;
             var index = i;
 
-            if (bIsNumber && !oTable.fnSettings().oFeatures.bServerSide) {
-                input.keyup(function () {
-                    /* Filter on the column all numbers that starts with the entered value */
-                    oTable.fnFilter('^' + this.value, _fnColumnIndex(index), true, false); //Issue 37
-                    fnOnFiltered();
-                });
-            } else {
-                input.keyup(function () {
-                    if (oTable.fnSettings().oFeatures.bServerSide && iFilterLength != 0) {
-                        //If filter length is set in the server-side processing mode
-                        //Check has the user entered at least iFilterLength new characters
-
-                        var currentFilter = oTable.fnSettings().aoPreSearchCols[index].sSearch;
-                        var iLastFilterLength = $(this).data("dt-iLastFilterLength");
-                        if (typeof iLastFilterLength == "undefined")
-                            iLastFilterLength = 0;
-                        var iCurrentFilterLength = this.value.length;
-                        if (Math.abs(iCurrentFilterLength - iLastFilterLength) < iFilterLength
-                        //&& currentFilter.length == 0 //Why this?
-					        ) {
-                            //Cancel the filtering
-                            return;
-                        }
-                        else {
-                            //Remember the current filter length
-                            $(this).data("dt-iLastFilterLength", iCurrentFilterLength);
-                        }
-                    }
-                    /* Filter on the column (the index) of this element */
-                    oTable.fnFilter(this.value, _fnColumnIndex(index), regex, smart); //Issue 37
-                    fnOnFiltered();
-                });
+            if(properties.sFilteringTrigger == "immediate") {
+            	
+	            if (bIsNumber && !oTable.fnSettings().oFeatures.bServerSide) {
+	                input.keyup(function () {
+	                    /* Filter on the column all numbers that starts with the entered value */
+	                    oTable.fnFilter('^' + this.value, _fnColumnIndex(index), true, false); //Issue 37
+	                    fnOnFiltered();
+	                });
+	            } else {
+	                input.keyup(function () {
+	                    if (oTable.fnSettings().oFeatures.bServerSide && iFilterLength != 0) {
+	                        //If filter length is set in the server-side processing mode
+	                        //Check has the user entered at least iFilterLength new characters
+	
+	                        var currentFilter = oTable.fnSettings().aoPreSearchCols[index].sSearch;
+	                        var iLastFilterLength = $(this).data("dt-iLastFilterLength");
+	                        if (typeof iLastFilterLength == "undefined")
+	                            iLastFilterLength = 0;
+	                        var iCurrentFilterLength = this.value.length;
+	                        if (Math.abs(iCurrentFilterLength - iLastFilterLength) < iFilterLength
+	                        //&& currentFilter.length == 0 //Why this?
+						        ) {
+	                            //Cancel the filtering
+	                            return;
+	                        }
+	                        else {
+	                            //Remember the current filter length
+	                            $(this).data("dt-iLastFilterLength", iCurrentFilterLength);
+	                        }
+	                    }
+	                    /* Filter on the column (the index) of this element */
+	                    oTable.fnFilter(this.value, _fnColumnIndex(index), regex, smart); //Issue 37
+	                    fnOnFiltered();
+	                });
+	            }
             }
-
             input.focus(function () {
                 if ($(this).hasClass("search_init")) {
                     $(this).removeClass("search_init");
@@ -173,16 +181,29 @@
             });
         }
 
-        function fnCreateRangeInput(oTable) {
+        function fnCreateRangeInput(oTable, sName, sClass) {
 
 			//var currentFilter = oTable.fnSettings().aoPreSearchCols[i].sSearch;
+        	var sCssClass = "dandelion_column_filter dandelion_number_range_filter " + sClass;
             th.html(_fnRangeLabelPart(0));
             var sFromId = oTable.attr("id") + '_range_from_' + i;
-            var from = $('<input type="text" class="dandelion_number_range_filter" id="' + sFromId + '" rel="' + i + '"/>');
+            var from = $('<input type="text" class="' + sCssClass + '" id="' + sFromId + '" rel="' + i + '"/>');
+           
+            // Stores the column name
+            if(sName != undefined && sName != ""){
+            	from.attr('data-column-name', sName);
+            }
+            
             th.append(from);
             th.append(_fnRangeLabelPart(1));
             var sToId = oTable.attr("id") + '_range_to_' + i;
-            var to = $('<input type="text" class="dandelion_number_range_filter" id="' + sToId + '" rel="' + i + '"/>');
+            var to = $('<input type="text" class="' + sCssClass + '" id="' + sToId + '" rel="' + i + '"/>');
+            
+            // Stores the column name
+            if(sName != undefined && sName != ""){
+            	to.attr('data-column-name', sName);
+            }
+            
             th.append(to);
             th.append(_fnRangeLabelPart(2));
             th.wrapInner('<span class="filter_column filter_number_range" />');
@@ -199,57 +220,71 @@
             */
             //$.fn.dataTableExt.afnFiltering.push(
             oTable.dataTableExt.afnFiltering.push(
-	        function (oSettings, aData, iDataIndex) {
-	            if (oTable.attr("id") != oSettings.sTableId)
-	                return true;
-	            // Try to handle missing nodes more gracefully
-	            if (document.getElementById(sFromId) == null)
-	                return true;
-	            var iMin = document.getElementById(sFromId).value * 1;
-	            var iMax = document.getElementById(sToId).value * 1;
-	            var iValue = aData[_fnColumnIndex(index)] == "-" ? 0 : aData[_fnColumnIndex(index)] * 1;
-	            if (iMin == "" && iMax == "") {
-	                return true;
-	            }
-	            else if (iMin == "" && iValue <= iMax) {
-	                return true;
-	            }
-	            else if (iMin <= iValue && "" == iMax) {
-	                return true;
-	            }
-	            else if (iMin <= iValue && iValue <= iMax) {
-	                return true;
-	            }
-	            return false;
-	        }
-        );
-            //------------end range filtering function
+		        function (oSettings, aData, iDataIndex) {
+		            if (oTable.attr("id") != oSettings.sTableId)
+		                return true;
+		            // Try to handle missing nodes more gracefully
+		            if (document.getElementById(sFromId) == null)
+		                return true;
+		            var iMin = document.getElementById(sFromId).value * 1;
+		            var iMax = document.getElementById(sToId).value * 1;
+		            var iValue = aData[_fnColumnIndex(index)] == "-" ? 0 : aData[_fnColumnIndex(index)] * 1;
+		            if (iMin == "" && iMax == "") {
+		                return true;
+		            }
+		            else if (iMin == "" && iValue <= iMax) {
+		                return true;
+		            }
+		            else if (iMin <= iValue && "" == iMax) {
+		                return true;
+		            }
+		            else if (iMin <= iValue && iValue <= iMax) {
+		                return true;
+		            }
+		            return false;
+		        }
+	        );
 
-            $('#' + sFromId + ',#' + sToId, th).keyup(function () {
-
-                var iMin = document.getElementById(sFromId).value * 1;
-                var iMax = document.getElementById(sToId).value * 1;
-                if (iMin != 0 && iMax != 0 && iMin > iMax)
-                    return;
-
-                oTable.fnDraw();
-                fnOnFiltered();
-            });
+            if(properties.sFilteringTrigger == "immediate") {
+	            $('#' + sFromId + ',#' + sToId, th).keyup(function () {
+	
+	                var iMin = document.getElementById(sFromId).value * 1;
+	                var iMax = document.getElementById(sToId).value * 1;
+	                if (iMin != 0 && iMax != 0 && iMin > iMax)
+	                    return;
+	
+	                oTable.fnDraw();
+	                fnOnFiltered();
+	            });
+            }
         }
 
-        function fnCreateDateRangeInput(oTable) {
-
+        function fnCreateDateRangeInput(oTable, sName, sClass, sDateFormat) {
+        	
+//        	$.datepicker.regional[""].dateFormat = 'YYYY/MM/DD';
             var aoFragments = sRangeFormat.split(/[}{]/);
-
+            var sCssClass = "dandelion_column_filter dandelion_date_range_filter " + sClass;
+            
             th.html("");
             //th.html(_fnRangeLabelPart(0));
             var sFromId = oTable.attr("id") + '_range_from_' + i;
-            var from = $('<input type="text" class="dandelion_date_range_filter" id="' + sFromId + '" rel="' + i + '"/>');
-            from.datepicker();
+            var from = $('<input type="text" class="' + sCssClass + '" id="' + sFromId + '" rel="' + i + '"/>');
+           // Stores the column name
+            if(sName != undefined && sName != ""){
+            	from.attr('data-column-name', sName);
+            }
+            
+            from.datepicker({ format: sDateFormat });
             //th.append(from);
             //th.append(_fnRangeLabelPart(1));
             var sToId = oTable.attr("id") + '_range_to_' + i;
-            var to = $('<input type="text" class="dandelion_date_range_filter" id="' + sToId + '" rel="' + i + '"/>');
+            var to = $('<input type="text" class="' + sCssClass + '" id="' + sToId + '" rel="' + i + '"/>');
+         
+            // Stores the column name
+            if(sName != undefined && sName != ""){
+            	to.attr('data-column-name', sName);
+            }
+            
             //th.append(to);
             //th.append(_fnRangeLabelPart(2));
 
@@ -266,64 +301,61 @@
                 }
             }
 
-
             th.wrapInner('<span class="filter_column filter_date_range" />');
-            to.datepicker();
+            to.datepicker({ format: sDateFormat });
             var index = i;
             aiCustomSearch_Indexes.push(i);
 
-
             //------------start date range filtering function
-
             //$.fn.dataTableExt.afnFiltering.push(
             oTable.dataTableExt.afnFiltering.push(
-	        function (oSettings, aData, iDataIndex) {
-	            if (oTable.attr("id") != oSettings.sTableId)
-	                return true;
-
-	            var dStartDate = from.datepicker("getDate");
-
-	            var dEndDate = to.datepicker("getDate");
-
-	            if (dStartDate == null && dEndDate == null) {
-	                return true;
-	            }
-
-	            var dCellDate = null;
-	            try {
-	                if (aData[_fnColumnIndex(index)] == null || aData[_fnColumnIndex(index)] == "")
-	                    return false;
-	                dCellDate = $.datepicker.parseDate($.datepicker.regional[""].dateFormat, aData[_fnColumnIndex(index)]);
-	            } catch (ex) {
-	                return false;
-	            }
-	            if (dCellDate == null)
-	                return false;
-
-
-	            if (dStartDate == null && dCellDate <= dEndDate) {
-	                return true;
-	            }
-	            else if (dStartDate <= dCellDate && dEndDate == null) {
-	                return true;
-	            }
-	            else if (dStartDate <= dCellDate && dCellDate <= dEndDate) {
-	                return true;
-	            }
-	            return false;
-	        }
-        );
+		        function (oSettings, aData, iDataIndex) {
+		            if (oTable.attr("id") != oSettings.sTableId)
+		                return true;
+	
+		            var dStartDate = from.datepicker("getDate");
+	
+		            var dEndDate = to.datepicker("getDate");
+	
+		            if (dStartDate == null && dEndDate == null) {
+		                return true;
+		            }
+	
+		            var dCellDate = null;
+		            try {
+		                if (aData[_fnColumnIndex(index)] == null || aData[_fnColumnIndex(index)] == "")
+		                    return false;
+		                dCellDate = $.datepicker.parseDate($.datepicker.regional[""].dateFormat, aData[_fnColumnIndex(index)]);
+		            } catch (ex) {
+		                return false;
+		            }
+		            if (dCellDate == null)
+		                return false;
+	
+	
+		            if (dStartDate == null && dCellDate <= dEndDate) {
+		                return true;
+		            }
+		            else if (dStartDate <= dCellDate && dEndDate == null) {
+		                return true;
+		            }
+		            else if (dStartDate <= dCellDate && dCellDate <= dEndDate) {
+		                return true;
+		            }
+		            return false;
+		        }
+	        );
             //------------end date range filtering function
 
-            $('#' + sFromId + ',#' + sToId, th).change(function () {
-                oTable.fnDraw();
-                fnOnFiltered();
-            });
-
-
+            if(properties.sFilteringTrigger == "immediate") {
+	           $('#' + sFromId + ',#' + sToId, th).change(function () {
+	              oTable.fnDraw();
+	              fnOnFiltered();
+	           });
+            }
         }
 
-        function fnCreateColumnSelect(oTable, aData, iColumn, nTh, sLabel, bRegex, oSelected) {
+        function fnCreateColumnSelect(oTable, aData, iColumn, nTh, sLabel, bRegex, oSelected, sName, sClass) {
             if (aData == null)
                 aData = _fnGetColumnValues(oTable.fnSettings(), iColumn, true, false, true);
             var index = iColumn;
@@ -331,7 +363,8 @@
             if (currentFilter == null || currentFilter == "")//Issue 81
                 currentFilter = oSelected;
 
-            var r = '<select class="search_init dandelion_select_filter"><option value="" class="search_init">' + sLabel + '</option>';
+            var sCssClass = "dandelion_column_filter dandelion_select_filter " + sClass;
+            var r = '<select class="search_init ' + sCssClass + '"><option value="" class="search_init">' + sLabel + '</option>';
             var j = 0;
             var iLen = aData.length;
             for (j = 0; j < iLen; j++) {
@@ -357,6 +390,10 @@
             }
 
             var select = $(r + '</select>');
+            // Stores the column name
+            if(sName != undefined && sName != ""){
+            	select.attr('data-column-name', sName);
+            }
             nTh.html(select);
             nTh.wrapInner('<span class="filter_column filter_select" />');
             select.change(function () {
@@ -366,17 +403,20 @@
                 } else {
                     $(this).addClass("search_init");
                 }
-                if (bRegex)
-                    oTable.fnFilter($(this).val(), iColumn, bRegex); //Issue 41
-                else
-                    oTable.fnFilter(unescape($(this).val()), iColumn); //Issue 25
-                fnOnFiltered();
+                
+                if(properties.sFilteringTrigger == "immediate") {
+	                if (bRegex)
+	                    oTable.fnFilter($(this).val(), iColumn, bRegex); //Issue 41
+	                else
+	                    oTable.fnFilter(unescape($(this).val()), iColumn); //Issue 25
+	                fnOnFiltered();
+                }
             });
             if (currentFilter != null && currentFilter != "")//Issue 81
                 oTable.fnFilter(unescape(currentFilter), iColumn);
         }
 
-        function fnCreateSelect(oTable, aData, bRegex, oSelected) {
+        function fnCreateSelect(oTable, aData, bRegex, oSelected, sName, sClass) {
             var oSettings = oTable.fnSettings();
             if (aData == null && oSettings.sAjaxSource != "" && !oSettings.oFeatures.bServerSide) {
                 // Add a function to the draw callback, which will check for the Ajax data having 
@@ -388,7 +428,7 @@
                             // Only rebuild the select on the second draw - i.e. when the Ajax
                             // data has been loaded.
                             if (oSettings.iDraw == 2 && oSettings.sAjaxSource != null && oSettings.sAjaxSource != "" && !oSettings.oFeatures.bServerSide) {
-                                return fnCreateColumnSelect(oTable, null, _fnColumnIndex(iColumn), nTh, sLabel, bRegex, oSelected); //Issue 37
+                                return fnCreateColumnSelect(oTable, null, _fnColumnIndex(iColumn), nTh, sLabel, bRegex, oSelected, sName, sClass); //Issue 37
                             }
                         };
                     })(i, th, label),
@@ -396,13 +436,13 @@
                 });
             }
             // Regardless of the Ajax state, build the select on first pass
-            fnCreateColumnSelect(oTable, aData, _fnColumnIndex(i), th, label, bRegex, oSelected); //Issue 37
+            fnCreateColumnSelect(oTable, aData, _fnColumnIndex(i), th, label, bRegex, oSelected, sName, sClass); //Issue 37
 
         }
 
 		function fnCreateDropdown(aData) {
 			var index = i;
-			var r = '<div class="dropdown dandelion_select_filter"><a class="dropdown-toggle" data-toggle="dropdown" href="#">' + label + '<b class="caret"></b></a><ul class="dropdown-menu" role="menu"><li data-value=""><a>Show All</a></li>', j, iLen = aData.length;
+			var r = '<div class="dropdown dandelion_column_filter dandelion_select_filter"><a class="dropdown-toggle" data-toggle="dropdown" href="#">' + label + '<b class="caret"></b></a><ul class="dropdown-menu" role="menu"><li data-value=""><a>Show All</a></li>', j, iLen = aData.length;
 
 			for (j = 0; j < iLen; j++) {
 				r += '<li data-value="' + aData[j] + '"><a>' + aData[j] + '</a></li>';
@@ -604,9 +644,10 @@
             aoColumns: null,
             sRangeFormat: "From {from} to {to}",
             sDateFromToken: "from",
-            sDateToToken: "to"
+            sDateToToken: "to",
+            sFilteringTrigger: "immediate",
+            sDateFormat: "yyyy-mm-dd"
         };
-
         var properties = $.extend(defaults, options);
 
         return this.each(function () {
@@ -705,18 +746,18 @@
                         case "null":
                             break;
                         case "number":
-                            fnCreateInput(oTable, true, false, true, aoColumn.iFilterLength, aoColumn.iMaxLenght);
+                            fnCreateInput(oTable, true, false, true, aoColumn.iFilterLength, aoColumn.iMaxLenght, aoColumn.sName, aoColumn.sClass);
                             break;
                         case "select":
                             if (aoColumn.bRegex != true)
                                 aoColumn.bRegex = false;
-                            fnCreateSelect(oTable, aoColumn.values, aoColumn.bRegex, aoColumn.selected);
+                            fnCreateSelect(oTable, aoColumn.values, aoColumn.bRegex, aoColumn.selected, aoColumn.sName, aoColumn.sClass);
                             break;
                         case "number-range":
-                            fnCreateRangeInput(oTable);
+                            fnCreateRangeInput(oTable, aoColumn.sName, aoColumn.sClass);
                             break;
                         case "date-range":
-                            fnCreateDateRangeInput(oTable);
+                            fnCreateDateRangeInput(oTable, aoColumn.sName, aoColumn.sClass, aoColumn.sDateFormat);
                             break;
                         case "checkbox":
                             fnCreateCheckbox(oTable, aoColumn.values);
@@ -729,7 +770,7 @@
                         default:
                             bRegex = (aoColumn.bRegex == null ? false : aoColumn.bRegex);
                             bSmart = (aoColumn.bSmart == null ? false : aoColumn.bSmart);
-                            fnCreateInput(oTable, bRegex, bSmart, false, aoColumn.iFilterLength, aoColumn.iMaxLenght);
+                            fnCreateInput(oTable, bRegex, bSmart, false, aoColumn.iFilterLength, aoColumn.iMaxLenght, aoColumn.sName, aoColumn.sClass);
                             break;
 
                     }

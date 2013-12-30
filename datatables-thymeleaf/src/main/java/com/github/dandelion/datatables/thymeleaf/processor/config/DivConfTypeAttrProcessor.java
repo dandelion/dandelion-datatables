@@ -36,8 +36,11 @@ import java.util.Map;
 
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
+import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
+import org.thymeleaf.util.DOMUtils;
 
+import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.asset.InsertMode;
@@ -50,7 +53,7 @@ import com.github.dandelion.datatables.core.exception.ConfigurationProcessingExc
 import com.github.dandelion.datatables.core.exception.DandelionDatatablesException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
-import com.github.dandelion.datatables.core.extension.theme.Theme;
+import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.util.UrlUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractConfigAttrProcessor;
@@ -71,6 +74,7 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
  * {@code dt:confType="export"}</li>
  * <li>An {@link ExtraFile}, using {@code dt:confType="extrafile"}</li>
  * <li>A configuration property, using {@code dt:confType="property"}</li>
+ * <li>An extra HTML snippet, using {@code dt:confType="extrahtml"}</li>
  * </ul>
  * 
  * @author Thibault Duchateau
@@ -79,7 +83,7 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 
 	private Arguments arguments;
-	
+
 	public DivConfTypeAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
@@ -106,7 +110,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 			sb.append("'");
 			sb.append(confTypeStr.trim());
 			sb.append("' is not a valid configuration type. Possible values are: ");
-			sb.append(Theme.possibleValues());
+			sb.append(EnumUtils.printPossibleValuesOf(ConfType.class));
 			throw new ConfigurationProcessingException(sb.toString());
 		}
 
@@ -128,7 +132,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 
 	private void checkMarkupUsage(Element element) {
 		Element parent = (Element) element.getParent();
-		
+
 		if (parent == null || !"div".equals(parent.getNormalizedName())
 				|| !parent.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":conf")) {
 			throw new DandelionDatatablesException(
@@ -140,6 +144,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 	 * Process and parse
 	 * 
 	 * @param element
+	 *            The {@code div} element which holds the attribute.
 	 */
 	@SuppressWarnings("unchecked")
 	private void processExportAttributes(Element element) {
@@ -182,13 +187,14 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 		String exportUrl = null;
 		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":url")) {
 			// Custom mode (export using controller)
-			String url = AttributeUtils.parseStringAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":url").trim();
+			String url = AttributeUtils.parseStringAttribute(arguments, element,
+					DataTablesDialect.DIALECT_PREFIX + ":url").trim();
 			exportUrl = UrlUtils.getCustomExportUrl(request, response, url);
-			conf.setCustom(true);
+			conf.setHasCustomUrl(true);
 		} else {
 			// Default mode (export using filter)
 			exportUrl = UrlUtils.getExportUrl(request, response, exportFormat, currentTableId);
-			conf.setCustom(false);
+			conf.setHasCustomUrl(false);
 		}
 		conf.setUrl(exportUrl);
 
@@ -203,7 +209,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 				sb.append("'");
 				sb.append(methodStr);
 				sb.append("' is not a valid HTTP method. Possible values are: ");
-				sb.append(HttpMethod.possibleValues());
+				sb.append(EnumUtils.printPossibleValuesOf(HttpMethod.class));
 				throw new ConfigurationProcessingException(sb.toString());
 			}
 
@@ -233,7 +239,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 				sb.append("'");
 				sb.append(orientationStr);
 				sb.append("' is not a valid orientation. Possible values are: ");
-				sb.append(Orientation.possibleValues());
+				sb.append(EnumUtils.printPossibleValuesOf(Orientation.class));
 				throw new ConfigurationProcessingException(sb.toString());
 			}
 
@@ -252,6 +258,12 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 		}
 	}
 
+	/**
+	 * Processes attributes in order to build an instance of {@link Callback}.
+	 * 
+	 * @param element
+	 *            The {@code div} element which holds the attribute.
+	 */
 	@SuppressWarnings("unchecked")
 	private void processCallbackAttributes(Element element) {
 
@@ -270,7 +282,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 					sb.append("'");
 					sb.append(typeStr);
 					sb.append("' is not a valid callback type. Possible values are: ");
-					sb.append(CallbackType.possibleValues());
+					sb.append(EnumUtils.printPossibleValuesOf(CallbackType.class));
 					throw new ConfigurationProcessingException(sb.toString());
 				}
 
@@ -302,12 +314,19 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 		}
 	}
 
+	/**
+	 * Processes attributes in order to build an instance of {@link ExtraFile}.
+	 * 
+	 * @param element
+	 *            The {@code div} element which holds the attribute.
+	 */
 	@SuppressWarnings("unchecked")
 	private void processExtrafileAttributes(Element element) {
 
 		if (hasAttribute(element, "src")) {
 
-			String src = AttributeUtils.parseStringAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":src");
+			String src = AttributeUtils.parseStringAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX
+					+ ":src");
 			InsertMode insertMode = null;
 
 			if (hasAttribute(element, "insert")) {
@@ -319,7 +338,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 					sb.append("'");
 					sb.append(insert);
 					sb.append("' is not a valid insert mode. Possible values are: ");
-					sb.append(CallbackType.possibleValues());
+					sb.append(EnumUtils.printPossibleValuesOf(InsertMode.class));
 					throw new ConfigurationProcessingException(sb.toString());
 				}
 			} else {
@@ -341,6 +360,13 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 		}
 	}
 
+	/**
+	 * Processes attributes in order to overload locally the properties
+	 * configured globally.build an instance of {@link Callback}.
+	 * 
+	 * @param element
+	 *            The {@code div} element which holds the attribute.
+	 */
 	@SuppressWarnings("unchecked")
 	private void processPropertyAttributes(Element element) {
 

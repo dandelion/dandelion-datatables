@@ -18,7 +18,7 @@ import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 
-public class BooleanProcessorTest {
+public class EmptyStringProcessorTest {
 
 	protected TableConfiguration tableConfiguration;
 	protected ColumnConfiguration columnConfiguration;
@@ -34,36 +34,20 @@ public class BooleanProcessorTest {
 		tableConfiguration = new TableConfiguration(confToBeApplied, request);
 		columnConfiguration = new ColumnConfiguration();
 	}
-	
+
 	@Test
-	public void should_update_the_table_entry_with_true() throws Exception{
-		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_DEFERRENDER, "true");
-		TableProcessor processor = new BooleanProcessor();
+	public void should_update_the_table_entry_with_an_empty_string() throws Exception{
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "");
+		TableProcessor processor = new EmptyStringProcessor();
 		processor.process(entry, tableConfiguration);
-		assertThat(entry.getValue()).isEqualTo(true);
+		assertThat(entry.getValue()).isEqualTo("");
 	}
 	
 	@Test
-	public void should_update_the_column_entry_with_true() throws Exception{
-		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_DEFERRENDER, "true");
-		ColumnProcessor processor = new BooleanProcessor();
+	public void should_update_the_column_entry_with_an_empty_string() throws Exception{
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "");
+		ColumnProcessor processor = new EmptyStringProcessor();
 		processor.process(entry, columnConfiguration, tableConfiguration);
-		assertThat(entry.getValue()).isEqualTo(true);
-	}
-	
-	@Test
-	public void should_update_the_table_entry_with_false() throws Exception{
-		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_DEFERRENDER, "false");
-		TableProcessor processor = new BooleanProcessor();
-		processor.process(entry, tableConfiguration);
-		assertThat(entry.getValue()).isEqualTo(false);
-	}
-	
-	@Test
-	public void should_update_the_table_entry_with_false_when_using_a_wrong_value() throws Exception{
-		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_DEFERRENDER, "wrongValue");
-		TableProcessor processor = new BooleanProcessor();
-		processor.process(entry, tableConfiguration);
-		assertThat(entry.getValue()).isEqualTo(false);
+		assertThat(entry.getValue()).isEqualTo("");
 	}
 }

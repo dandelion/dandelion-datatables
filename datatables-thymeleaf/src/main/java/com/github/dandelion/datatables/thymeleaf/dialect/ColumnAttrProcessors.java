@@ -39,10 +39,13 @@ import com.github.dandelion.datatables.core.exception.DandelionDatatablesExcepti
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThCssCellClassAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThDefaultValueAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterCssClassAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterDateFormatAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterMinLengthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterValuesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThNameAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThPropertyAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThRenderFunctionAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSearchableAttrProcessor;
@@ -55,27 +58,30 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.ThVisibleAttrPro
 
 /**
  * All attribute processors used by Dandelion-DataTables.
- *
+ * 
  * @since 0.9.0
  */
 public enum ColumnAttrProcessors {
-	
-    BASIC_SORTABLE(ThSortableAttrProcessor.class, "sortable", "th"),
-    BASIC_FILTERABLE(ThFilterableAttrProcessor.class, "filterable", "th"),
-    BASIC_SEARCHABLE(ThSearchableAttrProcessor.class, "searchable", "th"),
-    BASIC_VISIBLE(ThVisibleAttrProcessor.class, "visible", "th"),
-    BASIC_FILTER_TYPE(ThFilterTypeAttrProcessor.class, "filterType", "th"),
-    BASIC_FILTER_VALUES(ThFilterValuesAttrProcessor.class, "filterValues", "th"),
-    BASIC_FILTER_LENGTH(ThFilterMinLengthAttrProcessor.class, "filterMinLength", "th"),
-    BASIC_SORT_INIT(ThSortInitAttrProcessor.class, "sortInit", "th"),
-    BASIC_SORT_DIR(ThSortDirectionAttrProcessor.class, "sortDir", "th"),
-    BASIC_SORT_TYPE(ThSortTypeAttrProcessor.class, "sortType", "th"),
-    BASIC_SELECTOR(ThSelectorAttrProcessor.class, "selector", "th"),
-    BASIC_CSS_CELLCLASS(ThCssCellClassAttrProcessor.class, "cssCellClass", "th");
-    
+
 	PROPERTY(ThPropertyAttrProcessor.class, "property", "th"), 
 	DEFAULTVALUE(ThDefaultValueAttrProcessor.class, "default", "th"), 
+	NAME(ThNameAttrProcessor.class, "name", "th"), 
 	RENDER_FUNCTION(ThRenderFunctionAttrProcessor.class, "renderFunction", "th"), 
+	SORTABLE(ThSortableAttrProcessor.class, "sortable", "th"), 
+	FILTERABLE(ThFilterableAttrProcessor.class, "filterable", "th"), 
+	SEARCHABLE(ThSearchableAttrProcessor.class, "searchable", "th"), 
+	VISIBLE(ThVisibleAttrProcessor.class, "visible", "th"), 
+	FILTER_TYPE(ThFilterTypeAttrProcessor.class, "filterType", "th"), 
+	FILTER_CSSCLASS(ThFilterCssClassAttrProcessor.class, "filterCssClass", "th"), 
+	FILTER_VALUES(ThFilterValuesAttrProcessor.class, "filterValues", "th"), 
+	FILTER_LENGTH(ThFilterMinLengthAttrProcessor.class, "filterMinLength", "th"), 
+	FILTER_DATEFORMAT(ThFilterDateFormatAttrProcessor.class, "filterDateFormat", "th"), 
+	SORT_INIT(ThSortInitAttrProcessor.class, "sortInit", "th"), 
+	SORT_DIR(ThSortDirectionAttrProcessor.class, "sortDir", "th"), 
+	SORT_TYPE(ThSortTypeAttrProcessor.class, "sortType", "th"), 
+	SELECTOR(ThSelectorAttrProcessor.class, "selector", "th"), 
+	CSS_CELLCLASS(ThCssCellClassAttrProcessor.class, "cssCellClass", "th");
+
 	private Class<? extends AbstractColumnAttrProcessor> processorClass;
 	private String attributeName;
 	private String elementNameFilter;

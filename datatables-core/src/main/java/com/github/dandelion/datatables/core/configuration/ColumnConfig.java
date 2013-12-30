@@ -41,9 +41,9 @@ import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.processor.BooleanProcessor;
 import com.github.dandelion.datatables.core.processor.ColumnProcessor;
+import com.github.dandelion.datatables.core.processor.EmptyStringProcessor;
 import com.github.dandelion.datatables.core.processor.IntegerProcessor;
 import com.github.dandelion.datatables.core.processor.StringBuilderProcessor;
-import com.github.dandelion.datatables.core.processor.EmptyStringProcessor;
 import com.github.dandelion.datatables.core.processor.StringProcessor;
 import com.github.dandelion.datatables.core.processor.column.FilterTypeProcessor;
 import com.github.dandelion.datatables.core.processor.column.FilterableProcessor;
@@ -66,6 +66,7 @@ public final class ColumnConfig {
 	public static ConfigToken<String> ID = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> TITLE = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> TITLEKEY = new ConfigToken<String>("", new StringProcessor());
+	public static ConfigToken<String> NAME = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> PROPERTY = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> DEFAULTVALUE = new ConfigToken<String>("", new EmptyStringProcessor());
 	public static ConfigToken<StringBuilder> CSSSTYLE = new ConfigToken<StringBuilder>("", new StringBuilderProcessor());
@@ -80,6 +81,7 @@ public final class ColumnConfig {
 	public static ConfigToken<Boolean> SEARCHABLE = new ConfigToken<Boolean>("", new BooleanProcessor());
 	public static ConfigToken<Boolean> VISIBLE = new ConfigToken<Boolean>("", new BooleanProcessor());
 	public static ConfigToken<FilterType> FILTERTYPE = new ConfigToken<FilterType>("", new FilterTypeProcessor());
+	public static ConfigToken<String> FILTERDATEFORMAT = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> FILTERVALUES = new ConfigToken<String>("", new StringProcessor(true));
 	public static ConfigToken<String> FILTERCSSCLASS = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> FILTERPLACEHOLDER = new ConfigToken<String>("", new StringProcessor());

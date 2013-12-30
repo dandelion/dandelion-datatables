@@ -1,0 +1,14 @@
+{
+    "scope" : "bootstrap-datepicker",
+    "parent": "bootstrap2",
+    "assets": [
+		{
+		    "name": "bootstrap-datepicker",
+		    "version": "1.2.0",
+		    "type": "js",
+		    "locations": {
+		        "remote": "//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"
+		    }
+		}
+    ]
+}

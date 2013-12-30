@@ -64,9 +64,6 @@ public class ExportLinkPositionsProcessor extends AbstractTableProcessor {
 				}
 			}
 		}
-		else{
-			retval.add(ExportLinkPosition.TOP_RIGHT);
-		}
 		
 		updateEntry(retval);
 	}

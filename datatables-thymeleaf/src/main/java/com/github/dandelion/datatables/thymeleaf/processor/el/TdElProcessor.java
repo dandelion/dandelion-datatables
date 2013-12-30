@@ -41,10 +41,10 @@ import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.standard.expression.IStandardExpressionParser;
 import org.thymeleaf.standard.expression.StandardExpressionParser;
 
-import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.github.dandelion.datatables.core.export.Format;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 

@@ -169,6 +169,10 @@ public class ColumnTag extends AbstractColumnTag {
 		stagingConf.put(ColumnConfig.UID, uid);
 	}
 
+	public void setName(String name) {
+		stagingConf.put(ColumnConfig.NAME, name);
+	}
+	
 	public void setProperty(String property) {
 		// For DOM sources
 		this.property = property;

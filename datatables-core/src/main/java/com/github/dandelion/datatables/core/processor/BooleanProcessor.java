@@ -46,19 +46,16 @@ public class BooleanProcessor implements TableProcessor, ColumnProcessor {
 
 	@Override
 	public void process(Entry<ConfigToken<?>, Object> configEntry, TableConfiguration tableConfiguration) {
-		String value = String.valueOf(configEntry.getValue());
-
-		Boolean retval = null;
-		if (StringUtils.isNotBlank(value)) {
-			retval = Boolean.parseBoolean(value);
-		}
-
-		configEntry.setValue(retval);
+		doProcess(configEntry, tableConfiguration);
 	}
 
 	@Override
 	public void process(Entry<ConfigToken<?>, Object> configEntry, ColumnConfiguration columnConfiguration,
 			TableConfiguration tableConfiguration) {
+		doProcess(configEntry, tableConfiguration);
+	}
+
+	private void doProcess(Entry<ConfigToken<?>, Object> configEntry, TableConfiguration tableConfiguration) {
 		String value = String.valueOf(configEntry.getValue());
 
 		Boolean retval = null;
