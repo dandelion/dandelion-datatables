@@ -261,6 +261,11 @@ public class ExportConf {
 			return this;
 		}
 		
+		public Builder orientation(Orientation orientation) {
+			exportConf.setOrientation(orientation);
+			return this;
+		}
+		
 		public ExportConf build() {
 			return exportConf;
 		}
