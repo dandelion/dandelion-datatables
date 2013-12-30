@@ -1,6 +1,6 @@
 /*
 * File:        jquery.dataTables.columnFilter.js
-* Version:     1.5.5
+* Version:     1.6.0
 * Author:      Jovan Popovic 
 * Author:      Thibault Duchateau
 *  
