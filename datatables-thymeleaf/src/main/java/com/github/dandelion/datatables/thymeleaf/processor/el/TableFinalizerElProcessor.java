@@ -57,8 +57,10 @@ import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.extension.feature.ExtraFileFeature;
+import com.github.dandelion.datatables.core.extension.feature.ExtraHtmlFeature;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
 import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
+import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.util.UrlUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
@@ -153,6 +155,13 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 				if(extraFiles != null && !extraFiles.isEmpty()){
 					table.getTableConfiguration().setExtraFiles(extraFiles);
 					table.getTableConfiguration().registerExtension(new ExtraFileFeature());
+				}
+				
+				// ExtraHtml
+				List<ExtraHtml> extraHtmls = (List<ExtraHtml>) configs.get(table.getId()).get(ConfType.EXTRAHTML);
+				if(extraHtmls != null && !extraHtmls.isEmpty()){
+					table.getTableConfiguration().setExtraHtmlSnippets(extraHtmls);
+					table.getTableConfiguration().registerExtension(new ExtraHtmlFeature());
 				}
 				
 				// Configuration properties

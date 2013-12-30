@@ -127,6 +127,9 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 		case PROPERTY:
 			processPropertyAttributes(element);
 			break;
+		case EXTRAHTML:
+			processExtrahtmlAttributes(element);
+			break;
 		}
 	}
 
@@ -141,7 +144,61 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 	}
 
 	/**
-	 * Process and parse
+	 * Processes ExtraHtml attributes in order to build an instance of
+	 * {@link ExtraHtml}.
+	 * 
+	 * @param element
+	 *            The {@code div} element which holds the attribute.
+	 */
+	@SuppressWarnings("unchecked")
+	private void processExtrahtmlAttributes(Element element) {
+
+		if (hasAttribute(element, "uid")) {
+
+			ExtraHtml extraHtml = new ExtraHtml();
+			extraHtml.setUid(getStringValue(element, "uid"));
+
+			if (hasAttribute(element, "container")) {
+				extraHtml.setContainer(getStringValue(element, "container"));
+			} else {
+				extraHtml.setContainer("div");
+			}
+
+			if (hasAttribute(element, "cssStyle")) {
+				extraHtml.setCssStyle(getStringValue(element, "cssStyle"));
+			}
+			if (hasAttribute(element, "cssClass")) {
+				extraHtml.setCssClass(getStringValue(element, "cssClass"));
+			}
+
+			if (!element.getChildren().isEmpty()) {
+				StringBuilder sb = new StringBuilder();
+				for (Node child : element.getChildren()) {
+					sb.append(DOMUtils.getXmlFor(child).replaceAll("[\n\r]", "").trim());
+				}
+				extraHtml.setContent(sb.toString());
+			}
+
+			if (configs.get(currentTableId).containsKey(ConfType.EXTRAHTML)) {
+				List<ExtraHtml> extraHtmls = (List<ExtraHtml>) configs.get(currentTableId).get(ConfType.EXTRAHTML);
+
+				extraHtmls.add(extraHtml);
+			} else {
+				List<ExtraHtml> extraHtmls = new ArrayList<ExtraHtml>();
+				extraHtmls.add(extraHtml);
+
+				configs.get(currentTableId).put(ConfType.EXTRAHTML, extraHtmls);
+			}
+
+		} else {
+			throw new ConfigurationProcessingException(
+					"The attribute 'dt:uid' is required when defining an extra HTML snippet.");
+		}
+	}
+
+	/**
+	 * Processes export attributes in order to build an instance of
+	 * {@link ExportConf}.
 	 * 
 	 * @param element
 	 *            The {@code div} element which holds the attribute.

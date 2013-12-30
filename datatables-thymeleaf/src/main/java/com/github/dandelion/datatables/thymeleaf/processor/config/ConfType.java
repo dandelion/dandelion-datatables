@@ -37,7 +37,7 @@ package com.github.dandelion.datatables.thymeleaf.processor.config;
  * @since 0.10.0
  */
 public enum ConfType {
-	EXPORT, CALLBACK, EXTRAFILE, PROPERTY;
+	EXPORT, CALLBACK, EXTRAFILE, EXTRAHTML, PROPERTY;
 	
 	public static String possibleValues() {
 		StringBuilder possibleValues = new StringBuilder();
