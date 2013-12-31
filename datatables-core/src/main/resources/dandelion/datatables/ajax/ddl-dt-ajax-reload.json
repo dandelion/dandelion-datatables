@@ -1,0 +1,14 @@
+{
+    "scope" : "ddl-dt-ajax-reload",
+    "parent": "jquery",
+    "assets": [
+        {
+            "name": "reload-js",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "template": "datatables/ajax/reload.js"
+            }
+        }
+    ]
+}

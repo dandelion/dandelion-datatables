@@ -240,6 +240,16 @@
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
+         <description>jQuery selector used to grab the element on which a 'click' event will be bound to trigger the table reloading.</description>
+          <name>reloadSelector</name>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <description>Name of a Javascript function that will be called in the 'click' event bound by the reloadSelector attribute.</description>
+          <name>reloadFunction</name>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
          <description>Pipe size used when pipelining is enabled, ie
             times that the user can page before a request must be made
             of the server. (Default : 5)</description>
@@ -647,7 +657,7 @@
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
-         <description>Name of an external Javascript function that will be used to render the column (AJAX only)</description>
+         <description>Name of Javascript function that will be called to render the column (AJAX only)</description>
          <name>renderFunction</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>

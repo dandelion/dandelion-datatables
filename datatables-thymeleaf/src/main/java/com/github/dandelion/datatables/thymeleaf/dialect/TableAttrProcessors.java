@@ -59,6 +59,8 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePaginationT
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePipeSizeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePipeliningAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableProcessingAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableReloadFunctionAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableReloadSelectorAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollCollapseAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollXAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollXInnerAttrProcessor;
@@ -130,6 +132,8 @@ public enum TableAttrProcessors {
     AJAX_SERVER_DATA(TableServerDataAttrProcessor.class, "serverData", "table"),
     AJAX_SERVER_PARAMS(TableServerParamsAttrProcessor.class, "serverparams", "table"),
     AJAX_SERVER_METHOD(TableServerMethodAttrProcessor.class, "serverMethod", "table"),
+    AJAX_RELOAD_SELECTOR(TableReloadSelectorAttrProcessor.class, "reloadSelector", "table"),
+    AJAX_RELOAD_FUNCTION(TableReloadFunctionAttrProcessor.class, "reloadFunction", "table"),
 
     // Theme processors
     THEME(TableThemeAttrProcessor.class, "theme", "table"),

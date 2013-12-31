@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2012 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -27,30 +27,27 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.util;
+package com.github.dandelion.datatables.core.processor.ajax;
 
-import java.util.Collection;
-import java.util.Iterator;
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.extension.feature.AjaxReloadFeature;
+import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
 
-public class JavascriptUtils {
+/**
+ * <p>
+ * Processor used when the table uses an AJAX source and the end-user wants to
+ * be able to reload a table.
+ * 
+ * @author Thibault Duchateau
+ * @since 0.10.0
+ */
+public class AjaxReloadProcessor extends AbstractTableProcessor {
 
-	public final static char NEWLINE = '\n';
-	public final static String INDENT = "   ";
-	
-	public static String toArray(Collection<String> collection){
-		StringBuilder sb = new StringBuilder("[");
-
-		Iterator<String> it = collection.iterator();
-		while(it.hasNext()){
-			sb.append("'");
-			sb.append(it.next());
-			sb.append("'");
-			if(it.hasNext()){
-				sb.append(",");
-			}
+	@Override
+	public void doProcess() {
+		if (StringUtils.isNotBlank(stringifiedValue)) {
+			registerExtension(new AjaxReloadFeature());
+			updateEntry(stringifiedValue);
 		}
-		sb.append("]");
-		
-		return sb.toString();
 	}
 }

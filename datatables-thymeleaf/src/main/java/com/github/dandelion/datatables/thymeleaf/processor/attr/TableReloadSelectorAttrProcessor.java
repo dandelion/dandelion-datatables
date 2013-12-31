@@ -27,30 +27,39 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.util;
+package com.github.dandelion.datatables.thymeleaf.processor.attr;
 
-import java.util.Collection;
-import java.util.Iterator;
+import org.thymeleaf.Arguments;
+import org.thymeleaf.dom.Element;
+import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
-public class JavascriptUtils {
+import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
-	public final static char NEWLINE = '\n';
-	public final static String INDENT = "   ";
-	
-	public static String toArray(Collection<String> collection){
-		StringBuilder sb = new StringBuilder("[");
+/**
+ * Attribute processor applied to the {@code table} tag for the
+ * {@link TableConfig#AJAX_RELOAD_SELECTOR} configuration.
+ * 
+ * @author Thibault Duchateau
+ */
+public class TableReloadSelectorAttrProcessor extends AbstractTableAttrProcessor {
 
-		Iterator<String> it = collection.iterator();
-		while(it.hasNext()){
-			sb.append("'");
-			sb.append(it.next());
-			sb.append("'");
-			if(it.hasNext()){
-				sb.append(",");
-			}
-		}
-		sb.append("]");
-		
-		return sb.toString();
+	public TableReloadSelectorAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+		super(matcher);
+	}
+
+	@Override
+	public int getPrecedence() {
+		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
+	}
+
+	@Override
+	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName) {
+
+		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
+
+		stagingConf.put(TableConfig.AJAX_RELOAD_SELECTOR, attrValue);
 	}
 }

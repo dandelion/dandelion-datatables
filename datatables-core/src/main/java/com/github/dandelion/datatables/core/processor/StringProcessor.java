@@ -2,12 +2,12 @@ package com.github.dandelion.datatables.core.processor;
 
 import java.util.Map.Entry;
 
-import com.github.dandelion.core.asset.web.AssetsRequestContext;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.util.ProcessorUtils;
 
 public class StringProcessor implements TableProcessor, ColumnProcessor {
 
@@ -37,26 +37,13 @@ public class StringProcessor implements TableProcessor, ColumnProcessor {
 		String value = String.valueOf(configEntry.getValue());
 
 		if (scopeUpdatable) {
-			if (value.contains("#")) {
-				String[] splittedValue = value.split("#");
-				if (value.startsWith("#") || splittedValue.length != 2) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Wrong format used in the attribute value. ");
-					sb.append("The right format is: 'scopeToAdd#JavascriptObject'");
-					throw new ConfigurationProcessingException(sb.toString());
-				} else {
-					if (splittedValue[0].contains(",")) {
-						String[] splittedScopes = splittedValue[0].trim().split(",");
-						for (String scope : splittedScopes) {
-							AssetsRequestContext.get(tableConfiguration.getRequest()).addScopes(scope.trim());
-						}
-					} else {
-						AssetsRequestContext.get(tableConfiguration.getRequest()).addScopes(splittedValue[0].trim());
-					}
-					configEntry.setValue(StringUtils.isNotBlank(splittedValue[1]) ? splittedValue[1] : null);
-				}
-			}
+			ProcessorUtils.processAttributeAndScope(value, configEntry, tableConfiguration.getRequest());
 		} else {
+			if (value.contains("#") || value.contains(",")) {
+				throw new ConfigurationProcessingException("'#' and ',' are not supported by the property '"
+						+ configEntry.getKey().getPropertyName() + "'.");
+			}
+			
 			configEntry.setValue(StringUtils.isNotBlank(value) ? value : null);
 		}
 	}

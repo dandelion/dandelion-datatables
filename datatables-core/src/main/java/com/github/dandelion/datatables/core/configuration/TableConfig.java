@@ -51,6 +51,8 @@ import com.github.dandelion.datatables.core.processor.StringBuilderProcessor;
 import com.github.dandelion.datatables.core.processor.StringProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxPipeliningProcessor;
+import com.github.dandelion.datatables.core.processor.ajax.AjaxReloadFunctionProcessor;
+import com.github.dandelion.datatables.core.processor.ajax.AjaxReloadProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxServerSideProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxSourceProcessor;
 import com.github.dandelion.datatables.core.processor.css.CssStripeClassesProcessor;
@@ -60,8 +62,8 @@ import com.github.dandelion.datatables.core.processor.export.ExportEnabledFormat
 import com.github.dandelion.datatables.core.processor.export.ExportFormatProcessor;
 import com.github.dandelion.datatables.core.processor.export.ExportLinkPositionsProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeatureAppearProcessor;
-import com.github.dandelion.datatables.core.processor.feature.FeatureFilterSelectorProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeatureFilterPlaceholderProcessor;
+import com.github.dandelion.datatables.core.processor.feature.FeatureFilterSelectorProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeatureLengthMenuProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeaturePaginationTypeProcessor;
 import com.github.dandelion.datatables.core.processor.i18n.MessageProcessor;
@@ -127,6 +129,8 @@ public final class TableConfig {
 	public static final String P_AJAX_SERVERDATA = "ajax.serverData";
 	public static final String P_AJAX_SERVERPARAM = "ajax.serverParam";
 	public static final String P_AJAX_SERVERMETHOD = "ajax.serverMethod";
+	public static final String P_AJAX_RELOAD_SELECTOR = "ajax.reloadSelector";
+	public static final String P_AJAX_RELOAD_FUNCTION = "ajax.reloadFunction";
 	
 	public static final String P_PLUGIN_FIXEDPOSITION = "plugin.fixedPosition";
 	public static final String P_PLUGIN_FIXEDOFFSETTOP = "plugin.fixedOffsetTop";
@@ -197,9 +201,11 @@ public final class TableConfig {
 	public static ConfigToken<String> AJAX_SOURCE = new ConfigToken<String>(P_AJAX_SOURCE, new AjaxSourceProcessor());
 	public static ConfigToken<Boolean> AJAX_PIPELINING = new ConfigToken<Boolean>(P_AJAX_PIPELINING, new AjaxPipeliningProcessor());
 	public static ConfigToken<Integer> AJAX_PIPESIZE = new ConfigToken<Integer>(P_AJAX_PIPESIZE, new IntegerProcessor());
-	public static ConfigToken<String> AJAX_SERVERDATA = new ConfigToken<String>(P_AJAX_SERVERDATA, new StringProcessor());
-	public static ConfigToken<String> AJAX_SERVERPARAM = new ConfigToken<String>(P_AJAX_SERVERPARAM, new StringProcessor());
+	public static ConfigToken<String> AJAX_SERVERDATA = new ConfigToken<String>(P_AJAX_SERVERDATA, new StringProcessor(true));
+	public static ConfigToken<String> AJAX_SERVERPARAM = new ConfigToken<String>(P_AJAX_SERVERPARAM, new StringProcessor(true));
 	public static ConfigToken<String> AJAX_SERVERMETHOD = new ConfigToken<String>(P_AJAX_SERVERMETHOD, new StringProcessor());
+	public static ConfigToken<String> AJAX_RELOAD_SELECTOR = new ConfigToken<String>(P_AJAX_RELOAD_SELECTOR, new AjaxReloadProcessor());
+	public static ConfigToken<String> AJAX_RELOAD_FUNCTION = new ConfigToken<String>(P_AJAX_RELOAD_FUNCTION, new AjaxReloadFunctionProcessor());
 	
 	public static ConfigToken<String> PLUGIN_FIXEDPOSITION = new ConfigToken<String>(P_PLUGIN_FIXEDPOSITION, new StringProcessor());
 	public static ConfigToken<Integer> PLUGIN_FIXEDOFFSETTOP = new ConfigToken<Integer>(P_PLUGIN_FIXEDOFFSETTOP, new IntegerProcessor());
@@ -280,6 +286,8 @@ public final class TableConfig {
 		internalConf.put(formalize(P_AJAX_SERVERDATA), AJAX_SERVERDATA);
 		internalConf.put(formalize(P_AJAX_SERVERPARAM), AJAX_SERVERPARAM);
 		internalConf.put(formalize(P_AJAX_SERVERMETHOD), AJAX_SERVERMETHOD);
+		internalConf.put(formalize(P_AJAX_RELOAD_SELECTOR), AJAX_RELOAD_SELECTOR);
+		internalConf.put(formalize(P_AJAX_RELOAD_FUNCTION), AJAX_RELOAD_FUNCTION);
 		
 		internalConf.put(formalize(P_PLUGIN_FIXEDPOSITION), PLUGIN_FIXEDPOSITION);
 		internalConf.put(formalize(P_PLUGIN_FIXEDOFFSETTOP), PLUGIN_FIXEDOFFSETTOP);

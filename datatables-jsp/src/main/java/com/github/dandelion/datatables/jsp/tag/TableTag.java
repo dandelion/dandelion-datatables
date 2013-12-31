@@ -284,6 +284,14 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(TableConfig.AJAX_PIPESIZE, pipeSize);
 	}
 	
+	public void setReloadSelector(String reloadSelector){
+		stagingConf.put(TableConfig.AJAX_RELOAD_SELECTOR, reloadSelector);
+	}
+	
+	public void setReloadFunction(String reloadFunction){
+		stagingConf.put(TableConfig.AJAX_RELOAD_FUNCTION, reloadFunction);
+	}
+	
 	public void setExportLinks(String exportLinks) {
 		stagingConf.put(TableConfig.EXPORT_LINK_POSITIONS, exportLinks);
 	}

@@ -47,6 +47,7 @@ public enum Scope {
 	DDL_DT_EXPORT("ddl-dt-export"),
 	
 	DDL_DT_AJAX_PIPELINING("ddl-dt-ajax-pipelining"),
+	DDL_DT_AJAX_RELOAD("ddl-dt-ajax-reload"),
 	
 	DDL_DT_THEME_BOOTSTRAP2("ddl-dt-theme-bootstrap2"),
 	DDL_DT_THEME_BOOTSTRAP2_RESPONSIVE("ddl-dt-theme-bootstrap2-responsive"),

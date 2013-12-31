@@ -34,8 +34,10 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.asset.web.AssetsRequestContext;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.extension.Extension;
@@ -159,5 +161,13 @@ public abstract class AbstractTableProcessor implements TableProcessor {
 	 */
 	protected boolean isNonPresent(ConfigToken<?> configToken){
 		return !isPresent(configToken);
+	}
+	
+	protected void addScope(Scope scope) {
+		AssetsRequestContext.get(tableConfiguration.getRequest()).addScopes(scope.getScopeName());
+	}
+	
+	protected void addScope(String scopeName) {
+		AssetsRequestContext.get(tableConfiguration.getRequest()).addScopes(scopeName);
 	}
 }
