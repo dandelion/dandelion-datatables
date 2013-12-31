@@ -69,7 +69,7 @@ public class PdfExport implements DatatablesExport {
 	public void processExport(OutputStream output) {
 
 		Document document = null;
-		if(Orientation.LANDSCAPE.equals(exportConf.getOrientation())){
+		if (exportConf.getOrientation() != null && exportConf.getOrientation().equals(Orientation.LANDSCAPE)) {
 			document = new Document(PageSize.LETTER.rotate());
 		}
 		else{

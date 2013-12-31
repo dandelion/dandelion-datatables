@@ -189,7 +189,7 @@ public class ExportTag extends TagSupport {
 				conf.setOrientation(orientationEnum);
 			}
 
-			conf.setIncludeHeader(includeHeader);				
+			conf.setIncludeHeader(includeHeader != null ? includeHeader : true);				
 			conf.setAutoSize(autoSize);				
 			
 			logger.debug("Export configuration for the type {} has been updated", format);

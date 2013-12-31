@@ -229,6 +229,7 @@ public class ExportConf {
 		
 		public Builder(String format) {
 			exportConf = new ExportConf(format);
+			exportConf.init();
 		}
 
 		public Builder mimeType(String mimeType) {

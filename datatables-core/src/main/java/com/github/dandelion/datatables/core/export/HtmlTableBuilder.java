@@ -31,8 +31,6 @@ package com.github.dandelion.datatables.core.export;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -213,7 +211,8 @@ public class HtmlTableBuilder<T> {
 
 		public HtmlTable build() {
 			HtmlTable table = new HtmlTable(id, request, response);
-			TableConfig.EXPORT_ENABLED_FORMATS.setIn(table.getTableConfiguration(), new HashSet<ExportConf>(Arrays.asList(exportConf)));
+			
+			table.getTableConfiguration().getExportConfiguration().put(exportConf.getFormat(), exportConf);
 
 			if (data != null && data.size() > 0) {
 				TableConfig.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), data.get(0).getClass().getSimpleName());
