@@ -32,14 +32,10 @@ package com.github.dandelion.datatables.core.util;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.github.dandelion.core.asset.web.AssetFilter;
-import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * <p>
@@ -103,6 +99,10 @@ public class UrlUtils {
 		return response != null ? response.encodeURL(processedUrl) : processedUrl;
 	}
 
+	public static String getProcessedUrl(StringBuilder url, HttpServletRequest request, HttpServletResponse response) {
+		return getProcessedUrl(url.toString(), request, response);
+	}
+	
 	/**
 	 * <p>
 	 * Check whether the passed URL is absolute.
@@ -119,22 +119,10 @@ public class UrlUtils {
 		return url.startsWith("~/");
 	}
 
-	public static String getExportUrl(HttpServletRequest request, HttpServletResponse response, String exportFormat,
-			String tableId) {
-
-		StringBuilder exportUrl = getCurrentUri(request);
-		addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE, exportFormat);
-		addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID, tableId);
-		addParameter(exportUrl, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
-		return response != null ? response.encodeURL(exportUrl.toString()) : exportUrl.toString();
+	public static StringBuilder getContext(HttpServletRequest request) {
+		return new StringBuilder(request.getContextPath());
 	}
-
-	public static String getCustomExportUrl(HttpServletRequest request, HttpServletResponse response, String customUrl) {
-		StringBuilder exportUrl = new StringBuilder(customUrl);
-		addParameter(exportUrl, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
-		return response != null ? response.encodeURL(exportUrl.toString()) : exportUrl.toString();
-	}
-
+	
 	public static void addParameter(StringBuilder url, String name, Object value) {
 		if (url.indexOf("?") == -1) {
 			url.append("?");
@@ -147,23 +135,5 @@ public class UrlUtils {
 			throw new ConfigurationProcessingException("Exception while adding the parameter " + name + "=" + value
 					+ "to the URL " + url);
 		}
-	}
-
-	/**
-	 * <p>
-	 * Check whether the table if being exported using the request
-	 * {@link ExportConstants#DDL_DT_REQUESTPARAM_EXPORT_ID} attribute.
-	 * 
-	 * <p>
-	 * The table's id must be tested in case of multiple tables are displayed on
-	 * the same page and exportable.
-	 * 
-	 * @return true if the table is being exported, false otherwise.
-	 */
-	public static Boolean isTableBeingExported(ServletRequest servletRequest, HtmlTable table) {
-		HttpServletRequest request = (HttpServletRequest) servletRequest;
-		return request.getAttribute(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID) != null ? request
-				.getAttribute(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID).toString().toLowerCase()
-				.equals(table.getId().toLowerCase()) : false;
 	}
 }

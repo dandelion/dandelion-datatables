@@ -75,8 +75,12 @@ public class ExportDelegate {
 		ExportConf exportConf = htmlTable.getTableConfiguration().getExportConfiguration().get(exportFormat);
 
 		String exportClass = exportConf.getExportClass();
+		if (exportClass == null) {
+			throw new ExportException("No export class has been configured for the '" + exportFormat
+					+ "' format. Please configure it before exporting.");
+		}
 		logger.debug("Selected export class: {}", exportClass);
-
+		
 		// Check that the class can be instanciated
 		if (!ClassUtils.canBeUsed(exportClass)) {
 			logger.error("Did you forget to add an extra dependency?");

@@ -61,7 +61,6 @@ import com.github.dandelion.datatables.core.extension.feature.ExtraHtmlFeature;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
 import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
-import com.github.dandelion.datatables.core.util.UrlUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.config.ConfType;
@@ -104,7 +103,7 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 			applyCssConfiguration(arguments);
 			
 			// The table is being exported
-			if (UrlUtils.isTableBeingExported(request, table)) {
+			if (ExportUtils.isTableBeingExported(request, table)) {
 				setupExport(arguments);
 			}
 			// The table must be generated and displayed

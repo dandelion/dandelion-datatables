@@ -20,6 +20,6 @@ public class MultipleFeaturesIT extends JspBaseIT {
 
 		String js = getConfigurationFromPage("ajax/table_with_callback");
 
-		assertThat(js).contains("\"fnInitComplete\":function(oSettings,json){oTable_myTableId.fnAdjustColumnSizing(true);myInitCallback(oSettings,json);},");
+		assertThat(js).contains("\"fnInitComplete\":function(oSettings,json) {\n      oTable_myTableId.fnAdjustColumnSizing(true);\n      myInitCallback(oSettings,json);\n   },");
 	}
 }

@@ -55,14 +55,14 @@ public class CallbacksIT extends JspBaseIT {
 	public void should_avoid_conflict_between_feature_and_callback() {
 		goToPage("advanced/callbacks/callback_init_conflict_with_feature");
 		String js = getConfigurationFromPage("advanced/callbacks/callback_init_conflict_with_feature");
-		assertThat(js).contains("function(oSettings,json){oTable_myTableId.fnAdjustColumnSizing(true);callback(oSettings,json);}");
+		assertThat(js).contains("function(oSettings,json) {\n      oTable_myTableId.fnAdjustColumnSizing(true);\n      callback(oSettings,json);\n   }");
 	}
 	
 	@Test
 	public void should_avoid_conflict_between_multiple_callback_of_the_same_type() {
 		goToPage("advanced/callbacks/callback_init_conflict_with_other_callback");
 		String js = getConfigurationFromPage("advanced/callbacks/callback_init_conflict_with_other_callback");
-		assertThat(js).contains("function(oSettings,json){oTable_myTableId.fnAdjustColumnSizing(true);callback1(oSettings,json);callback2(oSettings,json);}");
+		assertThat(js).contains("function(oSettings,json) {\n      oTable_myTableId.fnAdjustColumnSizing(true);\n      callback1(oSettings,json);\n      callback2(oSettings,json);\n   }");
 	}
 	
 	@Test

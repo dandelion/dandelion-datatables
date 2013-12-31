@@ -262,6 +262,11 @@ public class ExportConf {
 			return this;
 		}
 		
+		public Builder exportClass(DatatablesExport exportClass) {
+			exportConf.setExportClass(exportClass.getClass().getName());
+			return this;
+		}
+		
 		public Builder orientation(Orientation orientation) {
 			exportConf.setOrientation(orientation);
 			return this;

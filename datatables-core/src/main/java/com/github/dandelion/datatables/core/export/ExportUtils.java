@@ -33,6 +33,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -72,8 +73,8 @@ public class ExportUtils {
 
 		// Check that the class can be instanciated
 		if (!ClassUtils.canBeUsed(exportClass)) {
-			logger.error("Did you forget to add an extra dependency?");
-			throw new ExportException("Unable to export in " + exportConf.getFormat() + " format");
+			throw new ExportException("Unable to export in " + exportConf.getFormat()
+					+ " format because the export class cannot be found. Did you forget to add an extra dependency?");
 		}
 
 		// Get the class
@@ -133,8 +134,25 @@ public class ExportUtils {
 
 		// Get the URL parameter used to identify the export type
 		String exportTypeString = request.getParameter(
-				ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE).toString();
+				ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_FORMAT).toString();
 
 		return exportTypeString;
+	}
+	
+	/**
+	 * <p>
+	 * Check whether the table if being exported using the request
+	 * {@link ExportConstants#DDL_DT_REQUESTPARAM_EXPORT_ID} attribute.
+	 * 
+	 * <p>
+	 * The table's id must be tested in case of multiple tables are displayed on
+	 * the same page and exportable.
+	 * 
+	 * @return true if the table is being exported, false otherwise.
+	 */
+	public static Boolean isTableBeingExported(ServletRequest servletRequest, HtmlTable table) {
+		HttpServletRequest request = (HttpServletRequest) servletRequest;
+		Object exportInProgress = request.getAttribute(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS);
+		return exportInProgress != null && exportInProgress.equals("true") ? true : false;
 	}
 }

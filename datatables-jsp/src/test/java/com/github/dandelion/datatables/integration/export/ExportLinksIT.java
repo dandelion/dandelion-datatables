@@ -51,7 +51,7 @@ public class ExportLinksIT extends JspBaseIT {
 		goToPage("export/default_csv_link");
 			assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href")).isEqualTo(
-				getDefaultBaseUrl() + "/export/default_csv_link.jsp?dtt=csv&dti=myTableId&"
+				getDefaultBaseUrl() + "/export/default_csv_link.jsp?dtt=f&dtf=csv&dti=myTableId&dtp=y&"
 						+ AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
 		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 0).getAttribute("style"))).isEqualTo("float:right;");
@@ -63,7 +63,7 @@ public class ExportLinksIT extends JspBaseIT {
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href"))
-			.isEqualTo(getDefaultBaseUrl() + "/export/default_csv_link.jsp?param1=val1&dtt=csv&dti=myTableId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
+			.isEqualTo(getDefaultBaseUrl() + "/export/default_csv_link.jsp?param1=val1&dtt=f&dtf=csv&dti=myTableId&dtp=y&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
 	}
 	
 	@Test
@@ -72,7 +72,7 @@ public class ExportLinksIT extends JspBaseIT {
 
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getText()).isEqualTo("CSV");
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("href"))
-			.isEqualTo(getDefaultBaseUrl() + "/export/default_csv_link.jsp?param1=val1&param2=val2&dtt=csv&dti=myTableId&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
+			.isEqualTo(getDefaultBaseUrl() + "/export/default_csv_link.jsp?param1=val1&param2=val2&dtt=f&dtf=csv&dti=myTableId&dtp=y&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
 	}
 	
 	@Ignore
@@ -101,9 +101,9 @@ public class ExportLinksIT extends JspBaseIT {
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_myTableId_csv();");
 
 		String js = getConfigurationFromPage("export/custom_csv_url");
-		assertThat(js).contains("function ddl_dt_launch_export_myTableId_csv(){window.location='/context/customCsvUrl");
+		assertThat(js).contains("function ddl_dt_launch_export_myTableId_csv(){\n   window.location=\"/context/customCsvUrl");
 		assertThat(js).contains(AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
-		assertThat(js).contains("$.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));");
+		assertThat(js).contains("$.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()))");
 	}
 	
 	@Test
@@ -115,9 +115,9 @@ public class ExportLinksIT extends JspBaseIT {
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_myTableId_pdf();");
 
 		String js = getConfigurationFromPage("export/custom_pdf_url");
-		assertThat(js).contains("function ddl_dt_launch_export_myTableId_pdf(){window.location='/context/customPdfUrl");
+		assertThat(js).contains("function ddl_dt_launch_export_myTableId_pdf(){\n   window.location=\"/context/customPdfUrl");
 		assertThat(js).contains(AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
-		assertThat(js).contains("$.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));");
+		assertThat(js).contains("$.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()))");
 	}
 	
 	@Test
@@ -129,9 +129,9 @@ public class ExportLinksIT extends JspBaseIT {
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_myTableId_xls();");
 
 		String js = getConfigurationFromPage("export/custom_xls_url");
-		assertThat(js).contains("function ddl_dt_launch_export_myTableId_xls(){window.location='/context/customXlsUrl");
+		assertThat(js).contains("function ddl_dt_launch_export_myTableId_xls(){\n   window.location=\"/context/customXlsUrl");
 		assertThat(js).contains(AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
-		assertThat(js).contains("$.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));");
+		assertThat(js).contains("$.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()))");
 	}
 	
 	@Test
@@ -143,9 +143,9 @@ public class ExportLinksIT extends JspBaseIT {
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_myTableId_xlsx();");
 		
 		String js = getConfigurationFromPage("export/custom_xlsx_url");
-		assertThat(js).contains("function ddl_dt_launch_export_myTableId_xlsx(){window.location='/context/customXlsxUrl");
+		assertThat(js).contains("function ddl_dt_launch_export_myTableId_xlsx(){\n   window.location=\"/context/customXlsxUrl");
 		assertThat(js).contains(AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
-		assertThat(js).contains("$.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));");
+		assertThat(js).contains("$.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()))");
 	}
 	
 	@Test
@@ -157,8 +157,8 @@ public class ExportLinksIT extends JspBaseIT {
 		assertThat(find("div.dandelion_dataTables_export").findFirst("a").getAttribute("onclick")).isEqualTo("ddl_dt_launch_export_myTableId_xml();");
 
 		String js = getConfigurationFromPage("export/custom_xml_url");
-		assertThat(js).contains("function ddl_dt_launch_export_myTableId_xml(){window.location='/context/customXmlUrl");
+		assertThat(js).contains("function ddl_dt_launch_export_myTableId_xml(){\n   window.location=\"/context/customXmlUrl");
 		assertThat(js).contains(AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
-		assertThat(js).contains("$.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()));");
+		assertThat(js).contains("$.param(oTable_myTableId.oApi._fnAjaxParameters(oTable_myTableId.fnSettings()))");
 	}
 }

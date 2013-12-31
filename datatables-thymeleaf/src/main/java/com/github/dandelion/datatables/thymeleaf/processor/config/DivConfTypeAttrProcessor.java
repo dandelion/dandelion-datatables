@@ -40,6 +40,7 @@ import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.util.DOMUtils;
 
+import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.ExtraFile;
@@ -48,6 +49,7 @@ import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.exception.DandelionDatatablesException;
@@ -241,19 +243,25 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 			conf.setIncludeHeader(Boolean.parseBoolean(getStringValue(element, "includeHeader")));
 		}
 
-		String exportUrl = null;
+		StringBuilder exportUrl = null;
+		// Custom mode (export using controller)
 		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":url")) {
-			// Custom mode (export using controller)
-			String url = AttributeUtils.parseStringAttribute(arguments, element,
-					DataTablesDialect.DIALECT_PREFIX + ":url").trim();
-			exportUrl = UrlUtils.getCustomExportUrl(request, response, url);
+			exportUrl = new StringBuilder(AttributeUtils.parseStringAttribute(arguments, element,
+					DataTablesDialect.DIALECT_PREFIX + ":url").trim());
+			UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "c");
 			conf.setHasCustomUrl(true);
-		} else {
-			// Default mode (export using filter)
-			exportUrl = UrlUtils.getExportUrl(request, response, exportFormat, currentTableId);
+		}
+		// Default mode (export using filter)
+		else{
+			exportUrl = UrlUtils.getCurrentUri(request);
+			UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "f");
 			conf.setHasCustomUrl(false);
 		}
-		conf.setUrl(exportUrl);
+		UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID, tableId);
+		UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, exportFormat);
+		UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
+		UrlUtils.addParameter(exportUrl, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
+		conf.setUrl(UrlUtils.getProcessedUrl(exportUrl, request, response));
 
 		if (hasAttribute(element, "method")) {
 			String methodStr = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":method");

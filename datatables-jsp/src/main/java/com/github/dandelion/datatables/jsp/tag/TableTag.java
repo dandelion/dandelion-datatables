@@ -39,6 +39,7 @@ import javax.servlet.jsp.JspException;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.UrlUtils;
 
@@ -134,7 +135,7 @@ public class TableTag extends AbstractTableTag {
 	public int doEndTag() throws JspException {
 
 		// The table is being exported
-		if (UrlUtils.isTableBeingExported(request, table)) {
+		if (ExportUtils.isTableBeingExported(request, table)) {
 			return setupExport();
 		}
 		// The table must be generated and displayed

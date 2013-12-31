@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
+import static com.github.dandelion.datatables.core.util.JavascriptUtils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,7 @@ import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
@@ -48,7 +50,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 /**
  * <p>
  * Extension used to generate export links, depending on the export
- * configurations.
+ * configurations stored in the {@link TableConfiguration} instance.
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
@@ -60,6 +62,8 @@ public class ExportFeature extends AbstractExtension {
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(ExportFeature.class);
 		
+	private HtmlTable table;
+	
 	@Override
 	public String getName() {
 		return "export";
@@ -68,8 +72,14 @@ public class ExportFeature extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 
+		this.table = table;
+		
+		// If the export has been configured to be triggered with a POST, PUT or
+		// DELETE HTTM method, a custom plugin must added to the page
 		for(ExportConf exportConf : table.getTableConfiguration().getExportConfiguration().values()){
-			if(exportConf.getMethod().equals(HttpMethod.POST)){
+			if(exportConf.getMethod().equals(HttpMethod.POST)
+					|| exportConf.getMethod().equals(HttpMethod.PUT)
+					|| exportConf.getMethod().equals(HttpMethod.DELETE)){
 				addScope(Scope.DDL_DT_EXPORT);
 			}
 		}
@@ -81,6 +91,11 @@ public class ExportFeature extends AbstractExtension {
 			HtmlDiv divExport = initExportDiv(table);
 			
 			switch (position) {
+			case TOP_RIGHT:
+				divExport.addCssStyle("float:right;");
+				links.append("$('#" + table.getId()	+ "_wrapper').prepend('" + divExport.toHtml() + "');");
+				break;
+				
 			case BOTTOM_LEFT:
 				divExport.addCssStyle("float:left;margin-right:10px;");
 				links.append("$('#" + table.getId() + "').after('" + divExport.toHtml() + "');");
@@ -112,17 +127,10 @@ public class ExportFeature extends AbstractExtension {
 					links.append("$('#" + table.getId()	+ "').before('" + divExport.toHtml() + "');");
 				}
 				break;
-
-			case TOP_RIGHT:
-				divExport.addCssStyle("float:right;");
-				links.append("$('#" + table.getId()	+ "_wrapper').prepend('" + divExport.toHtml() + "');");
-				break;
-
-			default:
-				break;
 			}
 		}
 
+		links.append(NEWLINE);
 		addCallback(CallbackType.INIT, links.toString(), Mode.APPEND);
 	}
 
@@ -156,85 +164,7 @@ public class ExportFeature extends AbstractExtension {
 				}
 
 				if(conf.hasCustomUrl()){
-					String tableId = "oTable_" + table.getId();
-					
-					StringBuilder exportFuncName = new StringBuilder("ddl_dt_launch_export_");
-					exportFuncName.append(table.getId());
-					exportFuncName.append("_");
-					exportFuncName.append(conf.getFormat());
-					
-					StringBuilder exportFunc = new StringBuilder("function ");
-					exportFunc.append(exportFuncName.toString());
-					exportFunc.append("(){");
-                                        
-					// HTTP GET
-					if(conf.getMethod().equals(HttpMethod.GET)){
-						StringBuilder params = new StringBuilder();
-						if(StringUtils.isNotBlank(TableConfig.AJAX_SERVERPARAM.valueFrom(table))){
-							exportFunc.append("var aoData = ");
-							exportFunc.append(tableId);
-							exportFunc.append(".oApi._fnAjaxParameters(");
-							exportFunc.append(tableId);
-							exportFunc.append(".fnSettings());");
-							exportFunc.append(TableConfig.AJAX_SERVERPARAM.valueFrom(table));
-							exportFunc.append("(aoData);");
-							params.append("aoData");
-						}
-						else{
-							params.append(tableId);
-							params.append(".oApi._fnAjaxParameters(");
-							params.append(tableId);
-							params.append(".fnSettings()");
-						}
-						
-						exportFunc.append("window.location='");
-						exportFunc.append(conf.getUrl());
-						if(conf.getUrl().contains("?")){
-							exportFunc.append("&");
-						}
-						else{
-							exportFunc.append("?");
-						}
-						exportFunc.append("' + $.param(");
-						exportFunc.append(params.toString());
-						exportFunc.append("));}");
-						exportFunc.append("\n");
-						
-						appendToBeforeAll(exportFunc.toString());
-					}
-					// HTTP POST/PUT/DELETE
-					else{
-						StringBuilder params = new StringBuilder();
-						if(StringUtils.isNotBlank(TableConfig.AJAX_SERVERPARAM.valueFrom(table))){
-							exportFunc.append("var aoData = ");
-							exportFunc.append(tableId);
-							exportFunc.append(".oApi._fnAjaxParameters(");
-							exportFunc.append(tableId);
-							exportFunc.append(".fnSettings());");
-							exportFunc.append(TableConfig.AJAX_SERVERPARAM.valueFrom(table));
-							exportFunc.append("(aoData);");
-							params.append("aoData");
-						}
-						else{
-							params.append(tableId);
-							params.append(".oApi._fnAjaxParameters(");
-							params.append(tableId);
-							params.append(".fnSettings())");
-						}
-						
-						exportFunc.append("$.download('");
-						exportFunc.append(conf.getUrl());
-						exportFunc.append("',$.param(");
-						exportFunc.append(params.toString());
-						exportFunc.append("),'");
-						exportFunc.append(conf.getMethod());
-						exportFunc.append("');");
-						exportFunc.append("}");
-						exportFunc.append("\n");
-						
-						appendToBeforeAll(exportFunc.toString());					
-					}
-					link.setOnclick(exportFuncName.toString().concat("();"));
+					link.setOnclick(getOnclick(conf));
 				}
 				else{
 					link.setHref(conf.getUrl());
@@ -246,5 +176,76 @@ public class ExportFeature extends AbstractExtension {
 		}
 				
 		return divExport;
+	}
+	
+	private String getOnclick(ExportConf exportConf) {
+		
+		String oTableId = "oTable_" + table.getId();
+		String serverParamFunction = TableConfig.AJAX_SERVERPARAM.valueFrom(table);
+		StringBuilder params = new StringBuilder();
+		
+		StringBuilder exportFuncName = new StringBuilder("ddl_dt_launch_export_");
+		exportFuncName.append(table.getId());
+		exportFuncName.append("_");
+		exportFuncName.append(exportConf.getFormat());
+		
+		StringBuilder exportFunc = new StringBuilder("function ");
+		exportFunc.append(exportFuncName.toString());
+		exportFunc.append("(){").append(NEWLINE).append(INDENT);
+        
+		// Custom URL params exist
+		if (StringUtils.isNotBlank(serverParamFunction)) {
+			params.append("aoData");
+
+			exportFunc.append("var aoData = ").append(oTableId).append(".oApi._fnAjaxParameters(").append(oTableId).append(".fnSettings());").append(NEWLINE).append(INDENT);
+			exportFunc.append(serverParamFunction).append("(aoData);").append(NEWLINE).append(INDENT);
+			
+			// HTTP GET
+			if (exportConf.getMethod().equals(HttpMethod.GET)) {
+				exportFunc.append("window.location=\"").append(exportConf.getUrl());
+				if(exportConf.getUrl().contains("?")){
+					exportFunc.append("&");
+				}
+				else{
+					exportFunc.append("?");
+				}
+				
+				// Parameters should be decoded because jQuery.param() uses .serialize() which encodes the URL
+				exportFunc.append("\" + decodeURIComponent($.param(").append(params.toString()).append(")).replace(/\\+/g,' ');").append(NEWLINE);
+			}
+			// HTTP POST/PUT/DELETE
+			else{
+				exportFunc.append("$.download('").append(exportConf.getUrl()).append("', decodeURIComponent($.param(").append(params.toString()).append(")).replace(/\\+/g,' '),'").append(exportConf.getMethod()).append("');").append(NEWLINE);
+			}
+			
+		} 
+		// No additionnal URL params
+		else {
+			params.append(oTableId).append(".oApi._fnAjaxParameters(").append(oTableId).append(".fnSettings()");
+
+			// HTTP GET
+			if (exportConf.getMethod().equals(HttpMethod.GET)) {
+				exportFunc.append("window.location=\"").append(exportConf.getUrl());
+				if(exportConf.getUrl().contains("?")){
+					exportFunc.append("&");
+				}
+				else{
+					exportFunc.append("?");
+				}
+				
+				// Parameters should be decoded because jQuery.param() uses .serialize() which encodes the URL
+				exportFunc.append("\" + decodeURIComponent($.param(").append(params.toString()).append(")).replace(/\\+/g,' '));").append(NEWLINE);
+			}
+			// HTTP POST/PUT/DELETE
+			else{
+				exportFunc.append("$.download('").append(exportConf.getUrl()).append("', decodeURIComponent($.param(").append(params.toString()).append(")).replace(/\\+/g,' '),'").append(exportConf.getMethod()).append("'));").append(NEWLINE);
+			}
+		}
+		
+		exportFunc.append("}").append(NEWLINE);
+		
+		appendToBeforeAll(exportFunc.toString());					
+		
+		return exportFuncName.append("();").toString();
 	}
 }

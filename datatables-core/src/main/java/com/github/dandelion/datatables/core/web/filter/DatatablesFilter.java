@@ -41,6 +41,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.export.ExportConf;
 
@@ -65,9 +66,11 @@ public class DatatablesFilter implements Filter {
 		if (servletRequest instanceof HttpServletRequest) {
 
 			HttpServletRequest request = (HttpServletRequest) servletRequest;
-
+			String exportInProgress = request.getParameter(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS);
+			String exportType = request.getParameter(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE);
+			
 			// Don't filter anything
-			if (request.getParameter(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID) == null) {
+			if (StringUtils.isBlank(exportInProgress) || StringUtils.isBlank(exportType) || !exportType.equals("f")) {
 
 				chain.doFilter(servletRequest, servletResponse);
 
@@ -75,6 +78,7 @@ public class DatatablesFilter implements Filter {
 
 				// Flag set in request to tell the taglib to export the table
 				// instead of displaying it
+				request.setAttribute(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "true");
 				request.setAttribute(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID,
 						request.getParameter(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID));
 

@@ -37,8 +37,10 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
@@ -131,18 +133,23 @@ public class ExportTag extends TagSupport {
 			}
 			
 			// Default mode (export using filter)
-			String exportUrl = null;
+			StringBuilder exportUrl = null;
 			if(StringUtils.isBlank(url)){
-				exportUrl = UrlUtils.getExportUrl(request, response, format, parent.getTable().getId());
+				exportUrl = UrlUtils.getCurrentUri(request);
+				UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "f");
 				conf.setHasCustomUrl(false);
 			}
 			// Custom mode (export using controller)
 			else{
-				exportUrl = UrlUtils.getCustomExportUrl(request, response, url.trim());
+				exportUrl = new StringBuilder(url.trim());
+				UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "c");
 				conf.setHasCustomUrl(true);
 			}
-			
-			conf.setUrl(exportUrl);
+			UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID, parent.getTable().getId());
+			UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, format);
+			UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
+			UrlUtils.addParameter(exportUrl, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
+			conf.setUrl(UrlUtils.getProcessedUrl(exportUrl, request, response));
 
 			if(StringUtils.isNotBlank(fileName)){
 				conf.setFileName(fileName.trim());				

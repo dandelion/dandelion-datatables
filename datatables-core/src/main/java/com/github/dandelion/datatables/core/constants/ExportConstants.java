@@ -46,9 +46,15 @@ public class ExportConstants {
 
 	/** Request parameters */
 
-	// Table'is being exported
+	// Table is being exported
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS = "dtp";
+	
+	// Export type (filter vs controller)
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_TYPE = "dtt";
+	
+	// Table id
 	public static final String DDL_DT_REQUESTPARAM_EXPORT_ID = "dti";
 		
 	// Type of current export
-	public static final String DDL_DT_REQUESTPARAM_EXPORT_TYPE = "dtt";
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_FORMAT = "dtf";
 }

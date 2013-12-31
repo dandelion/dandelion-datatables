@@ -31,11 +31,11 @@ package com.github.dandelion.datatables.core.processor.export;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
 
 import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.extension.feature.ExportFeature;
@@ -58,41 +58,34 @@ public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
 		
 		if (StringUtils.isNotBlank(stringifiedValue)) {
 
-			Set<ExportConf> retval = null;
-
-			retval = new HashSet<ExportConf>();
-
 			// Init the exportable flag in order to add export links
 			tableConfiguration.setIsExportable(true);
 
 			// Allowed export types
 			String[] enabledFormats = stringifiedValue.split(",");
+			
+			// An ExportConf will be initialized for each enable export format
 			for (String enabledFormat : enabledFormats) {
 				enabledFormat = enabledFormat.toLowerCase().trim();
 
 				ExportConf exportConf = null;
 
-				// The exportConf may already exist due to the ExportTag
+				// The exportConf may already exist due to the ExportTag (JSP)
+				// or the DivConfTypeAttrProcessor (Thymeleaf)
 				if (!tableConfiguration.getExportConfiguration().containsKey(enabledFormat)) {
-					String url = UrlUtils.getExportUrl(tableConfiguration.getRequest(),
-							tableConfiguration.getResponse(), enabledFormat, tableConfiguration.getTableId());
-					exportConf = new ExportConf(enabledFormat, url);
-					retval.add(exportConf);
-					tableConfiguration.getExportConfiguration().put(enabledFormat, exportConf);
-				} else {
-					exportConf = tableConfiguration.getExportConfiguration().get(enabledFormat);
 					
-					// Custom URL must have the parameter that tells Dandelion
-					// to disable the AssetFilter during the export request
-					if (exportConf.hasCustomUrl()) {
-						StringBuilder url = new StringBuilder(exportConf.getUrl());
-						UrlUtils.addParameter(url, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
-						exportConf.setUrl(url.toString());
-					} else {
-						exportConf.setUrl(UrlUtils.getExportUrl(tableConfiguration.getRequest(),
-								tableConfiguration.getResponse(), enabledFormat, tableConfiguration.getTableId()));
-					}
-				}
+					// Default mode (export using filter)
+					StringBuilder exportUrl = UrlUtils.getCurrentUri(tableConfiguration.getRequest());
+					UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "f");
+					UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, enabledFormat);
+					UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID, tableConfiguration.getTableId());
+					UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
+					UrlUtils.addParameter(exportUrl, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
+					
+					exportConf = new ExportConf(enabledFormat, UrlUtils.getProcessedUrl(exportUrl, tableConfiguration.getRequest(), tableConfiguration.getResponse()));
+					
+					tableConfiguration.getExportConfiguration().put(enabledFormat, exportConf);
+				} 
 			}
 
 			// Apply default export link position if nothing is already

@@ -6,7 +6,6 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.util.ProcessorUtils;
 
 public class StringProcessor implements TableProcessor, ColumnProcessor {
@@ -39,11 +38,6 @@ public class StringProcessor implements TableProcessor, ColumnProcessor {
 		if (scopeUpdatable) {
 			ProcessorUtils.processAttributeAndScope(value, configEntry, tableConfiguration.getRequest());
 		} else {
-			if (value.contains("#") || value.contains(",")) {
-				throw new ConfigurationProcessingException("'#' and ',' are not supported by the property '"
-						+ configEntry.getKey().getPropertyName() + "'.");
-			}
-			
 			configEntry.setValue(StringUtils.isNotBlank(value) ? value : null);
 		}
 	}

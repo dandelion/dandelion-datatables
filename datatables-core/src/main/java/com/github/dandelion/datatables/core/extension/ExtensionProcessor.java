@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.core.extension;
 
+import static com.github.dandelion.datatables.core.util.JavascriptUtils.*;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
@@ -178,7 +179,7 @@ public class ExtensionProcessor {
 	private void processJavascriptFunction(Parameter conf) {
 
 		JavascriptFunction jsFunction = (JavascriptFunction) mainConfig.get(conf.getName());
-		String newValue = null;
+		StringBuilder newValue = null;
 
 		switch (conf.getMode()) {
 		case OVERRIDE:
@@ -186,26 +187,33 @@ public class ExtensionProcessor {
 			break;
 
 		case APPEND:
-			newValue = ((JavascriptFunction) conf.getValue()).getCode() + jsFunction.getCode();
-			jsFunction.setCode(newValue);
+			newValue = new StringBuilder(((JavascriptFunction) conf.getValue()).getCode());
+			newValue.append(NEWLINE).append(INDENT).append(INDENT);
+			newValue.append(jsFunction.getCode());
+			jsFunction.setCode(newValue.toString());
 			mainConfig.put(conf.getName(), jsFunction);
 			break;
 
 		case PREPEND:
-			newValue = jsFunction.getCode() + ((JavascriptFunction) conf.getValue()).getCode();
-			jsFunction.setCode(newValue);
+			newValue = new StringBuilder(jsFunction.getCode());
+			newValue.append(((JavascriptFunction) conf.getValue()).getCode());
+			jsFunction.setCode(newValue.toString());
 			mainConfig.put(conf.getName(), jsFunction);
 			break;
 
 		case APPEND_WITH_SPACE:
-			newValue = ((JavascriptFunction) conf.getValue()).getCode() + " " + jsFunction.getCode();
-			jsFunction.setCode(newValue);
+			newValue = new StringBuilder(((JavascriptFunction) conf.getValue()).getCode());
+			newValue.append(" ");
+			newValue.append(jsFunction.getCode());
+			jsFunction.setCode(newValue.toString());
 			mainConfig.put(conf.getName(), jsFunction);
 			break;
 
 		case PREPEND_WITH_SPACE:
-			newValue = jsFunction.getCode() + " " + ((JavascriptFunction) conf.getValue()).getCode();
-			jsFunction.setCode(newValue);
+			newValue = new StringBuilder(jsFunction.getCode());
+			newValue.append(" ");
+			newValue.append(((JavascriptFunction) conf.getValue()).getCode());
+			jsFunction.setCode(newValue.toString());
 			mainConfig.put(conf.getName(), jsFunction);
 			break;
 

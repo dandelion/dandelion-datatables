@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.core.asset;
 
+import static com.github.dandelion.datatables.core.util.JavascriptUtils.*;
 import com.github.dandelion.core.utils.StringUtils;
 
 /**
@@ -73,7 +74,14 @@ public class JavascriptFunction {
 
 	@Override
 	public String toString() {
-		return "function(" + (args != null ? StringUtils.join(args, ",") : "") + "){" + (hasReturn ? "return " : "") + code + "}";
+		StringBuilder js = new StringBuilder();
+		js.append("function(");
+		js.append((args != null ? StringUtils.join(args, ",") : ""));
+		js.append(") {").append(NEWLINE).append(INDENT).append(INDENT);
+		js.append((hasReturn ? "return " : ""));
+		js.append(code).append(NEWLINE).append(INDENT);
+		js.append("}");
+		return js.toString();
 	}
 	
 	public String getCode(){
@@ -86,6 +94,10 @@ public class JavascriptFunction {
 
 	public void appendCode(String code){
 		this.code += code;
+	}
+	
+	public void appendCode(char character){
+		this.code += character;
 	}
 	
 	@Override
