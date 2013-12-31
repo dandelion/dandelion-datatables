@@ -18,7 +18,7 @@ public class FeatureAppearProcessor extends AbstractTableProcessor {
 
 				retval = "fadein";
 				if (tmp.length > 1) {
-					TableConfig.FEATURE_APPEAR_DURATION.setIn(tableConfiguration, tmp[1]);
+					addEntry(TableConfig.FEATURE_APPEAR_DURATION, tmp[1]);
 				}
 			} else {
 				retval = "block";

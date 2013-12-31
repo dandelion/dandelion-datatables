@@ -58,7 +58,7 @@ public class FeatureAppearProcessorTest extends TableProcessorBaseTest {
 		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_APPEAR, "fadein,1500");
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo("fadein");
-		assertThat(TableConfig.FEATURE_APPEAR_DURATION.valueFrom(tableConfiguration)).isEqualTo("1500");
+		assertThat(tableConfiguration.getStagingConfiguration().get(TableConfig.FEATURE_APPEAR_DURATION)).isEqualTo("1500");
 	}
 	
 	@Test

@@ -79,7 +79,6 @@ public class ExtraFileFeature extends AbstractExtension {
 					break;
 
 				case BEFORESTARTDOCUMENTREADY:
-					System.out.println("AJOUT");
 					appendToBeforeStartDocumentReady(fileContent);
 					break;
 				}

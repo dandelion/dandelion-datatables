@@ -56,13 +56,10 @@ public class AppearFeature extends AbstractExtension {
 		String appear = TableConfig.FEATURE_APPEAR.valueFrom(table);
 		String appearDuration = TableConfig.FEATURE_APPEAR_DURATION.valueFrom(table);
 
-		if ("fadein".equals(appear)) {
-			table.addCssStyle("display:none;");
-		}
-
 		if ("block".equals(appear)) {
 			appendToBeforeEndDocumentReady("$('#" + table.getId() + "').show();");
 		} else {
+			table.addCssStyle("display:none;");
 			if (StringUtils.isNotBlank(appearDuration)) {
 				appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn(" + appearDuration + ");");
 			} else {

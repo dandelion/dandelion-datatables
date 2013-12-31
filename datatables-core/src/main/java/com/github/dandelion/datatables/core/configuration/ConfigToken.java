@@ -104,12 +104,11 @@ public class ConfigToken<T> {
 	}
 
 	public void appendIn(TableConfiguration tableConfiguration, String value) {
-		tableConfiguration.getConfigurations().put(this, tableConfiguration.getConfigurations().get(this) + value);
+		tableConfiguration.getConfigurations().put(this, ((StringBuilder) tableConfiguration.getConfigurations().get(this)).append(value));
 	}
 
 	public void appendIn(TableConfiguration tableConfiguration, char value) {
-		tableConfiguration.getConfigurations().put(this,
-				tableConfiguration.getConfigurations().get(this) + String.valueOf(value));
+		tableConfiguration.getConfigurations().put(this, ((StringBuilder) tableConfiguration.getConfigurations().get(this)).append(value));
 	}
 
 	public void setIn(T value, HtmlTable table) {
