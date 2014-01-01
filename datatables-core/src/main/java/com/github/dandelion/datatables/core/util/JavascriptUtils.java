@@ -37,6 +37,19 @@ public class JavascriptUtils {
 	public final static char NEWLINE = '\n';
 	public final static String INDENT = "   ";
 	
+	/**
+	 * <p>
+	 * Converts a collection of Strings into a Javascript array.
+	 * 
+	 * <p>
+	 * For example, the following collection:
+	 * {@code ("strint1", "string2", "string3")} will be converted to:
+	 * {@code ['strint1', 'string2', 'string3']}
+	 * 
+	 * @param collection
+	 *            The collection of Strings to convert into a Javascript array.
+	 * @return a String representing a Javascript array.
+	 */
 	public static String toArray(Collection<String> collection){
 		StringBuilder sb = new StringBuilder("[");
 
