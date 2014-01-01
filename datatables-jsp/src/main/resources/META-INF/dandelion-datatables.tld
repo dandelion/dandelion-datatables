@@ -718,11 +718,13 @@
           <description>Property's name to override.</description>
           <name>name</name>
           <required>true</required>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
           <description>Property's value to override.</description>
           <name>value</name>
           <required>true</required>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
    </tag>
 
@@ -749,6 +751,11 @@
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
+          <description>Extension of the file containing exported data</description>
+          <name>fileExtension</name>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
           <description>Label of the HTML link</description>
           <name>label</name>
           <rtexprvalue>true</rtexprvalue>
@@ -770,12 +777,14 @@
             (Default :
             true)</description>
           <name>includeHeader</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>(true|false) Indicates whether columns should be
             auto-sized or not (only for XLS export)
             (Default : true)</description>
           <name>autoSize</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
          <description>Custom export URL that will be called using a HTTP GET when clicking on the associated link(s)</description>
@@ -791,6 +800,12 @@
          <description>(landscape|portrait) Indicates the orientation of the generated document (only for PDF export)
             (Default : landscape)</description>
           <name>orientation</name>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <description>Mime type used when rendering the exported data</description>
+          <name>mimeType</name>
+          <rtexprvalue>true</rtexprvalue>
       </attribute>
    </tag>
    

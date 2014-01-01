@@ -36,7 +36,7 @@ package com.github.dandelion.datatables.core.export;
  * <ul>
  * <li>First, to identify reserved words when export is enabled for a table. As
  * soon as one of these reserved words is used, some configuration will be
- * applied by default</li>
+ * applied by default.</li>
  * <li>
  * But it is also used to decide whether a format should appear in the processed
  * template (HTML page, export file).</li>
@@ -46,7 +46,7 @@ package com.github.dandelion.datatables.core.export;
  * @since 0.10.0
  * @see ExportConf
  */
-public class Format {
+public final class ReservedFormat {
 
 	public static final String ALL = "all";
 	public static final String HTML = "html";
@@ -55,4 +55,10 @@ public class Format {
 	public static final String PDF = "pdf";
 	public static final String XLS = "xls";
 	public static final String XLSX = "xlsx";
+
+	/**
+	 * Prevent instantiation.
+	 */
+	private ReservedFormat() {
+	}
 }

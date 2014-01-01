@@ -35,7 +35,7 @@ import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.export.DatatablesExport;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
-import com.github.dandelion.datatables.core.export.Format;
+import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -62,7 +62,7 @@ public class PdfExport implements DatatablesExport {
 	@Override
 	public void initExport(HtmlTable table) {
 		this.table = table;
-		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(Format.PDF);
+		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.PDF);
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class PdfExport implements DatatablesExport {
 		PdfPCell cell = null;
 
 		// Compute the column count in order to initialize the iText table
-		int columnCount = table.getLastHeaderRow().getColumns(Format.ALL, Format.PDF).size();
+		int columnCount = table.getLastHeaderRow().getColumns(ReservedFormat.ALL, ReservedFormat.PDF).size();
 
 		if (columnCount != 0) {
 
@@ -120,7 +120,7 @@ public class PdfExport implements DatatablesExport {
 
 				for (HtmlRow htmlRow : table.getHeadRows()) {
 
-					for (HtmlColumn column : htmlRow.getColumns(Format.ALL, Format.PDF)) {
+					for (HtmlColumn column : htmlRow.getColumns(ReservedFormat.ALL, ReservedFormat.PDF)) {
 
 						cell = new PdfPCell();
 						cell.setPhrase(new Phrase(column.getContent().toString()));
@@ -131,7 +131,7 @@ public class PdfExport implements DatatablesExport {
 
 			for (HtmlRow htmlRow : table.getBodyRows()) {
 
-				for (HtmlColumn column : htmlRow.getColumns(Format.ALL, Format.PDF)) {
+				for (HtmlColumn column : htmlRow.getColumns(ReservedFormat.ALL, ReservedFormat.PDF)) {
 
 					cell = new PdfPCell();
 					cell.setPhrase(new Phrase(column.getContent().toString()));

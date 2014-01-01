@@ -35,7 +35,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.export.Format;
+import com.github.dandelion.datatables.core.export.ReservedFormat;
 
 public class HtmlColumnTest {
 
@@ -48,13 +48,13 @@ public class HtmlColumnTest {
 
 	@Test
 	public void should_contain_all_display_types() {
-		assertThat(column.getEnabledDisplayTypes()).contains(Format.ALL);
+		assertThat(column.getEnabledDisplayTypes()).contains(ReservedFormat.ALL);
 	}
 
 	@Test
 	public void should_contain_only_specified_display_types() {
-		column = new HtmlColumn(Format.CSV);
-		assertThat(column.getEnabledDisplayTypes()).contains(Format.CSV);
+		column = new HtmlColumn(ReservedFormat.CSV);
+		assertThat(column.getEnabledDisplayTypes()).contains(ReservedFormat.CSV);
 		assertThat(column.isHeaderColumn()).isFalse();
 	}
 

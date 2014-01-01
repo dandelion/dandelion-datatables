@@ -234,7 +234,7 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 
 		// Call the export delegate
 		ExportDelegate exportDelegate = new ExportDelegate(this.table, request);
-		exportDelegate.launchExport();
+		exportDelegate.prepareExport();
 
 		response.reset();
 	}

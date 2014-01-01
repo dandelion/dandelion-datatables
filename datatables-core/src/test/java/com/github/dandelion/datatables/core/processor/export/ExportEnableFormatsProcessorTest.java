@@ -31,13 +31,16 @@ package com.github.dandelion.datatables.core.processor.export;
 
 import static org.fest.assertions.Assertions.assertThat;
 
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+
 import org.junit.Test;
 
 import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf;
+import com.github.dandelion.datatables.core.export.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessor;
@@ -60,7 +63,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		
 		ExportConf csvExportConf = tableConfiguration.getExportConfiguration().get("csv");
 		assertThat(csvExportConf.getFormat()).isEqualTo("csv");
-		assertThat(csvExportConf.getFileName()).isEqualTo("export");
+		assertThat(csvExportConf.getFileName()).isEqualTo("export-csv-" + new SimpleDateFormat("yyyymmDD").format(new GregorianCalendar().getTime()));
 		assertThat(csvExportConf.getMimeType()).isEqualTo("text/csv");
 		assertThat(csvExportConf.getLabel()).isEqualTo("CSV");
 		assertThat(csvExportConf.getIncludeHeader()).isTrue();
@@ -68,7 +71,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(csvExportConf.getAutoSize()).isTrue();
 		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
-		assertThat(csvExportConf.getExtension()).isEqualTo("csv");
+		assertThat(csvExportConf.getFileExtension()).isEqualTo("csv");
 		assertThat(csvExportConf.getOrientation()).isNull();
 		
 		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.EXPORT_ENABLED_FORMATS, "csv  ");
@@ -78,7 +81,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(tableConfiguration.getExportConfiguration()).hasSize(1);
 		
 		assertThat(csvExportConf.getFormat()).isEqualTo("csv");
-		assertThat(csvExportConf.getFileName()).isEqualTo("export");
+		assertThat(csvExportConf.getFileName()).isEqualTo("export-csv-" + new SimpleDateFormat("yyyymmDD").format(new GregorianCalendar().getTime()));
 		assertThat(csvExportConf.getMimeType()).isEqualTo("text/csv");
 		assertThat(csvExportConf.getLabel()).isEqualTo("CSV");
 		assertThat(csvExportConf.getIncludeHeader()).isTrue();
@@ -86,7 +89,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(csvExportConf.getAutoSize()).isTrue();
 		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
-		assertThat(csvExportConf.getExtension()).isEqualTo("csv");
+		assertThat(csvExportConf.getFileExtension()).isEqualTo("csv");
 	}
 	
 	@Test
@@ -99,7 +102,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		
 		ExportConf csvExportConf = tableConfiguration.getExportConfiguration().get("csv");
 		assertThat(csvExportConf.getFormat()).isEqualTo("csv");
-		assertThat(csvExportConf.getFileName()).isEqualTo("export");
+		assertThat(csvExportConf.getFileName()).isEqualTo("export-csv-" + new SimpleDateFormat("yyyymmDD").format(new GregorianCalendar().getTime()));
 		assertThat(csvExportConf.getMimeType()).isEqualTo("text/csv");
 		assertThat(csvExportConf.getLabel()).isEqualTo("CSV");
 		assertThat(csvExportConf.getIncludeHeader()).isTrue();
@@ -107,12 +110,12 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(csvExportConf.getAutoSize()).isTrue();
 		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
-		assertThat(csvExportConf.getExtension()).isEqualTo("csv");
+		assertThat(csvExportConf.getFileExtension()).isEqualTo("csv");
 		assertThat(csvExportConf.getOrientation()).isNull();
 		
 		ExportConf pdfExportConf = tableConfiguration.getExportConfiguration().get("pdf");
 		assertThat(pdfExportConf.getFormat()).isEqualTo("pdf");
-		assertThat(pdfExportConf.getFileName()).isEqualTo("export");
+		assertThat(pdfExportConf.getFileName()).isEqualTo("export-pdf-" + new SimpleDateFormat("yyyymmDD").format(new GregorianCalendar().getTime()));
 		assertThat(pdfExportConf.getMimeType()).isEqualTo("application/pdf");
 		assertThat(pdfExportConf.getLabel()).isEqualTo("PDF");
 		assertThat(pdfExportConf.getIncludeHeader()).isTrue();
@@ -120,7 +123,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(pdfExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(pdfExportConf.getAutoSize()).isTrue();
 		assertThat(pdfExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_PDF_CLASS);
-		assertThat(pdfExportConf.getExtension()).isEqualTo("pdf");
+		assertThat(pdfExportConf.getFileExtension()).isEqualTo("pdf");
 		assertThat(pdfExportConf.getOrientation()).isEqualTo(Orientation.LANDSCAPE);
 	}
 	
@@ -134,7 +137,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		
 		ExportConf csvExportConf = tableConfiguration.getExportConfiguration().get("csv");
 		assertThat(csvExportConf.getFormat()).isEqualTo("csv");
-		assertThat(csvExportConf.getFileName()).isEqualTo("export");
+		assertThat(csvExportConf.getFileName()).isEqualTo("export-csv-" + new SimpleDateFormat("yyyymmDD").format(new GregorianCalendar().getTime()));
 		assertThat(csvExportConf.getMimeType()).isEqualTo("text/csv");
 		assertThat(csvExportConf.getLabel()).isEqualTo("CSV");
 		assertThat(csvExportConf.getIncludeHeader()).isTrue();
@@ -142,12 +145,12 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(csvExportConf.getAutoSize()).isTrue();
 		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
-		assertThat(csvExportConf.getExtension()).isEqualTo("csv");
+		assertThat(csvExportConf.getFileExtension()).isEqualTo("csv");
 		assertThat(csvExportConf.getOrientation()).isNull();
 		
 		ExportConf pdfExportConf = tableConfiguration.getExportConfiguration().get("pdf");
 		assertThat(pdfExportConf.getFormat()).isEqualTo("pdf");
-		assertThat(pdfExportConf.getFileName()).isEqualTo("export");
+		assertThat(pdfExportConf.getFileName()).isEqualTo("export-pdf-" + new SimpleDateFormat("yyyymmDD").format(new GregorianCalendar().getTime()));
 		assertThat(pdfExportConf.getMimeType()).isEqualTo("application/pdf");
 		assertThat(pdfExportConf.getLabel()).isEqualTo("PDF");
 		assertThat(pdfExportConf.getIncludeHeader()).isTrue();
@@ -155,7 +158,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(pdfExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(pdfExportConf.getAutoSize()).isTrue();
 		assertThat(pdfExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_PDF_CLASS);
-		assertThat(pdfExportConf.getExtension()).isEqualTo("pdf");
+		assertThat(pdfExportConf.getFileExtension()).isEqualTo("pdf");
 		assertThat(pdfExportConf.getOrientation()).isEqualTo(Orientation.LANDSCAPE);
 	}
 	
@@ -169,7 +172,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		
 		ExportConf myFormatExportConf = tableConfiguration.getExportConfiguration().get("myformat");
 		assertThat(myFormatExportConf.getFormat()).isEqualTo("myformat");
-		assertThat(myFormatExportConf.getFileName()).isEqualTo("export");
+		assertThat(myFormatExportConf.getFileName()).isEqualTo("export-myformat-" + new SimpleDateFormat("yyyymmDD").format(new GregorianCalendar().getTime()));
 		assertThat(myFormatExportConf.getMimeType()).isNull();
 		assertThat(myFormatExportConf.getLabel()).isEqualTo("MYFORMAT");
 		assertThat(myFormatExportConf.getIncludeHeader()).isTrue();
@@ -177,7 +180,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(myFormatExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(myFormatExportConf.getAutoSize()).isTrue();
 		assertThat(myFormatExportConf.getExportClass()).isNull();
-		assertThat(myFormatExportConf.getExtension()).isEqualTo("myformat");
+		assertThat(myFormatExportConf.getFileExtension()).isEqualTo("myformat");
 		assertThat(myFormatExportConf.getOrientation()).isNull();
 	}
 }

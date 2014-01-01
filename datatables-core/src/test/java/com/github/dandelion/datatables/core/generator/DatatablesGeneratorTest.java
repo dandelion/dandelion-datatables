@@ -56,7 +56,7 @@ import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.constants.DTMessages;
 import com.github.dandelion.datatables.core.constants.Direction;
-import com.github.dandelion.datatables.core.export.Format;
+import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
@@ -75,13 +75,13 @@ public class DatatablesGeneratorTest {
 	private MockPageContext mockPageContext;
 
 	static {
-		displayTypeAllUsedForColumnDefinition.add(Format.ALL);
-		displayTypeHtmlUsedForColumnDefinition.add(Format.HTML);
-		displayTypeNotUsedForColumnDefinition.add(Format.CSV);
-		displayTypeNotUsedForColumnDefinition.add(Format.XML);
-		displayTypeNotUsedForColumnDefinition.add(Format.XLS);
-		displayTypeNotUsedForColumnDefinition.add(Format.XLSX);
-		displayTypeNotUsedForColumnDefinition.add(Format.PDF);
+		displayTypeAllUsedForColumnDefinition.add(ReservedFormat.ALL);
+		displayTypeHtmlUsedForColumnDefinition.add(ReservedFormat.HTML);
+		displayTypeNotUsedForColumnDefinition.add(ReservedFormat.CSV);
+		displayTypeNotUsedForColumnDefinition.add(ReservedFormat.XML);
+		displayTypeNotUsedForColumnDefinition.add(ReservedFormat.XLS);
+		displayTypeNotUsedForColumnDefinition.add(ReservedFormat.XLSX);
+		displayTypeNotUsedForColumnDefinition.add(ReservedFormat.PDF);
 
 		defaultProperties.put(DTConstants.DT_S_DEFAULT_CONTENT, "");
 	}
@@ -247,7 +247,7 @@ public class DatatablesGeneratorTest {
 		headerRow.addHeaderColumn("secondColumn");
 		HtmlColumn thirdColumn = headerRow.addHeaderColumn("thirdColumn");
 		Set<String> enabledDisplayTypes = new HashSet<String>();
-		enabledDisplayTypes.add(Format.XLS);
+		enabledDisplayTypes.add(ReservedFormat.XLS);
 		thirdColumn.setEnabledDisplayTypes(enabledDisplayTypes);
 		HtmlColumn fourthColumn = headerRow.addHeaderColumn("fourthColumn");
 		fourthColumn.getColumnConfiguration().set(ColumnConfig.SORTINIT, "asc");

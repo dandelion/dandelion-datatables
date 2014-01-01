@@ -40,9 +40,9 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.constants.ExportConstants;
-import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf;
+import com.github.dandelion.datatables.core.export.ExportUtils;
+import com.github.dandelion.datatables.core.export.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
 import com.github.dandelion.datatables.core.util.UrlUtils;
 
@@ -83,6 +83,7 @@ public class ExportTag extends TagSupport {
 	 * Tag attributes
 	 */
 	private String fileName;
+	private String fileExtension;
 	private String type;
 	private String label;
 	private String cssStyle;
@@ -92,6 +93,8 @@ public class ExportTag extends TagSupport {
 	private String url;
 	private String method;
 	private String orientation;
+	private String mimeType;
+	
 
 	/**
 	 * {@inheritDoc}
@@ -136,19 +139,24 @@ public class ExportTag extends TagSupport {
 			StringBuilder exportUrl = null;
 			if(StringUtils.isBlank(url)){
 				exportUrl = UrlUtils.getCurrentUri(request);
-				UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "f");
+				UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "f");
 				conf.setHasCustomUrl(false);
 			}
 			// Custom mode (export using controller)
 			else{
 				exportUrl = new StringBuilder(url.trim());
-				UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "c");
+				UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "c");
 				conf.setHasCustomUrl(true);
 			}
-			UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID, parent.getTable().getId());
-			UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, format);
-			UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID, parent.getTable().getId());
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, format);
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
 			UrlUtils.addParameter(exportUrl, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ORIENTATION, this.orientation);
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_NAME, this.fileName);
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_MIME_TYPE, this.mimeType);
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_HEADER, this.includeHeader);
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_EXTENSION, this.fileExtension);
 			conf.setUrl(UrlUtils.getProcessedUrl(exportUrl, request, response));
 
 			if(StringUtils.isNotBlank(fileName)){
@@ -243,5 +251,13 @@ public class ExportTag extends TagSupport {
 
 	public void setOrientation(String orientation) {
 		this.orientation = orientation;
+	}
+
+	public void setFileExtension(String fileExtension) {
+		this.fileExtension = fileExtension;
+	}
+
+	public void setMimeType(String mimeType) {
+		this.mimeType = mimeType;
 	}
 }

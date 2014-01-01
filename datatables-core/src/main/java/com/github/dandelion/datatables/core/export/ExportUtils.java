@@ -37,11 +37,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.github.dandelion.core.utils.ClassUtils;
-import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -51,11 +47,36 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class ExportUtils {
+public final class ExportUtils {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ExportUtils.class);
+	/** Request attributes */
+
+	// Export properties
+	public static final String DDL_DT_REQUESTATTR_EXPORT_CONF = "ddl-dt-export-conf";
+
+	// Export content
+	public static final String DDL_DT_REQUESTATTR_EXPORT_CONTENT = "ddl-dt-export-content";
+
+	/** Request parameters */
+
+	// Table is being exported
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS = "dtp";
+	
+	// Export type (filter vs controller)
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_TYPE = "dtt";
+	
+	// Table id
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_ID = "dti";
 		
+	// Type of current export
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_FORMAT = "dtf";
+	
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_ORIENTATION = "dto";
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_HEADER = "dth";
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_MIME_TYPE = "dtmt";
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_EXTENSION = "dte";
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_NAME = "dtn";
+	
 	/**
 	 * Renders the passed table by writing the data to the response.
 	 * 
@@ -71,13 +92,12 @@ public class ExportUtils {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		String exportClass = exportConf.getExportClass();
 
-		// Check that the class can be instanciated
+		// Check that the class can be instantiated
 		if (!ClassUtils.canBeUsed(exportClass)) {
 			throw new ExportException("Unable to export in " + exportConf.getFormat()
 					+ " format because the export class cannot be found. Did you forget to add an extra dependency?");
 		}
 
-		// Get the class
 		Class<?> klass = null;
 		Object obj = null;
 		try {
@@ -95,7 +115,7 @@ public class ExportUtils {
 		((DatatablesExport) obj).processExport(stream);
 				
 		try {
-			writeToResponse(response, stream, exportConf.getFileName() + "." + exportConf.getExtension(),
+			writeToResponse(response, stream, exportConf.getFileName() + "." + exportConf.getFileExtension(),
 					exportConf.getMimeType());
 		} catch (IOException e) {
 			throw new ExportException(
@@ -133,8 +153,7 @@ public class ExportUtils {
 	public static String getCurrentExportType(HttpServletRequest request) {
 
 		// Get the URL parameter used to identify the export type
-		String exportTypeString = request.getParameter(
-				ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_FORMAT).toString();
+		String exportTypeString = request.getParameter(DDL_DT_REQUESTPARAM_EXPORT_FORMAT).toString();
 
 		return exportTypeString;
 	}
@@ -152,7 +171,13 @@ public class ExportUtils {
 	 */
 	public static Boolean isTableBeingExported(ServletRequest servletRequest, HtmlTable table) {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
-		Object exportInProgress = request.getAttribute(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS);
+		Object exportInProgress = request.getAttribute(DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS);
 		return exportInProgress != null && exportInProgress.equals("true") ? true : false;
+	}
+	
+	/**
+	 * Prevent instantiation.
+	 */
+	private ExportUtils() {
 	}
 }

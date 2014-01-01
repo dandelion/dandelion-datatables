@@ -38,12 +38,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.ClassUtils;
-import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.web.filter.DatatablesFilter;
 
 /**
- * Delegate class in charge of launching export.
+ * Delegate class in charge of preparing the export content.
  * 
  * @author Thibault Duchateau
  */
@@ -61,54 +61,53 @@ public class ExportDelegate {
 	}
 
 	/**
-	 * Launch the export using the right class depending on the current export
-	 * type.
+	 * Prepares the export by processing the passed export class and setting
+	 * request attributes that will be used by the {@link DatatablesFilter} to
+	 * render the export.
 	 */
-	public void launchExport() {
+	public void prepareExport() {
 
+		// The stream containing the export content
 		OutputStream stream = new ByteArrayOutputStream();
-		// String exportClass = null;
 
 		// Get the current export type
 		String exportFormat = htmlTable.getTableConfiguration().getCurrentExportFormat();
-
 		ExportConf exportConf = htmlTable.getTableConfiguration().getExportConfiguration().get(exportFormat);
 
-		String exportClass = exportConf.getExportClass();
-		if (exportClass == null) {
+		String exportClassName = exportConf.getExportClass();
+		if (exportClassName == null) {
 			throw new ExportException("No export class has been configured for the '" + exportFormat
 					+ "' format. Please configure it before exporting.");
 		}
-		logger.debug("Selected export class: {}", exportClass);
-		
-		// Check that the class can be instanciated
-		if (!ClassUtils.canBeUsed(exportClass)) {
+		logger.debug("Selected export class: {}", exportClassName);
+
+		// Check that the class can be instantiated
+		if (!ClassUtils.canBeUsed(exportClassName)) {
 			logger.error("Did you forget to add an extra dependency?");
 			throw new ExportException("Unable to export in " + exportFormat.toString() + " format");
 		}
 
-		// Get the class
-		Class<?> klass = null;
+		// Instantiates the export class and processes the export
+		Class<?> exportClass = null;
 		Object obj = null;
 		try {
-			klass = ClassUtils.getClass(exportClass);
-			obj = ClassUtils.getNewInstance(klass);
+			exportClass = ClassUtils.getClass(exportClassName);
+			obj = ClassUtils.getNewInstance(exportClass);
 		} catch (ClassNotFoundException e) {
-			throw new ExportException("Unable to load the class '" + exportClass + "'", e);
+			throw new ExportException("Unable to load the class '" + exportClassName + "'", e);
 		} catch (InstantiationException e) {
-			throw new ExportException("Unable to instanciate the class '" + exportClass + "'", e);
+			throw new ExportException("Unable to instanciate the class '" + exportClassName + "'", e);
 		} catch (IllegalAccessException e) {
-			throw new ExportException("Unable to access the class '" + exportClass + "'", e);
+			throw new ExportException("Unable to access the class '" + exportClassName + "'", e);
 		}
 
-		// Initialize and process export
 		((DatatablesExport) obj).initExport(htmlTable);
 		((DatatablesExport) obj).processExport(stream);
 
 		// Fill the request so that the filter will intercept it and
-		// override the response with the export configuration
-		request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT,
+		// override the response with the export content
+		request.setAttribute(ExportUtils.DDL_DT_REQUESTATTR_EXPORT_CONTENT,
 				((ByteArrayOutputStream) stream).toByteArray());
-		request.setAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONF, exportConf);
+		request.setAttribute(ExportUtils.DDL_DT_REQUESTATTR_EXPORT_CONF, exportConf);
 	}
 }

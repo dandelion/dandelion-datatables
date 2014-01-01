@@ -104,12 +104,12 @@ public class ExtensionLoader {
 
 		logger.debug("Scanning built-in extensions...");
 
-		// Scanning custom extension based on the base.package property
+		// Scanning built-in extensions
 		List<Extension> builtinExtensions = scanForExtensions(
 				"com.github.dandelion.datatables.core.extension.plugin",
 				"com.github.dandelion.datatables.core.extension.theme");
 
-		// Load custom extension if enabled
+		// Load built-in extension if some are enabled
 		Set<String> extensionNames = TableConfig.MAIN_EXTENSION_NAMES.valueFrom(table);
 		if (builtinExtensions != null && !builtinExtensions.isEmpty() && extensionNames != null && !extensionNames.isEmpty()) {
 			for (String extensionToRegister : extensionNames) {
@@ -141,7 +141,7 @@ public class ExtensionLoader {
 			// Scanning custom extension based on the base.package property
 			List<Extension> customExtensions = scanForExtensions(packageToScan);
 
-			// Load custom extension if enabled
+			// Load custom extension if some are enabled
 			Set<String> extensionNames = TableConfig.MAIN_EXTENSION_NAMES.valueFrom(table);
 			if (customExtensions != null && !customExtensions.isEmpty() && extensionNames != null && !extensionNames.isEmpty()) {
 				for (String extensionToRegister : extensionNames) {
@@ -154,7 +154,8 @@ public class ExtensionLoader {
 					}
 				}
 			} else {
-				logger.warn("A base backage to scan has been detected but no custom extension has been found");
+				logger.warn("A base backage to scan has been detected ('" + packageToScan
+						+ "') but no custom extension has been found inside.");
 			}
 		}
 	}

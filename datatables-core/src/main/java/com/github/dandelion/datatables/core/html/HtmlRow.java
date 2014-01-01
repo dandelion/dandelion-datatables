@@ -35,7 +35,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import com.github.dandelion.datatables.core.export.Format;
+import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.util.CollectionUtils;
 
 /**
@@ -76,7 +76,7 @@ public class HtmlRow extends HtmlTag {
 	private StringBuilder getHtmlColumns() {
 		StringBuilder html = new StringBuilder();
 		for (HtmlColumn column : this.columns) {
-			if (CollectionUtils.containsAny(column.getEnabledDisplayTypes(), Format.ALL, Format.HTML)) {
+			if (CollectionUtils.containsAny(column.getEnabledDisplayTypes(), ReservedFormat.ALL, ReservedFormat.HTML)) {
 				html.append(column.toHtml());
 			}
 		}

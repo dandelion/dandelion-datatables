@@ -29,8 +29,14 @@
  */
 package com.github.dandelion.datatables.core.export;
 
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.constants.HttpMethod;
+import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 
 /**
  * POJO that stores an export type configuration.
@@ -47,6 +53,7 @@ public class ExportConf {
 	
 	private String format;
 	private String fileName;
+	private String fileExtension;
 	private String mimeType;
 	private String label;
 	private StringBuilder cssStyle;
@@ -57,7 +64,6 @@ public class ExportConf {
 	private Boolean autoSize;
 	private Boolean hasCustomUrl = false;
 	private String exportClass;
-	private String extension;
 	private Orientation orientation;
 	
 	public enum Orientation {
@@ -69,6 +75,20 @@ public class ExportConf {
 		init();
 	}
 	
+	/**
+	 * Constructor called from the {@link HtmlTableBuilder}.
+	 * 
+	 * @param request
+	 */
+	public ExportConf(HttpServletRequest request){
+		String format = request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_FORMAT);
+		if(StringUtils.isNotBlank(format)) {
+			this.format = format;
+		}
+		init();
+		overrideWithRequest(request);
+	}
+	
 	public ExportConf(String format, String exportUrl){
 		this.format = format;
 		this.url = exportUrl;
@@ -76,41 +96,114 @@ public class ExportConf {
 	}
 	
 	/**
-	 * Initialize the default values.
+	 * Initialize the default values if needed.
 	 */
 	private void init() {
-		this.fileName = "export";
-		this.label = this.format.toUpperCase();
-		this.includeHeader = true;
-		this.autoSize = true;
-		this.method = HttpMethod.GET;
-		if(StringUtils.isBlank(this.extension)){
-			this.extension = this.format;
+		if (StringUtils.isBlank(this.fileName)) {
+			this.fileName = "export-" + this.format + "-"
+					+ new SimpleDateFormat("yyyymmDD").format(new GregorianCalendar().getTime());
 		}
-		
-		if(this.format.equals(Format.CSV)){
+		if (StringUtils.isBlank(this.label) && StringUtils.isNotBlank(this.format)) {
+			this.label = this.format.toUpperCase();
+		}
+		if (this.includeHeader == null) {
+			this.includeHeader = true;
+		}
+		if (this.autoSize == null) {
+			this.autoSize = true;
+		}
+		if (this.method == null) {
+			this.method = HttpMethod.GET;
+		}
+		if (StringUtils.isBlank(this.fileExtension)) {
+			this.fileExtension = this.format;
+		}
+		if (ReservedFormat.CSV.equals(this.format)) {
 			this.exportClass = DEFAULT_CSV_CLASS;
 			this.mimeType = "text/csv";
 		}
-		if(this.format.equals(Format.XML)){
+		if (ReservedFormat.XML.equals(this.format)) {
 			this.exportClass = DEFAULT_XML_CLASS;
 			this.mimeType = "text/xml";
 		}
-		if(this.format.equals(Format.PDF)){
+		if (ReservedFormat.PDF.equals(this.format)) {
 			this.exportClass = DEFAULT_PDF_CLASS;
 			this.mimeType = "application/pdf";
 			this.orientation = Orientation.LANDSCAPE;
 		}
-		if(this.format.equals(Format.XLS)){
+		if (ReservedFormat.XLS.equals(this.format)) {
 			this.exportClass = DEFAULT_XLS_CLASS;
 			this.mimeType = "application/vnd.ms-excel";
 		}
-		if(this.format.equals(Format.XLSX)){
+		if (ReservedFormat.XLSX.equals(this.format)) {
 			this.exportClass = DEFAULT_XLSX_CLASS;
 			this.mimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 		}
 	}
+	
+	private void overrideWithRequest(HttpServletRequest request) {
+		
+		String orientation = request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ORIENTATION);
+		if (StringUtils.isNotBlank(orientation)) {
+			Orientation orientationEnum = null;
+			try {
+				orientationEnum = Orientation.valueOf(orientation.toUpperCase().trim());
+			} catch (IllegalArgumentException e) {
+				StringBuilder sb = new StringBuilder();
+				sb.append("'");
+				sb.append(this.orientation);
+				sb.append("' is not a valid orientation. Possible values are: ");
+				sb.append(EnumUtils.printPossibleValuesOf(Orientation.class));
+				throw new ConfigurationProcessingException(sb.toString());
+			}
+			this.orientation = orientationEnum;
+		}
 
+		String includeHeader = request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_HEADER);
+		if (StringUtils.isNotBlank(includeHeader)) {
+			this.includeHeader = Boolean.parseBoolean(includeHeader.trim());
+		}
+
+		String mimeType = request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_MIME_TYPE);
+		if (StringUtils.isNotBlank(mimeType)) {
+			this.mimeType = mimeType.trim();
+		}
+		
+		String fileExtension = request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_EXTENSION);
+		if(StringUtils.isNotBlank(fileExtension)){
+			this.fileExtension = fileExtension.trim();
+		}
+		
+		String fileName = request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_NAME);
+		if (StringUtils.isNotBlank(fileName)) {
+			this.fileName = fileName.trim();
+		}
+	}
+	
+	public void mergeWith(ExportConf exportConfToMergeFrom) {
+		if (exportConfToMergeFrom.getIncludeHeader() != null) {
+			this.includeHeader = exportConfToMergeFrom.getIncludeHeader();
+		}
+		if (exportConfToMergeFrom.getAutoSize() != null) {
+			this.autoSize = exportConfToMergeFrom.getAutoSize();
+		}
+		if (StringUtils.isNotBlank(exportConfToMergeFrom.getFileExtension())) {
+			this.fileExtension = exportConfToMergeFrom.getFileExtension();
+		}
+		if (StringUtils.isNotBlank(exportConfToMergeFrom.getMimeType())) {
+			this.mimeType = exportConfToMergeFrom.getMimeType();
+		}
+		if (exportConfToMergeFrom.getMethod() != null) {
+			this.method = exportConfToMergeFrom.getMethod();
+		}
+		if (StringUtils.isNotBlank(exportConfToMergeFrom.getFileName())) {
+			this.fileName = exportConfToMergeFrom.getFileName();
+		}
+		if (exportConfToMergeFrom.getOrientation() != null) {
+			this.orientation = exportConfToMergeFrom.getOrientation();
+		}
+	}
+	
 	public String getFileName() {
 		return fileName;
 	}
@@ -210,18 +303,17 @@ public class ExportConf {
 	}
 
 	
-	public String getExtension() {
-		return extension;
+	public String getFileExtension() {
+		return fileExtension;
 	}
 
-	public void setExtension(String extension) {
-		this.extension = extension;
+	public void setFileExtension(String fileExtension) {
+		this.fileExtension = fileExtension;
 	}
 
 
 	/**
-	 * HtmlTable builder, allowing you to build a table in an export controller
-	 * for example.
+	 * Builder for {@link ExportConf}.
 	 */
 	public static class Builder {
 
@@ -229,7 +321,6 @@ public class ExportConf {
 		
 		public Builder(String format) {
 			exportConf = new ExportConf(format);
-			exportConf.init();
 		}
 
 		public Builder mimeType(String mimeType) {
@@ -237,8 +328,8 @@ public class ExportConf {
 			return this;
 		}
 		
-		public Builder extension(String extension) {
-			exportConf.setExtension(extension);
+		public Builder fileExtension(String fileExtension) {
+			exportConf.setFileExtension(fileExtension);
 			return this;
 		}
 		
@@ -287,9 +378,10 @@ public class ExportConf {
 
 	@Override
 	public String toString() {
-		return "ExportConf [format=" + format + ", fileName=" + fileName + ", mimeType=" + mimeType + ", label="
-				+ label + ", cssStyle=" + cssStyle + ", cssClass=" + cssClass + ", includeHeader=" + includeHeader
-				+ ", url=" + url + ", method=" + method + ", autoSize=" + autoSize + ", custom=" + hasCustomUrl
-				+ ", exportClass=" + exportClass + ", extension=" + extension + ", orientation=" + orientation + "]";
+		return "ExportConf [format=" + format + ", fileName=" + fileName + ", fileExtension=" + fileExtension
+				+ ", mimeType=" + mimeType + ", label=" + label + ", cssStyle=" + cssStyle + ", cssClass=" + cssClass
+				+ ", includeHeader=" + includeHeader + ", url=" + url + ", method=" + method + ", autoSize=" + autoSize
+				+ ", hasCustomUrl=" + hasCustomUrl + ", exportClass=" + exportClass + ", orientation=" + orientation
+				+ "]";
 	}
 }

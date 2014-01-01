@@ -42,8 +42,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.constants.ExportConstants;
 import com.github.dandelion.datatables.core.export.ExportConf;
+import com.github.dandelion.datatables.core.export.ExportUtils;
 
 /**
  * Filter used to render DataTables exported files.
@@ -66,8 +66,8 @@ public class DatatablesFilter implements Filter {
 		if (servletRequest instanceof HttpServletRequest) {
 
 			HttpServletRequest request = (HttpServletRequest) servletRequest;
-			String exportInProgress = request.getParameter(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS);
-			String exportType = request.getParameter(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE);
+			String exportInProgress = request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS);
+			String exportType = request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_TYPE);
 			
 			// Don't filter anything
 			if (StringUtils.isBlank(exportInProgress) || StringUtils.isBlank(exportType) || !exportType.equals("f")) {
@@ -78,9 +78,9 @@ public class DatatablesFilter implements Filter {
 
 				// Flag set in request to tell the taglib to export the table
 				// instead of displaying it
-				request.setAttribute(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "true");
-				request.setAttribute(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID,
-						request.getParameter(ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID));
+				request.setAttribute(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "true");
+				request.setAttribute(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID,
+						request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID));
 
 				HttpServletResponse response = (HttpServletResponse) servletResponse;
 				DatatablesResponseWrapper resWrapper = new DatatablesResponseWrapper(response);
@@ -88,13 +88,13 @@ public class DatatablesFilter implements Filter {
 				chain.doFilter(request, resWrapper);
 
 				ExportConf exportConf = (ExportConf) request
-						.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONF);
+						.getAttribute(ExportUtils.DDL_DT_REQUESTATTR_EXPORT_CONF);
 
-				String finalFileName = exportConf.getFileName() + "." + exportConf.getExtension();
+				String finalFileName = exportConf.getFileName() + "." + exportConf.getFileExtension();
 				response.setHeader("Content-Disposition", "attachment; filename=\"" + finalFileName + "\"");
 				response.setContentType(exportConf.getMimeType());
 
-				byte[] content = (byte[]) servletRequest.getAttribute(ExportConstants.DDL_DT_REQUESTATTR_EXPORT_CONTENT);
+				byte[] content = (byte[]) servletRequest.getAttribute(ExportUtils.DDL_DT_REQUESTATTR_EXPORT_CONTENT);
 
 				response.setContentLength(content.length);
 	            OutputStream out = response.getOutputStream();

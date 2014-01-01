@@ -44,7 +44,7 @@ import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.export.Format;
+import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
@@ -93,7 +93,7 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
 		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
 
 			Set<String> enabledDisplayTypes = column.getEnabledDisplayTypes();
-			if (CollectionUtils.containsAny(enabledDisplayTypes, Format.ALL, Format.HTML)) {
+			if (CollectionUtils.containsAny(enabledDisplayTypes, ReservedFormat.ALL, ReservedFormat.HTML)) {
 				tmp = new HashMap<String, Object>();
 
 				ColumnConfiguration columnConfiguration = column.getColumnConfiguration();

@@ -51,7 +51,7 @@ public class CsvExport implements DatatablesExport {
 	@Override
 	public void initExport(HtmlTable table) {
 		this.table = table;
-		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(Format.CSV);
+		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.CSV);
 	}
 
 	@Override
@@ -60,14 +60,14 @@ public class CsvExport implements DatatablesExport {
 
 		if (exportConf.getIncludeHeader()) {
 			for (HtmlRow row : table.getHeadRows()) {
-				for (HtmlColumn column : row.getColumns(Format.ALL, Format.CSV)) {
+				for (HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.CSV)) {
 					buffer.append(column.getContent()).append(SEPARATOR_CHAR);
 				}
 				buffer.append("\n");
 			}
 		}
 		for (HtmlRow row : table.getBodyRows()) {
-			for (HtmlColumn column : row.getColumns(Format.ALL, Format.CSV)) {
+			for (HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.CSV)) {
 				buffer.append(column.getContent()).append(SEPARATOR_CHAR);
 			}
 

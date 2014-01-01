@@ -40,7 +40,7 @@ import org.apache.poi.ss.usermodel.Row;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.export.DatatablesExport;
 import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.export.Format;
+import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -58,7 +58,7 @@ public class XlsExport implements DatatablesExport {
 	@Override
 	public void initExport(HtmlTable table) {
 		this.table = table;
-		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(Format.XLS);
+		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.XLS);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class XlsExport implements DatatablesExport {
 					row = sheet.createRow(rowIndex++);
 					columnIndex = 0;
 
-					for (HtmlColumn column : htmlRow.getColumns(Format.ALL, Format.XLS)) {
+					for (HtmlColumn column : htmlRow.getColumns(ReservedFormat.ALL, ReservedFormat.XLS)) {
 						cell = row.createCell(columnIndex++);
 						cell.setCellValue(column.getContent().toString());
 					}
@@ -93,14 +93,14 @@ public class XlsExport implements DatatablesExport {
 				row = sheet.createRow(rowIndex++);
 				columnIndex = 0;
 
-				for (HtmlColumn column : htmlRow.getColumns(Format.ALL, Format.XLS)) {
+				for (HtmlColumn column : htmlRow.getColumns(ReservedFormat.ALL, ReservedFormat.XLS)) {
 					cell = row.createCell(columnIndex++);
 					cell.setCellValue(column.getContent().toString());
 				}
 			}
 
 			// Column auto-sizing
-			for (columnIndex = 0; columnIndex < table.getLastHeaderRow().getColumns(Format.ALL, Format.XLS).size(); columnIndex++) {
+			for (columnIndex = 0; columnIndex < table.getLastHeaderRow().getColumns(ReservedFormat.ALL, ReservedFormat.XLS).size(); columnIndex++) {
 				if (exportConf.getAutoSize()) {
 					sheet.autoSizeColumn(columnIndex);
 				}

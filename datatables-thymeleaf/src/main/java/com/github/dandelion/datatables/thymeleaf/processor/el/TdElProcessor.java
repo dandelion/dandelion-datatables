@@ -41,7 +41,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.standard.expression.IStandardExpressionParser;
 import org.thymeleaf.standard.expression.StandardExpressionParser;
 
-import com.github.dandelion.datatables.core.export.Format;
+import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -97,7 +97,7 @@ public class TdElProcessor extends AbstractElProcessor {
 					content = parser.parseExpression(configuration, processingContext, attrValue)
 							.execute(configuration, processingContext).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":csv");
-					column = new HtmlColumn(Format.CSV);
+					column = new HtmlColumn(ReservedFormat.CSV);
 					column.setContent(new StringBuilder(content));
 					table.getLastBodyRow().addColumn(column);
 				}
@@ -106,7 +106,7 @@ public class TdElProcessor extends AbstractElProcessor {
 					content = parser.parseExpression(configuration, processingContext, attrValue)
 							.execute(configuration, processingContext).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xml");
-					column = new HtmlColumn(Format.XML);
+					column = new HtmlColumn(ReservedFormat.XML);
 					column.setContent(new StringBuilder(content));
 					table.getLastBodyRow().addColumn(column);
 				}
@@ -115,7 +115,7 @@ public class TdElProcessor extends AbstractElProcessor {
 					content = parser.parseExpression(configuration, processingContext, attrValue)
 							.execute(configuration, processingContext).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":pdf");
-					column = new HtmlColumn(Format.PDF);
+					column = new HtmlColumn(ReservedFormat.PDF);
 					column.setContent(new StringBuilder(content));
 					table.getLastBodyRow().addColumn(column);
 				}
@@ -124,7 +124,7 @@ public class TdElProcessor extends AbstractElProcessor {
 					content = parser.parseExpression(configuration, processingContext, attrValue)
 							.execute(configuration, processingContext).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xls");
-					column = new HtmlColumn(Format.XLS);
+					column = new HtmlColumn(ReservedFormat.XLS);
 					column.setContent(new StringBuilder(content));
 					table.getLastBodyRow().addColumn(column);
 				}
@@ -133,7 +133,7 @@ public class TdElProcessor extends AbstractElProcessor {
 					content = parser.parseExpression(configuration, processingContext, attrValue)
 							.execute(configuration, processingContext).toString();
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xlsx");
-					column = new HtmlColumn(Format.XLSX);
+					column = new HtmlColumn(ReservedFormat.XLSX);
 					column.setContent(new StringBuilder(content));
 					table.getLastBodyRow().addColumn(column);
 				}

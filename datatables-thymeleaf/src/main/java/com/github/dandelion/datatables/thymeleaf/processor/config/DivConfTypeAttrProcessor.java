@@ -49,12 +49,12 @@ import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.constants.ExportConstants;
-import com.github.dandelion.datatables.core.constants.HttpMethod;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.exception.DandelionDatatablesException;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
+import com.github.dandelion.datatables.core.export.ExportUtils;
+import com.github.dandelion.datatables.core.export.HttpMethod;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.util.UrlUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
@@ -219,12 +219,31 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 					"The attribute 'dt:type' is required when defining an export configuration.");
 		}
 
+		StringBuilder exportUrl = null;
+		// Custom mode (export using controller)
+		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":url")) {
+			exportUrl = new StringBuilder(AttributeUtils.parseStringAttribute(arguments, element,
+					DataTablesDialect.DIALECT_PREFIX + ":url").trim());
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "c");
+			conf.setHasCustomUrl(true);
+		}
+		// Default mode (export using filter)
+		else{
+			exportUrl = UrlUtils.getCurrentUri(request);
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "f");
+			conf.setHasCustomUrl(false);
+		}
+		
 		if (hasAttribute(element, "fileName")) {
-			conf.setFileName(getStringValue(element, "fileName"));
+			String fileName = getStringValue(element, "fileName"); 
+			conf.setFileName(fileName);
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_NAME, fileName);
 		}
 
 		if (hasAttribute(element, "mimeType")) {
-			conf.setMimeType(getStringValue(element, "mimeType"));
+			String mimeType = getStringValue(element, "mimeType"); 
+			conf.setMimeType(mimeType);
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_MIME_TYPE, mimeType);
 		}
 
 		if (hasAttribute(element, "label")) {
@@ -240,29 +259,11 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 		}
 
 		if (hasAttribute(element, "includeHeader")) {
-			conf.setIncludeHeader(Boolean.parseBoolean(getStringValue(element, "includeHeader")));
+			String includeHeader = getStringValue(element, "includeHeader");
+			conf.setIncludeHeader(Boolean.parseBoolean(includeHeader));
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_HEADER, includeHeader);
 		}
-
-		StringBuilder exportUrl = null;
-		// Custom mode (export using controller)
-		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":url")) {
-			exportUrl = new StringBuilder(AttributeUtils.parseStringAttribute(arguments, element,
-					DataTablesDialect.DIALECT_PREFIX + ":url").trim());
-			UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "c");
-			conf.setHasCustomUrl(true);
-		}
-		// Default mode (export using filter)
-		else{
-			exportUrl = UrlUtils.getCurrentUri(request);
-			UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "f");
-			conf.setHasCustomUrl(false);
-		}
-		UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_ID, tableId);
-		UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, exportFormat);
-		UrlUtils.addParameter(exportUrl, ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
-		UrlUtils.addParameter(exportUrl, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
-		conf.setUrl(UrlUtils.getProcessedUrl(exportUrl, request, response));
-
+		
 		if (hasAttribute(element, "method")) {
 			String methodStr = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":method");
 
@@ -289,8 +290,10 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 			conf.setExportClass(getStringValue(element, "exportClass"));
 		}
 
-		if (hasAttribute(element, "extension")) {
-			conf.setExtension(getStringValue(element, "extension"));
+		if (hasAttribute(element, "fileExtension")) {
+			String fileExtension = getStringValue(element, "fileExtension");
+			conf.setFileExtension(fileExtension);
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_EXTENSION, fileExtension);
 		}
 
 		if (hasAttribute(element, "orientation")) {
@@ -309,8 +312,16 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 			}
 
 			conf.setOrientation(orientationEnum);
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ORIENTATION, orientationStr);
 		}
 
+		// Finalizes export URL
+		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID, tableId);
+		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, exportFormat);
+		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
+		UrlUtils.addParameter(exportUrl, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
+		conf.setUrl(UrlUtils.getProcessedUrl(exportUrl, request, response));
+		
 		if (conf != null) {
 
 			if (configs.get(currentTableId).containsKey(ConfType.EXPORT)) {

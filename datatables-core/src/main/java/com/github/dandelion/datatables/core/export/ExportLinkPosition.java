@@ -29,6 +29,11 @@
  */
 package com.github.dandelion.datatables.core.export;
 
+/**
+ * Enumeration containing all positions available for export links.
+ * 
+ * @author Thibault Duchateau
+ */
 public enum ExportLinkPosition {
 	TOP_LEFT, TOP_MIDDLE, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_MIDDLE, BOTTOM_RIGHT
 }

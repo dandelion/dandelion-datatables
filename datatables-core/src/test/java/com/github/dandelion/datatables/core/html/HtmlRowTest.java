@@ -34,7 +34,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.export.Format;
+import com.github.dandelion.datatables.core.export.ReservedFormat;
 
 public class HtmlRowTest {
 
@@ -86,7 +86,7 @@ public class HtmlRowTest {
 
 	@Test
 	public void should_generate_row_without_column_without_HTML_DisplayType() {
-		row.addColumn(new HtmlColumn(Format.CSV));
+		row.addColumn(new HtmlColumn(ReservedFormat.CSV));
 		assertThat(row.toHtml().toString()).isEqualTo("<" + row.getTag() + "></" + row.getTag() + ">");
 	}
 	

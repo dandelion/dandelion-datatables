@@ -49,7 +49,7 @@ import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.constants.DTMessages;
 import com.github.dandelion.datatables.core.constants.Direction;
-import com.github.dandelion.datatables.core.export.Format;
+import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
@@ -192,7 +192,7 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 			ColumnConfiguration columnConfiguration = column.getColumnConfiguration();
 
 			Set<String> enabledDisplayTypes = column.getEnabledDisplayTypes();
-			if (CollectionUtils.containsAny(enabledDisplayTypes, Format.ALL, Format.HTML)) {
+			if (CollectionUtils.containsAny(enabledDisplayTypes, ReservedFormat.ALL, ReservedFormat.HTML)) {
 				tmp = new HashMap<String, Object>();
 
 				// Name
@@ -281,7 +281,7 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 				aaSortingtmp.add(sortInit);
 				aaSortingContent.add(aaSortingtmp);
 			}
-			if (CollectionUtils.containsAny(column.getEnabledDisplayTypes(), Format.ALL, Format.HTML)) {
+			if (CollectionUtils.containsAny(column.getEnabledDisplayTypes(), ReservedFormat.ALL, ReservedFormat.HTML)) {
 				columnIndex++;
 			}
 		}

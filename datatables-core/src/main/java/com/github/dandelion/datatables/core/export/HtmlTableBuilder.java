@@ -48,9 +48,39 @@ import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * <p>Builder used to generate instance of {@link HtmlTable}.
+ * <p>
+ * Builder used to create instances of {@link HtmlTable}. This builder is mainly
+ * used as an export utility and for testing.
+ * </p>
+ * <p>For example, considering the following simple {@code Person} class:
+ * <pre>
+ * public class Person {
+ *    private Long id;
+ *    private String firstName;
+ *    private String lastName;
+ *    private String mail;
+ *    private Date birthDate;
  * 
- * <p>Those instances 
+ *    // Accessors...
+ * }
+ * </pre>
+ * </p>
+ * The builder allows to create fully configured instance of {@link HtmlTable} as follows:
+ * <pre>
+ * HtmlTable table = new HtmlTableBuilder&lt;Person&gt;().newBuilder("yourTableId", persons, request)
+ *    .column().fillWithProperty("id").title("Id")
+ *    .column().fillWithProperty("firstName").title("Firtname")
+ *    .column().fillWithProperty("lastName").title("Lastname")
+ *    .column().fillWithProperty("mail").title("Mail")
+ *    .column().fillWithProperty("birthDate", "{0,date,dd-MM-yyyy}").title("BirthDate")
+ *    .build();
+ * </pre>
+ * where:
+ * <ul>
+ * <li>{@code yourTableId} is the HTML id that has be assigned to the {@code table} tag</li>
+ * <li>{@code persons} is a collection of {@code Person}</li>
+ * <li>{@code request} is the current {@link HttpServletRequest}</li>
+ * </ul>
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -64,45 +94,39 @@ public class HtmlTableBuilder<T> {
 		return new Steps<T>(id, data, request);
 	}
 
+	public ColumnStep newBuilder(String id, List<T> data, HttpServletRequest request, ExportConf exportConf) {
+		return new Steps<T>(id, data, request, exportConf);
+	}
+	
 	public static interface ColumnStep {
 		FirstContentStep column();
 	}
 
 	public static interface FirstContentStep {
 		SecondContentStep fillWithProperty(String propertyName);
-
 		SecondContentStep fillWithProperty(String propertyName, String pattern);
-
 		SecondContentStep fillWithProperty(String propertyName, String pattern, String defaultContent);
-
 		SecondContentStep fillWith(String content);
 	}
 
 	public static interface SecondContentStep {
 		SecondContentStep andProperty(String propertyName);
-
 		SecondContentStep andProperty(String propertyName, String pattern);
-
 		SecondContentStep andProperty(String propertyName, String pattern, String defaultContent);
-
 		SecondContentStep and(String content);
-
-		BeforeEndStep title(String title);
+		BuildStep title(String title);
 	}
 
-	public static interface TitleStep {
+	public static interface TitleStep extends ColumnStep {
 		ColumnStep title(String title);
-	}
-
-	public static interface BeforeEndStep extends ColumnStep {
-		BuildStep configureExport(ExportConf exportConf);
 	}
 
 	public static interface BuildStep {
 		HtmlTable build();
+		FirstContentStep column();
 	}
 
-	private static class Steps<T> implements ColumnStep, FirstContentStep, SecondContentStep, BeforeEndStep, BuildStep {
+	private static class Steps<T> implements ColumnStep, FirstContentStep, SecondContentStep, BuildStep {
 
 		private String id;
 		private List<T> data;
@@ -112,11 +136,19 @@ public class HtmlTableBuilder<T> {
 		private ExportConf exportConf;
 
 		public Steps(String id, List<T> data, HttpServletRequest request) {
+			this(id, data, request, null);
+		}
+
+		public Steps(String id, List<T> data, HttpServletRequest request, ExportConf exportConf) {
 			this.id = id;
 			this.data = data;
 			this.request = request;
+			this.exportConf = new ExportConf(request);
+			if(this.exportConf != null) {
+				this.exportConf.mergeWith(exportConf);
+			}
 		}
-
+		
 		// Table configuration
 
 		public Steps<T> column() {
@@ -189,23 +221,6 @@ public class HtmlTableBuilder<T> {
 			}
 			headerColumns.getLast().getColumnConfiguration().getColumnElements()
 					.add(new ColumnElement(null, null, content, null));
-			return this;
-		}
-
-		/**
-		 * Add a new column to the table and complete it using the passed
-		 * pattern and property names. Convenient if you need to display several
-		 * properties in the same column.
-		 * 
-		 * @param pattern
-		 *            Pattern that will be parsed by a MessageFormat.
-		 * @param properties
-		 *            array of property's names of the bean which is part of the
-		 *            collection being iterated on.
-		 */
-
-		public Steps<T> configureExport(ExportConf exportConf) {
-			this.exportConf = exportConf;
 			return this;
 		}
 

@@ -36,7 +36,7 @@ import java.util.Set;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
-import com.github.dandelion.datatables.core.export.Format;
+import com.github.dandelion.datatables.core.export.ReservedFormat;
 
 /**
  * Plain old HTML <code>td</code> and <code>th</code> tags.
@@ -54,7 +54,7 @@ public class HtmlColumn extends HtmlTagWithContent {
 	
 	public HtmlColumn() {
 		setHeaderColumn(false);
-		enabledDisplayTypes.add(Format.ALL);
+		enabledDisplayTypes.add(ReservedFormat.ALL);
 	};
 
 	public HtmlColumn(String displayFormat) {
@@ -64,7 +64,7 @@ public class HtmlColumn extends HtmlTagWithContent {
 
 	public HtmlColumn(Boolean isHeader) {
 		setHeaderColumn(isHeader);
-		enabledDisplayTypes.add(Format.ALL);
+		enabledDisplayTypes.add(ReservedFormat.ALL);
 		if(isHeader){
 			this.columnConfiguration = new ColumnConfiguration();
 		}
@@ -72,7 +72,7 @@ public class HtmlColumn extends HtmlTagWithContent {
 
 	public HtmlColumn(Boolean isHeader, String content) {
 		setHeaderColumn(isHeader);
-		enabledDisplayTypes.add(Format.ALL);
+		enabledDisplayTypes.add(ReservedFormat.ALL);
 		if(isHeader){
 			this.columnConfiguration = new ColumnConfiguration();
 		}
@@ -83,7 +83,7 @@ public class HtmlColumn extends HtmlTagWithContent {
 
 	public HtmlColumn(Boolean isHeader, String content, Map<String, String> dynamicAttributes) {
 		setHeaderColumn(isHeader);
-		enabledDisplayTypes.add(Format.ALL);
+		enabledDisplayTypes.add(ReservedFormat.ALL);
 		if(isHeader){
 			this.columnConfiguration = new ColumnConfiguration();
 		}
@@ -109,7 +109,7 @@ public class HtmlColumn extends HtmlTagWithContent {
 			}
 		}
 		else{
-			enabledDisplayTypes.add(Format.ALL);
+			enabledDisplayTypes.add(ReservedFormat.ALL);
 		}
 	}
 	

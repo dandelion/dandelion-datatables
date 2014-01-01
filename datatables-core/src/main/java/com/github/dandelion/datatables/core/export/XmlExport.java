@@ -57,7 +57,7 @@ public class XmlExport implements DatatablesExport {
 	@Override
 	public void initExport(HtmlTable table) {
 		this.table = table;
-		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(Format.XML);
+		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.XML);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class XmlExport implements DatatablesExport {
 		List<String> headers = new ArrayList<String>();
 		
 		for(HtmlRow row : table.getHeadRows()){
-			for(HtmlColumn column : row.getColumns(Format.ALL, Format.XML)){
+			for(HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.XML)){
 				headers.add(StringUtils.uncapitalize(column.getContent().toString()));
 			}
 		}
@@ -86,7 +86,7 @@ public class XmlExport implements DatatablesExport {
 				writer.writeStartElement(objectType);
 
 				int i = 0;
-				for (HtmlColumn column : row.getColumns(Format.ALL, Format.XML)) {
+				for (HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.XML)) {
 					writer.writeAttribute(headers.get(i), column.getContent().toString());
 					i++;
 				}

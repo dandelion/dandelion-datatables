@@ -270,7 +270,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 		try {
 			// Call the export delegate
 			ExportDelegate exportDelegate = new ExportDelegate(table, request);
-			exportDelegate.launchExport();
+			exportDelegate.prepareExport();
 
 		} catch (ExportException e) {
 			logger.error("Something went wront with the Dandelion export configuration.");
