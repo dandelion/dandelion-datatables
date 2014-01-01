@@ -283,7 +283,9 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 		}
 
 		if (hasAttribute(element, "autoSize")) {
-			conf.setAutoSize(Boolean.parseBoolean(getStringValue(element, "autoSize")));
+			String autosize = getStringValue(element, "autoSize");
+			conf.setAutoSize(Boolean.parseBoolean(autosize));
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_AUTOSIZE, autosize);
 		}
 
 		if (hasAttribute(element, "exportClass")) {

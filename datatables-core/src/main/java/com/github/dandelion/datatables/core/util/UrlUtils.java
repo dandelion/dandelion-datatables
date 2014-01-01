@@ -84,7 +84,7 @@ public class UrlUtils {
 	public static String getProcessedUrl(String url, HttpServletRequest request, HttpServletResponse response) {
 		String processedUrl = null;
 
-		if (isContextRelative(url)) {
+		if (isContextRelative(url) && !url.contains(request.getContextPath())) {
 			processedUrl = request.getContextPath() + url;
 		} else if (isServerRelative(url)) {
 			// remove the "~" from the link base

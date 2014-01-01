@@ -76,7 +76,9 @@ public class ExportConf {
 	}
 	
 	/**
-	 * Constructor called from the {@link HtmlTableBuilder}.
+	 * <p>
+	 * Constructor called from the {@link HtmlTableBuilder}. It creates an
+	 * instance of {@link ExportConf} from the passed {@link HttpServletRequest}.
 	 * 
 	 * @param request
 	 */
@@ -177,6 +179,11 @@ public class ExportConf {
 		String fileName = request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_NAME);
 		if (StringUtils.isNotBlank(fileName)) {
 			this.fileName = fileName.trim();
+		}
+		
+		String autosize = request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_AUTOSIZE);
+		if (StringUtils.isNotBlank(autosize)) {
+			this.autoSize = Boolean.parseBoolean(autosize);
 		}
 	}
 	

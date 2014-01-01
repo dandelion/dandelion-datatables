@@ -148,31 +148,28 @@ public class ExportTag extends TagSupport {
 				UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "c");
 				conf.setHasCustomUrl(true);
 			}
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID, parent.getTable().getId());
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, format);
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
-			UrlUtils.addParameter(exportUrl, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ORIENTATION, this.orientation);
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_NAME, this.fileName);
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_MIME_TYPE, this.mimeType);
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_HEADER, this.includeHeader);
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_EXTENSION, this.fileExtension);
-			conf.setUrl(UrlUtils.getProcessedUrl(exportUrl, request, response));
 
-			if(StringUtils.isNotBlank(fileName)){
-				conf.setFileName(fileName.trim());				
+			if (StringUtils.isNotBlank(fileName)) {
+				conf.setFileName(fileName.trim());
+				UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_NAME, this.fileName);
 			}
-			if(StringUtils.isNotBlank(label)){
-				conf.setLabel(label.trim());				
+
+			if (StringUtils.isNotBlank(fileExtension)) {
+				conf.setFileExtension(fileExtension);
+				UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_EXTENSION, this.fileExtension);
 			}
-			if(StringUtils.isNotBlank(cssClass)){
-				conf.setCssClass(new StringBuilder(cssClass.trim()));				
+
+			if (StringUtils.isNotBlank(label)) {
+				conf.setLabel(label.trim());
 			}
-			if(StringUtils.isNotBlank(cssStyle)){
-				conf.setCssStyle(new StringBuilder(cssStyle.trim()));				
+			if (StringUtils.isNotBlank(cssClass)) {
+				conf.setCssClass(new StringBuilder(cssClass.trim()));
 			}
-			
-			if(StringUtils.isNotBlank(method)){
+			if (StringUtils.isNotBlank(cssStyle)) {
+				conf.setCssStyle(new StringBuilder(cssStyle.trim()));
+			}
+
+			if (StringUtils.isNotBlank(method)) {
 				HttpMethod httpMethod = null;
 				try {
 					httpMethod = HttpMethod.valueOf(this.method.toUpperCase().trim());
@@ -184,11 +181,11 @@ public class ExportTag extends TagSupport {
 					sb.append(EnumUtils.printPossibleValuesOf(HttpMethod.class));
 					throw new JspException(sb.toString());
 				}
-				
+
 				conf.setMethod(httpMethod);
 			}
-			
-			if(StringUtils.isNotBlank(orientation)){
+
+			if (StringUtils.isNotBlank(orientation)) {
 				Orientation orientationEnum = null;
 				try {
 					orientationEnum = Orientation.valueOf(this.orientation.toUpperCase().trim());
@@ -200,12 +197,32 @@ public class ExportTag extends TagSupport {
 					sb.append(EnumUtils.printPossibleValuesOf(Orientation.class));
 					throw new JspException(sb.toString());
 				}
-				
+
 				conf.setOrientation(orientationEnum);
+				UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ORIENTATION, orientation);
 			}
 
-			conf.setIncludeHeader(includeHeader != null ? includeHeader : true);				
-			conf.setAutoSize(autoSize);				
+			if (StringUtils.isNotBlank(mimeType)) {
+				conf.setMimeType(mimeType.trim());
+				UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_MIME_TYPE, mimeType.trim());
+			}
+
+			if (includeHeader != null) {
+				conf.setIncludeHeader(includeHeader);
+				UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_HEADER, includeHeader);
+			}
+
+			if (autoSize != null) {
+				conf.setAutoSize(autoSize);
+				UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_AUTOSIZE, autoSize);
+			}
+			
+			// Finalizes the export URL
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID, parent.getTable().getId());
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, format);
+			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
+			UrlUtils.addParameter(exportUrl, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
+			conf.setUrl(UrlUtils.getProcessedUrl(exportUrl, request, response));
 			
 			logger.debug("Export configuration for the type {} has been updated", format);
 		}

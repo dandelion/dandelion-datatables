@@ -76,6 +76,7 @@ public final class ExportUtils {
 	public static final String DDL_DT_REQUESTPARAM_EXPORT_MIME_TYPE = "dtmt";
 	public static final String DDL_DT_REQUESTPARAM_EXPORT_EXTENSION = "dte";
 	public static final String DDL_DT_REQUESTPARAM_EXPORT_NAME = "dtn";
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_AUTOSIZE = "dts";
 	
 	/**
 	 * Renders the passed table by writing the data to the response.

@@ -36,7 +36,7 @@ package com.github.dandelion.datatables.core.extension.theme;
  */
 public enum ThemeOption {
 
-	// Theme option available for the "jqueryui" theme (Theme Roller)
+	// Theme options available for the "jqueryui" theme (Theme Roller)
 	BASE,
 	BLACKTIE,
 	BLITZER,

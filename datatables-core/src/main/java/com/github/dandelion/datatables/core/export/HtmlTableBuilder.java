@@ -144,7 +144,7 @@ public class HtmlTableBuilder<T> {
 			this.data = data;
 			this.request = request;
 			this.exportConf = new ExportConf(request);
-			if(this.exportConf != null) {
+			if(exportConf != null) {
 				this.exportConf.mergeWith(exportConf);
 			}
 		}
