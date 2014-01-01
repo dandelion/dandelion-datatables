@@ -55,7 +55,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.DevMode;
-import com.github.dandelion.core.utils.ClassUtils;
+import com.github.dandelion.core.utils.LibraryDetector;
 import com.github.dandelion.core.utils.PropertiesUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.utils.UTF8Control;
@@ -207,7 +207,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 
 		logger.debug("Resolving configurations for the locale {}...", locale);
 
-		loadTemplateEngineRelatedConfiguration(userProperties);
+		loadAutoConfiguration(userProperties);
 		
 		// Retrieve the configuration for the 'global' group
 		// The 'global' group contains all defaut properties, some of which may
@@ -300,11 +300,12 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 	 * TODO
 	 * @param userProps
 	 */
-	private void loadTemplateEngineRelatedConfiguration(Properties userProps){
-		
-		boolean jstlPresent = ClassUtils.isPresent("javax.servlet.jsp.jstl.core.Config");
+	private void loadAutoConfiguration(Properties userProps){
 
-		if(jstlPresent && userProps != null){
+		// The JSTL is required by Tiles, which can be used with Thymeleaf but
+		// in any case, if Thymeleaf is available, the JstlMessageResolver
+		// should not be enabled
+		if(LibraryDetector.isJstlAvailable() && !LibraryDetector.isThymeleafAvailable() && userProps != null){
 			if(!userProps.isEmpty()){
 				for(Entry<Object, Object> entry : userProps.entrySet()){
 					String key = entry.getKey().toString();
