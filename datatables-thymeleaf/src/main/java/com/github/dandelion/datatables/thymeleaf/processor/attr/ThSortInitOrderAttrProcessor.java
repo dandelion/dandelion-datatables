@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -27,36 +27,40 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.jsp.tei;
+package com.github.dandelion.datatables.thymeleaf.processor.attr;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.thymeleaf.Arguments;
+import org.thymeleaf.dom.Element;
+import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
-import javax.servlet.jsp.tagext.TagData;
-import javax.servlet.jsp.tagext.TagExtraInfo;
-import javax.servlet.jsp.tagext.VariableInfo;
-
-import com.github.dandelion.datatables.jsp.tag.TableTag;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
- * TEI associated with the {@link TableTag}.
+ * Attribute processor applied to the {@code th} tag for the
+ * {@link ColumnConfig#SORTINITORDER} configuration.
  * 
  * @author Thibault Duchateau
+ * @since 0.10.0
  */
-public class TableTagExtraInfo extends TagExtraInfo {
+public class ThSortInitOrderAttrProcessor extends AbstractColumnAttrProcessor {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public VariableInfo[] getVariableInfo(TagData data) {
+	public ThSortInitOrderAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+		super(matcher);
+	}
 
-		List<VariableInfo> variables = new ArrayList<VariableInfo>();
+	@Override
+	public int getPrecedence() {
+		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
+	}
 
-		if (data.getAttributeString("row") != null) {
-			variables.add(new VariableInfo(data.getAttributeString("row"), "java.lang.Object", true,
-					VariableInfo.NESTED));
-		}
+	@Override
+	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName) {
 
-		return (VariableInfo[]) variables.toArray(new VariableInfo[] {});
+		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
+
+		stagingConf.put(ColumnConfig.SORTINITORDER, attrValue);
 	}
 }

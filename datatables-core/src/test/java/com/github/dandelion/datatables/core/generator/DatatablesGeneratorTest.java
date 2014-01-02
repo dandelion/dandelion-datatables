@@ -231,8 +231,8 @@ public class DatatablesGeneratorTest {
 	}
 
 	@Test
-	public void should_set_one_sort_direction_init() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.SORTINIT, "desc");
+	public void should_set_one_sort_init_direction() {
+		firstColumn.getColumnConfiguration().set(ColumnConfig.SORTINITDIRECTION, "desc");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -242,15 +242,34 @@ public class DatatablesGeneratorTest {
 	}
 
 	@Test
-	public void should_set_several_sort_direction_inits() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.SORTINIT, "desc");
+	public void should_set_one_sort_init_direction_sort_init_order() {
+		firstColumn.getColumnConfiguration().set(ColumnConfig.SORTINITDIRECTION, "desc");
+		firstColumn.getColumnConfiguration().set(ColumnConfig.SORTINITORDER, 1);
+		HtmlColumn secondColumn = headerRow.addHeaderColumn("secondColumn");
+		secondColumn.getColumnConfiguration().set(ColumnConfig.SORTINITDIRECTION, "asc");
+		secondColumn.getColumnConfiguration().set(ColumnConfig.SORTINITORDER, 0);
+		Set<String> enabledDisplayTypes = new HashSet<String>();
+		enabledDisplayTypes.add(ReservedFormat.HTML);
+		secondColumn.setEnabledDisplayTypes(enabledDisplayTypes);
+		
+		Map<String, Object> mainConf = generator.generateConfig(table);
+
+		List<List<Object>> columnsInitialSorting = (List<List<Object>>)mainConf.get(DTConstants.DT_SORT_INIT);
+		assertThat(columnsInitialSorting).hasSize(2);
+		assertThat(columnsInitialSorting.get(0)).containsExactly(1, "asc");
+		assertThat(columnsInitialSorting.get(1)).containsExactly(0, "desc");
+	}
+	
+	@Test
+	public void should_set_several_sort_init_directions() {
+		firstColumn.getColumnConfiguration().set(ColumnConfig.SORTINITDIRECTION, "desc");
 		headerRow.addHeaderColumn("secondColumn");
 		HtmlColumn thirdColumn = headerRow.addHeaderColumn("thirdColumn");
 		Set<String> enabledDisplayTypes = new HashSet<String>();
 		enabledDisplayTypes.add(ReservedFormat.XLS);
 		thirdColumn.setEnabledDisplayTypes(enabledDisplayTypes);
 		HtmlColumn fourthColumn = headerRow.addHeaderColumn("fourthColumn");
-		fourthColumn.getColumnConfiguration().set(ColumnConfig.SORTINIT, "asc");
+		fourthColumn.getColumnConfiguration().set(ColumnConfig.SORTINITDIRECTION, "asc");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 

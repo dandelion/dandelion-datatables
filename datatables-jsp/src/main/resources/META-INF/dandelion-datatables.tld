@@ -28,14 +28,12 @@
   ~ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
   ~ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
-<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
-        version="2.0">
-    <description>Set of tags for manipulating HTML table with
-        DataTables.</description>
-    <display-name>dandelion-datatables</display-name>
-   <tlib-version>0.100</tlib-version>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+   version="2.0">
+   <description>Set of tags for manipulating HTML table with DataTables.</description>
+   <display-name>dandelion-datatables</display-name>
+   <tlib-version>0.10.0</tlib-version>
    <short-name>datatables</short-name>
    <uri>http://github.com/dandelion/datatables</uri>
 
@@ -573,7 +571,12 @@
          <description>(asc|desc) If sortable is enabled, set the
             default
             sorting direction (Default : asc)</description>
-          <name>sortInit</name>
+          <name>sortInitDirection</name>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <description>If sortable is enabled, set the order in which the sort should be initialized.</description>
+          <name>sortInitOrder</name>
           <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>

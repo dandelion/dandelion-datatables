@@ -40,14 +40,14 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
  * Attribute processor applied to the {@code th} tag for the
- * {@link ColumnConfig#SORTINIT} configuration.
+ * {@link ColumnConfig#SORTINITDIRECTION} configuration.
  * 
  * @author Thibault Duchateau
  * @since 0.8.9
  */
-public class ThSortInitAttrProcessor extends AbstractColumnAttrProcessor {
+public class ThSortInitDirectionAttrProcessor extends AbstractColumnAttrProcessor {
 
-	public ThSortInitAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	public ThSortInitDirectionAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
@@ -61,6 +61,6 @@ public class ThSortInitAttrProcessor extends AbstractColumnAttrProcessor {
 
 		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-		stagingConf.put(ColumnConfig.SORTINIT, attrValue);
+		stagingConf.put(ColumnConfig.SORTINITDIRECTION, attrValue);
 	}
 }

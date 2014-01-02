@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -270,21 +271,35 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 		// Column sorting configuration
 		List<Object> aaSortingtmp = null;
 		List<Object> aaSortingContent = new ArrayList<Object>();
-		Integer columnIndex = 0;
-		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
+		Map<Integer, Map<Integer, String>> sortedColumnMap = new TreeMap<Integer, Map<Integer, String>>();
+		int columnIndex = 0;
+		
+		for (HtmlColumn column : table.getLastHeaderRow().getColumns(ReservedFormat.ALL, ReservedFormat.HTML)) {
+			
+			String sortInitDirection = ColumnConfig.SORTINITDIRECTION.valueFrom(column.getColumnConfiguration());
+			Integer sortInitOrder = ColumnConfig.SORTINITORDER.valueFrom(column.getColumnConfiguration());
 
-			// Sorting direction
-			String sortInit = ColumnConfig.SORTINIT.valueFrom(column.getColumnConfiguration());
-			if (StringUtils.isNotBlank(sortInit)) {
-				aaSortingtmp = new ArrayList<Object>();
-				aaSortingtmp.add(columnIndex);
-				aaSortingtmp.add(sortInit);
-				aaSortingContent.add(aaSortingtmp);
+			if (sortInitOrder != null && StringUtils.isNotBlank(sortInitDirection)) {
+				Map<Integer, String> value = new HashMap<Integer, String>();
+				value.put(columnIndex, sortInitDirection);
+				sortedColumnMap.put(sortInitOrder, value);
 			}
-			if (CollectionUtils.containsAny(column.getEnabledDisplayTypes(), ReservedFormat.ALL, ReservedFormat.HTML)) {
-				columnIndex++;
+			else if(StringUtils.isNotBlank(sortInitDirection)){
+				Map<Integer, String> value = new HashMap<Integer, String>();
+				value.put(columnIndex, sortInitDirection);
+				sortedColumnMap.put(sortedColumnMap.keySet().size(), value);
 			}
+			columnIndex++;
 		}
+		
+		for(Entry<Integer, Map<Integer, String>> entry : sortedColumnMap.entrySet()) {
+			aaSortingtmp = new ArrayList<Object>();
+			Integer key = entry.getValue().entrySet().iterator().next().getKey();
+			aaSortingtmp.add(key);
+			aaSortingtmp.add(entry.getValue().get(key));
+			aaSortingContent.add(aaSortingtmp);
+		}
+		
 		if (!aaSortingContent.isEmpty()) {
 			mainConf.put(DTConstants.DT_SORT_INIT, aaSortingContent);
 		}

@@ -75,7 +75,8 @@ public final class ColumnConfig {
 	public static ConfigToken<StringBuilder> CSSCELLCLASS = new ConfigToken<StringBuilder>("", new StringBuilderProcessor());
 	public static ConfigToken<Boolean> SORTABLE = new ConfigToken<Boolean>("", new BooleanProcessor());
 	public static ConfigToken<List<Direction>> SORTDIRECTION = new ConfigToken<List<Direction>>("", new SortDirectionProcessor());
-	public static ConfigToken<String> SORTINIT = new ConfigToken<String>("", new StringProcessor());
+	public static ConfigToken<String> SORTINITDIRECTION = new ConfigToken<String>("", new StringProcessor());
+	public static ConfigToken<Integer> SORTINITORDER = new ConfigToken<Integer>("", new IntegerProcessor());
 	public static ConfigToken<SortType> SORTTYPE = new ConfigToken<SortType>("", new SortTypeProcessor());
 	public static ConfigToken<Boolean> FILTERABLE = new ConfigToken<Boolean>("", new FilterableProcessor());
 	public static ConfigToken<Boolean> SEARCHABLE = new ConfigToken<Boolean>("", new BooleanProcessor());

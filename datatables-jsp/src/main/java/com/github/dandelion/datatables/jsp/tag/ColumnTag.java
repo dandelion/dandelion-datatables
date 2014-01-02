@@ -243,10 +243,14 @@ public class ColumnTag extends AbstractColumnTag {
 		stagingConf.put(ColumnConfig.SORTDIRECTION, sortDirection);
 	}
 
-	public void setSortInit(String sortInit) {
-		stagingConf.put(ColumnConfig.SORTINIT, sortInit);
+	public void setSortInitDirection(String sortInitDirection) {
+		stagingConf.put(ColumnConfig.SORTINITDIRECTION, sortInitDirection);
 	}
 
+	public void setSortInitOrder(String sortInitOrder) {
+		stagingConf.put(ColumnConfig.SORTINITORDER, sortInitOrder);
+	}
+	
 	public void setDisplay(String display) {
 		this.display = display;
 	}

@@ -51,7 +51,8 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.ThRenderFunction
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSearchableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSelectorAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSortDirectionAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSortInitAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSortInitDirectionAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSortInitOrderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSortTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSortableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThVisibleAttrProcessor;
@@ -76,7 +77,8 @@ public enum ColumnAttrProcessors {
 	FILTER_VALUES(ThFilterValuesAttrProcessor.class, "filterValues", "th"), 
 	FILTER_LENGTH(ThFilterMinLengthAttrProcessor.class, "filterMinLength", "th"), 
 	FILTER_DATEFORMAT(ThFilterDateFormatAttrProcessor.class, "filterDateFormat", "th"), 
-	SORT_INIT(ThSortInitAttrProcessor.class, "sortInit", "th"), 
+	SORT_INITDIRECTION(ThSortInitDirectionAttrProcessor.class, "sortInitDirection", "th"),
+	SORT_INITORDER(ThSortInitOrderAttrProcessor.class, "sortInitOrder", "th"),
 	SORT_DIR(ThSortDirectionAttrProcessor.class, "sortDir", "th"), 
 	SORT_TYPE(ThSortTypeAttrProcessor.class, "sortType", "th"), 
 	SELECTOR(ThSelectorAttrProcessor.class, "selector", "th"), 
