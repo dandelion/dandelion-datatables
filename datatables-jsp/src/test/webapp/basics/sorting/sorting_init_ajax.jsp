@@ -7,8 +7,8 @@
 </head>
 <body>
    <datatables:table id="myTableId" url="/persons">
-      <datatables:column title="Id" property="id" sortInit="desc" />
-      <datatables:column title="FirstName" property="firstName" sortInit="asc" />
+      <datatables:column title="Id" property="id" sortInitDirection="desc" />
+      <datatables:column title="FirstName" property="firstName" sortInitDirection="asc" />
       <datatables:column title="LastName" property="lastName" />
       <datatables:column title="City" property="address.town.name" />
       <datatables:column title="Mail" property="mail" />
