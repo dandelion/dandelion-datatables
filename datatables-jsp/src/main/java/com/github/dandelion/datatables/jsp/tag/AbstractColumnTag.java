@@ -107,6 +107,9 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	// List of format where the column's content must be displayed
 	protected String display;
 
+	// Whether XML characters should be escaped
+	protected boolean escapeXml = true;
+
 	/**
 	 * Internal attributes
 	 */

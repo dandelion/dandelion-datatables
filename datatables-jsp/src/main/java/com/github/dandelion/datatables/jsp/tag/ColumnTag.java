@@ -33,6 +33,7 @@ import java.util.HashMap;
 
 import javax.servlet.jsp.JspException;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
@@ -112,14 +113,14 @@ public class ColumnTag extends AbstractColumnTag {
 		if(parent.isFirstIteration()){
 
 			// The 'title' attribute has precedence over 'titleKey'
-			String columnTitle = title;
+			String columnTitle = StringUtils.escape(this.escapeXml, this.title);
 			
 			// If the 'titleKey' attribute is used, the column's title must be
 			// retrieved from the current ResourceBundle
 			if(columnTitle == null && titleKey != null){
 				if(parent.getTable().getTableConfiguration().getInternalMessageResolver() != null){
 					columnTitle = parent.getTable().getTableConfiguration().getInternalMessageResolver()
-							.getResource(titleKey, property, pageContext);
+							.getResource(titleKey, StringUtils.escape(this.escapeXml, this.property), pageContext);
 				}
 				else{
 					columnTitle = MessageResolver.UNDEFINED_KEY + titleKey + MessageResolver.UNDEFINED_KEY;
@@ -165,6 +166,10 @@ public class ColumnTag extends AbstractColumnTag {
 		this.titleKey = titleKey;
 	}
 	
+	public void setEscapeXml(boolean escapeXml) {
+		this.escapeXml = escapeXml;
+	}
+	
 	public void setUid(String uid) {
 		stagingConf.put(ColumnConfig.UID, uid);
 	}
@@ -198,7 +203,10 @@ public class ColumnTag extends AbstractColumnTag {
 	}
 
 	public void setCssCellStyle(String cssCellStyle) {
+		// For DOM sources
 		this.cssCellStyle = cssCellStyle;
+		
+		// For AJAX sources
 		stagingConf.put(ColumnConfig.CSSCELLSTYLE, cssCellStyle);
 	}
 

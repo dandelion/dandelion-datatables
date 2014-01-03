@@ -78,7 +78,8 @@ public class ExtraHtmlTag extends BodyTagSupport {
 	private String container;
 	private String cssStyle;
 	private String cssClass;
-
+	private boolean escapeXml = true; // Whether XML characters should be escaped
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -104,7 +105,8 @@ public class ExtraHtmlTag extends BodyTagSupport {
 			
 			ExtraHtml extraHtml = new ExtraHtml();
 			extraHtml.setUid(uid);
-			extraHtml.setContainer(StringUtils.isNotBlank(container) ? container : "div");
+			extraHtml.setContainer(StringUtils.isNotBlank(container) ? StringUtils.escape(this.escapeXml,
+					this.container) : "div");
 			extraHtml.setCssStyle(cssStyle);
 			extraHtml.setCssClass(cssClass);
 			if (getBodyContent() != null) {
@@ -132,5 +134,9 @@ public class ExtraHtmlTag extends BodyTagSupport {
 
 	public void setCssClass(String cssClass) {
 		this.cssClass = cssClass;
+	}
+
+	public void setEscapeXml(boolean escapeXml) {
+		this.escapeXml = escapeXml;
 	}
 }

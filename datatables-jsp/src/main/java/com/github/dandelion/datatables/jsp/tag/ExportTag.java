@@ -41,9 +41,9 @@ import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.export.ExportConf;
+import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.export.HttpMethod;
-import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
 import com.github.dandelion.datatables.core.util.UrlUtils;
 
 /**
@@ -94,7 +94,7 @@ public class ExportTag extends TagSupport {
 	private String method;
 	private String orientation;
 	private String mimeType;
-	
+	private boolean escapeXml = true; // Whether XML characters should be escaped
 
 	/**
 	 * {@inheritDoc}
@@ -160,7 +160,7 @@ public class ExportTag extends TagSupport {
 			}
 
 			if (StringUtils.isNotBlank(label)) {
-				conf.setLabel(label.trim());
+				conf.setLabel(StringUtils.escape(this.escapeXml, this.label.trim()));
 			}
 			if (StringUtils.isNotBlank(cssClass)) {
 				conf.setCssClass(new StringBuilder(cssClass.trim()));
@@ -276,5 +276,9 @@ public class ExportTag extends TagSupport {
 
 	public void setMimeType(String mimeType) {
 		this.mimeType = mimeType;
+	}
+	
+	public void setEscapeXml(boolean escapeXml) {
+		this.escapeXml = escapeXml;
 	}
 }

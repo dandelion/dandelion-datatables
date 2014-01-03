@@ -428,6 +428,12 @@
           <name>colReorder</name>
           <rtexprvalue>true</rtexprvalue>
       </attribute>
+      
+      <attribute>
+          <description>Whether XML characters should be escaped or not. (Default: true)</description>
+          <name>escapeXml</name>
+          <rtexprvalue>true</rtexprvalue>
+       </attribute>
       <dynamic-attributes>true</dynamic-attributes>
    </tag>
 
@@ -461,6 +467,11 @@
           <name>cssClass</name>
           <rtexprvalue>true</rtexprvalue>
       </attribute>
+      <attribute>
+          <description>Whether XML characters should be escaped or not. (Default: true)</description>
+          <name>escapeXml</name>
+          <rtexprvalue>true</rtexprvalue>
+       </attribute>
    </tag>
    
    <!-- ====================================== -->
@@ -490,6 +501,11 @@
        <attribute>
           <description>Container used to wrap the HTML code</description>
           <name>container</name>
+          <rtexprvalue>true</rtexprvalue>
+       </attribute>
+       <attribute>
+          <description>Whether XML characters should be escaped or not. (Default: true)</description>
+          <name>escapeXml</name>
           <rtexprvalue>true</rtexprvalue>
        </attribute>
    </tag>
@@ -679,6 +695,11 @@
          <name>sortType</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
+      <attribute>
+          <description>Whether XML characters should be escaped or not. (Default: true)</description>
+          <name>escapeXml</name>
+          <rtexprvalue>true</rtexprvalue>
+       </attribute>
       <dynamic-attributes>true</dynamic-attributes>
    </tag>
 
@@ -810,6 +831,11 @@
           <name>mimeType</name>
           <rtexprvalue>true</rtexprvalue>
       </attribute>
+      <attribute>
+          <description>Whether XML characters should be escaped or not. (Default: true)</description>
+          <name>escapeXml</name>
+          <rtexprvalue>true</rtexprvalue>
+       </attribute>
    </tag>
    
    <!-- ====================================== -->

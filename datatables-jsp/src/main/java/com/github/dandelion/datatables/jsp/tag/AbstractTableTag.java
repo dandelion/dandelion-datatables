@@ -104,6 +104,9 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 	protected String rowIdPrefix;
 	protected String rowIdSuffix;
 
+	// Whether XML characters should be escaped
+	protected boolean escapeXml = true;
+	
 	/**
 	 * Internal attributes
 	 */
@@ -183,12 +186,13 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 		StringBuilder rowId = new StringBuilder();
 
 		if (StringUtils.isNotBlank(this.rowIdPrefix)) {
-			rowId.append(this.rowIdPrefix);
+			rowId.append(StringUtils.escape(this.escapeXml, this.rowIdPrefix));
 		}
 
 		if (StringUtils.isNotBlank(this.rowIdBase)) {
 			try {
-				Object propertyValue = PropertyUtils.getNestedProperty(this.currentObject, this.rowIdBase);
+				Object propertyValue = PropertyUtils.getNestedProperty(this.currentObject,
+						StringUtils.escape(this.escapeXml, this.rowIdBase));
 				rowId.append(propertyValue != null ? propertyValue : "");
 			} catch (IllegalAccessException e) {
 				throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
@@ -200,7 +204,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 		}
 
 		if (StringUtils.isNotBlank(this.rowIdSuffix)) {
-			rowId.append(this.rowIdSuffix);
+			rowId.append(StringUtils.escape(this.escapeXml, this.rowIdSuffix));
 		}
 
 		return rowId.toString();

@@ -189,6 +189,10 @@ public class TableTag extends AbstractTableTag {
 		this.rowIdSuffix = rowIdSuffix;
 	}
 	
+	public void setEscapeXml(boolean escapeXml) {
+		this.escapeXml = escapeXml;
+	}
+	
 	public void setAutoWidth(Boolean autoWidth) {
 		stagingConf.put(TableConfig.FEATURE_AUTOWIDTH, autoWidth);
 	}

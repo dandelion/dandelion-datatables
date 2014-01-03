@@ -29,6 +29,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.DynamicAttributes;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.html.HtmlCaption;
 
 /**
@@ -53,7 +54,8 @@ public class CaptionTag extends BodyTagSupport implements DynamicAttributes {
 	private String cssClass;
 	private String cssStyle;
 	private String title;
-
+	private boolean escapeXml = true; // Whether XML characters should be escaped
+		
 	/**
 	 * Internal attributes
 	 */
@@ -86,7 +88,7 @@ public class CaptionTag extends BodyTagSupport implements DynamicAttributes {
 			caption.setId(id);
 			caption.addCssClass(cssClass);
 			caption.addCssStyle(cssStyle);
-			caption.setTitle(title);
+			caption.setTitle(StringUtils.escape(this.escapeXml, this.title));
 			caption.addContent(getBodyContent().getString());
 			
 			parent.getTable().setCaption(caption);
@@ -137,19 +139,23 @@ public class CaptionTag extends BodyTagSupport implements DynamicAttributes {
 		}
 	}
 	
-	public void setId(String id){
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public void setCssClass(String cssClass){
+	public void setCssClass(String cssClass) {
 		this.cssClass = cssClass;
 	}
 
-	public void setCssStyle(String cssStyle){
+	public void setCssStyle(String cssStyle) {
 		this.cssStyle = cssStyle;
 	}
 
-	public void setTitle(String title){
+	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public void setEscapeXml(boolean escapeXml) {
+		this.escapeXml = escapeXml;
 	}
 }
