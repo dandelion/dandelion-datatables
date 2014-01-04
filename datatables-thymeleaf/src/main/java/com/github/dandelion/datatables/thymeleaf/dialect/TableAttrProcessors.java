@@ -74,10 +74,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TableStripeClass
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeOptionAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableUrlAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TheadColReorderAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TheadFixedHeaderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TheadFixedOffsetTopAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TheadScrollerAttrProcessor;
 
 /**
  * All attribute processors used by Dandelion-DataTables.
@@ -113,9 +110,6 @@ public enum TableAttrProcessors {
     BASIC_DOM(TableDomAttrProcessor.class, "dom", "table"),
     
     // Plugin processors
-    PLUGIN_SCROLLER(TheadScrollerAttrProcessor.class, "scroller", "thead"),
-    PLUGIN_COLUMN_RECORDER(TheadColReorderAttrProcessor.class, "colReorder", "thead"),
-    PLUGIN_FIXED_HEADER(TheadFixedHeaderAttrProcessor.class, "fixedHeader", "thead"),
     PLUGIN_OFFSETTOP(TheadFixedOffsetTopAttrProcessor.class, "fixedOffsetTop", "thead"),
 
     // Feature processors

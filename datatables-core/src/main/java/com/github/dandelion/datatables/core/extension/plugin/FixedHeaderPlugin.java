@@ -45,7 +45,6 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * Java implementation of the DataTables FixedHeader plugin.
  * 
  * @author Thibault Duchateau
- * @see TableConfig#PLUGIN_FIXEDHEADER
  * @see TableConfig#PLUGIN_FIXEDOFFSETTOP
  * @see TableConfig#PLUGIN_FIXEDPOSITION
  */
