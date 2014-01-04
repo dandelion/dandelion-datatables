@@ -123,8 +123,8 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 		
 		Boolean featureFilterable = TableConfig.FEATURE_FILTERABLE.valueFrom(tableConfiguration);
 		Boolean featureInfo = TableConfig.FEATURE_INFO.valueFrom(tableConfiguration);
-		Boolean featurePaginate = TableConfig.FEATURE_PAGINATE.valueFrom(tableConfiguration);
-		Boolean featureSort = TableConfig.FEATURE_SORT.valueFrom(tableConfiguration);
+		Boolean featurePaginate = TableConfig.FEATURE_PAGEABLE.valueFrom(tableConfiguration);
+		Boolean featureSort = TableConfig.FEATURE_SORTABLE.valueFrom(tableConfiguration);
 		
 		if (featureFilterable != null) {
 			mainConf.put(DTConstants.DT_FILTER, featureFilterable);
@@ -360,7 +360,7 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 	 *            The table configuration to read from.
 	 */
 	private void generateAjaxConfiguration(Map<String, Object> mainConf, TableConfiguration tableConfiguration) {
-		Boolean ajaxProcessing = TableConfig.AJAX_PROCESSING.valueFrom(tableConfiguration);
+		Boolean ajaxProcessing = TableConfig.FEATURE_PROCESSING.valueFrom(tableConfiguration);
 		Boolean ajaxDeferRender = TableConfig.AJAX_DEFERRENDER.valueFrom(tableConfiguration);
 		Boolean ajaxServerSide = TableConfig.AJAX_SERVERSIDE.valueFrom(tableConfiguration);
 		

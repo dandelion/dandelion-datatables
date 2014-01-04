@@ -75,6 +75,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeAttrPr
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeOptionAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableUrlAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TheadFixedOffsetTopAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TheadFixedPositionAttrProcessor;
 
 /**
  * All attribute processors used by Dandelion-DataTables.
@@ -111,6 +112,7 @@ public enum TableAttrProcessors {
     
     // Plugin processors
     PLUGIN_OFFSETTOP(TheadFixedOffsetTopAttrProcessor.class, "fixedOffsetTop", "thead"),
+    PLUGIN_FIXEDPOSITION(TheadFixedPositionAttrProcessor.class, "fixedPosition", "thead"),
 
     // Feature processors
     FEATURE_CUSTOM_EXTENSIONS(TableCustomExtensionsProcessor.class, "ext", "table"),

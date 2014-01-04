@@ -40,7 +40,7 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
  * Attribute processor applied to the {@code table} tag for the
- * {@link TableConfig#AJAX_PROCESSING} configuration.
+ * {@link TableConfig#FEATURE_PROCESSING} configuration.
  * 
  * @author Thibault Duchateau
  */
@@ -60,6 +60,6 @@ public class TableProcessingAttrProcessor extends AbstractTableAttrProcessor {
 
 		Boolean attrValue = AttributeUtils.parseBooleanAttribute(arguments, element, attributeName);
 
-		stagingConf.put(TableConfig.AJAX_PROCESSING, attrValue);
+		stagingConf.put(TableConfig.FEATURE_PROCESSING, attrValue);
 	}
 }

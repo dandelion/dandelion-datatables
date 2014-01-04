@@ -6,7 +6,7 @@
 <head>
 </head>
 <body>
-   <datatables:table id="myTableId" data="${persons}" paginate="false">
+   <datatables:table id="myTableId" data="${persons}" pageable="false">
       <datatables:column title="Id" property="id" />
       <datatables:column title="FirstName" property="firstName" />
       <datatables:column title="LastName" property="lastName" />

@@ -69,7 +69,7 @@ public class FeatureEnablementTest extends DomBaseTest {
 	
 	@Test
 	public void should_disable_sort(){
-		assertThat(TableConfig.FEATURE_SORT.valueFrom(table.getTableConfiguration())).isFalse();
+		assertThat(TableConfig.FEATURE_SORTABLE.valueFrom(table.getTableConfiguration())).isFalse();
 		assertThat(mainConf.containsKey(DTConstants.DT_SORT)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_SORT)).isEqualTo(false);
 	}
@@ -83,7 +83,7 @@ public class FeatureEnablementTest extends DomBaseTest {
 	
 	@Test
 	public void should_enable_paginate(){
-		assertThat(TableConfig.FEATURE_PAGINATE.valueFrom(table.getTableConfiguration())).isTrue();
+		assertThat(TableConfig.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration())).isTrue();
 		assertThat(mainConf.containsKey(DTConstants.DT_PAGINATE)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_PAGINATE)).isEqualTo(true);
 	}

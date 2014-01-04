@@ -193,7 +193,7 @@ public class TableTag extends AbstractTableTag {
 		this.escapeXml = escapeXml;
 	}
 	
-	public void setAutoWidth(Boolean autoWidth) {
+	public void setAutoWidth(boolean autoWidth) {
 		stagingConf.put(TableConfig.FEATURE_AUTOWIDTH, autoWidth);
 	}
 
@@ -201,27 +201,27 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(TableConfig.AJAX_DEFERRENDER, deferRender);
 	}
 
-	public void setFilter(Boolean filterable) {
+	public void setFilterable(boolean filterable) {
 		stagingConf.put(TableConfig.FEATURE_FILTERABLE, filterable);
 	}
 
-	public void setInfo(Boolean info) {
+	public void setInfo(boolean info) {
 		stagingConf.put(TableConfig.FEATURE_INFO, info);
 	}
 
-	public void setPaginate(Boolean paginate) {
-		stagingConf.put(TableConfig.FEATURE_PAGINATE, paginate);
+	public void setPageable(boolean pageable) {
+		stagingConf.put(TableConfig.FEATURE_PAGEABLE, pageable);
 	}
 
-	public void setLengthChange(Boolean lengthChange) {
+	public void setLengthChange(boolean lengthChange) {
 		stagingConf.put(TableConfig.FEATURE_LENGTHCHANGE, lengthChange);
 	}
 
-	public void setProcessing(Boolean processing) {
-		stagingConf.put(TableConfig.AJAX_PROCESSING, processing);
+	public void setProcessing(boolean processing) {
+		stagingConf.put(TableConfig.FEATURE_PROCESSING, processing);
 	}
 
-	public void setServerSide(Boolean serverSide) {
+	public void setServerSide(boolean serverSide) {
 		stagingConf.put(TableConfig.AJAX_SERVERSIDE, serverSide);
 	}
 	
@@ -229,24 +229,12 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(TableConfig.FEATURE_PAGINATIONTYPE, paginationType);
 	}
 
-	public void setSort(Boolean sort) {
-		stagingConf.put(TableConfig.FEATURE_SORT, sort);
+	public void setSortable(boolean sortable) {
+		stagingConf.put(TableConfig.FEATURE_SORTABLE, sortable);
 	}
 
 	public void setStateSave(String stateSave) {
 		stagingConf.put(TableConfig.FEATURE_STATESAVE, stateSave);
-	}
-
-	public void setFixedHeader(String fixedHeader) {
-		stagingConf.put(TableConfig.PLUGIN_FIXEDHEADER, fixedHeader);
-	}
-
-	public void setScroller(String scroller) {
-		stagingConf.put(TableConfig.PLUGIN_SCROLLER, scroller);
-	}
-
-	public void setColReorder(String colReorder) {
-		stagingConf.put(TableConfig.PLUGIN_COLREORDER, colReorder);
 	}
 
 	public void setScrollY(String scrollY) {
@@ -269,7 +257,7 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(TableConfig.PLUGIN_FIXEDPOSITION, fixedPosition);
 	}
 
-	public void setOffsetTop(Integer fixedOffsetTop) {
+	public void setOffsetTop(int fixedOffsetTop) {
 		stagingConf.put(TableConfig.PLUGIN_FIXEDOFFSETTOP, fixedOffsetTop);
 	}
 
@@ -285,7 +273,7 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(TableConfig.AJAX_PIPELINING, pipelining);
 	}
 	
-	public void setPipeSize(Integer pipeSize){
+	public void setPipeSize(int pipeSize){
 		stagingConf.put(TableConfig.AJAX_PIPESIZE, pipeSize);
 	}
 	
@@ -333,11 +321,11 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(TableConfig.AJAX_SERVERMETHOD, serverMethod);
 	}
 
-	public void setDisplayLength(Integer displayLength) {
+	public void setDisplayLength(int displayLength) {
 		stagingConf.put(TableConfig.FEATURE_DISPLAYLENGTH, displayLength);
 	}
 
-	public void setFilterDelay(Integer filterDelay) {
+	public void setFilterDelay(int filterDelay) {
 		stagingConf.put(TableConfig.FEATURE_FILTER_DELAY, filterDelay);
 	}
 	

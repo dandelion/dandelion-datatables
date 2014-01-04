@@ -69,9 +69,6 @@ import com.github.dandelion.datatables.core.processor.feature.FeaturePaginationT
 import com.github.dandelion.datatables.core.processor.i18n.MessageProcessor;
 import com.github.dandelion.datatables.core.processor.i18n.MessageResolverProcessor;
 import com.github.dandelion.datatables.core.processor.main.MainExtensionNamesProcessor;
-import com.github.dandelion.datatables.core.processor.plugin.PluginColReorderProcessor;
-import com.github.dandelion.datatables.core.processor.plugin.PluginFixedHeaderProcessor;
-import com.github.dandelion.datatables.core.processor.plugin.PluginScrollerProcessor;
 
 /**
  * <p>
@@ -104,10 +101,10 @@ public final class TableConfig {
 	public static final String P_FEATURE_FILTER_SELECTOR = "feature.filterSelector";
 	public static final String P_FEATURE_FILTER_CLEAR_SELECTOR = "feature.filterClearSelector";
 	public static final String P_FEATURE_FILTER_TRIGGER = "feature.filterTrigger";
-	public static final String P_FEATURE_PAGINATE = "feature.paginate";
+	public static final String P_FEATURE_PAGEABLE = "feature.pageable";
 	public static final String P_FEATURE_PAGINATIONTYPE = "feature.paginationType";
 	public static final String P_FEATURE_LENGTHCHANGE = "feature.lengthChange";
-	public static final String P_FEATURE_SORT = "feature.sort";
+	public static final String P_FEATURE_SORTABLE = "feature.sortable";
 	public static final String P_FEATURE_STATESAVE = "feature.stateSave";
 	public static final String P_FEATURE_JQUERYUI = "feature.jqueryUi";
 	public static final String P_FEATURE_LENGTHMENU = "feature.lengthMenu";
@@ -119,8 +116,8 @@ public final class TableConfig {
 	public static final String P_FEATURE_SCROLLXINNER = "feature.scrollXInner";
 	public static final String P_FEATURE_APPEAR = "feature.appear";
 	public static final String P_FEATURE_APPEAR_DURATION = "feature.appearDuration";
+	public static final String P_FEATURE_PROCESSING = "feature.processing";
 	
-	public static final String P_AJAX_PROCESSING = "ajax.processing";
 	public static final String P_AJAX_DEFERRENDER = "ajax.deferRender";
 	public static final String P_AJAX_SERVERSIDE = "ajax.serverSide";
 	public static final String P_AJAX_SOURCE = "ajax.source";
@@ -134,9 +131,6 @@ public final class TableConfig {
 	
 	public static final String P_PLUGIN_FIXEDPOSITION = "plugin.fixedPosition";
 	public static final String P_PLUGIN_FIXEDOFFSETTOP = "plugin.fixedOffsetTop";
-	public static final String P_PLUGIN_FIXEDHEADER = "plugin.fixedHeader";
-	public static final String P_PLUGIN_SCROLLER = "plugin.scroller";
-	public static final String P_PLUGIN_COLREORDER = "plugin.colReorder";
 	
 	public static final String P_EXPORT_ENABLED_FORMATS = "export.enabled.formats";
 	public static final String P_EXPORT_LINK_POSITIONS = "export.link.positions";
@@ -179,10 +173,10 @@ public final class TableConfig {
 	public static ConfigToken<String> FEATURE_FILTER_SELECTOR = new ConfigToken<String>(P_FEATURE_FILTER_SELECTOR, new FeatureFilterSelectorProcessor());
 	public static ConfigToken<String> FEATURE_FILTER_CLEAR_SELECTOR = new ConfigToken<String>(P_FEATURE_FILTER_CLEAR_SELECTOR, new StringProcessor());
 	public static ConfigToken<String> FEATURE_FILTER_TRIGGER = new ConfigToken<String>(P_FEATURE_FILTER_TRIGGER, new StringProcessor());
-	public static ConfigToken<Boolean> FEATURE_PAGINATE = new ConfigToken<Boolean>(P_FEATURE_PAGINATE, new BooleanProcessor());
+	public static ConfigToken<Boolean> FEATURE_PAGEABLE = new ConfigToken<Boolean>(P_FEATURE_PAGEABLE, new BooleanProcessor());
 	public static ConfigToken<PaginationType> FEATURE_PAGINATIONTYPE = new ConfigToken<PaginationType>(P_FEATURE_PAGINATIONTYPE, new FeaturePaginationTypeProcessor());
 	public static ConfigToken<Boolean> FEATURE_LENGTHCHANGE = new ConfigToken<Boolean>(P_FEATURE_LENGTHCHANGE, new BooleanProcessor());
-	public static ConfigToken<Boolean> FEATURE_SORT = new ConfigToken<Boolean>(P_FEATURE_SORT, new BooleanProcessor());
+	public static ConfigToken<Boolean> FEATURE_SORTABLE = new ConfigToken<Boolean>(P_FEATURE_SORTABLE, new BooleanProcessor());
 	public static ConfigToken<Boolean> FEATURE_STATESAVE = new ConfigToken<Boolean>(P_FEATURE_STATESAVE, new BooleanProcessor());
 	public static ConfigToken<Boolean> FEATURE_JQUERYUI = new ConfigToken<Boolean>(P_FEATURE_JQUERYUI, new BooleanProcessor());
 	public static ConfigToken<String> FEATURE_LENGTHMENU = new ConfigToken<String>(P_FEATURE_LENGTHMENU, new FeatureLengthMenuProcessor());
@@ -194,8 +188,8 @@ public final class TableConfig {
 	public static ConfigToken<String> FEATURE_SCROLLXINNER = new ConfigToken<String>(P_FEATURE_SCROLLXINNER, new StringProcessor());
 	public static ConfigToken<String> FEATURE_APPEAR = new ConfigToken<String>(P_FEATURE_APPEAR, new FeatureAppearProcessor());
 	public static ConfigToken<String> FEATURE_APPEAR_DURATION = new ConfigToken<String>(P_FEATURE_APPEAR_DURATION, null);
+	public static ConfigToken<Boolean> FEATURE_PROCESSING = new ConfigToken<Boolean>(P_FEATURE_PROCESSING, new BooleanProcessor());
 	
-	public static ConfigToken<Boolean> AJAX_PROCESSING = new ConfigToken<Boolean>(P_AJAX_PROCESSING, new BooleanProcessor());
 	public static ConfigToken<Boolean> AJAX_DEFERRENDER = new ConfigToken<Boolean>(P_AJAX_DEFERRENDER, new BooleanProcessor());
 	public static ConfigToken<Boolean> AJAX_SERVERSIDE = new ConfigToken<Boolean>(P_AJAX_SERVERSIDE, new AjaxServerSideProcessor());
 	public static ConfigToken<String> AJAX_SOURCE = new ConfigToken<String>(P_AJAX_SOURCE, new AjaxSourceProcessor());
@@ -209,9 +203,6 @@ public final class TableConfig {
 	
 	public static ConfigToken<String> PLUGIN_FIXEDPOSITION = new ConfigToken<String>(P_PLUGIN_FIXEDPOSITION, new StringProcessor());
 	public static ConfigToken<Integer> PLUGIN_FIXEDOFFSETTOP = new ConfigToken<Integer>(P_PLUGIN_FIXEDOFFSETTOP, new IntegerProcessor());
-	public static ConfigToken<Boolean> PLUGIN_FIXEDHEADER = new ConfigToken<Boolean>(P_PLUGIN_FIXEDHEADER, new PluginFixedHeaderProcessor());
-	public static ConfigToken<Boolean> PLUGIN_SCROLLER = new ConfigToken<Boolean>(P_PLUGIN_SCROLLER, new PluginScrollerProcessor());
-	public static ConfigToken<Boolean> PLUGIN_COLREORDER = new ConfigToken<Boolean>(P_PLUGIN_COLREORDER, new PluginColReorderProcessor());
 	
 	public static ConfigToken<Set<ExportConf>> EXPORT_ENABLED_FORMATS = new ConfigToken<Set<ExportConf>>(P_EXPORT_ENABLED_FORMATS, new ExportEnabledFormatProcessor());
 	public static ConfigToken<Set<ExportLinkPosition>> EXPORT_LINK_POSITIONS = new ConfigToken<Set<ExportLinkPosition>>(P_EXPORT_LINK_POSITIONS, new ExportLinkPositionsProcessor());
@@ -261,10 +252,10 @@ public final class TableConfig {
 		internalConf.put(formalize(P_FEATURE_FILTER_SELECTOR), FEATURE_FILTER_SELECTOR);
 		internalConf.put(formalize(P_FEATURE_FILTER_CLEAR_SELECTOR), FEATURE_FILTER_CLEAR_SELECTOR);
 		internalConf.put(formalize(P_FEATURE_FILTER_TRIGGER), FEATURE_FILTER_TRIGGER);
-		internalConf.put(formalize(P_FEATURE_PAGINATE), FEATURE_PAGINATE);
+		internalConf.put(formalize(P_FEATURE_PAGEABLE), FEATURE_PAGEABLE);
 		internalConf.put(formalize(P_FEATURE_PAGINATIONTYPE), FEATURE_PAGINATIONTYPE);
 		internalConf.put(formalize(P_FEATURE_LENGTHCHANGE), FEATURE_LENGTHCHANGE);
-		internalConf.put(formalize(P_FEATURE_SORT), FEATURE_SORT);
+		internalConf.put(formalize(P_FEATURE_SORTABLE), FEATURE_SORTABLE);
 		internalConf.put(formalize(P_FEATURE_STATESAVE), FEATURE_STATESAVE);
 		internalConf.put(formalize(P_FEATURE_JQUERYUI), FEATURE_JQUERYUI);
 		internalConf.put(formalize(P_FEATURE_LENGTHMENU), FEATURE_LENGTHMENU);
@@ -276,8 +267,8 @@ public final class TableConfig {
 		internalConf.put(formalize(P_FEATURE_SCROLLXINNER), FEATURE_SCROLLXINNER);
 		internalConf.put(formalize(P_FEATURE_APPEAR), FEATURE_APPEAR);
 		internalConf.put(formalize(P_FEATURE_APPEAR_DURATION), FEATURE_APPEAR_DURATION);
+		internalConf.put(formalize(P_FEATURE_PROCESSING), FEATURE_PROCESSING);
 		
-		internalConf.put(formalize(P_AJAX_PROCESSING), AJAX_PROCESSING);
 		internalConf.put(formalize(P_AJAX_DEFERRENDER), AJAX_DEFERRENDER);
 		internalConf.put(formalize(P_AJAX_SERVERSIDE), AJAX_SERVERSIDE);
 		internalConf.put(formalize(P_AJAX_SOURCE), AJAX_SOURCE);
@@ -291,9 +282,6 @@ public final class TableConfig {
 		
 		internalConf.put(formalize(P_PLUGIN_FIXEDPOSITION), PLUGIN_FIXEDPOSITION);
 		internalConf.put(formalize(P_PLUGIN_FIXEDOFFSETTOP), PLUGIN_FIXEDOFFSETTOP);
-		internalConf.put(formalize(P_PLUGIN_FIXEDHEADER), PLUGIN_FIXEDHEADER);
-		internalConf.put(formalize(P_PLUGIN_SCROLLER), PLUGIN_SCROLLER);
-		internalConf.put(formalize(P_PLUGIN_COLREORDER), PLUGIN_COLREORDER);
 		
 		internalConf.put(formalize(P_EXPORT_ENABLED_FORMATS), EXPORT_ENABLED_FORMATS);
 		internalConf.put(formalize(P_EXPORT_LINK_POSITIONS), EXPORT_LINK_POSITIONS);
@@ -423,7 +411,7 @@ public final class TableConfig {
 	
 	
 	/**
-	 * Hidden constructor.
+	 * Prevent instantiation.
 	 */
 	private TableConfig() {
 	}

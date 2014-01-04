@@ -42,13 +42,13 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
  * Attribute processor applied to the {@code thead} tag for the
- * {@link TableConfig#PLUGIN_FIXEDOFFSETTOP} configuration.
+ * {@link TableConfig#PLUGIN_FIXEDPOSITION} configuration.
  * 
  * @author Thibault Duchateau
  */
-public class TheadFixedOffsetTopAttrProcessor extends AbstractTableAttrProcessor {
+public class TheadFixedPositionAttrProcessor extends AbstractTableAttrProcessor {
 
-	public TheadFixedOffsetTopAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	public TheadFixedPositionAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
@@ -62,6 +62,6 @@ public class TheadFixedOffsetTopAttrProcessor extends AbstractTableAttrProcessor
 
 		BigDecimal attrValue = AttributeUtils.parseAttribute(arguments, element, attributeName, BigDecimal.class);
 
-		stagingConf.put(TableConfig.PLUGIN_FIXEDOFFSETTOP, attrValue);
+		stagingConf.put(TableConfig.PLUGIN_FIXEDPOSITION, attrValue);
 	}
 }

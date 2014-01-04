@@ -40,7 +40,7 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
  * Attribute processor applied to the {@code table} tag for the
- * {@link TableConfig#FEATURE_SORT} configuration.
+ * {@link TableConfig#FEATURE_SORTABLE} configuration.
  * 
  * @author Thibault Duchateau
  */
@@ -60,6 +60,6 @@ public class TableSortAttrProcessor extends AbstractTableAttrProcessor {
 
 		Boolean attrValue = AttributeUtils.parseBooleanAttribute(arguments, element, attributeName);
 
-		stagingConf.put(TableConfig.FEATURE_SORT, attrValue);
+		stagingConf.put(TableConfig.FEATURE_SORTABLE, attrValue);
 	}
 }

@@ -335,7 +335,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_paginate() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_PAGINATE, true);
+		table.getTableConfiguration().set(TableConfig.FEATURE_PAGEABLE, true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -375,7 +375,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_sort() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_SORT, true);
+		table.getTableConfiguration().set(TableConfig.FEATURE_SORTABLE, true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -465,7 +465,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_processing() {
-		table.getTableConfiguration().set(TableConfig.AJAX_PROCESSING, true);
+		table.getTableConfiguration().set(TableConfig.FEATURE_PROCESSING, true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
