@@ -35,16 +35,15 @@ import org.junit.Test;
 
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
-import com.github.dandelion.datatables.core.processor.ColumnProcessor;
 import com.github.dandelion.datatables.core.processor.ColumnProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 
 public class SortTypeProcessorTest extends ColumnProcessorBaseTest {
 
 	@Override
-	public ColumnProcessor getProcessor() {
+	public ConfigurationProcessor getProcessor() {
 		return new SortTypeProcessor();
 	}
 
@@ -59,12 +58,13 @@ public class SortTypeProcessorTest extends ColumnProcessorBaseTest {
 	public void should_map_to_an_enum_when_using_an_existing_value() {
 		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.SORTTYPE, "natural");
 		processor.process(entry, columnConfiguration, tableConfiguration);
-		assertThat(entry.getValue()).isEqualTo(SortType.NATURAL);
+		assertThat(entry.getValue()).isEqualTo(SortType.NATURAL.getName());
 	}
 	
-	@Test(expected = ConfigurationProcessingException.class)
-	public void should_throw_an_exception_wiwth_message() {
-		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.SORTTYPE, "natuuuuuuuuural");
+	@Test
+	public void should_be_able_to_use_a_custom_sort_type() {
+		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.SORTTYPE, "my-sorttype");
 		processor.process(entry, columnConfiguration, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("my-sorttype");
 	}
 }

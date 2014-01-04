@@ -40,7 +40,7 @@ public class StringProcessorTest {
 	@Test
 	public void should_update_the_entry_with_null_when_using_an_empty_string() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "");
-		TableProcessor processor = new StringProcessor();
+		ConfigurationProcessor processor = new StringProcessor();
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue()).isNull();
 	}
@@ -48,7 +48,7 @@ public class StringProcessorTest {
 	@Test
 	public void should_update_the_entry_with_the_same_string() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "someString");
-		TableProcessor processor = new StringProcessor();
+		ConfigurationProcessor processor = new StringProcessor();
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo("someString");
 	}
@@ -56,7 +56,7 @@ public class StringProcessorTest {
 	@Test
 	public void should_update_the_table_entry_with_the_same_string_and_update_active_scopes() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "scopeToAdd#someString");
-		TableProcessor processor = new StringProcessor(true);
+		ConfigurationProcessor processor = new StringProcessor(true);
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo("someString");
 		assertThat(AssetsRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scopeToAdd");
@@ -65,7 +65,7 @@ public class StringProcessorTest {
 	@Test
 	public void should_update_the_column_entry_with_the_same_string_and_update_active_scopes_with_one_scope() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "scopeToAdd#someString");
-		ColumnProcessor processor = new StringProcessor(true);
+		ConfigurationProcessor processor = new StringProcessor(true);
 		processor.process(entry, columnConfiguration, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo("someString");
 		assertThat(AssetsRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scopeToAdd");
@@ -74,7 +74,7 @@ public class StringProcessorTest {
 	@Test
 	public void should_update_the_column_entry_with_the_same_string_and_update_active_scopes_with_multiple_scopes() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, " scope1,scope2#someString");
-		ColumnProcessor processor = new StringProcessor(true);
+		ConfigurationProcessor processor = new StringProcessor(true);
 		processor.process(entry, columnConfiguration, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo("someString");
 		assertThat(AssetsRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scope1", "scope2");
@@ -83,14 +83,14 @@ public class StringProcessorTest {
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_throw_an_exception_when_using_a_wrong_format() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "scopeToAdd#");
-		TableProcessor processor = new StringProcessor(true);
+		ConfigurationProcessor processor = new StringProcessor(true);
 		processor.process(entry, tableConfiguration);
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_throw_an_exception_when_using_a_wrong_format2() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "#someString");
-		TableProcessor processor = new StringProcessor(true);
+		ConfigurationProcessor processor = new StringProcessor(true);
 		processor.process(entry, tableConfiguration);
 	}
 }

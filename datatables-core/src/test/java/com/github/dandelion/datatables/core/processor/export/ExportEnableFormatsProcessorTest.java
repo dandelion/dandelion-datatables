@@ -40,16 +40,16 @@ import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.export.HttpMethod;
 import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
+import com.github.dandelion.datatables.core.export.HttpMethod;
+import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
-import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
 public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public TableProcessor getProcessor() {
+	public ConfigurationProcessor getProcessor() {
 		return new ExportEnabledFormatProcessor();
 	}
 

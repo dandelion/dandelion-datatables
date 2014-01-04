@@ -31,8 +31,7 @@ package com.github.dandelion.datatables.core.processor.ajax;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.extension.feature.AjaxReloadFeature;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
-import com.github.dandelion.datatables.core.util.ProcessorUtils;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
 /**
  * <p>
@@ -42,13 +41,20 @@ import com.github.dandelion.datatables.core.util.ProcessorUtils;
  * @author Thibault Duchateau
  * @since 0.10.0
  */
-public class AjaxReloadFunctionProcessor extends AbstractTableProcessor {
+public class AjaxReloadFunctionProcessor extends AbstractConfigurationProcessor {
+	
+	public AjaxReloadFunctionProcessor() {
+		super();
+	}
+
+	public AjaxReloadFunctionProcessor(boolean scopeUpdatable) {
+		super(scopeUpdatable);
+	}
 
 	@Override
-	public void doProcess() {
+	protected void doProcess() {
 		
 		if (StringUtils.isNotBlank(stringifiedValue)) {
-			ProcessorUtils.processAttributeAndScope(stringifiedValue, configEntry, tableConfiguration.getRequest());
 			registerExtension(new AjaxReloadFeature());
 		}
 	}

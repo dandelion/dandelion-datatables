@@ -42,7 +42,7 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
 /**
  * TODO
@@ -54,7 +54,7 @@ import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
  * @author Thibault Duchateau
  * @since 0.10.0
  */
-public class ExportFormatProcessor extends AbstractTableProcessor {
+public class ExportFormatProcessor extends AbstractConfigurationProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(ExportFormatProcessor.class);
@@ -87,7 +87,7 @@ public class ExportFormatProcessor extends AbstractTableProcessor {
 
 	@Override
 	public void doProcess() {
-		
+
 		if (StringUtils.isNotBlank(stringifiedValue)) {
 
 			// Extract the export format

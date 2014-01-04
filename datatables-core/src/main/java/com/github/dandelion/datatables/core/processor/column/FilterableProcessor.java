@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.core.processor.column;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
-import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
 /**
  * 
@@ -41,7 +41,7 @@ import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
  * @author Thibault Duchateau
  * @since 0.10.0
  */
-public class FilterableProcessor extends AbstractColumnProcessor {
+public class FilterableProcessor extends AbstractConfigurationProcessor {
 
 	@Override
 	public void doProcess() {
@@ -49,8 +49,8 @@ public class FilterableProcessor extends AbstractColumnProcessor {
 		if (StringUtils.isNotBlank(stringifiedValue) && stringifiedValue.toLowerCase().equals("true")) {
 			registerExtension(stagingExtensions.get(ColumnConfig.FILTERABLE));
 
-			if (isNonPresent(ColumnConfig.FILTERTYPE)) {
-				addEntry(ColumnConfig.FILTERTYPE, FilterType.INPUT);
+			if (!isColumnEntryPresent(ColumnConfig.FILTERTYPE)) {
+				addColumnEntry(ColumnConfig.FILTERTYPE, FilterType.INPUT);
 			}
 
 			updateEntry(true);

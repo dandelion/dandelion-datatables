@@ -3,12 +3,13 @@ package com.github.dandelion.datatables.core.processor.feature;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
-public class FeatureFilterPlaceholderProcessor extends AbstractTableProcessor {
+public class FeatureFilterPlaceholderProcessor extends AbstractConfigurationProcessor {
 
 	@Override
 	public void doProcess() {
+
 		FilterPlaceholder placeholder = null;
 		if (StringUtils.isNotBlank(stringifiedValue)) {
 			try {

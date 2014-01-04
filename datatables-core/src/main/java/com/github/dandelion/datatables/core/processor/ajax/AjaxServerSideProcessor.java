@@ -31,7 +31,7 @@ package com.github.dandelion.datatables.core.processor.ajax;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.extension.feature.ServerSideFeature;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
 /**
  * Processor used when server-side processing is enabled.
@@ -39,17 +39,18 @@ import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class AjaxServerSideProcessor extends AbstractTableProcessor {
+public class AjaxServerSideProcessor extends AbstractConfigurationProcessor {
 
 	@Override
 	public void doProcess() {
+
 		if (StringUtils.isNotBlank(stringifiedValue)) {
 			Boolean retval = Boolean.parseBoolean(stringifiedValue);
 
 			if (retval) {
 				registerExtension(new ServerSideFeature());
 			}
-			
+
 			updateEntry(retval);
 		}
 	}

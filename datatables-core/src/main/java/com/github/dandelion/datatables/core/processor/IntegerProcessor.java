@@ -29,12 +29,7 @@
  */
 package com.github.dandelion.datatables.core.processor;
 
-import java.util.Map.Entry;
-
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 
 /**
@@ -43,28 +38,18 @@ import com.github.dandelion.datatables.core.exception.ConfigurationProcessingExc
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class IntegerProcessor implements TableProcessor, ColumnProcessor {
+public class IntegerProcessor extends AbstractConfigurationProcessor {
 
 	@Override
-	public void process(Entry<ConfigToken<?>, Object> configEntry, TableConfiguration tableConfiguration) {
-		doProcess(configEntry, tableConfiguration);
-	}
-
-	@Override
-	public void process(Entry<ConfigToken<?>, Object> configEntry, ColumnConfiguration columnConfiguration,
-			TableConfiguration tableConfiguration) {
-		doProcess(configEntry, tableConfiguration);
-	}
-
-	private void doProcess(Entry<ConfigToken<?>, Object> configEntry, TableConfiguration tableConfiguration) {
-		String value = String.valueOf(configEntry.getValue());
+	protected void doProcess() {
 		Integer result = null;
 		try {
-			result = StringUtils.isNotBlank(value) ? Integer.parseInt(value) : null;
+			result = StringUtils.isNotBlank(stringifiedValue) ? Integer.parseInt(stringifiedValue) : null;
 		} catch (NumberFormatException e) {
-			throw new ConfigurationProcessingException("The value '" + value + "' cannot be parsed to Integer", e);
+			throw new ConfigurationProcessingException("The value '" + stringifiedValue
+					+ "' cannot be parsed to Integer", e);
 		}
 
-		configEntry.setValue(result);
+		updateEntry(result);
 	}
 }

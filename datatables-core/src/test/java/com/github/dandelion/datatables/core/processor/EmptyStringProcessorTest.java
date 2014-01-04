@@ -38,7 +38,7 @@ public class EmptyStringProcessorTest {
 	@Test
 	public void should_update_the_table_entry_with_an_empty_string() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "");
-		TableProcessor processor = new EmptyStringProcessor();
+		ConfigurationProcessor processor = new EmptyStringProcessor();
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo("");
 	}
@@ -46,7 +46,7 @@ public class EmptyStringProcessorTest {
 	@Test
 	public void should_update_the_column_entry_with_an_empty_string() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "");
-		ColumnProcessor processor = new EmptyStringProcessor();
+		ConfigurationProcessor processor = new EmptyStringProcessor();
 		processor.process(entry, columnConfiguration, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo("");
 	}

@@ -41,14 +41,14 @@ import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
-import com.github.dandelion.datatables.core.processor.ColumnProcessor;
 import com.github.dandelion.datatables.core.processor.ColumnProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 
 public class FilterableProcessorTest extends ColumnProcessorBaseTest {
 
 	@Override
-	public ColumnProcessor getProcessor() {
+	public ConfigurationProcessor getProcessor() {
 		return new FilterableProcessor();
 	}
 

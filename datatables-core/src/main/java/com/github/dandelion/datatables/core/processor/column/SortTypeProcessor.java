@@ -29,33 +29,33 @@
  */
 package com.github.dandelion.datatables.core.processor.column;
 
-import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.extension.feature.SortingFeature;
-import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
-public class SortTypeProcessor extends AbstractColumnProcessor {
+public class SortTypeProcessor extends AbstractConfigurationProcessor {
+
+	public SortTypeProcessor() {
+		super();
+	}
+
+	public SortTypeProcessor(boolean scopeUpdatable) {
+		super(scopeUpdatable);
+	}
 
 	@Override
 	public void doProcess() {
+
 		if (StringUtils.isNotBlank(stringifiedValue)) {
 
-			SortType sortType = null;
-			try {
-				sortType = SortType.valueOf(stringifiedValue.toUpperCase().trim());
-			} catch (IllegalArgumentException e) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("'");
-				sb.append(stringifiedValue);
-				sb.append("' is not a valid sort type. Possible values are: ");
-				sb.append(EnumUtils.printPossibleValuesOf(SortType.class));
-				throw new ConfigurationProcessingException(sb.toString(), e);
+			SortType sortType = SortType.findByName(stringifiedValue);
+			if (sortType != null) {
+				registerExtension(new SortingFeature());
+				updateEntry(sortType.getName());
+			} else {
+				updateEntry(stringifiedValue);
 			}
-
-			updateEntry(sortType);
-			registerExtension(new SortingFeature());
 		}
 	}
 }

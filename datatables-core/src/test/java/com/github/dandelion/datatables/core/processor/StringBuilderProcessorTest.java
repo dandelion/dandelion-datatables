@@ -38,7 +38,7 @@ public class StringBuilderProcessorTest {
 	@Test
 	public void should_update_the_table_entry() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_CLASS, "someString");
-		TableProcessor processor = new StringBuilderProcessor();
+		ConfigurationProcessor processor = new StringBuilderProcessor();
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue().toString()).isEqualTo("someString");
 	}
@@ -46,7 +46,7 @@ public class StringBuilderProcessorTest {
 	@Test
 	public void should_update_the_column_entry() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_CLASS, "someString");
-		ColumnProcessor processor = new StringBuilderProcessor();
+		ConfigurationProcessor processor = new StringBuilderProcessor();
 		processor.process(entry, columnConfiguration, tableConfiguration);
 		assertThat(entry.getValue().toString()).isEqualTo("someString");
 	}

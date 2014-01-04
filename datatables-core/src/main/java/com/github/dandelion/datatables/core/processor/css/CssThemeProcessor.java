@@ -5,16 +5,17 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.theme.Theme;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
-public class CssThemeProcessor extends AbstractTableProcessor {
+public class CssThemeProcessor extends AbstractConfigurationProcessor {
 
 	@Override
 	public void doProcess() {
+
 		if (StringUtils.isNotBlank(stringifiedValue)) {
-			
+
 			Extension theme = null;
-			
+
 			try {
 				theme = Theme.valueOf(stringifiedValue.toUpperCase()).getInstance();
 			} catch (IllegalArgumentException e) {
@@ -25,7 +26,7 @@ public class CssThemeProcessor extends AbstractTableProcessor {
 				sb.append(EnumUtils.printPossibleValuesOf(Theme.class));
 				throw new ConfigurationProcessingException(sb.toString());
 			}
-		
+
 			updateEntry(theme);
 		}
 	}

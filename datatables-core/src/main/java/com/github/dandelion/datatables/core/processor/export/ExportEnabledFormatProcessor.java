@@ -36,10 +36,10 @@ import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
+import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.extension.feature.ExportFeature;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 import com.github.dandelion.datatables.core.util.UrlUtils;
 
 /**
@@ -51,7 +51,7 @@ import com.github.dandelion.datatables.core.util.UrlUtils;
  * @since 0.10.0
  * @see ExportEnabledFormatProcessor
  */
-public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
+public class ExportEnabledFormatProcessor extends AbstractConfigurationProcessor {
 
 	@Override
 	public void doProcess() {
@@ -90,8 +90,8 @@ public class ExportEnabledFormatProcessor extends AbstractTableProcessor {
 
 			// Apply default export link position if nothing is already
 			// configured
-			if(isNonPresent(TableConfig.EXPORT_LINK_POSITIONS)){
-				addEntry(TableConfig.EXPORT_LINK_POSITIONS, new HashSet<ExportLinkPosition>(
+			if(!isTableEntryPresent(TableConfig.EXPORT_LINK_POSITIONS)){
+				addTableEntry(TableConfig.EXPORT_LINK_POSITIONS, new HashSet<ExportLinkPosition>(
 						Arrays.asList(ExportLinkPosition.TOP_RIGHT)));
 			}
 

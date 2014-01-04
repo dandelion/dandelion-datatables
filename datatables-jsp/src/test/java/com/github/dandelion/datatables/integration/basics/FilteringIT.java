@@ -78,7 +78,7 @@ public class FilteringIT extends JspBaseIT {
 	
 	@Test
 	public void should_filter_data_when_using_an_extra_form() {
-		goToPage("basics/filtering/filtering_with_extra_form");
+		goToPage("basics/filtering/filtering_with_external_form");
 		
 		assertThat(find("#firstNameFilter").find("span.filter_column")).hasSize(1);
 		assertThat(find("#firstNameFilter").find("span.filter_column").find("select.dandelion_select_filter")).hasSize(1);

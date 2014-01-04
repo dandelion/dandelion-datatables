@@ -3,7 +3,7 @@ package com.github.dandelion.datatables.core.processor.feature;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.feature.MultiFilterFeature;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
 /**
  * As soon as the {@code filterSelector} / {@code dt:filterSelector}
@@ -13,14 +13,14 @@ import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
  * @author Thibault Duchateau
  * @since 0.10.0
  */
-public class FeatureFilterSelectorProcessor extends AbstractTableProcessor {
+public class FeatureFilterSelectorProcessor extends AbstractConfigurationProcessor {
 
 	@Override
 	public void doProcess() {
 
 		if (StringUtils.isNotBlank(stringifiedValue)) {
 			registerExtension(new MultiFilterFeature());
-			addEntry(TableConfig.FEATURE_FILTER_TRIGGER, "click");
+			addTableEntry(TableConfig.FEATURE_FILTER_TRIGGER, "click");
 			updateEntry(stringifiedValue);
 		}
 	}

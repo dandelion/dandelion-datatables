@@ -39,14 +39,14 @@ import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.processor.ColumnProcessor;
 import com.github.dandelion.datatables.core.processor.ColumnProcessorBaseTest;
+import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 
 public class SortDirectionProcessorTest extends ColumnProcessorBaseTest {
 
 	@Override
-	public ColumnProcessor getProcessor() {
+	public ConfigurationProcessor getProcessor() {
 		return new SortDirectionProcessor();
 	}
 

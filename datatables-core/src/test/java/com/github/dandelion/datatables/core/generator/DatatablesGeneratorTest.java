@@ -281,7 +281,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_sorting_type() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.NATURAL);
+		firstColumn.getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.NATURAL.getName());
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 

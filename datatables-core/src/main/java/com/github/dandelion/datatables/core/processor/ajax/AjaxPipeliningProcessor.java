@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.core.processor.ajax;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.feature.PipeliningFeature;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
 /**
  * <p>
@@ -46,10 +46,11 @@ import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
  * @see TableConfig#AJAX_PIPELINING
  * @see TableConfig#AJAX_PIPESIZE
  */
-public class AjaxPipeliningProcessor extends AbstractTableProcessor {
+public class AjaxPipeliningProcessor extends AbstractConfigurationProcessor {
 
 	@Override
-	public void doProcess() {
+	protected void doProcess() {
+		
 		if (StringUtils.isNotBlank(stringifiedValue)) {
 			Boolean retval = Boolean.parseBoolean(stringifiedValue);
 
@@ -57,8 +58,8 @@ public class AjaxPipeliningProcessor extends AbstractTableProcessor {
 				registerExtension(new PipeliningFeature());
 			}
 			
-			if(isNonPresent(TableConfig.AJAX_PIPESIZE)){
-				addEntry(TableConfig.AJAX_PIPESIZE, 5);
+			if(!isTableEntryPresent(TableConfig.AJAX_PIPESIZE)){
+				addTableEntry(TableConfig.AJAX_PIPESIZE, 5);
 			}
 			
 			updateEntry(retval);

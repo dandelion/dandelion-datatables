@@ -47,7 +47,7 @@ import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 
 public abstract class ColumnProcessorBaseTest {
 
-	protected ColumnProcessor processor;
+	protected ConfigurationProcessor processor;
 	protected TableConfiguration tableConfiguration;
 	protected ColumnConfiguration columnConfiguration;
 	protected HttpServletRequest request;
@@ -71,5 +71,5 @@ public abstract class ColumnProcessorBaseTest {
 		ConfigurationStore.clear();
 	}
 	
-	public abstract ColumnProcessor getProcessor();
+	public abstract ConfigurationProcessor getProcessor();
 }

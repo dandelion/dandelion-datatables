@@ -4,12 +4,13 @@ import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
-public class CssThemeOptionProcessor extends AbstractTableProcessor {
+public class CssThemeOptionProcessor extends AbstractConfigurationProcessor {
 
 	@Override
 	public void doProcess() {
+
 		if (StringUtils.isNotBlank(stringifiedValue)) {
 
 			ThemeOption themeOption = null;

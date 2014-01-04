@@ -4,12 +4,13 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
-public class CssStripeClassesProcessor extends AbstractTableProcessor {
+public class CssStripeClassesProcessor extends AbstractConfigurationProcessor {
 
 	@Override
 	public void doProcess() {
+
 		if (StringUtils.isNotBlank(stringifiedValue)) {
 
 			String retval = null;

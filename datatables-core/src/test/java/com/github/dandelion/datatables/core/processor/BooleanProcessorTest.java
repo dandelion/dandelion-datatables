@@ -38,7 +38,7 @@ public class BooleanProcessorTest {
 	@Test
 	public void should_update_the_table_entry_with_true() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_DEFERRENDER, "true");
-		TableProcessor processor = new BooleanProcessor();
+		ConfigurationProcessor processor = new BooleanProcessor();
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo(true);
 	}
@@ -46,7 +46,7 @@ public class BooleanProcessorTest {
 	@Test
 	public void should_update_the_column_entry_with_true() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_DEFERRENDER, "true");
-		ColumnProcessor processor = new BooleanProcessor();
+		ConfigurationProcessor processor = new BooleanProcessor();
 		processor.process(entry, columnConfiguration, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo(true);
 	}
@@ -54,7 +54,7 @@ public class BooleanProcessorTest {
 	@Test
 	public void should_update_the_table_entry_with_false() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_DEFERRENDER, "false");
-		TableProcessor processor = new BooleanProcessor();
+		ConfigurationProcessor processor = new BooleanProcessor();
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo(false);
 	}
@@ -62,7 +62,7 @@ public class BooleanProcessorTest {
 	@Test
 	public void should_update_the_table_entry_with_false_when_using_a_wrong_value() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_DEFERRENDER, "wrongValue");
-		TableProcessor processor = new BooleanProcessor();
+		ConfigurationProcessor processor = new BooleanProcessor();
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo(false);
 	}

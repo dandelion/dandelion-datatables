@@ -39,7 +39,7 @@ public class IntegerProcessorTest {
 	@Test
 	public void should_update_the_table_entry_with_1() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPESIZE, "1");
-		TableProcessor processor = new IntegerProcessor();
+		ConfigurationProcessor processor = new IntegerProcessor();
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo(1);
 	}
@@ -47,7 +47,7 @@ public class IntegerProcessorTest {
 	@Test
 	public void should_update_the_column_entry_with_1() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPESIZE, "1");
-		ColumnProcessor processor = new IntegerProcessor();
+		ConfigurationProcessor processor = new IntegerProcessor();
 		processor.process(entry, columnConfiguration, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo(1);
 	}
@@ -55,7 +55,7 @@ public class IntegerProcessorTest {
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_throw_an_exception_when_not_using_an_integer() throws Exception{
 		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPESIZE, "number");
-		TableProcessor processor = new IntegerProcessor();
+		ConfigurationProcessor processor = new IntegerProcessor();
 		processor.process(entry, tableConfiguration);
 	}
 }

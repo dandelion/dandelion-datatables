@@ -36,11 +36,10 @@ import java.util.Map.Entry;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
-import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.processor.BooleanProcessor;
-import com.github.dandelion.datatables.core.processor.ColumnProcessor;
+import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
 import com.github.dandelion.datatables.core.processor.EmptyStringProcessor;
 import com.github.dandelion.datatables.core.processor.IntegerProcessor;
 import com.github.dandelion.datatables.core.processor.StringBuilderProcessor;
@@ -77,7 +76,7 @@ public final class ColumnConfig {
 	public static ConfigToken<List<Direction>> SORTDIRECTION = new ConfigToken<List<Direction>>("", new SortDirectionProcessor());
 	public static ConfigToken<String> SORTINITDIRECTION = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<Integer> SORTINITORDER = new ConfigToken<Integer>("", new IntegerProcessor());
-	public static ConfigToken<SortType> SORTTYPE = new ConfigToken<SortType>("", new SortTypeProcessor());
+	public static ConfigToken<String> SORTTYPE = new ConfigToken<String>("", new SortTypeProcessor(true));
 	public static ConfigToken<Boolean> FILTERABLE = new ConfigToken<Boolean>("", new FilterableProcessor());
 	public static ConfigToken<Boolean> SEARCHABLE = new ConfigToken<Boolean>("", new BooleanProcessor());
 	public static ConfigToken<Boolean> VISIBLE = new ConfigToken<Boolean>("", new BooleanProcessor());
@@ -137,7 +136,7 @@ public final class ColumnConfig {
 		
 		if(column.getColumnConfiguration().getConfigurations() != null){
 			for(Entry<ConfigToken<?>, Object> entry : column.getColumnConfiguration().getConfigurations().entrySet()) {
-				ColumnProcessor columnProcessor = (ColumnProcessor) entry.getKey().getProcessor();
+				ConfigurationProcessor columnProcessor = (ConfigurationProcessor) entry.getKey().getProcessor();
 				columnProcessor.process(entry, column.getColumnConfiguration(), table.getTableConfiguration());
 			}
 		

@@ -18,7 +18,7 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 
 	@Test
 	public void shoud_load_the_extension_with_alt_string() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.ALT_STRING);
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.ALT_STRING.getName());
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
@@ -29,7 +29,7 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_anti_the() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.ANTI_THE);
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.ANTI_THE.getName());
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
@@ -40,7 +40,7 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_currency() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.CURRENCY);
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.CURRENCY.getName());
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
@@ -51,7 +51,7 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_date() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.DATE);
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.DATE.getName());
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
@@ -62,7 +62,7 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_filesize() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.FILESIZE);
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.FILESIZE.getName());
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
@@ -73,7 +73,7 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_formatted_numbers() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.FORMATTED_NUMBERS);
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.FORMATTED_NUMBERS.getName());
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
@@ -84,12 +84,22 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_natural() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.NATURAL);
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.NATURAL.getName());
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
 		List<String> scopes = Arrays.asList(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true));
 		assertThat(scopes).hasSize(1);
 		assertThat(scopes.contains(Scope.DDL_DT_SORTING_NATURAL));
+	}
+	
+	@Test
+	public void shoud_load_the_extension_with_a_custom_sortType() {
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().set(ColumnConfig.SORTTYPE, "custom-sort-type");
+		
+		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
+
+		List<String> scopes = Arrays.asList(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true));
+		assertThat(scopes).hasSize(0);
 	}
 }

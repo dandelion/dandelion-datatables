@@ -46,10 +46,10 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.i18n.LocaleResolver;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
 import com.github.dandelion.datatables.core.processor.BooleanProcessor;
+import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
 import com.github.dandelion.datatables.core.processor.IntegerProcessor;
 import com.github.dandelion.datatables.core.processor.StringBuilderProcessor;
 import com.github.dandelion.datatables.core.processor.StringProcessor;
-import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxPipeliningProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxReloadFunctionProcessor;
 import com.github.dandelion.datatables.core.processor.ajax.AjaxReloadProcessor;
@@ -199,7 +199,7 @@ public final class TableConfig {
 	public static ConfigToken<String> AJAX_SERVERPARAM = new ConfigToken<String>(P_AJAX_SERVERPARAM, new StringProcessor(true));
 	public static ConfigToken<String> AJAX_SERVERMETHOD = new ConfigToken<String>(P_AJAX_SERVERMETHOD, new StringProcessor());
 	public static ConfigToken<String> AJAX_RELOAD_SELECTOR = new ConfigToken<String>(P_AJAX_RELOAD_SELECTOR, new AjaxReloadProcessor());
-	public static ConfigToken<String> AJAX_RELOAD_FUNCTION = new ConfigToken<String>(P_AJAX_RELOAD_FUNCTION, new AjaxReloadFunctionProcessor());
+	public static ConfigToken<String> AJAX_RELOAD_FUNCTION = new ConfigToken<String>(P_AJAX_RELOAD_FUNCTION, new AjaxReloadFunctionProcessor(true));
 	
 	public static ConfigToken<String> PLUGIN_FIXEDPOSITION = new ConfigToken<String>(P_PLUGIN_FIXEDPOSITION, new StringProcessor());
 	public static ConfigToken<Integer> PLUGIN_FIXEDOFFSETTOP = new ConfigToken<Integer>(P_PLUGIN_FIXEDOFFSETTOP, new IntegerProcessor());
@@ -397,7 +397,7 @@ public final class TableConfig {
 		
 		if(table.getTableConfiguration().getConfigurations() != null){
 			for(Entry<ConfigToken<?>, Object> entry : table.getTableConfiguration().getConfigurations().entrySet()) {
-				TableProcessor tableProcessor = (TableProcessor) entry.getKey().getProcessor();
+				ConfigurationProcessor tableProcessor = (ConfigurationProcessor) entry.getKey().getProcessor();
 				tableProcessor.process(entry, table.getTableConfiguration());
 			}
 			

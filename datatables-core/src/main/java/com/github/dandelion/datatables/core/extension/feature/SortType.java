@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
+import com.github.dandelion.core.utils.StringUtils;
+
 
 /**
  * Enumeration containing different types of sort.
@@ -54,5 +56,17 @@ public enum SortType {
 
 	public String getName() {
 		return name;
+	}
+	
+	public static SortType findByName(String name) {
+		if (StringUtils.isBlank(name)) {
+			return null;
+		}
+		for (SortType sortType : values()) {
+			if (name.trim().equalsIgnoreCase(sortType.getName())) {
+				return sortType;
+			}
+		}
+		return null;
 	}
 }

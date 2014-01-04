@@ -37,7 +37,7 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
 /**
  * <p>
@@ -46,10 +46,11 @@ import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
  * @author Thibault Duchateau
  * @see ColumnConfig#SORTDIRECTION
  */
-public class SortDirectionProcessor extends AbstractColumnProcessor {
+public class SortDirectionProcessor extends AbstractConfigurationProcessor {
 
 	@Override
 	public void doProcess() {
+
 		if (StringUtils.isNotBlank(stringifiedValue)) {
 
 			List<Direction> sortDirections = new ArrayList<Direction>();

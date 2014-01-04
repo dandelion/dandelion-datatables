@@ -38,15 +38,15 @@ import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.AjaxReloadFeature;
+import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
-import com.github.dandelion.datatables.core.processor.TableProcessor;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
 public class AjaxReloadFunctionTest extends TableProcessorBaseTest {
 
 	@Override
-	public TableProcessor getProcessor() {
-		return new AjaxReloadFunctionProcessor();
+	public ConfigurationProcessor getProcessor() {
+		return new AjaxReloadFunctionProcessor(true);
 	}
 
 	@Test
@@ -75,12 +75,6 @@ public class AjaxReloadFunctionTest extends TableProcessorBaseTest {
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_throw_an_exception_when_the_function_is_malformatted() {
 		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_RELOAD_FUNCTION, "#myReloadFunction");
-		processor.process(entry, tableConfiguration);
-	}
-
-	@Test(expected = ConfigurationProcessingException.class)
-	public void should_throw_an_exception_when_the_function_is_malformatted2() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_RELOAD_FUNCTION, "my,ReloadFunction");
 		processor.process(entry, tableConfiguration);
 	}
 }

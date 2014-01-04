@@ -38,20 +38,20 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
-
-public class ExportLinkPositionsProcessor extends AbstractTableProcessor {
+public class ExportLinkPositionsProcessor extends AbstractConfigurationProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(ExportLinkPositionsProcessor.class);
-		
+
 	@Override
 	public void doProcess() {
+
 		Set<ExportLinkPosition> retval = new HashSet<ExportLinkPosition>();
 
-		if(StringUtils.isNotBlank(stringifiedValue)){
-		
+		if (StringUtils.isNotBlank(stringifiedValue)) {
+
 			String[] positions = stringifiedValue.split(",");
 
 			for (String position : positions) {
@@ -64,7 +64,7 @@ public class ExportLinkPositionsProcessor extends AbstractTableProcessor {
 				}
 			}
 		}
-		
+
 		updateEntry(retval);
 	}
 }

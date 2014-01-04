@@ -52,7 +52,6 @@ import com.github.dandelion.datatables.core.constants.DTMessages;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
-import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.CollectionUtils;
@@ -258,9 +257,9 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 				}
 
 				// Sorting type
-				SortType sortType = ColumnConfig.SORTTYPE.valueFrom(columnConfiguration);
-				if (sortType!= null) {
-					tmp.put(DTConstants.DT_S_TYPE, sortType.getName());
+				String sortType = ColumnConfig.SORTTYPE.valueFrom(columnConfiguration);
+				if (StringUtils.isNotBlank(sortType)) {
+					tmp.put(DTConstants.DT_S_TYPE, sortType);
 				}
 
 				aoColumnsContent.add(tmp);

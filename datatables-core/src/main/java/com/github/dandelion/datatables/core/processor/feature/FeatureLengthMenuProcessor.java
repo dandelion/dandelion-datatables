@@ -2,12 +2,13 @@ package com.github.dandelion.datatables.core.processor.feature;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
-public class FeatureLengthMenuProcessor extends AbstractTableProcessor {
+public class FeatureLengthMenuProcessor extends AbstractConfigurationProcessor {
 
 	@Override
 	public void doProcess() {
+
 		String retval = null;
 		if (StringUtils.isNotBlank(stringifiedValue)) {
 			String[] tmp = stringifiedValue.split(";");

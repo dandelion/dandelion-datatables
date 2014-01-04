@@ -34,7 +34,7 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
-import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
 /**
  * <p>
@@ -43,7 +43,7 @@ import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
  * @author Thibault Duchateau
  * @see ColumnConfig#FILTERTYPE
  */
-public class FilterTypeProcessor extends AbstractColumnProcessor {
+public class FilterTypeProcessor extends AbstractConfigurationProcessor {
 
 	@Override
 	public void doProcess() {

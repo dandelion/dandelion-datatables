@@ -39,35 +39,35 @@ public class ExtraFileIT extends ThymeleafBaseIT {
 	
 	@Test
 	public void should_insert_the_extrafile_beforeall_by_default() {
-		goToPage("advanced/extrafile/default_insert_mode", true);
+		goToPage("advanced/extrafile/default_insert_mode");
 		String js = getConfigurationFromPage("advanced/extrafile/default_insert_mode");
 		assertThat(js).contains("/* extraFile1 */\nvar oTable_myTableId = $('#myTableId');");
 	}
 	
 	@Test
 	public void should_insert_the_extrafile_afterAll() {
-		goToPage("advanced/extrafile/afterall", true);
+		goToPage("advanced/extrafile/afterall");
 		String js = getConfigurationFromPage("advanced/extrafile/afterall");
 		assertThat(js).contains("$(document).ready(function(){\n   oTable_myTableId.dataTable(oTable_myTableId_params);\n});\n/* extraFile1 */");
 	}
 	
 	@Test
 	public void should_insert_the_extrafile_afterStartDocumentReady() {
-		goToPage("advanced/extrafile/afterstartdocumentready", true);
+		goToPage("advanced/extrafile/afterstartdocumentready");
 		String js = getConfigurationFromPage("advanced/extrafile/afterstartdocumentready");
 		assertThat(js).contains("$(document).ready(function(){\n/* extraFile1 */\n   oTable_myTableId.dataTable(oTable_myTableId_params);\n});");
 	}
 	
 	@Test
 	public void should_insert_the_extrafile_beforeEndDocumentReady() {
-		goToPage("advanced/extrafile/beforeenddocumentready", true);
+		goToPage("advanced/extrafile/beforeenddocumentready");
 		String js = getConfigurationFromPage("advanced/extrafile/beforeenddocumentready");
 		assertThat(js).contains("$(document).ready(function(){\n   oTable_myTableId.dataTable(oTable_myTableId_params);\n   /* extraFile1 */\n});");
 	}
 	
 	@Test
 	public void should_insert_the_extrafile_beforeStartDocumentReady() {
-		goToPage("advanced/extrafile/beforestartdocumentready", true);
+		goToPage("advanced/extrafile/beforestartdocumentready");
 		String js = getConfigurationFromPage("advanced/extrafile/beforestartdocumentready");
 		assertThat(js).contains("/* extraFile1 */\n$(document).ready(function(){\n   oTable_myTableId.dataTable(oTable_myTableId_params);\n});");
 	}

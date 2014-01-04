@@ -46,7 +46,7 @@ import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 
 public abstract class TableProcessorBaseTest {
 
-	protected TableProcessor processor;
+	protected ConfigurationProcessor processor;
 	protected TableConfiguration tableConfiguration;
 	protected HttpServletRequest request;
 	protected Map<ConfigToken<?>, Object> confToBeApplied;
@@ -68,5 +68,5 @@ public abstract class TableProcessorBaseTest {
 		ConfigurationStore.clear();
 	}
 	
-	public abstract TableProcessor getProcessor();
+	public abstract ConfigurationProcessor getProcessor();
 }

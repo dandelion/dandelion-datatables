@@ -29,12 +29,7 @@
  */
 package com.github.dandelion.datatables.core.processor;
 
-import java.util.Map.Entry;
-
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 
 /**
  * Processor used for all String parameters.
@@ -42,18 +37,10 @@ import com.github.dandelion.datatables.core.configuration.TableConfiguration;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class StringBuilderProcessor implements TableProcessor, ColumnProcessor {
+public class StringBuilderProcessor extends AbstractConfigurationProcessor {
 
 	@Override
-	public void process(Entry<ConfigToken<?>, Object> configEntry, TableConfiguration tableConfiguration) {
-		String value = String.valueOf(configEntry.getValue());
-		configEntry.setValue(StringUtils.isNotBlank(value) ? new StringBuilder(value) : null);
-	}
-
-	@Override
-	public void process(Entry<ConfigToken<?>, Object> configEntry, ColumnConfiguration columnConfiguration,
-			TableConfiguration tableConfiguration) {
-		String value = String.valueOf(configEntry.getValue());
-		configEntry.setValue(StringUtils.isNotBlank(value) ? new StringBuilder(value) : null);
+	protected void doProcess() {
+		updateEntry(StringUtils.isNotBlank(stringifiedValue) ? new StringBuilder(stringifiedValue) : null);
 	}
 }

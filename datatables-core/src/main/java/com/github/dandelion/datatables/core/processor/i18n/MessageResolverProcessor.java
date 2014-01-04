@@ -35,10 +35,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 import com.github.dandelion.datatables.core.util.ClassUtils;
 
-public class MessageResolverProcessor extends AbstractTableProcessor {
+public class MessageResolverProcessor extends AbstractConfigurationProcessor {
 
 	// Logger
 	private static Logger logger = LoggerFactory.getLogger(MessageResolverProcessor.class);
@@ -46,6 +46,7 @@ public class MessageResolverProcessor extends AbstractTableProcessor {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void doProcess() {
+		
 		MessageResolver resourceProvider = null;
 
 		if (stringifiedValue != null) {
