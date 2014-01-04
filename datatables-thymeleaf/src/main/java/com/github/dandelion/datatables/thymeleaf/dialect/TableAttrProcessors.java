@@ -54,7 +54,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterableA
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableInfoAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableLengthChangeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableLengthMenuAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePaginateAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePageableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePaginationTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePipeSizeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePipeliningAttrProcessor;
@@ -69,7 +69,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerDataA
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerMethodAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerParamsAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerSideAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableSortAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableSortableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableStripeClassesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeOptionAttrProcessor;
@@ -89,10 +89,10 @@ public enum TableAttrProcessors {
 	
     // Basic processors
     BASIC_AUTO_WIDTH(TableAutoWidthAttrProcessor.class, "autoWidth", "table"),
-    BASIC_FILTER(TableFilterableAttrProcessor.class, "filter", "table"),
+    BASIC_FILTERABLE(TableFilterableAttrProcessor.class, "filterable", "table"),
     BASIC_INFO(TableInfoAttrProcessor.class, "info", "table"),
-    BASIC_PAGINATE(TablePaginateAttrProcessor.class, "paginate", "table"),
-    BASIC_SORT(TableSortAttrProcessor.class, "sort", "table"),
+    BASIC_PAGINATE(TablePageableAttrProcessor.class, "pageable", "table"),
+    BASIC_SORTABLE(TableSortableAttrProcessor.class, "sortable", "table"),
     BASIC_APPEAR(TableAppearAttrProcessor.class, "appear", "table"),
     BASIC_FILTER_PLACEHOLDER(TableFilterPlaceholderAttrProcessor.class, "filterPlaceholder", "table"),
     BASIC_FILTER_DELAY(TableFilterDelayAttrProcessor.class, "filterDelay", "table"),
