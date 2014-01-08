@@ -70,6 +70,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerMetho
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerParamsAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerSideAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableSortableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableStateSaveAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableStripeClassesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeOptionAttrProcessor;
@@ -109,6 +110,7 @@ public enum TableAttrProcessors {
     BASIC_SCROLL_X(TableScrollXAttrProcessor.class, "scrollX", "table"),
     BASIC_SCROLL_XINNER(TableScrollXInnerAttrProcessor.class, "scrollXInner", "table"),
     BASIC_DOM(TableDomAttrProcessor.class, "dom", "table"),
+    BASIC_STATESAVE(TableStateSaveAttrProcessor.class, "stateSave", "table"),
     
     // Plugin processors
     PLUGIN_OFFSETTOP(TheadFixedOffsetTopAttrProcessor.class, "fixedOffsetTop", "thead"),
