@@ -32,7 +32,9 @@ package com.github.dandelion.datatables.core.extension;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import javax.servlet.http.HttpServletRequest;
+
+import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
@@ -60,16 +62,15 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public abstract class AbstractExtension implements Extension {
 
-	protected String name;
-	protected StringBuilder beforeAll;
-	protected StringBuilder afterAll;
-	protected StringBuilder beforeStartDocumentReady;
-	protected StringBuilder afterStartDocumentReady;
-	protected StringBuilder beforeEndDocumentReady;
-	protected List<Parameter> confs;
-	protected AbstractConfigurationGenerator configGenerator;
-	protected Boolean appendRandomNumber = false;
-	protected String function;
+	private String name;
+	private StringBuilder beforeAll;
+	private StringBuilder beforeStartDocumentReady;
+	private StringBuilder afterStartDocumentReady;
+	private StringBuilder beforeEndDocumentReady;
+	private StringBuilder afterAll;
+	private List<Parameter> confs;
+	private AbstractConfigurationGenerator configGenerator;
+	private String function;
 	private HtmlTable table;
 
 	public AbstractExtension() {
@@ -94,7 +95,7 @@ public abstract class AbstractExtension implements Extension {
 	public StringBuilder getBeforeStartDocumentReady() {
 		return beforeStartDocumentReady;
 	}
-	
+
 	public StringBuilder getAfterStartDocumentReady() {
 		return afterStartDocumentReady;
 	}
@@ -111,6 +112,17 @@ public abstract class AbstractExtension implements Extension {
 		this.confs = confs;
 	}
 
+	/**
+	 * <p>
+	 * Adds the passed {@link Parameter} to a temporary list.
+	 * 
+	 * <p>
+	 * Later this list is processed and all {@link Parameter}s are added to the
+	 * DataTables generated configuration.
+	 * 
+	 * @param parameter
+	 *            The param to add.
+	 */
 	public void addParameter(Parameter parameter) {
 		if (this.confs == null) {
 			this.confs = new ArrayList<Parameter>();
@@ -118,36 +130,95 @@ public abstract class AbstractExtension implements Extension {
 		this.confs.add(parameter);
 	}
 
-	public void addParameter(String parameterName) {
-		addParameter(new Parameter(parameterName));
-	}
-
+	/**
+	 * <p>
+	 * Adds a new DataTables parameter to the generated configuration.
+	 * <p>
+	 * If the parameter already exists, it will be overriden.
+	 * 
+	 * @param parameterName
+	 *            Name of the parameter.
+	 * @param parameterValue
+	 *            Value of the parameter.
+	 */
 	public void addParameter(String parameterName, Object parameterValue) {
 		addParameter(new Parameter(parameterName, parameterValue));
 	}
 
+	/**
+	 * <p>
+	 * Adds a new DataTables parameter to the generated configuration, using a
+	 * custom method of updating.
+	 * 
+	 * @param parameterName
+	 *            Name of the parameter.
+	 * @param parameterValue
+	 *            Value of the parameter.
+	 * @param mode
+	 *            Method of updating used for this parameter.
+	 */
 	public void addParameter(String parameterName, Object parameterValue, Parameter.Mode mode) {
 		addParameter(new Parameter(parameterName, parameterValue, mode));
 	}
 
+	/**
+	 * Updates the current {@link HttpServletRequest} with the passed
+	 * {@link Scope}.
+	 * 
+	 * @param scope
+	 *            The {@link Scope} to add.
+	 */
 	public void addScope(Scope scope) {
-		AssetsRequestContext.get(table.getTableConfiguration().getRequest()).addScopes(scope.getScopeName());
+		AssetRequestContext.get(table.getTableConfiguration().getRequest()).addScopes(scope.getScopeName());
 	}
-	
+
+	/**
+	 * Updates the current {@link HttpServletRequest} with the passed
+	 * {@link Scope}.
+	 * 
+	 * @param scopeName
+	 *            The name of the {@link Scope} to add.
+	 */
 	public void addScope(String scopeName) {
-		AssetsRequestContext.get(table.getTableConfiguration().getRequest()).addScopes(scopeName);
+		AssetRequestContext.get(table.getTableConfiguration().getRequest()).addScopes(scopeName);
 	}
 
 	public void addScopeParameter(String assetName, String paramName, Object paramValue) {
-		AssetsRequestContext.get(table.getTableConfiguration().getRequest())
-			.addParameter(assetName, paramName, paramValue);
+		AssetRequestContext.get(table.getTableConfiguration().getRequest()).addParameter(assetName, paramName,
+				paramValue);
 	}
-	
+
+	/**
+	 * <p>
+	 * Adds a {@link Callback} to the DataTables generated configuration.
+	 * 
+	 * <p>
+	 * By default, if the {@link CallbackType} already exists in the
+	 * configuration, the code will be appended to the existing code.
+	 * 
+	 * @param callbackType
+	 *            The type of the callback.
+	 * @param javascript
+	 *            The Javascript code to execute in the callback.
+	 */
 	public void addCallback(CallbackType callbackType, String javascript) {
 		addParameter(new Parameter(callbackType.getName(), new JavascriptFunction(javascript, callbackType.getArgs()),
 				Mode.APPEND));
 	}
 
+	/**
+	 * <p>
+	 * Adds a {@link Callback} to the DataTables generated configuration,
+	 * specifying a method of updating if the {@link CallbackType} already
+	 * exists in the configuration.
+	 * 
+	 * @param callbackType
+	 *            The type of the callback.
+	 * @param javascript
+	 *            The Javascript code to execute in the callback.
+	 * @param mode
+	 *            Method of updating used for this parameter.
+	 */
 	public void addCallback(CallbackType callbackType, String javascript, Mode mode) {
 		addParameter(new Parameter(callbackType.getName(), new JavascriptFunction(javascript, callbackType.getArgs()),
 				mode));
@@ -159,14 +230,6 @@ public abstract class AbstractExtension implements Extension {
 
 	public void setConfigGenerator(AbstractConfigurationGenerator configGenerator) {
 		this.configGenerator = configGenerator;
-	}
-
-	public Boolean getAppendRandomNumber() {
-		return appendRandomNumber;
-	}
-
-	public void setAppendRandomNumber(Boolean appendRandomNumber) {
-		this.appendRandomNumber = appendRandomNumber;
 	}
 
 	public void appendToBeforeAll(String beforeAll) {

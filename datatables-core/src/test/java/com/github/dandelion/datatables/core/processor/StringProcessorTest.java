@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
@@ -59,7 +59,7 @@ public class StringProcessorTest {
 		ConfigurationProcessor processor = new StringProcessor(true);
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo("someString");
-		assertThat(AssetsRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scopeToAdd");
+		assertThat(AssetRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scopeToAdd");
 	}
 	
 	@Test
@@ -68,7 +68,7 @@ public class StringProcessorTest {
 		ConfigurationProcessor processor = new StringProcessor(true);
 		processor.process(entry, columnConfiguration, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo("someString");
-		assertThat(AssetsRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scopeToAdd");
+		assertThat(AssetRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scopeToAdd");
 	}
 	
 	@Test
@@ -77,7 +77,7 @@ public class StringProcessorTest {
 		ConfigurationProcessor processor = new StringProcessor(true);
 		processor.process(entry, columnConfiguration, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo("someString");
-		assertThat(AssetsRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scope1", "scope2");
+		assertThat(AssetRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scope1", "scope2");
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)

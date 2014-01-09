@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 import org.junit.Test;
 
-import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
@@ -21,7 +21,7 @@ public class PaginationTypeBootstrapFeatureTest  extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new PaginationTypeBootstrapFeature())));
 
-		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
 		assertThat(mainConfig).includes(entry(DTConstants.DT_PAGINATION_TYPE, "bootstrap"));
 	}
 }

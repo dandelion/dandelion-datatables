@@ -45,7 +45,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.core.asset.wrapper.impl.DelegatedLocationWrapper;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JsResource;
@@ -233,7 +233,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 			logger.debug("Web content generated successfully");
 
 			// Scope update
-			AssetsRequestContext
+			AssetRequestContext
 					.get(request)
 					.addScopes(Scope.DDL_DT.getScopeName())
 					.addScopes(Scope.DATATABLES.getScopeName())
@@ -241,7 +241,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 							DatatablesConfigurator.getJavascriptGenerator(), false);
 
 			// Buffering generated Javascript
-			JavascriptGenerator javascriptGenerator = AssetsRequestContext.get(request).getParameterValue(
+			JavascriptGenerator javascriptGenerator = AssetRequestContext.get(request).getParameterValue(
 					"dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM);
 			javascriptGenerator.addResource(jsResource);
 

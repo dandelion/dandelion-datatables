@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 import org.junit.Test;
 
-import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
@@ -23,7 +23,7 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 	public void shoud_load_the_extension() {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
-		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(2);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(2);
 		assertThat(mainConfig).hasSize(3);
 		assertThat(mainConfig).includes(
 				entry(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString()),
@@ -36,7 +36,7 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 		TableConfig.CSS_THEMEOPTION.setIn(table.getTableConfiguration(), ThemeOption.TABLECLOTH);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
-		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(3);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(3);
 		assertThat(mainConfig).hasSize(3);
 		assertThat(mainConfig).includes(entry(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString()));
 		assertThat(mainConfig).includes(entry(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]")));
@@ -53,7 +53,7 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 		TableConfig.FEATURE_DOM.setIn(table.getTableConfiguration(), "lft");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
-		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(2);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(2);
 		assertThat(mainConfig).hasSize(2);
 		assertThat(mainConfig).includes(
 				entry(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString()),

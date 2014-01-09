@@ -33,7 +33,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
@@ -68,7 +68,7 @@ public class AjaxReloadFunctionTest extends TableProcessorBaseTest {
 		assertThat(entry.getValue()).isEqualTo("myReloadFunction");
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
 		assertThat(new AjaxReloadFeature()).isIn(tableConfiguration.getInternalExtensions());
-		assertThat(AssetsRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scope1",
+		assertThat(AssetRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scope1",
 				"scope2");
 	}
 

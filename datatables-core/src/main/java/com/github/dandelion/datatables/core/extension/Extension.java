@@ -107,78 +107,76 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public interface Extension {
 
-    /**
-     * Returns the extension's name.
-     */
+	/**
+	 * <p>
+	 * Returns the extension's name. The name is case-insensitive when loaded by
+	 * the JSP taglib or the Thymelead dialect.
+	 */
 	public String getName();
 
-    /**
-     * Set the extension up.
-     * <p>
-     * The HtmlTable object is available if a particular configuration is
-     * needed.
-     * </p>
-     *
-     * @param table
-     *            The HTML table.
-     */
-    public void setupWrapper(HtmlTable table);
+	/**
+	 * <p>
+	 * Set the extension up.
+	 * <p>
+	 * The HtmlTable object is available if a particular configuration is
+	 * needed.
+	 * 
+	 * @param table
+	 *            The HTML table.
+	 */
+	public void setupWrapper(HtmlTable table);
 
-    /**
+	/**
 	 * @return the Javascript code to be inserted at the
 	 *         {@link InsertMode#BEFOREALL} placeholder.
 	 */
-    public StringBuilder getBeforeAll();
+	public StringBuilder getBeforeAll();
 
-    /**
+	/**
 	 * @return the Javascript code to be inserted at the
 	 *         {@link InsertMode#AFTERALL} placeholder.
 	 */
-    public StringBuilder getAfterAll();
+	public StringBuilder getAfterAll();
 
-    /**
+	/**
 	 * @return the Javascript code to be inserted at the
 	 *         {@link InsertMode#BEFORESTARTDOCUMENTREADY} placeholder.
 	 */
-    public StringBuilder getBeforeStartDocumentReady();
-    
-    /**
+	public StringBuilder getBeforeStartDocumentReady();
+
+	/**
 	 * @return the Javascript code to be inserted at the
 	 *         {@link InsertMode#AFTERSTARTDOCUMENTREADY} placeholder.
 	 */
-    public StringBuilder getAfterStartDocumentReady();
+	public StringBuilder getAfterStartDocumentReady();
 
-    /**
+	/**
 	 * @return the Javascript code to be inserted at the
 	 *         {@link InsertMode#BEFOREENDDOCUMENTREADY} placeholder.
 	 */
-    public StringBuilder getBeforeEndDocumentReady();
+	public StringBuilder getBeforeEndDocumentReady();
 
-    public List<Parameter> getParameters();
+	public List<Parameter> getParameters();
 
-    public void setConfs(List<Parameter> confs);
+	public void setConfs(List<Parameter> confs);
 
-    public void addParameter(Parameter conf);
+	public void addParameter(Parameter conf);
 
-    public AbstractConfigurationGenerator getConfigGenerator();
+	public AbstractConfigurationGenerator getConfigGenerator();
 
-    public void setConfigGenerator(AbstractConfigurationGenerator configGenerator);
+	public void setConfigGenerator(AbstractConfigurationGenerator configGenerator);
 
-    public Boolean getAppendRandomNumber();
+	public void appendToBeforeAll(String beforeAll);
 
-    public void setAppendRandomNumber(Boolean appendRandomNumber);
+	public void appendToBeforeStartDocumentReady(String beforeStartDocumentReady);
 
-    public void appendToBeforeAll(String beforeAll);
+	public void appendToAfterStartDocumentReady(String afterStartDocumentReady);
 
-    public void appendToBeforeStartDocumentReady(String beforeStartDocumentReady);
+	public void appendToBeforeEndDocumentReady(String beforeEndDocumentReady);
 
-    public void appendToAfterStartDocumentReady(String afterStartDocumentReady);
+	public void appendToAfterAll(String afterAll);
 
-    public void appendToBeforeEndDocumentReady(String beforeEndDocumentReady);
+	public String getFunction();
 
-    public void appendToAfterAll(String afterAll);
-
-    public String getFunction();
-
-    public void setFunction(String function);
+	public void setFunction(String function);
 }

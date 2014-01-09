@@ -51,7 +51,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
 import com.github.dandelion.core.asset.AssetType;
-import com.github.dandelion.core.asset.cache.AssetsCacheSystem;
+import com.github.dandelion.core.asset.cache.AssetCacheSystem;
 
 /**
  * <p>
@@ -193,7 +193,7 @@ public abstract class ThymeleafBaseIT extends Fluent {
 	
 	public String getConfigurationFromPage(String page) {
 		String url = "/thymeleaf/" + page;
-		String cacheKey = AssetsCacheSystem.generateCacheKey("http://127.0.0.1:9190" + url, "dandelion-datatables.js", "dandelion-datatables", AssetType.js);
-		return AssetsCacheSystem.getCacheContent(cacheKey);
+		String cacheKey = AssetCacheSystem.generateCacheKey("http://127.0.0.1:9190" + url, "dandelion-datatables.js", "dandelion-datatables", AssetType.js);
+		return AssetCacheSystem.getCacheContent(cacheKey);
 	}
 }

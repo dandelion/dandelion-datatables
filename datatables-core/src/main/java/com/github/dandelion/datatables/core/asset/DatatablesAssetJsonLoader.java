@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.core.asset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.core.asset.loader.impl.AbstractAssetsJsonLoader;
+import com.github.dandelion.core.asset.loader.impl.AbstractAssetJsonLoader;
 
 /**
  * <p>
@@ -45,7 +45,7 @@ import com.github.dandelion.core.asset.loader.impl.AbstractAssetsJsonLoader;
  * @author Thibault Duchateau
  * @since 0.10.0
  */
-public class DatatablesAssetJsonLoader extends AbstractAssetsJsonLoader {
+public class DatatablesAssetJsonLoader extends AbstractAssetJsonLoader {
 
 	// Logger
     private static final Logger LOG = LoggerFactory.getLogger(DatatablesAssetJsonLoader.class);

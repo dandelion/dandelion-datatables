@@ -54,7 +54,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
 import com.github.dandelion.core.asset.AssetType;
-import com.github.dandelion.core.asset.cache.AssetsCacheSystem;
+import com.github.dandelion.core.asset.cache.AssetCacheSystem;
 import com.github.dandelion.datatables.mock.Mock;
 import com.github.dandelion.datatables.mock.Person;
 
@@ -205,7 +205,7 @@ public abstract class JspBaseIT extends Fluent {
 	
 	public String getConfigurationFromPage(String page) {
 		String url = "/" + page + ".jsp";
-		String cacheKey = AssetsCacheSystem.generateCacheKey("http://" + SERVER_HOST + ":" + SERVER_PORT + url, "dandelion-datatables.js", "dandelion-datatables", AssetType.js);
-		return AssetsCacheSystem.getCacheContent(cacheKey);
+		String cacheKey = AssetCacheSystem.generateCacheKey("http://" + SERVER_HOST + ":" + SERVER_PORT + url, "dandelion-datatables.js", "dandelion-datatables", AssetType.js);
+		return AssetCacheSystem.getCacheContent(cacheKey);
 	}
 }

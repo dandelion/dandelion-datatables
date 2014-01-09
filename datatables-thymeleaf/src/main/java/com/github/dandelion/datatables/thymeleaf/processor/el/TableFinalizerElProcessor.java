@@ -43,7 +43,7 @@ import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.core.asset.wrapper.impl.DelegatedLocationWrapper;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.ExtraFile;
@@ -255,14 +255,14 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 		logger.debug("Web content generated successfully");
 
 		// Scope update
-		AssetsRequestContext.get(request)
+		AssetRequestContext.get(request)
 			.addScopes(Scope.DATATABLES)
 			.addScopes(Scope.DDL_DT.getScopeName())
 			.addParameter("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM,
 						DatatablesConfigurator.getJavascriptGenerator(), false);
 		
 		// Buffering generated Javascript
-		JavascriptGenerator javascriptGenerator = AssetsRequestContext.get(request).getParameterValue("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM);
+		JavascriptGenerator javascriptGenerator = AssetRequestContext.get(request).getParameterValue("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM);
 		javascriptGenerator.addResource(jsResource);
 	}
 }

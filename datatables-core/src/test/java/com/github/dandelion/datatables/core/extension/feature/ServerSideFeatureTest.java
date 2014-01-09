@@ -7,7 +7,7 @@ import java.util.HashSet;
 
 import org.junit.Test;
 
-import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
@@ -21,7 +21,7 @@ public class ServerSideFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new ServerSideFeature())));
 
-		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(0);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(0);
 		assertThat(mainConfig.get(CallbackType.INIT.getName()).toString())
 		.isEqualTo(new JavascriptFunction("oTable_fakeId.fnAdjustColumnSizing(true);", CallbackType.INIT.getArgs()).toString());
 	}

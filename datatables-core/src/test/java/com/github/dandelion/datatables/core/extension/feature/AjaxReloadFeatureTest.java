@@ -9,7 +9,7 @@ import java.util.HashSet;
 
 import org.junit.Test;
 
-import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
@@ -30,7 +30,7 @@ public class AjaxReloadFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(ajaxReloadFeature)));
 
-		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).contains(
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).contains(
 				Scope.DDL_DT_AJAX_RELOAD.getScopeName());
 		assertThat(ajaxReloadFeature.getBeforeEndDocumentReady().toString()).isEqualTo(js.toString());
 	}
@@ -49,7 +49,7 @@ public class AjaxReloadFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(ajaxReloadFeature)));
 
-		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).contains(
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).contains(
 				Scope.DDL_DT_AJAX_RELOAD.getScopeName());
 		assertThat(ajaxReloadFeature.getBeforeEndDocumentReady().toString()).isEqualTo(js.toString());
 	}

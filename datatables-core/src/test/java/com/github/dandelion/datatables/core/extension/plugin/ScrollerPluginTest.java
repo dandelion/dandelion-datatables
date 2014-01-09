@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 import org.junit.Test;
 
-import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
@@ -20,7 +20,7 @@ public class ScrollerPluginTest extends AbstractExtensionTest {
 	public void shoud_load_the_extension() {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new ScrollerPlugin())));
 
-		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
 		assertThat(mainConfig).hasSize(1);
 		assertThat(mainConfig).includes(entry(DTConstants.DT_DOM, "frtiS"));
 	}
@@ -31,7 +31,7 @@ public class ScrollerPluginTest extends AbstractExtensionTest {
 		mainConfig.put(DTConstants.DT_DOM, "lfr");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new ScrollerPlugin())));
 
-		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
 		assertThat(mainConfig).hasSize(1);
 		assertThat(mainConfig).includes(entry(DTConstants.DT_DOM, "lfrS"));
 	}
@@ -42,7 +42,7 @@ public class ScrollerPluginTest extends AbstractExtensionTest {
 		mainConfig.put(DTConstants.DT_DOM, "lfr");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new ScrollerPlugin())));
 
-		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
 		assertThat(mainConfig).hasSize(1);
 		assertThat(mainConfig).includes(entry(DTConstants.DT_DOM, "<\"H\"lfr>t<\"F\"ip>S"));
 	}

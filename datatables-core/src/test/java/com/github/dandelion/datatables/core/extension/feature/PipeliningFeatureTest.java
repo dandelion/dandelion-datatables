@@ -9,7 +9,7 @@ import java.util.HashSet;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.github.dandelion.core.asset.web.AssetsRequestContext;
+import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
@@ -23,7 +23,7 @@ public class PipeliningFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new PipeliningFeature())));
 
-		assertThat(AssetsRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
 		assertThat(mainConfig).includes(entry(DTConstants.DT_FN_SERVERDATA, new JavascriptSnippet("fnDataTablesPipeline")));
 		// TODO test the pipe size
 	}
