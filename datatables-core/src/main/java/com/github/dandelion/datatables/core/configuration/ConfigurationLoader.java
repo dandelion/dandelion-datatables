@@ -51,7 +51,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface ConfigurationLoader {
 
 	public final static String DT_DEFAULT_PROPERTIES = "config/datatables-default.properties";
-	public final static String DT_USER_PROPERTIES_LOCATION = "dandelion/";
+	public final static String DT_USER_PROPERTIES_LOCATION = "dandelion/datatables/";
 	public final static String DT_USER_PROPERTIES = "datatables";
 	public final static String DEFAULT_GROUP_NAME = "global";
 
