@@ -104,7 +104,14 @@ public class ConfigToken<T> {
 	}
 
 	public void appendIn(TableConfiguration tableConfiguration, String value) {
-		tableConfiguration.getConfigurations().put(this, ((StringBuilder) tableConfiguration.getConfigurations().get(this)).append(value));
+		
+		Object existingValue = tableConfiguration.getConfigurations().get(this);
+		if (existingValue != null) {
+			tableConfiguration.getConfigurations().put(this,
+					((StringBuilder) tableConfiguration.getConfigurations().get(this)).append(value));
+		} else {
+			tableConfiguration.getConfigurations().put(this, new StringBuilder(value));
+		}
 	}
 
 	public void appendIn(TableConfiguration tableConfiguration, char value) {
