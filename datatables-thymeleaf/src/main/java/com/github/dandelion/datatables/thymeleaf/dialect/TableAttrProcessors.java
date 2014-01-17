@@ -27,10 +27,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package com.github.dandelion.datatables.thymeleaf.dialect;
-
-import java.lang.reflect.InvocationTargetException;
 
 import org.thymeleaf.processor.AttributeNameProcessorMatcher;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
@@ -133,32 +130,29 @@ public enum TableAttrProcessors {
     AJAX_RELOAD_SELECTOR(TableReloadSelectorAttrProcessor.class, "reloadSelector", "table"),
     AJAX_RELOAD_FUNCTION(TableReloadFunctionAttrProcessor.class, "reloadFunction", "table"),
 
-    // Theme processors
-    THEME(TableThemeAttrProcessor.class, "theme", "table"),
-    THEME_OPTION(TableThemeOptionAttrProcessor.class, "themeOption", "table");
+	// Theme processors
+	THEME(TableThemeAttrProcessor.class, "theme", "table"), 
+	THEME_OPTION(TableThemeOptionAttrProcessor.class, "themeOption", "table");
 
-    private Class<? extends AbstractTableAttrProcessor> processorClass;
-    private String attributeName;
-    private String elementNameFilter;
+	private Class<? extends AbstractTableAttrProcessor> processorClass;
+	private String attributeName;
+	private String elementNameFilter;
 
-    private TableAttrProcessors(Class<? extends AbstractTableAttrProcessor> processorClass, String attributeName, String elementNameFilter) {
-        this.processorClass = processorClass;
-        this.attributeName = attributeName;
-        this.elementNameFilter = elementNameFilter;
-    }
+	private TableAttrProcessors(Class<? extends AbstractTableAttrProcessor> processorClass, String attributeName,
+			String elementNameFilter) {
+		this.processorClass = processorClass;
+		this.attributeName = attributeName;
+		this.elementNameFilter = elementNameFilter;
+	}
 
-    public AbstractTableAttrProcessor getProcessor() {
-        AttributeNameProcessorMatcher matcher = new AttributeNameProcessorMatcher(attributeName, elementNameFilter);
-        try {
-            return processorClass.getDeclaredConstructor(IAttributeNameProcessorMatcher.class).newInstance(matcher);
-        } catch (InstantiationException e) {
-        	throw new DandelionDatatablesException(e);
-        } catch (IllegalAccessException e) {
-        	throw new DandelionDatatablesException(e);
-        } catch (InvocationTargetException e) {
-        	throw new DandelionDatatablesException(e);
-        } catch (NoSuchMethodException e) {
-        	throw new DandelionDatatablesException(e);
-        }
-    }
+	public AbstractTableAttrProcessor getProcessor() {
+		AttributeNameProcessorMatcher matcher = new AttributeNameProcessorMatcher(attributeName, elementNameFilter,
+				DataTablesDialect.DIALECT_PREFIX + ":table", "true");
+		try {
+			return processorClass.getDeclaredConstructor(IAttributeNameProcessorMatcher.class).newInstance(matcher);
+		}
+		catch (Exception e) {
+			throw new DandelionDatatablesException(e);
+		}
+	}
 }

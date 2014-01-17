@@ -30,8 +30,6 @@
 
 package com.github.dandelion.datatables.thymeleaf.dialect;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.thymeleaf.processor.AttributeNameProcessorMatcher;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
@@ -96,17 +94,11 @@ public enum ColumnAttrProcessors {
 	}
 
 	public AbstractColumnAttrProcessor getProcessor() {
-		AttributeNameProcessorMatcher matcher = new AttributeNameProcessorMatcher(attributeName, elementNameFilter);
+		AttributeNameProcessorMatcher matcher = new AttributeNameProcessorMatcher(attributeName, elementNameFilter, DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse");
 		try {
 			return processorClass.getDeclaredConstructor(IAttributeNameProcessorMatcher.class).newInstance(matcher);
-		} catch (InstantiationException e) {
+		} catch (Exception e) {
 			throw new DandelionDatatablesException(e);
-		} catch (IllegalAccessException e) {
-			throw new DandelionDatatablesException(e);
-		} catch (InvocationTargetException e) {
-			throw new DandelionDatatablesException(e);
-		} catch (NoSuchMethodException e) {
-			throw new DandelionDatatablesException(e);
-		}
+		} 
 	}
 }
