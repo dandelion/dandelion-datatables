@@ -31,6 +31,7 @@ package com.github.dandelion.datatables.core.configuration;
 
 import java.util.Map;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
 
@@ -104,20 +105,44 @@ public class ConfigToken<T> {
 	}
 
 	public void appendIn(TableConfiguration tableConfiguration, String value) {
-		
+
 		Object existingValue = tableConfiguration.getConfigurations().get(this);
 		if (existingValue != null) {
-			tableConfiguration.getConfigurations().put(this,
-					((StringBuilder) tableConfiguration.getConfigurations().get(this)).append(value));
-		} else {
+			((StringBuilder) existingValue).append(value);
+		}
+		else {
 			tableConfiguration.getConfigurations().put(this, new StringBuilder(value));
 		}
 	}
 
+	public void toto(){
+		
+	}
+	
 	public void appendIn(TableConfiguration tableConfiguration, char value) {
 		tableConfiguration.getConfigurations().put(this, ((StringBuilder) tableConfiguration.getConfigurations().get(this)).append(value));
 	}
 
+	public void appendIn(ColumnConfiguration columnConfiguration, String value) {
+		doAppendIn(columnConfiguration, value);
+	}
+	
+	public void appendIn(ColumnConfiguration columnConfiguration, char value) {
+		doAppendIn(columnConfiguration, String.valueOf(value));
+	}
+
+	private void doAppendIn(ColumnConfiguration columnConfiguration, String value) {
+		Object existingValue = columnConfiguration.getConfigurations().get(this);
+		if (StringUtils.isNotBlank(value)) {
+			if (existingValue != null) {
+				((StringBuilder) existingValue).append(value);
+			}
+			else {
+				columnConfiguration.getConfigurations().put(this, new StringBuilder(value));
+			}
+		}
+	}
+	
 	public void setIn(T value, HtmlTable table) {
 		table.getTableConfiguration().getConfigurations().put(this, value);
 	}
