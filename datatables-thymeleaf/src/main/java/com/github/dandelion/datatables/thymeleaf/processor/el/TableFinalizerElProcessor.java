@@ -49,6 +49,7 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.ExtraFile;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.callback.Callback;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
 import com.github.dandelion.datatables.core.configuration.Scope;
@@ -61,6 +62,7 @@ import com.github.dandelion.datatables.core.extension.feature.ExtraHtmlFeature;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
 import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
+import com.github.dandelion.datatables.core.html.HtmlTag;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.config.ConfType;
@@ -100,15 +102,13 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 			TableConfig.applyConfiguration(stagingConf, table);
 			TableConfig.processConfiguration(table);
 
-			applyCssConfiguration(arguments);
-			
 			// The table is being exported
 			if (ExportUtils.isTableBeingExported(request, table)) {
 				setupExport(arguments);
 			}
-			// The table must be generated and displayed
+			// The table must be displayed
 			else {
-				setupHtmlGeneration(arguments, element, request);
+				setupHtml(arguments, request);
 			}
 		}
 
@@ -184,45 +184,54 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 		}
 	}
 
-	private void applyCssConfiguration(Arguments arguments){
-		
+	/**
+	 * <p>
+	 * Applies the CSS configuration (coming from {@link TableConfig} and
+	 * {@link ColumnConfig} to the current table.
+	 * 
+	 * @param arguments
+	 *            The Thymeleaf arguments.
+	 */
+	private void applyCssConfiguration(Arguments arguments) {
+
 		Element tableElement = (Element) getFromRequest(DataTablesDialect.INTERNAL_NODE_TABLE);
-		
+
 		// CSS class
 		StringBuilder configuredCssClass = TableConfig.CSS_CLASS.valueFrom(table.getTableConfiguration());
-		if(configuredCssClass != null){
-			
+		if (configuredCssClass != null) {
+
 			String currentCssClass = tableElement.getAttributeValue("class");
-			if(StringUtils.isNotBlank(currentCssClass)){
-				currentCssClass += " " + configuredCssClass.toString();
+			if (StringUtils.isNotBlank(currentCssClass)) {
+				currentCssClass += HtmlTag.CLASS_SEPARATOR + configuredCssClass.toString();
 			}
-			else{
+			else {
 				currentCssClass = configuredCssClass.toString();
 			}
 			tableElement.setAttribute("class", currentCssClass);
 		}
-		
+
 		// CSS style
 		StringBuilder configuredCssStyle = TableConfig.CSS_STYLE.valueFrom(table.getTableConfiguration());
-		if(configuredCssStyle != null){
-			
+		if (configuredCssStyle != null) {
+
 			String currentCssStyle = tableElement.getAttributeValue("style");
-			if(StringUtils.isNotBlank(currentCssStyle)){
-				currentCssStyle += ";" + configuredCssStyle.toString();
+			if (StringUtils.isNotBlank(currentCssStyle)) {
+				currentCssStyle += HtmlTag.STYLE_SEPARATOR + configuredCssStyle.toString();
 			}
-			else{
+			else {
 				currentCssStyle = configuredCssStyle.toString();
 			}
-			tableElement.setAttribute("style", currentCssStyle.toString());
+			tableElement.setAttribute("style", currentCssStyle);
 		}
 	}
 	
-
 	/**
-	 * Set up the export properties, before the filter intercepts the response.
+	 * Sets up the export properties, before the filter intercepts the response.
+	 * 
+	 * @param arguments
+	 *            The Thymeleaf arguments.
 	 */
 	private void setupExport(Arguments arguments) {
-		logger.debug("Setting export up ...");
 
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 		HttpServletResponse response = ((IWebContext) arguments.getContext()).getHttpServletResponse();
@@ -240,9 +249,15 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 	}
 
 	/**
-	 * Set up the HTML table generation.
+	 * <p>
+	 * Sets up the required configuration to display the table.
+	 * 
+	 * @param arguments
+	 *            The Thymeleaf arguments.
+	 * @param request
+	 *            The current request.
 	 */
-	private void setupHtmlGeneration(Arguments arguments, Element element, HttpServletRequest request) {
+	private void setupHtml(Arguments arguments, HttpServletRequest request) {
 		
 		table.getTableConfiguration().setExporting(false);
 
@@ -254,6 +269,8 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 		JsResource jsResource = contentGenerator.generateWebResources();
 		logger.debug("Web content generated successfully");
 
+		applyCssConfiguration(arguments);
+		
 		// Scope update
 		AssetRequestContext.get(request)
 			.addScopes(Scope.DATATABLES)

@@ -297,7 +297,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 			this.dynamicAttributes = new HashMap<String, String>();
 		}
 
-		dynamicAttributes.put(localName, (String) value);
+		this.dynamicAttributes.put(localName, (String) value);
 	}
 	
 	/**

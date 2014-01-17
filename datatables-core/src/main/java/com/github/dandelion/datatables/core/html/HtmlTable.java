@@ -203,7 +203,7 @@ public class HtmlTable extends HtmlTag {
 			TableConfig.CSS_STYLE.setIn(this.tableConfiguration, new StringBuilder());
 		}
 		else{
-			TableConfig.CSS_STYLE.appendIn(this.tableConfiguration, CSS_SEPARATOR);
+			TableConfig.CSS_STYLE.appendIn(this.tableConfiguration, STYLE_SEPARATOR);
 		}
 		
 		TableConfig.CSS_STYLE.appendIn(this.tableConfiguration, cssStyle);

@@ -268,7 +268,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 			this.dynamicAttributes = new HashMap<String, String>();
 		}
 
-		dynamicAttributes.put(localName, (String) value);
+		this.dynamicAttributes.put(localName, (String) value);
 	}
 
 	/**

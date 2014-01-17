@@ -152,6 +152,25 @@ public class HtmlColumn extends HtmlTagWithContent {
 		this.columnConfiguration = columnConfiguration;
 	}
 	
+	public void addCssClass(String cssClass) {
+		if (this.isHeaderColumn) {
+			StringBuilder cssClassSb = ColumnConfig.CSSCLASS.valueFrom(this.columnConfiguration);
+			if (cssClassSb != null && cssClassSb.length() != 0) {
+				ColumnConfig.CSSCLASS.appendIn(this.columnConfiguration, CLASS_SEPARATOR);
+			}
+			ColumnConfig.CSSCLASS.appendIn(this.columnConfiguration, cssClass);
+		}
+		else {
+			if (this.cssClass == null) {
+				this.cssClass = new StringBuilder();
+			}
+			else {
+				this.cssClass.append(CLASS_SEPARATOR);
+			}
+			this.cssClass.append(cssClass);
+		}
+	}
+	
 	public void addCssCellClass(String cssCellClass) {
 		if(this.cssCellClass == null) {
 			this.cssCellClass = new StringBuilder();
@@ -165,7 +184,7 @@ public class HtmlColumn extends HtmlTagWithContent {
 		if(this.cssCellStyle == null) {
 			this.cssCellStyle = new StringBuilder();
 		} else {
-			this.cssCellStyle.append(CSS_SEPARATOR);
+			this.cssCellStyle.append(STYLE_SEPARATOR);
 		}
 		this.cssCellStyle.append(cssCellStyle);
 	}

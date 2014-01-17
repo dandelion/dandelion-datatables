@@ -293,7 +293,7 @@ public class TableConfiguration {
 		if (TableConfig.CSS_STYLE.valueFrom(this) == null) {
 			TableConfig.CSS_STYLE.setIn(this, new StringBuilder());
 		} else {
-			TableConfig.CSS_STYLE.appendIn(this, HtmlTag.CSS_SEPARATOR);
+			TableConfig.CSS_STYLE.appendIn(this, HtmlTag.STYLE_SEPARATOR);
 		}
 		TableConfig.CSS_STYLE.appendIn(this, cssStyle);
 		return this;

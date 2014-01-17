@@ -148,7 +148,7 @@ public class ExtensionLoader {
 					for (Extension customExtension : customExtensions) {
 						if (extensionToRegister.equals(customExtension.getName().toLowerCase())) {
 							table.getTableConfiguration().registerExtension(customExtension);
-							logger.debug("Custom extension {} registered", customExtension.getName());
+							logger.debug("Custom extension '{}' registered", customExtension.getName());
 							continue;
 						}
 					}

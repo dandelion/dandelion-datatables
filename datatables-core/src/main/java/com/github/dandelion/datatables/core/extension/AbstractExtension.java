@@ -31,6 +31,7 @@ package com.github.dandelion.datatables.core.extension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -275,6 +276,10 @@ public abstract class AbstractExtension implements Extension {
 		this.function = function;
 	}
 
+	public Map<String, String> getDynamicAttributes() {
+		return this.table.getDynamicAttributes();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

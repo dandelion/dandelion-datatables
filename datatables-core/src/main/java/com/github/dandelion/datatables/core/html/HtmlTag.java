@@ -40,7 +40,7 @@ import java.util.Map;
 public abstract class HtmlTag {
 
 	public static final char CLASS_SEPARATOR = ' ';
-	public static final char CSS_SEPARATOR = ';';
+	public static final char STYLE_SEPARATOR = ';';
 	
 	/**
 	 * Tag label.
@@ -162,15 +162,28 @@ public abstract class HtmlTag {
 		return dynamicAttributes;
 	}
 
+	public String getDynamicAttributeValue(String attributeName) {
+		if (this.dynamicAttributes != null) {
+			return this.dynamicAttributes.get(attributeName);
+		}
+		return null;
+	}
+	
 	public void setDynamicAttributes(Map<String, String> dynamicAttributes) {
 		this.dynamicAttributes = dynamicAttributes;
 	}
 
-	public void addDynamicAttribute(String name, String value){
-		if(dynamicAttributes == null){
-			dynamicAttributes = new HashMap<String, String>();
+	public void addDynamicAttribute(String name, String value) {
+		if (this.dynamicAttributes == null) {
+			this.dynamicAttributes = new HashMap<String, String>();
 		}
-		dynamicAttributes.put(name, value);
+		this.dynamicAttributes.put(name, value);
+	}
+
+	public void removeDynamicAttribute(String attributeName) {
+		if (this.dynamicAttributes != null) {
+			this.dynamicAttributes.remove(attributeName);
+		}
 	}
 	
 	public void addCssClass(String cssClass) {
@@ -186,7 +199,7 @@ public abstract class HtmlTag {
 		if(this.cssStyle == null) {
 			this.cssStyle = new StringBuilder();
 		} else {
-			this.cssStyle.append(CSS_SEPARATOR);
+			this.cssStyle.append(STYLE_SEPARATOR);
 		}
 		this.cssStyle.append(cssStyle);
 	}
