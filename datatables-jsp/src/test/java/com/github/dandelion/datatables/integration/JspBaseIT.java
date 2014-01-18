@@ -206,6 +206,6 @@ public abstract class JspBaseIT extends Fluent {
 	public String getConfigurationFromPage(String page) {
 		String url = "/" + page + ".jsp";
 		String cacheKey = AssetCacheSystem.generateCacheKey("http://" + SERVER_HOST + ":" + SERVER_PORT + url, "dandelion-datatables.js", "dandelion-datatables", AssetType.js);
-		return AssetCacheSystem.getCacheContent(cacheKey);
+		return AssetCacheSystem.getContent(cacheKey);
 	}
 }

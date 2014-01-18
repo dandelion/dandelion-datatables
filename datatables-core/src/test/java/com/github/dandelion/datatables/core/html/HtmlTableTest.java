@@ -55,7 +55,7 @@ public class HtmlTableTest {
 		mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
 		response = (HttpServletResponse) mockPageContext.getResponse();
-		DevMode.setDevMode(true);
+		DevMode.set(true);
 	}
 
 	@Test

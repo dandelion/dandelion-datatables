@@ -194,6 +194,6 @@ public abstract class ThymeleafBaseIT extends Fluent {
 	public String getConfigurationFromPage(String page) {
 		String url = "/thymeleaf/" + page;
 		String cacheKey = AssetCacheSystem.generateCacheKey("http://127.0.0.1:9190" + url, "dandelion-datatables.js", "dandelion-datatables", AssetType.js);
-		return AssetCacheSystem.getCacheContent(cacheKey);
+		return AssetCacheSystem.getContent(cacheKey);
 	}
 }
