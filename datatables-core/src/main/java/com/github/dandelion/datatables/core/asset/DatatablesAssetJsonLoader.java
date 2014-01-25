@@ -56,6 +56,11 @@ public class DatatablesAssetJsonLoader extends AbstractAssetJsonLoader {
 	}
 
 	@Override
+	public String getName() {
+		return "dandelion-datatables";
+	}
+
+	@Override
 	public String getPath() {
 		return "dandelion/datatables";
 	}
