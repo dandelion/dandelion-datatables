@@ -60,8 +60,8 @@ public class TableDisplayLengthAttrProcessor extends AbstractTableAttrProcessor 
 	@Override
 	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName) {
 
-		BigDecimal attrValue = AttributeUtils.parseAttribute(arguments, element, attributeName, BigDecimal.class);
+		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-		stagingConf.put(TableConfig.FEATURE_DISPLAYLENGTH, attrValue.intValueExact());
+		stagingConf.put(TableConfig.FEATURE_DISPLAYLENGTH, Integer.valueOf(attrValue));
 	}
 }

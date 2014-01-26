@@ -3,7 +3,7 @@
 <head>
 </head>
 <body>
-   <table id="myTableId" dt:table="true" dt:ext="'myCustomFeature,myOtherCustomFeature'">
+   <table id="myTableId" dt:table="true" dt:ext="myCustomFeature,myOtherCustomFeature">
       <thead>
          <tr>
             <th>Id</th>
@@ -13,7 +13,7 @@
             <th>Mail</th>
          </tr>
       </thead>
-      <tbody th:remove="all-but-first">
+      <tbody>
          <tr th:each="person : ${persons}">
             <td th:text="${person.id}">1</td>
             <td th:text="${person.firstName}">John</td>
