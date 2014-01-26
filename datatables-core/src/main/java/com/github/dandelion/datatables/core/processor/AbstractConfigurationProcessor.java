@@ -98,7 +98,7 @@ public abstract class AbstractConfigurationProcessor implements ConfigurationPro
 		this.configEntry = configEntry;
 		this.tableConfiguration = tableConfiguration;
 		this.request = tableConfiguration.getRequest();
-		this.stringifiedValue = String.valueOf(configEntry.getValue()).trim();
+		this.stringifiedValue = configEntry.getValue() != null ? String.valueOf(configEntry.getValue()).trim() : null;
 
 		logger.trace("Processing '{}' with the config token {}", configEntry.getValue(), configEntry.getKey());
 
