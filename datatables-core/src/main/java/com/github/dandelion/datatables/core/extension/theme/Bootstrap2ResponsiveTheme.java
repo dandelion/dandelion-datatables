@@ -47,7 +47,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * href="https://github.com/Comanche">Comanche</a>.
  * <p>
  * The extension updates the asset stack with the bootstrap2-responsive scope,
- * add necessary variables and add the needed DataTable's parameters.
+ * add necessary variables and adds the needed DataTable's parameters.
  * <p>
  * Also note that the HTML markup needs to be updated with the
  * <code>data-class</code> and <code>data-hide</code> dynamic attributes.
