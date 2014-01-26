@@ -212,7 +212,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 		String exportFormat = null;
 
 		if (hasAttribute(element, "type")) {
-			exportFormat = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":type");
+			exportFormat = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":type").trim().toLowerCase();
 			conf = new ExportConf(exportFormat);
 		} else {
 			throw new ConfigurationProcessingException(
@@ -255,7 +255,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 		}
 
 		if (hasAttribute(element, "cssClass")) {
-			conf.setCssStyle(new StringBuilder(getStringValue(element, "cssClass")));
+			conf.setCssClass(new StringBuilder(getStringValue(element, "cssClass")));
 		}
 
 		if (hasAttribute(element, "includeHeader")) {
@@ -318,7 +318,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 		}
 
 		// Finalizes export URL
-		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID, tableId);
+		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID, currentTableId);
 		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, exportFormat);
 		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
 		UrlUtils.addParameter(exportUrl, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);

@@ -100,10 +100,10 @@ public final class ExportUtils {
 		}
 
 		Class<?> klass = null;
-		Object obj = null;
+		DatatablesExport export = null;
 		try {
 			klass = ClassUtils.getClass(exportClass);
-			obj = ClassUtils.getNewInstance(klass);
+			export = (DatatablesExport) ClassUtils.getNewInstance(klass);
 		} catch (ClassNotFoundException e) {
 			throw new ExportException("Unable to load the class '" + exportClass + "'", e);
 		} catch (InstantiationException e) {
@@ -112,8 +112,8 @@ public final class ExportUtils {
 			throw new ExportException("Unable to access the class '" + exportClass + "'", e);
 		}
 		
-		((DatatablesExport) obj).initExport(table);
-		((DatatablesExport) obj).processExport(stream);
+		export.initExport(table);
+		export.processExport(stream);
 				
 		try {
 			writeToResponse(response, stream, exportConf.getFileName() + "." + exportConf.getFileExtension(),

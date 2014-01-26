@@ -33,10 +33,10 @@ import java.util.regex.Pattern;
 
 import org.thymeleaf.Arguments;
 import org.thymeleaf.Configuration;
-import org.thymeleaf.context.IProcessingContext;
 import org.thymeleaf.dom.Element;
+import org.thymeleaf.standard.expression.IStandardExpression;
 import org.thymeleaf.standard.expression.IStandardExpressionParser;
-import org.thymeleaf.standard.expression.StandardExpressionParser;
+import org.thymeleaf.standard.expression.StandardExpressions;
 
 import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
@@ -211,14 +211,20 @@ public class AttributeUtils {
 	@SuppressWarnings("unchecked")
 	private static <T> T processStandardExpression(Arguments arguments, String value, Class<T> clazz) {
 
-		IStandardExpressionParser parser = new StandardExpressionParser();
-		Configuration configuration = arguments.getConfiguration();
-		IProcessingContext processingContext = arguments.getTemplateProcessingParameters().getProcessingContext();
-
 		// Use the Thymeleaf Standard expression processor on the expression
-		Object result = parser.parseExpression(configuration, processingContext, value.trim()).execute(configuration,
-				processingContext);
+		Object result = null;
 
+		if (value.startsWith("${") && value.endsWith("}") || value.startsWith("@{")
+				&& value.endsWith("}") || value.startsWith("#{") && value.endsWith("}")) {
+			Configuration configuration = arguments.getConfiguration();
+			IStandardExpressionParser expressionParser = StandardExpressions.getExpressionParser(configuration);
+			IStandardExpression standardExpression = expressionParser.parseExpression(configuration, arguments, value);
+			result = standardExpression.execute(configuration, arguments);
+		}
+		else {
+			result = value;
+		}
+		
 		// Handling null value
 		if (result == null) {
 			return null;
