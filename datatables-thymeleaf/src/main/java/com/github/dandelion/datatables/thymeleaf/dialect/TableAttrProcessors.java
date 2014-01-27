@@ -38,6 +38,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAppearAttrP
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAutoWidthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableConfGroupAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableCustomExtensionsProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableDeferRenderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableDisplayLengthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableDomAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportAttrProcessor;
@@ -100,7 +101,7 @@ public enum TableAttrProcessors {
     BASIC_PAGINATION_TYPE(TablePaginationTypeAttrProcessor.class, "paginationType", "table"),
     BASIC_LENGTH_MENU(TableLengthMenuAttrProcessor.class, "lengthMenu", "table"),
     BASIC_LENGTH_CHANGE(TableLengthChangeAttrProcessor.class, "lengthChange", "table"),
-    BASIC_STRIP_CLASSES(TableStripeClassesAttrProcessor.class, "stripeClasses", "table"),
+    BASIC_STRIPE_CLASSES(TableStripeClassesAttrProcessor.class, "stripeClasses", "table"),
     BASIC_DISPLAY_LENGTH(TableDisplayLengthAttrProcessor.class, "displayLength", "table"),
     BASIC_SCROLL_Y(TableScrollYAttrProcessor.class, "scrollY", "table"),
     BASIC_SCROLL_COLLAPSE(TableScrollCollapseAttrProcessor.class, "scrollCollapse", "table"),
@@ -121,6 +122,7 @@ public enum TableAttrProcessors {
     // AJAX processors
     AJAX_URL(TableUrlAttrProcessor.class, "url", "table"),
     AJAX_SERVER_SIDE(TableServerSideAttrProcessor.class, "serverSide", "table"),
+    AJAX_DEFER_RENDER(TableDeferRenderAttrProcessor.class, "deferRender", "table"),
     AJAX_PIPELINING(TablePipeliningAttrProcessor.class, "pipelining", "table"),
     AJAX_PIPESIZE(TablePipeSizeAttrProcessor.class, "pipeSize", "table"),
     AJAX_PROCESSING(TableProcessingAttrProcessor.class, "processing", "table"),

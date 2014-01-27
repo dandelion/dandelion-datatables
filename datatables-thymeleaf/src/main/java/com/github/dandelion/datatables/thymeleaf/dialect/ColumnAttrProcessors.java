@@ -36,7 +36,7 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import com.github.dandelion.datatables.core.exception.DandelionDatatablesException;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThCssCellClassAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.ThDefaultValueAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThDefaultAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterCssClassAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterDateFormatAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterMinLengthAttrProcessor;
@@ -63,7 +63,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.ThVisibleAttrPro
 public enum ColumnAttrProcessors {
 
 	PROPERTY(ThPropertyAttrProcessor.class, "property", "th"), 
-	DEFAULTVALUE(ThDefaultValueAttrProcessor.class, "default", "th"), 
+	DEFAULT(ThDefaultAttrProcessor.class, "default", "th"), 
 	NAME(ThNameAttrProcessor.class, "name", "th"), 
 	RENDER_FUNCTION(ThRenderFunctionAttrProcessor.class, "renderFunction", "th"), 
 	SORTABLE(ThSortableAttrProcessor.class, "sortable", "th"), 

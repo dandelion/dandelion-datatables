@@ -29,8 +29,6 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr;
 
-import java.math.BigDecimal;
-
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;

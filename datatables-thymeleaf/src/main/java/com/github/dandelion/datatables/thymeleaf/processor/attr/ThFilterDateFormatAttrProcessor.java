@@ -60,6 +60,6 @@ public class ThFilterDateFormatAttrProcessor extends AbstractColumnAttrProcessor
 
 		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-		stagingConf.put(ColumnConfig.FILTERDATEFORMAT, element.getAttributeValue(attributeName));
+		stagingConf.put(ColumnConfig.FILTERDATEFORMAT, attrValue);
 	}
 }

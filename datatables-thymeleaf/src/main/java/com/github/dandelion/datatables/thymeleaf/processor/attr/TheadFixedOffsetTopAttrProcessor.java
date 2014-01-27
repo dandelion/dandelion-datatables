@@ -29,8 +29,6 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr;
 
-import java.math.BigDecimal;
-
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
@@ -60,8 +58,8 @@ public class TheadFixedOffsetTopAttrProcessor extends AbstractTableAttrProcessor
 	@Override
 	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName) {
 
-		BigDecimal attrValue = AttributeUtils.parseAttribute(arguments, element, attributeName, BigDecimal.class);
+		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-		stagingConf.put(TableConfig.PLUGIN_FIXEDOFFSETTOP, attrValue);
+		stagingConf.put(TableConfig.PLUGIN_FIXEDOFFSETTOP, Integer.valueOf(attrValue));
 	}
 }

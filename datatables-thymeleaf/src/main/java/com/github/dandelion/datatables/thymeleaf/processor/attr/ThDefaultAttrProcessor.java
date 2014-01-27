@@ -33,20 +33,21 @@ import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
- * Attribute processor applied to the {@code table} tag for the
- * {@link TableConfig#AJAX_PIPESIZE} configuration.
+ * Attribute processor applied to the {@code th} tag for the
+ * {@link ColumnConfig#DEFAULTVALUE} configuration.
  * 
  * @author Thibault Duchateau
+ * @since 0.10.0
  */
-public class TablePipeSizeAttrProcessor extends AbstractTableAttrProcessor {
+public class ThDefaultAttrProcessor extends AbstractColumnAttrProcessor {
 
-	public TablePipeSizeAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	public ThDefaultAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
@@ -60,6 +61,6 @@ public class TablePipeSizeAttrProcessor extends AbstractTableAttrProcessor {
 
 		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-		stagingConf.put(TableConfig.AJAX_PIPESIZE, Integer.valueOf(attrValue));
+		stagingConf.put(ColumnConfig.DEFAULTVALUE, attrValue);
 	}
 }
