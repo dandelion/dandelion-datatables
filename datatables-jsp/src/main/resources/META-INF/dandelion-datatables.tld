@@ -277,7 +277,7 @@
       <attribute>
          <description>
          <![CDATA[
-            <p>If 'paginate' is enabled, allows the end user to select the size of a formatted page from a select menu (sizes are 10, 25, 50 and 100).</p>
+            <p>If 'pageable' is set to true, allows the end user to select the size of a formatted page from a select menu (sizes are 10, 25, 50 and 100).</p>
             <p>
             <ul>
             <li>Required: <b>no</b></li>
@@ -911,7 +911,8 @@
             <li>Configuration property: <b>feature.scrollCollapse</b></li>
             </ul>
             </p>
-         ]]></description>
+         ]]>
+         </description>
          <name>scrollCollapse</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
