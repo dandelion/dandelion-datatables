@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
@@ -10,36 +11,30 @@
    <artifactId>datatables-export-itext</artifactId>
    <packaging>jar</packaging>
    <name>Dandelion :: Datatables :: Extras :: Export PDF using iText</name>
-
-   <properties>
-      <!-- Configuration -->
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-      <!-- Dependencies -->
-      <itextpdf.version>5.3.4</itextpdf.version>
-   </properties>
-
+   <description>Extra providing a default PDF export class based on iText</description>
+   
    <dependencies>
-      <!-- Dandelion-Datatables -->
+
+      <!-- Internal dependencies -->
       <dependency>
          <groupId>com.github.dandelion</groupId>
          <artifactId>datatables-core</artifactId>
-         <version>0.10.0-SNAPSHOT</version>
+         <version>${project.version}</version>
       </dependency>
 
-      <!-- Servlet -->
+      <!-- Servlet API -->
       <dependency>
          <groupId>javax.servlet</groupId>
          <artifactId>javax.servlet-api</artifactId>
          <scope>provided</scope>
       </dependency>
-      
+
       <!-- iText -->
       <dependency>
          <groupId>com.itextpdf</groupId>
          <artifactId>itextpdf</artifactId>
-         <version>${itextpdf.version}</version>
+         <scope>provided</scope>
       </dependency>
+      
    </dependencies>
 </project>
