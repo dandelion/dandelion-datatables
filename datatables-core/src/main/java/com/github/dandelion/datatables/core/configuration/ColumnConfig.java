@@ -147,7 +147,7 @@ public final class ColumnConfig {
 	}
 	
 	/**
-	 * Hidden constructor.
+	 * Prevent instantiation.
 	 */
 	private ColumnConfig() {
 	}

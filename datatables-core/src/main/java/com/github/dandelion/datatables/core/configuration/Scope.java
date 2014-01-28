@@ -83,7 +83,6 @@ public enum Scope {
 	DDL_DT_PLUGIN_COLREORDER("ddl-dt-plugin-colreorder"),
 	DDL_DT_PLUGIN_FIXEDHEADER("ddl-dt-plugin-fixedheader"),
 	DDL_DT_PLUGIN_SCROLLER("ddl-dt-plugin-scroller"),
-	DDL_DT_THEME("ddl-dt-theme-bootstrap-responsive"),
 	
 	DDL_DT_FILTERING("ddl-dt-filtering"),
 	DDL_DT_MULTIFILTER("ddl-dt-multifilter"),
