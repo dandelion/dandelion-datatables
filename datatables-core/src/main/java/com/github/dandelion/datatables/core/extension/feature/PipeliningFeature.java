@@ -62,7 +62,7 @@ public class PipeliningFeature extends AbstractExtension {
 		
 		Integer pipeSize = TableConfig.AJAX_PIPESIZE.valueFrom(table);
 		// Adapt the pipe size if it has been overriden
-		if (pipeSize != 5) {
+		if (pipeSize != null && pipeSize != 5) {
 			addScopeParameter("pipelining-js", "var iPipe = 5", "var iPipe = " + pipeSize);
 		} 
 
