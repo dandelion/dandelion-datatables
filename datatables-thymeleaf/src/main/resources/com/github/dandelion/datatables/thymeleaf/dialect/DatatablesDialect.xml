@@ -1,0 +1,1637 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialect xmlns="http://www.thymeleaf.org/extras/dialect" 
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.thymeleaf.org/extras/dialect 
+                       http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd"
+   prefix="dt" 
+   namespace-uri="http://www.thymeleaf.org/dandelion/datatables"
+   namespace-strict="false"
+   class="com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect">
+   
+   <!-- ================================== -->
+   <!-- Table processors -->
+   <!-- ================================== -->
+   
+   <attribute-processor name="table">
+      <restrictions tags="table" values="true false" />
+      <documentation>
+         <![CDATA[
+            <p>Enable or disable the Dandelion-Datatables' dialect in the current table.</p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="url"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableUrlAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>URL called by DataTables to populate the table. Data returned must be in the JSON format</p>
+            <p>
+            <ul>
+            <li>Data source: <b>AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="appear"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableAppearAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Display mode used when the table has finished loading and must appear in the page.</p>
+            <p>A duration can be set (in milliseconds) if the display mode is set to 'fadein'.</p>
+            <p>
+            <ul>
+            <li>Required: <b>false</b></li>
+            <li>Possible values: <b>block|fadein[,duration]</b></li>
+            <li>Default: <b>fadein</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.appear</b></li>
+            </ul>
+            </p>
+         ]]> 
+      </documentation>
+   </attribute-processor>     
+        
+   <attribute-processor name="deferRender"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableDeferRenderAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Defer the creation of the table elements for each row until they are needed for a draw.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>false</b></li>
+            <li>Data source: <b>AJAX</b></li>
+            <li>Configuration property: <b>ajax.deferRender</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>      
+        
+   <attribute-processor name="info"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableInfoAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Enable or disable the table information display.</p>
+            <p>This shows information about the data that is currently visible on the page, including information about filtered data if that action is being performed.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>true</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.info</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>     
+   
+   <attribute-processor name="pageable"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TablePageableAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Enable or disable pagination.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>true</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.pageable</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="lenghChange"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableLenghChangeAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>If 'pageable' is set to true, allows the end user to select the size of a formatted page from a select menu (sizes are 10, 25, 50 and 100).</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>true</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.lengthChange</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="paginationType"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TablePaginationTypeAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Name of the pagination interaction methods which present different page controls to the end user.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: 
+               <b>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;two_button</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;full_numbers</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;four_button</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scrolling</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listbox</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extStyle</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bootstrap</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bootstrap_full_numbers</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bootstrap_four_button</p>
+            </b>
+            </li>
+            <li>Default: <b>two_button</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.paginationType</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="filterable"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterableAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Enable or disable global filtering of data.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>true</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.filterable</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="sortable"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableSortableAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Enable or disable sorting of all columns.</p>
+            <p>Sorting of individual columns can be disabled using the 'sortable' attribute of the column tag.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>true</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.sortable</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="autoWidth"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableAutoWidthAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Enable or disable automatic column width calculation.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>true</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.paginate</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="dom"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableDomAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Allows you to specify exactly where in the DOM you want DataTables to inject the various controls it adds to the page.</p>
+            <p>For example you might want the pagination controls at the top of the table.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>See http://datatables.net/ref#sDom</b></li>
+            <li>Default: <b>lfrtip</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.dom</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="processing"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableProcessingAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Enable or disable the display of a 'processing' indicator when the table is being processed (e.g. a sort).</p>
+            <p>This is particularly useful for tables with large amounts of data where it can take a noticeable amount of time to sort the entries.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>false</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.processing</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="serverSide"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerSideAttrProcessor">
+      <restrictions tags="table" attributes="dt:table dt:url"/>
+      <documentation>
+         <![CDATA[
+            <p>Configure DataTables to use server-side processing.</p>
+            <p>Note that the 'url' attribute must be given in order to give DataTables a source to obtain the required data for each draw.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>false</b></li>
+            <li>Data source: <b>AJAX</b></li>
+            <li>Configuration property: <b>ajax.serverSide</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="serverData"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerDataAttrProcessor">
+      <restrictions tags="table" attributes="dt:table dt:url dt:serverSide"/>
+      <documentation>
+         <![CDATA[
+            <p>Allows you to override the default function which obtains the data from the server ($.getJSON) so something more suitable for your application.</p>
+            <p>Also note that you can automatically load any Dandelion scope using the syntax: 'scopeName#javascriptFunction'.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>any String representing the name of an accessible Javascript function</b></li>
+            <li>Data source: <b>AJAX</b></li>
+            <li>Configuration property: <b>ajax.serverData</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="serverParams"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerParamsAttrProcessor">
+      <restrictions tags="table" attributes="dt:table dt:url dt:serverSide"/>
+      <documentation>
+         <![CDATA[
+            <p>Allows you to send extra information to the server when using an AJAX source.</p>
+            <p>Also note that you can automatically load any Dandelion scope using the syntax: 'scopeName#javascriptFunction'.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>any String representing the name of an accessible Javascript function</b></li>
+            <li>Data source: <b>AJAX</b></li>
+            <li>Configuration property: <b>ajax.serverParams</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="pipelining"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TablePipeliningAttrProcessor">
+      <restrictions tags="table" attributes="dt:table dt:url dt:serverSide"/>
+      <documentation>
+         <![CDATA[
+            <p>Enable pipelining data for paging when server-side processing is enabled.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>false</b></li>
+            <li>Data source: <b>AJAX</b></li>
+            <li>Configuration property: <b>ajax.pipelining</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="pipeSize"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TablePipeSizeAttrProcessor">
+      <restrictions tags="table" attributes="dt:table dt:url dt:serverSide dt:pipelining"/>
+      <documentation>
+         <![CDATA[
+            <p>Pipe size used when pipelining is enabled, i.e. times that the user can page before a request must be made of the server.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>any integer starting from 1</b></li>
+            <li>Default: <b>5</b></li>
+            <li>Data source: <b>AJAX</b></li>
+            <li>Configuration property: <b>ajax.pipeSize</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="reloadSelector"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableReloadSelectorAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>jQuery selector targeting the element on which a 'click' event will be bound to trigger the table reloading.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>any jQuery selector</b></li>
+            <li>Default: <b>Empty string</b></li>
+            <li>Data source: <b>AJAX</b></li>
+            <li>Configuration property: <b>ajax.reloadSelector</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="reloadFunction"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableReloadFunctionAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Name of a Javascript function that will be called in the 'click' event bound by the reloadSelector attribute.</p>
+            <p>Note that when using this attribute, you will have to call manually the 'fnReloadAjax()' function.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>any String representing the name of an accessible Javascript function
+            <li>Default: <b>Empty string</b></li>
+            <li>Data source: <b>AJAX</b></li>
+            <li>Configuration property: <b>ajax.reloadFunction</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="stateSave"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableStateSaveAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>When enabled a cookie will be used to save table display information such as pagination information, display length, filtering and sorting. As such when the end user reloads the page the display display will match what thy had previously set up.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>false</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.stateSave</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="export"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Comma-separated list of enabled export formats.</p>
+            <p>Some formats use reserved words, such as 'csv', 'xls', 'xlsx', 'pdf' and 'xml'. You can overload the default configuration attached to these formats using the configuration properties.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>export.enabled.formats</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="exportLinks"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportLinksAttrProcessor">
+      <restrictions tags="table" attributes="dt:table dt:export"/>
+      <documentation>
+         <![CDATA[
+            <p>Comma-separated list of positions where the export links will be added, depending on the current value of the 'export' attribute.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: 
+               <b>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top_right</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top_middle</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top_left</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottom_right</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottom_middle</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottom_left</p>
+            </b>
+            </li>
+            <li>Default: <b>top_right</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>export.link.positions</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <!-- TODO -->
+   <attribute-processor name="jqueryUI"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportLinksAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Enable jQuery UI ThemeRoller support.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>false</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.jqueryUi</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="theme"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeAttrProcessor">
+      <restrictions tags="table" attributes="dt:table dt:export"/>
+      <documentation>
+         <![CDATA[
+            <p>Name of a theme to activate in the current table.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: 
+               <b>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bootstrap2</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bootstrap3</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jqueryui</p>
+            </b>
+            </li>
+            <li>Default: <b>None</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>css.theme</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="themeOption"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeOptionAttrProcessor">
+      <restrictions tags="table" attributes="dt:table dt:theme"/>
+      <documentation>
+         <![CDATA[
+            <p>Name of a theme option to activate in the current table.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values for the 'bootstrap2' theme: 
+               <b>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tablecloth</p>
+               </b>
+            </li>
+            <li>Possible values for the 'jqueryui' theme: 
+               <b>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blacktie</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blitzer</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cupertino</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;darkhive</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dotluv</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eggplant</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;excitebike</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flick</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hotsneaks</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;humanity</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lefrog</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mintchoc</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overcast</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;peppergrinder</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;redmond</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;smoothness</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;southstreet</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sunny</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;swankypurse</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trontastic</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uidarkness</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uilightness</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vader</p>
+               </b>
+            </li>
+            <li>Default: <b>None</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>css.themeOption</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="lenghMenu"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableLenghMenuAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Specify the entries in the length drop down menu that DataTables show when pagination is enabled.</p>
+            <p>The string must be composed of:
+            <ul>
+            <li>a comma-separated list of numbers</li>
+            <li>a separating semi-colon</li>
+            <li>a comma-separated list of strings, each one associated with the previous item of the first list</li>
+            </ul>
+            </p>
+            <p>For example: 10,20,30,40,-1;10,20,30,40,'All'</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Default: <b>10,25,50,100</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.lengthMenu</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="cssStripes"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableStripeClassesAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Comma-separated list of CSS classes that should be applied to displayed rows.</p>
+            <p>This array may be of any length, and DataTables will apply each class sequentially, looping when required.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>css.stripeClasses</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="displayLength"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableDisplayLengthAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Number of rows to display on a single page when using pagination.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Default: <b>10</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.displayLength</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="ext"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableCustomExtensionsAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Comma-separated names of extensions to register in the current table.</p>
+            <p>See the documentation for all available extensions.</p>
+            <p>Note that you can also use this attribute to plug-in your own extension.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>main.extension.names</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="confGroup"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableConfGroupAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Name of the configuration group to activate for the current table.</p>
+            <p>The group must be define in the configurations files (datatables_XX.properties).</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="filterPlaceholder"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterPlaceholderAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Placeholder used to hold the individual column filtering elements.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: 
+               <b>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foot</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;head_before</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;head_after</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;none</p>
+            </b>
+            </li>
+            <li>Default: <b>foot</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.filterPlaceHolder</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="filterDelay"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterDelayAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Delay (in milliseconds) to be used before the AJAX call is performed to obtain data.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Default: <b>500ms</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.filterDelay</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="filterSelector"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterSelectorAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>jQuery selector targeting the element on which a 'click' event will be bound to trigger the filtering.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.filterSelector</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+        
+   <attribute-processor name="filterClearSelector"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterClearSelectorAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>jQuery selector targeting the element on which a 'click' event will be bound to trigger the clearing of all filter elements.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.filterClearSelector</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="scrollY"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollYAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Enable vertical scrolling.</p>
+            <p>Vertical scrolling will constrain the DataTable to the given height, and enable scrolling for any data which overflows the current viewport.</p>
+            <p>This can be used as an alternative to paging to display a lot of data in a small area (although paging and scrolling can both be enabled at the same time).</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>Any CSS unit, or a number (in which case it will be treated as a pixel measurement)</b></li>
+            <li>Default: <b>Empty string, i.e. disabled</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.scrollY</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <!-- TODO: FixedHeader -->
+   
+   <attribute-processor name="scrollCollapse"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollCollapseAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>When vertical scrolling is enabled ('scrollY'), DataTables will force the height of the table's viewport to the given height at all times (useful for layout).</p>
+            <p>However, this can look odd when filtering data down to a small data set, and the footer is left "floating" further down. This parameter (when enabled) will cause DataTables to collapse the table's viewport down when the result set will fit within the given Y height.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>false</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Default: <b>Empty string, i.e. disabled</b></li>
+            <li>Configuration property: <b>feature.scrollCollapse</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="scrollX"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollXAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+         <![CDATA[
+            <p>Enable horizontal scrolling.</p>
+            <p>When a table is too wide to fit into a certain layout, or you have a large number of columns in the table, you can enable x-scrolling to show the table in a viewport, which can be scrolled.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>Any CSS unit, or a number (in which case it will be treated as a pixel measurement)</b></li>
+            <li>Default: <b>Empty string, i.e. disabled</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.scrollX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="scrollXInner"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollXInnerAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+          <![CDATA[
+            <p>This property can be used to force a DataTable to use more width than it might otherwise do when x-scrolling is enabled.</p>
+            <p>For example if you have a table which requires to be well spaced, this parameter is useful for "over-sizing" the table, and thus forcing scrolling. 
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>Any CSS unit, or a number (in which case it will be treated as a pixel measurement)</b></li>
+            <li>Default: <b>Empty string, i.e. disabled</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.scrollXInner</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="scrollXInner"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollXInnerAttrProcessor">
+      <restrictions tags="table" attributes="dt:table"/>
+      <documentation>
+          <![CDATA[
+            <p>This property can be used to force a DataTable to use more width than it might otherwise do when x-scrolling is enabled.</p>
+            <p>For example if you have a table which requires to be well spaced, this parameter is useful for "over-sizing" the table, and thus forcing scrolling. 
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>Any CSS unit, or a number (in which case it will be treated as a pixel measurement)</b></li>
+            <li>Default: <b>Empty string, i.e. disabled</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>feature.scrollXInner</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <!-- ================================== -->
+   <!-- Div processors (used in the configuring div )-->
+   <!-- ================================== -->
+   
+   <attribute-processor name="conf"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfAttrProcessor">
+      <restrictions tags="div" />
+      <documentation>
+          <![CDATA[
+            <p>Add extra configuration to the table targeted by the id passed in.</p>
+            <p>Note that the ID must match with an ID given to the following table tag.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="confType"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" />
+      <documentation>
+         <![CDATA[
+            <p>Type of the configuration to specify.</p>
+            <p>Note that the ID must match with an ID given to the following table tag.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>export|callback|extrafile|property|extrahtml</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <!-- Div processors used when configuring export -->
+   <attribute-processor name="type"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>The type of export to configure.</p>
+            <p>Note that the export type must match the value set in the 'dt:export' table attribute.</p>
+            <p>
+            <ul>
+            <li>Required: <b>yes</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="fileName"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>Name to be given to the export file.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Default: [exportType-upperCased]-[yyyymmDD]</li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="fileExtension"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>File extension of the export file.</p>
+            <p>Note that if reserved words are used, the file extension will be automatically set.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Default: <b>the lower-cased value of the 'type' attribute</b></li>
+            </li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="label"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>Label applied to the export link.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Default: <b>the upper-cased value of the 'type' attribute</b></li>
+            </li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="cssStyle"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>CSS style to be applied to the export link.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="cssClass"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>CSS class(es) to be applied to the export link.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="includeHeader"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>Whether header cells should appear in the export file or not.</p>
+            <p>Note that this attribute only makes sense for some export formats: csv, xls, xlsx and pdf.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>true</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="mimeType"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>Mime type applied to the response when downloading the export file.</p>
+            <p>Note that if reserved words are used, the mime type will be automatically set.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="method"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>HTTP method to be used to make the export call.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Default: <b>GET</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="autoSize"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>Whether columns should be autosized in the export file.</p>
+            <p>Only for xls and xlsx exports.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>true</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="orientation"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>Orientation of the PDF export file.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: 
+               <b>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;landscape</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;portrait</p>
+               </b>
+            </li>
+            <li>Default: <b>landscape</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="url"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>URL to be used for exporting. Handy if you want to customize exports using controllers.</p>
+            <p>By default (i.e. if no 'url' attribute is used), Dandelion generates an internal URL for export processing.</p>
+            <p>Note that the URL is internally processed by prepending the request context path and appending all existing parameters.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <!-- Div processors used when configuring callbacks -->
+   
+   <!-- TODO: dt:type doit pouvoir afficher une nouvelle aide si dt:confType="callback" -->
+   
+   <attribute-processor name="function"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>Name of a Javascript function that will be called inside the configured callback.</p>
+            <p>Also note that you can automatically load any Dandelion scope using the syntax: 'scopeName#javascriptFunction'.</p>
+            <p>
+            <ul>
+            <li>Required: <b>yes</b></li>
+            <li>Possible values: <b>any String representing the name of an accessible Javascript function</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <!-- Div processors used when configuring properties -->
+   
+   <attribute-processor name="name"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>Name of the property to overload.</p>
+            <p>
+            <ul>
+            <li>Required: <b>yes</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="value"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>Value of the property to use.</p>
+            <p>
+            <ul>
+            <li>Required: <b>yes</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <!-- Div processors used when configuring extraFiles -->
+   
+   <attribute-processor name="src"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>Path of the file to merge into the generated configuration.</p>
+            <p>
+            <ul>
+            <li>Required: <b>yes</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="insert"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>Location where extra file content will be inserted into the generated configuration.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: 
+               <b>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beforeall</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beforestartdocumentready</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;afterstartdocumentready</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beforeenddocumentready</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;afterall</p>
+            </b>
+            </li>
+            <li>Default: <b>beforeall</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <!-- Div processors used when configuring extraHtml -->
+   
+   <attribute-processor name="uid"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>The identifying character to be assigned to the HTML snippet.</p>
+            <p>Once the HTML snippet created, it must be activated thanks to the 'dom' table attribute.</p>
+            <br/>
+            <p><b>WARNING! </b> Some characters are reserved by DataTables for internal features and possibly by DataTables' plugins. To avoid conflict, it is recommended to use a figure instead of a letter. If you use a letter, please make sure at least that it is lower cased to avoid conflict with plugins.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>Any figure between 0 and 9 is recommended.</b></li>
+            <li>Default: <b>None</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="container"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>Container used to wrap the extra HTML snippet.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>Any valid HTML element</b></li>
+            <li>Default: <b>div</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="cssStyle"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>CSS style to be applied to the container of the extra HTML snippet.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="cssClass"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType" />
+      <documentation>
+         <![CDATA[
+            <p>CSS class(es) to be applied to the container of the extra HTML snippet.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <!-- ================================== -->
+   <!-- Column processors -->
+   <!-- ================================== -->
+   <!-- TODO: pouvoir restreindre l'assistant a un attribut d'un tag parent -->
+   <attribute-processor name="property"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThPropertyAttrProcessor">
+      <restrictions tags="th" />
+      <documentation>
+         <![CDATA[
+            <p>When using a DOM source, this is the name of the object's attribute of the collection being iterated on.</p>
+            <p>When using an AJAX source, this is the name of the JSON property to be read from the data obtained by the AJAX call.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="default"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThDefaultAttrProcessor">
+      <restrictions tags="th" />
+      <documentation>
+         <![CDATA[
+            <p>Default string to be used if the value return from the 'property' attribute is empty or null.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Default: <b>Empty string</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="sortable"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThSortableAttrProcessor">
+      <restrictions tags="th" />
+      <documentation>
+         <![CDATA[
+            <p>Enable or disable sorting in the column.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>true</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="filterable"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThFilterableAttrProcessor">
+      <restrictions tags="th" />
+      <documentation>
+         <![CDATA[
+            <p>Enable or disable filtering in the column.</p>
+            <p>By default, an input field will be created in the tfoot section of the table.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>false</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="searchable"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThSearchableAttrProcessor">
+      <restrictions tags="th" />
+      <documentation>
+         <![CDATA[
+            <p>Enable or disable searching in the column.</p>
+            <p>If false, the column won't be filtered by the global search field.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>true</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="visible"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThVisibleAttrProcessor">
+      <restrictions tags="th" />
+      <documentation>
+         <![CDATA[
+            <p>Enable or disable the display of the column.</p>
+            <p>Note that even if the column is not visible, it is searchable.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>true|false</b></li>
+            <li>Default: <b>true</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="sortInitDirection"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThSortInitDirectionAttrProcessor">
+      <restrictions tags="th" />
+      <documentation>
+         <![CDATA[
+            <p>If the column is sortable, sets the default sorting direction.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>asc|desc</b></li>
+            <li>Default: <b>asc</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="sortInitOrder"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThSortInitOrderAttrProcessor">
+      <restrictions tags="th" attributes="dt:sortInitDirection"/>
+      <documentation>
+         <![CDATA[
+            <p>If the column is sortable, sets the order in which the sort should be initialized.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>Any column index (starting from 0)</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="sortDirection"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThSortDirectionAttrProcessor">
+      <restrictions tags="th" />
+      <documentation>
+         <![CDATA[
+            <p>Comma-separated list of directions to be used to control the sorting sequence.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>Comma-separated 'asc' or 'desc' list</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="filterType"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThFilterTypeAttrProcessor">
+      <restrictions tags="th" attributes="dt:filterable" />
+      <documentation>
+         <![CDATA[
+            <p>If the column is filterable, you can decide to change the filter type using this attribute.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: 
+               <b>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;select</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number_range</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date_range</p>
+            </b>
+            </li>
+            <li>Default: <b>input</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="filterValues"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThFilterValuesAttrProcessor">
+      <restrictions tags="th" attributes="dt:filterable dt:filterType" />
+      <documentation>
+         <![CDATA[
+            <p>Name of a Javascript variable containing data to use to populate the filtering select.</p><br/>
+            <p>You have two options about the Javascript variable.</p><br/>
+            <p>
+            Either it can contain an array of values.<br/>
+            For example: <br/>
+            var myPredefinedValues = ["value1", "value2", "value3"];<br/>
+            </p>
+            <p>
+            Or it can contain an array of objects.<br/>
+            For example:<br/>
+            var myPredefinedValues = [{"value":"value1", "label":"label1"}, {"value":"value2", "label":"label2"}, {"value":"value3", "label":"label3"}];<br/>
+            </p>
+            <p>Also note that you can automatically load any Dandelion scope using the syntax: 'scopeName#javascriptObject'.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>see above</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="filterMinLength"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThFilterValuesAttrProcessor">
+      <restrictions tags="th" attributes="dt:filterable" />
+      <documentation>
+         <![CDATA[
+            <p>Number of characters to be entered in the filtering input field before filtering is triggered.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>Any number</b></li>
+            <li>Default: <b>0 (filtering is triggered on keyup)</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="filterCssClass"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThFilterCssClassAttrProcessor">
+      <restrictions tags="th" attributes="dt:filterable" />
+      <documentation>
+         <![CDATA[
+            <p>If the column is filterable, CSS class(s) to be applied on the filtering element (whose type depends on the filter type).</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="renderFunction"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThRenderFunctionAttrProcessor">
+      <restrictions tags="th" />
+      <documentation>
+         <![CDATA[
+            <p>Name of a Javascript function that will be called to render the column when using an AJAX source.</p>
+            <p>Also note that you can automatically load any Dandelion scope using the syntax: 'scopeName#javascriptFunction'.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>any String representing the name of an accessible Javascript function</b></li>
+            <li>Data source: <b>AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="selector"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThSelectorAttrProcessor">
+      <restrictions tags="th" />
+      <documentation>
+         <![CDATA[
+            <p>jQuery selector targeting any element that will be populated with a filtering element (depending on the 'filterType' attribute).</p>
+            <p>This attribute only makes sense when the 'filterPlaceholder' attribute is set to 'none' (i.e. for external filtering form).</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>any jQuery selector</b></li>
+            <li>Default: <b>Empty string</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="sortType"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThSortTypeAttrProcessor">
+      <restrictions tags="th" />
+      <documentation>
+         <![CDATA[
+            <p>If the column is sortable, sets the type of sort to apply to the column.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values:
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;natural</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;anti_the</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alt_string</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currency</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filesize</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatted_numbers</p>
+            </b>
+            </li>
+            <li>Default: <b>type-based, internally guessed by DataTables</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="sortType"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThSortTypeAttrProcessor">
+      <restrictions tags="th" />
+      <documentation>
+         <![CDATA[
+            <p>If the column is sortable, sets the type of sort to apply to the column.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values:
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;natural</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;anti_the</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alt_string</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currency</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filesize</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatted_numbers</p>
+            </b>
+            </li>
+            <li>Default: <b>type-based, internally guessed by DataTables</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+</dialect>
