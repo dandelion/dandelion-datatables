@@ -46,16 +46,15 @@
       <!-- Dependencies -->
       <dandelion.version>0.10.0-SNAPSHOT</dandelion.version>
       <thymeleaf.version>2.1.1.RELEASE</thymeleaf.version>
-      <commons-collection.version>3.2.1</commons-collection.version>
       <commons-beanutils.version>1.8.3</commons-beanutils.version>
       <servlet-api.version>3.0.1</servlet-api.version>
       <slf4j.version>1.7.5</slf4j.version>
       <jsp.api.version>2.2</jsp.api.version>
       <json-simple.version>1.1.1</json-simple.version>
       <jstl.version>1.2</jstl.version>
-      <itextpdf.version>5.3.4</itextpdf.version>
-      <poi.ooxml.version>3.8</poi.ooxml.version>
-      <poi.version>3.8</poi.version>
+      <itextpdf.version>5.4.5</itextpdf.version>
+      <poi.ooxml.version>3.9</poi.ooxml.version>
+      <poi.version>3.9</poi.version>
       <struts1.version>[1.3.5,)</struts1.version>
       <struts2.version>[2.0.5,)</struts2.version>
 
@@ -65,9 +64,8 @@
       <festassert.version>1.4</festassert.version>
       <junit.version>4.11</junit.version>
       <junit.dep.version>4.11</junit.dep.version>
-      <spring.version>3.2.2.RELEASE</spring.version>
+      <spring.version>3.2.7.RELEASE</spring.version>
       <jackson.version>1.9.13</jackson.version>
-      <logback.classic.version>1.0.9</logback.classic.version>
       <jetty.test.version>8.1.10.v20130312</jetty.test.version>
       <xml-apis.version>1.4.01</xml-apis.version>
 
@@ -77,9 +75,10 @@
       <maven.source.version>2.2</maven.source.version>
       <maven.project-report-info.version>2.5.1</maven.project-report-info.version>
       <maven.site.version>3.1</maven.site.version>
-      <maven.release.version>2.3.2</maven.release.version>
+      <maven.release.version>2.4.1</maven.release.version>
       <maven.surefire.version>2.13</maven.surefire.version>
       <maven.failsafe.version>2.13</maven.failsafe.version>
+      <maven.gpg.version>1.4</maven.gpg.version>
    </properties>
 
    <dependencyManagement>
@@ -206,7 +205,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
-            <scope>test</scope>
          </dependency>
 
          <!-- JUnit Dep -->
@@ -214,7 +212,6 @@
             <groupId>junit</groupId>
             <artifactId>junit-dep</artifactId>
             <version>${junit.dep.version}</version>
-            <scope>test</scope>
          </dependency>
 
          <!-- Fest Assert -->
@@ -222,7 +219,6 @@
             <groupId>org.easytesting</groupId>
             <artifactId>fest-assert</artifactId>
             <version>${festassert.version}</version>
-            <scope>test</scope>
          </dependency>
 
          <!-- PhantomJS + GhostDriver -->
@@ -230,7 +226,6 @@
             <groupId>com.github.detro.ghostdriver</groupId>
             <artifactId>phantomjsdriver</artifactId>
             <version>${phantomjsdriver.version}</version>
-            <scope>test</scope>
             <exclusions>
                <exclusion>
                   <groupId>org.seleniumhq.selenium</groupId>
@@ -244,7 +239,6 @@
             <groupId>org.fluentlenium</groupId>
             <artifactId>fluentlenium-core</artifactId>
             <version>${fluentlenium.version}</version>
-            <scope>test</scope>
             <exclusions>
                <exclusion>
                   <groupId>junit</groupId>
@@ -258,19 +252,16 @@
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
             <version>${jetty.test.version}</version>
-            <scope>test</scope>
          </dependency>
          <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-webapp</artifactId>
             <version>${jetty.test.version}</version>
-            <scope>test</scope>
          </dependency>
          <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-jsp</artifactId>
             <version>${jetty.test.version}</version>
-            <scope>test</scope>
          </dependency>
 
          <!-- Spring + Jackson -->
@@ -319,7 +310,7 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-surefire-plugin</artifactId>
-               <version>2.13</version>
+               <version>${maven.surefire.version}</version>
                <configuration>
                   <useSystemClassLoader>false</useSystemClassLoader>
                </configuration>
@@ -327,7 +318,7 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-release-plugin</artifactId>
-               <version>2.4.1</version>
+               <version>${maven.release.version}</version>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
@@ -406,7 +397,7 @@
                <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-gpg-plugin</artifactId>
-                  <version>1.4</version>
+                  <version>${maven.gpg.version}</version>
                   <executions>
                      <execution>
                         <id>sign-artifacts</id>
