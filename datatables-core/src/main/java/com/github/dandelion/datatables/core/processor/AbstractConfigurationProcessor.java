@@ -37,14 +37,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.Extension;
+import com.github.dandelion.datatables.core.util.ProcessorUtils;
 
 /**
  * <p>
@@ -105,7 +104,8 @@ public abstract class AbstractConfigurationProcessor implements ConfigurationPro
 		// The value may contain a hash, indicating that one or more scope
 		// should be loaded in the current request
 		if (this.scopeUpdatable) {
-			processScope();
+			this.stringifiedValue = ProcessorUtils.getValueAfterProcessingScopes(this.stringifiedValue, request);
+			updateEntry(this.stringifiedValue);
 		}
 
 		doProcess();
@@ -130,7 +130,8 @@ public abstract class AbstractConfigurationProcessor implements ConfigurationPro
 		// The value may contain a hash, indicating that one or more scope
 		// should be loaded in the current request
 		if (this.scopeUpdatable) {
-			processScope();
+			this.stringifiedValue = ProcessorUtils.getValueAfterProcessingScopes(this.stringifiedValue, request);
+			updateEntry(this.stringifiedValue);
 		}
 
 		doProcess();
@@ -142,46 +143,6 @@ public abstract class AbstractConfigurationProcessor implements ConfigurationPro
 	 */
 	protected abstract void doProcess();
 	
-	/**
-	 * <p>
-	 * Some processors accept a special syntax, allowing to load one or more
-	 * Dandelion scopes in the current {@link HttpServletRequest}.
-	 * 
-	 * <p>
-	 * The syntax is as follows:<br />
-	 * {@code scopeNameToAdd[,anotherScopeName]#javascriptObject}.
-	 * 
-	 * @throws ConfigurationProcessingException
-	 *             if the passed value contains an incorrect format.
-	 */
-	private void processScope() {
-
-		// The value may contain a hash, indicating that one or more scope
-		// should be loaded in the current request
-		if (stringifiedValue.contains("#")) {
-			String[] splittedValue = stringifiedValue.split("#");
-			if (stringifiedValue.startsWith("#") || splittedValue.length != 2) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("Wrong format used in the attribute value. ");
-				sb.append("The right format is: 'scopeToAdd#javascriptObject'");
-				throw new ConfigurationProcessingException(sb.toString());
-			} else {
-				if (splittedValue[0].contains(",")) {
-					String[] splittedScopes = splittedValue[0].trim().split(",");
-					for (String scope : splittedScopes) {
-						AssetRequestContext.get(request).addScopes(scope.trim());
-					}
-				} else {
-					AssetRequestContext.get(request).addScopes(splittedValue[0].trim());
-				}
-
-				// Once the request updated with the scope(s), let's clean both
-				// the stringifiedValue and the entry
-				this.stringifiedValue = this.stringifiedValue.substring(this.stringifiedValue.indexOf("#") + 1);
-				updateEntry(this.stringifiedValue.substring(this.stringifiedValue.indexOf("#") + 1));
-			}
-		}
-	}
 
 	/**
 	 * <p>
