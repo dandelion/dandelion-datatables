@@ -33,7 +33,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * A column definition, containing different informations used when server-side
+ * A column definition, containing the different information used when server-side
  * processing is enabled.
  * 
  * @author Thibault Duchateau
