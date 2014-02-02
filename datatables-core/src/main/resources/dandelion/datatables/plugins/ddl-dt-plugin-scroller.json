@@ -3,19 +3,19 @@
     "parent": "datatables",
     "assets": [
         {
-            "name": "scroller",
-            "version": "1.1.0",
+            "name": "scroller-js",
+            "version": "1.2.0",
             "type": "js",
             "locations": {
-                "classpath": "datatables/plugins/scroller/scroller.min.js"
+                "classpath": "datatables/plugins/scroller/dataTables.scroller.js"
             }
         },
         {
-            "name": "scroller",
-            "version": "1.1.0",
+            "name": "scroller-css",
+            "version": "1.2.0",
             "type": "css",
             "locations": {
-                "classpath": "datatables/plugins/scroller/scroller.css"
+                "classpath": "datatables/plugins/scroller/dataTables.scroller.css"
             }
         }
     ]

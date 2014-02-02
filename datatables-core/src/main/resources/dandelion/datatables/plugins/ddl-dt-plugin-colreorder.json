@@ -3,19 +3,19 @@
     "parent": "datatables",
     "assets": [
         {
-            "name": "colreorder",
-            "version": "1.0.6",
+            "name": "colreorder-js",
+            "version": "1.1.0",
             "type": "js",
             "locations": {
-                "classpath": "datatables/plugins/colreorder/colreorder.min.js"
+                "classpath": "datatables/plugins/colreorder/dataTables.colReorder.js"
             }
         },
         {
-            "name": "colreorder",
-            "version": "1.0.6",
+            "name": "colreorder-css",
+            "version": "1.1.0",
             "type": "css",
             "locations": {
-                "classpath": "datatables/plugins/colreorder/colreorder.css"
+                "classpath": "datatables/plugins/colreorder/dataTables.colReorder.css"
             }
         }
     ]
