@@ -321,8 +321,7 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 		if (tableConfiguration.getMessages() != null && tableConfiguration.getMessages().size() > 0) {
 			for (Entry<Object, Object> entry : tableConfiguration.getMessages().entrySet()) {
 				for (DTMessages conf : DTMessages.values()) {
-					if (entry.getKey().equals(conf.getPropertyName())
-							&& StringUtils.isNotBlank(entry.getValue().toString())) {
+					if (entry.getKey().equals(conf.getPropertyName())) {
 						if (entry.getKey().toString().contains("paginate")) {
 							languagePaginateMap.put(conf.getRealName(), entry.getValue());
 						} else if (entry.getKey().toString().contains("aria")) {
