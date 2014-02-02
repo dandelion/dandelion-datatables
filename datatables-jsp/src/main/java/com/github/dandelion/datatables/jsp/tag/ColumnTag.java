@@ -287,6 +287,10 @@ public class ColumnTag extends AbstractColumnTag {
 		stagingConf.put(ColumnConfig.FILTERMINLENGTH, filterMinLength);
 	}
 	
+	public void setFilterDateFormat(String filterDateFormat) {
+		stagingConf.put(ColumnConfig.FILTERDATEFORMAT, filterDateFormat);
+	}
+	
 	public void setId(String id) {
 		stagingConf.put(ColumnConfig.ID, id);
 	}
