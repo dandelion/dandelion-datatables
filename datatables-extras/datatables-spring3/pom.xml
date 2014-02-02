@@ -11,7 +11,7 @@
    <artifactId>datatables-spring3</artifactId>
    <packaging>jar</packaging>
    <name>Dandelion :: Datatables :: Extras :: Spring3</name>
-   <description>Extra providing utilities when dealing with Spring 3.x</description>
+   <description>Extra providing utilities when dealing with Spring 3.x+.</description>
    
    <dependencies>
 
