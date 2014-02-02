@@ -170,18 +170,7 @@ public abstract class AbstractExtension implements Extension {
 	 *            The {@link Scope} to add.
 	 */
 	public void addScope(Scope scope) {
-		AssetRequestContext.get(table.getTableConfiguration().getRequest()).addScopes(scope.getScopeName());
-	}
-
-	/**
-	 * Updates the current {@link HttpServletRequest} with the passed
-	 * {@link Scope}.
-	 * 
-	 * @param scopeName
-	 *            The name of the {@link Scope} to add.
-	 */
-	public void addScope(String scopeName) {
-		AssetRequestContext.get(table.getTableConfiguration().getRequest()).addScopes(scopeName);
+		AssetRequestContext.get(table.getTableConfiguration().getRequest()).addScopes(scope);
 	}
 
 	public void addScopeParameter(String assetName, String paramName, Object paramValue) {

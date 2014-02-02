@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -235,8 +235,8 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 			// Scope update
 			AssetRequestContext
 					.get(request)
-					.addScopes(Scope.DDL_DT.getScopeName())
-					.addScopes(Scope.DATATABLES.getScopeName())
+					.addScopes(Scope.DDL_DT)
+					.addScopes(Scope.DATATABLES)
 					.addParameter("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM,
 							DatatablesConfigurator.getJavascriptGenerator(), false);
 
