@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.jsp.tag;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
@@ -36,6 +37,7 @@ import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
+import com.github.dandelion.datatables.core.util.ProcessorUtils;
 
 /**
  * <p>
@@ -67,7 +69,7 @@ import com.github.dandelion.datatables.core.callback.CallbackType;
  * @since 0.8.9
  */
 public class CallbackTag extends TagSupport {
-	
+
 	private static final long serialVersionUID = -3453884184847355817L;
 
 	/**
@@ -75,37 +77,44 @@ public class CallbackTag extends TagSupport {
 	 */
 	// Type of the callback
 	private String type;
-	
+
 	// Name of the function
 	private String function;
+
+	/**
+	 * Internal attributes
+	 */
+	private HttpServletRequest request;
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	public int doStartTag() throws JspException {
 
+		request = (HttpServletRequest) pageContext.getRequest();
 		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
-		if(parent != null){
+		if (parent != null) {
 			return SKIP_BODY;
 		}
-		
+
 		throw new JspException("The tag 'callback' must be inside the 'table' tag.");
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public int doEndTag() throws JspException {
-		
+
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
 		// The tag is evaluated only once, at the first iteration
-		if(parent.isFirstIteration()){
-			
+		if (parent.isFirstIteration()) {
+
 			CallbackType callbackType = null;
 			try {
 				callbackType = CallbackType.valueOf(this.type.toUpperCase().trim());
-			} catch (IllegalArgumentException e) {
+			}
+			catch (IllegalArgumentException e) {
 				StringBuilder sb = new StringBuilder();
 				sb.append("'");
 				sb.append(this.type);
@@ -113,26 +122,30 @@ public class CallbackTag extends TagSupport {
 				sb.append(EnumUtils.printPossibleValuesOf(CallbackType.class));
 				throw new JspException(sb.toString());
 			}
+
+			function = ProcessorUtils.getValueAfterProcessingScopes(function, request);
 			
 			// The callback has already been registered
-			if(parent.getTable().getTableConfiguration().hasCallback(callbackType)){
-				parent.getTable().getTableConfiguration().getCallback(callbackType)
-						.appendCode((callbackType.hasReturn() ? "return " : "") + function + "(" + StringUtils.join(callbackType.getArgs(), ",") + ");");
+			if (parent.getTable().getTableConfiguration().hasCallback(callbackType)) {
+				parent.getTable()
+						.getTableConfiguration()
+						.getCallback(callbackType)
+						.appendCode(
+								(callbackType.hasReturn() ? "return " : "") + function + "("
+										+ StringUtils.join(callbackType.getArgs(), ",") + ");");
 			}
 			// The callback hasn't been registered yet
-			else{
+			else {
 				parent.getTable()
 						.getTableConfiguration()
 						.registerCallback(
-								new Callback(callbackType, 
-										(callbackType.hasReturn() ? "return " : "") + function + "("
+								new Callback(callbackType, (callbackType.hasReturn() ? "return " : "") + function + "("
 										+ StringUtils.join(callbackType.getArgs(), ",") + ");"));
 			}
 		}
-		
+
 		return EVAL_PAGE;
 	}
-
 
 	public void setType(String type) {
 		this.type = type;
