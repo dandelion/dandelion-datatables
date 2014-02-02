@@ -1207,9 +1207,9 @@
       <documentation>
          <![CDATA[
             <p>The identifying character to be assigned to the HTML snippet.</p>
-            <p>Once the HTML snippet created, it must be activated thanks to the 'dom' table attribute.</p>
+            <p>Once the HTML snippet is created, it must be activated thanks to the 'dt:dom' table attribute.</p>
             <br/>
-            <p><b>WARNING! </b> Some characters are reserved by DataTables for internal features and possibly by DataTables' plugins. To avoid conflict, it is recommended to use a figure instead of a letter. If you use a letter, please make sure at least that it is lower cased to avoid conflict with plugins.</p>
+            <p><b>WARNING! </b> Some characters are reserved by DataTables for internal features and possibly by DataTables' plugins. To avoid conflicts, it is recommended to use a figure instead of a letter. If you use a letter, please make sure at least that it is lower cased to avoid any conflict with plugins.</p>
             <p>
             <ul>
             <li>Required: <b>no</b></li>
@@ -1531,6 +1531,25 @@
             <p>
             <ul>
             <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>n/a</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="filterDateFormat"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterDateFormatAttrProcessor">
+      <restrictions tags="th" attributes="dt:filterable dt:filterType"/>
+      <documentation>
+         <![CDATA[
+            <p>Date format to be applied to the datepicker when the filterType is set to "date_range".</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>Any combination of 'dd', 'd', 'mm', 'm', 'yyyy', 'yy' with '-', '/' or '.' as separator</b></li>
+            <li>Default: <b>'mm/dd/yyyy'</b></li>
             <li>Data source: <b>DOM / AJAX</b></li>
             <li>Configuration property: <b>n/a</b></li>
             </ul>
