@@ -90,15 +90,6 @@ public class TableTag extends AbstractTableTag {
 		
 		table = new HtmlTable(id, request, response, confGroup, dynamicAttributes);
 
-		// At this point, all setters have been called and the staging
-		// configuration map should have been filled with user configuration
-		// The user configuration can now be applied to the default
-		// configuration
-		TableConfig.applyConfiguration(stagingConf, table);
-		
-		// Once all configuration are merged, they can be processed
-		TableConfig.processConfiguration(table);
-		
 		// The table data are loaded using an AJAX source
 		if ("AJAX".equals(this.dataSourceType)) {
 
@@ -134,6 +125,15 @@ public class TableTag extends AbstractTableTag {
 	 */
 	public int doEndTag() throws JspException {
 
+		// At this point, all setters have been called and the staging
+		// configuration map should have been filled with user configuration
+		// The user configuration can now be applied to the default
+		// configuration
+		TableConfig.applyConfiguration(stagingConf, table);
+		
+		// Once all configuration are merged, they can be processed
+		TableConfig.processConfiguration(table);
+				
 		// The table is being exported
 		if (ExportUtils.isTableBeingExported(request, table)) {
 			return setupExport();

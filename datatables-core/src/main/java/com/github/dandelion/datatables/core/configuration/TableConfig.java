@@ -35,7 +35,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.extension.Extension;
@@ -366,13 +365,11 @@ public final class TableConfig {
 	 */
 	public static Map<ConfigToken<?>, Object> applyConfiguration(Map<ConfigToken<?>, Object> stagingConf,
 			HtmlTable table) {
-		
-		for(Entry<ConfigToken<?>, Object> stagingEntry : stagingConf.entrySet()){
-			if(StringUtils.isNotBlank(String.valueOf(stagingEntry.getValue()))){
-				table.getTableConfiguration().getConfigurations().put(stagingEntry.getKey(), stagingEntry.getValue());
-			}
+
+		for (Entry<ConfigToken<?>, Object> stagingEntry : stagingConf.entrySet()) {
+			table.getTableConfiguration().getConfigurations().put(stagingEntry.getKey(), stagingEntry.getValue());
 		}
-		
+
 		return stagingConf;
 	}
 	
