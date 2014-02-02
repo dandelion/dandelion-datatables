@@ -93,8 +93,8 @@ public final class ExportUtils {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		String exportClass = exportConf.getExportClass();
 
-		// Check that the class can be instantiated
-		if (!ClassUtils.canBeUsed(exportClass)) {
+		// Check whether the class can be instantiated
+		if (!ClassUtils.isPresent(exportClass)) {
 			throw new ExportException("Unable to export in " + exportConf.getFormat()
 					+ " format because the export class cannot be found. Did you forget to add an extra dependency?");
 		}

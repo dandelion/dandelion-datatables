@@ -82,7 +82,7 @@ public class ExportDelegate {
 		logger.debug("Selected export class: {}", exportClassName);
 
 		// Check that the class can be instantiated
-		if (!ClassUtils.canBeUsed(exportClassName)) {
+		if (!ClassUtils.isPresent(exportClassName)) {
 			logger.error("Did you forget to add an extra dependency?");
 			throw new ExportException("Unable to export in " + exportFormat.toString() + " format");
 		}
