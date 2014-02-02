@@ -4,7 +4,7 @@
     "assets": [
         {
             "name": "filtering-js",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "type": "js",
             "locations": {
                 "classpath": "datatables/features/filtering/filteringaddon.js"

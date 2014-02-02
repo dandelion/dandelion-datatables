@@ -1,6 +1,6 @@
 /*
 * File:        jquery.dataTables.columnFilter.js
-* Version:     1.6.0
+* Version:     1.6.1
 * Author:      Jovan Popovic 
 * Author:      Thibault Duchateau
 *  
@@ -274,7 +274,7 @@
             	from.attr('data-column-name', sName);
             }
             
-            from.datepicker({ format: sDateFormat });
+            from.datepicker({ format: sDateFormat, autoclose: true });
             //th.append(from);
             //th.append(_fnRangeLabelPart(1));
             var sToId = oTable.attr("id") + '_range_to_' + i;
@@ -302,7 +302,7 @@
             }
 
             th.wrapInner('<span class="filter_column filter_date_range" />');
-            to.datepicker({ format: sDateFormat });
+            to.datepicker({ format: sDateFormat, autoclose: true });
             var index = i;
             aiCustomSearch_Indexes.push(i);
 
