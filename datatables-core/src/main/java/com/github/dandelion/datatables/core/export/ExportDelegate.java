@@ -83,8 +83,13 @@ public class ExportDelegate {
 
 		// Check that the class can be instantiated
 		if (!ClassUtils.isPresent(exportClassName)) {
-			logger.error("Did you forget to add an extra dependency?");
-			throw new ExportException("Unable to export in " + exportFormat.toString() + " format");
+			StringBuilder sb = new StringBuilder("Unable to export in the ");
+			sb.append(exportFormat);
+			sb.append(" format because the export class ");
+			sb.append(exportClassName);
+			sb.append(" is not present in the classpath. ");
+			sb.append("Did you forget to add a dependency?");
+			throw new ExportException(sb.toString());
 		}
 
 		// Instantiates the export class and processes the export
