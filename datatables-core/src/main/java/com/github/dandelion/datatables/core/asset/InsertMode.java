@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.asset;
 
 /**
- * Enum containing the available insertion modes for an {@link ExtraFile}.
+ * Enum containing the available insertion modes for an {@link ExtraJs}.
  * 
  * @author Thibault Duchateau
  */

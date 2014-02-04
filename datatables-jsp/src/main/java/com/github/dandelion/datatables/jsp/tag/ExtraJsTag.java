@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,14 +29,17 @@
  */
 package com.github.dandelion.datatables.jsp.tag;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.asset.ExtraFile;
+import com.github.dandelion.datatables.core.asset.ExtraJs;
 import com.github.dandelion.datatables.core.asset.InsertMode;
-import com.github.dandelion.datatables.core.extension.feature.ExtraFileFeature;
+import com.github.dandelion.datatables.core.extension.feature.ExtraJsFeature;
 
 /**
  * <p>
@@ -61,14 +64,14 @@ import com.github.dandelion.datatables.core.extension.feature.ExtraFileFeature;
  * 
  * @author Thibault Duchateau
  */
-public class ExtraFileTag extends TagSupport {
+public class ExtraJsTag extends TagSupport {
 
 	private static final long serialVersionUID = -287813095911386884L;
 
 	/**
 	 * Tag attributes
 	 */
-	private String src;
+	private String scopes;
 	private String insert;
 
 	/**
@@ -77,11 +80,11 @@ public class ExtraFileTag extends TagSupport {
 	public int doStartTag() throws JspException {
 
 		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
-		if(parent != null){
+		if (parent != null) {
 			return SKIP_BODY;
 		}
 
-		throw new JspException("The tag 'extraFile' must be inside the 'table' tag.");
+		throw new JspException("The tag 'extraJs' must be inside the 'table' tag.");
 	}
 
 	/**
@@ -99,7 +102,8 @@ public class ExtraFileTag extends TagSupport {
 			if (StringUtils.isNotBlank(this.insert)) {
 				try {
 					mode = InsertMode.valueOf(this.insert.toUpperCase().trim());
-				} catch (IllegalArgumentException e) {
+				}
+				catch (IllegalArgumentException e) {
 					StringBuilder sb = new StringBuilder();
 					sb.append("'");
 					sb.append(this.insert);
@@ -107,29 +111,20 @@ public class ExtraFileTag extends TagSupport {
 					sb.append(EnumUtils.printPossibleValuesOf(InsertMode.class));
 					throw new JspException(sb.toString());
 				}
-			} else {
+			}
+			else {
 				mode = InsertMode.BEFOREALL;
 			}
 
-			parent.getTable().getTableConfiguration().addExtraFile(new ExtraFile(getRealSource(this.src), mode));
-			parent.getTable().getTableConfiguration().registerExtension(new ExtraFileFeature());
+			parent.getTable().getTableConfiguration()
+					.addExtraJs(new ExtraJs(new HashSet<String>(Arrays.asList(this.scopes.split(","))), mode));
+			parent.getTable().getTableConfiguration().registerExtension(new ExtraJsFeature());
 		}
 		return EVAL_PAGE;
 	}
 
-	/**
-	 * Gets the real path corresponding to the given path.
-	 * 
-	 * @param virtualPath
-	 *            The virtual path pointed by the src attribute.
-	 * @return the corresponding real path.
-	 */
-	private String getRealSource(String virtualPath) {
-		return pageContext.getServletContext().getRealPath(virtualPath);
-	}
-
-	public void setSrc(String src) {
-		this.src = src;
+	public void setScopes(String scopes) {
+		this.scopes = scopes;
 	}
 
 	public void setInsert(String insert) {

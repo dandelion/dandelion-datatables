@@ -29,30 +29,31 @@
  */
 package com.github.dandelion.datatables.core.asset;
 
-import com.github.dandelion.datatables.core.configuration.Scope;
+import java.util.Set;
 
 /**
- * Bean encapsulating extra Javascript code to be inserted in the file generated
- * by Dandelion-Datatables and pointed by the scope {@link Scope#DDL_DT}.
+ * POJO used to wrap a set of scopes to be inserted in the generated DataTable
+ * configuration..
  * 
  * @author Thibault Duchateau
+ * @since 0.10.0
  */
-public class ExtraFile {
+public class ExtraJs {
 
-	private String src;
+	private Set<String> scopes;
 	private InsertMode insert;
 
-	public ExtraFile(String src, InsertMode insert) {
-		this.src = src;
+	public ExtraJs(Set<String> scopes, InsertMode insert) {
+		this.scopes = scopes;
 		this.insert = insert;
 	}
 
-	public String getSrc() {
-		return src;
+	public Set<String> getScopes() {
+		return scopes;
 	}
 
-	public void setSrc(String src) {
-		this.src = src;
+	public void setScopes(Set<String> scopes) {
+		this.scopes = scopes;
 	}
 
 	public InsertMode getInsert() {

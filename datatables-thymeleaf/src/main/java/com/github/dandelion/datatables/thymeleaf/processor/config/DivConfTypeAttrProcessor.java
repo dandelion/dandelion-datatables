@@ -30,9 +30,12 @@
 package com.github.dandelion.datatables.thymeleaf.processor.config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
@@ -43,7 +46,7 @@ import org.thymeleaf.util.DOMUtils;
 import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.asset.ExtraFile;
+import com.github.dandelion.datatables.core.asset.ExtraJs;
 import com.github.dandelion.datatables.core.asset.InsertMode;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
@@ -56,6 +59,7 @@ import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.export.HttpMethod;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
+import com.github.dandelion.datatables.core.util.ProcessorUtils;
 import com.github.dandelion.datatables.core.util.UrlUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractConfigAttrProcessor;
@@ -74,7 +78,7 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
  * <li>A {@link Callback}, using {@code dt:confType="callback"}</li>
  * <li>An export configuration ({@link ExportConf}), using
  * {@code dt:confType="export"}</li>
- * <li>An {@link ExtraFile}, using {@code dt:confType="extrafile"}</li>
+ * <li>An {@link ExtraJs}, using {@code dt:confType="extrajs"}</li>
  * <li>A configuration property, using {@code dt:confType="property"}</li>
  * <li>An extra HTML snippet, using {@code dt:confType="extrahtml"}</li>
  * </ul>
@@ -123,8 +127,8 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 		case EXPORT:
 			processExportAttributes(element);
 			break;
-		case EXTRAFILE:
-			processExtrafileAttributes(element);
+		case EXTRAJS:
+			processExtraJsAttributes(element);
 			break;
 		case PROPERTY:
 			processPropertyAttributes(element);
@@ -352,6 +356,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 			if (hasAttribute(element, "function")) {
 
 				String functionStr = getStringValue(element, "function");
+				functionStr = ProcessorUtils.getValueAfterProcessingScopes(functionStr, request);
 				CallbackType callbackType = null;
 				try {
 					callbackType = CallbackType.valueOf(typeStr.toUpperCase().trim());
@@ -393,18 +398,18 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 	}
 
 	/**
-	 * Processes attributes in order to build an instance of {@link ExtraFile}.
+	 * Processes attributes in order to build an instance of {@link ExtraJs}.
 	 * 
 	 * @param element
 	 *            The {@code div} element which holds the attribute.
 	 */
 	@SuppressWarnings("unchecked")
-	private void processExtrafileAttributes(Element element) {
+	private void processExtraJsAttributes(Element element) {
 
-		if (hasAttribute(element, "src")) {
+		if (hasAttribute(element, "scopes")) {
 
-			String src = AttributeUtils.parseStringAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX
-					+ ":src");
+			String scopes = AttributeUtils.parseStringAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX
+					+ ":scopes");
 			InsertMode insertMode = null;
 
 			if (hasAttribute(element, "insert")) {
@@ -423,18 +428,20 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 				insertMode = InsertMode.BEFOREALL;
 			}
 
-			if (configs.get(currentTableId).containsKey(ConfType.EXTRAFILE)) {
-				((List<ExtraFile>) configs.get(currentTableId).get(ConfType.EXTRAFILE)).add(new ExtraFile(src,
+			Set<String> scopeSet = new HashSet<String>(Arrays.asList(scopes.split(",")));
+			if (configs.get(currentTableId).containsKey(ConfType.EXTRAJS)) {
+				((Set<ExtraJs>) configs.get(currentTableId).get(ConfType.EXTRAJS)).add(new ExtraJs(scopeSet,
 						insertMode));
-			} else {
-				List<ExtraFile> extraFiles = new ArrayList<ExtraFile>();
-				extraFiles.add(new ExtraFile(src, insertMode));
-				configs.get(currentTableId).put(ConfType.EXTRAFILE, extraFiles);
+			}
+			else {
+				Set<ExtraJs> extraFiles = new HashSet<ExtraJs>();
+				extraFiles.add(new ExtraJs(scopeSet, insertMode));
+				configs.get(currentTableId).put(ConfType.EXTRAJS, extraFiles);
 
 			}
 		} else {
 			throw new ConfigurationProcessingException(
-					"The attribute 'dt:src' is required when defining an extra file.");
+					"The attribute 'dt:scopes' is required when defining an extra JavaScript.");
 		}
 	}
 

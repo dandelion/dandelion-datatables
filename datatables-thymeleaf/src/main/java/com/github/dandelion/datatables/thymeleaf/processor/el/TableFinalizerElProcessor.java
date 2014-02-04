@@ -31,6 +31,7 @@ package com.github.dandelion.datatables.thymeleaf.processor.el;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,7 +47,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.core.asset.wrapper.impl.DelegatedLocationWrapper;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.asset.ExtraFile;
+import com.github.dandelion.datatables.core.asset.ExtraJs;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
@@ -57,8 +58,8 @@ import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportUtils;
-import com.github.dandelion.datatables.core.extension.feature.ExtraFileFeature;
 import com.github.dandelion.datatables.core.extension.feature.ExtraHtmlFeature;
+import com.github.dandelion.datatables.core.extension.feature.ExtraJsFeature;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
 import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
@@ -149,11 +150,11 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 					table.getTableConfiguration().setCallbacks(callbacks);
 				}
 				
-				// Extrafile
-				List<ExtraFile> extraFiles = (List<ExtraFile>) configs.get(table.getId()).get(ConfType.EXTRAFILE);
-				if(extraFiles != null && !extraFiles.isEmpty()){
-					table.getTableConfiguration().setExtraFiles(extraFiles);
-					table.getTableConfiguration().registerExtension(new ExtraFileFeature());
+				// ExtraJs
+				Set<ExtraJs> extraJs = (Set<ExtraJs>) configs.get(table.getId()).get(ConfType.EXTRAJS);
+				if(extraJs != null && !extraJs.isEmpty()){
+					table.getTableConfiguration().setExtraJs(extraJs);
+					table.getTableConfiguration().registerExtension(new ExtraJsFeature());
 				}
 				
 				// ExtraHtml

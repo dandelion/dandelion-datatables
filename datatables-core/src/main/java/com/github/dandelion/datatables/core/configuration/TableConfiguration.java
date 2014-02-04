@@ -41,7 +41,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.github.dandelion.datatables.core.asset.ExtraFile;
+import com.github.dandelion.datatables.core.asset.ExtraJs;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.export.ExportConf;
@@ -63,7 +63,7 @@ public class TableConfiguration {
 	private Map<String, ExportConf> exportConfiguration;
 
 	// Dandelion-Datatables parameters
-	private List<ExtraFile> extraFiles;
+	private Set<ExtraJs> extraJs;
 	private List<Callback> extraCallbacks;
 	private List<ExtraHtml> extraHtmlSnippets;
 
@@ -150,7 +150,7 @@ public class TableConfiguration {
 		this.exportConfiguration = objectToClone.exportConfiguration;
 
 		// Dandelion-Datatables parameters
-		this.extraFiles = objectToClone.extraFiles;
+		this.extraJs = objectToClone.extraJs;
 		this.extraCallbacks = objectToClone.extraCallbacks;
 		this.extraHtmlSnippets = objectToClone.extraHtmlSnippets;
 
@@ -200,20 +200,20 @@ public class TableConfiguration {
 		return this;
 	}
 
-	public List<ExtraFile> getExtraFiles() {
-		return extraFiles;
+	public Set<ExtraJs> getExtraJs() {
+		return extraJs;
 	}
 
-	public TableConfiguration addExtraFile(ExtraFile extraFile) {
-		if (this.extraFiles == null) {
-			this.extraFiles = new ArrayList<ExtraFile>();
+	public TableConfiguration addExtraJs(ExtraJs extraJs) {
+		if (this.extraJs == null) {
+			this.extraJs = new HashSet<ExtraJs>();
 		}
-		this.extraFiles.add(extraFile);
+		this.extraJs.add(extraJs);
 		return this;
 	}
 
-	public void setExtraFiles(List<ExtraFile> extraFiles) {
-		this.extraFiles = extraFiles;
+	public void setExtraJs(Set<ExtraJs> extraJs) {
+		this.extraJs = extraJs;
 	}
 
 	public Set<Extension> getInternalExtensions() {
