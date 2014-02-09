@@ -29,7 +29,8 @@
  */
 package com.github.dandelion.datatables.core.callback;
 
-import static com.github.dandelion.datatables.core.util.JavascriptUtils.*;
+import static com.github.dandelion.datatables.core.util.JavascriptUtils.INDENT;
+import static com.github.dandelion.datatables.core.util.JavascriptUtils.NEWLINE;
 
 import java.util.List;
 

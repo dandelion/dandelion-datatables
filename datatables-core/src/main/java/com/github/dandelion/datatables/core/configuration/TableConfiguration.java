@@ -65,7 +65,7 @@ public class TableConfiguration {
 	// Dandelion-Datatables parameters
 	private Set<ExtraJs> extraJs;
 	private List<Callback> extraCallbacks;
-	private List<ExtraHtml> extraHtmlSnippets;
+	private List<ExtraHtml> extraHtmls;
 
 	// Export parameters
 	private Boolean exporting;
@@ -152,7 +152,7 @@ public class TableConfiguration {
 		// Dandelion-Datatables parameters
 		this.extraJs = objectToClone.extraJs;
 		this.extraCallbacks = objectToClone.extraCallbacks;
-		this.extraHtmlSnippets = objectToClone.extraHtmlSnippets;
+		this.extraHtmls = objectToClone.extraHtmls;
 
 		// Export parameters
 		this.exporting = objectToClone.exporting;
@@ -342,18 +342,18 @@ public class TableConfiguration {
 	}
 
 	public List<ExtraHtml> getExtraHtmlSnippets() {
-		return extraHtmlSnippets;
+		return extraHtmls;
 	}
 
 	public void setExtraHtmlSnippets(List<ExtraHtml> linkGroups) {
-		this.extraHtmlSnippets = linkGroups;
+		this.extraHtmls = linkGroups;
 	}
 
 	public void addExtraHtmlSnippet(ExtraHtml extraHtml) {
-		if (extraHtmlSnippets == null) {
-			extraHtmlSnippets = new ArrayList<ExtraHtml>();
+		if (extraHtmls == null) {
+			extraHtmls = new ArrayList<ExtraHtml>();
 		}
-		extraHtmlSnippets.add(extraHtml);
+		extraHtmls.add(extraHtml);
 	}
 
 	public String getCurrentExportFormat() {

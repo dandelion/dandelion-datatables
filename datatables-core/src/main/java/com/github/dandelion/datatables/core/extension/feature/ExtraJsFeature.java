@@ -39,8 +39,8 @@ import javax.servlet.http.HttpServletRequest;
 import com.github.dandelion.core.asset.Asset;
 import com.github.dandelion.core.asset.AssetStack;
 import com.github.dandelion.core.asset.AssetType;
-import com.github.dandelion.core.asset.processor.impl.AssetLocationProcessorEntry;
-import com.github.dandelion.core.asset.processor.spi.AssetProcessorEntry;
+import com.github.dandelion.core.asset.processor.impl.AssetLocationProcessor;
+import com.github.dandelion.core.asset.processor.spi.AssetProcessor;
 import com.github.dandelion.core.asset.wrapper.spi.AssetLocationWrapper;
 import com.github.dandelion.core.utils.ResourceUtils;
 import com.github.dandelion.datatables.core.asset.ExtraJs;
@@ -57,7 +57,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class ExtraJsFeature extends AbstractExtension {
 
-	AssetProcessorEntry assetLocationProcessorEntry = new AssetLocationProcessorEntry();
+	AssetProcessor assetLocationProcessorEntry = new AssetLocationProcessor();
 
 	@Override
 	public String getName() {
@@ -75,7 +75,7 @@ public class ExtraJsFeature extends AbstractExtension {
 			List<Asset> jsAssets = AssetStack.filterByType(assets, AssetType.js);
 			List<Asset> processedAssets = assetLocationProcessorEntry.process(jsAssets, request);
 
-			Map<String, AssetLocationWrapper> wrappers = AssetStack.getAssetsLocationWrappers();
+			Map<String, AssetLocationWrapper> wrappers = AssetStack.getAssetLocationWrappers();
 
 			for (Asset asset : processedAssets) {
 				for (Map.Entry<String, String> location : asset.getLocations().entrySet()) {
