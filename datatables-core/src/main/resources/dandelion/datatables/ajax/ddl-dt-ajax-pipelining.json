@@ -7,7 +7,7 @@
             "version": "1.0.0",
             "type": "js",
             "locations": {
-                "template": "datatables/ajax/pipelining.js"
+                "templated" : "datatables/ajax/pipelining.js"
             }
         }
     ]
