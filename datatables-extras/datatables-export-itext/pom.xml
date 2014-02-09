@@ -33,7 +33,6 @@
       <dependency>
          <groupId>com.itextpdf</groupId>
          <artifactId>itextpdf</artifactId>
-         <scope>provided</scope>
       </dependency>
       
    </dependencies>

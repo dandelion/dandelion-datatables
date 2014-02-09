@@ -25,7 +25,6 @@
       <dependency>
          <groupId>org.apache.poi</groupId>
          <artifactId>poi</artifactId>
-         <scope>provided</scope>
       </dependency>
       
    </dependencies>
