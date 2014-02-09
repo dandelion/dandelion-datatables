@@ -27,44 +27,40 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.processor.export;
+package com.github.dandelion.datatables.thymeleaf.processor.attr;
 
-import java.util.HashSet;
-import java.util.Set;
+import org.thymeleaf.Arguments;
+import org.thymeleaf.dom.Element;
+import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
-import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.export.ExportLinkPosition;
-import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
+/**
+ * Attribute processor applied to the {@code table} tag for the
+ * {@link TableConfig#EXPORT_CONTAINER_CLASS} configuration.
+ * 
+ * @author Thibault Duchateau
+ * @since 0.10.0
+ */
+public class TableExportContainerClassAttrProcessor extends AbstractTableAttrProcessor {
 
-public class ExportLinkPositionsProcessor extends AbstractConfigurationProcessor {
-
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ExportLinkPositionsProcessor.class);
+	public TableExportContainerClassAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+		super(matcher);
+	}
 
 	@Override
-	public void doProcess() {
+	public int getPrecedence() {
+		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
+	}
 
-		Set<ExportLinkPosition> retval = new HashSet<ExportLinkPosition>();
+	@Override
+	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName) {
 
-		if (StringUtils.isNotBlank(stringifiedValue)) {
+		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-			String[] positions = stringifiedValue.split(",");
-
-			for (String position : positions) {
-				try {
-					retval.add(ExportLinkPosition.valueOf(position.toUpperCase().trim()));
-				} catch (IllegalArgumentException e) {
-					logger.error("The export cannot be activated for the table {}. ", tableConfiguration.getTableId());
-					logger.error("{} is not a valid value among {}", position, ExportLinkPosition.values());
-					throw new ConfigurationProcessingException(e);
-				}
-			}
-		}
-
-		updateEntry(retval);
+		stagingConf.put(TableConfig.EXPORT_CONTAINER_CLASS, attrValue);
 	}
 }

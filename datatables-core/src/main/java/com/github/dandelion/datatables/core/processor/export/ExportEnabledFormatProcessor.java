@@ -29,14 +29,9 @@
  */
 package com.github.dandelion.datatables.core.processor.export;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.extension.feature.ExportFeature;
 import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
@@ -86,13 +81,6 @@ public class ExportEnabledFormatProcessor extends AbstractConfigurationProcessor
 					
 					tableConfiguration.getExportConfiguration().put(enabledFormat, exportConf);
 				} 
-			}
-
-			// Apply default export link position if nothing is already
-			// configured
-			if(!isTableEntryPresent(TableConfig.EXPORT_LINK_POSITIONS)){
-				addTableEntry(TableConfig.EXPORT_LINK_POSITIONS, new HashSet<ExportLinkPosition>(
-						Arrays.asList(ExportLinkPosition.TOP_RIGHT)));
 			}
 
 			registerExtension(new ExportFeature());

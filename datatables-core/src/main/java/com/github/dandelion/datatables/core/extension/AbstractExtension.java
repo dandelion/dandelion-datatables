@@ -42,6 +42,7 @@ import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.generator.configuration.AbstractConfigurationGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -55,7 +56,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * <li>bufferize Javascript code before flushing it in the final
  * {@link JsResource}</li>
  * <li>add some {@link Parameter} to the generated DataTables configuration</li>
- * <li>add some {@link Scope} to the current request</li>
+ * <li>add some scopes to the current request</li>
  * <li>add some {@link Callback} to the generated DataTables configuration</li>
  * </ul>
  * 
@@ -267,6 +268,16 @@ public abstract class AbstractExtension implements Extension {
 
 	public Map<String, String> getDynamicAttributes() {
 		return this.table.getDynamicAttributes();
+	}
+
+	public boolean isEnabled(ConfigToken<Boolean> configToken){
+		Boolean result = configToken.valueFrom(table.getTableConfiguration());
+		return result == null || true;
+	}
+	
+	public boolean isNotNull(ConfigToken<?> configToken){
+		Object result = configToken.valueFrom(table.getTableConfiguration());
+		return result != null;
 	}
 	
 	@Override

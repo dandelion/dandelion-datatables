@@ -29,7 +29,6 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
@@ -37,6 +36,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * TODO
+ * 
  * @author Thibault Duchateau
  * @since 0.10.0
  */
@@ -49,31 +49,11 @@ public class ExtraHtmlFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		for(ExtraHtml group : table.getTableConfiguration().getExtraHtmlSnippets()){
-			StringBuilder jsGroup = new StringBuilder();
-
-			jsGroup.append("$.fn.dataTableExt.aoFeatures.push({");
-			jsGroup.append("\"fnInit\": function( oDTSettings ){");
-			jsGroup.append("var container = document.createElement('" + group.getContainer() + "');");
-			
-			if(StringUtils.isNotBlank(group.getCssClass())){
-				jsGroup.append("$(container).attr('class', '" + group.getCssClass() + "');");
-			}
-			if(StringUtils.isNotBlank(group.getCssStyle())){
-				jsGroup.append("$(container).attr('style', '" + group.getCssStyle() + "');");
-			}
-			
-			jsGroup.append("$(container).html('" + group.getContent().replaceAll("'", "&quot;") + "');");
-			jsGroup.append("return container;");
-			jsGroup.append("},");
-			jsGroup.append("\"cFeature\": \"" + group.getUid() + "\",");
-			jsGroup.append("\"sFeature\": \"" + "Group" + group.getUid() + "\"");
-			jsGroup.append("} );");
-			
+		for (ExtraHtml group : table.getTableConfiguration().getExtraHtmlSnippets()) {
+			StringBuilder js = group.getJavascript();
 			appendToAfterStartDocumentReady(JavascriptGenerator.INDENTATION);
-			appendToAfterStartDocumentReady(jsGroup.toString());
+			appendToAfterStartDocumentReady(js.toString());
 			appendToAfterStartDocumentReady(JavascriptGenerator.NEWLINE);
-		}	
+		}
 	}
-
 }

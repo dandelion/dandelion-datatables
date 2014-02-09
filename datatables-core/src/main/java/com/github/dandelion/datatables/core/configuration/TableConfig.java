@@ -36,7 +36,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
@@ -59,7 +58,6 @@ import com.github.dandelion.datatables.core.processor.css.CssThemeOptionProcesso
 import com.github.dandelion.datatables.core.processor.css.CssThemeProcessor;
 import com.github.dandelion.datatables.core.processor.export.ExportEnabledFormatProcessor;
 import com.github.dandelion.datatables.core.processor.export.ExportFormatProcessor;
-import com.github.dandelion.datatables.core.processor.export.ExportLinkPositionsProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeatureAppearProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeatureFilterPlaceholderProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeatureFilterSelectorProcessor;
@@ -133,6 +131,8 @@ public final class TableConfig {
 	
 	public static final String P_EXPORT_ENABLED_FORMATS = "export.enabled.formats";
 	public static final String P_EXPORT_LINK_POSITIONS = "export.link.positions";
+	public static final String P_EXPORT_CONTAINER_STYLE = "export.container.style";
+	public static final String P_EXPORT_CONTAINER_CLASS = "export.container.class";
 	
 	public static final String P_I18N_MESSAGE_RESOLVER = "i18n.message.resolver";
 	public static final String P_I18N_LOCALE_RESOLVER = "i18n.locale.resolver";
@@ -204,7 +204,8 @@ public final class TableConfig {
 	public static ConfigToken<Integer> PLUGIN_FIXEDOFFSETTOP = new ConfigToken<Integer>(P_PLUGIN_FIXEDOFFSETTOP, new IntegerProcessor());
 	
 	public static ConfigToken<Set<ExportConf>> EXPORT_ENABLED_FORMATS = new ConfigToken<Set<ExportConf>>(P_EXPORT_ENABLED_FORMATS, new ExportEnabledFormatProcessor());
-	public static ConfigToken<Set<ExportLinkPosition>> EXPORT_LINK_POSITIONS = new ConfigToken<Set<ExportLinkPosition>>(P_EXPORT_LINK_POSITIONS, new ExportLinkPositionsProcessor());
+	public static ConfigToken<String> EXPORT_CONTAINER_STYLE = new ConfigToken<String>(P_EXPORT_CONTAINER_STYLE, new StringProcessor());
+	public static ConfigToken<String> EXPORT_CONTAINER_CLASS = new ConfigToken<String>(P_EXPORT_CONTAINER_CLASS, new StringProcessor());
 	public static ConfigToken<String> EXPORT_CLASS = new ConfigToken<String>(ExportFormatProcessor.REGEX_EXPORT_CLASS, new ExportFormatProcessor());
 	public static ConfigToken<String> EXPORT_LABEL = new ConfigToken<String>(ExportFormatProcessor.REGEX_EXPORT_LABEL, new ExportFormatProcessor());
 	public static ConfigToken<String> EXPORT_FILENAME = new ConfigToken<String>(ExportFormatProcessor.REGEX_EXPORT_FILENAME, new ExportFormatProcessor());
@@ -283,7 +284,8 @@ public final class TableConfig {
 		internalConf.put(formalize(P_PLUGIN_FIXEDOFFSETTOP), PLUGIN_FIXEDOFFSETTOP);
 		
 		internalConf.put(formalize(P_EXPORT_ENABLED_FORMATS), EXPORT_ENABLED_FORMATS);
-		internalConf.put(formalize(P_EXPORT_LINK_POSITIONS), EXPORT_LINK_POSITIONS);
+		internalConf.put(formalize(P_EXPORT_CONTAINER_STYLE), EXPORT_CONTAINER_STYLE);
+		internalConf.put(formalize(P_EXPORT_CONTAINER_CLASS), EXPORT_CONTAINER_CLASS);
 		internalConf.put(formalize(ExportFormatProcessor.REGEX_EXPORT_CLASS), EXPORT_CLASS);
 		internalConf.put(formalize(ExportFormatProcessor.REGEX_EXPORT_LABEL), EXPORT_LABEL);
 		internalConf.put(formalize(ExportFormatProcessor.REGEX_EXPORT_FILENAME), EXPORT_FILENAME);
@@ -367,6 +369,7 @@ public final class TableConfig {
 			HtmlTable table) {
 
 		for (Entry<ConfigToken<?>, Object> stagingEntry : stagingConf.entrySet()) {
+
 			table.getTableConfiguration().getConfigurations().put(stagingEntry.getKey(), stagingEntry.getValue());
 		}
 

@@ -265,6 +265,14 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(TableConfig.EXPORT_ENABLED_FORMATS, export);
 	}
 
+	public void setExportStyle(String exportContainerStyle) {
+		stagingConf.put(TableConfig.EXPORT_CONTAINER_STYLE, exportContainerStyle);
+	}
+	
+	public void setExportClass(String exportContainerClass) {
+		stagingConf.put(TableConfig.EXPORT_CONTAINER_CLASS, exportContainerClass);
+	}
+	
 	public void setJqueryUI(String jqueryUI) {
 		stagingConf.put(TableConfig.FEATURE_JQUERYUI, jqueryUI);
 	}
@@ -285,10 +293,6 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(TableConfig.AJAX_RELOAD_FUNCTION, reloadFunction);
 	}
 	
-	public void setExportLinks(String exportLinks) {
-		stagingConf.put(TableConfig.EXPORT_LINK_POSITIONS, exportLinks);
-	}
-
 	public void setTheme(String theme) {
 		stagingConf.put(TableConfig.CSS_THEME, theme);
 	}

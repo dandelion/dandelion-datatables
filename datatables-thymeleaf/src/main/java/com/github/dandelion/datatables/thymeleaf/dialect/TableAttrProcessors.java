@@ -42,7 +42,8 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TableDeferRender
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableDisplayLengthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableDomAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportLinksAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportContainerClassAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportContainerStyleAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterClearSelectorAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterDelayAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterPlaceholderAttrProcessor;
@@ -117,7 +118,8 @@ public enum TableAttrProcessors {
     // Feature processors
     FEATURE_CUSTOM_EXTENSIONS(TableCustomExtensionsProcessor.class, "ext", "table"),
     FEATURE_EXPORT(TableExportAttrProcessor.class, "export", "table"),
-    FEATURE_EXPORT_LINKS(TableExportLinksAttrProcessor.class, "exportLinks", "table"),
+    FEATURE_EXPORT_CONTAINER_STYLE(TableExportContainerStyleAttrProcessor.class, "exportStyle", "table"),
+    FEATURE_EXPORT_CONTAINER_CLASS(TableExportContainerClassAttrProcessor.class, "exportClass", "table"),
 
     // AJAX processors
     AJAX_URL(TableUrlAttrProcessor.class, "url", "table"),

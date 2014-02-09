@@ -40,13 +40,14 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
  * Attribute processor applied to the {@code table} tag for the
- * {@link TableConfig#EXPORT_LINK_POSITIONS} configuration.
+ * {@link TableConfig#EXPORT_CONTAINER_STYLE} configuration.
  * 
  * @author Thibault Duchateau
+ * @since 0.10.0
  */
-public class TableExportLinksAttrProcessor extends AbstractTableAttrProcessor {
+public class TableExportContainerStyleAttrProcessor extends AbstractTableAttrProcessor {
 
-	public TableExportLinksAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	public TableExportContainerStyleAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
@@ -60,6 +61,6 @@ public class TableExportLinksAttrProcessor extends AbstractTableAttrProcessor {
 
 		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-		stagingConf.put(TableConfig.EXPORT_LINK_POSITIONS, attrValue);
+		stagingConf.put(TableConfig.EXPORT_CONTAINER_STYLE, attrValue);
 	}
 }

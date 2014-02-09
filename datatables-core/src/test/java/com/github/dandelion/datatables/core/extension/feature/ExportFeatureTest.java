@@ -8,11 +8,10 @@ import java.util.HashSet;
 import org.junit.Test;
 
 import com.github.dandelion.core.asset.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.HttpMethod;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
@@ -30,14 +29,11 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		exportConf.setUrl("/myExportUrl");
 		exportConf.setLabel("CSV");
 		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
-		table.getTableConfiguration().set(TableConfig.EXPORT_LINK_POSITIONS,
-				new HashSet<ExportLinkPosition>(Arrays.asList(ExportLinkPosition.TOP_RIGHT)));
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 
 		assertThat(exportFeature.getBeforeAll()).isNull();
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).isEmpty();
-		assertThat(mainConfig.get(CallbackType.INIT.getName()).toString())
-			.isEqualTo("function(oSettings,json) {\n      $('#fakeId_wrapper').prepend('<div class=\"dandelion_dataTables_export\" style=\"float:right;\"><a style=\"margin-left:2px;\" href=\"/myExportUrl\">CSV</a></div>');\n\n   }");
+		assertThat(mainConfig.get(DTConstants.DT_DOM)).isEqualTo("lEfrtip");
 	}
 	
 	@Test
@@ -50,8 +46,6 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		exportConf.setUrl("/myExportUrl");
 		exportConf.setLabel("CSV");
 		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
-		table.getTableConfiguration().set(TableConfig.EXPORT_LINK_POSITIONS,
-				new HashSet<ExportLinkPosition>(Arrays.asList(ExportLinkPosition.TOP_RIGHT)));
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).isEmpty();
@@ -68,8 +62,6 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		exportConf.setUrl("/myExportUrl?existingParam=val");
 		exportConf.setLabel("CSV");
 		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
-		table.getTableConfiguration().set(TableConfig.EXPORT_LINK_POSITIONS,
-				new HashSet<ExportLinkPosition>(Arrays.asList(ExportLinkPosition.TOP_RIGHT)));
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).isEmpty();
@@ -87,8 +79,6 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		exportConf.setMethod(HttpMethod.POST);
 		exportConf.setLabel("CSV");
 		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
-		table.getTableConfiguration().set(TableConfig.EXPORT_LINK_POSITIONS,
-				new HashSet<ExportLinkPosition>(Arrays.asList(ExportLinkPosition.TOP_RIGHT)));
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).contains(Scope.DDL_DT_EXPORT.getScopeName());
@@ -106,8 +96,6 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		exportConf.setLabel("CSV");
 		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
 		table.getTableConfiguration().set(TableConfig.AJAX_SERVERPARAM, "param1=val1&param2=val2");
-		table.getTableConfiguration().set(TableConfig.EXPORT_LINK_POSITIONS,
-				new HashSet<ExportLinkPosition>(Arrays.asList(ExportLinkPosition.TOP_RIGHT)));
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).isEmpty();
@@ -125,8 +113,6 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		exportConf.setLabel("CSV");
 		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
 		table.getTableConfiguration().set(TableConfig.AJAX_SERVERPARAM, "param1=val1&param2=val2");
-		table.getTableConfiguration().set(TableConfig.EXPORT_LINK_POSITIONS,
-				new HashSet<ExportLinkPosition>(Arrays.asList(ExportLinkPosition.TOP_RIGHT)));
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).isEmpty();
@@ -145,8 +131,6 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		exportConf.setLabel("CSV");
 		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
 		table.getTableConfiguration().set(TableConfig.AJAX_SERVERPARAM, "param1=val1&param2=val2");
-		table.getTableConfiguration().set(TableConfig.EXPORT_LINK_POSITIONS,
-				new HashSet<ExportLinkPosition>(Arrays.asList(ExportLinkPosition.TOP_RIGHT)));
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).contains(Scope.DDL_DT_EXPORT.getScopeName());

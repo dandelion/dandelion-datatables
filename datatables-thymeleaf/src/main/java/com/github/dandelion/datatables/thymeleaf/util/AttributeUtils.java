@@ -39,7 +39,6 @@ import org.thymeleaf.standard.expression.IStandardExpressionParser;
 import org.thymeleaf.standard.expression.StandardExpressions;
 
 import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
-import com.github.dandelion.datatables.core.export.ExportLinkPosition;
 import com.github.dandelion.datatables.core.export.HttpMethod;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
@@ -62,7 +61,6 @@ public class AttributeUtils {
 
 	static {
 		stringRegex = generateStringRegexFromEnumerations(
-				ExportLinkPosition.class, 
 				SortDirection.class, 
 				Theme.class,
 				ThemeOption.class, 

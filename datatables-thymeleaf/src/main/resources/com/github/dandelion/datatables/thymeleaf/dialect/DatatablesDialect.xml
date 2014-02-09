@@ -436,28 +436,34 @@
       </documentation>
    </attribute-processor>
    
-   <attribute-processor name="exportLinks"
-      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportLinksAttrProcessor">
+   <attribute-processor name="exportStyle"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportContainerStyleAttrProcessor">
       <restrictions tags="table" attributes="dt:table dt:export"/>
       <documentation>
          <![CDATA[
-            <p>Comma-separated list of positions where the export links will be added, depending on the current value of the 'export' attribute.</p>
+            <p>CSS style to be applied to the container used for export links.</p>
             <p>
             <ul>
             <li>Required: <b>no</b></li>
-            <li>Possible values: 
-               <b>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top_right</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top_middle</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top_left</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottom_right</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottom_middle</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottom_left</p>
-            </b>
-            </li>
-            <li>Default: <b>top_right</b></li>
             <li>Data source: <b>DOM / AJAX</b></li>
-            <li>Configuration property: <b>export.link.positions</b></li>
+            <li>Configuration property: <b>export.container.style</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
+   
+   <attribute-processor name="exportClass"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportContainerClassAttrProcessor">
+      <restrictions tags="table" attributes="dt:table dt:export"/>
+      <documentation>
+         <![CDATA[
+            <p>CSS class(s) to be applied to the container used for export links.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            <li>Configuration property: <b>export.container.class</b></li>
             </ul>
             </p>
          ]]>

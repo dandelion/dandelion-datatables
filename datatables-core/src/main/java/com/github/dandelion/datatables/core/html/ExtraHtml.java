@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.core.html;
 
+import com.github.dandelion.core.utils.StringUtils;
+
 /**
  * <p>
  * POJO used to wrap an extra HTML snippet that end-users can add around the
@@ -93,6 +95,31 @@ public class ExtraHtml {
 		this.content = content;
 	}
 
+	public StringBuilder getJavascript(){
+		
+		StringBuilder js = new StringBuilder();
+
+		js.append("$.fn.dataTableExt.aoFeatures.push({");
+		js.append("\"fnInit\": function( oDTSettings ){");
+		js.append("var container = document.createElement('" + this.container + "');");
+		
+		if(StringUtils.isNotBlank(this.cssClass)){
+			js.append("$(container).attr('class', '" + this.cssClass + "');");
+		}
+		if(StringUtils.isNotBlank(this.cssStyle)){
+			js.append("$(container).attr('style', '" + this.cssStyle + "');");
+		}
+		
+		js.append("$(container).html('" + this.content.replaceAll("'", "&quot;") + "');");
+		js.append("return container;");
+		js.append("},");
+		js.append("\"cFeature\": \"" + this.uid + "\",");
+		js.append("\"sFeature\": \"" + "Group" + this.uid + "\"");
+		js.append("} );");
+		
+		return js;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
