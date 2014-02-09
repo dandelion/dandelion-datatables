@@ -3,11 +3,11 @@
     "parent": "none",
     "assets": [
 		{
-		    "name": "moment",
+		    "name": "moment-js",
 		    "version": "2.4.0",
 		    "type": "js",
 		    "locations": {
-		        "remote": "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/moment.min.js"
+		        "cdn": "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/moment.min.js"
 		    }
 		}
     ]

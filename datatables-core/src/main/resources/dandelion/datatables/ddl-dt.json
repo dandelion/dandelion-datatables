@@ -4,8 +4,8 @@
     "assets": [
         {
             "name": "dandelion-datatables", 
+            "version": "0.10.0",
             "type": "js", 
-            "version": "latest",
         	"locations": {
         		"delegated": "dandelion-datatables.js"
         	}

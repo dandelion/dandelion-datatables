@@ -7,7 +7,7 @@
             "version": "1.9.4",
             "type": "js",
             "locations": {
-                "remote": "//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"
+                "cdn": "//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"
             }
         },
         {
@@ -15,7 +15,7 @@
             "version": "1.9.4",
             "type": "css",
             "locations": {
-                "remote": "//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css"
+                "cdn": "//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css"
             }
         }
     ]
