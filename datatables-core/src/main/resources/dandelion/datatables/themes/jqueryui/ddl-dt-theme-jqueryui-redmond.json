@@ -7,7 +7,7 @@
             "version": "1.9.2",
             "type": "css",
             "locations": {
-                "remote": "//ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/redmond/jquery-ui.css"
+                "cdn": "//ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/redmond/jquery-ui.css"
             }
         }
     ]
