@@ -29,10 +29,9 @@
  */
 package com.github.dandelion.datatables.core.extension.theme;
 
-import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -61,7 +60,13 @@ public class Bootstrap2Theme extends AbstractExtension {
 	public void setup(HtmlTable table) {
 
 		addScope(Scope.DDL_DT_THEME_BOOTSTRAP2);
-		addScope(Scope.DDL_DT_PAGING_BOOTSTRAP);
+		
+		if(isEnabled(TableConfig.FEATURE_PAGEABLE)){
+			addScope(Scope.DDL_DT_PAGING_BOOTSTRAP);
+			if(TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(table.getTableConfiguration()) == null){
+				addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
+			}
+		}
 		
 		ThemeOption themeOption = TableConfig.CSS_THEMEOPTION.valueFrom(table);
 		
@@ -74,15 +79,6 @@ public class Bootstrap2Theme extends AbstractExtension {
 			}
 		}
 		
-		// DataTables parameters
-		if (StringUtils.isBlank(TableConfig.FEATURE_DOM.valueFrom(table))) {
-			addParameter(DTConstants.DT_DOM,
-					"<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>");
-		}
-		
-		if(TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(table.getTableConfiguration()) == null){
-			addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
-		}
 		addParameter(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]"));
 	}
 }

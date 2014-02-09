@@ -1,3 +1,4 @@
+
 div.dataTables_length label {
 	font-weight: normal;
 	float: left;
@@ -30,36 +31,27 @@ div.dataTables_paginate ul.pagination {
 	margin: 2px;
 }
 
-table.dataTable,
-table.dataTable td,
-table.dataTable th {
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	box-sizing: content-box;
-}
-
-
-table.dataTable {
+table.table {
 	clear: both;
 	margin-top: 6px !important;
 	margin-bottom: 6px !important;
 	max-width: none !important;
 }
 
-table.dataTable thead .sorting,
-table.dataTable thead .sorting_asc,
-table.dataTable thead .sorting_desc,
-table.dataTable thead .sorting_asc_disabled,
-table.dataTable thead .sorting_desc_disabled {
+table.table thead .sorting,
+table.table thead .sorting_asc,
+table.table thead .sorting_desc,
+table.table thead .sorting_asc_disabled,
+table.table thead .sorting_desc_disabled {
 	cursor: pointer;
 }
 
-table.dataTable thead .sorting { background: url('../images/sort_both.png') no-repeat center right; }
-table.dataTable thead .sorting_asc { background: url('../images/sort_asc.png') no-repeat center right; }
-table.dataTable thead .sorting_desc { background: url('../images/sort_desc.png') no-repeat center right; }
+table.table thead .sorting { background: url('../images/sort_both.png') no-repeat center right; }
+table.table thead .sorting_asc { background: url('../images/sort_asc.png') no-repeat center right; }
+table.table thead .sorting_desc { background: url('../images/sort_desc.png') no-repeat center right; }
 
-table.dataTable thead .sorting_asc_disabled { background: url('../images/sort_asc_disabled.png') no-repeat center right; }
-table.dataTable thead .sorting_desc_disabled { background: url('../images/sort_desc_disabled.png') no-repeat center right; }
+table.table thead .sorting_asc_disabled { background: url('../images/sort_asc_disabled.png') no-repeat center right; }
+table.table thead .sorting_desc_disabled { background: url('../images/sort_desc_disabled.png') no-repeat center right; }
 
 table.dataTable th:active {
 	outline: none;
@@ -109,10 +101,6 @@ div.dataTables_scrollFoot table {
 	background-color: #0075b0 !important;
 }
 
-.table tbody tr.active a {
-	color: white;
-}
-
 .table-striped tbody tr.active:nth-child(odd) td,
 .table-striped tbody tr.active:nth-child(odd) th {
 	background-color: #017ebc;
@@ -146,10 +134,6 @@ ul.DTTT_dropdown.dropdown-menu li {
 ul.DTTT_dropdown.dropdown-menu li:hover a {
 	background-color: #0088cc;
 	color: white !important;
-}
-
-div.DTTT_collection_background {
-	z-index: 2002;	
 }
 
 /* TableTools information display */

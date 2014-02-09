@@ -29,6 +29,10 @@
  */
 package com.github.dandelion.datatables.core.extension.theme;
 
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.configuration.Scope;
@@ -79,9 +83,13 @@ public class Bootstrap2ResponsiveTheme extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 
+		HttpServletRequest request = table.getTableConfiguration().getRequest();
+		
 		// Add necessary web resources
 		addScope(Scope.DDL_DT_THEME_BOOTSTRAP2_RESPONSIVE);
-
+        
+		addScopeParameter("datatables-responsive-css", "[root]", request.getContextPath());
+		
 		// Necessary variables and breakpoint definitions
 		StringBuilder var = new StringBuilder();
 		var.append("var responsiveHelper_").append(table.getId()).append(";\n");

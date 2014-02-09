@@ -7,16 +7,12 @@ $.extend( true, $.fn.dataTable.defaults, {
 	}
 } );
 
-
-
-
 /* Default class modification */
 $.extend( $.fn.dataTableExt.oStdClasses, {
 	"sWrapper": "dataTables_wrapper form-inline",
 	"sFilterInput": "form-control input-sm",
 	"sLengthSelect": "form-control input-sm"
 } );
-
 
 /* API method to get paging information */
 $.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )

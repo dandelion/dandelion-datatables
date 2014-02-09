@@ -7,11 +7,11 @@
             "version": "2.2.1",
             "type": "js",
             "locations": {
-                "remote": "//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.2.1/lodash.min.js"
+                "cdn": "//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.2.1/lodash.min.js"
             }
         },
         {
-            "name": "datatables-responsive",
+            "name": "datatables-responsive-js",
             "version": "0.1.2",
             "type": "js",
             "locations": {
@@ -19,11 +19,11 @@
             }
         },
         {
-            "name": "datatables-responsive",
+            "name": "datatables-responsive-css",
             "version": "0.1.2",
             "type": "css",
             "locations": {
-            	"classpath": "datatables/themes/bootstrap2-responsive/datatables.responsive.css"
+            	"templated": "datatables/themes/bootstrap2-responsive/datatables.responsive.css"
             }
         }
     ]

@@ -15,7 +15,6 @@ import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
-import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 
 public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 
@@ -24,11 +23,9 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(2);
-		assertThat(mainConfig).hasSize(3);
+		assertThat(mainConfig).hasSize(2);
 		assertThat(mainConfig).includes(
-				entry(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString()),
-				entry(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]")),
-				entry(DTConstants.DT_DOM, "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>"));
+				entry(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]")));
 	}
 
 	@Test
@@ -37,8 +34,7 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(3);
-		assertThat(mainConfig).hasSize(3);
-		assertThat(mainConfig).includes(entry(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString()));
+		assertThat(mainConfig).hasSize(2);
 		assertThat(mainConfig).includes(entry(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]")));
 	}
 
@@ -56,7 +52,6 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(2);
 		assertThat(mainConfig).hasSize(2);
 		assertThat(mainConfig).includes(
-				entry(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString()),
 				entry(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]")));
 	}
 }

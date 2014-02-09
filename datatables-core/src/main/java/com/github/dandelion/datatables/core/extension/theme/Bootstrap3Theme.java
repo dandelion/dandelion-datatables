@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.core.extension.theme;
 
+import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.configuration.Scope;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
@@ -78,6 +79,12 @@ public class Bootstrap3Theme extends AbstractExtension {
 	public void setup(HtmlTable table) {
 
 		addScope(Scope.DDL_DT_THEME_BOOTSTRAP3);
-		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
+		
+		Boolean pageable = TableConfig.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration());
+		if(pageable != null && pageable){
+			addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
+		}
+		
+		addParameter(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]"));
 	}
 }

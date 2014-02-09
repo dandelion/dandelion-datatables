@@ -1,11 +1,11 @@
 table.has-columns-hidden > tbody > tr > td > span.responsiveExpander {
-    background: url('../img/plus.png') no-repeat 5px center;
+    background: url('[root]/bootstrap2-responsive/plus.png') no-repeat 5px center;
     padding-left: 32px;
     cursor: pointer;
 }
 
 table.has-columns-hidden > tbody > tr.detail-show > td span.responsiveExpander {
-    background: url('../img/minus.png') no-repeat 5px center;
+    background: url('[root]/bootstrap2-responsive/minus.png') no-repeat 5px center;
 }
 
 table.has-columns-hidden > tbody > tr.row-detail > td {
