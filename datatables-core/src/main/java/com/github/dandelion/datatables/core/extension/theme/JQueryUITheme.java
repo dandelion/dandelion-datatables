@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.extension.theme;
 
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -57,7 +57,7 @@ public class JQueryUITheme extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 
-		addScope(Scope.DDL_DT_THEME_JQUERYUI);
+		addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI);
 		addParameter(new Parameter(DTConstants.DT_JQUERYUI, true));
 
 		ThemeOption themeOption = TableConfig.CSS_THEMEOPTION.valueFrom(table);
@@ -65,79 +65,79 @@ public class JQueryUITheme extends AbstractExtension {
 		if (themeOption != null) {
 			switch(themeOption){
 			case BASE:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_BASE);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_BASE);
 				break;
 			case BLACKTIE:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_BLACKTIE);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_BLACKTIE);
 				break;
 			case BLITZER:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_BLITZER);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_BLITZER);
 				break;
 			case CUPERTINO:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_CUPERTINO);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_CUPERTINO);
 				break;
 			case DARKHIVE:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_DARKHIVE);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_DARKHIVE);
 				break;
 			case DOTLUV:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_DOTLUV);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_DOTLUV);
 				break;
 			case EGGPLANT:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_EGGPLANT);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_EGGPLANT);
 				break;
 			case EXCITEBIKE:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_EXCITEBIKE);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_EXCITEBIKE);
 				break;
 			case FLICK:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_FLICK);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_FLICK);
 				break;
 			case HOTSNEAKS:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_HOTSNEAKS);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_HOTSNEAKS);
 				break;
 			case HUMANITY:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_HUMANITY);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_HUMANITY);
 				break;
 			case LEFROG:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_LEFROG);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_LEFROG);
 				break;
 			case MINTCHOC:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_MINTCHOC);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_MINTCHOC);
 				break;
 			case OVERCAST:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_OVERCAST);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_OVERCAST);
 				break;
 			case PEPPERGRINDER:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_PEPPERGRINDER);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_PEPPERGRINDER);
 				break;
 			case REDMOND:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_REDMOND);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_REDMOND);
 				break;
 			case SMOOTHNESS:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_SMOOTHNESS);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_SMOOTHNESS);
 				break;
 			case SOUTHSTREET:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_SOUTHSTREET);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_SOUTHSTREET);
 				break;
 			case START:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_START);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_START);
 				break;
 			case SUNNY:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_SUNNY);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_SUNNY);
 				break;
 			case SWANKYPURSE:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_SWANKYPURSE);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_SWANKYPURSE);
 				break;
 			case TRONTASTIC:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_TRONTASTIC);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_TRONTASTIC);
 				break;
 			case UIDARKNESS:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_UIDARKNESS);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_UIDARKNESS);
 				break;
 			case UILIGHTNESS:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_UILIGHTNESS);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_UILIGHTNESS);
 				break;
 			case VADER:
-				addScope(Scope.DDL_DT_THEME_JQUERYUI_VADER);
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_VADER);
 				break;
 			}
 		}

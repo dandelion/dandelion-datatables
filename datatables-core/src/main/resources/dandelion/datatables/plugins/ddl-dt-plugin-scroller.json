@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-plugin-scroller",
+    "bundle" : "ddl-dt-plugin-scroller",
     "parent": "datatables",
     "assets": [
         {

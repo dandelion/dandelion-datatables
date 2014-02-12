@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-theme-jqueryui-blitzer",
+    "bundle" : "ddl-dt-theme-jqueryui-blitzer",
     "parent": "ddl-dt-theme-jqueryui",
     "assets": [
         {

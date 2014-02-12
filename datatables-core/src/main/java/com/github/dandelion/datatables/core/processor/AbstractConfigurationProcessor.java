@@ -58,10 +58,9 @@ import com.github.dandelion.datatables.core.util.ProcessorUtils;
  * some other objects are also passed to the {@code process} method.
  * <p>
  * Finally, some processors accept a special syntax allowing to load one or more
- * Dandelion scopes to the current {@link HttpServletRequest}. This syntax will
- * be processed only if {@code scopeUpdatable}, which is passed in the
- * constructor of the processor, is set to {@code true}. See
- * {@link #processScope()} for more details.
+ * Dandelion bundles to the current {@link HttpServletRequest}. This syntax will
+ * be processed only if {@code bundleAware}, which is passed in the
+ * constructor of the processor, is set to {@code true}.
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
@@ -80,14 +79,14 @@ public abstract class AbstractConfigurationProcessor implements ConfigurationPro
 	protected Map<ConfigToken<?>, Extension> stagingExtensions;
 	protected Entry<ConfigToken<?>, Object> configEntry;
 	protected String stringifiedValue;
-	protected boolean scopeUpdatable;
+	protected boolean bundleAware;
 
 	public AbstractConfigurationProcessor() {
-		this.scopeUpdatable = false;
+		this.bundleAware = false;
 	}
 
-	public AbstractConfigurationProcessor(boolean scopeUpdatable) {
-		this.scopeUpdatable = scopeUpdatable;
+	public AbstractConfigurationProcessor(boolean bundleAware) {
+		this.bundleAware = bundleAware;
 	}
 
 	/**
@@ -101,10 +100,10 @@ public abstract class AbstractConfigurationProcessor implements ConfigurationPro
 
 		logger.trace("Processing '{}' with the config token {}", configEntry.getValue(), configEntry.getKey());
 
-		// The value may contain a hash, indicating that one or more scope
+		// The value may contain a hash, indicating that one or more bundles
 		// should be loaded in the current request
-		if (this.scopeUpdatable) {
-			this.stringifiedValue = ProcessorUtils.getValueAfterProcessingScopes(this.stringifiedValue, request);
+		if (this.bundleAware) {
+			this.stringifiedValue = ProcessorUtils.getValueAfterProcessingBundles(this.stringifiedValue, request);
 			updateEntry(this.stringifiedValue);
 		}
 
@@ -127,10 +126,10 @@ public abstract class AbstractConfigurationProcessor implements ConfigurationPro
 
 		logger.trace("Processing '{}' with the config token {}", configEntry.getValue(), configEntry.getKey());
 
-		// The value may contain a hash, indicating that one or more scope
+		// The value may contain a hash, indicating that one or more bundles
 		// should be loaded in the current request
-		if (this.scopeUpdatable) {
-			this.stringifiedValue = ProcessorUtils.getValueAfterProcessingScopes(this.stringifiedValue, request);
+		if (this.bundleAware) {
+			this.stringifiedValue = ProcessorUtils.getValueAfterProcessingBundles(this.stringifiedValue, request);
 			updateEntry(this.stringifiedValue);
 		}
 

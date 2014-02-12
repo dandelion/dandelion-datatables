@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-sorting-currency",
+    "bundle" : "ddl-dt-sorting-currency",
     "parent": "datatables",
     "assets": [
         {

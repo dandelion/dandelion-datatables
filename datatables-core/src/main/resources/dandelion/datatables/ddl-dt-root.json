@@ -1,5 +1,5 @@
 {
-	"scope": "ddl-dt-root",
+	"bundle": "ddl-dt-root",
 	"parent": "datatables",
 	"assets": [
 	]

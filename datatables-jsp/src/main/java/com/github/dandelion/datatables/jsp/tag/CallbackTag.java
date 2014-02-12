@@ -123,7 +123,7 @@ public class CallbackTag extends TagSupport {
 				throw new JspException(sb.toString());
 			}
 
-			function = ProcessorUtils.getValueAfterProcessingScopes(function, request);
+			function = ProcessorUtils.getValueAfterProcessingBundles(function, request);
 			
 			// The callback has already been registered
 			if (parent.getTable().getTableConfiguration().hasCallback(callbackType)) {

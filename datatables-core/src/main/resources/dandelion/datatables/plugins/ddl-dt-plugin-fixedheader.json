@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-plugin-fixedheader",
+    "bundle" : "ddl-dt-plugin-fixedheader",
     "parent": "datatables",
     "assets": [
         {

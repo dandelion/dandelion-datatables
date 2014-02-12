@@ -43,7 +43,7 @@ import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.generator.configuration.AbstractConfigurationGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -56,7 +56,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * <li>bufferize Javascript code before flushing it in the final
  * {@link JsResource}</li>
  * <li>add some {@link Parameter} to the generated DataTables configuration</li>
- * <li>add some scopes to the current request</li>
+ * <li>add some bundles to the current request</li>
  * <li>add some {@link Callback} to the generated DataTables configuration</li>
  * </ul>
  * 
@@ -165,16 +165,16 @@ public abstract class AbstractExtension implements Extension {
 
 	/**
 	 * Updates the current {@link HttpServletRequest} with the passed
-	 * {@link Scope}.
+	 * {@link DatatableBundles}.
 	 * 
-	 * @param scope
-	 *            The {@link Scope} to add.
+	 * @param bundle
+	 *            The {@link DatatableBundles} to add.
 	 */
-	public void addScope(Scope scope) {
-		AssetRequestContext.get(table.getTableConfiguration().getRequest()).addScopes(scope);
+	public void addBundle(DatatableBundles bundle) {
+		AssetRequestContext.get(table.getTableConfiguration().getRequest()).addBundles(bundle);
 	}
 
-	public void addScopeParameter(String assetName, String paramName, Object paramValue) {
+	public void addBundleParameter(String assetName, String paramName, Object paramValue) {
 		AssetRequestContext.get(table.getTableConfiguration().getRequest()).addParameter(assetName, paramName,
 				paramValue);
 	}

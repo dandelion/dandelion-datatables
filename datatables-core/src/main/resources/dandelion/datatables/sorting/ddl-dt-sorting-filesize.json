@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-sorting-filesize",
+    "bundle" : "ddl-dt-sorting-filesize",
     "parent": "datatables",
     "assets": [
         {

@@ -71,7 +71,7 @@ public class ExtraJsTag extends TagSupport {
 	/**
 	 * Tag attributes
 	 */
-	private String scopes;
+	private String bundles;
 	private String insert;
 
 	/**
@@ -117,14 +117,14 @@ public class ExtraJsTag extends TagSupport {
 			}
 
 			parent.getTable().getTableConfiguration()
-					.addExtraJs(new ExtraJs(new HashSet<String>(Arrays.asList(this.scopes.split(","))), mode));
+					.addExtraJs(new ExtraJs(new HashSet<String>(Arrays.asList(this.bundles.split(","))), mode));
 			parent.getTable().getTableConfiguration().registerExtension(new ExtraJsFeature());
 		}
 		return EVAL_PAGE;
 	}
 
-	public void setScopes(String scopes) {
-		this.scopes = scopes;
+	public void setBundles(String bundles) {
+		this.bundles = bundles;
 	}
 
 	public void setInsert(String insert) {

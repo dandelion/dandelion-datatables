@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-paging-fourbutton",
+    "bundle" : "ddl-dt-paging-fourbutton",
     "parent": "datatables",
     "assets": [
         {

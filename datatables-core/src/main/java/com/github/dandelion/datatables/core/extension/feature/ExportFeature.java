@@ -34,7 +34,7 @@ import static com.github.dandelion.datatables.core.util.JavascriptUtils.NEWLINE;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.Parameter.Mode;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.constants.DTConstants;
@@ -88,7 +88,7 @@ public class ExportFeature extends AbstractExtension {
 			if (exportConf.getMethod().equals(HttpMethod.POST) 
 					|| exportConf.getMethod().equals(HttpMethod.PUT)
 					|| exportConf.getMethod().equals(HttpMethod.DELETE)) {
-				addScope(Scope.DDL_DT_EXPORT);
+				addBundle(DatatableBundles.DDL_DT_EXPORT);
 			}
 		}
 

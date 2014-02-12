@@ -31,12 +31,12 @@ package com.github.dandelion.datatables.core.configuration;
 
 /**
  * <p>
- * All Dandelion {@link Scope}s used in all the Dandelion-Datatables components.
+ * All Dandelion bundles used in all the Dandelion-Datatables components.
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
  */
-public enum Scope {
+public enum DatatableBundles {
 
 	DATATABLES("datatables"),
 	BOOTSTRAP_DATEPICKER("bootstrap-datepicker"),
@@ -104,17 +104,17 @@ public enum Scope {
 	DDL_DT_PAGING_BOOTSTRAP_FOURBUTTON("ddl-dt-paging-bootstrap-four-button"),
 	DDL_DT_PAGING_BOOTSTRAP_FULLNUMBERS("ddl-dt-paging-bootstrap-full-numbers");
 	
-	private String scopeName;
+	private String bundleName;
 
-	private Scope(String scopeName){
-		this.scopeName = scopeName;
+	private DatatableBundles(String bundleName){
+		this.bundleName = bundleName;
 	}
 	
-	public String getScopeName() {
-		return scopeName;
+	public String getBundleName() {
+		return bundleName;
 	}
 
-	public void setScopeName(String scopeName) {
-		this.scopeName = scopeName;
+	public void setBundleName(String bundleName) {
+		this.bundleName = bundleName;
 	}
 }

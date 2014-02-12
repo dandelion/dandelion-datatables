@@ -37,8 +37,8 @@ public class StringProcessor extends AbstractConfigurationProcessor {
 		super();
 	}
 
-	public StringProcessor(boolean scopeUpdatable) {
-		super(scopeUpdatable);
+	public StringProcessor(boolean bundleAware) {
+		super(bundleAware);
 	}
 
 	@Override

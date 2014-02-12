@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.generator.configuration.ColumnFilteringGenerator;
@@ -60,7 +60,7 @@ public abstract class AbstractFilteringFeature extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 
-		addScope(Scope.DDL_DT_FILTERING);
+		addBundle(DatatableBundles.DDL_DT_FILTERING);
 
 		FilterPlaceholder filterPlaceHolder = TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(table);
 		if (filterPlaceHolder != null) {

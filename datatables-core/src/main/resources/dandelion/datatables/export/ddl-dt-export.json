@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-export",
+    "bundle" : "ddl-dt-export",
     "parent": "datatables",
     "assets": [
         {

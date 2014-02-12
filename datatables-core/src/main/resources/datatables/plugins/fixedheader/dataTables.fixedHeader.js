@@ -22,11 +22,11 @@
  * For details please refer to: http://www.datatables.net
  */
 
-/* Global scope for FixedColumns for backwards compatibility - will be removed
+/* Global bundle for FixedColumns for backwards compatibility - will be removed
  * in future. Not documented in 1.1.x.
  */
 
-/* Global scope for FixedColumns */
+/* Global bundle for FixedColumns */
 var FixedHeader;
 
 (function(window, document, undefined) {
@@ -144,7 +144,7 @@ FixedHeader = function ( mTable, oInit ) {
 /*
  * Variable: FixedHeader
  * Purpose:  Prototype for FixedHeader
- * Scope:    global
+ * bundle:    global
  */
 FixedHeader.prototype = {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -925,7 +925,7 @@ FixedHeader.prototype = {
 /*
  * Variable: oWin
  * Purpose:  Store information about the window positioning
- * Scope:    FixedHeader
+ * bundle:    FixedHeader
  */
 FixedHeader.oWin = {
 	"iScrollTop": 0,
@@ -939,7 +939,7 @@ FixedHeader.oWin = {
 /*
  * Variable: oDoc
  * Purpose:  Store information about the document size
- * Scope:    FixedHeader
+ * bundle:    FixedHeader
  */
 FixedHeader.oDoc = {
 	"iHeight": 0,
@@ -949,7 +949,7 @@ FixedHeader.oDoc = {
 /*
  * Variable: afnScroll
  * Purpose:  Array of functions that are to be used for the scrolling components
- * Scope:    FixedHeader
+ * bundle:    FixedHeader
  */
 FixedHeader.afnScroll = [];
 

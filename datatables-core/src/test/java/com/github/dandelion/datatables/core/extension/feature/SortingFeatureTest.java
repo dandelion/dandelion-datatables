@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
 
@@ -22,9 +22,9 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
-		List<String> scopes = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true));
-		assertThat(scopes).hasSize(1);
-		assertThat(scopes.contains(Scope.DDL_DT_SORTING_ALT_STRING));
+		List<String> bundles = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true));
+		assertThat(bundles).hasSize(1);
+		assertThat(bundles.contains(DatatableBundles.DDL_DT_SORTING_ALT_STRING));
 	}
 	
 	@Test
@@ -33,9 +33,9 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
-		List<String> scopes = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true));
-		assertThat(scopes).hasSize(1);
-		assertThat(scopes.contains(Scope.DDL_DT_SORTING_ANTI_THE));
+		List<String> bundles = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true));
+		assertThat(bundles).hasSize(1);
+		assertThat(bundles.contains(DatatableBundles.DDL_DT_SORTING_ANTI_THE));
 	}
 	
 	@Test
@@ -44,9 +44,9 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
-		List<String> scopes = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true));
-		assertThat(scopes).hasSize(1);
-		assertThat(scopes.contains(Scope.DDL_DT_SORTING_CURRENCY));
+		List<String> bundles = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true));
+		assertThat(bundles).hasSize(1);
+		assertThat(bundles.contains(DatatableBundles.DDL_DT_SORTING_CURRENCY));
 	}
 	
 	@Test
@@ -55,9 +55,9 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
-		List<String> scopes = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true));
-		assertThat(scopes).hasSize(1);
-		assertThat(scopes.contains(Scope.DDL_DT_SORTING_DATE_UK));
+		List<String> bundles = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true));
+		assertThat(bundles).hasSize(1);
+		assertThat(bundles.contains(DatatableBundles.DDL_DT_SORTING_DATE_UK));
 	}
 	
 	@Test
@@ -66,9 +66,9 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
-		List<String> scopes = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true));
-		assertThat(scopes).hasSize(1);
-		assertThat(scopes.contains(Scope.DDL_DT_SORTING_FILESIZE));
+		List<String> bundles = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true));
+		assertThat(bundles).hasSize(1);
+		assertThat(bundles.contains(DatatableBundles.DDL_DT_SORTING_FILESIZE));
 	}
 	
 	@Test
@@ -77,9 +77,9 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
-		List<String> scopes = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true));
-		assertThat(scopes).hasSize(1);
-		assertThat(scopes.contains(Scope.DDL_DT_SORTING_FORMATTED_NUMBER));
+		List<String> bundles = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true));
+		assertThat(bundles).hasSize(1);
+		assertThat(bundles.contains(DatatableBundles.DDL_DT_SORTING_FORMATTED_NUMBER));
 	}
 	
 	@Test
@@ -88,9 +88,9 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
-		List<String> scopes = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true));
-		assertThat(scopes).hasSize(1);
-		assertThat(scopes.contains(Scope.DDL_DT_SORTING_NATURAL));
+		List<String> bundles = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true));
+		assertThat(bundles).hasSize(1);
+		assertThat(bundles.contains(DatatableBundles.DDL_DT_SORTING_NATURAL));
 	}
 	
 	@Test
@@ -99,7 +99,7 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
-		List<String> scopes = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true));
-		assertThat(scopes).hasSize(0);
+		List<String> bundles = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true));
+		assertThat(bundles).hasSize(0);
 	}
 }

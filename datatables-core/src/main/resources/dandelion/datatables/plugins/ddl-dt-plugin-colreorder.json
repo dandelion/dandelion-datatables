@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-plugin-colreorder",
+    "bundle" : "ddl-dt-plugin-colreorder",
     "parent": "datatables",
     "assets": [
         {

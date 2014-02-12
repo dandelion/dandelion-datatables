@@ -20,7 +20,7 @@ public class PaginationTypeBootstrapFourButtonFeatureTest  extends AbstractExten
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new PaginationTypeBootstrapFourButtonFeature())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
 		assertThat(mainConfig).includes(entry(DTConstants.DT_PAGINATION_TYPE, "bootstrap_four_button"));
 	}
 }

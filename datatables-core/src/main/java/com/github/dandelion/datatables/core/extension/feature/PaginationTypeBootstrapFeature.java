@@ -29,7 +29,7 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -39,7 +39,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * <p>
  * Activates the Bootstrap2 pagination by:
  * <ul>
- * <li>Updating the asset stack with the scope
+ * <li>Updating the asset stack with the bundle
  * <code>paginationType-bootstrap</code></li>
  * <li>Setting the pagination type to <code>bootstrap</code></li>
  * </ul>
@@ -56,7 +56,7 @@ public class PaginationTypeBootstrapFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addScope(Scope.DDL_DT_PAGING_BOOTSTRAP);
+		addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP);
 		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
 	}
 }

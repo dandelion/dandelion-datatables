@@ -40,8 +40,8 @@ public class SortTypeProcessor extends AbstractConfigurationProcessor {
 		super();
 	}
 
-	public SortTypeProcessor(boolean scopeUpdatable) {
-		super(scopeUpdatable);
+	public SortTypeProcessor(boolean bundleAware) {
+		super(bundleAware);
 	}
 
 	@Override

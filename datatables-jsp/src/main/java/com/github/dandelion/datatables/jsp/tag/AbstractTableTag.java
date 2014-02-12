@@ -51,7 +51,7 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
@@ -232,11 +232,11 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 			jsResource = contentGenerator.generateWebResources();
 			logger.debug("Web content generated successfully");
 
-			// Scope update
+			// Asset stack update
 			AssetRequestContext
 					.get(request)
-					.addScopes(Scope.DDL_DT)
-					.addScopes(Scope.DATATABLES)
+					.addBundles(DatatableBundles.DDL_DT)
+					.addBundles(DatatableBundles.DATATABLES)
 					.addParameter("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM,
 							DatatablesConfigurator.getJavascriptGenerator(), false);
 

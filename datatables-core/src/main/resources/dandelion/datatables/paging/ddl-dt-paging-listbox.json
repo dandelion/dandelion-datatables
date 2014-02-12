@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-paging-listbox",
+    "bundle" : "ddl-dt-paging-listbox",
     "parent": "datatables",
     "assets": [
         {

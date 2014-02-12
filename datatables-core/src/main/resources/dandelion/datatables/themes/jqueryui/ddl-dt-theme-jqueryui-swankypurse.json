@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-theme-jqueryui-swankypurse",
+    "bundle" : "ddl-dt-theme-jqueryui-swankypurse",
     "parent": "ddl-dt-theme-jqueryui",
     "assets": [
         {

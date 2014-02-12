@@ -35,7 +35,7 @@ import java.util.Map;
 import org.json.simple.JSONValue;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -64,7 +64,7 @@ public class FixedHeaderPlugin extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 
-		addScope(Scope.DDL_DT_PLUGIN_FIXEDHEADER);
+		addBundle(DatatableBundles.DDL_DT_PLUGIN_FIXEDHEADER);
 
 		Map<String, Object> specificConfObj = getSpecificCongiguration(table);
 		String specificConfStr = JSONValue.toJSONString(specificConfObj);

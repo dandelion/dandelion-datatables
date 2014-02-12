@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-sorting-alt-string",
+    "bundle" : "ddl-dt-sorting-alt-string",
     "parent": "datatables",
     "assets": [
         {

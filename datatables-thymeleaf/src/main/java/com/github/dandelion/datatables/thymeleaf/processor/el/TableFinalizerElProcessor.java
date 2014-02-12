@@ -53,7 +53,7 @@ import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
@@ -272,10 +272,10 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 
 		applyCssConfiguration(arguments);
 		
-		// Scope update
+		// Asset stack update
 		AssetRequestContext.get(request)
-			.addScopes(Scope.DATATABLES)
-			.addScopes(Scope.DDL_DT.getScopeName())
+			.addBundles(DatatableBundles.DATATABLES)
+			.addBundles(DatatableBundles.DDL_DT.getBundleName())
 			.addParameter("dandelion-datatables", DelegatedLocationWrapper.DELEGATED_CONTENT_PARAM,
 						DatatablesConfigurator.getJavascriptGenerator(), false);
 		

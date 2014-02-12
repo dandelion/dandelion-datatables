@@ -33,7 +33,7 @@ import static com.github.dandelion.datatables.core.util.JavascriptUtils.INDENT;
 import static com.github.dandelion.datatables.core.util.JavascriptUtils.NEWLINE;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -58,7 +58,7 @@ public class AjaxReloadFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addScope(Scope.DDL_DT_AJAX_RELOAD);
+		addBundle(DatatableBundles.DDL_DT_AJAX_RELOAD);
 
 		String reloadSelector = TableConfig.AJAX_RELOAD_SELECTOR.valueFrom(table.getTableConfiguration());
 		String reloadFunction = TableConfig.AJAX_RELOAD_FUNCTION.valueFrom(table.getTableConfiguration());

@@ -24,7 +24,7 @@ public class MultiFilterFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new AjaxFeature())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(0);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(0);
 		assertThat(mainConfig).includes(
 				entry(DTConstants.DT_B_DEFER_RENDER, true),
 				entry(DTConstants.DT_S_AJAXDATAPROP, ""),

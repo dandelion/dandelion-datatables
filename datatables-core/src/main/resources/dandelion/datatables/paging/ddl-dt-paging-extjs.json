@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-paging-extjs",
+    "bundle" : "ddl-dt-paging-extjs",
     "parent": "datatables",
     "assets": [
         {

@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.extension.theme;
 
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
@@ -59,10 +59,10 @@ public class Bootstrap2Theme extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 
-		addScope(Scope.DDL_DT_THEME_BOOTSTRAP2);
+		addBundle(DatatableBundles.DDL_DT_THEME_BOOTSTRAP2);
 		
 		if(isEnabled(TableConfig.FEATURE_PAGEABLE)){
-			addScope(Scope.DDL_DT_PAGING_BOOTSTRAP);
+			addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP);
 			if(TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(table.getTableConfiguration()) == null){
 				addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
 			}
@@ -72,7 +72,7 @@ public class Bootstrap2Theme extends AbstractExtension {
 		
 		if (themeOption != null) {
 			if(themeOption.equals(ThemeOption.TABLECLOTH)){
-				addScope(Scope.DDL_DT_THEME_BOOTSTRAP2_TABLECLOTH);
+				addBundle(DatatableBundles.DDL_DT_THEME_BOOTSTRAP2_TABLECLOTH);
 			}
 			else{
 				throw new ExtensionLoadingException("Only the 'tablecloth' theme option is compatible with the 'bootstrap2' theme");

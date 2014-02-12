@@ -22,7 +22,7 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 	public void shoud_load_the_extension() {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(2);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(2);
 		assertThat(mainConfig).hasSize(2);
 		assertThat(mainConfig).includes(
 				entry(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]")));
@@ -33,7 +33,7 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 		TableConfig.CSS_THEMEOPTION.setIn(table.getTableConfiguration(), ThemeOption.TABLECLOTH);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(3);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(3);
 		assertThat(mainConfig).hasSize(2);
 		assertThat(mainConfig).includes(entry(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]")));
 	}
@@ -49,7 +49,7 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 		TableConfig.FEATURE_DOM.setIn(table.getTableConfiguration(), "lft");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(2);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(2);
 		assertThat(mainConfig).hasSize(2);
 		assertThat(mainConfig).includes(
 				entry(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]")));

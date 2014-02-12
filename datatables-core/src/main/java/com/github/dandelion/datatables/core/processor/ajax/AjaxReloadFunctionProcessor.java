@@ -47,8 +47,8 @@ public class AjaxReloadFunctionProcessor extends AbstractConfigurationProcessor 
 		super();
 	}
 
-	public AjaxReloadFunctionProcessor(boolean scopeUpdatable) {
-		super(scopeUpdatable);
+	public AjaxReloadFunctionProcessor(boolean bundleAware) {
+		super(bundleAware);
 	}
 
 	@Override

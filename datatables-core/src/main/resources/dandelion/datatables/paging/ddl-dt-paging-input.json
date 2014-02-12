@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-paging-input",
+    "bundle" : "ddl-dt-paging-input",
     "parent": "datatables",
     "assets": [
         {

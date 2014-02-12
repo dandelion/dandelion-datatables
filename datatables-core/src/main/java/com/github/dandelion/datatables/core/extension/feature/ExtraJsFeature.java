@@ -71,7 +71,7 @@ public class ExtraJsFeature extends AbstractExtension {
 
 		for (ExtraJs extraJs : table.getTableConfiguration().getExtraJs()) {
 
-			List<Asset> assets = AssetStack.assetsFor(extraJs.getScopes());
+			List<Asset> assets = AssetStack.assetsFor(extraJs.getBundles());
 			List<Asset> jsAssets = AssetStack.filterByType(assets, AssetType.js);
 			List<Asset> processedAssets = assetLocationProcessorEntry.process(jsAssets, request);
 

@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.core.util;
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.dandelion.core.asset.web.AssetRequestContext;
-import com.github.dandelion.core.asset.web.data.AssetScope;
+import com.github.dandelion.core.asset.web.data.AssetBundle;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
 
@@ -48,39 +48,39 @@ public final class ProcessorUtils {
 	/**
 	 * <p>
 	 * Some processors accept a special syntax, allowing to load one or more
-	 * Dandelion {@link AssetScope}s in the current {@link HttpServletRequest}.
+	 * Dandelion {@link AssetBundle}s in the current {@link HttpServletRequest}.
 	 * 
 	 * <p>
 	 * The syntax is as follows:<br />
-	 * {@code scopeNameToAdd[,anotherScopeName]#javascriptObject}.
+	 * {@code bundleNameToAdd[,anotherBundleName]#javascriptObject}.
 	 * 
 	 * @throws ConfigurationProcessingException
 	 *             if the passed value contains an incorrect format.
 	 */
-	public static String getValueAfterProcessingScopes(String value, HttpServletRequest request) {
+	public static String getValueAfterProcessingBundles(String value, HttpServletRequest request) {
 
-		// The value may contain a hash, indicating that one or more scopes
+		// The value may contain a hash, indicating that one or more bundles
 		// should be loaded in the current request
 		if (value.contains("#")) {
 			String[] splittedValue = value.split("#");
 			if (value.startsWith("#") || splittedValue.length != 2) {
 				StringBuilder sb = new StringBuilder();
 				sb.append("Wrong format used in the attribute value. ");
-				sb.append("The right format is: 'scopeToAdd#javascriptObject'");
+				sb.append("The right format is: 'bundleToAdd#javascriptObject'");
 				throw new ConfigurationProcessingException(sb.toString());
 			}
 			else {
 				if (splittedValue[0].contains(",")) {
-					String[] splittedScopes = splittedValue[0].trim().split(",");
-					for (String scope : splittedScopes) {
-						AssetRequestContext.get(request).addScopes(scope.trim());
+					String[] splittedBundles = splittedValue[0].trim().split(",");
+					for (String bundle : splittedBundles) {
+						AssetRequestContext.get(request).addBundles(bundle.trim());
 					}
 				}
 				else {
-					AssetRequestContext.get(request).addScopes(splittedValue[0].trim());
+					AssetRequestContext.get(request).addBundles(splittedValue[0].trim());
 				}
 
-				// Once the request updated with the scope(s), both the
+				// Once the request updated with the bundle(s), both the
 				// value and the entry are cleaned
 				return value.substring(value.indexOf("#") + 1);
 			}

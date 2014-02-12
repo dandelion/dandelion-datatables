@@ -20,7 +20,7 @@ public class PaginationTypeBootstrapFullNumbersFeatureTest  extends AbstractExte
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new PaginationTypeBootstrapFullNumbersFeature())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
 		assertThat(mainConfig).includes(entry(DTConstants.DT_PAGINATION_TYPE, "bootstrap_full_numbers"));
 	}
 }

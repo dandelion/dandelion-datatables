@@ -29,7 +29,7 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -39,7 +39,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * <p>
  * Activates the Input pagination by:
  * <ul>
- * <li>Updating the asset stack with the scope <code>paginationType-input</code>
+ * <li>Updating the asset stack with the bundle <code>paginationType-input</code>
  * </li>
  * <li>Setting the pagination type to <code>input</code></li>
  * </ul>
@@ -56,7 +56,7 @@ public class PaginationTypeInputFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addScope(Scope.DDL_DT_PAGING_INPUT);
+		addBundle(DatatableBundles.DDL_DT_PAGING_INPUT);
 		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.INPUT.toString());
 	}
 }

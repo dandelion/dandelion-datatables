@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-theme-bootstrap3",
+    "bundle" : "ddl-dt-theme-bootstrap3",
     "parent": "bootstrap3",
     "assets": [
         {

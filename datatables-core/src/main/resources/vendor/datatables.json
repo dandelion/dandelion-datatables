@@ -1,5 +1,5 @@
 {
-    "scope" : "datatables",
+    "bundle" : "datatables",
     "parent": "jquery",
     "assets": [
         {

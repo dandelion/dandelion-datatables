@@ -60,16 +60,16 @@ public class AjaxReloadFunctionTest extends TableProcessorBaseTest {
 	}
 
 	@Test
-	public void should_register_a_feature_and_multiple_scopes_when_a_reload_function_exists() {
+	public void should_register_a_feature_and_multiple_bundles_when_a_reload_function_exists() {
 		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_RELOAD_FUNCTION,
-				"scope1, scope2#myReloadFunction");
+				"bundle1, bundle2#myReloadFunction");
 		processor.process(entry, tableConfiguration);
 
 		assertThat(entry.getValue()).isEqualTo("myReloadFunction");
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
 		assertThat(new AjaxReloadFeature()).isIn(tableConfiguration.getInternalExtensions());
-		assertThat(AssetRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scope1",
-				"scope2");
+		assertThat(AssetRequestContext.get(tableConfiguration.getRequest()).getBundles(true)).contains("bundle1",
+				"bundle2");
 	}
 
 	@Test(expected = ConfigurationProcessingException.class)

@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-sorting-anti-the",
+    "bundle" : "ddl-dt-sorting-anti-the",
     "parent": "datatables",
     "assets": [
         {

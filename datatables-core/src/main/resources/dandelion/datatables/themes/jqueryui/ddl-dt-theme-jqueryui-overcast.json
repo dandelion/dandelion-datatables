@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-theme-jqueryui-overcast",
+    "bundle" : "ddl-dt-theme-jqueryui-overcast",
     "parent": "ddl-dt-theme-jqueryui",
     "assets": [
         {

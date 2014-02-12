@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-filtering",
+    "bundle" : "ddl-dt-filtering",
     "parent": "datatables",
     "assets": [
         {

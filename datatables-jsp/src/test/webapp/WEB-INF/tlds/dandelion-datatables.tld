@@ -439,7 +439,7 @@
          <description>
          <![CDATA[
             <p>Allows you to override the default function which obtains the data from the server ($.getJSON) so something more suitable for your application.</p>
-            <p>Also note that you can automatically load any Dandelion scope using the syntax: 'scopeName#javascriptFunction'.</p>
+            <p>Also note that you can automatically load any Dandelion bundle using the syntax: 'bundleName#javascriptFunction'.</p>
             <p>
             <ul>
             <li>Required: <b>no</b></li>
@@ -457,7 +457,7 @@
          <description>
          <![CDATA[
             <p>Allows you to send extra information to the server when using an AJAX source.</p>
-            <p>Also note that you can automatically load any Dandelion scope using the syntax: 'scopeName#javascriptFunction'.</p>
+            <p>Also note that you can automatically load any Dandelion bundle using the syntax: 'bundleName#javascriptFunction'.</p>
             <p>
             <ul>
             <li>Required: <b>no</b></li>
@@ -1497,7 +1497,7 @@
             For example:<br/>
             var myPredefinedValues = [{"value":"value1", "label":"label1"}, {"value":"value2", "label":"label2"}, {"value":"value3", "label":"label3"}];<br/>
             </p>
-            <p>Also note that you can automatically load any Dandelion scope using the syntax: 'scopeName#javascriptObject'.</p>
+            <p>Also note that you can automatically load any Dandelion bundle using the syntax: 'bundleName#javascriptObject'.</p>
             <p>
             <ul>
             <li>Required: <b>no</b></li>
@@ -1658,7 +1658,7 @@
          <description>
          <![CDATA[
             <p>Name of a Javascript function that will be called to render the column when using an AJAX source.</p>
-            <p>Also note that you can automatically load any Dandelion scope using the syntax: 'scopeName#javascriptFunction'.</p>
+            <p>Also note that you can automatically load any Dandelion bundle using the syntax: 'bundleName#javascriptFunction'.</p>
             <p>
             <ul>
             <li>Required: <b>no</b></li>
@@ -1779,7 +1779,7 @@
             </p>
          ]]>
          </description>
-         <name>scopes</name>
+         <name>bundles</name>
          <required>true</required>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
@@ -2137,7 +2137,7 @@
          <description>
          <![CDATA[
             <p>Name of a Javascript function that will be called inside the configured callback.</p>
-            <p>Also note that you can automatically load any Dandelion scope using the syntax: 'scopeName#javascriptFunction'.</p>
+            <p>Also note that you can automatically load any Dandelion bundle using the syntax: 'bundleName#javascriptFunction'.</p>
             <p>
             <ul>
             <li>Required: <b>yes</b></li>

@@ -21,7 +21,7 @@ public class Bootstrap2ResponsiveThemeTest extends AbstractExtensionTest {
 	public void shoud_load_the_extension() {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2ResponsiveTheme())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
 		assertThat(mainConfig).hasSize(4);
 		assertThat(mainConfig).includes(entry(DTConstants.DT_AUTO_WIDTH, false));
 		assertThat(mainConfig.keySet()).contains(CallbackType.DRAW.getName(), CallbackType.ROW.getName(), CallbackType.PREDRAW.getName());

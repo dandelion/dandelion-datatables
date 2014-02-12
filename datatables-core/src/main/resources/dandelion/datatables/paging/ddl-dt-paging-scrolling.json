@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-paging-scrolling",
+    "bundle" : "ddl-dt-paging-scrolling",
     "parent": "datatables",
     "assets": [
         {

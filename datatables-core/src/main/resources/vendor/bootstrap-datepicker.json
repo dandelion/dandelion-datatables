@@ -1,5 +1,5 @@
 {
-    "scope" : "bootstrap-datepicker",
+    "bundle" : "bootstrap-datepicker",
     "parent": "bootstrap2",
     "assets": [
 		{

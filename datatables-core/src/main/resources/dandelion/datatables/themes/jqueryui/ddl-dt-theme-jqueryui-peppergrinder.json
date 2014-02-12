@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-theme-jqueryui-peppergrinder",
+    "bundle" : "ddl-dt-theme-jqueryui-peppergrinder",
     "parent": "ddl-dt-theme-jqueryui",
     "assets": [
         {

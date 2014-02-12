@@ -34,7 +34,7 @@ import java.util.Set;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -69,7 +69,7 @@ public class MultiFilterFeature extends AbstractExtension {
 		
 		checkConfiguration(table);
 		
-		addScope(Scope.DDL_DT_MULTIFILTER);
+		addBundle(DatatableBundles.DDL_DT_MULTIFILTER);
 		
 		String filterSelector = TableConfig.FEATURE_FILTER_SELECTOR.valueFrom(table.getTableConfiguration());
 		String filterClearSelector = TableConfig.FEATURE_FILTER_CLEAR_SELECTOR.valueFrom(table.getTableConfiguration());

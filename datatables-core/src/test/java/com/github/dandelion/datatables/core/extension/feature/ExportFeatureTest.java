@@ -8,7 +8,7 @@ import java.util.HashSet;
 import org.junit.Test;
 
 import com.github.dandelion.core.asset.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.export.ExportConf;
@@ -32,7 +32,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 
 		assertThat(exportFeature.getBeforeAll()).isNull();
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).isEmpty();
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).isEmpty();
 		assertThat(mainConfig.get(DTConstants.DT_DOM)).isEqualTo("lEfrtip");
 	}
 	
@@ -48,7 +48,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).isEmpty();
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).isEmpty();
 		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){\n   window.location=\"/myExportUrl?\" + decodeURIComponent($.param(oTable_fakeId.oApi._fnAjaxParameters(oTable_fakeId.fnSettings())).replace(/\\+/g,' '));\n}\n");
 	}
 	
@@ -64,7 +64,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).isEmpty();
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).isEmpty();
 		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){\n   window.location=\"/myExportUrl?existingParam=val&\" + decodeURIComponent($.param(oTable_fakeId.oApi._fnAjaxParameters(oTable_fakeId.fnSettings())).replace(/\\+/g,' '));\n}\n");
 	}
 	
@@ -81,7 +81,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).contains(Scope.DDL_DT_EXPORT.getScopeName());
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).contains(DatatableBundles.DDL_DT_EXPORT.getBundleName());
 		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){\n   $.download('/myExportUrl', decodeURIComponent($.param(oTable_fakeId.oApi._fnAjaxParameters(oTable_fakeId.fnSettings())).replace(/\\+/g,' '),'POST'));\n}\n");
 	}
 	
@@ -98,7 +98,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		table.getTableConfiguration().set(TableConfig.AJAX_SERVERPARAM, "param1=val1&param2=val2");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).isEmpty();
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).isEmpty();
 		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){\n   var aoData = oTable_fakeId.oApi._fnAjaxParameters(oTable_fakeId.fnSettings());\n   param1=val1&param2=val2(aoData);\n   window.location=\"/myExportUrl?\" + decodeURIComponent($.param(aoData)).replace(/\\+/g,' ');\n}\n");
 	}
 	
@@ -115,7 +115,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		table.getTableConfiguration().set(TableConfig.AJAX_SERVERPARAM, "param1=val1&param2=val2");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).isEmpty();
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).isEmpty();
 		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){\n   var aoData = oTable_fakeId.oApi._fnAjaxParameters(oTable_fakeId.fnSettings());\n   param1=val1&param2=val2(aoData);\n   window.location=\"/myExportUrl?existingParam=val&\" + decodeURIComponent($.param(aoData)).replace(/\\+/g,' ');\n}\n");
 	}
 	
@@ -133,7 +133,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		table.getTableConfiguration().set(TableConfig.AJAX_SERVERPARAM, "param1=val1&param2=val2");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).contains(Scope.DDL_DT_EXPORT.getScopeName());
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).contains(DatatableBundles.DDL_DT_EXPORT.getBundleName());
 		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){\n   var aoData = oTable_fakeId.oApi._fnAjaxParameters(oTable_fakeId.fnSettings());\n   param1=val1&param2=val2(aoData);\n   $.download('/myExportUrl', decodeURIComponent($.param(aoData)).replace(/\\+/g,' '),'POST');\n}\n");
 	}
 }

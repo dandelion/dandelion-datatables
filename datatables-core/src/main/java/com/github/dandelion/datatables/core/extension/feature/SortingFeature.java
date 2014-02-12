@@ -34,7 +34,7 @@ import java.util.Set;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -76,25 +76,25 @@ public class SortingFeature extends AbstractExtension {
 		for (SortType sortType : enabledSortTypes) {
 			switch (sortType) {
 			case DATE:
-				addScope(Scope.DDL_DT_SORTING_DATE_UK);
+				addBundle(DatatableBundles.DDL_DT_SORTING_DATE_UK);
 				break;
 			case NATURAL:
-				addScope(Scope.DDL_DT_SORTING_NATURAL);
+				addBundle(DatatableBundles.DDL_DT_SORTING_NATURAL);
 				break;
 			case ALT_STRING:
-				addScope(Scope.DDL_DT_SORTING_ALT_STRING);
+				addBundle(DatatableBundles.DDL_DT_SORTING_ALT_STRING);
 				break;
 			case ANTI_THE:
-				addScope(Scope.DDL_DT_SORTING_ANTI_THE);
+				addBundle(DatatableBundles.DDL_DT_SORTING_ANTI_THE);
 				break;
 			case CURRENCY:
-				addScope(Scope.DDL_DT_SORTING_CURRENCY);
+				addBundle(DatatableBundles.DDL_DT_SORTING_CURRENCY);
 				break;
 			case FILESIZE:
-				addScope(Scope.DDL_DT_SORTING_FILESIZE);
+				addBundle(DatatableBundles.DDL_DT_SORTING_FILESIZE);
 				break;
 			case FORMATTED_NUMBERS:
-				addScope(Scope.DDL_DT_SORTING_FORMATTED_NUMBER);
+				addBundle(DatatableBundles.DDL_DT_SORTING_FORMATTED_NUMBER);
 				break;
 			}
 		}

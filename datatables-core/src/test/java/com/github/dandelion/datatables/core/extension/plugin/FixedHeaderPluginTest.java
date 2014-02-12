@@ -18,7 +18,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 	public void shoud_load_the_extension_with_default_configuration() {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
 		assertThat(mainJsFile.getBeforeEndDocumentReady().toString()).contains(
 				"new FixedHeader(oTable_" + table.getId() + ",{\"top\":true});");
 	}
@@ -28,7 +28,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 		TableConfig.PLUGIN_FIXEDPOSITION.setIn(table.getTableConfiguration(), "top");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
 		assertThat(mainJsFile.getBeforeEndDocumentReady().toString()).contains(
 				"new FixedHeader(oTable_" + table.getId() + ",{\"top\":true});");
 	}
@@ -38,7 +38,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 		TableConfig.PLUGIN_FIXEDPOSITION.setIn(table.getTableConfiguration(), "bottom");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
 		assertThat(mainJsFile.getBeforeEndDocumentReady().toString()).contains(
 				"new FixedHeader(oTable_" + table.getId() + ",{\"bottom\":true});");
 	}
@@ -48,7 +48,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 		TableConfig.PLUGIN_FIXEDPOSITION.setIn(table.getTableConfiguration(), "right");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
 		assertThat(mainJsFile.getBeforeEndDocumentReady().toString()).contains(
 				"new FixedHeader(oTable_" + table.getId() + ",{\"right\":true});");
 	}
@@ -58,7 +58,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 		TableConfig.PLUGIN_FIXEDPOSITION.setIn(table.getTableConfiguration(), "RIGHT");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
 		assertThat(mainJsFile.getBeforeEndDocumentReady().toString()).contains(
 				"new FixedHeader(oTable_" + table.getId() + ",{\"right\":true});");
 	}
@@ -68,7 +68,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 		TableConfig.PLUGIN_FIXEDPOSITION.setIn(table.getTableConfiguration(), "left");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
 		assertThat(mainJsFile.getBeforeEndDocumentReady().toString()).contains(
 				"new FixedHeader(oTable_" + table.getId() + ",{\"left\":true});");
 	}
@@ -78,7 +78,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 		TableConfig.PLUGIN_FIXEDOFFSETTOP.setIn(table.getTableConfiguration(), 30);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
 		assertThat(mainJsFile.getBeforeEndDocumentReady().toString()).contains(
 				"new FixedHeader(oTable_" + table.getId() + ",{\"offsetTop\":30,\"top\":true});");
 	}

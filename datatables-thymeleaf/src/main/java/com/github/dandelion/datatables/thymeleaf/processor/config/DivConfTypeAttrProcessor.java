@@ -356,7 +356,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 			if (hasAttribute(element, "function")) {
 
 				String functionStr = getStringValue(element, "function");
-				functionStr = ProcessorUtils.getValueAfterProcessingScopes(functionStr, request);
+				functionStr = ProcessorUtils.getValueAfterProcessingBundles(functionStr, request);
 				CallbackType callbackType = null;
 				try {
 					callbackType = CallbackType.valueOf(typeStr.toUpperCase().trim());
@@ -406,10 +406,10 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 	@SuppressWarnings("unchecked")
 	private void processExtraJsAttributes(Element element) {
 
-		if (hasAttribute(element, "scopes")) {
+		if (hasAttribute(element, "bundles")) {
 
-			String scopes = AttributeUtils.parseStringAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX
-					+ ":scopes");
+			String bundles = AttributeUtils.parseStringAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX
+					+ ":bundles");
 			InsertMode insertMode = null;
 
 			if (hasAttribute(element, "insert")) {
@@ -428,20 +428,20 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 				insertMode = InsertMode.BEFOREALL;
 			}
 
-			Set<String> scopeSet = new HashSet<String>(Arrays.asList(scopes.split(",")));
+			Set<String> bundleSet = new HashSet<String>(Arrays.asList(bundles.split(",")));
 			if (configs.get(currentTableId).containsKey(ConfType.EXTRAJS)) {
-				((Set<ExtraJs>) configs.get(currentTableId).get(ConfType.EXTRAJS)).add(new ExtraJs(scopeSet,
+				((Set<ExtraJs>) configs.get(currentTableId).get(ConfType.EXTRAJS)).add(new ExtraJs(bundleSet,
 						insertMode));
 			}
 			else {
 				Set<ExtraJs> extraFiles = new HashSet<ExtraJs>();
-				extraFiles.add(new ExtraJs(scopeSet, insertMode));
+				extraFiles.add(new ExtraJs(bundleSet, insertMode));
 				configs.get(currentTableId).put(ConfType.EXTRAJS, extraFiles);
 
 			}
 		} else {
 			throw new ConfigurationProcessingException(
-					"The attribute 'dt:scopes' is required when defining an extra JavaScript.");
+					"The attribute 'dt:bundles' is required when defining an extra JavaScript.");
 		}
 	}
 

@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-ajax-reload",
+    "bundle" : "ddl-dt-ajax-reload",
     "parent": "jquery",
     "assets": [
         {

@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-paging-bootstrap-four-button",
+    "bundle" : "ddl-dt-paging-bootstrap-four-button",
     "parent": "ddl-dt",
     "assets": [
         {

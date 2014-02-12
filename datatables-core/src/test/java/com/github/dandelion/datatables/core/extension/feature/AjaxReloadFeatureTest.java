@@ -10,7 +10,7 @@ import java.util.HashSet;
 import org.junit.Test;
 
 import com.github.dandelion.core.asset.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
@@ -18,7 +18,7 @@ import com.github.dandelion.datatables.core.extension.Extension;
 public class AjaxReloadFeatureTest extends AbstractExtensionTest {
 
 	@Test
-	public void shoud_add_a_scope_and_append_a_default_function_to_BeforeEndDocumentReady() {
+	public void shoud_add_a_bundle_and_append_a_default_function_to_BeforeEndDocumentReady() {
 		
 		AjaxReloadFeature ajaxReloadFeature = new AjaxReloadFeature();
 		String mySelector = "#myReloadSelector";
@@ -30,13 +30,13 @@ public class AjaxReloadFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(ajaxReloadFeature)));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).contains(
-				Scope.DDL_DT_AJAX_RELOAD.getScopeName());
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).contains(
+				DatatableBundles.DDL_DT_AJAX_RELOAD.getBundleName());
 		assertThat(ajaxReloadFeature.getBeforeEndDocumentReady().toString()).isEqualTo(js.toString());
 	}
 	
 	@Test
-	public void shoud_add_a_scope_and_append_a_custom_function_to_BeforeEndDocumentReady() {
+	public void shoud_add_a_bundle_and_append_a_custom_function_to_BeforeEndDocumentReady() {
 		AjaxReloadFeature ajaxReloadFeature = new AjaxReloadFeature();
 		String mySelector = "#myReloadSelector";
 		String myFunction = "myFunction";
@@ -49,8 +49,8 @@ public class AjaxReloadFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(ajaxReloadFeature)));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).contains(
-				Scope.DDL_DT_AJAX_RELOAD.getScopeName());
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).contains(
+				DatatableBundles.DDL_DT_AJAX_RELOAD.getBundleName());
 		assertThat(ajaxReloadFeature.getBeforeEndDocumentReady().toString()).isEqualTo(js.toString());
 	}
 }

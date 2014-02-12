@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.core.asset;
 import java.util.Set;
 
 /**
- * POJO used to wrap a set of scopes to be inserted in the generated DataTable
+ * POJO used to wrap a set of bundles to be inserted in the generated DataTable
  * configuration..
  * 
  * @author Thibault Duchateau
@@ -40,20 +40,20 @@ import java.util.Set;
  */
 public class ExtraJs {
 
-	private Set<String> scopes;
+	private Set<String> bundles;
 	private InsertMode insert;
 
-	public ExtraJs(Set<String> scopes, InsertMode insert) {
-		this.scopes = scopes;
+	public ExtraJs(Set<String> bundles, InsertMode insert) {
+		this.bundles = bundles;
 		this.insert = insert;
 	}
 
-	public Set<String> getScopes() {
-		return scopes;
+	public Set<String> getBundles() {
+		return bundles;
 	}
 
-	public void setScopes(Set<String> scopes) {
-		this.scopes = scopes;
+	public void setBundles(Set<String> bundles) {
+		this.bundles = bundles;
 	}
 
 	public InsertMode getInsert() {

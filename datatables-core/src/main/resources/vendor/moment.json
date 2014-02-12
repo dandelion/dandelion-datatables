@@ -1,5 +1,5 @@
 {
-    "scope" : "moment",
+    "bundle" : "moment",
     "parent": "none",
     "assets": [
 		{

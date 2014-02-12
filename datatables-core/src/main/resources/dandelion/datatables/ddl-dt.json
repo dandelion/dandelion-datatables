@@ -1,5 +1,5 @@
 {
-	"scope": "ddl-dt",
+	"bundle": "ddl-dt",
 	"parent": "ddl-dt-root", 
     "assets": [
         {

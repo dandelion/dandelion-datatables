@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-paging-bootstrap",
+    "bundle" : "ddl-dt-paging-bootstrap",
     "parent": "bootstrap2",
     "assets": [
         {

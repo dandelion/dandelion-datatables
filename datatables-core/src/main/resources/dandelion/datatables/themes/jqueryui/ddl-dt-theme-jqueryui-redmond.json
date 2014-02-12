@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-theme-jqueryui-redmond",
+    "bundle" : "ddl-dt-theme-jqueryui-redmond",
     "parent": "ddl-dt-theme-jqueryui",
     "assets": [
         {

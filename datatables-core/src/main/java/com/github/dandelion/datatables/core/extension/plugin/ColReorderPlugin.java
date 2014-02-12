@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.extension.plugin;
 
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -58,7 +58,7 @@ public class ColReorderPlugin extends AbstractExtension {
 	 */
 	@Override
 	public void setup(HtmlTable table) {
-		addScope(Scope.DDL_DT_PLUGIN_COLREORDER);
+		addBundle(DatatableBundles.DDL_DT_PLUGIN_COLREORDER);
 		addParameter(DTConstants.DT_DOM, "R", Parameter.Mode.PREPEND);
 	}	
 }

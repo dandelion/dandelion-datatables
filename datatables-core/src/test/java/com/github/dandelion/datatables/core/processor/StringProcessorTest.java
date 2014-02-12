@@ -54,35 +54,35 @@ public class StringProcessorTest {
 	}
 	
 	@Test
-	public void should_update_the_table_entry_with_the_same_string_and_update_active_scopes() throws Exception{
-		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "scopeToAdd#someString");
+	public void should_update_the_table_entry_with_the_same_string_and_update_active_bundles() throws Exception{
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "bundleToAdd#someString");
 		ConfigurationProcessor processor = new StringProcessor(true);
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo("someString");
-		assertThat(AssetRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scopeToAdd");
+		assertThat(AssetRequestContext.get(tableConfiguration.getRequest()).getBundles(true)).contains("bundleToAdd");
 	}
 	
 	@Test
-	public void should_update_the_column_entry_with_the_same_string_and_update_active_scopes_with_one_scope() throws Exception{
-		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "scopeToAdd#someString");
+	public void should_update_the_column_entry_with_the_same_string_and_update_active_bundles_with_one_bundle() throws Exception{
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "bundleToAdd#someString");
 		ConfigurationProcessor processor = new StringProcessor(true);
 		processor.process(entry, columnConfiguration, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo("someString");
-		assertThat(AssetRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scopeToAdd");
+		assertThat(AssetRequestContext.get(tableConfiguration.getRequest()).getBundles(true)).contains("bundleToAdd");
 	}
 	
 	@Test
-	public void should_update_the_column_entry_with_the_same_string_and_update_active_scopes_with_multiple_scopes() throws Exception{
-		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, " scope1,scope2#someString");
+	public void should_update_the_column_entry_with_the_same_string_and_update_active_bundles_with_multiple_bundles() throws Exception{
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, " bundle1,bundle2#someString");
 		ConfigurationProcessor processor = new StringProcessor(true);
 		processor.process(entry, columnConfiguration, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo("someString");
-		assertThat(AssetRequestContext.get(tableConfiguration.getRequest()).getScopes(true)).contains("scope1", "scope2");
+		assertThat(AssetRequestContext.get(tableConfiguration.getRequest()).getBundles(true)).contains("bundle1", "bundle2");
 	}
 	
 	@Test(expected = ConfigurationProcessingException.class)
 	public void should_throw_an_exception_when_using_a_wrong_format() throws Exception{
-		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "scopeToAdd#");
+		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERDATA, "bundleToAdd#");
 		ConfigurationProcessor processor = new StringProcessor(true);
 		processor.process(entry, tableConfiguration);
 	}

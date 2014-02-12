@@ -1,5 +1,5 @@
 {
-    "scope" : "ddl-dt-sorting-date-uk",
+    "bundle" : "ddl-dt-sorting-date-uk",
     "parent": "datatables",
     "assets": [
         {

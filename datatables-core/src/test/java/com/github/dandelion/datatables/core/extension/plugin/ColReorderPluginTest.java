@@ -20,7 +20,7 @@ public class ColReorderPluginTest extends AbstractExtensionTest {
 	public void shoud_load_the_extension_with_default_configuration() {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new ColReorderPlugin())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
 		assertThat(mainConfig).includes(entry(DTConstants.DT_DOM, "R"));
 	}
 
@@ -30,7 +30,7 @@ public class ColReorderPluginTest extends AbstractExtensionTest {
 		mainConfig.put(DTConstants.DT_DOM, "lfr");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new ColReorderPlugin())));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getScopes(true)).hasSize(1);
+		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
 		assertThat(mainConfig).includes(entry(DTConstants.DT_DOM, "Rlfr"));
 	}
 }

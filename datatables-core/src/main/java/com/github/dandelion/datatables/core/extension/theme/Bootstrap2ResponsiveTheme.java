@@ -29,13 +29,11 @@
  */
 package com.github.dandelion.datatables.core.extension.theme;
 
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.configuration.Scope;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -50,7 +48,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * -responsive</a>, developed by <a
  * href="https://github.com/Comanche">Comanche</a>.
  * <p>
- * The extension updates the asset stack with the bootstrap2-responsive scope,
+ * The extension updates the asset stack with the bootstrap2-responsive bundle,
  * add necessary variables and adds the needed DataTable's parameters.
  * <p>
  * Also note that the HTML markup needs to be updated with the
@@ -86,9 +84,9 @@ public class Bootstrap2ResponsiveTheme extends AbstractExtension {
 		HttpServletRequest request = table.getTableConfiguration().getRequest();
 		
 		// Add necessary web resources
-		addScope(Scope.DDL_DT_THEME_BOOTSTRAP2_RESPONSIVE);
+		addBundle(DatatableBundles.DDL_DT_THEME_BOOTSTRAP2_RESPONSIVE);
         
-		addScopeParameter("datatables-responsive-css", "[root]", request.getContextPath());
+		addBundleParameter("datatables-responsive-css", "[root]", request.getContextPath());
 		
 		// Necessary variables and breakpoint definitions
 		StringBuilder var = new StringBuilder();
