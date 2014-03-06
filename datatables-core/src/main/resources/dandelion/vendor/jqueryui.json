@@ -1,0 +1,14 @@
+{
+    "bundle" : "jqueryui",
+    "dependencies": [ "jquery" ],
+    "assets": [
+		{
+		    "name": "jqueryui-js",
+		    "version": "1.10.3",
+		    "type": "js",
+		    "locations": {
+		        "cdn": "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.js"
+		    }
+		}
+    ]
+}

@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-paging-bootstrap-four-button",
-    "parent": "ddl-dt",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "bootstrap-four-button",

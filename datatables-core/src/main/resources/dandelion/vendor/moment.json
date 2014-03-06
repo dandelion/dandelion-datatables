@@ -1,6 +1,5 @@
 {
     "bundle" : "moment",
-    "parent": "none",
     "assets": [
 		{
 		    "name": "moment-js",

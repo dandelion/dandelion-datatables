@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-paging-bootstrap",
-    "parent": "bootstrap2",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "bootstrap-pagination",

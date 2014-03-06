@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-paging-extjs",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "extjs",

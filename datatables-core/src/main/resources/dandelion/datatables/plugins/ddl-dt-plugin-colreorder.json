@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-plugin-colreorder",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "colreorder-js",

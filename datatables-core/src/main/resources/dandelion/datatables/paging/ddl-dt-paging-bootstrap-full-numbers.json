@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-paging-bootstrap-full-numbers",
-    "parent": "ddl-dt",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "bootstrap-full-numbers",

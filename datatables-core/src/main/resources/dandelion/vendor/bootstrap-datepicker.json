@@ -1,6 +1,6 @@
 {
     "bundle" : "bootstrap-datepicker",
-    "parent": "bootstrap2",
+    "dependencies": [ "bootstrap2" ],
     "assets": [
 		{
 		    "name": "bootstrap-datepicker-js",

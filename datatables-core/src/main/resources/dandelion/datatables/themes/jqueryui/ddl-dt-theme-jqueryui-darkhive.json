@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-theme-jqueryui-darkhive",
-    "parent": "ddl-dt-theme-jqueryui",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
     "assets": [
         {
             "name": "jqueryui-darkhive-css",

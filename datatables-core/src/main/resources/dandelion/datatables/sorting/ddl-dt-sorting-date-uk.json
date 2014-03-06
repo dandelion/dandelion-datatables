@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-sorting-date-uk",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "sorting-date-uk",

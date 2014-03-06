@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-ajax-pipelining",
-    "parent": "jquery",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "pipelining-js",

@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-sorting-formatted-number",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "sorting-formatted-number",

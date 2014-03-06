@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-paging-fourbutton",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "fourbutton-js",

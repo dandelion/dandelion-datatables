@@ -1,6 +1,6 @@
 {
     "bundle" : "datatables",
-    "parent": "jquery",
+    "dependencies": [ "jquery" ],
     "assets": [
         {
             "name": "datatables-js",

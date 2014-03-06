@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-plugin-scroller",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "scroller-js",

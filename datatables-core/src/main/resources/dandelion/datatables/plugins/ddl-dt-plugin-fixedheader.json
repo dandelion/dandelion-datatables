@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-plugin-fixedheader",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "fixedHeader-css",

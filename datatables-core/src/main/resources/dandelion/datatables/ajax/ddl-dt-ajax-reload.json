@@ -1,13 +1,13 @@
 {
     "bundle" : "ddl-dt-ajax-reload",
-    "parent": "jquery",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "reload-js",
             "version": "1.0.0",
             "type": "js",
             "locations": {
-                "template": "datatables/ajax/reload.js"
+                "templated": "datatables/ajax/reload.js"
             }
         }
     ]

@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-sorting-alt-string",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "sorting-altstring",

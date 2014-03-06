@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-export",
-    "parent": "datatables",
+    "dependencies": [ "jquery" ],
     "assets": [
         {
             "name": "download-js",

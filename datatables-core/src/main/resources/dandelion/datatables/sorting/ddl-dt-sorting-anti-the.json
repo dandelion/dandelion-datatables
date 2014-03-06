@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-sorting-anti-the",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "sorting-altstring",

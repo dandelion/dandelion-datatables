@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-theme-jqueryui-smoothness",
-    "parent": "ddl-dt-theme-jqueryui",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
     "assets": [
         {
             "name": "jqueryui-smoothness-css",

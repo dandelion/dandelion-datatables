@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-paging-listbox",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "listbox",

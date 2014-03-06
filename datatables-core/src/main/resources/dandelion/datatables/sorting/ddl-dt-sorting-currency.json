@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-sorting-currency",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "sorting-currency",

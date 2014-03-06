@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-sorting-filesize",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "sorting-filesize",

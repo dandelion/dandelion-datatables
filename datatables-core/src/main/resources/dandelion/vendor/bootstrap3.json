@@ -1,0 +1,13 @@
+{
+    "bundle" : "bootstrap3",
+    "assets": [
+        {
+            "name": "bootstrap3-css",
+            "version": "3.0.3",
+            "type": "css",
+            "locations": {
+                "cdn": "//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.css"
+            }
+        }
+    ]
+}

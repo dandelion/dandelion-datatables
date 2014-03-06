@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-paging-input",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "input",

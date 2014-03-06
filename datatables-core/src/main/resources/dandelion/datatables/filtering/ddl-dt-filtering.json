@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-filtering",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "filtering-js",

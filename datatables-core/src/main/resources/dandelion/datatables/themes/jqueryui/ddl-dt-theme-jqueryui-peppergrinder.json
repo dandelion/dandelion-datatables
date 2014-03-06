@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-theme-jqueryui-peppergrinder",
-    "parent": "ddl-dt-theme-jqueryui",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
     "assets": [
         {
             "name": "jqueryui-peppergrinder-css",

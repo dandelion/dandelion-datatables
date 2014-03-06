@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-sorting-natural",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "sorting-natural",

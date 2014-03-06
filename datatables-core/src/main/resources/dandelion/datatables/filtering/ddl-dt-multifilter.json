@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-multifilter",
-    "parent": "datatables",
+    "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "multi-filter-js",

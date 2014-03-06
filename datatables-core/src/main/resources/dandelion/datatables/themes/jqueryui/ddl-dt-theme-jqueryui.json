@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-theme-jqueryui",
-    "parent": "jqueryui",
+    "dependencies": [ "jqueryui" ],
     "assets": [
         {
             "name": "jqueryui-css",
