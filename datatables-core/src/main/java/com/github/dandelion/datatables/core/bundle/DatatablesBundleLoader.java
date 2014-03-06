@@ -27,46 +27,63 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.asset;
+package com.github.dandelion.datatables.core.bundle;
+
+import java.util.Collections;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.core.asset.loader.impl.AbstractAssetJsonLoader;
+import com.github.dandelion.core.bundle.loader.impl.AbstractBundleLoader;
 
 /**
  * <p>
- * Asset loader specialized for Dandelion-Datatables.
+ * Bundle loader used to load bundles defined by users inside the
+ * {@code dandelion/datatables} folder (and all subfolders) of the classpath.
  * 
- * <p>
- * This loader just says that JSON files are under the
- * {@code dandelion/datatables} folder.
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
  */
-public class DatatablesAssetJsonLoader extends AbstractAssetJsonLoader {
+public class DatatablesBundleLoader extends AbstractBundleLoader {
 
-	// Logger
-    private static final Logger LOG = LoggerFactory.getLogger(DatatablesAssetJsonLoader.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DatatablesBundleLoader.class);
     
 	@Override
 	protected Logger getLogger() {
 		return LOG;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getName() {
 		return "dandelion-datatables";
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getPath() {
 		return "dandelion/datatables";
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean isRecursive() {
 		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Set<String> getExcludedPaths() {
+		return Collections.emptySet();
 	}
 }
