@@ -82,7 +82,6 @@ public final class TableConfig {
 	
 	public static final String P_MAIN_EXTENSION_PACKAGE = "main.extension.package";
 	public static final String P_MAIN_EXTENSION_NAMES = "main.extension.names";
-	public static final String P_MAIN_BASE_URL = "main.base.url";
 	
 	public static final String P_CSS_CLASS = "css.class";
 	public static final String P_CSS_STYLE = "css.style";
@@ -156,7 +155,6 @@ public final class TableConfig {
 			
 	public static ConfigToken<String> MAIN_EXTENSION_PACKAGE = new ConfigToken<String>(P_MAIN_EXTENSION_PACKAGE, new StringProcessor());
 	public static ConfigToken<Set<String>> MAIN_EXTENSION_NAMES = new ConfigToken<Set<String>>(P_MAIN_EXTENSION_NAMES, new MainExtensionNamesProcessor());
-	public static ConfigToken<String> MAIN_BASE_URL = new ConfigToken<String>(P_MAIN_BASE_URL, new StringProcessor());
 
 	public static ConfigToken<StringBuilder> CSS_CLASS = new ConfigToken<StringBuilder>(P_CSS_CLASS, new StringBuilderProcessor());
 	public static ConfigToken<StringBuilder> CSS_STYLE = new ConfigToken<StringBuilder>(P_CSS_STYLE, new StringBuilderProcessor());
@@ -236,7 +234,6 @@ public final class TableConfig {
 		internalConf = new HashMap<String, ConfigToken<?>>();
 		internalConf.put(P_MAIN_EXTENSION_PACKAGE, MAIN_EXTENSION_PACKAGE);
 		internalConf.put(P_MAIN_EXTENSION_NAMES, MAIN_EXTENSION_NAMES);
-		internalConf.put(P_MAIN_BASE_URL, MAIN_BASE_URL);
 		
 		internalConf.put(formalize(P_CSS_CLASS), CSS_CLASS);
 		internalConf.put(formalize(P_CSS_STYLE), CSS_STYLE);
@@ -321,38 +318,41 @@ public final class TableConfig {
 			return internalConf.get(propertyName);
 		}
 		else if(propertyName.contains("export")){
+			ConfigToken<?> exportConfigToken = null;
+
 			Pattern patternExportClass = Pattern.compile(ExportFormatProcessor.REGEX_EXPORT_CLASS, Pattern.CASE_INSENSITIVE);
 			if(patternExportClass.matcher(propertyName).find()){
-				ConfigToken<?> export = EXPORT_CLASS;
-				export.setPropertyName(propertyName);
-				return export;
+				exportConfigToken = EXPORT_CLASS;
+				exportConfigToken.setPropertyName(propertyName);
+				return exportConfigToken;
 			}
 			
 			Pattern patternExportFilename = Pattern.compile(ExportFormatProcessor.REGEX_EXPORT_FILENAME, Pattern.CASE_INSENSITIVE);
 			if(patternExportFilename.matcher(propertyName).find()){
-				ConfigToken<?> export = EXPORT_FILENAME;
-				export.setPropertyName(propertyName);
-				return export;
+				exportConfigToken = EXPORT_FILENAME;
+				exportConfigToken.setPropertyName(propertyName);
+				return exportConfigToken;
 			}
 			
 			Pattern patternExportLabel = Pattern.compile(ExportFormatProcessor.REGEX_EXPORT_LABEL, Pattern.CASE_INSENSITIVE);
 			if(patternExportLabel.matcher(propertyName).find()){
-				ConfigToken<?> export = EXPORT_LABEL;
-				export.setPropertyName(propertyName);
-				return export;
+				exportConfigToken = EXPORT_LABEL;
+				exportConfigToken.setPropertyName(propertyName);
+				return exportConfigToken;
 			}
 			
 			Pattern patternExportMimetype = Pattern.compile(ExportFormatProcessor.REGEX_EXPORT_MIMETYPE, Pattern.CASE_INSENSITIVE);
 			if(patternExportMimetype.matcher(propertyName).find()){
-				ConfigToken<?> export = EXPORT_MIMETYPE;
-				export.setPropertyName(propertyName);
-				return export;
+				exportConfigToken = EXPORT_MIMETYPE;
+				exportConfigToken.setPropertyName(propertyName);
+				return exportConfigToken;
 			}
 		}
 
 		return null;
 	}
 
+	
 	/**
 	 * <p>
 	 * Overloads the configurations stored in the {@link TableConfiguration}
@@ -369,12 +369,12 @@ public final class TableConfig {
 			HtmlTable table) {
 
 		for (Entry<ConfigToken<?>, Object> stagingEntry : stagingConf.entrySet()) {
-
 			table.getTableConfiguration().getConfigurations().put(stagingEntry.getKey(), stagingEntry.getValue());
 		}
 
 		return stagingConf;
 	}
+	
 	
 	/**
 	 * <p>
