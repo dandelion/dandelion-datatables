@@ -129,7 +129,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 	 */
 	public Properties loadUserConfiguration(Locale locale) {
 
-		if(DevMode.enabled()){
+		if(DevMode.isEnabled()){
 			ResourceBundle.clearCache();
 		}
 		

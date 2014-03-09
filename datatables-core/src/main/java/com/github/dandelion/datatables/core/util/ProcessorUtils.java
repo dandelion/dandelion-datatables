@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.core.util;
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.dandelion.core.asset.web.AssetRequestContext;
-import com.github.dandelion.core.asset.web.data.AssetBundle;
+import com.github.dandelion.core.bundle.Bundle;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
 
@@ -48,7 +48,7 @@ public final class ProcessorUtils {
 	/**
 	 * <p>
 	 * Some processors accept a special syntax, allowing to load one or more
-	 * Dandelion {@link AssetBundle}s in the current {@link HttpServletRequest}.
+	 * Dandelion {@link Bundle}s in the current {@link HttpServletRequest}.
 	 * 
 	 * <p>
 	 * The syntax is as follows:<br />

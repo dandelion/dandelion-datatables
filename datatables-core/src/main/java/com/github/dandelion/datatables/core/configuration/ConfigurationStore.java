@@ -77,7 +77,7 @@ public class ConfigurationStore {
 			locale = Locale.getDefault();
 		}
         
-		if(DevMode.enabled()){
+		if(DevMode.isEnabled()){
 			clear();
 		}
 		
