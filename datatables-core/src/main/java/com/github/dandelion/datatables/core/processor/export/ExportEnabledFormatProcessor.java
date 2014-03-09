@@ -31,11 +31,11 @@ package com.github.dandelion.datatables.core.processor.export;
 
 import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.utils.UrlUtils;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.extension.feature.ExportFeature;
 import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
-import com.github.dandelion.datatables.core.util.UrlUtils;
 
 /**
  * This processor is particular in the sense that it's returning null. Indeed,

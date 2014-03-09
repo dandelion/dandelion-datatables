@@ -40,11 +40,11 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.core.asset.web.AssetFilter;
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.utils.UrlUtils;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.export.HttpMethod;
-import com.github.dandelion.datatables.core.util.UrlUtils;
 
 /**
  * <p>
