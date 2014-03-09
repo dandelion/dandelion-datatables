@@ -31,14 +31,16 @@ package com.github.dandelion.datatables.core.extension.feature;
 
 import static com.github.dandelion.datatables.core.util.JavascriptUtils.INDENT;
 
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.dandelion.core.asset.Asset;
-import com.github.dandelion.core.asset.AssetStack;
 import com.github.dandelion.core.asset.AssetType;
+import com.github.dandelion.core.asset.AssetUtils;
+import com.github.dandelion.core.asset.Assets;
 import com.github.dandelion.core.asset.processor.impl.AssetLocationProcessor;
 import com.github.dandelion.core.asset.processor.spi.AssetProcessor;
 import com.github.dandelion.core.asset.wrapper.spi.AssetLocationWrapper;
@@ -57,7 +59,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class ExtraJsFeature extends AbstractExtension {
 
-	AssetProcessor assetLocationProcessorEntry = new AssetLocationProcessor();
+	private AssetProcessor assetLocationProcessor = new AssetLocationProcessor();
 
 	@Override
 	public String getName() {
@@ -68,15 +70,21 @@ public class ExtraJsFeature extends AbstractExtension {
 	public void setup(HtmlTable table) {
 
 		HttpServletRequest request = table.getTableConfiguration().getRequest();
-
+		Set<Asset> assetsToInject = null;
+		
 		for (ExtraJs extraJs : table.getTableConfiguration().getExtraJs()) {
-
-			List<Asset> assets = AssetStack.assetsFor(extraJs.getBundles());
-			List<Asset> jsAssets = AssetStack.filterByType(assets, AssetType.js);
-			List<Asset> processedAssets = assetLocationProcessorEntry.process(jsAssets, request);
-
-			Map<String, AssetLocationWrapper> wrappers = AssetStack.getAssetLocationWrappers();
-
+			
+			assetsToInject = new LinkedHashSet<Asset>();
+			
+			for(String bundleName : extraJs.getBundles()){
+				assetsToInject.addAll(Assets.getStorage().getBundleDag().getVertex(bundleName).getAssets());
+			}
+		
+			Set<Asset> jsAssets = AssetUtils.filterByType(assetsToInject, AssetType.js);
+			Set<Asset> processedAssets = assetLocationProcessor.process(jsAssets, request);
+	
+			Map<String, AssetLocationWrapper> wrappers = Assets.getAssetLocationWrappers();
+	
 			for (Asset asset : processedAssets) {
 				for (Map.Entry<String, String> location : asset.getLocations().entrySet()) {
 					AssetLocationWrapper wrapper = wrappers.get(location.getKey());
@@ -87,30 +95,30 @@ public class ExtraJsFeature extends AbstractExtension {
 					else {
 						content = ResourceUtils.getContentFromUrl(request, location.getValue(), true);
 					}
-
+	
 					if (!content.endsWith("\n")) {
 						content += "\n";
 					}
-
+	
 					switch (extraJs.getInsert()) {
 					case BEFOREALL:
 						appendToBeforeAll(content);
 						break;
-
+	
 					case AFTERSTARTDOCUMENTREADY:
 						appendToAfterStartDocumentReady(INDENT);
 						appendToAfterStartDocumentReady(content);
 						break;
-
+	
 					case BEFOREENDDOCUMENTREADY:
 						appendToAfterStartDocumentReady(INDENT);
 						appendToBeforeEndDocumentReady(content);
 						break;
-
+	
 					case AFTERALL:
 						appendToAfterAll(content);
 						break;
-
+	
 					case BEFORESTARTDOCUMENTREADY:
 						appendToBeforeStartDocumentReady(content);
 						break;
