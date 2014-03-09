@@ -42,7 +42,6 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -116,9 +115,16 @@ public abstract class ThymeleafBaseIT extends Fluent {
 					}
 				});
 
-				Capabilities capabilities = new DesiredCapabilities();
-				DriverService service = PhantomJSDriverService.createDefaultService(capabilities);
-				driver = new PhantomJSDriver(service, capabilities);
+				DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+				desiredCapabilities.setCapability("phantomjs.page.settings.handlesAlerts", false);
+				desiredCapabilities.setCapability("phantomjs.page.settings.localToRemoteUrlAccessEnabled", true);
+				desiredCapabilities.setCapability("phantomjs.page.settings.webSecurityEnabled", false);
+				desiredCapabilities.setCapability("takesScreenshot", false);
+				desiredCapabilities.setCapability("browserConnectionEnabled", true);
+				desiredCapabilities.setCapability("locationContextEnabled", true);
+				desiredCapabilities.setCapability("applicationCacheEnabled", true);
+				DriverService service = PhantomJSDriverService.createDefaultService(desiredCapabilities);
+				driver = new PhantomJSDriver(service, desiredCapabilities);
 			}
 
 			driver.manage().deleteAllCookies();
