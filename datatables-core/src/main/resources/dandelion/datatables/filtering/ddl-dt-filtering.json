@@ -3,7 +3,7 @@
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "name": "filtering-js",
+            "name": "dandelion-filtering",
             "version": "1.6.1",
             "type": "js",
             "locations": {

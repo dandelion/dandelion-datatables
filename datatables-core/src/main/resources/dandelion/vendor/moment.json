@@ -2,7 +2,7 @@
     "bundle" : "moment",
     "assets": [
 		{
-		    "name": "moment-js",
+		    "name": "moment",
 		    "version": "2.4.0",
 		    "type": "js",
 		    "locations": {

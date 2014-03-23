@@ -3,7 +3,7 @@
     "dependencies": [ "jquery" ],
     "assets": [
         {
-            "name": "datatables-js",
+            "name": "datatables",
             "version": "1.9.4",
             "type": "js",
             "locations": {
@@ -11,7 +11,7 @@
             }
         },
         {
-            "name": "datatables-css",
+            "name": "datatables",
             "version": "1.9.4",
             "type": "css",
             "locations": {

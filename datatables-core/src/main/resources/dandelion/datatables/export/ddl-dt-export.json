@@ -3,7 +3,7 @@
     "dependencies": [ "jquery" ],
     "assets": [
         {
-            "name": "download-js",
+            "name": "download",
             "version": "1.0.0",
             "type": "js",
             "locations": {

@@ -3,7 +3,7 @@
     "dependencies" : [ "jquery" ],
     "assets": [
         {
-            "name": "bootstrap2-js",
+            "name": "bootstrap2",
             "version": "2.3.2",
             "type": "js",
             "locations": {
@@ -11,7 +11,7 @@
             }
         },
         {
-            "name": "bootstrap2-css",
+            "name": "bootstrap2",
             "version": "2.3.2",
             "type": "css",
             "locations": {

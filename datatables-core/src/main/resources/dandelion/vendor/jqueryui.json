@@ -3,7 +3,7 @@
     "dependencies": [ "jquery" ],
     "assets": [
 		{
-		    "name": "jqueryui-js",
+		    "name": "jqueryui",
 		    "version": "1.10.3",
 		    "type": "js",
 		    "locations": {

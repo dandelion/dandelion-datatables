@@ -11,7 +11,7 @@
             }
         },
         {
-            "name": "datatables-responsive-js",
+            "name": "datatables-responsive",
             "version": "0.1.2",
             "type": "js",
             "locations": {
@@ -19,7 +19,7 @@
             }
         },
         {
-            "name": "datatables-responsive-css",
+            "name": "datatables-responsive",
             "version": "0.1.2",
             "type": "css",
             "locations": {

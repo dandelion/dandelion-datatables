@@ -3,7 +3,7 @@
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "name": "reload-js",
+            "name": "reload",
             "version": "1.0.0",
             "type": "js",
             "locations": {

@@ -3,7 +3,7 @@
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "name": "fixedHeader-css",
+            "name": "fixedHeader",
             "version": "2.1.0",
             "type": "css",
             "locations": {
@@ -11,7 +11,7 @@
             }
         },
         {
-            "name": "fixedHeader-js",
+            "name": "fixedHeader",
             "version": "2.1.0",
             "type": "js",
             "locations": {

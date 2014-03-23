@@ -3,7 +3,7 @@
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "name": "colreorder-js",
+            "name": "colreorder",
             "version": "1.1.0",
             "type": "js",
             "locations": {
@@ -11,7 +11,7 @@
             }
         },
         {
-            "name": "colreorder-css",
+            "name": "colreorder",
             "version": "1.1.0",
             "type": "css",
             "locations": {
