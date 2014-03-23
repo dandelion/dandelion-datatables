@@ -29,7 +29,7 @@
  */
 package com.github.dandelion.datatables.core.processor.export;
 
-import com.github.dandelion.core.asset.web.AssetFilter;
+import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.utils.UrlUtils;
 import com.github.dandelion.datatables.core.export.ExportConf;
@@ -75,7 +75,7 @@ public class ExportEnabledFormatProcessor extends AbstractConfigurationProcessor
 					UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, enabledFormat);
 					UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID, tableConfiguration.getTableId());
 					UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
-					UrlUtils.addParameter(exportUrl, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
+					UrlUtils.addParameter(exportUrl, WebConstants.DANDELION_ASSET_FILTER_STATE, false);
 					
 					exportConf = new ExportConf(enabledFormat, UrlUtils.getProcessedUrl(exportUrl, tableConfiguration.getRequest(), tableConfiguration.getResponse()));
 					

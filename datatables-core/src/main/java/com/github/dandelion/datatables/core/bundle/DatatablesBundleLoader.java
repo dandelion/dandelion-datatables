@@ -35,7 +35,8 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.core.bundle.loader.impl.AbstractBundleLoader;
+import com.github.dandelion.core.Context;
+import com.github.dandelion.core.bundle.loader.spi.AbstractBundleLoader;
 
 /**
  * <p>
@@ -48,8 +49,8 @@ import com.github.dandelion.core.bundle.loader.impl.AbstractBundleLoader;
  */
 public class DatatablesBundleLoader extends AbstractBundleLoader {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DatatablesBundleLoader.class);
-    
+	private static final Logger LOG = LoggerFactory.getLogger(DatatablesBundleLoader.class);
+
 	@Override
 	protected Logger getLogger() {
 		return LOG;
@@ -83,7 +84,7 @@ public class DatatablesBundleLoader extends AbstractBundleLoader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Set<String> getExcludedPaths() {
+	public Set<String> getExcludedPaths(Context context) {
 		return Collections.emptySet();
 	}
 }

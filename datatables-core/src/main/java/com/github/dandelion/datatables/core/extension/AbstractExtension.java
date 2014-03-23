@@ -35,7 +35,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.github.dandelion.core.Context;
 import com.github.dandelion.core.asset.web.AssetRequestContext;
+import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
@@ -278,6 +280,14 @@ public abstract class AbstractExtension implements Extension {
 	public boolean isNotNull(ConfigToken<?> configToken){
 		Object result = configToken.valueFrom(table.getTableConfiguration());
 		return result != null;
+	}
+	
+	/**
+	 * @return the Dandelion {@link Context}.
+	 */
+	public Context getContext(){
+		Context context = (Context) table.getTableConfiguration().getRequest().getAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE);
+		return context;
 	}
 	
 	@Override

@@ -38,13 +38,10 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.dandelion.core.asset.Asset;
+import com.github.dandelion.core.asset.AssetMapper;
 import com.github.dandelion.core.asset.AssetType;
-import com.github.dandelion.core.asset.AssetUtils;
-import com.github.dandelion.core.asset.Assets;
-import com.github.dandelion.core.asset.processor.impl.AssetLocationProcessor;
-import com.github.dandelion.core.asset.processor.spi.AssetProcessor;
-import com.github.dandelion.core.asset.wrapper.spi.AssetLocationWrapper;
-import com.github.dandelion.core.utils.ResourceUtils;
+import com.github.dandelion.core.asset.locator.spi.AssetLocator;
+import com.github.dandelion.core.storage.AssetStorageUnit;
 import com.github.dandelion.datatables.core.asset.ExtraJs;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -59,8 +56,6 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class ExtraJsFeature extends AbstractExtension {
 
-	private AssetProcessor assetLocationProcessor = new AssetLocationProcessor();
-
 	@Override
 	public String getName() {
 		return "extraJs";
@@ -69,60 +64,61 @@ public class ExtraJsFeature extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 
+		AssetMapper assetMapper = new AssetMapper(table.getTableConfiguration().getRequest(), getContext());
+		
 		HttpServletRequest request = table.getTableConfiguration().getRequest();
-		Set<Asset> assetsToInject = null;
+		Set<AssetStorageUnit> assetsToInject = null;
 		
 		for (ExtraJs extraJs : table.getTableConfiguration().getExtraJs()) {
 			
-			assetsToInject = new LinkedHashSet<Asset>();
-			
-			for(String bundleName : extraJs.getBundles()){
-				assetsToInject.addAll(Assets.getStorage().getBundleDag().getVertex(bundleName).getAssets());
-			}
-		
-			Set<Asset> jsAssets = AssetUtils.filterByType(assetsToInject, AssetType.js);
-			Set<Asset> processedAssets = assetLocationProcessor.process(jsAssets, request);
+			assetsToInject = new LinkedHashSet<AssetStorageUnit>();
 	
-			Map<String, AssetLocationWrapper> wrappers = Assets.getAssetLocationWrappers();
+//			AssetQuery aq = new AssetQuery(table.getTableConfiguration().getRequest(), getContext()).;
+			for(String bundleName : extraJs.getBundles()){
+				assetsToInject.addAll(getContext().getBundleStorage().getBundleDag().getVertex(bundleName).getAssetStorageUnits());
+			}
+
+			Set<AssetStorageUnit> filteredAsus = new LinkedHashSet<AssetStorageUnit>();
+			for (AssetStorageUnit asu: assetsToInject) {
+				if (asu.getType().equals(AssetType.js)) {
+					filteredAsus.add(asu);
+				}
+			}
+			
+			Set<Asset> processedAssets = assetMapper.mapToAssets(filteredAsus);
+	
+			Map<String, AssetLocator> locators = getContext().getAssetLocatorsMap();
 	
 			for (Asset asset : processedAssets) {
-				for (Map.Entry<String, String> location : asset.getLocations().entrySet()) {
-					AssetLocationWrapper wrapper = wrappers.get(location.getKey());
-					String content;
-					if (wrapper != null) {
-						content = wrapper.getWrappedContent(asset, request);
-					}
-					else {
-						content = ResourceUtils.getContentFromUrl(request, location.getValue(), true);
-					}
+				AssetLocator locator = locators.get(asset.getConfigLocationKey());
+				String content = locator.getContent(asset, request);
 	
-					if (!content.endsWith("\n")) {
-						content += "\n";
-					}
-	
-					switch (extraJs.getInsert()) {
-					case BEFOREALL:
-						appendToBeforeAll(content);
-						break;
-	
-					case AFTERSTARTDOCUMENTREADY:
-						appendToAfterStartDocumentReady(INDENT);
-						appendToAfterStartDocumentReady(content);
-						break;
-	
-					case BEFOREENDDOCUMENTREADY:
-						appendToAfterStartDocumentReady(INDENT);
-						appendToBeforeEndDocumentReady(content);
-						break;
-	
-					case AFTERALL:
-						appendToAfterAll(content);
-						break;
-	
-					case BEFORESTARTDOCUMENTREADY:
-						appendToBeforeStartDocumentReady(content);
-						break;
-					}
+				if (!content.endsWith("\n")) {
+					content += "\n";
+				}
+
+				switch (extraJs.getInsert()) {
+				case BEFOREALL:
+					appendToBeforeAll(content);
+					break;
+
+				case AFTERSTARTDOCUMENTREADY:
+					appendToAfterStartDocumentReady(INDENT);
+					appendToAfterStartDocumentReady(content);
+					break;
+
+				case BEFOREENDDOCUMENTREADY:
+					appendToAfterStartDocumentReady(INDENT);
+					appendToBeforeEndDocumentReady(content);
+					break;
+
+				case AFTERALL:
+					appendToAfterAll(content);
+					break;
+
+				case BEFORESTARTDOCUMENTREADY:
+					appendToBeforeStartDocumentReady(content);
+					break;
 				}
 			}
 		}

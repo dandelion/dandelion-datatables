@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
+import com.github.dandelion.core.Context;
+import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -22,6 +24,7 @@ public class AbstractExtensionTest {
 	@Before
 	public void setup() {
 		request = new MockHttpServletRequest();
+		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context());
 		table = new HtmlTable("fakeId", request, response);
 		table.getTableConfiguration().getConfigurations().clear();
 		table.addHeaderRow();

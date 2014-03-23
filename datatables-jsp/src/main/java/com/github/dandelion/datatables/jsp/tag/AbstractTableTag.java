@@ -45,8 +45,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.asset.locator.impl.DelegateLocator;
 import com.github.dandelion.core.asset.web.AssetRequestContext;
-import com.github.dandelion.core.asset.wrapper.impl.DelegateLocationWrapper;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
@@ -237,12 +237,12 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 					.get(request)
 					.addBundles(DatatableBundles.DDL_DT)
 					.addBundles(DatatableBundles.DATATABLES)
-					.addParameter("dandelion-datatables", DelegateLocationWrapper.DELEGATED_CONTENT_PARAM,
+					.addParameter("dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM,
 							DatatablesConfigurator.getJavascriptGenerator(), false);
 
 			// Buffering generated Javascript
 			JavascriptGenerator javascriptGenerator = AssetRequestContext.get(request).getParameterValue(
-					"dandelion-datatables", DelegateLocationWrapper.DELEGATED_CONTENT_PARAM);
+					"dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM);
 			javascriptGenerator.addResource(jsResource);
 
 			// HTML generation

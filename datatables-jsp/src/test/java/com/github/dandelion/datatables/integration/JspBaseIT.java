@@ -30,6 +30,8 @@
 package com.github.dandelion.datatables.integration;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import org.apache.jasper.servlet.JspServlet;
@@ -52,18 +54,22 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
+import com.github.dandelion.core.DandelionException;
+import com.github.dandelion.core.asset.Asset;
 import com.github.dandelion.core.asset.AssetType;
-import com.github.dandelion.core.asset.cache.AssetCacheSystem;
+import com.github.dandelion.core.asset.cache.AssetCacheManager;
+import com.github.dandelion.core.asset.web.AssetServlet;
+import com.github.dandelion.core.utils.ResourceUtils;
 import com.github.dandelion.datatables.mock.Mock;
 import com.github.dandelion.datatables.mock.Person;
 
 /**
  * <p>
- * Common abstract superclass for all tests, JSP or Thymeleaf.
+ * Common abstract superclass for all JSP integration tests.
  * 
  * <p>
  * This class initializes the Selenium WebDriver using a {@link TestWatcher}.
- * Also it contains some utility methods available in all tests.
+ * Also it contains some utility methods made available in all tests.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -210,8 +216,19 @@ public abstract class JspBaseIT extends Fluent {
 	}
 	
 	public String getConfigurationFromPage(String page) {
-		String url = "/" + page + ".jsp";
-		String cacheKey = AssetCacheSystem.generateCacheKey("http://" + SERVER_HOST + ":" + SERVER_PORT + url, "dandelion-datatables.js", "dandelion-datatables", AssetType.js);
-		return AssetCacheSystem.getContent(cacheKey);
+		AssetCacheManager cacheManager = new AssetCacheManager(null);
+		Asset asset = new Asset("dandelion-datatables", "0.10.0", AssetType.js);
+		String cacheKey = cacheManager.generateCacheKey("http://" + SERVER_HOST + ":" + SERVER_PORT + "/" + page + ".jsp", asset);
+		String url = "http://" + SERVER_HOST + ":" + SERVER_PORT + AssetServlet.DANDELION_ASSETS_URL + cacheKey;
+		try {
+			URL urlLocation = new URL(url);
+			return ResourceUtils.getContentFromInputStream(urlLocation.openStream());
+		}
+		catch (IOException e) {
+			StringBuilder sb = new StringBuilder("The content pointed by the url ");
+			sb.append(url);
+			sb.append(" can't be read.");
+			throw new DandelionException(sb.toString(), e);
+		}
 	}
 }

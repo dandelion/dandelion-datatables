@@ -23,7 +23,7 @@
             "version": "0.1.2",
             "type": "css",
             "locations": {
-            	"templated": "datatables/themes/bootstrap2-responsive/datatables.responsive.css"
+            	"classpath": "datatables/themes/bootstrap2-responsive/datatables.responsive.css"
             }
         }
     ]

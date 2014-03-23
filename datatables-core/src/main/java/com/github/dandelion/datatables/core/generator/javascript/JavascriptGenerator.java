@@ -29,7 +29,7 @@
  */
 package com.github.dandelion.datatables.core.generator.javascript;
 
-import com.github.dandelion.core.asset.wrapper.impl.DelegatedContent;
+import com.github.dandelion.core.asset.locator.impl.DelegatedContent;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
 

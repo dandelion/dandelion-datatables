@@ -38,6 +38,8 @@ import org.junit.Before;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
+import com.github.dandelion.core.Context;
+import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.mock.Mock;
@@ -63,7 +65,7 @@ public abstract class DomBaseTest {
 
 		// mock PageContext
 		mockPageContext = new MockPageContext(mockServletContext);
-
+		mockPageContext.getRequest().setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context());
 		buildTable();
 		
 		try {

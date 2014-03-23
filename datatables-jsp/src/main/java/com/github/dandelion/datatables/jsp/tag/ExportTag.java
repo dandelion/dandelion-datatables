@@ -37,7 +37,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.core.asset.web.AssetFilter;
+import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.utils.UrlUtils;
@@ -221,7 +221,7 @@ public class ExportTag extends TagSupport {
 			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID, parent.getTable().getId());
 			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, format);
 			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
-			UrlUtils.addParameter(exportUrl, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
+			UrlUtils.addParameter(exportUrl, WebConstants.DANDELION_ASSET_FILTER_STATE, false);
 			conf.setUrl(UrlUtils.getProcessedUrl(exportUrl, request, response));
 			
 			logger.debug("Export configuration for the type {} has been updated", format);

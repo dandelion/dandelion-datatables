@@ -13,7 +13,9 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
+import com.github.dandelion.core.Context;
 import com.github.dandelion.core.asset.web.AssetRequestContext;
+import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
@@ -32,6 +34,7 @@ public class StringProcessorTest {
 		MockServletContext mockServletContext = new MockServletContext();
 		MockPageContext mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
+		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context());
 		confToBeApplied = new HashMap<ConfigToken<?>, Object>();
 		tableConfiguration = new TableConfiguration(confToBeApplied, request);
 		columnConfiguration = new ColumnConfiguration();

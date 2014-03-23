@@ -48,8 +48,6 @@ public class NativeTableIT extends ThymeleafBaseIT {
 		
 		assertThat(find("table")).hasSize(1);
 		assertThat(find("div.dataTables_wrapper")).hasSize(0);
-		
-		assertThat(getConfigurationFromPage("issues/native-table-only")).isNull();
 	}
 	
 	@Test

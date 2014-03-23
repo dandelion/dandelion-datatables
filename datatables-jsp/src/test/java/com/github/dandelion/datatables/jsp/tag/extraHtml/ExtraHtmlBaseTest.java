@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
+import com.github.dandelion.core.Context;
+import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.jsp.tag.ColumnTag;
 import com.github.dandelion.datatables.jsp.tag.ExtraHtmlTag;
@@ -30,6 +32,7 @@ public abstract class ExtraHtmlBaseTest {
 		MockServletContext mockServletContext = new MockServletContext();
 
 		mockPageContext = new MockPageContext(mockServletContext);
+		mockPageContext.getRequest().setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context());
 		
 		tableTagBuilder = new TableTagBuilder(Mock.persons, "myTableId").context(mockPageContext).defaultTable();
 		tableTag = tableTagBuilder.getTableTag();

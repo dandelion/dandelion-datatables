@@ -43,7 +43,7 @@ import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.util.DOMUtils;
 
-import com.github.dandelion.core.asset.web.AssetFilter;
+import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.utils.UrlUtils;
@@ -325,7 +325,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID, currentTableId);
 		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, exportFormat);
 		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
-		UrlUtils.addParameter(exportUrl, AssetFilter.DANDELION_ASSET_FILTER_STATE, false);
+		UrlUtils.addParameter(exportUrl, WebConstants.DANDELION_ASSET_FILTER_STATE, false);
 		conf.setUrl(UrlUtils.getProcessedUrl(exportUrl, request, response));
 		
 		if (conf != null) {

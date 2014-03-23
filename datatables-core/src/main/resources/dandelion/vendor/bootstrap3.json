@@ -1,6 +1,15 @@
 {
     "bundle" : "bootstrap3",
+    "dependencies" : [ "jquery" ],
     "assets": [
+		{
+		    "name": "bootstrap3-js",
+		    "version": "3.0.3",
+		    "type": "js",
+		    "locations": {
+		        "cdn": "//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.js"
+		    }
+		},       
         {
             "name": "bootstrap3-css",
             "version": "3.0.3",

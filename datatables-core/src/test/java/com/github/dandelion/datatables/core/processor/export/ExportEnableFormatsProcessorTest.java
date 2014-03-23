@@ -36,7 +36,7 @@ import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
-import com.github.dandelion.core.asset.web.AssetFilter;
+import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.export.ExportConf;
@@ -67,7 +67,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getMimeType()).isEqualTo("text/csv");
 		assertThat(csvExportConf.getLabel()).isEqualTo("CSV");
 		assertThat(csvExportConf.getIncludeHeader()).isTrue();
-		assertThat(csvExportConf.getUrl()).isEqualTo("?dtt=f&dtf=csv&dti=fakeId&dtp=y&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
+		assertThat(csvExportConf.getUrl()).isEqualTo("?dtt=f&dtf=csv&dti=fakeId&dtp=y&" + WebConstants.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(csvExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(csvExportConf.getAutoSize()).isTrue();
 		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
@@ -85,7 +85,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getMimeType()).isEqualTo("text/csv");
 		assertThat(csvExportConf.getLabel()).isEqualTo("CSV");
 		assertThat(csvExportConf.getIncludeHeader()).isTrue();
-		assertThat(csvExportConf.getUrl()).isEqualTo("?dtt=f&dtf=csv&dti=fakeId&dtp=y&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
+		assertThat(csvExportConf.getUrl()).isEqualTo("?dtt=f&dtf=csv&dti=fakeId&dtp=y&" + WebConstants.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(csvExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(csvExportConf.getAutoSize()).isTrue();
 		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
@@ -106,7 +106,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getMimeType()).isEqualTo("text/csv");
 		assertThat(csvExportConf.getLabel()).isEqualTo("CSV");
 		assertThat(csvExportConf.getIncludeHeader()).isTrue();
-		assertThat(csvExportConf.getUrl()).isEqualTo("?dtt=f&dtf=csv&dti=fakeId&dtp=y&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
+		assertThat(csvExportConf.getUrl()).isEqualTo("?dtt=f&dtf=csv&dti=fakeId&dtp=y&" + WebConstants.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(csvExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(csvExportConf.getAutoSize()).isTrue();
 		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
@@ -119,7 +119,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(pdfExportConf.getMimeType()).isEqualTo("application/pdf");
 		assertThat(pdfExportConf.getLabel()).isEqualTo("PDF");
 		assertThat(pdfExportConf.getIncludeHeader()).isTrue();
-		assertThat(pdfExportConf.getUrl()).isEqualTo("?dtt=f&dtf=pdf&dti=fakeId&dtp=y&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
+		assertThat(pdfExportConf.getUrl()).isEqualTo("?dtt=f&dtf=pdf&dti=fakeId&dtp=y&" + WebConstants.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(pdfExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(pdfExportConf.getAutoSize()).isTrue();
 		assertThat(pdfExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_PDF_CLASS);
@@ -141,7 +141,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getMimeType()).isEqualTo("text/csv");
 		assertThat(csvExportConf.getLabel()).isEqualTo("CSV");
 		assertThat(csvExportConf.getIncludeHeader()).isTrue();
-		assertThat(csvExportConf.getUrl()).isEqualTo("?dtt=f&dtf=csv&dti=fakeId&dtp=y&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
+		assertThat(csvExportConf.getUrl()).isEqualTo("?dtt=f&dtf=csv&dti=fakeId&dtp=y&" + WebConstants.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(csvExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(csvExportConf.getAutoSize()).isTrue();
 		assertThat(csvExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_CSV_CLASS);
@@ -154,7 +154,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(pdfExportConf.getMimeType()).isEqualTo("application/pdf");
 		assertThat(pdfExportConf.getLabel()).isEqualTo("PDF");
 		assertThat(pdfExportConf.getIncludeHeader()).isTrue();
-		assertThat(pdfExportConf.getUrl()).isEqualTo("?dtt=f&dtf=pdf&dti=fakeId&dtp=y&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
+		assertThat(pdfExportConf.getUrl()).isEqualTo("?dtt=f&dtf=pdf&dti=fakeId&dtp=y&" + WebConstants.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(pdfExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(pdfExportConf.getAutoSize()).isTrue();
 		assertThat(pdfExportConf.getExportClass()).isEqualTo(ExportConf.DEFAULT_PDF_CLASS);
@@ -176,7 +176,7 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(myFormatExportConf.getMimeType()).isNull();
 		assertThat(myFormatExportConf.getLabel()).isEqualTo("MYFORMAT");
 		assertThat(myFormatExportConf.getIncludeHeader()).isTrue();
-		assertThat(myFormatExportConf.getUrl()).isEqualTo("?dtt=f&dtf=myformat&dti=fakeId&dtp=y&" + AssetFilter.DANDELION_ASSET_FILTER_STATE + "=false");
+		assertThat(myFormatExportConf.getUrl()).isEqualTo("?dtt=f&dtf=myformat&dti=fakeId&dtp=y&" + WebConstants.DANDELION_ASSET_FILTER_STATE + "=false");
 		assertThat(myFormatExportConf.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(myFormatExportConf.getAutoSize()).isTrue();
 		assertThat(myFormatExportConf.getExportClass()).isNull();
