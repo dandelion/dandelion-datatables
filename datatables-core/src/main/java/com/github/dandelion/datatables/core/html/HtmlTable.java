@@ -35,7 +35,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 
@@ -220,20 +219,6 @@ public class HtmlTable extends HtmlTag {
 		TableConfig.CSS_CLASS.appendIn(this.tableConfiguration, cssClass);
 	}
 	
-	public HtmlColumn getColumnHeadByUid(String uid) {
-		for (HtmlRow row : this.head) {
-			for (HtmlColumn column : row.getColumns()) {
-				if (column.isHeaderColumn() != null && column.isHeaderColumn()
-						&& ColumnConfig.UID.valueFrom(column.getColumnConfiguration()) != null
-						&& ColumnConfig.UID.valueFrom(column.getColumnConfiguration()).equals(uid)) {
-					return column;
-				}
-			}
-
-		}
-		return null;
-	}
-
 	public TableConfiguration getTableConfiguration() {
 		return tableConfiguration;
 	}

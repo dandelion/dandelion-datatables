@@ -1183,23 +1183,6 @@
       <name>columnHead</name>
       <tag-class>com.github.dandelion.datatables.jsp.tag.ColumnHeadTag</tag-class>
       <body-content>JSP</body-content>
-      <attribute>
-         <description>
-         <![CDATA[
-            <p>Unique id to be given to the columnHead.</p>
-            <p>This uid must match with the uid specified in the 'uid' column attribute.</p>
-            <p>
-            <ul>
-            <li>Required: <b>yes</b></li>
-            <li>Data source: <b>DOM / AJAX</b></li>
-            </ul>
-            </p>
-         ]]>
-         </description>
-         <name>uid</name>
-         <required>true</required>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
    </tag>
 
    <!-- ====================================== -->

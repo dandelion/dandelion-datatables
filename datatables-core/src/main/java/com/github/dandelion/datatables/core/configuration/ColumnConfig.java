@@ -61,7 +61,6 @@ import com.github.dandelion.datatables.core.processor.column.SortTypeProcessor;
  */
 public final class ColumnConfig {
 
-	public static ConfigToken<String> UID = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> ID = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> TITLE = new ConfigToken<String>("", new StringProcessor());
 	public static ConfigToken<String> TITLEKEY = new ConfigToken<String>("", new StringProcessor());

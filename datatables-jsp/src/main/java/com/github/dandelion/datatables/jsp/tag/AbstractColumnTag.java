@@ -114,32 +114,35 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	 * Internal attributes
 	 */
 	protected Map<String, String> dynamicAttributes;
+	protected HtmlColumn headerColumn;
 
 	/**
 	 * <p>
-	 * Adds a head column to the last head row when using a DOM source.
+	 * Adds a header column to the last head row when using a DOM source.
 	 * 
 	 * @param content
 	 *            Content of the <code>th</code> cell.
 	 * @throws JspException
 	 */
-	protected void addDomHeadColumn(String content) throws JspException {
+	protected void addDomHeaderColumn(String content) throws JspException {
 
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-		HtmlColumn headColumn = new HtmlColumn(true, content, dynamicAttributes, display);
+		if(content != null){
+			headerColumn.setContent(new StringBuilder(content));
+		}
 
 		// At this point, all setters have been called and both the staging
 		// configuration map and staging extension map should have been filled
 		// with user configuration
 		// The user configuration can now be applied to the default
 		// configuration
-		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headColumn);
+		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headerColumn);
 		
 		// Once all configuration are merged, they can be processed
-		ColumnConfig.processConfiguration(headColumn, parent.getTable());
+		ColumnConfig.processConfiguration(headerColumn, parent.getTable());
 
-		parent.getTable().getLastHeaderRow().addColumn(headColumn);
+		parent.getTable().getLastHeaderRow().addColumn(headerColumn);
 	}
 
 	/**
@@ -172,20 +175,22 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 
 	/**
 	 * <p>
-	 * Add a header column to the table when using AJAX source.
+	 * Adds a header column to the table when using AJAX source.
 	 * <p>
 	 * Column are always marked as "header" using an AJAX source.
 	 * 
 	 * @param isHeader
 	 * @param content
 	 */
-	protected void addAjaxColumn(Boolean isHeader, String content) throws JspException {
+	protected void addAjaxHeaderColumn(Boolean isHeader, String content) throws JspException {
 
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-		HtmlColumn headColumn = new HtmlColumn(true, content, dynamicAttributes);
+		if(content != null){
+			headerColumn.setContent(new StringBuilder(content));
+		}
 
-		ColumnConfig.DEFAULTVALUE.setIn(headColumn.getColumnConfiguration(),
+		ColumnConfig.DEFAULTVALUE.setIn(headerColumn.getColumnConfiguration(),
 				StringUtils.isNotBlank(defaultValue) ? defaultValue : "");
 
 		// At this point, all setters have been called and both the staging
@@ -193,12 +198,12 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		// with user configuration
 		// The user configuration can now be applied to the default
 		// configuration
-		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headColumn);
+		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headerColumn);
 		
 		// Once all configuration are merged, they can be processed
-		ColumnConfig.processConfiguration(headColumn, parent.getTable());
+		ColumnConfig.processConfiguration(headerColumn, parent.getTable());
 
-		parent.getTable().getLastHeaderRow().addColumn(headColumn);
+		parent.getTable().getLastHeaderRow().addColumn(headerColumn);
 	}
 
 	/**
@@ -297,5 +302,13 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 			throw new IllegalArgumentException("The attribute " + localName
 					+ " won't be added to the table. Only string values are accepted.");
 		}
+	}
+	
+	protected HtmlColumn getHeaderColumn(){
+		return this.headerColumn;
+	}
+	
+	protected Map<ConfigToken<?>, Object> getStagingConf(){
+		return stagingConf;
 	}
 }

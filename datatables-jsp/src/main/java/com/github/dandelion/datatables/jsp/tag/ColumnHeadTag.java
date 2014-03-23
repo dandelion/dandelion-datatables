@@ -32,8 +32,7 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
-import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.html.HtmlColumn;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 
 /**
  * <p>
@@ -67,21 +66,16 @@ public class ColumnHeadTag extends BodyTagSupport {
 	private static final long serialVersionUID = -8928415196287387948L;
 
 	/**
-	 * Tag attributes
-	 */
-	private String uid;
-
-	/**
 	 * {@inheritDoc}
 	 */
 	public int doStartTag() throws JspException {
 
-		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
-		if(parent != null){
+		ColumnTag parent = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
+		if (parent != null) {
 			return EVAL_BODY_BUFFERED;
 		}
-		
-		throw new JspException("The tag 'columnHead' must be inside the 'table' tag.");
+
+		throw new JspException("The 'columnHead' tag must be inside the 'column' tag.");
 	}
 
 	/**
@@ -96,21 +90,28 @@ public class ColumnHeadTag extends BodyTagSupport {
 	 */
 	public int doEndTag() throws JspException {
 
-		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+		TableTag tableTag = (TableTag) findAncestorWithClass(this, TableTag.class);
 
-		if (StringUtils.isNotBlank(this.uid)) {
-			HtmlColumn column = parent.getTable().getColumnHeadByUid(this.uid);
-			if (column != null) {
-				column.setContent(new StringBuilder(getBodyContent().getString()));
-			}
-		} else {
-			throw new JspException("The attribute 'uid' is required. Please read the documentation.");
+		// The tag is evaluated only once, at the first iteration
+		if (tableTag.isFirstIteration()) {
+
+			ColumnTag parentColumnTag = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
+
+			// The content of the header column is overriden with the content of
+			// the columnHeader tag
+			parentColumnTag.getHeaderColumn().setContent(new StringBuilder(getBodyContent().getString()));
 		}
 
 		return EVAL_PAGE;
 	}
-	
-	public void setUid(String uid) {
-		this.uid = uid;
+
+	public void setCssStyle(String cssStyle) {
+		ColumnTag parent = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
+		parent.getStagingConf().put(ColumnConfig.CSSSTYLE, cssStyle);
+	}
+
+	public void setCssClass(String cssClass) {
+		ColumnTag parent = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
+		parent.getStagingConf().put(ColumnConfig.CSSCLASS, cssClass);
 	}
 }
