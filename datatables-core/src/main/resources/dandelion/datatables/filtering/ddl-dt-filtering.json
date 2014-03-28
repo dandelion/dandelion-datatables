@@ -7,7 +7,7 @@
             "version": "1.6.1",
             "type": "js",
             "locations": {
-                "classpath": "datatables/features/filtering/filteringaddon.js"
+                "jar": "dandelion/datatables/filtering/filteringaddon.js"
             }
         }
     ]

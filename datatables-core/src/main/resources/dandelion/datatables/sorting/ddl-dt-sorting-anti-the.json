@@ -3,11 +3,11 @@
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "name": "sorting-altstring",
+            "name": "anti-the",
             "version": "1.0.0",
             "type": "js",
             "locations": {
-                "classpath": "datatables/features/sorting/alt-string.js"
+                "jar": "dandelion/datatables/sorting/anti-the.js"
             }
         }
     ]

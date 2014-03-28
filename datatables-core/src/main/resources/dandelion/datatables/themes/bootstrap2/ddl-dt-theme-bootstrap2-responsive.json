@@ -15,7 +15,7 @@
             "version": "0.1.2",
             "type": "js",
             "locations": {
-                "classpath": "datatables/themes/bootstrap2-responsive/datatables.responsive.js"
+                "jar": "dandelion/datatables/themes/bootstrap2-responsive/datatables.responsive.js"
             }
         },
         {
@@ -23,7 +23,7 @@
             "version": "0.1.2",
             "type": "css",
             "locations": {
-            	"classpath": "datatables/themes/bootstrap2-responsive/datatables.responsive.css"
+            	"jar": "dandelion/datatables/themes/bootstrap2-responsive/datatables.responsive.css"
             }
         }
     ]

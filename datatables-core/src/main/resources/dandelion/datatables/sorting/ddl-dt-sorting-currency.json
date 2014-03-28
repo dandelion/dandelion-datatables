@@ -7,7 +7,7 @@
             "version": "1.0.0",
             "type": "js",
             "locations": {
-                "classpath": "datatables/features/sorting/currency.js"
+                "jar": "dandelion/datatables/sorting/currency.js"
             }
         }
     ]

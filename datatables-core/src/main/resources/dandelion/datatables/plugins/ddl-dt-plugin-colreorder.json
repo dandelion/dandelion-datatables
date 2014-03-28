@@ -7,7 +7,7 @@
             "version": "1.1.0",
             "type": "js",
             "locations": {
-                "classpath": "datatables/plugins/colreorder/dataTables.colReorder.js"
+                "jar": "dandelion/datatables/plugins/colreorder/dataTables.colReorder.js"
             }
         },
         {
@@ -15,7 +15,7 @@
             "version": "1.1.0",
             "type": "css",
             "locations": {
-                "classpath": "datatables/plugins/colreorder/dataTables.colReorder.css"
+                "jar": "dandelion/datatables/plugins/colreorder/dataTables.colReorder.css"
             }
         }
     ]

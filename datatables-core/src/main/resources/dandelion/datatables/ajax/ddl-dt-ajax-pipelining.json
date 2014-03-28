@@ -7,7 +7,7 @@
             "version": "1.0.0",
             "type": "js",
             "locations": {
-                "classpath" : "datatables/ajax/pipelining.js"
+                "jar" : "dandelion/datatables/ajax/pipelining.js"
             }
         }
     ]

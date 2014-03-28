@@ -7,7 +7,7 @@
             "version": "1.0.0",
             "type": "js",
             "locations": {
-                "classpath": "datatables/features/paginationType/extjs.js"
+                "jar": "dandelion/datatables/paging/extjs.js"
             }
         }
     ]

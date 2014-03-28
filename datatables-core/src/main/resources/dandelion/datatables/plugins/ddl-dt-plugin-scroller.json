@@ -7,7 +7,7 @@
             "version": "1.2.0",
             "type": "js",
             "locations": {
-                "classpath": "datatables/plugins/scroller/dataTables.scroller.js"
+                "jar": "dandelion/datatables/plugins/scroller/dataTables.scroller.js"
             }
         },
         {
@@ -15,7 +15,7 @@
             "version": "1.2.0",
             "type": "css",
             "locations": {
-                "classpath": "datatables/plugins/scroller/dataTables.scroller.css"
+                "jar": "dandelion/datatables/plugins/scroller/dataTables.scroller.css"
             }
         }
     ]

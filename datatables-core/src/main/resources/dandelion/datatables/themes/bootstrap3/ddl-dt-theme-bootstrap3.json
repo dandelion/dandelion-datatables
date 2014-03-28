@@ -7,7 +7,7 @@
             "version": "1.0.0",
             "type": "js",
             "locations": {
-                "classpath": "datatables/themes/bootstrap3/dataTables.bootstrap.js"
+                "jar": "dandelion/datatables/themes/bootstrap3/dataTables.bootstrap.js"
             }
         },
         {
@@ -15,7 +15,7 @@
             "version": "1.0.0",
             "type": "css",
             "locations": {
-                "classpath": "datatables/themes/bootstrap3/dataTables.bootstrap.css"
+                "jar": "dandelion/datatables/themes/bootstrap3/dataTables.bootstrap.css"
             }
         }
     ]

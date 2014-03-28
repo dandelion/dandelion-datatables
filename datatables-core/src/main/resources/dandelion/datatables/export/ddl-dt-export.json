@@ -7,7 +7,7 @@
             "version": "1.0.0",
             "type": "js",
             "locations": {
-                "classpath": "datatables/export/download.js"
+                "jar": "dandelion/datatables/export/download.js"
             }
         }
     ]

@@ -7,7 +7,7 @@
             "version": "0.0.1",
             "type": "css",
             "locations": {
-                "classpath": "datatables/themes/jqueryui/jqueryui.css"
+                "jar": "dandelion/datatables/themes/jqueryui/jqueryui.css"
             }
         }
     ]

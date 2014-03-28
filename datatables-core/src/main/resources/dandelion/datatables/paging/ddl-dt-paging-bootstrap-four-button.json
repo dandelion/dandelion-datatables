@@ -7,7 +7,7 @@
             "version": "1.0.0",
             "type": "js",
             "locations": {
-                "classpath": "datatables/features/paginationType/bootstrap_four_button.js"
+                "jar": "dandelion/datatables/paging/bootstrap_four_button.js"
             }
         }
     ]

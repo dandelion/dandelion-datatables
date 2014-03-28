@@ -7,7 +7,7 @@
             "version": "2.1.0",
             "type": "css",
             "locations": {
-                "classpath": "datatables/plugins/fixedheader/dataTables.fixedHeader.css"
+                "jar": "dandelion/datatables/plugins/fixedheader/dataTables.fixedHeader.css"
             }
         },
         {
@@ -15,7 +15,7 @@
             "version": "2.1.0",
             "type": "js",
             "locations": {
-                "classpath": "datatables/plugins/fixedheader/dataTables.fixedHeader.js"
+                "jar": "dandelion/datatables/plugins/fixedheader/dataTables.fixedHeader.js"
             }
         }
     ]
