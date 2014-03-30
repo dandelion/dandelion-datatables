@@ -54,6 +54,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.core.utils.LibraryDetector;
 import com.github.dandelion.core.utils.PropertiesUtils;
 import com.github.dandelion.core.utils.StringUtils;
@@ -102,14 +103,16 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 						.getResourceAsStream(DT_DEFAULT_PROPERTIES);
 				Reader reader = new InputStreamReader(propertiesStream, "UTF-8");
 				propertiesResource.load(reader);
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				throw new ConfigurationLoadingException("Unable to load the default configuration file", e);
 			}
 			finally {
 				if (propertiesStream != null) {
 					try {
 						propertiesStream.close();
-					} catch (IOException e) {
+					}
+					catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -131,7 +134,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		// Always clear the cache
 		ResourceBundle.clearCache();
 		ResourceBundle userBundle = null;
-		
+
 		// First check if the resource bundle is externalized
 		if (StringUtils.isNotBlank(System.getProperty(SystemConstants.DANDELION_DT_CONFIGURATION))) {
 
@@ -141,9 +144,11 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 				URL resourceURL = new File(path).toURI().toURL();
 				URLClassLoader urlLoader = new URLClassLoader(new URL[] { resourceURL });
 				userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES, locale, urlLoader, new UTF8Control());
-			} catch (MalformedURLException e) {
+			}
+			catch (MalformedURLException e) {
 				logger.warn("Wrong path to the externalized bundle", e);
-			} catch (MissingResourceException e) {
+			}
+			catch (MissingResourceException e) {
 				logger.info("No *.properties file in {}. Trying to lookup in classpath...", path);
 			}
 		}
@@ -151,14 +156,17 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		// No system property is set, retrieves the bundle from the classpath
 		if (userBundle == null) {
 			try {
-				userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES_LOCATION + DT_USER_PROPERTIES, locale, new UTF8Control());
-			} catch (MissingResourceException e) {
+				userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES_LOCATION + DT_USER_PROPERTIES, locale,
+						new UTF8Control());
+			}
+			catch (MissingResourceException e) {
 				// if no resource bundle is found, try using the context
 				// classloader
 				try {
-					userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES_LOCATION + DT_USER_PROPERTIES, locale, Thread.currentThread()
-							.getContextClassLoader(), new UTF8Control());
-				} catch (MissingResourceException mre) {
+					userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES_LOCATION + DT_USER_PROPERTIES, locale,
+							Thread.currentThread().getContextClassLoader(), new UTF8Control());
+				}
+				catch (MissingResourceException mre) {
 					logger.debug("No custom configuration. Using default one.");
 				}
 			}
@@ -177,10 +185,10 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 
 		Set<String> groups = new HashSet<String>();
 
-		if(userProperties != null && !userProperties.isEmpty()){
+		if (userProperties != null && !userProperties.isEmpty()) {
 			for (Entry<Object, Object> entry : userProperties.entrySet()) {
 				String key = entry.getKey().toString();
-				if(!key.contains("i18n.locale.resolver")){
+				if (!key.contains("i18n.locale.resolver") && !key.contains("main.standalone")) {
 					groups.add(key.substring(0, key.indexOf(".")));
 				}
 			}
@@ -188,14 +196,14 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 
 		// The 'global' group is always added
 		groups.add(DEFAULT_GROUP_NAME);
-		
+
 		logger.debug("{} groups declared {}.", groups.size(), groups.toString());
-		
+
 		this.groups = groups;
-		
+
 		return this.groups;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -205,7 +213,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		logger.debug("Resolving configurations for the locale {}...", locale);
 
 		loadAutoConfiguration(userProperties);
-		
+
 		// Retrieve the configuration for the 'global' group
 		// The 'global' group contains all defaut properties, some of which may
 		// have been overriden by user
@@ -214,7 +222,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		Properties globalProperties = new Properties();
 		for (Entry<Object, Object> entry : defaultProperties.entrySet()) {
 			String key = entry.getKey().toString();
-			if(!key.equals("i18n.locale.resolver")){
+			if (!key.equals("i18n.locale.resolver") && !key.equals("main.standalone")) {
 				globalProperties.put(key.substring(key.indexOf(".") + 1), entry.getValue());
 			}
 		}
@@ -225,12 +233,18 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 			}
 		}
 
+		// Updates the ARC if Dandelion-Datatables is used in a standalone mode
+		if (userProperties.containsKey("main.standalone")
+				&& userProperties.getProperty("main.standalone").equals("true")) {
+			AssetRequestContext.get(request).excludeBundles(STANDALONE_BUNDLES_TO_EXCLUDE);
+		}
+
 		// Compute configuration to apply on each group
 		Map<ConfigToken<?>, Object> userConf = null;
 		Map<String, List<String>> wrongKeys = new HashMap<String, List<String>>();
-		
+
 		for (String groupName : groups) {
-			
+
 			// groupedProperties = globalProperties + current group
 			Properties groupedProperties = new Properties();
 			groupedProperties.putAll(globalProperties);
@@ -240,24 +254,23 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 					groupedProperties.put(key.substring(key.indexOf(".") + 1), entry.getValue());
 				}
 			}
-			
-			logger.debug("Group '{}' initialized with {} properties", groupName,
-					groupedProperties.size());
+
+			logger.debug("Group '{}' initialized with {} properties", groupName, groupedProperties.size());
 
 			userConf = new HashMap<ConfigToken<?>, Object>();
 
 			for (Entry<Object, Object> entry : groupedProperties.entrySet()) {
 				String key = entry.getKey().toString().trim().toLowerCase();
-				
+
 				ConfigToken<?> configToken = TableConfig.findByPropertyName(key);
 				if (configToken != null) {
 					userConf.put(configToken, entry.getValue().toString());
-				} 
+				}
 				else {
-					if(wrongKeys.containsKey(groupName)){
+					if (wrongKeys.containsKey(groupName)) {
 						wrongKeys.get(groupName).add(key);
 					}
-					else{
+					else {
 						List<String> values = new ArrayList<String>();
 						values.add(key);
 						wrongKeys.put(groupName, values);
@@ -288,23 +301,23 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 			logger.error(msg.toString());
 			throw new ConfigurationLoadingException(msg.toString());
 		}
-		
+
 		logger.debug("{} group(s) resolved {} for the locale {}", groups.size(), groups.toString(), locale);
 	}
-	
 
 	/**
 	 * TODO
+	 * 
 	 * @param userProps
 	 */
-	private void loadAutoConfiguration(Properties userProps){
+	private void loadAutoConfiguration(Properties userProps) {
 
 		// The JSTL is required by Tiles, which can be used with Thymeleaf but
 		// in any case, if Thymeleaf is available, the JstlMessageResolver
 		// should not be enabled
-		if(LibraryDetector.isJstlAvailable() && !LibraryDetector.isThymeleafAvailable() && userProps != null){
-			if(!userProps.isEmpty()){
-				for(Entry<Object, Object> entry : userProps.entrySet()){
+		if (LibraryDetector.isJstlAvailable() && !LibraryDetector.isThymeleafAvailable() && userProps != null) {
+			if (!userProps.isEmpty()) {
+				for (Entry<Object, Object> entry : userProps.entrySet()) {
 					String key = entry.getKey().toString();
 					if (key.contains(TableConfig.I18N_MESSAGE_RESOLVER.getPropertyName())
 							&& StringUtils.isBlank(entry.getValue().toString())) {
@@ -312,7 +325,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 					}
 				}
 			}
-			else{
+			else {
 				userProps.put("global." + TableConfig.I18N_MESSAGE_RESOLVER.getPropertyName(),
 						"com.github.dandelion.datatables.jsp.i18n.JstlMessageResolver");
 			}

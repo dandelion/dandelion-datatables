@@ -54,6 +54,7 @@ public interface ConfigurationLoader {
 	public final static String DT_USER_PROPERTIES_LOCATION = "dandelion/datatables/";
 	public final static String DT_USER_PROPERTIES = "datatables";
 	public final static String DEFAULT_GROUP_NAME = "global";
+	public final static String STANDALONE_BUNDLES_TO_EXCLUDE = "bootstrap-datepicker,bootstrap2,bootstrap3,jquery,jqueryui,moment";
 
 	/**
 	 * <p>
