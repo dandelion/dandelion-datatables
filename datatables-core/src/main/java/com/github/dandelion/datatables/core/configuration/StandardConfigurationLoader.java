@@ -54,7 +54,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.core.DevMode;
 import com.github.dandelion.core.utils.LibraryDetector;
 import com.github.dandelion.core.utils.PropertiesUtils;
 import com.github.dandelion.core.utils.StringUtils;
@@ -129,10 +128,8 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 	 */
 	public Properties loadUserConfiguration(Locale locale) {
 
-		if(DevMode.isEnabled()){
-			ResourceBundle.clearCache();
-		}
-		
+		// Always clear the cache
+		ResourceBundle.clearCache();
 		ResourceBundle userBundle = null;
 		
 		// First check if the resource bundle is externalized

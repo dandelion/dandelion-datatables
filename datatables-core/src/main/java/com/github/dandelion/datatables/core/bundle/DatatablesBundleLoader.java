@@ -35,12 +35,11 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.core.Context;
 import com.github.dandelion.core.bundle.loader.spi.AbstractBundleLoader;
 
 /**
  * <p>
- * Bundle loader used to load bundles defined by users inside the
+ * Bundle loader used to load user-defined bundles inside the
  * {@code dandelion/datatables} folder (and all subfolders) of the classpath.
  * 
  * 
@@ -84,7 +83,7 @@ public class DatatablesBundleLoader extends AbstractBundleLoader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Set<String> getExcludedPaths(Context context) {
+	public Set<String> getExcludedPaths() {
 		return Collections.emptySet();
 	}
 }
