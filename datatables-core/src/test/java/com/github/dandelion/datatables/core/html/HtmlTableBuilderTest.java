@@ -35,9 +35,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mock.web.MockFilterConfig;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
+import com.github.dandelion.core.Context;
+import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.datatables.core.export.CsvExport;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.HtmlTableBuilder;
@@ -57,6 +60,7 @@ public class HtmlTableBuilderTest {
 		mockServletContext = new MockServletContext();
 		mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
+		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
 		fakeExportConf = new ExportConf.Builder("csv")
 			.header(true)
 			.exportClass(new CsvExport())

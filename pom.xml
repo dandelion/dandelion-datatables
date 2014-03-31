@@ -66,7 +66,7 @@
       <junit.dep.version>4.11</junit.dep.version>
       <spring.version>3.2.7.RELEASE</spring.version>
       <jackson.version>1.9.13</jackson.version>
-      <jetty.test.version>8.1.10.v20130312</jetty.test.version>
+      <jetty.test.version>8.1.14.v20131031</jetty.test.version>
       <xml-apis.version>1.4.01</xml-apis.version>
 
       <!-- Maven plugins -->

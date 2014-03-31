@@ -43,9 +43,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.mock.web.MockPageContext;
-import org.springframework.mock.web.MockServletContext;
+import org.springframework.mock.web.MockFilterConfig;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 
+import com.github.dandelion.core.Context;
+import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
@@ -65,8 +68,8 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class ColumnFilteringGeneratorTest {
 
-	private MockServletContext mockServletContext;
-	private MockPageContext mockPageContext;
+	private HttpServletRequest request;
+	private HttpServletResponse response;
 
 	private ColumnFilteringGenerator generator;
 	private HtmlTable table;
@@ -75,15 +78,15 @@ public class ColumnFilteringGeneratorTest {
 
 	@Before
 	public void createMainGenerator() {
-		mockServletContext = new MockServletContext();
-		mockPageContext = new MockPageContext(mockServletContext);
+		request = new MockHttpServletRequest();
+		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
+		response = new MockHttpServletResponse();
 		generator = new ColumnFilteringGenerator();
 	}
 
 	@Before
 	public void createTable() {
-		table = new HtmlTable("aTable", (HttpServletRequest) mockPageContext.getRequest(),
-				(HttpServletResponse) mockPageContext.getResponse());
+		table = new HtmlTable("aTable", request, response);
 		table.getTableConfiguration().getConfigurations().clear();
 		headerRow = table.addHeaderRow();
 		firstColumn = headerRow.addHeaderColumn("firstColumn");

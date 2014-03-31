@@ -10,6 +10,8 @@
 
    <context:component-scan base-package="com.github.dandelion.datatables.integration" />
    
+   <mvc:default-servlet-handler />
+   
    <bean id="templateResolver"
       class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
       <property name="prefix" value="/WEB-INF/templates/" />

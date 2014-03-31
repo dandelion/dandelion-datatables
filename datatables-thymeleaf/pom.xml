@@ -116,6 +116,14 @@
          <artifactId>xml-apis</artifactId>
          <scope>test</scope>
       </dependency>
+      
+      <!-- Logback -->
+      <dependency>
+         <groupId>ch.qos.logback</groupId>
+         <artifactId>logback-classic</artifactId>
+         <version>1.1.0</version>
+         <scope>test</scope>
+      </dependency>
    </dependencies>
 
    <build>

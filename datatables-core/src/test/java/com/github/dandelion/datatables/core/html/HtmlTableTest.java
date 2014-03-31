@@ -36,10 +36,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mock.web.MockFilterConfig;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.core.DevMode;
+import com.github.dandelion.core.Context;
+import com.github.dandelion.core.DandelionMode;
+import com.github.dandelion.core.asset.web.WebConstants;
+import com.github.dandelion.core.config.DandelionConfig;
 
 public class HtmlTableTest {
 
@@ -54,8 +58,9 @@ public class HtmlTableTest {
 		mockServletContext = new MockServletContext();
 		mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
+		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
 		response = (HttpServletResponse) mockPageContext.getResponse();
-		DevMode.set(true);
+		System.setProperty(DandelionConfig.DANDELION_MODE.getName(), DandelionMode.DEVELOPMENT.toString());
 	}
 
 	@Test

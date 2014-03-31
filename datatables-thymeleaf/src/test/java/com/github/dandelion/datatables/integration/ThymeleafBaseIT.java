@@ -47,15 +47,14 @@ import org.junit.runner.Description;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.service.DriverService;
 
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.Asset;
 import com.github.dandelion.core.asset.AssetType;
 import com.github.dandelion.core.asset.cache.AssetCacheManager;
 import com.github.dandelion.core.asset.web.AssetServlet;
+import com.github.dandelion.core.config.DandelionConfig;
 import com.github.dandelion.core.utils.ResourceUtils;
 
 /**
@@ -85,8 +84,13 @@ public abstract class ThymeleafBaseIT extends Fluent {
 	public static void beforeClass() {
 
 		// Add system property to disable asset caching
-		System.setProperty("dandelion.dev.mode", "true");
+		System.setProperty("dandelion.mode", "development");
 
+		// We force here Dandelion to use Servlet 2.x compatible classes to
+		// avoid an issue with Jetty which can't serve assets under the
+		// META-INF/resources directory
+		System.setProperty(DandelionConfig.OVERRIDE_SERVLET3.getName(), "false");
+				
 		// Create a new web server
 		server = new Server();
 		SelectChannelConnector connector = new SelectChannelConnector();
@@ -122,15 +126,14 @@ public abstract class ThymeleafBaseIT extends Fluent {
 				});
 
 				DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-				desiredCapabilities.setCapability("phantomjs.page.settings.handlesAlerts", false);
+				desiredCapabilities.setCapability("phantomjs.page.settings.handlesAlerts", true);
 				desiredCapabilities.setCapability("phantomjs.page.settings.localToRemoteUrlAccessEnabled", true);
 				desiredCapabilities.setCapability("phantomjs.page.settings.webSecurityEnabled", false);
 				desiredCapabilities.setCapability("takesScreenshot", false);
 				desiredCapabilities.setCapability("browserConnectionEnabled", true);
 				desiredCapabilities.setCapability("locationContextEnabled", true);
 				desiredCapabilities.setCapability("applicationCacheEnabled", true);
-				DriverService service = PhantomJSDriverService.createDefaultService(desiredCapabilities);
-				driver = new PhantomJSDriver(service, desiredCapabilities);
+				driver = new PhantomJSDriver(desiredCapabilities);
 			}
 
 			driver.manage().deleteAllCookies();

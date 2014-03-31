@@ -44,9 +44,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.mock.web.MockPageContext;
-import org.springframework.mock.web.MockServletContext;
+import org.springframework.mock.web.MockFilterConfig;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 
+import com.github.dandelion.core.Context;
+import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.callback.Callback;
@@ -71,8 +74,8 @@ public class DatatablesGeneratorTest {
 	private static Set<String> displayTypeHtmlUsedForColumnDefinition = new HashSet<String>();
 	private static Set<String> displayTypeNotUsedForColumnDefinition = new HashSet<String>();
 	private static Map<String, Object> defaultProperties = new HashMap<String, Object>();
-	private MockServletContext mockServletContext;
-	private MockPageContext mockPageContext;
+	private HttpServletRequest request;
+	private HttpServletResponse response;
 
 	static {
 		displayTypeAllUsedForColumnDefinition.add(ReservedFormat.ALL);
@@ -93,14 +96,15 @@ public class DatatablesGeneratorTest {
 
 	@Before
 	public void createMainGenerator() {
-		mockServletContext = new MockServletContext();
-		mockPageContext = new MockPageContext(mockServletContext);
+		request = new MockHttpServletRequest();
+		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
+		response = new MockHttpServletResponse();
 		generator = new DatatablesGenerator();
 	}
 
 	@Before
 	public void createTable() {
-		table = new HtmlTable("aTable", (HttpServletRequest) mockPageContext.getRequest(), (HttpServletResponse) mockPageContext.getResponse());
+		table = new HtmlTable("aTable", request, response);
 		table.getTableConfiguration().getConfigurations().clear();
 		headerRow = table.addHeaderRow();
 		firstColumn = headerRow.addHeaderColumn("firstColumn");
@@ -108,7 +112,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_have_default_values() {
-		table = new HtmlTable("aTable", (HttpServletRequest) mockPageContext.getRequest(), (HttpServletResponse) mockPageContext.getResponse());
+		table = new HtmlTable("aTable", request, response);
 		headerRow = table.addHeaderRow();
 
 		Map<String, Object> mainConf = generator.generateConfig(table);

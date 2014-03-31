@@ -59,6 +59,7 @@ import com.github.dandelion.core.asset.Asset;
 import com.github.dandelion.core.asset.AssetType;
 import com.github.dandelion.core.asset.cache.AssetCacheManager;
 import com.github.dandelion.core.asset.web.AssetServlet;
+import com.github.dandelion.core.config.DandelionConfig;
 import com.github.dandelion.core.utils.ResourceUtils;
 import com.github.dandelion.datatables.mock.Mock;
 import com.github.dandelion.datatables.mock.Person;
@@ -88,9 +89,14 @@ public abstract class JspBaseIT extends Fluent {
 	
 	@BeforeClass
 	public static void beforeClass(){
-		// Add system property to disable asset caching
-		System.setProperty("dandelion.dev.mode", "true");
 
+		System.setProperty("dandelion.mode", "development");
+		
+		// We force here Dandelion to use Servlet 2.x compatible classes to
+		// avoid an issue with Jetty which can't serve assets under the
+		// META-INF/resources directory
+		System.setProperty(DandelionConfig.OVERRIDE_SERVLET3.getName(), "false");
+		
 		// Create a new web server
 		server = new Server();
 		SelectChannelConnector connector = new SelectChannelConnector();
@@ -99,7 +105,8 @@ public abstract class JspBaseIT extends Fluent {
 		server.addConnector(connector);
 
 		context = new WebAppContext("src/test/webapp", "/");
-
+		context.setParentLoaderPriority(true);
+		
 		// Add support for JSP
 		ServletHolder jsp = context.addServlet(JspServlet.class, "*.jsp");
 		jsp.setInitParameter("classpath", context.getClassPath());

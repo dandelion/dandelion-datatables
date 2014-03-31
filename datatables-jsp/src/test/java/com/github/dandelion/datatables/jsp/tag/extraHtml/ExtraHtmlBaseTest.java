@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.jsp.JspException;
 
 import org.junit.Before;
+import org.springframework.mock.web.MockFilterConfig;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
@@ -32,7 +33,7 @@ public abstract class ExtraHtmlBaseTest {
 		MockServletContext mockServletContext = new MockServletContext();
 
 		mockPageContext = new MockPageContext(mockServletContext);
-		mockPageContext.getRequest().setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context());
+		mockPageContext.getRequest().setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
 		
 		tableTagBuilder = new TableTagBuilder(Mock.persons, "myTableId").context(mockPageContext).defaultTable();
 		tableTag = tableTagBuilder.getTableTag();
