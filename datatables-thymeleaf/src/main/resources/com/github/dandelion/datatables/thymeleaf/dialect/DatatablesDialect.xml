@@ -890,7 +890,7 @@
    <!-- Div processors used when configuring export -->
    <attribute-processor name="type"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=export" />
       <documentation>
          <![CDATA[
             <p>The type of export to configure.</p>
@@ -907,7 +907,7 @@
    
    <attribute-processor name="fileName"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=export" />
       <documentation>
          <![CDATA[
             <p>Name to be given to the export file.</p>
@@ -924,7 +924,7 @@
    
    <attribute-processor name="fileExtension"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=export" />
       <documentation>
          <![CDATA[
             <p>File extension of the export file.</p>
@@ -943,7 +943,7 @@
    
    <attribute-processor name="label"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=export" />
       <documentation>
          <![CDATA[
             <p>Label applied to the export link.</p>
