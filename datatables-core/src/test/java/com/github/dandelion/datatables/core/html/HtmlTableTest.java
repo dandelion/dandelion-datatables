@@ -42,8 +42,8 @@ import org.springframework.mock.web.MockServletContext;
 
 import com.github.dandelion.core.Context;
 import com.github.dandelion.core.DandelionMode;
-import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.core.config.DandelionConfig;
+import com.github.dandelion.core.web.WebConstants;
 
 public class HtmlTableTest {
 

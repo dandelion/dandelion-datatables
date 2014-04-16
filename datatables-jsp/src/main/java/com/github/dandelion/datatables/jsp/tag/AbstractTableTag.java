@@ -46,8 +46,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.asset.locator.impl.DelegateLocator;
-import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;

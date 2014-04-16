@@ -36,8 +36,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.dandelion.core.Context;
-import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.web.WebConstants;
 import com.github.dandelion.datatables.core.exception.UnkownGroupException;
 
 /**

@@ -43,10 +43,10 @@ import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.util.DOMUtils;
 
-import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.utils.UrlUtils;
+import com.github.dandelion.core.web.WebConstants;
 import com.github.dandelion.datatables.core.asset.ExtraJs;
 import com.github.dandelion.datatables.core.asset.InsertMode;
 import com.github.dandelion.datatables.core.callback.Callback;

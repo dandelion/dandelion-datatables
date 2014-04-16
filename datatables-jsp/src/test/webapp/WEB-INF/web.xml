@@ -17,7 +17,7 @@
    <!-- Dandelion servlet definition and mapping -->
    <servlet>
       <servlet-name>dandelionServlet</servlet-name>
-      <servlet-class>com.github.dandelion.core.asset.web.AssetServlet</servlet-class>
+      <servlet-class>com.github.dandelion.core.web.DandelionServlet</servlet-class>
       <load-on-startup>2</load-on-startup>
    </servlet>
    <servlet-mapping>
@@ -28,7 +28,7 @@
    <!-- Dandelion filter definition and mapping -->
    <filter>
       <filter-name>dandelionFilter</filter-name>
-      <filter-class>com.github.dandelion.core.asset.web.AssetFilter</filter-class>
+      <filter-class>com.github.dandelion.core.web.DandelionFilter</filter-class>
    </filter>
    <filter-mapping>
       <filter-name>dandelionFilter</filter-name>

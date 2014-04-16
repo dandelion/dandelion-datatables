@@ -53,9 +53,9 @@ import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.Asset;
 import com.github.dandelion.core.asset.AssetType;
 import com.github.dandelion.core.asset.cache.AssetCacheManager;
-import com.github.dandelion.core.asset.web.AssetServlet;
 import com.github.dandelion.core.config.DandelionConfig;
 import com.github.dandelion.core.utils.ResourceUtils;
+import com.github.dandelion.core.web.DandelionServlet;
 
 /**
  * <p>
@@ -210,7 +210,7 @@ public abstract class ThymeleafBaseIT extends Fluent {
 		AssetCacheManager cacheManager = new AssetCacheManager(null);
 		Asset asset = new Asset("dandelion-datatables", "0.10.0", AssetType.js);
 		String cacheKey = cacheManager.generateCacheKey("http://" + SERVER_HOST + ":" + SERVER_PORT + "/thymeleaf/" + page, asset);
-		String url = "http://" + SERVER_HOST + ":" + SERVER_PORT + AssetServlet.DANDELION_ASSETS_URL + cacheKey;
+		String url = "http://" + SERVER_HOST + ":" + SERVER_PORT + DandelionServlet.DANDELION_ASSETS_URL + cacheKey;
 		try {
 			URL urlLocation = new URL(url);
 			return ResourceUtils.getContentFromInputStream(urlLocation.openStream());

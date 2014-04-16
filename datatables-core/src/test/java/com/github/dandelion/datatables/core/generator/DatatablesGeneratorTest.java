@@ -49,7 +49,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import com.github.dandelion.core.Context;
-import com.github.dandelion.core.asset.web.WebConstants;
+import com.github.dandelion.core.web.WebConstants;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.callback.Callback;

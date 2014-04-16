@@ -36,8 +36,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.dandelion.core.Context;
-import com.github.dandelion.core.asset.web.AssetRequestContext;
-import com.github.dandelion.core.asset.web.WebConstants;
+import com.github.dandelion.core.web.AssetRequestContext;
+import com.github.dandelion.core.web.WebConstants;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;

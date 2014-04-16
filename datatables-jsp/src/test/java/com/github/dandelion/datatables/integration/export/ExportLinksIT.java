@@ -35,7 +35,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.github.dandelion.core.asset.web.WebConstants;
+import com.github.dandelion.core.web.WebConstants;
 import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**

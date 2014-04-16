@@ -36,7 +36,7 @@ import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
-import com.github.dandelion.core.asset.web.WebConstants;
+import com.github.dandelion.core.web.WebConstants;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.export.ExportConf;

@@ -45,8 +45,8 @@ import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.core.asset.locator.impl.DelegateLocator;
-import com.github.dandelion.core.asset.web.AssetRequestContext;
 import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.asset.ExtraJs;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.callback.Callback;

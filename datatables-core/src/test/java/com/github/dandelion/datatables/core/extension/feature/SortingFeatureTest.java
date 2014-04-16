@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.github.dandelion.core.asset.web.AssetRequestContext;
+import com.github.dandelion.core.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;

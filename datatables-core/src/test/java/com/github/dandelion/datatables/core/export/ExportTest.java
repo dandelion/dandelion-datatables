@@ -40,7 +40,7 @@ import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
 import com.github.dandelion.core.Context;
-import com.github.dandelion.core.asset.web.WebConstants;
+import com.github.dandelion.core.web.WebConstants;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.mock.Mock;

@@ -29,9 +29,9 @@
  */
 package com.github.dandelion.datatables.core.processor.export;
 
-import com.github.dandelion.core.asset.web.WebConstants;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.utils.UrlUtils;
+import com.github.dandelion.core.web.WebConstants;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.extension.feature.ExportFeature;
