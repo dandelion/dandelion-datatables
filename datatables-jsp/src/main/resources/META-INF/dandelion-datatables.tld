@@ -33,7 +33,7 @@
    version="2.0">
    <description>Set of tags for manipulating HTML table with DataTables.</description>
    <display-name>dandelion-datatables</display-name>
-   <tlib-version>0.10.0</tlib-version>
+   <tlib-version>0100</tlib-version>
    <short-name>datatables</short-name>
    <uri>http://github.com/dandelion/datatables</uri>
 
