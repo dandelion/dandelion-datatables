@@ -1,6 +1,6 @@
 {
     "bundle" : "ddl-dt-theme-bootstrap3",
-    "dependencies": [ "bootstrap3" ],
+    "dependencies": [ "bootstrap3", "datatables" ],
     "assets": [
         {
             "name": "bootstrap3-theme-js",
