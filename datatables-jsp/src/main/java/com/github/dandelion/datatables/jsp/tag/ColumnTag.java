@@ -90,16 +90,7 @@ public class ColumnTag extends AbstractColumnTag {
 		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 		if(parent != null){
 			if(parent.isFirstIteration()){
-				headerColumn = new HtmlColumn(true, null, dynamicAttributes);
-				if (StringUtils.isNotBlank(display)) {
-					String[] displayTypesTab = display.trim().split(",");
-					for (String displayType : displayTypesTab) {
-						headerColumn.getEnabledDisplayTypes().add(displayType.toLowerCase().trim());
-					}
-				}
-				else{
-					headerColumn.getEnabledDisplayTypes().add(ReservedFormat.ALL);
-				}
+				headerColumn = new HtmlColumn(true, null, dynamicAttributes, display);
 			}
 			return EVAL_BODY_BUFFERED;
 		}
