@@ -32,15 +32,20 @@ package com.github.dandelion.datatables.thymeleaf.processor.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.thymeleaf.Arguments;
+import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
+import org.thymeleaf.processor.ProcessorResult;
+import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractConfigAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.el.TableFinalizerElProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
+import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
 
 /**
  * <p>
@@ -55,26 +60,34 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
  * @author Thibault Duchateau
  * @since 0.10.0
  */
-public class DivConfAttrProcessor extends AbstractConfigAttrProcessor {
+public class DivConfAttrProcessor extends AbstractAttrProcessor {
 
 	public DivConfAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getPrecedence() {
 		return DataTablesDialect.DT_HIGHEST_PRECEDENCE;
 	}
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName) {
+	@SuppressWarnings("unchecked")
+	protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
 		
-		tableId = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
-		
-		// A Map<ConfType, Object> is associated with each table id
-		Map<String, Map<ConfType, Object>> configs = (Map<String, Map<ConfType, Object>>) getFromRequest(DataTablesDialect.INTERNAL_BEAN_CONFIGS); 
+		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 
+		// A Map<ConfType, Object> is associated with each table id
+		Map<String, Map<ConfType, Object>> configs = (Map<String, Map<ConfType, Object>>) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_BEAN_CONFIGS, request);
+		
+		String tableId = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
+		
 		if(configs != null && configs.containsKey(tableId)){
 			throw new ConfigurationProcessingException("A div with id '" + tableId
 					+ "' is already present in the current template.");
@@ -84,9 +97,11 @@ public class DivConfAttrProcessor extends AbstractConfigAttrProcessor {
 		}
 		
 		configs.put(tableId, new HashMap<ConfType, Object>());
-		storeInRequest(DataTablesDialect.INTERNAL_BEAN_CONFIGS, configs);
+		RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_BEAN_CONFIGS, configs, request);
 		
 		// The node is stored to be easily accessed later during the processing
-		storeInRequest(DataTablesDialect.INTERNAL_NODE_CONFIG, element);
+		RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_NODE_CONFIG, element, request);
+	
+		return ProcessorResult.ok();
 	}
 }

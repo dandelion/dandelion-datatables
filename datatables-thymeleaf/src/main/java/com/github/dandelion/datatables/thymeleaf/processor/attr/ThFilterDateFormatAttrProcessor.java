@@ -29,11 +29,15 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr;
 
+import java.util.Map;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
@@ -50,13 +54,20 @@ public class ThFilterDateFormatAttrProcessor extends AbstractColumnAttrProcessor
 		super(matcher);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getPrecedence() {
 		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName) {
+	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
+			Map<ConfigToken<?>, Object> stagingConf, Map<ConfigToken<?>, Extension> stagingExt) {
 
 		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 

@@ -27,49 +27,24 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.thymeleaf.processor.attr;
+package com.github.dandelion.datatables.thymeleaf.util;
 
-import java.util.Map;
-
-import org.thymeleaf.Arguments;
-import org.thymeleaf.dom.Element;
-import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
-
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
- * Attribute processor applied to the {@code table} tag for the
- * {@link TableConfig#FEATURE_APPEAR} configuration.
+ * Utilities used to manipulate the request's attributes.
  * 
  * @author Thibault Duchateau
+ * @since 0.10.0
  */
-public class TableAppearAttrProcessor extends AbstractTableAttrProcessor {
+public class RequestUtils {
 
-	public TableAppearAttrProcessor(IAttributeNameProcessorMatcher matcher) {
-		super(matcher);
+	public static void storeInRequest(String referenceName, Object value, HttpServletRequest request) {
+		request.setAttribute(referenceName, value);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getPrecedence() {
-		return 8000;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-			Map<ConfigToken<?>, Object> stagingConf) {
-
-		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
-
-		stagingConf.put(TableConfig.FEATURE_APPEAR, attrValue);
+	public static Object getFromRequest(String referenceName, HttpServletRequest request) {
+		return request.getAttribute(referenceName);
 	}
 }

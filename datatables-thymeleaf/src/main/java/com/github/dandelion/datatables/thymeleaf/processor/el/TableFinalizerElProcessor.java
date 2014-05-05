@@ -52,8 +52,8 @@ import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
 import com.github.dandelion.datatables.core.configuration.DatatableBundles;
+import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
@@ -63,10 +63,12 @@ import com.github.dandelion.datatables.core.extension.feature.ExtraJsFeature;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
 import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.html.HtmlTag;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.config.ConfType;
+import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
 
 /**
  * <p>
@@ -78,38 +80,45 @@ import com.github.dandelion.datatables.thymeleaf.processor.config.ConfType;
  */
 public class TableFinalizerElProcessor extends AbstractElProcessor {
 
-	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TableFinalizerElProcessor.class);
 
 	public TableFinalizerElProcessor(IElementNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getPrecedence() {
 		return 50000;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element) {
+	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
+			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable) {
 
-		if (this.table != null) {
+		if (htmlTable != null) {
 
 			@SuppressWarnings("unchecked")
-			Map<ConfigToken<?>, Object> stagingConf = (Map<ConfigToken<?>, Object>) getFromRequest(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF);
+			Map<ConfigToken<?>, Object> stagingConf = (Map<ConfigToken<?>, Object>) RequestUtils.getFromRequest(
+					DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF, request);
 			
-			applyLocalConfiguration(arguments, stagingConf);
+			applyLocalConfiguration(arguments, request, htmlTable, stagingConf);
 			
-			TableConfig.applyConfiguration(stagingConf, table);
-			TableConfig.processConfiguration(table);
+			TableConfig.applyConfiguration(stagingConf, htmlTable);
+			TableConfig.processConfiguration(htmlTable);
 
 			// The table is being exported
-			if (ExportUtils.isTableBeingExported(request, table)) {
-				setupExport(arguments);
+			if (ExportUtils.isTableBeingExported(request, htmlTable)) {
+				setupExport(arguments, htmlTable);
 			}
 			// The table must be displayed
 			else {
-				setupHtml(arguments, request);
+				setupHtml(arguments, request, htmlTable);
 			}
 		}
 
@@ -126,52 +135,58 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 	 * 
 	 * @param arguments
 	 *            The Thymeleaf arguments.
+	 * @param request
+	 *            The current {@link HttpServletRequest}.
+	 * @param htmlTable
+	 *            The {@link HtmlTable} which the local configuration will apply
+	 *            on.
 	 * @param stagingConf
 	 *            The staging configuration to applied on the current
 	 *            {@code HtmlTable} instance.
 	 */
 	@SuppressWarnings("unchecked")
-	private void applyLocalConfiguration(Arguments arguments, Map<ConfigToken<?>, Object> stagingConf) {
+	private void applyLocalConfiguration(Arguments arguments, HttpServletRequest request, HtmlTable htmlTable, Map<ConfigToken<?>, Object> stagingConf) {
 		
-		Map<String, Map<ConfType, Object>> configs = (Map<String, Map<ConfType, Object>>) getFromRequest(DataTablesDialect.INTERNAL_BEAN_CONFIGS);
+		Map<String, Map<ConfType, Object>> configs = (Map<String, Map<ConfType, Object>>) RequestUtils.getFromRequest(
+				DataTablesDialect.INTERNAL_BEAN_CONFIGS, request);
 		
 		if(configs != null){
-			if(configs.containsKey(table.getId())){
+			if(configs.containsKey(htmlTable.getId())){
 				
 				// Export
-				Map<String, ExportConf> overloadedExportConf = (Map<String, ExportConf>)configs.get(table.getId()).get(ConfType.EXPORT);
+				Map<String, ExportConf> overloadedExportConf = (Map<String, ExportConf>)configs.get(htmlTable.getId()).get(ConfType.EXPORT);
 				if(overloadedExportConf != null && !overloadedExportConf.isEmpty()){
-					table.getTableConfiguration().getExportConfiguration().putAll(overloadedExportConf);
+					htmlTable.getTableConfiguration().getExportConfiguration().putAll(overloadedExportConf);
 				}
 				
 				// Callbacks
-				List<Callback> callbacks = (List<Callback>) configs.get(table.getId()).get(ConfType.CALLBACK);
+				List<Callback> callbacks = (List<Callback>) configs.get(htmlTable.getId()).get(ConfType.CALLBACK);
 				if(callbacks != null && !callbacks.isEmpty()){
-					table.getTableConfiguration().setCallbacks(callbacks);
+					htmlTable.getTableConfiguration().setCallbacks(callbacks);
 				}
 				
 				// ExtraJs
-				Set<ExtraJs> extraJs = (Set<ExtraJs>) configs.get(table.getId()).get(ConfType.EXTRAJS);
+				Set<ExtraJs> extraJs = (Set<ExtraJs>) configs.get(htmlTable.getId()).get(ConfType.EXTRAJS);
 				if(extraJs != null && !extraJs.isEmpty()){
-					table.getTableConfiguration().setExtraJs(extraJs);
-					table.getTableConfiguration().registerExtension(new ExtraJsFeature());
+					htmlTable.getTableConfiguration().setExtraJs(extraJs);
+					htmlTable.getTableConfiguration().registerExtension(new ExtraJsFeature());
 				}
 				
 				// ExtraHtml
-				List<ExtraHtml> extraHtmls = (List<ExtraHtml>) configs.get(table.getId()).get(ConfType.EXTRAHTML);
+				List<ExtraHtml> extraHtmls = (List<ExtraHtml>) configs.get(htmlTable.getId()).get(ConfType.EXTRAHTML);
 				if(extraHtmls != null && !extraHtmls.isEmpty()){
-					table.getTableConfiguration().setExtraHtmlSnippets(extraHtmls);
-					table.getTableConfiguration().registerExtension(new ExtraHtmlFeature());
+					htmlTable.getTableConfiguration().setExtraHtmlSnippets(extraHtmls);
+					htmlTable.getTableConfiguration().registerExtension(new ExtraHtmlFeature());
 				}
 				
 				// Configuration properties
-				Map<ConfigToken<?>, Object> localConf = (Map<ConfigToken<?>, Object>) configs.get(table.getId()).get(ConfType.PROPERTY);
+				Map<ConfigToken<?>, Object> localConf = (Map<ConfigToken<?>, Object>) configs.get(htmlTable.getId()).get(ConfType.PROPERTY);
 				if(localConf != null && !localConf.isEmpty()){
 					stagingConf.putAll(localConf);
 				}
 			}
 			else{
-				logger.warn("No configuration was found for the table with id '{}'", table.getId());
+				logger.warn("No configuration was found for the table with id '{}'", htmlTable.getId());
 			}
 		}
 		else{
@@ -179,7 +194,7 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 					+ ":conf' has been found in the current template.");
 		}
 		
-		Element configNode = (Element) getFromRequest(DataTablesDialect.INTERNAL_NODE_CONFIG);
+		Element configNode = (Element) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_NODE_CONFIG, request);
 		if(configNode != null){
 			configNode.getParent().removeChild(configNode);
 		}
@@ -192,13 +207,18 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 	 * 
 	 * @param arguments
 	 *            The Thymeleaf arguments.
+	 * @param request
+	 *            The current {@link HttpServletRequest}.
+	 * @param htmlTable
+	 *            The {@link HtmlTable} which the CSS configuration will apply
+	 *            on.
 	 */
-	private void applyCssConfiguration(Arguments arguments) {
+	private void applyCssConfiguration(Arguments arguments, HttpServletRequest request, HtmlTable htmlTable) {
 
-		Element tableElement = (Element) getFromRequest(DataTablesDialect.INTERNAL_NODE_TABLE);
+		Element tableElement = (Element) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_NODE_TABLE, request);
 
 		// CSS class
-		StringBuilder configuredCssClass = TableConfig.CSS_CLASS.valueFrom(table.getTableConfiguration());
+		StringBuilder configuredCssClass = TableConfig.CSS_CLASS.valueFrom(htmlTable.getTableConfiguration());
 		if (configuredCssClass != null) {
 
 			String currentCssClass = tableElement.getAttributeValue("class");
@@ -212,7 +232,7 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 		}
 
 		// CSS style
-		StringBuilder configuredCssStyle = TableConfig.CSS_STYLE.valueFrom(table.getTableConfiguration());
+		StringBuilder configuredCssStyle = TableConfig.CSS_STYLE.valueFrom(htmlTable.getTableConfiguration());
 		if (configuredCssStyle != null) {
 
 			String currentCssStyle = tableElement.getAttributeValue("style");
@@ -231,19 +251,21 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 	 * 
 	 * @param arguments
 	 *            The Thymeleaf arguments.
+	 * @param htmlTable
+	 *            The {@link HtmlTable} to export.
 	 */
-	private void setupExport(Arguments arguments) {
+	private void setupExport(Arguments arguments, HtmlTable htmlTable) {
 
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 		HttpServletResponse response = ((IWebContext) arguments.getContext()).getHttpServletResponse();
 
 		String currentExportType = ExportUtils.getCurrentExportType(request);
 
-		this.table.getTableConfiguration().setExporting(true);
-		this.table.getTableConfiguration().setCurrentExportFormat(currentExportType);
+		htmlTable.getTableConfiguration().setExporting(true);
+		htmlTable.getTableConfiguration().setCurrentExportFormat(currentExportType);
 
 		// Call the export delegate
-		ExportDelegate exportDelegate = new ExportDelegate(this.table, request);
+		ExportDelegate exportDelegate = new ExportDelegate(htmlTable, request);
 		exportDelegate.prepareExport();
 
 		response.reset();
@@ -257,20 +279,23 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 	 *            The Thymeleaf arguments.
 	 * @param request
 	 *            The current request.
+	 * @param htmlTable
+	 *            The {@link HtmlTable} which HTML and assets must be generated
+	 *            from.
 	 */
-	private void setupHtml(Arguments arguments, HttpServletRequest request) {
+	private void setupHtml(Arguments arguments, HttpServletRequest request, HtmlTable htmlTable) {
 		
-		table.getTableConfiguration().setExporting(false);
+		htmlTable.getTableConfiguration().setExporting(false);
 
 		// Init the web resources generator
-		WebResourceGenerator contentGenerator = new WebResourceGenerator(table);
+		WebResourceGenerator contentGenerator = new WebResourceGenerator(htmlTable);
 
 		// Generate the web resources (JS, CSS) and wrap them into a
 		// WebResources POJO
 		JsResource jsResource = contentGenerator.generateWebResources();
 		logger.debug("Web content generated successfully");
 
-		applyCssConfiguration(arguments);
+		applyCssConfiguration(arguments, request, htmlTable);
 		
 		// Asset stack update
 		AssetRequestContext.get(request)

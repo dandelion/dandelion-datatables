@@ -78,8 +78,8 @@ public class DataTablesDialect extends AbstractDialect {
 		return false;
 	}
 
-	/*
-	 * The processors contained inside the Dandelion-Datatables dialect.
+	/**
+	 * @return all processors contained inside the Dandelion-Datatables dialect.
 	 */
 	@Override
 	public Set<IProcessor> getProcessors() {

@@ -41,51 +41,53 @@ import org.thymeleaf.processor.element.AbstractElementProcessor;
 
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
+import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
 
 /**
- * <p>Abstract superclass for all Datatables element processors.
+ * <p>
+ * Abstract superclass for all Datatables element processors.
  * 
  * @author Thibault Duchateau
  */
 public abstract class AbstractElProcessor extends AbstractElementProcessor {
 
-	protected HtmlTable table;
-	protected HttpServletRequest request;
-	protected HttpServletResponse response;
-	
-    public AbstractElProcessor(IElementNameProcessorMatcher matcher) {
+	public AbstractElProcessor(IElementNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
-    @Override
+	@Override
 	protected ProcessorResult processElement(Arguments arguments, Element element) {
-    	
-    	request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-    	response = ((IWebContext) arguments.getContext()).getHttpServletResponse();
-    	table = (HtmlTable) getFromRequest(DataTablesDialect.INTERNAL_BEAN_TABLE);
-    	
-    	ProcessorResult processorResult = doProcessElement(arguments, element);
-    	return processorResult;
-    }
 
-    @Override
-    public abstract int getPrecedence();
+		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
+		HttpServletResponse response = ((IWebContext) arguments.getContext()).getHttpServletResponse();
+		HtmlTable htmlTable = (HtmlTable) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_BEAN_TABLE, request);
 
-    /**
-     * Process the Attribute
-     *
-     * @param arguments Thymeleaf arguments
-     * @param element Element of the attribute
-     * @param attributeName attribute name
-     * @return result of process
-     */
-    protected abstract ProcessorResult doProcessElement(Arguments arguments, Element element);
-    
-    public void storeInRequest(String referenceName, Object value){
-    	request.setAttribute(referenceName, value);
-    }
-    
-    public Object getFromRequest(String referenceName){
-    	return request.getAttribute(referenceName);
-    }
+		ProcessorResult processorResult = doProcessElement(arguments, element, request, response, htmlTable);
+		return processorResult;
+	}
+
+	/**
+	 * Returns the precedence of the element processor.
+	 */
+	@Override
+	public abstract int getPrecedence();
+
+	/**
+	 * Actually performs the processing of the element..
+	 * 
+	 * @param arguments
+	 *            Thymeleaf arguments.
+	 * @param element
+	 *            Element to process.
+	 * @param request
+	 *            The current {@link HttpServletRequest}.
+	 * @param response
+	 *            The current {@link HttpServletResponse}.
+	 * @param htmlTable
+	 *            The {@link HtmlTable} which the configuration will be applied
+	 *            on.
+	 * @return result of process
+	 */
+	protected abstract ProcessorResult doProcessElement(Arguments arguments, Element element,
+			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable);
 }

@@ -31,10 +31,7 @@ package com.github.dandelion.datatables.thymeleaf.processor;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.thymeleaf.Arguments;
-import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
@@ -42,10 +39,10 @@ import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.extension.Extension;
-import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 
 /**
+ * <p>
  * Abstract superclass for all processors applied to the {@code th} tag.
  * 
  * @author Thibault Duchateau
@@ -53,45 +50,49 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
  */
 public abstract class AbstractColumnAttrProcessor extends AbstractAttrProcessor {
 
-	protected Map<ConfigToken<?>, Object> stagingConf;
-	protected Map<ConfigToken<?>, Extension> stagingExt;
-	protected HtmlTable table;
-
 	public AbstractColumnAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
-	
-    @Override
-    @SuppressWarnings("unchecked")
-    protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
-    	
-    	HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-		
-		stagingConf = (Map<ConfigToken<?>, Object>) arguments
+
+	@Override
+	@SuppressWarnings("unchecked")
+	protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
+
+		Map<ConfigToken<?>, Object> stagingConf = (Map<ConfigToken<?>, Object>) arguments
 				.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF);
+		Map<ConfigToken<?>, Extension> stagingExt = (Map<ConfigToken<?>, Extension>) arguments
+				.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT);
 
-		stagingExt = (Map<ConfigToken<?>, Extension>) arguments.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT);
-		
-		table = (HtmlTable) request.getAttribute(DataTablesDialect.INTERNAL_BEAN_TABLE);
-		
-        doProcessAttribute(arguments, element, attributeName);
-        
-        // Housekeeping
-        element.removeAttribute(attributeName);
-        
-        return ProcessorResult.ok();
-    }
+		// Perform the actual attribute processing
+		doProcessAttribute(arguments, element, attributeName, stagingConf, stagingExt);
 
-    @Override
-    public abstract int getPrecedence();
+		// Housekeeping
+		element.removeAttribute(attributeName);
 
-    /**
-     * Process the Attribute
-     *
-     * @param arguments Thymeleaf arguments
-     * @param element Element of the attribute
-     * @param attributeName attribute name
-     * @return result of process
-     */
-    protected abstract void doProcessAttribute(Arguments arguments, Element element, String attributeName);
+		return ProcessorResult.ok();
+	}
+
+	/**
+	 * Returns the precedence of the column attribute processor.
+	 */
+	@Override
+	public abstract int getPrecedence();
+
+	/**
+	 * Actually performs the processing of the column attribute.
+	 * 
+	 * @param arguments
+	 *            Thymeleaf arguments.
+	 * @param element
+	 *            Element holding the attribute to process.
+	 * @param attributeName
+	 *            Name of the attribute to process.
+	 * @param stagingConf
+	 *            Map containing the column local configuration.
+	 * @param stagingExt
+	 *            Map containing the column local extension.
+	 * @return result of process
+	 */
+	protected abstract void doProcessAttribute(Arguments arguments, Element element, String attributeName,
+			Map<ConfigToken<?>, Object> stagingConf, Map<ConfigToken<?>, Extension> stagingExt);
 }

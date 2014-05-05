@@ -29,10 +29,13 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr;
 
+import java.util.Map;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
@@ -43,6 +46,7 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
  * {@link TableConfig#FEATURE_SCROLLXINNER} configuration.
  * 
  * @author DISID TECHNOLOGIES S.L.
+ * @author Thibault Duchateau
  */
 public class TableScrollXInnerAttrProcessor extends AbstractTableAttrProcessor {
 
@@ -55,8 +59,12 @@ public class TableScrollXInnerAttrProcessor extends AbstractTableAttrProcessor {
 		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName) {
+	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
+			Map<ConfigToken<?>, Object> stagingConf) {
 
 		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 

@@ -32,6 +32,9 @@ package com.github.dandelion.datatables.thymeleaf.processor.el;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
@@ -39,6 +42,7 @@ import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.extension.Extension;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 
@@ -59,7 +63,8 @@ public class ColumnInitializerElProcessor extends AbstractElProcessor {
 	}
 
 	@Override
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element) {
+	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
+			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable) {
 
 		Map<ConfigToken<?>, Object> stagingConf = new HashMap<ConfigToken<?>, Object>();
 		Map<ConfigToken<?>, Extension> stagingExtension = new HashMap<ConfigToken<?>, Extension>();

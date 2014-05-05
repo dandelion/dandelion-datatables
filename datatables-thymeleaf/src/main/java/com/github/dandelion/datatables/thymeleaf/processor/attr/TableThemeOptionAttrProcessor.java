@@ -29,10 +29,13 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr;
 
+import java.util.Map;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
@@ -56,7 +59,8 @@ public class TableThemeOptionAttrProcessor extends AbstractTableAttrProcessor {
 	}
 
 	@Override
-	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName) {
+	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
+			Map<ConfigToken<?>, Object> stagingConf) {
 
 		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 

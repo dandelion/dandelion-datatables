@@ -29,6 +29,9 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.el;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Node;
@@ -56,13 +59,20 @@ public class TbodyElProcessor extends AbstractElProcessor {
 		super(matcher);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getPrecedence() {
 		return 4000;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element) {
+	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
+			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable) {
 
 		// All the tbody tag are iterated over
 		for (Node trChild : element.getChildren()) {

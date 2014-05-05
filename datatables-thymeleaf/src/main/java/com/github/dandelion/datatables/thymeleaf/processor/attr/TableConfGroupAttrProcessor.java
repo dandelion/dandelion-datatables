@@ -29,13 +29,20 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.thymeleaf.Arguments;
+import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
+import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
 
 /**
  * <p>
@@ -49,17 +56,23 @@ public class TableConfGroupAttrProcessor extends AbstractTableAttrProcessor {
 	public TableConfGroupAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
-	
+
 	@Override
 	public int getPrecedence() {
 		return DataTablesDialect.DT_HIGHEST_PRECEDENCE - 1;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName) {
-		
+	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
+			Map<ConfigToken<?>, Object> stagingConf) {
+
+		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
+
 		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
-		
-		storeInRequest(DataTablesDialect.INTERNAL_CONF_GROUP, attrValue);
+
+		RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_CONF_GROUP, attrValue, request);
 	}
 }

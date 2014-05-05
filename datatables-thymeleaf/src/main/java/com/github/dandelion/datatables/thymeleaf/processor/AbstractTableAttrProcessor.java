@@ -32,7 +32,6 @@ package com.github.dandelion.datatables.thymeleaf.processor;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
@@ -42,64 +41,54 @@ import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.extension.Extension;
-import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 
 /**
  * Abstract superclass for all processors applied to the {@code table} tag.
+ * 
+ * @author Thibault Duchateau
  */
 public abstract class AbstractTableAttrProcessor extends AbstractAttrProcessor {
 
-	protected Map<ConfigToken<?>, Object> stagingConf;
-	protected Map<ConfigToken<?>, Extension> stagingExt;
-	protected HtmlTable table;
-	protected HttpServletRequest request;
-	protected HttpServletResponse response;
-	
 	public AbstractTableAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
-    @Override
-    @SuppressWarnings("unchecked")
-    protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
-    	
-    	request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-    	response = ((IWebContext) arguments.getContext()).getHttpServletResponse();
-		
-    	stagingConf = (Map<ConfigToken<?>, Object>) request.getAttribute(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF); 
+	@Override
+	@SuppressWarnings("unchecked")
+	protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
 
-		table = (HtmlTable) request.getAttribute(DataTablesDialect.INTERNAL_BEAN_TABLE);
-		
-        doProcessAttribute(arguments, element, attributeName);
-        
-        // Housekeeping
-        element.removeAttribute(attributeName);
-        
-        return ProcessorResult.ok();
-    }
+		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
+		Map<ConfigToken<?>, Object> stagingConf = (Map<ConfigToken<?>, Object>) request
+				.getAttribute(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF);
 
-    @Override
-    public abstract int getPrecedence();
+		// Make the actual attribute processing
+		doProcessAttribute(arguments, element, attributeName, stagingConf);
+
+		// Housekeeping
+		element.removeAttribute(attributeName);
+
+		return ProcessorResult.ok();
+	}
 
 	/**
-	 * Process the attribute.
+	 * Returns the precedence of the table attribute processor.
+	 */
+	@Override
+	public abstract int getPrecedence();
+
+	/**
+	 * Actually performs the processing of the table attribute.
 	 * 
 	 * @param arguments
-	 *            Thymeleaf arguments
+	 *            Thymeleaf arguments.
 	 * @param element
-	 *            Element of the attribute
+	 *            Element holding the attribute to process.
 	 * @param attributeName
-	 *            attribute name
+	 *            Name of the attribute to process.
+	 * @param stagingConf
+	 *            Map containing the table local configuration.
 	 */
-    protected abstract void doProcessAttribute(Arguments arguments, Element element, String attributeName);
-    
-    public void storeInRequest(String referenceName, Object value){
-    	request.setAttribute(referenceName, value);
-    }
-    
-    public Object getFromRequest(String referenceName){
-    	return request.getAttribute(referenceName);
-    }
+	protected abstract void doProcessAttribute(Arguments arguments, Element element, String attributeName,
+			Map<ConfigToken<?>, Object> stagingConf);
 }

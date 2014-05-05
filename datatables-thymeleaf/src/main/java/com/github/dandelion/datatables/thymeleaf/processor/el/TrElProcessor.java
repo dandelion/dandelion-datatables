@@ -30,12 +30,16 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.el;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.datatables.core.html.HtmlRow;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 
@@ -62,11 +66,12 @@ public class TrElProcessor extends AbstractElProcessor {
 	}
 
 	@Override
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element) {
+	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
+			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable) {
 
 		// The HtmlTable is updated with a new row
-		if (table != null) {
-			table.getBodyRows().add(new HtmlRow());
+		if (htmlTable != null) {
+			htmlTable.getBodyRows().add(new HtmlRow());
 		}
 
 		// Remove internal attribute

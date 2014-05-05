@@ -29,6 +29,9 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.el;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
@@ -58,22 +61,28 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
  */
 public class TdElProcessor extends AbstractElProcessor {
 
-	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TdElProcessor.class);
 	
 	public TdElProcessor(IElementNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getPrecedence() {
 		return 4002;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element) {
+	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
+			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable) {
 
-		if (table != null) {
+		if (htmlTable != null) {
 
 			HtmlColumn column = null;
 			String content = null;
@@ -89,46 +98,46 @@ public class TdElProcessor extends AbstractElProcessor {
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":csv");
 					column = new HtmlColumn(ReservedFormat.CSV);
 					column.setContent(new StringBuilder(content));
-					table.getLastBodyRow().addColumn(column);
+					htmlTable.getLastBodyRow().addColumn(column);
 				}
 				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xml")) {
 					content = AttributeUtils.parseAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":xml", String.class);
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xml");
 					column = new HtmlColumn(ReservedFormat.XML);
 					column.setContent(new StringBuilder(content));
-					table.getLastBodyRow().addColumn(column);
+					htmlTable.getLastBodyRow().addColumn(column);
 				}
 				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":pdf")) {
 					content = AttributeUtils.parseAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":pdf", String.class);
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":pdf");
 					column = new HtmlColumn(ReservedFormat.PDF);
 					column.setContent(new StringBuilder(content));
-					table.getLastBodyRow().addColumn(column);
+					htmlTable.getLastBodyRow().addColumn(column);
 				}
 				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xls")) {
 					content = AttributeUtils.parseAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":xls", String.class);
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xls");
 					column = new HtmlColumn(ReservedFormat.XLS);
 					column.setContent(new StringBuilder(content));
-					table.getLastBodyRow().addColumn(column);
+					htmlTable.getLastBodyRow().addColumn(column);
 				}
 				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xlsx")) {
 					content = AttributeUtils.parseAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":xlsx", String.class);
 					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xlsx");
 					column = new HtmlColumn(ReservedFormat.XLSX);
 					column.setContent(new StringBuilder(content));
-					table.getLastBodyRow().addColumn(column);
+					htmlTable.getLastBodyRow().addColumn(column);
 				}
 			}
 			// If the element contains a Text node, the content of the text node
 			// will be displayed in all formats
 			else if (element.getFirstChild() instanceof Text) {
-				table.getLastBodyRow().addColumn(((Text) element.getFirstChild()).getContent().trim());
+				htmlTable.getLastBodyRow().addColumn(((Text) element.getFirstChild()).getContent().trim());
 			}
 			// Otherwise, an empty cell will be displayed
 			else{
 				logger.warn("Only cells containing plain text are supported, those containing HTML code are still not!");
-				table.getLastBodyRow().addColumn("");
+				htmlTable.getLastBodyRow().addColumn("");
 			}
 		}
 

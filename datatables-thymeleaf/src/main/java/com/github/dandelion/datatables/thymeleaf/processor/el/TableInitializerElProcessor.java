@@ -31,6 +31,9 @@ package com.github.dandelion.datatables.thymeleaf.processor.el;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Node;
@@ -42,6 +45,7 @@ import com.github.dandelion.datatables.core.exception.DandelionDatatablesExcepti
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
 
 /**
  * <p>
@@ -55,35 +59,43 @@ public class TableInitializerElProcessor extends AbstractElProcessor {
 		super(matcher);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getPrecedence() {
 		return DataTablesDialect.DT_HIGHEST_PRECEDENCE;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element) {
+	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
+			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable) {
 		
 		String tableId = element.getAttributeValue("id");
 
 		if (tableId != null) {
 			
-			String confGroup = (String) getFromRequest(DataTablesDialect.INTERNAL_CONF_GROUP);
+			String confGroup = (String) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_CONF_GROUP, request);
 			
-			HtmlTable htmlTable = new HtmlTable(tableId, request, response, confGroup);
+			HtmlTable newHtmlTable = new HtmlTable(tableId, request, response, confGroup);
 
 			// Add a default header row
-			htmlTable.addHeaderRow();
+			newHtmlTable.addHeaderRow();
 
 			// Store the htmlTable POJO as a request attribute, so that all the
 			// others following HTML tags can access it and particularly the
 			// "finalizing div"
-			storeInRequest(DataTablesDialect.INTERNAL_BEAN_TABLE, htmlTable);
+			RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_BEAN_TABLE, newHtmlTable, request);
 
 			// The table node is also saved in the request, to be easily accessed later
-			storeInRequest(DataTablesDialect.INTERNAL_NODE_TABLE, element);
+			RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_NODE_TABLE, element, request);
 			
 			// Map used to store the table local configuration
-			storeInRequest(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF, new HashMap<ConfigToken<?>, Object>());
+			RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF,
+					new HashMap<ConfigToken<?>, Object>(), request);
 
 			// The HTML needs to be updated
 			processMarkup(element);

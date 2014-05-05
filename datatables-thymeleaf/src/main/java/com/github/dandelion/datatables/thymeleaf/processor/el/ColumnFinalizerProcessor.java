@@ -31,6 +31,9 @@ package com.github.dandelion.datatables.thymeleaf.processor.el;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Text;
@@ -41,6 +44,7 @@ import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 
@@ -50,14 +54,21 @@ public class ColumnFinalizerProcessor extends AbstractElProcessor {
 		super(matcher);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getPrecedence() {
 		return 8005;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element) {
+	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
+			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable){
 		
 		Map<ConfigToken<?>, Object> stagingConf = (Map<ConfigToken<?>, Object>) arguments
 				.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF);
@@ -77,11 +88,11 @@ public class ColumnFinalizerProcessor extends AbstractElProcessor {
 
 		// Applies the staging configuration against the current column configuration
 		ColumnConfig.applyConfiguration(stagingConf, stagingExt, htmlColumn);
-		ColumnConfig.processConfiguration(htmlColumn, table);
+		ColumnConfig.processConfiguration(htmlColumn, htmlTable);
 		
 		// Add it to the table
-		if (table != null) {
-			table.getLastHeaderRow().addHeaderColumn(htmlColumn);
+		if (htmlTable != null) {
+			htmlTable.getLastHeaderRow().addHeaderColumn(htmlColumn);
 		}
 
 		// Let's clean the TR attributes

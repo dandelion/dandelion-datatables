@@ -37,10 +37,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.thymeleaf.Arguments;
+import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
+import org.thymeleaf.processor.ProcessorResult;
+import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 import org.thymeleaf.util.DOMUtils;
 
 import com.github.dandelion.core.utils.EnumUtils;
@@ -62,8 +68,8 @@ import com.github.dandelion.datatables.core.export.HttpMethod;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.util.ProcessorUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractConfigAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
+import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
 
 /**
  * <p>
@@ -86,26 +92,37 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
  * @author Thibault Duchateau
  * @since 0.10.0
  */
-public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
-
-	private Arguments arguments;
+public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 
 	public DivConfTypeAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getPrecedence() {
 		return DataTablesDialect.DT_HIGHEST_PRECEDENCE;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName) {
+	@SuppressWarnings("unchecked")
+	protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
 
 		checkMarkupUsage(element);
 
-		this.arguments = arguments;
-		currentTableId = getTableId(element);
+		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
+		HttpServletResponse response = ((IWebContext) arguments.getContext()).getHttpServletResponse();
+		
+		// A Map<ConfType, Object> is associated with each table id
+		Map<String, Map<ConfType, Object>> configs = (Map<String, Map<ConfType, Object>>) RequestUtils.getFromRequest(
+				DataTablesDialect.INTERNAL_BEAN_CONFIGS, request);
+
+		String tableId = ((Element) element.getParent()).getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":conf");
 
 		String confTypeStr = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 		ConfType confType = null;
@@ -122,28 +139,31 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 
 		switch (confType) {
 		case CALLBACK:
-			processCallbackAttributes(element);
+			processCallbackAttributes(element, configs, request, tableId);
 			break;
 		case EXPORT:
-			processExportAttributes(element);
+			processExportAttributes(arguments, element, configs, request, response, tableId);
 			break;
 		case EXTRAJS:
-			processExtraJsAttributes(element);
+			processExtraJsAttributes(arguments, element, configs, tableId);
 			break;
 		case PROPERTY:
-			processPropertyAttributes(element);
+			processPropertyAttributes(element, configs, tableId);
 			break;
 		case EXTRAHTML:
-			processExtrahtmlAttributes(element);
+			processExtrahtmlAttributes(element, configs, tableId);
 			break;
 		}
+		
+		return ProcessorResult.ok();
 	}
 
 	private void checkMarkupUsage(Element element) {
 		Element parent = (Element) element.getParent();
 
 		if (parent == null || !"div".equals(parent.getNormalizedName())
-				|| !parent.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":conf")) {
+				|| !parent.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":conf")
+				|| StringUtils.isBlank(parent.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":conf"))) {
 			throw new DandelionDatatablesException(
 					"The element 'div dt:confType=\"...\"' must be inside an element 'div dt:conf=\"tableId\"'.");
 		}
@@ -157,7 +177,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 	 *            The {@code div} element which holds the attribute.
 	 */
 	@SuppressWarnings("unchecked")
-	private void processExtrahtmlAttributes(Element element) {
+	private void processExtrahtmlAttributes(Element element, Map<String, Map<ConfType, Object>> configs, String tableId) {
 
 		if (hasAttribute(element, "uid")) {
 
@@ -185,15 +205,15 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 				extraHtml.setContent(sb.toString());
 			}
 
-			if (configs.get(currentTableId).containsKey(ConfType.EXTRAHTML)) {
-				List<ExtraHtml> extraHtmls = (List<ExtraHtml>) configs.get(currentTableId).get(ConfType.EXTRAHTML);
+			if (configs.get(tableId).containsKey(ConfType.EXTRAHTML)) {
+				List<ExtraHtml> extraHtmls = (List<ExtraHtml>) configs.get(tableId).get(ConfType.EXTRAHTML);
 
 				extraHtmls.add(extraHtml);
 			} else {
 				List<ExtraHtml> extraHtmls = new ArrayList<ExtraHtml>();
 				extraHtmls.add(extraHtml);
 
-				configs.get(currentTableId).put(ConfType.EXTRAHTML, extraHtmls);
+				configs.get(tableId).put(ConfType.EXTRAHTML, extraHtmls);
 			}
 
 		} else {
@@ -210,7 +230,8 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 	 *            The {@code div} element which holds the attribute.
 	 */
 	@SuppressWarnings("unchecked")
-	private void processExportAttributes(Element element) {
+	private void processExportAttributes(Arguments arguments, Element element, Map<String, Map<ConfType, Object>> configs, HttpServletRequest request, HttpServletResponse response,
+			String tableId) {
 
 		ExportConf conf = null;
 		String exportFormat = null;
@@ -322,7 +343,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 		}
 
 		// Finalizes export URL
-		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID, currentTableId);
+		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID, tableId);
 		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, exportFormat);
 		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
 		UrlUtils.addParameter(exportUrl, WebConstants.DANDELION_ASSET_FILTER_STATE, false);
@@ -330,12 +351,12 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 		
 		if (conf != null) {
 
-			if (configs.get(currentTableId).containsKey(ConfType.EXPORT)) {
-				((Map<String, ExportConf>) configs.get(currentTableId).get(ConfType.EXPORT)).put(exportFormat, conf);
+			if (configs.get(tableId).containsKey(ConfType.EXPORT)) {
+				((Map<String, ExportConf>) configs.get(tableId).get(ConfType.EXPORT)).put(exportFormat, conf);
 			} else {
 				Map<String, ExportConf> exportConfiguration = new HashMap<String, ExportConf>();
 				exportConfiguration.put(exportFormat, conf);
-				configs.get(currentTableId).put(ConfType.EXPORT, exportConfiguration);
+				configs.get(tableId).put(ConfType.EXPORT, exportConfiguration);
 			}
 		}
 	}
@@ -347,7 +368,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 	 *            The {@code div} element which holds the attribute.
 	 */
 	@SuppressWarnings("unchecked")
-	private void processCallbackAttributes(Element element) {
+	private void processCallbackAttributes(Element element, Map<String, Map<ConfType, Object>> configs, HttpServletRequest request, String tableId) {
 
 		if (hasAttribute(element, "type")) {
 
@@ -369,8 +390,8 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 					throw new ConfigurationProcessingException(sb.toString());
 				}
 
-				if (configs.get(currentTableId).containsKey(ConfType.CALLBACK)) {
-					List<Callback> callbacks = (List<Callback>) configs.get(currentTableId).get(ConfType.CALLBACK);
+				if (configs.get(tableId).containsKey(ConfType.CALLBACK)) {
+					List<Callback> callbacks = (List<Callback>) configs.get(tableId).get(ConfType.CALLBACK);
 
 					if (Callback.hasCallback(callbackType, callbacks)) {
 						Callback.findByType(callbackType, callbacks).appendCode(
@@ -385,7 +406,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 					callbacks.add(new Callback(callbackType, (callbackType.hasReturn() ? "return " : "") + functionStr
 							+ "(" + StringUtils.join(callbackType.getArgs(), ",") + ");"));
 
-					configs.get(currentTableId).put(ConfType.CALLBACK, callbacks);
+					configs.get(tableId).put(ConfType.CALLBACK, callbacks);
 				}
 			} else {
 				throw new ConfigurationProcessingException("The attribute '" + DataTablesDialect.DIALECT_PREFIX
@@ -404,7 +425,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 	 *            The {@code div} element which holds the attribute.
 	 */
 	@SuppressWarnings("unchecked")
-	private void processExtraJsAttributes(Element element) {
+	private void processExtraJsAttributes(Arguments arguments, Element element, Map<String, Map<ConfType, Object>> configs, String tableId) {
 
 		if (hasAttribute(element, "bundles")) {
 
@@ -429,14 +450,14 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 			}
 
 			Set<String> bundleSet = new HashSet<String>(Arrays.asList(bundles.split(",")));
-			if (configs.get(currentTableId).containsKey(ConfType.EXTRAJS)) {
-				((Set<ExtraJs>) configs.get(currentTableId).get(ConfType.EXTRAJS)).add(new ExtraJs(bundleSet,
+			if (configs.get(tableId).containsKey(ConfType.EXTRAJS)) {
+				((Set<ExtraJs>) configs.get(tableId).get(ConfType.EXTRAJS)).add(new ExtraJs(bundleSet,
 						insertMode));
 			}
 			else {
 				Set<ExtraJs> extraFiles = new HashSet<ExtraJs>();
 				extraFiles.add(new ExtraJs(bundleSet, insertMode));
-				configs.get(currentTableId).put(ConfType.EXTRAJS, extraFiles);
+				configs.get(tableId).put(ConfType.EXTRAJS, extraFiles);
 
 			}
 		} else {
@@ -453,7 +474,7 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 	 *            The {@code div} element which holds the attribute.
 	 */
 	@SuppressWarnings("unchecked")
-	private void processPropertyAttributes(Element element) {
+	private void processPropertyAttributes(Element element, Map<String, Map<ConfType, Object>> configs, String tableId) {
 
 		if (hasAttribute(element, "name")) {
 
@@ -466,13 +487,13 @@ public class DivConfTypeAttrProcessor extends AbstractConfigAttrProcessor {
 						+ "' is not a valid property. Please read the documentation.");
 			} else {
 
-				if (configs.get(currentTableId).containsKey(ConfType.PROPERTY)) {
-					((Map<ConfigToken<?>, Object>) configs.get(currentTableId).get(ConfType.PROPERTY)).put(configToken,
+				if (configs.get(tableId).containsKey(ConfType.PROPERTY)) {
+					((Map<ConfigToken<?>, Object>) configs.get(tableId).get(ConfType.PROPERTY)).put(configToken,
 							value);
 				} else {
 					Map<ConfigToken<?>, Object> stagingConf = new HashMap<ConfigToken<?>, Object>();
 					stagingConf.put(configToken, value);
-					configs.get(currentTableId).put(ConfType.PROPERTY, stagingConf);
+					configs.get(tableId).put(ConfType.PROPERTY, stagingConf);
 				}
 			}
 		} else {
