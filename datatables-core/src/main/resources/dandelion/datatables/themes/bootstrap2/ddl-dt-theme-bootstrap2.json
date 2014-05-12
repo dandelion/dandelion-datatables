@@ -7,7 +7,7 @@
             "version": "0.10.0",
             "type": "js",
             "locations": {
-                "jar": "dandelion/datatables/themes/bootstrap2/bootstrap.js"
+                "cdn": "//cdn.datatables.net/plug-ins/e9421181788/integration/bootstrap/2/dataTables.bootstrap.js"
             }
         },
         {
@@ -15,7 +15,7 @@
             "version": "0.10.0",
             "type": "css",
             "locations": {
-                "jar": "dandelion/datatables/themes/bootstrap2/bootstrap.css"
+                "cdn": "//cdn.datatables.net/plug-ins/e9421181788/integration/bootstrap/2/dataTables.bootstrap.css"
             }
         }
     ]

@@ -4,10 +4,10 @@
     "assets": [
         {
             "name": "bootstrap2-tablecloth",
-            "version": "0.0.1",
+            "version": "1.0.0",
             "type": "css",
             "locations": {
-                "jar": "dandelion/datatables/themes/bootstrap2/tablecloth.css"
+                "jar": "dandelion/datatables/themes/bootstrap2/css/tablecloth.css"
             }
         }
     ]

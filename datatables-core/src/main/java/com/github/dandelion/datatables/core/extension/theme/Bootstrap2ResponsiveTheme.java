@@ -48,7 +48,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * -responsive</a>, developed by <a
  * href="https://github.com/Comanche">Comanche</a>.
  * <p>
- * The extension updates the asset stack with the bootstrap2-responsive bundle,
+ * The extension updates the asset graph with the bootstrap2-responsive bundle,
  * add necessary variables and adds the needed DataTable's parameters.
  * <p>
  * Also note that the HTML markup needs to be updated with the
