@@ -3,7 +3,7 @@
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "name": "listbox",
+            "name": "paging-listbox",
             "version": "1.0.0",
             "type": "js",
             "locations": {

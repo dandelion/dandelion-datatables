@@ -3,7 +3,7 @@
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "name": "scrolling",
+            "name": "paging-scrolling",
             "version": "1.0.0",
             "type": "js",
             "locations": {

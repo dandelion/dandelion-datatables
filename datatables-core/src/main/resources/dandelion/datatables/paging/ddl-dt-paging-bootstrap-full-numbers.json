@@ -3,7 +3,7 @@
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "name": "bootstrap-full-numbers",
+            "name": "paging-bootstrap-full-numbers",
             "version": "1.0.0",
             "type": "js",
             "locations": {
