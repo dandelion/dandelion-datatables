@@ -57,11 +57,17 @@ public class ColumnInitializerElProcessor extends AbstractElProcessor {
 		super(matcher);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getPrecedence() {
 		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
 			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable) {

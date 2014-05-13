@@ -39,7 +39,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * <p>
  * Activates the ExtJS pagination by:
  * <ul>
- * <li>Updating the asset stack with the bundle <code>paginationType-extjs</code>
+ * <li>Updating the bundle graph with the bundle <code>paginationType-extjs</code>
  * </li>
  * <li>Setting the pagination type to <code>extStyle</code></li>
  * </ul>

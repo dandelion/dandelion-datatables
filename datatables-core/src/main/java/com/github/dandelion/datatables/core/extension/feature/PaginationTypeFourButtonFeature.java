@@ -39,7 +39,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * <p>
  * Activates the FourButton pagination by:
  * <ul>
- * <li>Updating the asset stack with the bundle
+ * <li>Updating the bundle graph with the bundle
  * <code>paginationType-fourbutton</code></li>
  * <li>Setting the pagination type to <code>four_button</code></li>
  * </ul>

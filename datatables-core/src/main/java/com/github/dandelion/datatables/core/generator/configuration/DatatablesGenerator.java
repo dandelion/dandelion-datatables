@@ -395,7 +395,6 @@ public class DatatablesGenerator extends AbstractConfigurationGenerator {
 	}
 
 	private void generateCallbackConfiguration(Map<String, Object> mainConf, TableConfiguration tableConfiguration) {
-		// Callbacks
 		if (tableConfiguration.getCallbacks() != null) {
 			for (Callback callback : tableConfiguration.getCallbacks()) {
 				mainConf.put(callback.getType().getName(), callback.getFunction());

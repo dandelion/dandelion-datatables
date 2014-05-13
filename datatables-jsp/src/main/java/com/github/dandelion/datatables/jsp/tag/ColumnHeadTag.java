@@ -42,20 +42,19 @@ import com.github.dandelion.datatables.core.configuration.ColumnConfig;
  * Example usage:
  * 
  * <pre>
- * &lt;datatables:table id="myTableId" data="${persons}" row="person">
- *    &lt;datatables:column title="Id" property="id" />
- *    &lt;datatables:column title="FirstName" property="firstName" />
- *    &lt;datatables:column title="LastName" property="lastName" />
- *    &lt;datatables:column title="City" property="address.town.name" />
- *    &lt;datatables:column title="Mail" property="mail" />
- *    &lt;%-- Displays a master checkbox in the column header --%>
- *    &lt;datatables:columnHead uid="actionColumn">
- *       &lt;input type="checkbox" onclick="$('#myTableId').find(':checkbox').attr('checked', this.checked);" />
- *    &lt;/datatables:columnHead>
- *    &lt;datatables:column uid="actionColumn" sortable="false" cssCellStyle="text-align:center;">
- *       &lt;input type="checkbox" value="${person.id}" />
- *    &lt;/datatables:column>
- * &lt;/datatables:table>
+ * &lt;datatables:table id="myTableId" data="${persons}" row="person"&gt;
+ *    &lt;datatables:column title="Id" property="id" /&gt;
+ *    &lt;datatables:column title="FirstName" property="firstName" /&gt;
+ *    &lt;datatables:column title="LastName" property="lastName" /&gt;
+ *    &lt;datatables:column title="City" property="address.town.name" /&gt;
+ *    &lt;datatables:column title="Mail" property="mail" /&gt;
+ *    &lt;datatables:column sortable="false" cssCellStyle="text-align:center;"&gt;
+ *       &lt;datatables:columnHead&gt;
+ *          &lt;input type="checkbox" onclick="$('#myTableId').find(':checkbox').attr('checked', this.checked);" /&gt;
+ *       &lt;/datatables:columnHead&gt;
+ *       &lt;input type="checkbox" value="${person.id}" /&gt;
+ *    &lt;/datatables:column&gt;
+ * &lt;/datatables:table&gt;
  * </pre>
  * 
  * @author Thibault Duchateau

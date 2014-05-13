@@ -39,7 +39,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * <p>
  * Activates the ListBox pagination by:
  * <ul>
- * <li>Updating the asset stack with the bundle
+ * <li>Updating the bundle graph with the bundle
  * <code>paginationType-listbox</code></li>
  * <li>Setting the pagination type to <code>listbox</code></li>
  * </ul>
