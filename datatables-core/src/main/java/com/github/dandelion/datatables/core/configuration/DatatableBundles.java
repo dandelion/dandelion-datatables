@@ -53,6 +53,7 @@ public enum DatatableBundles {
 	DDL_DT_THEME_BOOTSTRAP2_RESPONSIVE("ddl-dt-theme-bootstrap2-responsive"),
 	DDL_DT_THEME_BOOTSTRAP2_TABLECLOTH("ddl-dt-theme-bootstrap2-tablecloth"),
 	DDL_DT_THEME_BOOTSTRAP3("ddl-dt-theme-bootstrap3"),
+	DDL_DT_THEME_BOOTSTRAP3_RESPONSIVE("ddl-dt-theme-bootstrap3-responsive"),
 	DDL_DT_THEME_JQUERYUI("ddl-dt-theme-jqueryui"),
 	DDL_DT_THEME_JQUERYUI_BASE("ddl-dt-theme-jqueryui-base"),
 	DDL_DT_THEME_JQUERYUI_BLACKTIE("ddl-dt-theme-jqueryui-blacktie"),

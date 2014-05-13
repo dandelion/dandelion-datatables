@@ -3,7 +3,7 @@
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "name": "bootstrap-pagination",
+            "name": "paging-bootstrap",
             "version": "1.0.0",
             "type": "js",
             "locations": {
