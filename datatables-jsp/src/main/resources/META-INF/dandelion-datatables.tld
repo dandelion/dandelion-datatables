@@ -1,33 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--
-  ~ [The "BSD licence"]
-  ~ Copyright (c) 2013 Dandelion
-  ~ All rights reserved.
-  ~
-  ~ Redistribution and use in source and binary forms, with or without
-  ~ modification, are permitted provided that the following conditions
-  ~ are met:
-  ~
-  ~ 1. Redistributions of source code must retain the above copyright
-  ~ notice, this list of conditions and the following disclaimer.
-  ~ 2. Redistributions in binary form must reproduce the above copyright
-  ~ notice, this list of conditions and the following disclaimer in the
-  ~ documentation and/or other materials provided with the distribution.
-  ~ 3. Neither the name of Dandelion nor the names of its contributors
-  ~ may be used to endorse or promote products derived from this software
-  ~ without specific prior written permission.
-  ~
-  ~ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
-  ~ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-  ~ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-  ~ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
-  ~ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-  ~ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-  ~ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-  ~ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-  ~ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-  ~ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  -->
 <taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
    version="2.0">
@@ -172,7 +143,6 @@
          <description>
          <![CDATA[
             <p>Evaluated as a property of the bean being iterated on.</p>
-            <p>Used a apply an ID to all table rows.</p>
             <p>
             <ul>
             <li>Required: <b>no</b></li>
@@ -463,12 +433,29 @@
             <li>Required: <b>no</b></li>
             <li>Possible values: <b>any String representing the name of an accessible Javascript function</b></li>
             <li>Data source: <b>AJAX</b></li>
-            <li>Configuration property: <b>ajax.serverParams</b></li>
+            <li>Configuration property: <b>ajax.serverParam</b></li>
             </ul>
             </p>
          ]]>
          </description>
-         <name>serverParams</name>
+         <name>serverParam</name>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <description>
+         <![CDATA[
+            <p>Allows you to change the HTTP method called to obtain data when using an AJAX source.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>any valid HTTP method</b></li>
+            <li>Data source: <b>AJAX</b></li>
+            <li>Configuration property: <b>ajax.serverMethod</b></li>
+            </ul>
+            </p>
+         ]]>
+         </description>
+         <name>serverMethod</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>
@@ -1200,22 +1187,6 @@
       <attribute>
          <description>
          <![CDATA[
-            <p>Unique id to be given to the column.</p>
-            <p>This uid must match with the uid specified in the 'uid' columnHead attribute.</p>
-            <p>
-            <ul>
-            <li>Required: <b>no</b></li>
-            <li>Data source: <b>DOM / AJAX</b></li>
-            </ul>
-            </p>
-         ]]>
-         </description>
-         <name>uid</name>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <description>
-         <![CDATA[
             <p>DOM id of the header cell of the column (TH element).</p>
             <p>
             <ul>
@@ -1468,7 +1439,7 @@
       <attribute>
          <description>
          <![CDATA[
-            <p>Name of a Javascript variable containing data to use to populate the filtering select.</p><br/>
+            <p>Name of a Javascript variable containing data used to populate the filtering select.</p><br/>
             <p>You have two options about the Javascript variable.</p><br/>
             <p>
             Either it can contain an array of values.<br/>
@@ -1753,7 +1724,7 @@
       <attribute>
          <description>
          <![CDATA[
-            <p>Path of the file to merge into the generated configuration.</p>
+            <p>Comma-separated list of bundle to include in the current request.</p>
             <p>
             <ul>
             <li>Required: <b>yes</b></li>
@@ -1799,7 +1770,7 @@
    <tag>
       <description>
       <![CDATA[
-         <p>The ExportTag allows you to locally overload a configuration property..</p>
+         <p>The PropTag allows you to locally override a configuration property.</p>
       ]]>
       </description>
       <name>prop</name>

@@ -317,8 +317,8 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(TableConfig.AJAX_SERVERDATA, serverData);
 	}
 
-	public void setServerParams(String serverParams) {
-		stagingConf.put(TableConfig.AJAX_SERVERPARAM, serverParams);
+	public void setServerParam(String serverParam) {
+		stagingConf.put(TableConfig.AJAX_SERVERPARAM, serverParam);
 	}
 
 	public void setServerMethod(String serverMethod) {

@@ -47,9 +47,9 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
  * 
  * @author Thibault Duchateau
  */
-public class TableServerParamsAttrProcessor extends AbstractTableAttrProcessor {
+public class TableServerParamAttrProcessor extends AbstractTableAttrProcessor {
 
-	public TableServerParamsAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	public TableServerParamAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 

@@ -66,7 +66,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollXInne
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollYAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerDataAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerMethodAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerParamsAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerParamAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerSideAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableSortableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableStateSaveAttrProcessor;
@@ -129,7 +129,7 @@ public enum TableAttrProcessors {
     AJAX_PIPESIZE(TablePipeSizeAttrProcessor.class, "pipeSize", "table"),
     AJAX_PROCESSING(TableProcessingAttrProcessor.class, "processing", "table"),
     AJAX_SERVER_DATA(TableServerDataAttrProcessor.class, "serverData", "table"),
-    AJAX_SERVER_PARAMS(TableServerParamsAttrProcessor.class, "serverparams", "table"),
+    AJAX_SERVER_PARAM(TableServerParamAttrProcessor.class, "serverParam", "table"),
     AJAX_SERVER_METHOD(TableServerMethodAttrProcessor.class, "serverMethod", "table"),
     AJAX_RELOAD_SELECTOR(TableReloadSelectorAttrProcessor.class, "reloadSelector", "table"),
     AJAX_RELOAD_FUNCTION(TableReloadFunctionAttrProcessor.class, "reloadFunction", "table"),
