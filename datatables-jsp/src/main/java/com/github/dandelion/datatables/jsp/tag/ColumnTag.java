@@ -38,7 +38,6 @@ import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
@@ -89,10 +88,25 @@ public class ColumnTag extends AbstractColumnTag {
 		
 		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 		if(parent != null){
+			
+			// On the first iteration, a header cell must be added
 			if(parent.isFirstIteration()){
 				headerColumn = new HtmlColumn(true, null, dynamicAttributes, display);
 			}
-			return EVAL_BODY_BUFFERED;
+			
+			// Either using a DOM source or an AJAX source, the body is skipped
+			// is there is no data to iterate on
+			if(parent.getCurrentObject() == null) {
+				return SKIP_BODY;
+			}
+			// When using a DOM source, the 'property' attribute has precedence
+			// over the body, so we don't even evaluate it
+			else if(StringUtils.isNotBlank(property)){
+				return SKIP_BODY;
+			}
+			else {
+				return EVAL_BODY_BUFFERED;
+			}
 		}
 		
 		throw new JspException("The tag 'column' must be inside the 'table' tag.");
@@ -149,13 +163,14 @@ public class ColumnTag extends AbstractColumnTag {
 			String columnContent = null;
 			// The 'property' attribute has precedence over the body of the
 			// column tag
-			if (getBodyContent() == null) {
+			if (StringUtils.isNotBlank(property)) {
 				columnContent = getColumnContent();
 			}
 			// No 'property' attribute is used but a body is set instead
-			else{
+			else if (getBodyContent() != null){
 				columnContent = getBodyContent().getString().trim().replaceAll("[\n\r]", "");
 			}
+
 			addDomBodyColumn(columnContent);
 		}
 
