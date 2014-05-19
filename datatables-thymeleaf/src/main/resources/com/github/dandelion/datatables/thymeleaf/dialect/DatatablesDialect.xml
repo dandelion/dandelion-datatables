@@ -9,21 +9,20 @@
    class="com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect">
    
    <!-- ================================== -->
-   <!-- Table processors -->
+   <!--           TABLE attributes         -->
    <!-- ================================== -->
-   
    <attribute-processor name="table">
       <restrictions tags="table" values="true false" />
       <documentation>
          <![CDATA[
-            <p>Enable or disable the Dandelion-Datatables' dialect in the current table.</p>
+            <p>Enable or disable the Dandelion-Datatables dialect in the current table.</p>
          ]]>
       </documentation>
    </attribute-processor>
    
    <attribute-processor name="url"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableUrlAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>URL called by DataTables to populate the table. Data returned must be in the JSON format</p>
@@ -39,7 +38,7 @@
    
    <attribute-processor name="appear"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableAppearAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Display mode used when the table has finished loading and must appear in the page.</p>
@@ -59,7 +58,7 @@
         
    <attribute-processor name="deferRender"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableDeferRenderAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Defer the creation of the table elements for each row until they are needed for a draw.</p>
@@ -78,7 +77,7 @@
         
    <attribute-processor name="info"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableInfoAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Enable or disable the table information display.</p>
@@ -98,7 +97,7 @@
    
    <attribute-processor name="pageable"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TablePageableAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Enable or disable pagination.</p>
@@ -117,7 +116,7 @@
    
    <attribute-processor name="lenghChange"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableLenghChangeAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>If 'pageable' is set to true, allows the end user to select the size of a formatted page from a select menu (sizes are 10, 25, 50 and 100).</p>
@@ -136,7 +135,7 @@
    
    <attribute-processor name="paginationType"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TablePaginationTypeAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Name of the pagination interaction methods which present different page controls to the end user.</p>
@@ -168,7 +167,7 @@
    
    <attribute-processor name="filterable"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterableAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Enable or disable global filtering of data.</p>
@@ -187,7 +186,7 @@
    
    <attribute-processor name="sortable"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableSortableAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Enable or disable sorting of all columns.</p>
@@ -207,7 +206,7 @@
    
    <attribute-processor name="autoWidth"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableAutoWidthAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Enable or disable automatic column width calculation.</p>
@@ -226,7 +225,7 @@
    
    <attribute-processor name="dom"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableDomAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Allows you to specify exactly where in the DOM you want DataTables to inject the various controls it adds to the page.</p>
@@ -246,7 +245,7 @@
    
    <attribute-processor name="processing"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableProcessingAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Enable or disable the display of a 'processing' indicator when the table is being processed (e.g. a sort).</p>
@@ -266,7 +265,7 @@
    
    <attribute-processor name="serverSide"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerSideAttrProcessor">
-      <restrictions tags="table" attributes="dt:table dt:url"/>
+      <restrictions tags="table" attributes="dt:table=true dt:url"/>
       <documentation>
          <![CDATA[
             <p>Configure DataTables to use server-side processing.</p>
@@ -286,7 +285,7 @@
    
    <attribute-processor name="serverData"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerDataAttrProcessor">
-      <restrictions tags="table" attributes="dt:table dt:url dt:serverSide"/>
+      <restrictions tags="table" attributes="dt:table=true dt:url dt:serverSide=true"/>
       <documentation>
          <![CDATA[
             <p>Allows you to override the default function which obtains the data from the server ($.getJSON) so something more suitable for your application.</p>
@@ -305,7 +304,7 @@
    
    <attribute-processor name="serverParams"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerParamsAttrProcessor">
-      <restrictions tags="table" attributes="dt:table dt:url dt:serverSide"/>
+      <restrictions tags="table" attributes="dt:table=true dt:url dt:serverSide=true"/>
       <documentation>
          <![CDATA[
             <p>Allows you to send extra information to the server when using an AJAX source.</p>
@@ -324,7 +323,7 @@
    
    <attribute-processor name="pipelining"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TablePipeliningAttrProcessor">
-      <restrictions tags="table" attributes="dt:table dt:url dt:serverSide"/>
+      <restrictions tags="table" attributes="dt:table=true dt:url dt:serverSide=true"/>
       <documentation>
          <![CDATA[
             <p>Enable pipelining data for paging when server-side processing is enabled.</p>
@@ -343,7 +342,7 @@
    
    <attribute-processor name="pipeSize"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TablePipeSizeAttrProcessor">
-      <restrictions tags="table" attributes="dt:table dt:url dt:serverSide dt:pipelining"/>
+      <restrictions tags="table" attributes="dt:table=true dt:url dt:serverSide=true dt:pipelining=true"/>
       <documentation>
          <![CDATA[
             <p>Pipe size used when pipelining is enabled, i.e. times that the user can page before a request must be made of the server.</p>
@@ -362,7 +361,7 @@
    
    <attribute-processor name="reloadSelector"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableReloadSelectorAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>jQuery selector targeting the element on which a 'click' event will be bound to trigger the table reloading.</p>
@@ -381,7 +380,7 @@
    
    <attribute-processor name="reloadFunction"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableReloadFunctionAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Name of a Javascript function that will be called in the 'click' event bound by the reloadSelector attribute.</p>
@@ -401,7 +400,7 @@
    
    <attribute-processor name="stateSave"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableStateSaveAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>When enabled a cookie will be used to save table display information such as pagination information, display length, filtering and sorting. As such when the end user reloads the page the display display will match what thy had previously set up.</p>
@@ -420,7 +419,7 @@
    
    <attribute-processor name="export"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Comma-separated list of enabled export formats.</p>
@@ -438,7 +437,7 @@
    
    <attribute-processor name="exportStyle"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportContainerStyleAttrProcessor">
-      <restrictions tags="table" attributes="dt:table dt:export"/>
+      <restrictions tags="table" attributes="dt:table=true dt:export"/>
       <documentation>
          <![CDATA[
             <p>CSS style to be applied to the container used for export links.</p>
@@ -455,7 +454,7 @@
    
    <attribute-processor name="exportClass"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportContainerClassAttrProcessor">
-      <restrictions tags="table" attributes="dt:table dt:export"/>
+      <restrictions tags="table" attributes="dt:table=true dt:export"/>
       <documentation>
          <![CDATA[
             <p>CSS class(s) to be applied to the container used for export links.</p>
@@ -473,7 +472,7 @@
    <!-- TODO -->
    <attribute-processor name="jqueryUI"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportLinksAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Enable jQuery UI ThemeRoller support.</p>
@@ -492,7 +491,7 @@
    
    <attribute-processor name="theme"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeAttrProcessor">
-      <restrictions tags="table" attributes="dt:table dt:export"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Name of a theme to activate in the current table.</p>
@@ -517,7 +516,7 @@
    
    <attribute-processor name="themeOption"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeOptionAttrProcessor">
-      <restrictions tags="table" attributes="dt:table dt:theme"/>
+      <restrictions tags="table" attributes="dt:table=true dt:theme"/>
       <documentation>
          <![CDATA[
             <p>Name of a theme option to activate in the current table.</p>
@@ -527,6 +526,7 @@
             <li>Possible values for the 'bootstrap2' theme: 
                <b>
                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tablecloth</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bootstrap-responsive</p>
                </b>
             </li>
             <li>Possible values for the 'jqueryui' theme: 
@@ -569,7 +569,7 @@
    
    <attribute-processor name="lenghMenu"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableLenghMenuAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Specify the entries in the length drop down menu that DataTables show when pagination is enabled.</p>
@@ -595,7 +595,7 @@
    
    <attribute-processor name="cssStripes"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableStripeClassesAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Comma-separated list of CSS classes that should be applied to displayed rows.</p>
@@ -613,7 +613,7 @@
    
    <attribute-processor name="displayLength"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableDisplayLengthAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Number of rows to display on a single page when using pagination.</p>
@@ -631,7 +631,7 @@
    
    <attribute-processor name="ext"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableCustomExtensionsAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Comma-separated names of extensions to register in the current table.</p>
@@ -650,7 +650,7 @@
    
    <attribute-processor name="confGroup"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableConfGroupAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Name of the configuration group to activate for the current table.</p>
@@ -668,7 +668,7 @@
    
    <attribute-processor name="filterPlaceholder"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterPlaceholderAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Placeholder used to hold the individual column filtering elements.</p>
@@ -694,7 +694,7 @@
    
    <attribute-processor name="filterDelay"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterDelayAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Delay (in milliseconds) to be used before the AJAX call is performed to obtain data.</p>
@@ -712,7 +712,7 @@
    
    <attribute-processor name="filterSelector"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterSelectorAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>jQuery selector targeting the element on which a 'click' event will be bound to trigger the filtering.</p>
@@ -729,7 +729,7 @@
         
    <attribute-processor name="filterClearSelector"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterClearSelectorAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>jQuery selector targeting the element on which a 'click' event will be bound to trigger the clearing of all filter elements.</p>
@@ -746,7 +746,7 @@
    
    <attribute-processor name="scrollY"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollYAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Enable vertical scrolling.</p>
@@ -790,7 +790,7 @@
    
    <attribute-processor name="scrollX"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollXAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
             <p>Enable horizontal scrolling.</p>
@@ -810,7 +810,7 @@
    
    <attribute-processor name="scrollXInner"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollXInnerAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
           <![CDATA[
             <p>This property can be used to force a DataTable to use more width than it might otherwise do when x-scrolling is enabled.</p>
@@ -830,7 +830,7 @@
    
    <attribute-processor name="scrollXInner"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollXInnerAttrProcessor">
-      <restrictions tags="table" attributes="dt:table"/>
+      <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
           <![CDATA[
             <p>This property can be used to force a DataTable to use more width than it might otherwise do when x-scrolling is enabled.</p>
@@ -848,10 +848,9 @@
       </documentation>
    </attribute-processor>
    
-   <!-- ================================== -->
-   <!-- Div processors (used in the configuring div )-->
-   <!-- ================================== -->
-   
+   <!-- ==================================== -->
+   <!--             DIV attributes           -->
+   <!-- ==================================== -->
    <attribute-processor name="conf"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfAttrProcessor">
       <restrictions tags="div" />
@@ -871,7 +870,7 @@
    
    <attribute-processor name="confType"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" />
+      <restrictions tags="div" values="callback export extrajs extrahtml property" />
       <documentation>
          <![CDATA[
             <p>Type of the configuration to specify.</p>
@@ -887,7 +886,9 @@
       </documentation>
    </attribute-processor>
    
-   <!-- Div processors used when configuring export -->
+   <!-- ==================================== -->
+   <!--   DIV attributes (confType=export)   -->
+   <!-- ==================================== -->
    <attribute-processor name="type"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
       <restrictions tags="div" attributes="dt:confType=export" />
@@ -961,7 +962,7 @@
    
    <attribute-processor name="cssStyle"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=export" />
       <documentation>
          <![CDATA[
             <p>CSS style to be applied to the export link.</p>
@@ -977,7 +978,7 @@
    
    <attribute-processor name="cssClass"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=export" />
       <documentation>
          <![CDATA[
             <p>CSS class(es) to be applied to the export link.</p>
@@ -993,7 +994,7 @@
    
    <attribute-processor name="includeHeader"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=export" />
       <documentation>
          <![CDATA[
             <p>Whether header cells should appear in the export file or not.</p>
@@ -1012,7 +1013,7 @@
    
    <attribute-processor name="mimeType"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=export" />
       <documentation>
          <![CDATA[
             <p>Mime type applied to the response when downloading the export file.</p>
@@ -1029,7 +1030,7 @@
    
    <attribute-processor name="method"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=export" />
       <documentation>
          <![CDATA[
             <p>HTTP method to be used to make the export call.</p>
@@ -1046,7 +1047,7 @@
    
    <attribute-processor name="autoSize"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=export" />
       <documentation>
          <![CDATA[
             <p>Whether columns should be autosized in the export file.</p>
@@ -1065,7 +1066,7 @@
    
    <attribute-processor name="orientation"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" values="orientation portrait" attributes="dt:confType=export" />
       <documentation>
          <![CDATA[
             <p>Orientation of the PDF export file.</p>
@@ -1088,7 +1089,7 @@
    
    <attribute-processor name="url"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=export" />
       <documentation>
          <![CDATA[
             <p>URL to be used for exporting. Handy if you want to customize exports using controllers.</p>
@@ -1104,13 +1105,28 @@
       </documentation>
    </attribute-processor>
    
-   <!-- Div processors used when configuring callbacks -->
-   
-   <!-- TODO: dt:type doit pouvoir afficher une nouvelle aide si dt:confType="callback" -->
+   <!-- ==================================== -->
+   <!--  DIV attributes (confType=callback)  -->
+   <!-- ==================================== -->
+   <attribute-processor name="type"
+      class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
+      <restrictions tags="div" attributes="dt:confType=callback" values="cookie createdrow draw footer format header info init predraw row" />
+      <documentation>
+         <![CDATA[
+            <p>Type of the callback.</p>
+            <p>
+            <ul>
+            <li>Required: <b>yes</b></li>
+            <li>Data source: <b>DOM / AJAX</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor>
    
    <attribute-processor name="function"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=callback" />
       <documentation>
          <![CDATA[
             <p>Name of a Javascript function that will be called inside the configured callback.</p>
@@ -1127,14 +1143,15 @@
       </documentation>
    </attribute-processor>
    
-   <!-- Div processors used when configuring properties -->
-   
+   <!-- ==================================== -->
+   <!--  DIV attributes (confType=property)  -->
+   <!-- ==================================== -->
    <attribute-processor name="name"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=property" />
       <documentation>
          <![CDATA[
-            <p>Name of the property to overload.</p>
+            <p>Name of the property to override.</p>
             <p>
             <ul>
             <li>Required: <b>yes</b></li>
@@ -1147,10 +1164,10 @@
    
    <attribute-processor name="value"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=property" />
       <documentation>
          <![CDATA[
-            <p>Value of the property to use.</p>
+            <p>Value of the property to override.</p>
             <p>
             <ul>
             <li>Required: <b>yes</b></li>
@@ -1161,14 +1178,15 @@
       </documentation>
    </attribute-processor>
    
-   <!-- Div processors used when configuring extraFiles -->
-   
-   <attribute-processor name="src"
+   <!-- ==================================== -->
+   <!--   DIV attributes (confType=extrajs)  -->
+   <!-- ==================================== -->
+   <attribute-processor name="bundles"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=extrajs" />
       <documentation>
          <![CDATA[
-            <p>Path of the file to merge into the generated configuration.</p>
+            <p>Comma-separated list of bundle to include in the current request.</p>
             <p>
             <ul>
             <li>Required: <b>yes</b></li>
@@ -1181,7 +1199,7 @@
    
    <attribute-processor name="insert"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=extrajs" />
       <documentation>
          <![CDATA[
             <p>Location where extra file content will be inserted into the generated configuration.</p>
@@ -1205,13 +1223,14 @@
       </documentation>
    </attribute-processor>
    
-   <!-- Div processors used when configuring extraHtml -->
-   
+   <!-- ==================================== -->
+   <!--  DIV attributes (confType=extrahtml) -->
+   <!-- ==================================== -->
    <attribute-processor name="uid"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=extrahtml" />
       <documentation>
-         <![CDATA[
+         <![CDATA[   
             <p>The identifying character to be assigned to the HTML snippet.</p>
             <p>Once the HTML snippet is created, it must be activated thanks to the 'dt:dom' table attribute.</p>
             <br/>
@@ -1230,7 +1249,7 @@
    
    <attribute-processor name="container"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=extrahtml" />
       <documentation>
          <![CDATA[
             <p>Container used to wrap the extra HTML snippet.</p>
@@ -1248,7 +1267,7 @@
    
    <attribute-processor name="cssStyle"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=extrahtml" />
       <documentation>
          <![CDATA[
             <p>CSS style to be applied to the container of the extra HTML snippet.</p>
@@ -1264,7 +1283,7 @@
    
    <attribute-processor name="cssClass"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" attributes="dt:confType" />
+      <restrictions tags="div" attributes="dt:confType=extrahtml" />
       <documentation>
          <![CDATA[
             <p>CSS class(es) to be applied to the container of the extra HTML snippet.</p>
@@ -1279,7 +1298,7 @@
    </attribute-processor>
    
    <!-- ================================== -->
-   <!-- Column processors -->
+   <!--            TH attributes           -->
    <!-- ================================== -->
    <!-- TODO: pouvoir restreindre l'assistant a un attribut d'un tag parent -->
    <attribute-processor name="property"
@@ -1399,7 +1418,7 @@
    
    <attribute-processor name="sortInitDirection"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.ThSortInitDirectionAttrProcessor">
-      <restrictions tags="th" />
+      <restrictions tags="th" attributes="dt:sortable=true" />
       <documentation>
          <![CDATA[
             <p>If the column is sortable, sets the default sorting direction.</p>
@@ -1418,7 +1437,7 @@
    
    <attribute-processor name="sortInitOrder"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.ThSortInitOrderAttrProcessor">
-      <restrictions tags="th" attributes="dt:sortInitDirection"/>
+      <restrictions tags="th" attributes="dt:sortable=true dt:sortInitDirection"/>
       <documentation>
          <![CDATA[
             <p>If the column is sortable, sets the order in which the sort should be initialized.</p>
@@ -1436,7 +1455,7 @@
    
    <attribute-processor name="sortDirection"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.ThSortDirectionAttrProcessor">
-      <restrictions tags="th" />
+      <restrictions tags="th" attributes="dt:sortable=true" />
       <documentation>
          <![CDATA[
             <p>Comma-separated list of directions to be used to control the sorting sequence.</p>
@@ -1454,7 +1473,7 @@
    
    <attribute-processor name="filterType"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.ThFilterTypeAttrProcessor">
-      <restrictions tags="th" attributes="dt:filterable" />
+      <restrictions tags="th" attributes="dt:filterable=true" />
       <documentation>
          <![CDATA[
             <p>If the column is filterable, you can decide to change the filter type using this attribute.</p>
@@ -1481,7 +1500,7 @@
    
    <attribute-processor name="filterValues"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.ThFilterValuesAttrProcessor">
-      <restrictions tags="th" attributes="dt:filterable dt:filterType" />
+      <restrictions tags="th" attributes="dt:filterable=true dt:filterType" />
       <documentation>
          <![CDATA[
             <p>Name of a Javascript variable containing data to use to populate the filtering select.</p><br/>
@@ -1511,7 +1530,7 @@
    
    <attribute-processor name="filterMinLength"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.ThFilterValuesAttrProcessor">
-      <restrictions tags="th" attributes="dt:filterable" />
+      <restrictions tags="th" attributes="dt:filterable=true" />
       <documentation>
          <![CDATA[
             <p>Number of characters to be entered in the filtering input field before filtering is triggered.</p>
@@ -1530,7 +1549,7 @@
    
    <attribute-processor name="filterCssClass"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.ThFilterCssClassAttrProcessor">
-      <restrictions tags="th" attributes="dt:filterable" />
+      <restrictions tags="th" attributes="dt:filterable=true" />
       <documentation>
          <![CDATA[
             <p>If the column is filterable, CSS class(s) to be applied on the filtering element (whose type depends on the filter type).</p>
@@ -1547,7 +1566,7 @@
    
    <attribute-processor name="filterDateFormat"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterDateFormatAttrProcessor">
-      <restrictions tags="th" attributes="dt:filterable dt:filterType"/>
+      <restrictions tags="th" attributes="dt:filterable=true dt:filterType"/>
       <documentation>
          <![CDATA[
             <p>Date format to be applied to the datepicker when the filterType is set to "date_range".</p>
@@ -1605,35 +1624,7 @@
    
    <attribute-processor name="sortType"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.ThSortTypeAttrProcessor">
-      <restrictions tags="th" />
-      <documentation>
-         <![CDATA[
-            <p>If the column is sortable, sets the type of sort to apply to the column.</p>
-            <p>
-            <ul>
-            <li>Required: <b>no</b></li>
-            <li>Possible values:
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;natural</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;anti_the</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alt_string</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currency</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filesize</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatted_numbers</p>
-            </b>
-            </li>
-            <li>Default: <b>type-based, internally guessed by DataTables</b></li>
-            <li>Data source: <b>DOM / AJAX</b></li>
-            <li>Configuration property: <b>n/a</b></li>
-            </ul>
-            </p>
-         ]]>
-      </documentation>
-   </attribute-processor>
-   
-   <attribute-processor name="sortType"
-      class="com.github.dandelion.datatables.thymeleaf.processor.config.ThSortTypeAttrProcessor">
-      <restrictions tags="th" />
+      <restrictions tags="th" attributes="dt:sortable=true" />
       <documentation>
          <![CDATA[
             <p>If the column is sortable, sets the type of sort to apply to the column.</p>
