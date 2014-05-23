@@ -55,7 +55,7 @@
       <itextpdf.version>5.4.5</itextpdf.version>
       <poi.ooxml.version>3.9</poi.ooxml.version>
       <poi.version>3.9</poi.version>
-      <struts1.version>[1.3.5,)</struts1.version>
+      <struts1.version>[1.3.5,1.3.10]</struts1.version>
       <struts2.version>[2.0.5,)</struts2.version>
 
       <!-- Test dependencies -->
