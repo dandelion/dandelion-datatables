@@ -4,7 +4,7 @@
    <parent>
       <groupId>com.github.dandelion</groupId>
       <artifactId>datatables-extras</artifactId>
-      <version>0.10.0-SNAPSHOT</version>
+      <version>0.10.0</version>
    </parent>
 
    <artifactId>datatables-struts1</artifactId>
@@ -18,7 +18,7 @@
       <dependency>
          <groupId>com.github.dandelion</groupId>
          <artifactId>datatables-core</artifactId>
-         <version>0.10.0-SNAPSHOT</version>
+         <version>0.10.0</version>
       </dependency>
       
       <!-- Struts 1 -->

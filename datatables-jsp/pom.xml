@@ -4,7 +4,7 @@
    <parent>
       <groupId>com.github.dandelion</groupId>
       <artifactId>dandelion-datatables</artifactId>
-      <version>0.10.0-SNAPSHOT</version>
+      <version>0.10.0</version>
    </parent>
 
    <artifactId>datatables-jsp</artifactId>
@@ -18,7 +18,7 @@
       <dependency>
          <groupId>com.github.dandelion</groupId>
          <artifactId>datatables-core</artifactId>
-         <version>0.10.0-SNAPSHOT</version>
+         <version>0.10.0</version>
       </dependency>
       <dependency>
          <groupId>com.github.dandelion</groupId>
