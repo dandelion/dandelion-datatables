@@ -29,35 +29,33 @@
  */
 package com.github.dandelion.datatables.core.processor.column;
 
-import java.util.Map;
-
-import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.extension.feature.SortingFeature;
-import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
-import com.github.dandelion.datatables.core.util.StringUtils;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
-public class SortTypeProcessor extends AbstractColumnProcessor {
+public class SortTypeProcessor extends AbstractConfigurationProcessor {
+
+	public SortTypeProcessor() {
+		super();
+	}
+
+	public SortTypeProcessor(boolean bundleAware) {
+		super(bundleAware);
+	}
 
 	@Override
-	protected void process(String param, ColumnConfiguration columnConfiguration,
-			TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
-		
-		if (StringUtils.isNotBlank(param)) {
+	public void doProcess() {
 
-			SortType sortType = null;
-			try {
-				sortType = SortType.valueOf(param.toUpperCase().trim());
-			} catch (IllegalArgumentException e) {
-				throw new ConfigurationProcessingException(param + " is not a valid value among " + SortType.values(), e);
+		if (StringUtils.isNotBlank(stringifiedValue)) {
+
+			SortType sortType = SortType.findByName(stringifiedValue);
+			if (sortType != null) {
+				registerExtension(new SortingFeature());
+				updateEntry(sortType.getName());
+			} else {
+				updateEntry(stringifiedValue);
 			}
-			
-			columnConfiguration.setSortType(sortType);
-			tableConfiguration.registerExtension(new SortingFeature());
 		}
-		
 	}
 }

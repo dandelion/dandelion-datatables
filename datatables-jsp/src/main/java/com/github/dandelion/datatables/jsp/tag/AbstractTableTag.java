@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2012 Dandelion
+ * [The "BSD licence"]
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -35,6 +36,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.DynamicAttributes;
@@ -43,21 +45,28 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.constants.ExportConstants;
-import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.html.HtmlLink;
-import com.github.dandelion.datatables.core.html.HtmlScript;
+import com.github.dandelion.core.asset.locator.impl.DelegateLocator;
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.web.AssetRequestContext;
+import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.exception.ExportException;
+import com.github.dandelion.datatables.core.export.ExportDelegate;
+import com.github.dandelion.datatables.core.export.ExportUtils;
+import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
+import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * <p>
- * Abstract class which contains :
+ * Superclass of {@link TableTag} containing:
  * <ul>
- * <li>all the boring technical stuff needed by Java tags (setters for all Table
- * tag attributes)</li>
- * <li>helper methods used to init the table</li>
+ * <li>tag attributes declaration (note that all the corresponding setters are
+ * in the {@link TableTag}</li>
+ * <li>helper attributes and methods used to initialize the table</li>
  * </ul>
  * 
  * @author Thibault Duchateau
@@ -69,67 +78,73 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 	private static final long serialVersionUID = 4788079931487986884L;
 
 	// Logger
-	private static Logger logger = LoggerFactory.getLogger(AbstractTableTag.class);
+	protected static Logger logger = LoggerFactory.getLogger(TableTag.class);
 
 	/**
-	 * Map holding the staging configuration to apply to the table.
+	 * Tag attributes
 	 */
-	protected Map<Configuration, Object> stagingConf;
-	
-	/**
-	 * First way to populate the table: using a Collection previously set in
-	 * request.
-	 */
+	// Table id
+	protected String id;
+
+	// First way to populate the table: using a Collection
 	protected Object data;
-	
-	/**
-	 * Second way to populate the table: using the URL that returns data.
-	 */
+
+	// Second way to populate the table: using the URL that returns data
 	protected String url;
-	
-	/**
-	 * Name that has been assigned with the <code>row</code> attribute for the
-	 * iterated object set in the page context.
-	 */
+
+	// Name that has been assigned for the iterated object set in the page
+	// context
 	protected String row;
 
-	// Tag attributes
-	protected String id;
+	// Name of the configuration group to be applied to the table
+	protected String confGroup;
+
+	// Used when an id is to be assigned to each row
 	protected String rowIdBase;
 	protected String rowIdPrefix;
-	protected String rowIdSufix;
-	protected Map<String, String> dynamicAttributes;
+	protected String rowIdSuffix;
 
-	// Basic features
-	protected String footer;
-
-	// Internal common attributes
+	// Whether XML characters should be escaped
+	protected boolean escapeXml = true;
+	
+	/**
+	 * Internal attributes
+	 */
+	// Map containing the staging configuration to be applied to the table at
+	// the end of the tag processing
+	protected Map<ConfigToken<?>, Object> stagingConf;
 	protected Integer iterationNumber;
 	protected HtmlTable table;
 	protected Iterator<Object> iterator;
 	protected Object currentObject;
-	protected String loadingType;
-	protected String confGroup;
-	
+	protected String dataSourceType;
+	protected Map<String, String> dynamicAttributes;
+	protected HttpServletRequest request;
+	protected HttpServletResponse response;
+
 	/**
-	 * Process the iteration over the data (only for DOM source).
+	 * <p>
+	 * Process the iteration over the collection of data.
 	 * 
-	 * @return EVAL_BODY_BUFFERED if some data remain in the Java Collection,
-	 *         SKIP_BODY otherwise.
+	 * <p>
+	 * Note that no iteration is required when using an AJAX source.
+	 * 
+	 * @return {@code EVAL_BODY_BUFFERED} if some data remain in the Java
+	 *         Collection, {@code SKIP_BODY} otherwise.
 	 * @throws JspException
 	 *             if something went wrong during the row id generation.
 	 */
 	protected int processIteration() throws JspException {
 
-		if ("DOM".equals(this.loadingType)) {
+		if ("DOM".equals(this.dataSourceType)) {
 			Integer retval = null;
-			
-			if(iterator != null && iterator.hasNext()){
+
+			if (iterator != null && iterator.hasNext()) {
 				Object object = iterator.next();
-				
+
 				this.setCurrentObject(object);
-				stagingConf.put(Configuration.INTERNAL_OBJECTTYPE, object.getClass().getSimpleName());
-				
+				stagingConf.put(TableConfig.INTERNAL_OBJECTTYPE, object.getClass().getSimpleName());
+
 				if (row != null) {
 					pageContext.setAttribute(row, object);
 					pageContext.setAttribute(row + "_rowIndex", iterationNumber);
@@ -142,38 +157,18 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 					this.table.addRow();
 				}
 				retval = EVAL_BODY_BUFFERED;
-			}
-			else{
+			} else {
 				retval = SKIP_BODY;
 			}
-			
-			if(isFirstIteration()){
+
+			if (isFirstIteration()) {
 				retval = EVAL_BODY_BUFFERED;
 			}
-			
+
 			return retval;
 		} else {
 			return SKIP_BODY;
 		}
-	}
-
-	/**
-	 * Return the current export type asked by the user on export link click.
-	 * 
-	 * @return An enum corresponding to the type of export.
-	 */
-	protected ExportType getCurrentExportType() {
-
-		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-
-		// Get the URL parameter used to identify the export type
-		String exportTypeString = request.getParameter(
-				ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE).toString();
-
-		// Convert it to the corresponding enum
-		ExportType exportType = ExportType.findByUrlParameter(Integer.parseInt(exportTypeString));
-
-		return exportType;
 	}
 
 	/**
@@ -191,67 +186,157 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 		StringBuilder rowId = new StringBuilder();
 
 		if (StringUtils.isNotBlank(this.rowIdPrefix)) {
-			rowId.append(this.rowIdPrefix);
+			rowId.append(StringUtils.escape(this.escapeXml, this.rowIdPrefix));
 		}
 
 		if (StringUtils.isNotBlank(this.rowIdBase)) {
 			try {
-				Object propertyValue = PropertyUtils.getNestedProperty(this.currentObject, this.rowIdBase);
+				Object propertyValue = PropertyUtils.getNestedProperty(this.currentObject,
+						StringUtils.escape(this.escapeXml, this.rowIdBase));
 				rowId.append(propertyValue != null ? propertyValue : "");
 			} catch (IllegalAccessException e) {
-				logger.error("Unable to get the value for the given rowIdBase {}", this.rowIdBase);
-				throw new JspException(e);
+				throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
 			} catch (InvocationTargetException e) {
-				logger.error("Unable to get the value for the given rowIdBase {}", this.rowIdBase);
-				throw new JspException(e);
+				throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
 			} catch (NoSuchMethodException e) {
-				logger.error("Unable to get the value for the given rowIdBase {}", this.rowIdBase);
-				throw new JspException(e);
+				throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
 			}
 		}
 
-		if (StringUtils.isNotBlank(this.rowIdSufix)) {
-			rowId.append(this.rowIdSufix);
+		if (StringUtils.isNotBlank(this.rowIdSuffix)) {
+			rowId.append(StringUtils.escape(this.escapeXml, this.rowIdSuffix));
 		}
 
 		return rowId.toString();
 	}
 
 	/**
-	 * Generate and write a new HTML link tag.
+	 * Set up the HTML table generation.
 	 * 
-	 * @param href
-	 * @throws IOException
+	 * @return allways EVAL_PAGE to keep evaluating the page.
+	 * @throws JspException
+	 *             if something went wrong during the processing.
 	 */
-	protected void generateLinkTag(String href) throws IOException {
-		pageContext.getOut().println(new HtmlLink(href).toHtml().toString());
+	protected int setupHtmlGeneration() throws JspException {
+
+		JsResource jsResource = null;
+
+		this.table.getTableConfiguration().setExporting(false);
+
+		try {
+			// Init the web resources generator
+			WebResourceGenerator contentGenerator = new WebResourceGenerator(table);
+
+			// Generate the web resources (JS, CSS) and wrap them into a
+			// WebResources POJO
+			jsResource = contentGenerator.generateWebResources();
+			logger.debug("Web content generated successfully");
+
+			// Asset stack update
+			AssetRequestContext
+					.get(request)
+					.addBundles(DatatableBundles.DDL_DT)
+					.addBundles(DatatableBundles.DATATABLES)
+					.addParameter("dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM,
+							DatatablesConfigurator.getJavascriptGenerator(), false);
+
+			// Buffering generated Javascript
+			JavascriptGenerator javascriptGenerator = AssetRequestContext.get(request).getParameterValue(
+					"dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM);
+			javascriptGenerator.addResource(jsResource);
+
+			// HTML generation
+			pageContext.getOut().println(this.table.toHtml());
+
+		} catch (IOException e) {
+			throw new JspException("Unable to generate the HTML markup for the table " + id, e);
+		}
+
+		return EVAL_PAGE;
 	}
 
 	/**
-	 * Generate and write a new HTML script tag.
+	 * Set up the export properties, before the filter intercepts the response.
 	 * 
-	 * @param href
-	 * @throws IOException
+	 * @return always {@code SKIP_PAGE}, because the export filter will override
+	 *         the response with the exported data instead of displaying the
+	 *         page.
+	 * @throws JspException
+	 *             if something went wrong during export.
 	 */
-	protected void generateScriptTag(String src) throws IOException {
-		pageContext.getOut().println(new HtmlScript(src).toHtml().toString());
+	protected int setupExport() throws JspException {
+
+		String currentExportType = ExportUtils.getCurrentExportType(request);
+
+		this.table.getTableConfiguration().setExporting(true);
+		this.table.getTableConfiguration().setCurrentExportFormat(currentExportType);
+
+		try {
+			// Call the export delegate
+			ExportDelegate exportDelegate = new ExportDelegate(table, request);
+			exportDelegate.prepareExport();
+
+		} catch (ExportException e) {
+			logger.error("Something went wront with the Dandelion export configuration.");
+			throw new JspException(e);
+		}
+
+		response.reset();
+
+		return SKIP_PAGE;
 	}
 
-	/** Getters and setters for all attributes */
+	/**
+	 * {@inheritDoc}
+	 */
+	public void setDynamicAttribute(String uri, String localName, Object value) throws JspException {
+
+		validateDynamicAttribute(localName, value);
+
+		if (this.dynamicAttributes == null) {
+			this.dynamicAttributes = new HashMap<String, String>();
+		}
+
+		this.dynamicAttributes.put(localName, (String) value);
+	}
+	
+	/**
+	 * <p>
+	 * Validates the passed dynamic attribute.
+	 * 
+	 * <p>
+	 * The dynamic attribute must not conflict with other attributes and must
+	 * have a valid type.
+	 * 
+	 * @param localName
+	 *            Name of the dynamic attribute.
+	 * @param value
+	 *            Value of the dynamic attribute.
+	 */
+	private void validateDynamicAttribute(String localName, Object value) {
+		if (localName.equals("class")) {
+			throw new IllegalArgumentException(
+					"The 'class' attribute is not allowed. Please use the 'cssClass' attribute instead.");
+		}
+		if (localName.equals("style")) {
+			throw new IllegalArgumentException(
+					"The 'style' attribute is not allowed. Please use the 'cssStyle' attribute instead.");
+		}
+		if (!(value instanceof String)) {
+			throw new IllegalArgumentException("The attribute " + localName
+					+ " won't be added to the table. Only string values are accepted.");
+		}
+	}
 
 	public HtmlTable getTable() {
 		return this.table;
 	}
 
-	public void setRow(String row) {
-		this.row = row;
-	}
-
-	public Boolean isFirstIteration() {
+	public boolean isFirstIteration() {
 		return this.iterationNumber.equals(1);
 	}
 
-	public Integer getIterationNumber() {
+	public int getIterationNumber() {
 		return this.iterationNumber;
 	}
 
@@ -263,45 +348,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 		this.currentObject = currentObject;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * Get the map of dynamic attributes.
-	 */
-	protected Map<String, String> getDynamicAttributes() {
-		return this.dynamicAttributes;
-    }
-
-	/** {@inheritDoc} */
-	public void setDynamicAttribute(String uri, String localName, Object value ) 
-		throws JspException {
-		
-		validDynamicAttribute(localName, value);
-
-		if (this.dynamicAttributes == null) {
-			this.dynamicAttributes = new HashMap<String, String>();
-		}
-
-		// Accept String values only, because we haven't knowledge
-		// about how to transform Object to String
-		if(value instanceof String) {
-		    dynamicAttributes.put(localName, (String) value);
-		}
-	}
-
-	/**
-	 * Whether the given name-value pair is a valid dynamic attribute.
-	 */
-	protected void validDynamicAttribute(String localName, Object value) {
-		if(localName.equals("class")){
-			throw new IllegalArgumentException(
-					"The 'class' attribute is not allowed. Please use the 'cssClass' instead.");
-		}
-		if(localName.equals("style")){
-			throw new IllegalArgumentException(
-					"The 'style' attribute is not allowed. Please use the 'cssStyle' instead.");
-		}
+	public String getDataSourceType() {
+		return this.dataSourceType;
 	}
 }

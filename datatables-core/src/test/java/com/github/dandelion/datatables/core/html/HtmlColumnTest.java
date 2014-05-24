@@ -30,36 +30,44 @@
 package com.github.dandelion.datatables.core.html;
 
 import static org.fest.assertions.Assertions.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
-import com.github.dandelion.datatables.core.asset.DisplayType;
 
-public class HtmlColumnTest extends HtmlTagWithContentTest {
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.core.export.ReservedFormat;
+
+public class HtmlColumnTest {
 
 	private HtmlColumn column;
 
 	@Before
-	@Override
-	public void createHtmlTag(){
-		tag = column = new HtmlColumn(true);
-	}
-
 	public void createHtmlCellTag(){
-		tag = column = new HtmlColumn();
+		column = new HtmlColumn(false);
 	}
 
 	@Test
 	public void should_contain_all_display_types() {
-		assertThat(column.getEnabledDisplayTypes()).contains(DisplayType.ALL);
+		assertThat(column.getEnabledDisplayTypes()).contains(ReservedFormat.ALL);
 	}
 
 	@Test
 	public void should_contain_only_specified_display_types() {
-		column = new HtmlColumn(DisplayType.CSV);
-		assertThat(column.getEnabledDisplayTypes()).contains(DisplayType.CSV);
+		column = new HtmlColumn(ReservedFormat.CSV);
+		assertThat(column.getEnabledDisplayTypes()).contains(ReservedFormat.CSV);
 		assertThat(column.isHeaderColumn()).isFalse();
 	}
 
+	@Test
+	public void should_create_header_column_with_id() {
+		column = new HtmlColumn(true, "content");
+		ColumnConfig.ID.setIn(column.getColumnConfiguration(), "fakeId");
+		assertThat(column.isHeaderColumn()).isTrue();
+		assertThat(column.toHtml().toString()).isEqualTo(
+				"<" + column.getTag() + " id=\"" + ColumnConfig.ID.valueFrom(column.getColumnConfiguration()) + "\">content</"
+						+ column.getTag() + ">");
+	}
+	
 	@Test
 	public void should_create_header_column_with_content() {
 		column = new HtmlColumn(true, "content");

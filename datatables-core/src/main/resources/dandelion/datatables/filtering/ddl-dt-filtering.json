@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-filtering",
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "dandelion-filtering",
+            "version": "1.6.1",
+            "type": "js",
+            "locations": {
+                "jar": "dandelion/datatables/filtering/filteringaddon.js"
+            }
+        }
+    ]
+}

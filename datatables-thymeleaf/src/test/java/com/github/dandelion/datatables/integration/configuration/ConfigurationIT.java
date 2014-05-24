@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,19 +30,41 @@
 
 package com.github.dandelion.datatables.integration.configuration;
 
-import org.junit.runner.RunWith;
+import static org.fest.assertions.Assertions.assertThat;
 
-import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.configuration.ConfigurationBaseIT;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
+import org.junit.Test;
+
+import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 
 /**
  *
  * @author Thibault Duchateau
  */
-@RunWith(ThymeleafContextRunner.class)
-@ThymeleafTest
-public class ConfigurationIT extends ConfigurationBaseIT {
+public class ConfigurationIT extends ThymeleafBaseIT {
 
+	@Test
+	public void should_use_overriden_global_configuration() {
+		goToPage("configuration/global_overriden");
+		assertThat(getTable().getAttribute("class")).contains("myClass");
+	}
 	
+	@Test
+	public void should_use_group1_configuration() {
+		goToPage("configuration/enable_custom_group");
+		assertThat(getTable().getAttribute("class")).contains("my-group1-class");
+	}
+	
+	@Test
+	public void should_overload_configuration_locally() {
+		goToPage("configuration/local_overloading");
+		assertThat(getTable().getAttribute("style")).contains("text-align: center;");
+	}
+	
+	@Test
+	public void should_raise_an_exception_when_defining_a_property() {
+		goToPage("configuration/wrong_markup");
+		assertThat(driver.getPageSource())
+				.contains(
+						"ConfigurationProcessingException: The attribute 'dt:name' is required when overloading a configuration property.");
+	}
 }

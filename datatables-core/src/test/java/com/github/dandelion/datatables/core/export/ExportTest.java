@@ -30,23 +30,25 @@
 package com.github.dandelion.datatables.core.export;
 
 import java.io.ByteArrayOutputStream;
-import java.util.HashSet;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Before;
+import org.springframework.mock.web.MockFilterConfig;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.datatables.core.asset.DisplayType;
-import com.github.dandelion.datatables.core.exception.ExportException;
+import com.github.dandelion.core.Context;
+import com.github.dandelion.core.web.WebConstants;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.mock.Mock;
 import com.github.dandelion.datatables.core.mock.Person;
 
 /**
  * Base class used to unit test export.
- *
+ * 
  * @author Thibault Duchateau
  */
 public class ExportTest {
@@ -56,18 +58,20 @@ public class ExportTest {
 	private MockServletContext mockServletContext;
 	private MockPageContext mockPageContext;
 	private HttpServletRequest request;
-	
+	private MockHttpServletResponse response;
+
 	@Before
-	public void setup(){
+	public void setup() {
 		mockServletContext = new MockServletContext();
 		mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
+		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
 	}
-	
-	public void initDefaultTable(){
-		
+
+	public void initDefaultTable() {
+
 		// Data
-		table = new HtmlTable("dummyId", request);
+		table = new HtmlTable("dummyId", request, response);
 		table.addFooterRow();
 		table.addHeaderRow();
 		table.getLastHeaderRow().addColumn("Id");
@@ -75,49 +79,50 @@ public class ExportTest {
 		table.getLastHeaderRow().addColumn("LastName");
 		table.getLastHeaderRow().addColumn("City");
 		table.getLastHeaderRow().addColumn("Mail");
-		for(Person person : Mock.persons){
+		for (Person person : Mock.persons) {
 			table.addRow();
 			table.getLastBodyRow().addColumn(String.valueOf(person.getId()));
 			table.getLastBodyRow().addColumn(person.getFirstName());
 			table.getLastBodyRow().addColumn(person.getLastName());
-			table.getLastBodyRow().addColumn(person.getAddress() != null ? person.getAddress().getTown().getName() : "");
+			table.getLastBodyRow()
+					.addColumn(person.getAddress() != null ? person.getAddress().getTown().getName() : "");
 			table.getLastBodyRow().addColumn(person.getMail());
 		}
-		
-		table.getTableConfiguration().setInternalObjectType(Mock.persons.get(0).getClass().getSimpleName());
+
+		TableConfig.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), Mock.persons.get(0).getClass()
+				.getSimpleName());
 	}
-	
-	public void initTable(){
-	
+
+	public void initTable() {
+
 		// Data
-		table = new HtmlTable("dummyId", request);
+		table = new HtmlTable("dummyId", request, response);
 		table.addFooterRow();
 		table.addHeaderRow();
 		table.getLastHeaderRow().addColumn("Id");
 		table.getLastHeaderRow().addColumn("FirstName");
-		table.getLastHeaderRow().addColumn("LastName", DisplayType.HTML);
+		table.getLastHeaderRow().addColumn("LastName", ReservedFormat.HTML);
 		table.getLastHeaderRow().addColumn("City");
 		table.getLastHeaderRow().addColumn("Mail");
-		for(Person person : Mock.persons){
+		for (Person person : Mock.persons) {
 			table.addRow();
 			table.getLastBodyRow().addColumn(String.valueOf(person.getId()));
 			table.getLastBodyRow().addColumn(person.getFirstName());
-			table.getLastBodyRow().addColumn(person.getLastName(), DisplayType.HTML);
-			table.getLastBodyRow().addColumn(person.getAddress() != null ? person.getAddress().getTown().getName() : "");
+			table.getLastBodyRow().addColumn(person.getLastName(), ReservedFormat.HTML);
+			table.getLastBodyRow()
+					.addColumn(person.getAddress() != null ? person.getAddress().getTown().getName() : "");
 			table.getLastBodyRow().addColumn(person.getMail());
 		}
-		
-		table.getTableConfiguration().setInternalObjectType(Mock.persons.get(0).getClass().getSimpleName());
+
+		TableConfig.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), Mock.persons.get(0).getClass()
+				.getSimpleName());
 	}
-	
-	public void configureExport(ExportConf exportConf){
-		if(table.getTableConfiguration().getExportConfs() == null){
-			table.getTableConfiguration().setExportConfs(new HashSet<ExportConf>());
-		}
-		table.getTableConfiguration().getExportConfs().add(exportConf);
+
+	public void configureExport(ExportConf exportConf) {
+		table.getTableConfiguration().getExportConfiguration().put(exportConf.getFormat(), exportConf);
 	}
-	
-	public void processExport(DatatablesExport export) throws ExportException{
+
+	public void processExport(DatatablesExport export) {
 		baos = new ByteArrayOutputStream();
 		export.initExport(table);
 		export.processExport(baos);

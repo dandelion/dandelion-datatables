@@ -33,9 +33,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Plain old HTML <code>table</code> tag.
@@ -46,42 +47,33 @@ import com.github.dandelion.datatables.core.util.StringUtils;
 public class HtmlTable extends HtmlTag {
 
 	// Internal attributes
+	private String originalId;
 	private HtmlCaption caption;
 	private List<HtmlRow> head = new LinkedList<HtmlRow>();
 	private List<HtmlRow> body = new LinkedList<HtmlRow>();
 	private List<HtmlRow> foot = new LinkedList<HtmlRow>();
 	private TableConfiguration tableConfiguration;
-	private String randomId;
 
-	public HtmlTable(String id, HttpServletRequest request) {
+	public HtmlTable(String id, HttpServletRequest request, HttpServletResponse response) {
 		this.tag = "table";
-		this.randomId = StringUtils.getRamdomNumber();
-		this.id = id;
-		tableConfiguration = TableConfiguration.getInstance(request);
-		tableConfiguration.setTableId(id);
+		this.originalId = id;
+		this.id = processId(id);
+		this.tableConfiguration = TableConfiguration.getInstance(id, request);
 	}
 
-	public HtmlTable(String id, HttpServletRequest request, String groupName) {
+	public HtmlTable(String id, HttpServletRequest request, HttpServletResponse response, String groupName) {
 		this.tag = "table";
-		this.randomId = StringUtils.getRamdomNumber();
-		this.id = id;
-		tableConfiguration = TableConfiguration.getInstance(request, groupName);
-		tableConfiguration.setTableId(id);
+		this.originalId = id;
+		this.id = processId(id);
+		this.tableConfiguration = TableConfiguration.getInstance(id, request, groupName);
 	}
 
-	public HtmlTable(String id) {
+	public HtmlTable(String id, HttpServletRequest request, HttpServletResponse response, String groupName, Map<String, String> dynamicAttributes) {
 		this.tag = "table";
-		this.randomId = StringUtils.getRamdomNumber();
-		this.id = id;
-	}
-
-	public HtmlTable(String id, HttpServletRequest request, String groupName, Map<String, String> dynamicAttributes) {
-		this.tag = "table";
-		this.randomId = StringUtils.getRamdomNumber();
-		this.id = id;
+		this.originalId = id;
+		this.id = processId(id);
 		this.dynamicAttributes = dynamicAttributes;
-		tableConfiguration = TableConfiguration.getInstance(request, groupName);
-		tableConfiguration.setTableId(id);
+		this.tableConfiguration = TableConfiguration.getInstance(id, request, groupName);
 	}
 
 	/**
@@ -89,9 +81,6 @@ public class HtmlTable extends HtmlTag {
 	 */
 	@Override
 	public StringBuilder toHtml() {
-		if("fadein".equals(this.tableConfiguration.getFeatureAppear())){
-			addCssStyle("display:none;");
-		}
 		StringBuilder html = new StringBuilder();
 		html.append(getHtmlOpeningTag());
 		html.append(getHtmlHeader());
@@ -140,8 +129,8 @@ public class HtmlTable extends HtmlTag {
 	protected StringBuilder getHtmlAttributes() {
 		StringBuilder html = new StringBuilder();
 		html.append(writeAttribute("id", this.id));
-		html.append(writeAttribute("class", this.tableConfiguration.getCssClass()));
-		html.append(writeAttribute("style", this.tableConfiguration.getCssStyle()));
+		html.append(writeAttribute("class", TableConfig.CSS_CLASS.valueFrom(this.tableConfiguration)));
+		html.append(writeAttribute("style", TableConfig.CSS_STYLE.valueFrom(this.tableConfiguration)));
 		return html;
 	}
 
@@ -209,52 +198,44 @@ public class HtmlTable extends HtmlTag {
 	}
 
 	public void addCssStyle(String cssStyle) {
-		if(this.tableConfiguration.getCssStyle() == null) {
-			this.tableConfiguration.setCssStyle(new StringBuilder());
-		} else {
-			this.tableConfiguration.getCssStyle().append(CSS_SEPARATOR);
+		if(TableConfig.CSS_STYLE.valueFrom(this.tableConfiguration) == null){
+			TableConfig.CSS_STYLE.setIn(this.tableConfiguration, new StringBuilder());
+		}
+		else{
+			TableConfig.CSS_STYLE.appendIn(this.tableConfiguration, STYLE_SEPARATOR);
 		}
 		
-		this.tableConfiguration.getCssStyle().append(cssStyle);
+		TableConfig.CSS_STYLE.appendIn(this.tableConfiguration, cssStyle);
 	}
 	
 	public void addCssClass(String cssClass) {
-		if(this.tableConfiguration.getCssClass() == null) {
-			this.tableConfiguration.setCssClass(new StringBuilder());
-		} else {
-			this.tableConfiguration.getCssClass().append(CLASS_SEPARATOR);
+		if(TableConfig.CSS_CLASS.valueFrom(this.tableConfiguration) == null){
+			TableConfig.CSS_CLASS.setIn(this.tableConfiguration, new StringBuilder());
+		}
+		else{
+			TableConfig.CSS_CLASS.appendIn(this.tableConfiguration, CLASS_SEPARATOR);
 		}
 		
-		this.tableConfiguration.getCssClass().append(cssClass);
+		TableConfig.CSS_CLASS.appendIn(this.tableConfiguration, cssClass);
 	}
 	
-	public HtmlColumn getColumnHeadByUid(String uid) {
-		for (HtmlRow row : this.head) {
-			for (HtmlColumn column : row.getColumns()) {
-				if (column.isHeaderColumn() != null && column.isHeaderColumn()
-						&& column.getColumnConfiguration().getUid() != null
-						&& column.getColumnConfiguration().getUid().equals(uid)) {
-					return column;
-				}
-			}
-
-		}
-		return null;
-	}
-
-	public String getRandomId() {
-		return randomId;
-	}
-
-	public void setRandomId(String randomId) {
-		this.randomId = randomId;
-	}
-
 	public TableConfiguration getTableConfiguration() {
 		return tableConfiguration;
 	}
 
 	public void setTableConfiguration(TableConfiguration tableConfiguration) {
 		this.tableConfiguration = tableConfiguration;
+	}
+	
+	public String getOriginalId() {
+		return originalId;
+	}
+
+	public void setOriginalId(String originalId) {
+		this.originalId = originalId;
+	}
+
+	private String processId(String id){
+		return id.replaceAll("[^A-Za-z0-9 ]", "");
 	}
 }

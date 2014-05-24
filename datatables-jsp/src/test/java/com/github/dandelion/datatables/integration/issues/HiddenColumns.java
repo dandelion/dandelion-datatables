@@ -3,11 +3,8 @@ package com.github.dandelion.datatables.integration.issues;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * See the related issues:
@@ -20,12 +17,10 @@ import com.github.dandelion.datatables.testing.utils.JspTest;
  * 
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class HiddenColumns extends BaseIT {
+public class HiddenColumns extends JspBaseIT {
 
 	@Test
-	public void should_not_generate_markup_for_hiddne_columns() {
+	public void should_not_generate_markup_for_hidden_columns() {
 		goToPage("issues/hidden_columns");
 
 		assertThat(getTable().find("tbody").find("tr", 0).find("td")).hasSize(4);

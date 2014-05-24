@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,12 +35,15 @@ import java.util.Map;
 import javax.servlet.jsp.JspException;
 
 import org.junit.Before;
+import org.springframework.mock.web.MockFilterConfig;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.datatables.core.generator.MainGenerator;
+import com.github.dandelion.core.Context;
+import com.github.dandelion.core.web.WebConstants;
+import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.mock.Mock;
+import com.github.dandelion.datatables.mock.Mock;
 import com.github.dandelion.datatables.utils.TableTagBuilder;
 
 /**
@@ -63,7 +66,7 @@ public abstract class DomBaseTest {
 
 		// mock PageContext
 		mockPageContext = new MockPageContext(mockServletContext);
-
+		mockPageContext.getRequest().setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
 		buildTable();
 		
 		try {
@@ -78,7 +81,7 @@ public abstract class DomBaseTest {
 			tableTagBuilder.getTableTag().doEndTag();
 			table = tableTagBuilder.getTableTag().getTable();
 			
-			MainGenerator configGenerator = new MainGenerator();
+			DatatablesGenerator configGenerator = new DatatablesGenerator();
 			mainConf = configGenerator.generateConfig(table);
 			
 		} catch (JspException e) {

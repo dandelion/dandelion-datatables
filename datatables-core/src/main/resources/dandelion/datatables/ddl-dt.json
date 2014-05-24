@@ -1,0 +1,14 @@
+{
+	"bundle": "ddl-dt",
+	"dependencies": [ "datatables" ], 
+    "assets": [
+        {
+            "name": "dandelion-datatables", 
+            "version": "0.10.0",
+            "type": "js", 
+        	"locations": {
+        		"delegate": "dandelion-datatables.js"
+        	}
+        }
+    ]
+}

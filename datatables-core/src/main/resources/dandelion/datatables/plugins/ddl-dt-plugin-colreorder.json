@@ -1,0 +1,22 @@
+{
+    "bundle" : "ddl-dt-plugin-colreorder",
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "colreorder",
+            "version": "1.1.0",
+            "type": "js",
+            "locations": {
+                "jar": "dandelion/datatables/plugins/colreorder/dataTables.colReorder.js"
+            }
+        },
+        {
+            "name": "colreorder",
+            "version": "1.1.0",
+            "type": "css",
+            "locations": {
+                "jar": "dandelion/datatables/plugins/colreorder/dataTables.colReorder.css"
+            }
+        }
+    ]
+}

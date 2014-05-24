@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 /**
- * TODO
+ * Enum containing all alternative pagination style.
  *
  * @author Thibault Duchateau
  */
@@ -41,6 +41,7 @@ public enum PaginationType {
 	LISTBOX,
 	SCROLLING,
 	TWO_BUTTON,
+	EXTSTYLE,
 	
 	// --- Bootstrap 2 styles ---
 	BOOTSTRAP, // Previous, 1-5, Next

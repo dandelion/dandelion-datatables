@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-theme-jqueryui-flick",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
+    "assets": [
+        {
+            "name": "jqueryui-flick-css",
+            "version": "1.9.2",
+            "type": "css",
+            "locations": {
+                "cdn": "//ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/flick/jquery-ui.css"
+            }
+        }
+    ]
+}

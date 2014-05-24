@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-theme-jqueryui-smoothness",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
+    "assets": [
+        {
+            "name": "jqueryui-smoothness-css",
+            "version": "1.9.2",
+            "type": "css",
+            "locations": {
+                "cdn": "//ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/smoothness/jquery-ui.css"
+            }
+        }
+    ]
+}

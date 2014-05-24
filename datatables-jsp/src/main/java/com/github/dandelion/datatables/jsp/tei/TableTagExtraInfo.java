@@ -36,9 +36,11 @@ import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
 
+import com.github.dandelion.datatables.jsp.tag.TableTag;
+
 /**
- * TEI for TableTag.
- *
+ * TEI associated with the {@link TableTag}.
+ * 
  * @author Thibault Duchateau
  */
 public class TableTagExtraInfo extends TagExtraInfo {
@@ -47,14 +49,14 @@ public class TableTagExtraInfo extends TagExtraInfo {
 	 * {@inheritDoc}
 	 */
 	public VariableInfo[] getVariableInfo(TagData data) {
-		
+
 		List<VariableInfo> variables = new ArrayList<VariableInfo>();
-		
-		if(data.getAttributeString("row") != null){
-			variables.add(new VariableInfo(data.getAttributeString("row"), "java.lang.Object",
-					true, VariableInfo.NESTED));		
+
+		if (data.getAttributeString("row") != null) {
+			variables.add(new VariableInfo(data.getAttributeString("row"), "java.lang.Object", true,
+					VariableInfo.NESTED));
 		}
 
-		return (VariableInfo[]) variables.toArray(new VariableInfo[]{});
+		return (VariableInfo[]) variables.toArray(new VariableInfo[] {});
 	}
 }

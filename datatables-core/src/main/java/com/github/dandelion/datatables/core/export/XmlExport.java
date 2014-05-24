@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -37,12 +37,12 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import com.github.dandelion.datatables.core.asset.DisplayType;
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Default class used to export in the XML format.
@@ -52,46 +52,43 @@ import com.github.dandelion.datatables.core.util.StringUtils;
 public class XmlExport implements DatatablesExport {
 
 	private HtmlTable table;
-
+	private ExportConf exportConf;
+	
 	@Override
 	public void initExport(HtmlTable table) {
 		this.table = table;
+		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.XML);
 	}
 
 	@Override
-	public void processExport(OutputStream output) throws ExportException {
+	public void processExport(OutputStream output) {
 
 		// Build headers list for attributes name
 		List<String> headers = new ArrayList<String>();
 		
 		for(HtmlRow row : table.getHeadRows()){
-			for(HtmlColumn column : row.getColumns()){
-				if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
-						|| column.getEnabledDisplayTypes().contains(DisplayType.XML)){
-					headers.add(StringUtils.uncapitalize(column.getContent().toString()));
-				}
-						
+			for(HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.XML)){
+				headers.add(StringUtils.uncapitalize(column.getContent().toString()));
 			}
 		}
 
 		XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
 		XMLStreamWriter writer = null;
+		String objectType = TableConfig.INTERNAL_OBJECTTYPE.valueFrom(table.getTableConfiguration()).toLowerCase();
 		
 		try {
 			writer = outputFactory.createXMLStreamWriter(output);
 			writer.writeStartDocument("1.0");
-			writer.writeStartElement(table.getTableConfiguration().getInternalObjectType().toLowerCase() + "s");
+			
+			writer.writeStartElement(objectType + "s");
 
 			for (HtmlRow row : table.getBodyRows()) {
-				writer.writeStartElement(table.getTableConfiguration().getInternalObjectType().toLowerCase());
+				writer.writeStartElement(objectType);
 
 				int i = 0;
-				for (HtmlColumn column : row.getColumns()) {
-					if (column.getEnabledDisplayTypes().contains(DisplayType.ALL)
-							|| column.getEnabledDisplayTypes().contains(DisplayType.XML)){
-						writer.writeAttribute(headers.get(i), column.getContent().toString());
-						i++;
-					}
+				for (HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.XML)) {
+					writer.writeAttribute(headers.get(i), column.getContent().toString());
+					i++;
 				}
 
 				writer.writeEndElement();
@@ -102,13 +99,21 @@ public class XmlExport implements DatatablesExport {
 			writer.flush();
 
 		} catch (XMLStreamException e) {
-			throw new ExportException(e);
+			StringBuilder sb = new StringBuilder("Something went wrong during the XML generation of the table '");
+			sb.append(table.getOriginalId());
+			sb.append("' and with the following export configuration: ");
+			sb.append(exportConf.toString());
+			throw new ExportException(sb.toString(), e);
 		} 
 		finally {
 			try {
 				writer.close();
 			} catch (XMLStreamException e) {
-				throw new ExportException(e);
+				StringBuilder sb = new StringBuilder("Something went wrong during the XML generation of the table '");
+				sb.append(table.getOriginalId());
+				sb.append("' and with the following export configuration: ");
+				sb.append(exportConf.toString());
+				throw new ExportException(sb.toString(), e);
 			}
 		}
 	}

@@ -29,11 +29,8 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.asset.JavascriptFunction;
-import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -47,6 +44,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * @author Thibault Duchateau
  * @since 0.8.2
+ * @see TableConfig#AJAX_SERVERSIDE
  */
 public class ServerSideFeature extends AbstractExtension {
 
@@ -56,11 +54,7 @@ public class ServerSideFeature extends AbstractExtension {
 	}
 
 	@Override
-	public void setup(HtmlTable table) throws ExtensionLoadingException {
-		addParameter(
-				new Parameter(
-						CallbackType.INIT.getName(), 
-						new JavascriptFunction("oTable_" + table.getId() + ".fnAdjustColumnSizing(true);",CallbackType.INIT.getArgs()),
-						Mode.APPEND));
+	public void setup(HtmlTable table) {
+		addCallback(CallbackType.INIT, "oTable_" + table.getId() + ".fnAdjustColumnSizing(true);");
 	}
 }

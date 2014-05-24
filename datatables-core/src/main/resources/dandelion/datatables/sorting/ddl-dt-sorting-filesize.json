@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-sorting-filesize",
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "sorting-filesize",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "jar": "dandelion/datatables/sorting/filesize.js"
+            }
+        }
+    ]
+}

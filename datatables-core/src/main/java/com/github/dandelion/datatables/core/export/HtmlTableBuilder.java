@@ -31,25 +31,56 @@ package com.github.dandelion.datatables.core.export;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
- * <p>Builder used to generate instance of {@link HtmlTable}.
+ * <p>
+ * Builder used to create instances of {@link HtmlTable}. This builder is mainly
+ * used as an export utility and for testing.
+ * </p>
+ * <p>For example, considering the following simple {@code Person} class:
+ * <pre>
+ * public class Person {
+ *    private Long id;
+ *    private String firstName;
+ *    private String lastName;
+ *    private String mail;
+ *    private Date birthDate;
  * 
- * <p>Those instances 
+ *    // Accessors...
+ * }
+ * </pre>
+ * </p>
+ * The builder allows to create fully configured instance of {@link HtmlTable} as follows:
+ * <pre>
+ * HtmlTable table = new HtmlTableBuilder&lt;Person&gt;().newBuilder("yourTableId", persons, request)
+ *    .column().fillWithProperty("id").title("Id")
+ *    .column().fillWithProperty("firstName").title("Firtname")
+ *    .column().fillWithProperty("lastName").title("Lastname")
+ *    .column().fillWithProperty("mail").title("Mail")
+ *    .column().fillWithProperty("birthDate", "{0,date,dd-MM-yyyy}").title("BirthDate")
+ *    .build();
+ * </pre>
+ * where:
+ * <ul>
+ * <li>{@code yourTableId} is the HTML id that has be assigned to the {@code table} tag</li>
+ * <li>{@code persons} is a collection of {@code Person}</li>
+ * <li>{@code request} is the current {@link HttpServletRequest}</li>
+ * </ul>
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -63,58 +94,61 @@ public class HtmlTableBuilder<T> {
 		return new Steps<T>(id, data, request);
 	}
 
+	public ColumnStep newBuilder(String id, List<T> data, HttpServletRequest request, ExportConf exportConf) {
+		return new Steps<T>(id, data, request, exportConf);
+	}
+	
 	public static interface ColumnStep {
 		FirstContentStep column();
 	}
 
 	public static interface FirstContentStep {
 		SecondContentStep fillWithProperty(String propertyName);
-
 		SecondContentStep fillWithProperty(String propertyName, String pattern);
-
 		SecondContentStep fillWithProperty(String propertyName, String pattern, String defaultContent);
-
 		SecondContentStep fillWith(String content);
 	}
 
 	public static interface SecondContentStep {
 		SecondContentStep andProperty(String propertyName);
-
 		SecondContentStep andProperty(String propertyName, String pattern);
-
 		SecondContentStep andProperty(String propertyName, String pattern, String defaultContent);
-
 		SecondContentStep and(String content);
-
-		BeforeEndStep title(String title);
+		BuildStep title(String title);
 	}
 
-	public static interface TitleStep {
+	public static interface TitleStep extends ColumnStep {
 		ColumnStep title(String title);
-	}
-
-	public static interface BeforeEndStep extends ColumnStep {
-		BuildStep configureExport(ExportConf exportConf);
 	}
 
 	public static interface BuildStep {
 		HtmlTable build();
+		FirstContentStep column();
 	}
 
-	private static class Steps<T> implements ColumnStep, FirstContentStep, SecondContentStep, BeforeEndStep, BuildStep {
+	private static class Steps<T> implements ColumnStep, FirstContentStep, SecondContentStep, BuildStep {
 
 		private String id;
 		private List<T> data;
 		private LinkedList<HtmlColumn> headerColumns = new LinkedList<HtmlColumn>();
 		private HttpServletRequest request;
+		private HttpServletResponse response;
 		private ExportConf exportConf;
 
 		public Steps(String id, List<T> data, HttpServletRequest request) {
+			this(id, data, request, null);
+		}
+
+		public Steps(String id, List<T> data, HttpServletRequest request, ExportConf exportConf) {
 			this.id = id;
 			this.data = data;
 			this.request = request;
+			this.exportConf = new ExportConf(request);
+			if(exportConf != null) {
+				this.exportConf.mergeWith(exportConf);
+			}
 		}
-
+		
 		// Table configuration
 
 		public Steps<T> column() {
@@ -124,8 +158,7 @@ public class HtmlTableBuilder<T> {
 		}
 
 		public Steps<T> title(String title) {
-			headerColumns.getLast().getColumnConfiguration().setTitle(title);
-			;
+			ColumnConfig.TITLE.setIn(headerColumns.getLast().getColumnConfiguration(), title);
 			return this;
 		}
 
@@ -191,38 +224,23 @@ public class HtmlTableBuilder<T> {
 			return this;
 		}
 
-		/**
-		 * Add a new column to the table and complete it using the passed
-		 * pattern and property names. Convenient if you need to display several
-		 * properties in the same column.
-		 * 
-		 * @param pattern
-		 *            Pattern that will be parsed by a MessageFormat.
-		 * @param properties
-		 *            array of property's names of the bean which is part of the
-		 *            collection being iterated on.
-		 */
-
-		public Steps<T> configureExport(ExportConf exportConf) {
-			this.exportConf = exportConf;
-			return this;
-		}
-
 		public HtmlTable build() {
-			HtmlTable table = new HtmlTable(id, request);
-			table.getTableConfiguration().setExportConfs(new HashSet<ExportConf>(Arrays.asList(exportConf)));
+			HtmlTable table = new HtmlTable(id, request, response);
+			
+			table.getTableConfiguration().getExportConfiguration().put(exportConf.getFormat(), exportConf);
 
 			if (data != null && data.size() > 0) {
-				table.getTableConfiguration().setInternalObjectType(data.get(0).getClass().getSimpleName());
+				TableConfig.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), data.get(0).getClass().getSimpleName());
 			} else {
-				table.getTableConfiguration().setInternalObjectType("???");
+				TableConfig.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), "???");
 			}
 
 			table.addHeaderRow();
 
 			for (HtmlColumn column : headerColumns) {
-				if (StringUtils.isNotBlank(column.getColumnConfiguration().getTitle())) {
-					column.setContent(new StringBuilder(column.getColumnConfiguration().getTitle()));
+				String title = ColumnConfig.TITLE.valueFrom(column.getColumnConfiguration());
+				if (StringUtils.isNotBlank(title)) {
+					column.setContent(new StringBuilder(title));
 				} else {
 					column.setContent(new StringBuilder(""));
 				}

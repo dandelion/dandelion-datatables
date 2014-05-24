@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-ajax-reload",
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "reload",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "jar": "dandelion/datatables/ajax/reload.js"
+            }
+        }
+    ]
+}

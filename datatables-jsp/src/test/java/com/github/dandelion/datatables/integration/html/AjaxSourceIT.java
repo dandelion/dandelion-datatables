@@ -3,23 +3,18 @@ package com.github.dandelion.datatables.integration.html;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Test the HTML markup generation using an AJAX source.
  *
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class AjaxSourceIT extends BaseIT {
+public class AjaxSourceIT extends JspBaseIT {
 
 	@Test
-	public void should_generate_table_markup() throws Exception {
+	public void should_generate_table_markup() {
 		goToPage("html/ajax/table");
 
 		assertThat(getTable()).hasSize(1);
@@ -37,12 +32,12 @@ public class AjaxSourceIT extends BaseIT {
 		assertThat(getTable().find("tbody").find("tr", 1).find("td", 4).getText()).isEqualTo("bibendum.fermentum.metus@ante.ca");
 		
 		// A script tag must be generated
-		assertThat(getHtmlBody().find("script")).hasSize(1);
+		assertThat(getHtmlBody().find("script")).hasSize(3);
 	}
 	
 
 	@Test
-	public void should_render_empty_cell() throws Exception {
+	public void should_render_empty_cell() {
 		goToPage("html/ajax/table");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
@@ -50,7 +45,7 @@ public class AjaxSourceIT extends BaseIT {
 	}
 	
 	@Test
-	public void should_render_default_value_in_cell() throws Exception {
+	public void should_render_default_value_in_cell() {
 		goToPage("html/ajax/table_default_values");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)

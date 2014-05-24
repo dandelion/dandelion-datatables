@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,91 +30,33 @@
 package com.github.dandelion.datatables.thymeleaf.util;
 
 import org.thymeleaf.dom.Element;
-import org.thymeleaf.dom.Node;
 
 /**
- * Utility methods to manipulate the DOM.
+ * <p>
+ * Utilities used to manipulate the DOM.
  * 
  * @author Thibault Duchateau
  */
 public class DomUtils {
 
-	public static void insertScriptTag(String src, Element element){
-		Element script = new Element("script");
-		script.setAttribute("src", src);
-		element.insertChild(element.getChildren().size(), script);
-	}
-	
-	public static void insertLinkTag(String src, Element element){
-		Element link = new Element("link");
-		link.setAttribute("href", src);
-		link.setAttribute("rel", "stylesheet");
-		element.insertChild(element.getChildren().size(), link);
-	}
-	
-
-	public static Element getParentAsElement(Element element) {
-		return (Element) element.getParent();
-	}
-
-	public static Element getGrandParentAsElement(Element element) {
-		return (Element) element.getParent().getParent();
-	}
-
-	public static Element getParent(Element element) {
-		if (element.hasParent()) {
-			return (Element) getParent(element);
-		} else {
-			return element;
-		}
-	}
-
-
-	/**
-	 * Recursively search a node by its type inside a root node.
-	 * 
-	 * @param nodeClass
-	 *            The class to look for.
-	 * @return The first node corresponding to the searched class.
-	 */
-	public static Node getNodeByType(Element root, Class<? extends Node> nodeClass) {
-
-		Node retval = null;
-
-		if (root != null && root.hasChildren()) {
-			for (Node node : root.getChildren()) {
-				if (node.getClass().equals(nodeClass)) {
-					retval = node;
-					break;
-				}
-			}
-			if (retval == null) {
-				retval = getNodeByType(root.getFirstElementChild(), nodeClass);
-			}
-		}
-
-		return retval;
-	}
-	
-	
 	/**
 	 * Recursive search for an element within the given node in the DOM tree.
 	 * Many thanks to Emanuel Rabina :-)
 	 * 
 	 * @param element
 	 *            Node to initiate the search from.
-	 * @param name
+	 * @param elementName
 	 *            Name of the element to look for.
 	 * @return Element with the given name, or <tt>null</tt> if the element
 	 *         could not be found.
 	 */
-	public static Element findElement(Element element, String name) {
+	public static Element findElement(Element element, String elementName) {
 
-		if (element.getOriginalName().equals(name)) {
+		if (element.getOriginalName().equals(elementName)) {
 			return element;
 		}
-		for (Element child: element.getElementChildren()) {
-			Element result = findElement(child, name);
+		for (Element child : element.getElementChildren()) {
+			Element result = findElement(child, elementName);
 			if (result != null) {
 				return result;
 			}

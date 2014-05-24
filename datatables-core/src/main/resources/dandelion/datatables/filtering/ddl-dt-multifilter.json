@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-multifilter",
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "multi-filter",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "jar": "dandelion/datatables/filtering/multifilter.js"
+            }
+        }
+    ]
+}

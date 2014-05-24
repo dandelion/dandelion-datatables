@@ -30,6 +30,7 @@
 package com.github.dandelion.datatables.core.html;
 
 import static org.fest.assertions.Assertions.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -46,12 +47,6 @@ public class HtmlTagTest {
 	@Test
 	public void should_generate_empty_tag() {
 		assertThat(tag.toHtml().toString()).isEqualTo("<" + tag.getTag() + "></" + tag.getTag() + ">");
-	}
-
-	@Test
-	public void should_generate_tag_with_id() {
-		tag.setId("anId");
-		assertThat(tag.toHtml().toString()).isEqualTo("<" + tag.getTag() + " id=\"anId\"></" + tag.getTag() + ">");
 	}
 
 	@Test

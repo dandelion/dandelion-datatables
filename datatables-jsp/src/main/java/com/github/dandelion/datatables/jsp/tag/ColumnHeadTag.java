@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,12 +32,30 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
-import com.github.dandelion.datatables.core.html.HtmlColumn;
-import com.github.dandelion.datatables.core.util.StringUtils;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 
 /**
  * <p>
- * Tag used to custom the header of a table's column.
+ * JSP tag used to add a specific content inside a column header.
+ * 
+ * <p>
+ * Example usage:
+ * 
+ * <pre>
+ * &lt;datatables:table id="myTableId" data="${persons}" row="person"&gt;
+ *    &lt;datatables:column title="Id" property="id" /&gt;
+ *    &lt;datatables:column title="FirstName" property="firstName" /&gt;
+ *    &lt;datatables:column title="LastName" property="lastName" /&gt;
+ *    &lt;datatables:column title="City" property="address.town.name" /&gt;
+ *    &lt;datatables:column title="Mail" property="mail" /&gt;
+ *    &lt;datatables:column sortable="false" cssCellStyle="text-align:center;"&gt;
+ *       &lt;datatables:columnHead&gt;
+ *          &lt;input type="checkbox" onclick="$('#myTableId').find(':checkbox').attr('checked', this.checked);" /&gt;
+ *       &lt;/datatables:columnHead&gt;
+ *       &lt;input type="checkbox" value="${person.id}" /&gt;
+ *    &lt;/datatables:column&gt;
+ * &lt;/datatables:table&gt;
+ * </pre>
  * 
  * @author Thibault Duchateau
  * @since 0.8.1
@@ -46,38 +64,53 @@ public class ColumnHeadTag extends BodyTagSupport {
 
 	private static final long serialVersionUID = -8928415196287387948L;
 
-	private String uid;
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public int doStartTag() throws JspException {
-		// Never reached
-		return EVAL_BODY_BUFFERED;
+
+		ColumnTag parent = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
+		if (parent != null) {
+			return EVAL_BODY_BUFFERED;
+		}
+
+		throw new JspException("The 'columnHead' tag must be inside the 'column' tag.");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int doAfterBody() throws JspException {
 		return EVAL_PAGE;
 	}
 
-	public String getUid() {
-		return uid;
-	}
-
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public int doEndTag() throws JspException {
 
-		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+		TableTag tableTag = (TableTag) findAncestorWithClass(this, TableTag.class);
 
-		if (StringUtils.isNotBlank(this.uid)) {
-			HtmlColumn column = parent.getTable().getColumnHeadByUid(this.uid);
-			if (column != null) {
-				column.setContent(new StringBuilder(getBodyContent().getString()));
-			}
-		} else {
-			throw new JspException("The attribute 'uid' is required. Please read the documentation.");
+		// The tag is evaluated only once, at the first iteration
+		if (tableTag.isFirstIteration()) {
+
+			ColumnTag parentColumnTag = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
+
+			// The content of the header column is overriden with the content of
+			// the columnHeader tag
+			parentColumnTag.getHeaderColumn().setContent(new StringBuilder(getBodyContent().getString()));
 		}
 
 		return EVAL_PAGE;
+	}
+
+	public void setCssStyle(String cssStyle) {
+		ColumnTag parent = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
+		parent.getStagingConf().put(ColumnConfig.CSSSTYLE, cssStyle);
+	}
+
+	public void setCssClass(String cssClass) {
+		ColumnTag parent = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
+		parent.getStagingConf().put(ColumnConfig.CSSCLASS, cssClass);
 	}
 }

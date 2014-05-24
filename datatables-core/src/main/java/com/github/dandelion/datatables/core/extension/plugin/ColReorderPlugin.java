@@ -29,11 +29,9 @@
  */
 package com.github.dandelion.datatables.core.extension.plugin;
 
-
-import com.github.dandelion.datatables.core.asset.CssResource;
-import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.ResourceType;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -43,6 +41,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * @see <a href="http://datatables.net/extras/colreorder/">Reference</a>
  * @author Thibault Duchateau
+ * @see TableConfig#PLUGIN_COLREORDER
  */
 public class ColReorderPlugin extends AbstractExtension {
 
@@ -59,8 +58,7 @@ public class ColReorderPlugin extends AbstractExtension {
 	 */
 	@Override
 	public void setup(HtmlTable table) {
-		addJsResource(new JsResource(ResourceType.PLUGIN, "ColReorder", "datatables/plugins/colreorder/colreorder.min.js"));
-		addCssResource(new CssResource(ResourceType.PLUGIN, "ColReorder", "datatables/plugins/colreorder/colreorder.css"));
-		addParameter(new Parameter(DTConstants.DT_DOM, "R", Parameter.Mode.PREPEND));
+		addBundle(DatatableBundles.DDL_DT_PLUGIN_COLREORDER);
+		addParameter(DTConstants.DT_DOM, "R", Parameter.Mode.PREPEND);
 	}	
 }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,8 +34,9 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.mock.Mock;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.jsp.tag.DomBaseTest;
+import com.github.dandelion.datatables.mock.Mock;
 import com.github.dandelion.datatables.utils.TableTagBuilder;
 
 /**
@@ -63,7 +64,7 @@ public class DefaultTableTest extends DomBaseTest {
 	@Test
 	public void should_generate_a_default_table() {
 		assertThat(table.getTableConfiguration().getInternalExtensions()).isNull();
-		assertThat(table.getTableConfiguration().getCssTheme()).isNull();
+		assertThat(TableConfig.CSS_THEME.valueFrom(table.getTableConfiguration())).isNull();
 		//TODO more assertions are needed
 	}
 }

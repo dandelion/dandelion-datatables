@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,19 +30,53 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import org.junit.runner.RunWith;
+import static org.fest.assertions.Assertions.assertThat;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.basics.FeatureEnablementBaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import org.junit.Test;
+
+import com.github.dandelion.datatables.integration.JspBaseIT;
+import com.github.dandelion.datatables.mock.Mock;
 
 /**
  * Test the basic Features of Dandelion-Datatables.
  *
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class FeatureEnablementIT extends FeatureEnablementBaseIT {
+public class FeatureEnablementIT extends JspBaseIT {
 
+	@Test
+	public void should_disable_paging() {
+		goToPage("basics/disable_paging");
+
+		assertThat(find("#" + TABLE_ID + "_length")).hasSize(0);
+
+		// If paging is disabled, the entire collection is displayed
+		assertThat(getTable().find("tbody").find("tr")).hasSize(Mock.persons.size());
+	}
+	
+	@Test
+	public void should_disable_filtering() {
+		goToPage("basics/disable_filtering");
+
+		// If paging is disabled, the entire collection is displayed
+		assertThat(find("#" + TABLE_ID + "_filter")).hasSize(0);
+	}
+
+	@Test
+	public void should_disable_info() {
+		goToPage("basics/disable_info");
+
+		// If paging is disabled, the entire collection is displayed
+		assertThat(find("#" + TABLE_ID + "_info")).hasSize(0);
+	}
+
+	@Test
+	public void should_disable_sorting() {
+		goToPage("basics/disable_sorting");
+
+		// If paging is disabled, the entire collection is displayed
+		assertThat(getTable().find("tbody").find(".sorting")).hasSize(0);
+		assertThat(getTable().find("tbody").find(".sorting_desc")).hasSize(0);
+		assertThat(getTable().find("tbody").find(".sorting_asc")).hasSize(0);
+	}
 }

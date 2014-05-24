@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,35 +29,40 @@
  */
 package com.github.dandelion.datatables.core.processor.ajax;
 
-import java.util.Map;
-
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.feature.PipeliningFeature;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
-import com.github.dandelion.datatables.core.util.StringUtils;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
 /**
- * Processor used when server-side processing is enabled.
+ * <p>
+ * Table Processor used to register the {@link PipeliningFeature} when
+ * server-side processing is enabled.
+ * <p>
+ * If the {@link TableConfig#AJAX_PIPESIZE} is not set, a default value is used.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
+ * @see TableConfig#AJAX_PIPELINING
+ * @see TableConfig#AJAX_PIPESIZE
  */
-public class AjaxPipeliningProcessor extends AbstractTableProcessor {
+public class AjaxPipeliningProcessor extends AbstractConfigurationProcessor {
 
 	@Override
-	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
-		Boolean retval = null;
-		if (StringUtils.isNotBlank(param)) {
-			retval = Boolean.parseBoolean(param);
+	protected void doProcess() {
+		
+		if (StringUtils.isNotBlank(stringifiedValue)) {
+			Boolean retval = Boolean.parseBoolean(stringifiedValue);
 
 			if (retval != null && retval) {
-				tableConfiguration.registerExtension(new PipeliningFeature());
+				registerExtension(new PipeliningFeature());
 			}
+			
+			if(!isTableEntryPresent(TableConfig.AJAX_PIPESIZE)){
+				addTableEntry(TableConfig.AJAX_PIPESIZE, 5);
+			}
+			
+			updateEntry(retval);
 		}
-
-		tableConfiguration.setAjaxPipelining(retval);
 	}
 }

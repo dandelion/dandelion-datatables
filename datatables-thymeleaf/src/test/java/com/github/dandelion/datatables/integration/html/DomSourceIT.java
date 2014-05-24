@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,27 +32,20 @@ package com.github.dandelion.datatables.integration.html;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
+import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 
 /**
  * Test the HTML markup generation.
  *
  * @author Thibault Duchateau
  */
-@RunWith(ThymeleafContextRunner.class)
-@ThymeleafTest
-public class DomSourceIT extends BaseIT {
+public class DomSourceIT extends ThymeleafBaseIT {
 
 	@Test
-	public void should_generate_table_markup() throws IOException, Exception {
+	public void should_generate_table_markup() {
 		goToPage("html/default");
 		
 		assertThat(getTable()).hasSize(1);
@@ -74,11 +67,11 @@ public class DomSourceIT extends BaseIT {
 	public void should_generate_script_tag() {
 		goToPage("html/default");
 		FluentWebElement body = findFirst("body");
-		assertThat(body.find("script")).hasSize(1);
+		assertThat(body.find("script")).hasSize(3);
 	}
 	
 	@Test
-	public void should_render_empty_cell() throws IOException, Exception {
+	public void should_render_empty_cell() {
 		goToPage("html/default");
 
 		// I know that the 4th cell of the first row must be empty (City is null in the data source)
@@ -86,7 +79,7 @@ public class DomSourceIT extends BaseIT {
 	}
 	
 	@Test
-	public void should_render_default_value_in_cell() throws IOException, Exception {
+	public void should_render_default_value_in_cell() {
 		goToPage("html/default_values");
 
 		// I know that the 4th cell of the first row is empty but is filled with a default value

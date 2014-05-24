@@ -1,0 +1,40 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:dt="http://www.thymeleaf.org/dandelion/datatables">
+<head>
+<script>
+function callback(oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+	console.log(oSettings);
+	console.log(iStart);
+	console.log(iEnd);
+	console.log(iMax);
+	console.log(iTotal);
+	console.log(sPre);
+}
+</script>
+</head>
+<body>
+   <div dt:conf="myTableId">
+      <div dt:confType="callback" dt:type="info" dt:function="callback"></div>
+   </div>
+   <table id="myTableId" dt:table="true">
+      <thead>
+         <tr>
+            <th>Id</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>City</th>
+            <th>Mail</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr th:each="person : ${persons}">
+            <td th:text="${person.id}">1</td>
+            <td th:text="${person.firstName}">John</td>
+            <td th:text="${person.lastName}">Doe</td>
+            <td th:text="${person.address != null and person.address.town != null} ? ${person.address.town.name} : ''">Nobody knows !</td>
+            <td th:text="${person.mail}">john@doe.com</td>
+         </tr>
+      </tbody>
+   </table>
+</body>
+</html>

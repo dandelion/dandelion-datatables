@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,8 +29,7 @@
  */
 package com.github.dandelion.datatables.core.asset;
 
-import com.github.dandelion.datatables.core.util.StringUtils;
-
+import com.github.dandelion.core.utils.StringUtils;
 
 /**
  * <p>
@@ -74,7 +73,14 @@ public class JavascriptFunction {
 
 	@Override
 	public String toString() {
-		return "function(" + (args != null ? StringUtils.join(args, ",") : "") + "){" + (hasReturn ? "return " : "") + code + "}";
+		StringBuilder js = new StringBuilder();
+		js.append("function(");
+		js.append((args != null ? StringUtils.join(args, ",") : ""));
+		js.append(") {").append(NEWLINE).append(INDENT).append(INDENT);
+		js.append((hasReturn ? "return " : ""));
+		js.append(code).append(NEWLINE).append(INDENT);
+		js.append("}");
+		return js.toString();
 	}
 	
 	public String getCode(){
@@ -87,6 +93,10 @@ public class JavascriptFunction {
 
 	public void appendCode(String code){
 		this.code += code;
+	}
+	
+	public void appendCode(char character){
+		this.code += character;
 	}
 	
 	@Override

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -31,21 +31,26 @@ package com.github.dandelion.datatables.core.extension;
 
 import java.util.List;
 
-import com.github.dandelion.datatables.core.asset.CssResource;
-import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.datatables.core.asset.InsertMode;
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
-import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
-import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
-import com.github.dandelion.datatables.core.generator.MainGenerator;
+import com.github.dandelion.datatables.core.extension.feature.AbstractFilteringFeature;
+import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFeature;
+import com.github.dandelion.datatables.core.extension.plugin.ColReorderPlugin;
+import com.github.dandelion.datatables.core.extension.plugin.ScrollerPlugin;
+import com.github.dandelion.datatables.core.extension.theme.Bootstrap2Theme;
+import com.github.dandelion.datatables.core.generator.configuration.AbstractConfigurationGenerator;
+import com.github.dandelion.datatables.core.generator.configuration.ColumnFilteringGenerator;
+import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * <p>
- * Common interface for all extensions. An extension can be a plugin
- * (e.g. Scroller, ColReorder), a feature (e.g. Bootstrap pagination type,
- * filtering add-on) or a theme (e.g. Bootstrap 2 theme).
+ * Common interface for all extensions. An extension can be a plugin (e.g.
+ * {@link ScrollerPlugin}, {@link ColReorderPlugin}), a feature (e.g.
+ * {@link PaginationTypeBootstrapFeature}, {@link AbstractFilteringFeature}
+ * add-on) or a theme (e.g. {@link Bootstrap2Theme}).
  * <p>
+ * 
  * An extension can be composed of :
  * <ul>
  * <li>one or more JsResource, i.e. Javascript code externalized in a file</li>
@@ -54,7 +59,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * that will be used during the DataTables initialization</li>
  * <li>an AbstractConfigurationGenerator if the extension needs its own
  * configuration generator. The one used for the main DataTables configuration
- * is the {@link MainGenerator}. You can also take a look at the
+ * is the {@link DatatablesGenerator}. You can also take a look at the
  * {@link ColumnFilteringGenerator} to see the configuration generated for the
  * Column Filtering add-on.</li>
  * <li>a potential Javascript function name that will be called after DataTables
@@ -66,10 +71,9 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * </pre>
  * 
  * </blockquote></li>
- * <li>specific Javascript snippets to add in the main JS resource, i.e. the
- * resource that contains the DataTables initilization Javascript code. You can
- * add snippet at multiple locations in this file thanks to the following
- * attributes :
+ * <li>Javascript code to add in the main JS resource, i.e. the resource that
+ * contains the DataTables initilization Javascript code. You can add Javascript
+ * code at multiple locations in this file thanks to the following attributes :
  * <ul>
  * <li>beforeAll</li>
  * <li>beforeStartDocumentReady</li>
@@ -82,7 +86,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * <pre>
  * => <b>BEFOREALL</b>
- * var oTable_tableId;
+ * var oTable_tableId = $('#myTableId');
  * var oTable_tableId_params = {...};
  * => <b>BEFORESTARTDOCUMENTREADY</b>
  * $(document).ready(function(){
@@ -98,71 +102,81 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * @author Thibault Duchateau
  * @since 0.7.1
+ * @see ExtensionLoader
+ * @see ExtensionProcessor
  */
 public interface Extension {
 
-    /**
-     * Returns the extension's name.
-     */
+	/**
+	 * <p>
+	 * Returns the extension's name. The name is case-insensitive when loaded by
+	 * the JSP taglib or the Thymelead dialect.
+	 */
 	public String getName();
 
-    /**
-     * Set the extension up.
-     * <p>
-     * The HtmlTable object is available if a particular configuration is
-     * needed.
-     * </p>
-     *
-     * @param table
-     *            The HTML table.
-     */
-    public void setup(HtmlTable table) throws ExtensionLoadingException;
+	/**
+	 * <p>
+	 * Set the extension up.
+	 * <p>
+	 * The HtmlTable object is available if a particular configuration is
+	 * needed.
+	 * 
+	 * @param table
+	 *            The HTML table.
+	 */
+	public void setupWrapper(HtmlTable table);
 
-    public StringBuilder getBeforeAll();
+	/**
+	 * @return the Javascript code to be inserted at the
+	 *         {@link InsertMode#BEFOREALL} placeholder.
+	 */
+	public StringBuilder getBeforeAll();
 
-    public StringBuilder getAfterAll();
+	/**
+	 * @return the Javascript code to be inserted at the
+	 *         {@link InsertMode#AFTERALL} placeholder.
+	 */
+	public StringBuilder getAfterAll();
 
-    public StringBuilder getAfterStartDocumentReady();
+	/**
+	 * @return the Javascript code to be inserted at the
+	 *         {@link InsertMode#BEFORESTARTDOCUMENTREADY} placeholder.
+	 */
+	public StringBuilder getBeforeStartDocumentReady();
 
-    public StringBuilder getBeforeEndDocumentReady();
+	/**
+	 * @return the Javascript code to be inserted at the
+	 *         {@link InsertMode#AFTERSTARTDOCUMENTREADY} placeholder.
+	 */
+	public StringBuilder getAfterStartDocumentReady();
 
-    public List<JsResource> getJsResources();
+	/**
+	 * @return the Javascript code to be inserted at the
+	 *         {@link InsertMode#BEFOREENDDOCUMENTREADY} placeholder.
+	 */
+	public StringBuilder getBeforeEndDocumentReady();
 
-    public void setJsResources(List<JsResource> jsResources);
+	public List<Parameter> getParameters();
 
-    public List<CssResource> getCssResources();
+	public void setConfs(List<Parameter> confs);
 
-    public void setCssResources(List<CssResource> cssResources);
+	public void addParameter(Parameter conf);
 
-    public List<Parameter> getConfs();
+	public AbstractConfigurationGenerator getConfigGenerator();
 
-    public void setConfs(List<Parameter> confs);
+	public void setConfigGenerator(AbstractConfigurationGenerator configGenerator);
 
-    public void addJsResource(JsResource resource);
+	public void appendToBeforeAll(String beforeAll);
 
-    public void addCssResource(CssResource resource);
+	public void appendToBeforeStartDocumentReady(String beforeStartDocumentReady);
 
-    public void addParameter(Parameter conf);
+	public void appendToAfterStartDocumentReady(String afterStartDocumentReady);
 
-    public AbstractConfigurationGenerator getConfigGenerator();
+	public void appendToBeforeEndDocumentReady(String beforeEndDocumentReady);
 
-    public void setConfigGenerator(AbstractConfigurationGenerator configGenerator);
+	public void appendToAfterAll(String afterAll);
 
-    public Boolean getAppendRandomNumber();
+	public String getFunction();
 
-    public void setAppendRandomNumber(Boolean appendRandomNumber);
-
-    public void appendToBeforeAll(String beforeAll);
-
-    public void appendToBeforeStartDocumentReady(String beforeStartDocumentReady);
-
-    public void appendToAfterStartDocumentReady(String afterStartDocumentReady);
-
-    public void appendToBeforeEndDocumentReady(String beforeEndDocumentReady);
-
-    public void appendToAfterAll(String afterAll);
-
-    public String getFunction();
-
-    public void setFunction(String function);
+	public void setFunction(String function);
 }

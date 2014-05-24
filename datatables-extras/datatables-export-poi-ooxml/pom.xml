@@ -4,33 +4,28 @@
    <parent>
       <groupId>com.github.dandelion</groupId>
       <artifactId>datatables-extras</artifactId>
-      <version>0.9.4-SNAPSHOT</version>
+      <version>0.10.1-SNAPSHOT</version>
    </parent>
 
    <artifactId>datatables-export-poi-ooxml</artifactId>
    <packaging>jar</packaging>
    <name>Dandelion :: Datatables :: Extras :: Export XLSX using POI-OOXML</name>
-
-   <properties>
-      <!-- Configuration -->
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-      <!-- Dependencies -->
-      <poi.ooxml.version>3.8</poi.ooxml.version>
-   </properties>
+   <description>Extra providing a default XLSX export class based on Apache POI-OOXML</description>
 
    <dependencies>
+
+      <!-- Internal dependencies -->
       <dependency>
          <groupId>com.github.dandelion</groupId>
          <artifactId>datatables-core</artifactId>
-         <version>0.9.4-SNAPSHOT</version>
+         <version>0.10.1-SNAPSHOT</version>
       </dependency>
 
+      <!-- Apache POI OOXML -->
       <dependency>
          <groupId>org.apache.poi</groupId>
          <artifactId>poi-ooxml</artifactId>
-         <version>${poi.ooxml.version}</version>
       </dependency>
+
    </dependencies>
 </project>

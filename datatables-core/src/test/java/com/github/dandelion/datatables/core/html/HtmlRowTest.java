@@ -30,11 +30,13 @@
 package com.github.dandelion.datatables.core.html;
 
 import static org.fest.assertions.Assertions.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
-import com.github.dandelion.datatables.core.asset.DisplayType;
 
-public class HtmlRowTest extends HtmlTagTest {
+import com.github.dandelion.datatables.core.export.ReservedFormat;
+
+public class HtmlRowTest {
 
 	private HtmlRow row;
 	private HtmlColumn headerColumn;
@@ -42,9 +44,8 @@ public class HtmlRowTest extends HtmlTagTest {
 	private HtmlColumn column2;
 
 	@Before
-	@Override
 	public void createHtmlTag() {
-		tag = row = new HtmlRow();
+		 row = new HtmlRow();
 	}
 
 	@Test
@@ -85,7 +86,7 @@ public class HtmlRowTest extends HtmlTagTest {
 
 	@Test
 	public void should_generate_row_without_column_without_HTML_DisplayType() {
-		row.addColumn(new HtmlColumn(DisplayType.CSV));
+		row.addColumn(new HtmlColumn(ReservedFormat.CSV));
 		assertThat(row.toHtml().toString()).isEqualTo("<" + row.getTag() + "></" + row.getTag() + ">");
 	}
 	

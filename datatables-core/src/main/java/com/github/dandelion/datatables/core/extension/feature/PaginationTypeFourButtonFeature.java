@@ -29,18 +29,23 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.ResourceType;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * TODO
+ * <p>
+ * Activates the FourButton pagination by:
+ * <ul>
+ * <li>Updating the bundle graph with the bundle
+ * <code>paginationType-fourbutton</code></li>
+ * <li>Setting the pagination type to <code>four_button</code></li>
+ * </ul>
  * 
- * @see http://www.datatables.net/plug-ins/pagination
  * @author Thibault Duchateau
+ * @see TableConfig#FEATURE_PAGINATIONTYPE
  */
 public class PaginationTypeFourButtonFeature extends AbstractExtension {
 
@@ -51,7 +56,7 @@ public class PaginationTypeFourButtonFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addJsResource(new JsResource(ResourceType.FEATURE, "PaginationTypeExtJs", "datatables/features/paginationType/four_button.js"));
-		addParameter(new Parameter(DTConstants.DT_PAGINATION_TYPE, "four_button", Parameter.Mode.OVERRIDE));
+		addBundle(DatatableBundles.DDL_DT_PAGING_FOURBUTTON);
+		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.FOUR_BUTTON.toString());
 	}
 }

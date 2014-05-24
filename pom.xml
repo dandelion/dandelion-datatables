@@ -1,298 +1,511 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+   <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
-	</parent>
+   <parent>
+      <groupId>org.sonatype.oss</groupId>
+      <artifactId>oss-parent</artifactId>
+      <version>7</version>
+   </parent>
 
-	<groupId>com.github.dandelion</groupId>
-	<artifactId>dandelion-datatables</artifactId>
-	<version>0.9.4-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>Dandelion :: Datatables</name>
+   <groupId>com.github.dandelion</groupId>
+   <artifactId>dandelion-datatables</artifactId>
+   <version>0.10.1-SNAPSHOT</version>
+   <packaging>pom</packaging>
+   <name>Dandelion :: Datatables</name>
+   <description>
+      Dandelion component that allows to quickly create full-featured HTML tables using the amazing DataTables jQuery plugin.
+   </description>
+   <url>http://dandelion.github.io/datatables</url>
+   <inceptionYear>2013</inceptionYear>
+   <organization>
+      <name>Dandelion Project</name>
+      <url>http://dandelion.github.io/</url>
+   </organization>
 
-	<modules>
-		<module>datatables-core</module>
-		<module>datatables-jsp</module>
-		<module>datatables-thymeleaf</module>
-		<module>datatables-extras</module>
-		<module>datatables-testing</module>
-	</modules>
+   <modules>
+      <module>datatables-core</module>
+      <module>datatables-jsp</module>
+      <module>datatables-thymeleaf</module>
+      <module>datatables-extras</module>
+   </modules>
 
-	<licenses>
-		<license>
-			<name>BSD 3-Clause</name>
-			<url>http://opensource.org/licenses/BSD-3-Clause</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
+   <licenses>
+      <license>
+         <name>BSD 3-Clause</name>
+         <url>http://opensource.org/licenses/BSD-3-Clause</url>
+         <distribution>repo</distribution>
+      </license>
+   </licenses>
 
-	<properties>
-		<!-- Configuration -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+   <properties>
+      <!-- Configuration -->
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<!-- Dependencies -->
-		<thymeleaf.version>2.1.1.RELEASE</thymeleaf.version>
-		<commons-collection.version>3.2.1</commons-collection.version>
-		<commons-beanutils.version>1.8.3</commons-beanutils.version>
-		<jackson.version>1.9.13</jackson.version>
-		<servlet.version>3.0.1</servlet.version>
-		<slf4j.version>1.7.5</slf4j.version>
-		<jsp.api.version>2.2</jsp.api.version>
+      <!-- Dependencies -->
+      <dandelion.version>0.10.0</dandelion.version>
+      <thymeleaf.version>2.1.1.RELEASE</thymeleaf.version>
+      <commons-beanutils.version>1.8.3</commons-beanutils.version>
+      <servlet-api.version>3.0.1</servlet-api.version>
+      <slf4j.version>1.7.5</slf4j.version>
+      <jsp.api.version>2.2</jsp.api.version>
+      <json-simple.version>1.1.1</json-simple.version>
+      <jstl.version>1.2</jstl.version>
+      <itextpdf.version>5.4.5</itextpdf.version>
+      <poi.ooxml.version>3.9</poi.ooxml.version>
+      <poi.version>3.9</poi.version>
+      <struts1.version>[1.3.5,1.3.10]</struts1.version>
+      <struts2.version>[2.0.5,)</struts2.version>
 
-		<!-- Test dependencies -->
-		<fluentlenium.version>0.9.0</fluentlenium.version>
-		<phantomjsdriver.version>1.0.1</phantomjsdriver.version>
-		<festassert.version>1.4</festassert.version>
-		<junit.version>4.11</junit.version>
-		<spring.version>3.2.2.RELEASE</spring.version>
-		<logback.classic.version>1.0.9</logback.classic.version>
-		<jetty.test.version>8.1.10.v20130312</jetty.test.version>
+      <!-- Test dependencies -->
+      <fluentlenium.version>0.7.6</fluentlenium.version>
+      <phantomjsdriver.version>1.0.1</phantomjsdriver.version>
+      <festassert.version>1.4</festassert.version>
+      <junit.version>4.11</junit.version>
+      <junit.dep.version>4.11</junit.dep.version>
+      <spring.version>3.2.7.RELEASE</spring.version>
+      <jackson.version>1.9.13</jackson.version>
+      <jetty.test.version>8.1.14.v20131031</jetty.test.version>
+      <xml-apis.version>1.4.01</xml-apis.version>
 
-		<!-- Maven plugins -->
-		<maven.compiler.version>2.3.2</maven.compiler.version>
-		<maven.javadoc.version>2.8.1</maven.javadoc.version>
-		<maven.source.version>2.2</maven.source.version>
-		<maven.project-report-info.version>2.5.1</maven.project-report-info.version>
-		<maven.site.version>3.1</maven.site.version>
-		<maven.release.version>2.3.2</maven.release.version>
-		<maven.surefire.version>2.13</maven.surefire.version>
-		<maven.failsafe.version>2.13</maven.failsafe.version>
-	</properties>
+      <!-- Maven plugins -->
+      <maven.compiler.version>2.3.2</maven.compiler.version>
+      <maven.javadoc.version>2.9.1</maven.javadoc.version>
+      <maven.source.version>2.2</maven.source.version>
+      <maven.project-report-info.version>2.5.1</maven.project-report-info.version>
+      <maven.site.version>3.1</maven.site.version>
+      <maven.surefire.version>2.13</maven.surefire.version>
+      <maven.failsafe.version>2.13</maven.failsafe.version>
+      <maven.gpg.version>1.4</maven.gpg.version>
+   </properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-mapper-asl</artifactId>
-				<version>${jackson.version}</version>
-				<scope>compile</scope>
-			</dependency>
+   <dependencyManagement>
+      <dependencies>
 
-			<dependency>
-				<groupId>commons-beanutils</groupId>
-				<artifactId>commons-beanutils</artifactId>
-				<version>${commons-beanutils.version}</version>
-				<scope>compile</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
+         <!-- Internal dependencies -->
+         <dependency>
+            <groupId>com.github.dandelion</groupId>
+            <artifactId>dandelion-core</artifactId>
+            <version>${dandelion.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.github.dandelion</groupId>
+            <artifactId>dandelion-jsp</artifactId>
+            <version>${dandelion.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.github.dandelion</groupId>
+            <artifactId>dandelion-thymeleaf</artifactId>
+            <version>${dandelion.version}</version>
+         </dependency>
 
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>${servlet.version}</version>
-				<scope>provided</scope>
-			</dependency>
+         <!-- JSON -->
+         <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>${json-simple.version}</version>
+         </dependency>
 
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
-				<scope>compile</scope>
-			</dependency>
+         <!-- JSTL -->
+         <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+            <scope>provided</scope>
+         </dependency>
 
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit.version}</version>
-				<scope>test</scope>
-			</dependency>
+         <!-- JSP -->
+         <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>${jsp.api.version}</version>
+            <scope>provided</scope>
+         </dependency>
 
-			<!-- Thymeleaf -->
-			<dependency>
-				<groupId>org.thymeleaf</groupId>
-				<artifactId>thymeleaf</artifactId>
-				<version>${thymeleaf.version}</version>
-				<scope>provided</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+         <!-- Apache Commons -->
+         <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>${commons-beanutils.version}</version>
+            <scope>compile</scope>
+            <exclusions>
+               <exclusion>
+                  <groupId>commons-logging</groupId>
+                  <artifactId>commons-logging</artifactId>
+               </exclusion>
+            </exclusions>
+         </dependency>
 
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.13</version>
-					<configuration>
-						<useSystemClassLoader>false</useSystemClassLoader>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>2.4.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>${maven.failsafe.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven.compiler.version}</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${maven.javadoc.version}</version>
-				<configuration>
-					<stylesheet>maven</stylesheet>
-				</configuration>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>${maven.source.version}</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-webdav-jackrabbit</artifactId>
-				<version>2.2</version>
-			</extension>
-		</extensions>
-	</build>
+         <!-- Servlet API -->
+         <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet-api.version}</version>
+         </dependency>
 
-	<profiles>
-		<profile>
-			<id>release-sign-artifacts</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.4</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>cloudbees</id>
-			<repositories>
-				<repository>
-					<id>dandelion-snapshot-repo</id>
-					<name>Dandelion Snapshot Repository</name>
-					<url>http://repository-dandelion.forge.cloudbees.com/snapshot/</url>
-					<layout>default</layout>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>dandelion-release-repo</id>
-					<name>Dandelion Release Repository</name>
-					<url>http://repository-dandelion.forge.cloudbees.com/release/</url>
-					<layout>default</layout>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</repository>
-			</repositories>
+         <!-- Logging -->
+         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>compile</scope>
+         </dependency>
 
-			<distributionManagement>
-				<repository>
-					<id>dandelion-release-repo</id>
-					<name>Dandelion Release Repository</name>
-					<url>dav:https://repository-dandelion.forge.cloudbees.com/release</url>
-				</repository>
-				<snapshotRepository>
-					<id>dandelion-snapshot-repo</id>
-					<name>Dandelion Snaphost Repository</name>
-					<url>dav:https://repository-dandelion.forge.cloudbees.com/snapshot</url>
-				</snapshotRepository>
-			</distributionManagement>
-		</profile>
-		<profile>
-			<id>integration-test</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-failsafe-plugin</artifactId>
-						<version>${maven.failsafe.version}</version>
-						<executions>
-							<execution>
-								<id>verify</id>
-								<goals>
-									<goal>integration-test</goal>
-									<goal>verify</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<useSystemClassLoader>false</useSystemClassLoader>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+         <!-- iText -->
+         <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>${itextpdf.version}</version>
+         </dependency>
 
-	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/dandelion/issues/issues</url>
-	</issueManagement>
+         <!-- Apache POI -->
+         <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+         </dependency>
 
-	<scm>
-		<connection>scm:git:git://github.com/dandelion/dandelion-datatables.git</connection>
-		<developerConnection>scm:git:git@github.com:dandelion/dandelion-datatables.git</developerConnection>
-		<url>http://github.com/dandelion/dandelion-datatables</url>
-		<tag>HEAD</tag>
-	</scm>
+         <!-- Apache POI OOXML -->
+         <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.ooxml.version}</version>
+         </dependency>
+
+         <!-- Struts 1 -->
+         <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-core</artifactId>
+            <version>${struts1.version}</version>
+         </dependency>
+
+         <!-- Struts 2 -->
+         <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-core</artifactId>
+            <version>${struts2.version}</version>
+         </dependency>
+
+         <!-- Thymeleaf -->
+         <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>${thymeleaf.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring3</artifactId>
+            <version>${thymeleaf.version}</version>
+         </dependency>
+
+         <!-- JUnit -->
+         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+         </dependency>
+
+         <!-- JUnit Dep -->
+         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit-dep</artifactId>
+            <version>${junit.dep.version}</version>
+         </dependency>
+
+         <!-- Fest Assert -->
+         <dependency>
+            <groupId>org.easytesting</groupId>
+            <artifactId>fest-assert</artifactId>
+            <version>${festassert.version}</version>
+         </dependency>
+
+         <!-- PhantomJS + GhostDriver -->
+         <dependency>
+            <groupId>com.github.detro.ghostdriver</groupId>
+            <artifactId>phantomjsdriver</artifactId>
+            <version>${phantomjsdriver.version}</version>
+            <exclusions>
+               <exclusion>
+                  <groupId>org.seleniumhq.selenium</groupId>
+                  <artifactId>selenium-server</artifactId>
+               </exclusion>
+            </exclusions>
+         </dependency>
+
+         <!-- Fluentlenium -->
+         <dependency>
+            <groupId>org.fluentlenium</groupId>
+            <artifactId>fluentlenium-core</artifactId>
+            <version>${fluentlenium.version}</version>
+            <exclusions>
+               <exclusion>
+                  <groupId>junit</groupId>
+                  <artifactId>junit-dep</artifactId>
+               </exclusion>
+            </exclusions>
+         </dependency>
+
+         <!-- Jetty -->
+         <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty.test.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>${jetty.test.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-jsp</artifactId>
+            <version>${jetty.test.version}</version>
+         </dependency>
+
+         <!-- Spring + Jackson -->
+         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>${jackson.version}</version>
+         </dependency>
+
+         <!-- XML APIs -->
+         <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+            <version>${xml-apis.version}</version>
+         </dependency>
+
+      </dependencies>
+   </dependencyManagement>
+
+   <dependencies>
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <scope>test</scope>
+      </dependency>
+   </dependencies>
+
+   <build>
+      <pluginManagement>
+         <plugins>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-surefire-plugin</artifactId>
+               <version>${maven.surefire.version}</version>
+               <configuration>
+                  <useSystemClassLoader>false</useSystemClassLoader>
+               </configuration>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-failsafe-plugin</artifactId>
+               <version>${maven.failsafe.version}</version>
+            </plugin>
+         </plugins>
+      </pluginManagement>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>${maven.compiler.version}</version>
+            <configuration>
+               <source>1.6</source>
+               <target>1.6</target>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${maven.javadoc.version}</version>
+            <configuration>
+               <stylesheet>maven</stylesheet>
+               <aggregate>true</aggregate>
+            </configuration>
+            <executions>
+               <execution>
+                  <id>attach-javadocs</id>
+                  <goals>
+                     <goal>jar</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>aggregate</id>
+                  <goals>
+                     <goal>aggregate</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>${maven.source.version}</version>
+            <executions>
+               <execution>
+                  <id>attach-sources</id>
+                  <goals>
+                     <goal>jar</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+      <extensions>
+         <extension>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-webdav-jackrabbit</artifactId>
+            <version>2.2</version>
+         </extension>
+      </extensions>
+   </build>
+
+   <profiles>
+      <profile>
+         <id>release-sign-artifacts</id>
+         <activation>
+            <property>
+               <name>performRelease</name>
+               <value>true</value>
+            </property>
+         </activation>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-gpg-plugin</artifactId>
+                  <version>${maven.gpg.version}</version>
+                  <executions>
+                     <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                           <goal>sign</goal>
+                        </goals>
+                     </execution>
+                  </executions>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
+      <profile>
+         <id>cloudbees</id>
+         <repositories>
+            <repository>
+               <id>dandelion-snapshot-repo</id>
+               <name>Dandelion Snapshot Repository</name>
+               <url>http://repository-dandelion.forge.cloudbees.com/snapshot/</url>
+               <layout>default</layout>
+               <releases>
+                  <enabled>false</enabled>
+               </releases>
+               <snapshots>
+                  <enabled>true</enabled>
+               </snapshots>
+            </repository>
+            <repository>
+               <id>dandelion-release-repo</id>
+               <name>Dandelion Release Repository</name>
+               <url>http://repository-dandelion.forge.cloudbees.com/release/</url>
+               <layout>default</layout>
+               <releases>
+                  <enabled>true</enabled>
+               </releases>
+               <snapshots>
+                  <enabled>false</enabled>
+               </snapshots>
+            </repository>
+         </repositories>
+
+         <distributionManagement>
+            <repository>
+               <id>dandelion-release-repo</id>
+               <name>Dandelion Release Repository</name>
+               <url>dav:https://repository-dandelion.forge.cloudbees.com/release</url>
+            </repository>
+            <snapshotRepository>
+               <id>dandelion-snapshot-repo</id>
+               <name>Dandelion Snaphost Repository</name>
+               <url>dav:https://repository-dandelion.forge.cloudbees.com/snapshot</url>
+            </snapshotRepository>
+         </distributionManagement>
+      </profile>
+      <profile>
+         <id>integration-test</id>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-failsafe-plugin</artifactId>
+                  <version>${maven.failsafe.version}</version>
+                  <executions>
+                     <execution>
+                        <id>verify</id>
+                        <goals>
+                           <goal>integration-test</goal>
+                           <goal>verify</goal>
+                        </goals>
+                     </execution>
+                  </executions>
+                  <configuration>
+                     <useSystemClassLoader>false</useSystemClassLoader>
+                  </configuration>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
+   </profiles>
+
+   <ciManagement>
+      <system>CloudBees</system>
+      <url>https://dandelion.ci.cloudbees.com/</url>
+   </ciManagement>
+
+   <issueManagement>
+      <system>GitHub</system>
+      <url>https://github.com/dandelion/dandelion-datatables/issues</url>
+   </issueManagement>
+
+   <scm>
+      <connection>scm:git:git://github.com/dandelion/dandelion-datatables.git</connection>
+      <developerConnection>scm:git:git@github.com:dandelion/dandelion-datatables.git</developerConnection>
+      <url>http://github.com/dandelion/dandelion-datatables</url>
+  </scm>
+
+   <developers>
+      <developer>
+         <id>tduchateau</id>
+         <name>Thibault Duchateau</name>
+         <email>thibault.duchateau@gmail.com</email>
+         <timezone>+1</timezone>
+         <roles>
+            <role>Lead Developer</role>
+         </roles>
+      </developer>
+      <developer>
+         <id>rlespinasse</id>
+         <name>Romain Lespinasse</name>
+         <email>romain.lespinasse@gmail.com</email>
+         <timezone>+1</timezone>
+         <roles>
+            <role>Lead Developer</role>
+         </roles>
+      </developer>
+   </developers>
 </project>

@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-theme-jqueryui-eggplant",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
+    "assets": [
+        {
+            "name": "jqueryui-eggplant-css",
+            "version": "1.9.2",
+            "type": "css",
+            "locations": {
+                "cdn": "//ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/eggplant/jquery-ui.css"
+            }
+        }
+    ]
+}

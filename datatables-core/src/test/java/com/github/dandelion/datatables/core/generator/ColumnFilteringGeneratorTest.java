@@ -39,31 +39,38 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.mock.web.MockPageContext;
-import org.springframework.mock.web.MockServletContext;
+import org.springframework.mock.web.MockFilterConfig;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 
-import com.github.dandelion.datatables.core.asset.DisplayType;
+import com.github.dandelion.core.Context;
+import com.github.dandelion.core.web.WebConstants;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
+import com.github.dandelion.datatables.core.generator.configuration.ColumnFilteringGenerator;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * Unit test for the Column Filtering generator.
- *
+ * 
  * @author Thibault Duchateau
  */
 public class ColumnFilteringGeneratorTest {
 
-	private MockServletContext mockServletContext;
-	private MockPageContext mockPageContext;
-	
+	private HttpServletRequest request;
+	private HttpServletResponse response;
+
 	private ColumnFilteringGenerator generator;
 	private HtmlTable table;
 	private HtmlRow headerRow;
@@ -71,172 +78,158 @@ public class ColumnFilteringGeneratorTest {
 
 	@Before
 	public void createMainGenerator() {
-		mockServletContext = new MockServletContext();
-		mockPageContext = new MockPageContext(mockServletContext);
+		request = new MockHttpServletRequest();
+		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
+		response = new MockHttpServletResponse();
 		generator = new ColumnFilteringGenerator();
 	}
 
 	@Before
 	public void createTable() {
-		table = new HtmlTable("aTable", (HttpServletRequest) mockPageContext.getRequest());
+		table = new HtmlTable("aTable", request, response);
+		table.getTableConfiguration().getConfigurations().clear();
 		headerRow = table.addHeaderRow();
 		firstColumn = headerRow.addHeaderColumn("firstColumn");
 	}
-	
+
 	@Test
 	public void should_not_generate_filter_conf_when_using_pdf_displaytype() {
-		Set<DisplayType> displayTypes = new HashSet<DisplayType>();
-		displayTypes.add(DisplayType.PDF);
+		Set<String> displayTypes = new HashSet<String>();
+		displayTypes.add(ReservedFormat.PDF);
 		firstColumn.setEnabledDisplayTypes(displayTypes);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
-		
+
 		assertThat(mainConf).hasSize(1);
 		assertThat(mainConf.get(DTConstants.DT_AOCOLUMNS)).isEqualTo(new ArrayList<Object>());
 	}
-	
+
 	@Test
 	public void should_generate_filter_conf_when_using_html_displaytype() {
-		Set<DisplayType> displayTypes = new HashSet<DisplayType>();
-		displayTypes.add(DisplayType.HTML);
+		Set<String> displayTypes = new HashSet<String>();
+		displayTypes.add(ReservedFormat.HTML);
 		firstColumn.setEnabledDisplayTypes(displayTypes);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
-		
+
 		List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
 		Map<String, Object> conf = new HashMap<String, Object>();
-		
+
 		conf.put(DTConstants.DT_FILTER_TYPE, "null");
 		aoColumnsContent.add(conf);
-		
+
 		assertThat(mainConf).hasSize(1);
 		assertThat(mainConf.get(DTConstants.DT_AOCOLUMNS)).isEqualTo(aoColumnsContent);
 	}
-	
+
 	@Test
 	public void should_generate_filter_placeholder() {
-		table.getTableConfiguration().setFeatureFilterPlaceholder(FilterPlaceholder.FOOT);
+		table.getTableConfiguration().set(TableConfig.FEATURE_FILTER_PLACEHOLDER, FilterPlaceholder.FOOT);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(2);
 		assertThat(mainConf.get(DTConstants.DT_S_PLACEHOLDER)).isEqualTo("foot");
 	}
-	
-	@Test
-	public void should_generate_filtertype_text_by_default() {
-		firstColumn.getColumnConfiguration().setFilterable(true);
 
-		Map<String, Object> mainConf = generator.generateConfig(table);
-		
-		List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
-		Map<String, Object> conf = new HashMap<String, Object>();
-		
-		conf.put(DTConstants.DT_FILTER_TYPE, "text");
-		aoColumnsContent.add(conf);
-		
-		assertThat(mainConf).hasSize(1);
-		assertThat(mainConf.get(DTConstants.DT_AOCOLUMNS)).isEqualTo(aoColumnsContent);
-	}
-	
 	@Test
 	public void should_generate_filtertype_number() {
-		firstColumn.getColumnConfiguration().setFilterable(true);
-		firstColumn.getColumnConfiguration().setFilterType(FilterType.NUMBER);
+		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERABLE, true);
+		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERTYPE, FilterType.NUMBER);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
-		
+
 		List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
 		Map<String, Object> conf = new HashMap<String, Object>();
-		
+
 		conf.put(DTConstants.DT_FILTER_TYPE, "number");
 		aoColumnsContent.add(conf);
-		
+
 		assertThat(mainConf).hasSize(1);
 		assertThat(mainConf.get(DTConstants.DT_AOCOLUMNS)).isEqualTo(aoColumnsContent);
 	}
-	
+
 	@Test
 	public void should_generate_filtertype_select() {
-		firstColumn.getColumnConfiguration().setFilterable(true);
-		firstColumn.getColumnConfiguration().setFilterType(FilterType.SELECT);
+		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERABLE, true);
+		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERTYPE, FilterType.SELECT);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
-		
+
 		List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
 		Map<String, Object> conf = new HashMap<String, Object>();
-		
+
 		conf.put(DTConstants.DT_FILTER_TYPE, "select");
 		aoColumnsContent.add(conf);
-		
+
 		assertThat(mainConf).hasSize(1);
 		assertThat(mainConf.get(DTConstants.DT_AOCOLUMNS)).isEqualTo(aoColumnsContent);
 	}
-	
+
 	@Test
 	public void should_generate_filtertype_number_range() {
-		firstColumn.getColumnConfiguration().setFilterable(true);
-		firstColumn.getColumnConfiguration().setFilterType(FilterType.NUMBER_RANGE);
+		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERABLE, true);
+		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERTYPE, FilterType.NUMBER_RANGE);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
-		
+
 		List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
 		Map<String, Object> conf = new HashMap<String, Object>();
-		
+
 		conf.put(DTConstants.DT_FILTER_TYPE, "number-range");
 		aoColumnsContent.add(conf);
-		
+
 		assertThat(mainConf).hasSize(1);
 		assertThat(mainConf.get(DTConstants.DT_AOCOLUMNS)).isEqualTo(aoColumnsContent);
 	}
-	
+
 	@Test
 	public void should_generate_filtertype_text() {
-		firstColumn.getColumnConfiguration().setFilterable(true);
-		firstColumn.getColumnConfiguration().setFilterType(FilterType.INPUT);
+		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERABLE, true);
+		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERTYPE, FilterType.INPUT);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
-		
+
 		List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
 		Map<String, Object> conf = new HashMap<String, Object>();
-		
+
 		conf.put(DTConstants.DT_FILTER_TYPE, "text");
 		aoColumnsContent.add(conf);
-		
+
 		assertThat(mainConf).hasSize(1);
 		assertThat(mainConf.get(DTConstants.DT_AOCOLUMNS)).isEqualTo(aoColumnsContent);
 	}
-	
+
 	@Test
 	public void should_generate_filter_selector() {
-		firstColumn.getColumnConfiguration().setSelector("mySelector");
+		firstColumn.getColumnConfiguration().set(ColumnConfig.SELECTOR, "mySelector");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
 		Map<String, Object> conf = new HashMap<String, Object>();
-		
+
 		conf.put(DTConstants.DT_S_SELECTOR, "mySelector");
 		conf.put(DTConstants.DT_FILTER_TYPE, "null");
 		aoColumnsContent.add(conf);
-		
+
 		assertThat(mainConf).hasSize(1);
 		assertThat(mainConf.get(DTConstants.DT_AOCOLUMNS)).isEqualTo(aoColumnsContent);
 	}
-	
+
 	@Test
 	public void should_generate_filter_values() {
-		firstColumn.getColumnConfiguration().setFilterValues("myValues");
+		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERVALUES, "myValues");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
 		Map<String, Object> conf = new HashMap<String, Object>();
-		
+
 		conf.put(DTConstants.DT_FILTER_VALUES, new JavascriptSnippet("myValues"));
 		conf.put(DTConstants.DT_FILTER_TYPE, "null");
 		aoColumnsContent.add(conf);
-		
+
 		assertThat(mainConf).hasSize(1);
 		assertThat(mainConf.get(DTConstants.DT_AOCOLUMNS)).isEqualTo(aoColumnsContent);
 	}

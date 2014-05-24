@@ -35,7 +35,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import com.github.dandelion.datatables.core.asset.DisplayType;
+import com.github.dandelion.datatables.core.export.ReservedFormat;
+import com.github.dandelion.datatables.core.util.CollectionUtils;
 
 /**
  * Plain old HTML <code>tr</code> tag.
@@ -75,13 +76,36 @@ public class HtmlRow extends HtmlTag {
 	private StringBuilder getHtmlColumns() {
 		StringBuilder html = new StringBuilder();
 		for (HtmlColumn column : this.columns) {
-			if(column.getEnabledDisplayTypes().contains(DisplayType.ALL) || column.getEnabledDisplayTypes().contains(DisplayType.HTML)){
+			if (CollectionUtils.containsAny(column.getEnabledDisplayTypes(), ReservedFormat.ALL, ReservedFormat.HTML)) {
 				html.append(column.toHtml());
 			}
 		}
 		return html;
 	}
 
+	/**
+	 * <p>
+	 * Returns a filtered list of {@link HtmlColumn} for this current
+	 * {@link HtmlRow}.
+	 * <p>
+	 * The columns are filtering using the enabled format.
+	 * 
+	 * @param enabledFormats
+	 *            The enabled formats used to filter the columns.
+	 * @return a filtered list of {@link HtmlColumn}.
+	 */
+	public List<HtmlColumn> getColumns(String... enabledFormats) {
+		List<HtmlColumn> result = new ArrayList<HtmlColumn>();
+		for(HtmlColumn column : this.columns){
+			for(String enabledFormat : enabledFormats){
+				if(column.getEnabledDisplayTypes().contains(enabledFormat)){
+					result.add(column);
+				}
+			}
+		}
+		return result;
+	}
+	
 	public List<HtmlColumn> getColumns() {
 		return this.columns;
 	}
@@ -112,10 +136,10 @@ public class HtmlRow extends HtmlTag {
 		return newColumn;
 	}
 
-	public HtmlColumn addColumn(String columnContent, DisplayType displayType) {
+	public HtmlColumn addColumn(String columnContent, String displayFormat) {
 		HtmlColumn newColumn = new HtmlColumn(false, columnContent);
-		Set<DisplayType> enabledDisplayTypes = new HashSet<DisplayType>();
-		enabledDisplayTypes.add(displayType);
+		Set<String> enabledDisplayTypes = new HashSet<String>();
+		enabledDisplayTypes.add(displayFormat.trim().toLowerCase());
 		newColumn.setEnabledDisplayTypes(enabledDisplayTypes);
 		this.columns.add(newColumn);
 		return newColumn;

@@ -35,49 +35,53 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mock.web.MockFilterConfig;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
+import com.github.dandelion.core.Context;
+import com.github.dandelion.core.web.WebConstants;
+import com.github.dandelion.datatables.core.export.CsvExport;
+import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.HtmlTableBuilder;
 import com.github.dandelion.datatables.core.mock.Mock;
 import com.github.dandelion.datatables.core.mock.Person;
 
-/**
- * >> builder <<
- *
- * @author Thibault Duchateau
- */
 public class HtmlTableBuilderTest {
 
 	private HtmlTable table;
 	private MockServletContext mockServletContext;
 	private MockPageContext mockPageContext;
 	private HttpServletRequest request;
+	private ExportConf fakeExportConf;
 	
 	@Before
 	public void setup(){
 		mockServletContext = new MockServletContext();
 		mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
+		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
+		fakeExportConf = new ExportConf.Builder("csv")
+			.header(true)
+			.exportClass(new CsvExport())
+			.build();
 	}
 	
 	@Test
 	public void should_have_only_one_column(){
-		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request)
+		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request, fakeExportConf)
 				.column().fillWithProperty("id").title("Id")
-				.configureExport(null)
 				.build();
 		
-		assertThat(table.getBodyRows().size()).isEqualTo(1000);
+		assertThat(table.getBodyRows().size()).isEqualTo(Mock.persons.size());
 		assertThat(table.getHeadRows().get(0).getColumns().size()).isEqualTo(1);
 		assertThat(table.getHeadRows().get(0).getColumns().get(0).getContent().toString()).isEqualTo("Id");
 	}
 	
 	@Test
 	public void should_have_only_one_column_with_formatted_content(){
-		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request)
+		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request, fakeExportConf)
 				.column().fillWithProperty("id", "=> {0}").title("Id")
-				.configureExport(null)
 				.build();
 		
 		assertThat(table.getBodyRows().get(0).getColumns().get(0).getContent().toString()).isEqualTo("=> 1");
@@ -86,9 +90,8 @@ public class HtmlTableBuilderTest {
 	
 	@Test
 	public void should_have_only_one_column_with_a_property_and_a_string(){
-		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request)
+		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request, fakeExportConf)
 				.column().fillWithProperty("id").and("content").title("Id")
-				.configureExport(null)
 				.build();
 		
 		assertThat(table.getBodyRows().get(0).getColumns().get(0).getContent().toString()).isEqualTo("1content");
@@ -97,9 +100,8 @@ public class HtmlTableBuilderTest {
 	
 	@Test
 	public void should_have_only_one_column_with_two_properties_and_a_string(){
-		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request)
+		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request, fakeExportConf)
 				.column().fillWithProperty("id").and("content").andProperty("id").title("Id")
-				.configureExport(null)
 				.build();
 		
 		assertThat(table.getBodyRows().get(0).getColumns().get(0).getContent().toString()).isEqualTo("1content1");
@@ -108,9 +110,8 @@ public class HtmlTableBuilderTest {
 	
 	@Test
 	public void should_have_only_one_column_with_default_value(){
-		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request)
+		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request, fakeExportConf)
 				.column().fillWithProperty("address.town.name").title("Town")
-				.configureExport(null)
 				.build();
 		
 		assertThat(table.getBodyRows().get(0).getColumns().get(0).getContent().toString()).isEmpty();
@@ -119,10 +120,9 @@ public class HtmlTableBuilderTest {
 	
 	@Test
 	public void should_have_two_columns(){
-		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request)
+		table = new HtmlTableBuilder<Person>().newBuilder("tableId", Mock.persons, request, fakeExportConf)
 				.column().fillWithProperty("id").title("Id")
 				.column().fillWithProperty("firstName").title("FirstName")
-				.configureExport(null)
 				.build();
 		
 		assertThat(table.getBodyRows().size()).isEqualTo(1000);

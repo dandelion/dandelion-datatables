@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,19 +30,26 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import org.junit.runner.RunWith;
+import static org.fest.assertions.Assertions.assertThat;
 
-import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.basics.CssBaseIT;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
+import org.junit.Test;
+
+import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 
 /**
  * Test the CSS attributes.
- *
+ * 
  * @author Thibault Duchateau
  */
-@RunWith(ThymeleafContextRunner.class)
-@ThymeleafTest
-public class CssIT extends CssBaseIT {
+public class CssIT extends ThymeleafBaseIT {
+	
+	@Test
+	public void should_apply_css_stripe_classes_using_dom() {
+		goToPage("basics/css_stripe_classes");
 
+		assertThat(getTable().find("tbody").find("tr", 0).getAttribute("class")).isEqualTo("class1");
+		assertThat(getTable().find("tbody").find("tr", 1).getAttribute("class")).isEqualTo("class2");
+		assertThat(getTable().find("tbody").find("tr", 2).getAttribute("class")).isEqualTo("class1");
+		assertThat(getTable().find("tbody").find("tr", 3).getAttribute("class")).isEqualTo("class2");
+	}
 }

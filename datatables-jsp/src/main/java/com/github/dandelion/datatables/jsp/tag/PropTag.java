@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,60 +32,75 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 
 /**
- * Tag used to locally override the Dandelion global configuration.
+ * <p>
+ * JSP tag used to overload locally a configuration property.
  *
+ * <p>
+ * Note that this tag will be processed only once, at the first iteration.
+ * 
+ * <p>
+ * Example usage:
+ * 
+ * <pre>
+ * &lt;datatables:table id="myTableId" data="${persons}">
+ *    &lt;datatables:column title="Id" property="id" />
+ *    &lt;datatables:column title="FirstName" property="firstName" />
+ *    &lt;datatables:column title="LastName" property="lastName" />
+ *    &lt;datatables:column title="City" property="address.town.name" />
+ *    &lt;datatables:column title="Mail" property="mail" />
+ *    &lt;datatables:prop name="main.extension.package" value="com.foo.bar" />
+ * &lt;/datatables:table>
+ * </pre>
+ * 
  * @author Thibault Duchateau
  */
 public class PropTag extends TagSupport {
+	
 	private static final long serialVersionUID = -3453884184847355817L;
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(PropTag.class);
-		
-	// Tag attributes
+	/**
+	 * Tag attributes
+	 */
+	// Name of the configuration property
 	private String name;
+	
+	// Value of the configuration property
 	private String value;
 	
 	/**
-	 * A PropTag has no body but we test here that the PropTag is in the right place.
+	 * {@inheritDoc}
 	 */
 	public int doStartTag() throws JspException {
 
-		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);	    
-
-		// There isn't an ancestor of given class
-		if (parent == null) {
-			throw new JspException("PropTag must be inside AbstractTableTag");
+		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+		if(parent != null){
+			return SKIP_BODY;
 		}
 
-		return SKIP_BODY;
+		throw new JspException("The tag 'prop' must be inside the 'table' tag.");
 	}
 	
 	/**
-	 * Process the tag updating table properties.
+	 * {@inheritDoc}
 	 */
 	public int doEndTag() throws JspException {
 		
-		// Get parent tag
 		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-		// Evaluate the tag only once using the isFirstIteration method
+		// The tag is evaluated only once, at the first iteration
 		if(parent.isFirstIteration()){
 			
-			Configuration configuration = Configuration.findByName(name);
+			ConfigToken<?> configToken = TableConfig.findByPropertyName(name);
 			
-			if(configuration == null){
-				logger.warn("{} is not a valid property.", name);
-				throw new JspException(name + " is not a valid property");
+			if(configToken == null){
+				throw new JspException("'" + name + "' is not a valid property. Please read the documentation.");
 			}
 			else{
-				parent.stagingConf.put(configuration, value);
+				parent.stagingConf.put(configToken, value);
 			}
 		}
 		

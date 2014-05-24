@@ -31,33 +31,40 @@ package com.github.dandelion.datatables.core.processor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.After;
 import org.junit.Before;
+import org.springframework.mock.web.MockFilterConfig;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.datatables.core.configuration.Configuration;
+import com.github.dandelion.core.Context;
+import com.github.dandelion.core.web.WebConstants;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.ConfigurationStore;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 
 public abstract class TableProcessorBaseTest {
 
-	protected TableProcessor processor;
+	protected ConfigurationProcessor processor;
 	protected TableConfiguration tableConfiguration;
 	protected HttpServletRequest request;
-	protected Map<Configuration, Object> confToBeApplied;
+	protected Map<ConfigToken<?>, Object> confToBeApplied;
+	protected Entry<ConfigToken<?>, Object> entry;
 	
 	@Before
-	public void setup() throws Exception{
+	public void setup() {
 		processor = getProcessor();
 		MockServletContext mockServletContext = new MockServletContext();
 		MockPageContext mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
-		tableConfiguration = TableConfiguration.getInstance(request);
-		confToBeApplied = new HashMap<Configuration, Object>();
+		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
+		confToBeApplied = new HashMap<ConfigToken<?>, Object>();
+		tableConfiguration = new TableConfiguration(confToBeApplied, request);
+		tableConfiguration.setTableId("fakeId");
 	}
 	
 	@After
@@ -65,5 +72,5 @@ public abstract class TableProcessorBaseTest {
 		ConfigurationStore.clear();
 	}
 	
-	public abstract TableProcessor getProcessor() throws Exception;
+	public abstract ConfigurationProcessor getProcessor();
 }

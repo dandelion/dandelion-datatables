@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -35,38 +35,35 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
-import com.github.dandelion.datatables.core.util.StringUtils;
+import com.github.dandelion.core.Context;
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.web.WebConstants;
+import com.github.dandelion.datatables.core.exception.UnkownGroupException;
 
 /**
- * Class that stores all configurations by Locale and group.
+ * Storage class for all configurations by Locale and group.
  *
  * @author Thibault Duchateau
  * @since 0.9.0
  */
 public class ConfigurationStore {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(ConfigurationStore.class);
-	
 	/**
 	 * Static map containing all configurations
 	 */
-	private static Map<Locale, Map<String, TableConfiguration>> configurationStore = new HashMap<Locale, Map<String, TableConfiguration>>();
+	private static Map<Locale, Map<String, Map<ConfigToken<?>, Object>>> configurationStore = 
+			new HashMap<Locale, Map<String, Map<ConfigToken<?>, Object>>>();
 	
 	/**
 	 * <p>
 	 * Return the {@link TableConfiguration} prototype for the given locale
-	 * (extracted thanks to the request) and the given group.
+	 * (extracted from the request) and the given group.
 	 * 
 	 * @param request
 	 *            The request sent by the user.
 	 * @param groupName
-	 *            The group name requested by the user to active the corresponding
-	 *            configuration.
+	 *            The group name requested by the user to activate the
+	 *            corresponding configuration.
 	 * @return the stored proptotype of a {@link TableConfiguration}.
 	 */
 	public static TableConfiguration getPrototype(HttpServletRequest request, String groupName) {
@@ -81,12 +78,24 @@ public class ConfigurationStore {
 			locale = Locale.getDefault();
 		}
         
+		Context context = (Context) request.getAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE);
+		if(context.isDevModeEnabled()){
+			clear();
+		}
+		
 		if(!configurationStore.containsKey(locale)){
-			// resolution complete des configuration pour la locale (=> regarder tous les groupes)
 			resolveGroupsForLocale(locale, request);
 		}
 			
-		return configurationStore.get(locale).get(group);
+		if (!configurationStore.get(locale).containsKey(group)) {
+			StringBuilder msg = new StringBuilder("The group '");
+			msg.append(group);
+			msg.append("' doesn't exist in your configuration files. Either create it or choose an existing one among ");
+			msg.append(configurationStore.get(locale).keySet());
+			throw new UnkownGroupException(msg.toString());
+		}
+		
+		return new TableConfiguration(configurationStore.get(locale).get(group), request);
 	}
 
 	/**
@@ -96,18 +105,14 @@ public class ConfigurationStore {
 	 * @param locale
 	 */
 	public static void resolveGroupsForLocale(Locale locale, HttpServletRequest request) {
-		Map<String, TableConfiguration> map = new HashMap<String, TableConfiguration>();
+		Map<String, Map<ConfigToken<?>, Object>> map = new HashMap<String, Map<ConfigToken<?>, Object>>();
 		
 		ConfigurationLoader confLoader = DatatablesConfigurator.getConfigurationLoader();
-		
-		try {
-			confLoader.loadDefaultConfiguration();
-			confLoader.loadUserConfiguration(locale);
-			confLoader.resolveGroups(locale);		
-			confLoader.resolveConfigurations(map, locale, request);
-		} catch (ConfigurationLoadingException e) {
-			logger.error("Unable to load Datatables configuration", e);
-		}
+
+		confLoader.loadDefaultConfiguration();
+		confLoader.loadUserConfiguration(locale);
+		confLoader.resolveGroups(locale);		
+		confLoader.resolveConfigurations(map, locale, request);
 		
 		configurationStore.put(locale, map);
 	}
@@ -117,7 +122,7 @@ public class ConfigurationStore {
 	 * 
 	 * @return
 	 */
-	public static Map<Locale, Map<String, TableConfiguration>> getConfigurationStore(){
+	public static Map<Locale, Map<String, Map<ConfigToken<?>, Object>>> getConfigurationStore(){
 		return configurationStore;
 	}
 	

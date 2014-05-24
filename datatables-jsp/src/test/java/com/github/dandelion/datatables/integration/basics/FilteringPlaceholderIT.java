@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,11 +30,12 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import org.junit.runner.RunWith;
+import static org.fest.assertions.Assertions.assertThat;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.basics.FilteringPlaceholderBaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import org.fluentlenium.core.domain.FluentWebElement;
+import org.junit.Test;
+
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Test the filter placeholder options.
@@ -42,8 +43,89 @@ import com.github.dandelion.datatables.testing.utils.JspTest;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class FilteringPlaceholderIT extends FilteringPlaceholderBaseIT {
+public class FilteringPlaceholderIT extends JspBaseIT {
 
+	@Test
+	public void should_not_generate_input_field_using_none() {
+		goToPage("basics/filtering/filtering_with_input_with_none");
+
+		assertThat(getTable().find("tfoot")).hasSize(0);
+		assertThat(getTable().find("thead").find("tr")).hasSize(1);
+	}
+	
+	@Test
+	public void should_generate_input_field_in_the_footer_using_default_placeholder() {
+		goToPage("basics/filtering/filtering_with_input_with_default_value");
+
+		// A tfoot tag must be generated
+		assertThat(getTable().find("tfoot")).hasSize(1);
+		
+		// The column flagged as filterable as a default input field
+		assertThat(getTable().find("tfoot").find("input")).hasSize(2);
+		
+		// All other footer cells must have the same content as the header ones
+		assertThat(getTable().find("thead").find("th", 0).getValue()).isEqualTo(getTable().find("tfoot").find("th", 0).getValue());
+		assertThat(getTable().find("thead").find("th", 2).getValue()).isEqualTo(getTable().find("tfoot").find("th", 2).getValue());
+		assertThat(getTable().find("thead").find("th", 3).getValue()).isEqualTo(getTable().find("tfoot").find("th", 3).getValue());
+		assertThat(getTable().find("thead").find("th", 4).getValue()).isEqualTo(getTable().find("tfoot").find("th", 4).getValue());
+	}
+	
+	@Test
+	public void should_generate_input_field_in_the_footer() {
+		goToPage("basics/filtering/filtering_with_input_with_foot");
+
+		// A tfoot tag must be generated
+		assertThat(getTable().find("tfoot")).hasSize(1);
+		
+		// The column flagged as filterable as a default input field
+		assertThat(getTable().find("tfoot").find("input")).hasSize(2);
+		
+		// All other footer cells must have the same content as the header ones
+		assertThat(getTable().find("thead").find("th", 0).getValue()).isEqualTo(getTable().find("tfoot").find("th", 0).getValue());
+		assertThat(getTable().find("thead").find("th", 2).getValue()).isEqualTo(getTable().find("tfoot").find("th", 2).getValue());
+		assertThat(getTable().find("thead").find("th", 3).getValue()).isEqualTo(getTable().find("tfoot").find("th", 3).getValue());
+		assertThat(getTable().find("thead").find("th", 4).getValue()).isEqualTo(getTable().find("tfoot").find("th", 4).getValue());
+	}
+	
+	@Test
+	public void should_generate_input_field_after_the_head() {
+		goToPage("basics/filtering/filtering_with_input_with_headafter");
+		
+		// A second row in the thead must be added
+		assertThat(getTable().find("thead").find("tr")).hasSize(2);
+		assertThat(getTable().find("thead").find("tr", 1).find("th")).hasSize(5);
+		assertThat(getTable().find("tfoot")).hasSize(0);
+		
+		FluentWebElement firstHeadRow = getTable().find("thead").find("tr", 0);
+		FluentWebElement secondHeadRow = getTable().find("thead").find("tr", 1);
+		
+		// All other footer cells must have the same content as the header ones
+		assertThat(secondHeadRow.find("th", 0).getValue()).isEqualTo(firstHeadRow.find("th", 0).getValue());
+		assertThat(secondHeadRow.find("th", 1).find("span")).hasSize(1);
+		assertThat(secondHeadRow.find("th", 1).find("span").getAttribute("class")).contains("filter_column filter_text");
+		assertThat(secondHeadRow.find("th", 2).getValue()).isEqualTo(firstHeadRow.find("th", 2).getValue());
+		assertThat(secondHeadRow.find("th", 3).getValue()).isEqualTo(firstHeadRow.find("th", 3).getValue());
+		assertThat(secondHeadRow.find("th", 4).getValue()).isEqualTo(firstHeadRow.find("th", 4).getValue());
+	}
+	
+	@Test
+	public void should_generate_input_field_before_the_head() {
+		goToPage("basics/filtering/filtering_with_input_with_headbefore");
+		
+		// A second row in the thead must be added
+		assertThat(getTable().find("thead").find("tr")).hasSize(2);
+		assertThat(getTable().find("thead").find("tr", 1).find("th")).hasSize(5);
+		assertThat(getTable().find("tfoot")).hasSize(0);
+		
+		FluentWebElement firstHeadRow = getTable().find("thead").find("tr", 0);
+		FluentWebElement secondHeadRow = getTable().find("thead").find("tr", 1);
+		
+		// All other footer cells must have the same content as the header ones
+		assertThat(firstHeadRow.find("th", 0).getValue()).isEqualTo(secondHeadRow.find("th", 0).getValue());
+		assertThat(firstHeadRow.find("th", 1).find("span")).hasSize(1);
+		assertThat(firstHeadRow.find("th", 1).find("span").getAttribute("class")).contains("filter_column filter_text");
+		assertThat(firstHeadRow.find("th", 2).getValue()).isEqualTo(secondHeadRow.find("th", 2).getValue());
+		assertThat(firstHeadRow.find("th", 3).getValue()).isEqualTo(secondHeadRow.find("th", 3).getValue());
+		assertThat(firstHeadRow.find("th", 4).getValue()).isEqualTo(secondHeadRow.find("th", 4).getValue());
+	}
 }

@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-sorting-date-uk",
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "sorting-date-uk",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "jar": "dandelion/datatables/sorting/date-uk.js"
+            }
+        }
+    ]
+}

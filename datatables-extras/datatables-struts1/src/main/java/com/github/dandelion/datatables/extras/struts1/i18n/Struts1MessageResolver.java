@@ -38,9 +38,9 @@ import org.apache.struts.util.MessageResources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.i18n.AbstractMessageResolver;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * <p>
@@ -68,7 +68,7 @@ public class Struts1MessageResolver extends AbstractMessageResolver {
 		PageContext pageContext = null;
 
 		// I'm still so ashamed about that...
-		pageContext = (PageContext) params[1];
+		pageContext = (PageContext) params[0];
 
 		// Both title and titleKey attributes are not used
 		if (messageKey == null || StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {

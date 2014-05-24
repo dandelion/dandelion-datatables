@@ -1,13 +1,13 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:dt="http://www.thymeleaf.org/dandelion/datatables">
 <head>
-<link href="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" rel="stylesheet" />
-<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js"></script>
-<script src="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"></script>
 </head>
 <body>
+   <div dt:conf="myTableId">
+      <div dt:confType="export" dt:type="xls" dt:url="@{/context/customXlsUrl}"></div>
+   </div>
    <table id="myTableId" dt:table="true" dt:export="xls">
-      <thead dt:xls:url="@{/context/customXlsUrl}">
+      <thead>
          <tr>
             <th>Id</th>
             <th>Firstname</th>

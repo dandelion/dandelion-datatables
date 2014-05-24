@@ -30,22 +30,22 @@
 package com.github.dandelion.datatables.core.html;
 
 import static org.fest.assertions.Assertions.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
 
-public class HtmlScriptTest extends HtmlTagTest {
+public class HtmlScriptTest {
 
 	private HtmlScript script;
 
 	@Before
-	@Override
 	public void createHtmlTag() {
-		tag = script = new HtmlScript();
+		script = new HtmlScript();
 	}
 
 	@Test
 	public void should_generate_link_tag_with_href() {
-		tag = script = new HtmlScript("mySrc");
+		script = new HtmlScript("mySrc");
 		assertThat(script.toHtml().toString()).isEqualTo("<script src=\"mySrc\"></script>");
 	}
 

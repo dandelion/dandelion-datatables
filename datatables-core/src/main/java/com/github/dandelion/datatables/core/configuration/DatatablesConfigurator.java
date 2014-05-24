@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -36,12 +36,14 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.utils.ClassUtils;
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.constants.SystemConstants;
 import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
+import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
+import com.github.dandelion.datatables.core.generator.javascript.StandardJavascriptGenerator;
 import com.github.dandelion.datatables.core.i18n.LocaleResolver;
 import com.github.dandelion.datatables.core.i18n.StandardLocaleResolver;
-import com.github.dandelion.datatables.core.util.ClassUtils;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * <p>
@@ -120,7 +122,8 @@ public class DatatablesConfigurator {
 						}
 				}
 			} catch (ConfigurationLoadingException e) {
-				logger.error("Unable to retrieve the LocaleResolver using the class {}", className, e);
+				throw new ConfigurationLoadingException("Unable to retrieve the LocaleResolver using the class '"
+						+ className + "'", e);
 			}
 		}
 		return localeResolver;
@@ -165,6 +168,44 @@ public class DatatablesConfigurator {
 		return configurationLoader;
 	}
 
+	/**
+	 * <p>
+	 * Returns an implementation of {@link JavascriptGenerator} using the
+	 * following strategy:
+	 * <ol>
+	 * <li>Check first if the
+	 * <code>dandelion.datatables.js.generator.class</code> system property is
+	 * set and tries to instantiate it</li>
+	 * <li>Otherwise, instantiate the {@link StandardJavascriptGenerator} based
+	 * on property files</li>
+	 * </ol>
+	 * 
+	 * @return an implementation of {@link JavascriptGenerator}.
+	 */
+	public static JavascriptGenerator getJavascriptGenerator() {
+
+		logger.debug("Initializing the Javascript generator...");
+		JavascriptGenerator javascriptGenerator = null;
+		
+		if (StringUtils.isNotBlank(System.getProperty(SystemConstants.DANDELION_DT_JS_GEN_CLASS))) {
+			Class<?> clazz;
+			try {
+				clazz = ClassUtils.getClass(System.getProperty(SystemConstants.DANDELION_DT_JS_GEN_CLASS));
+				javascriptGenerator = (JavascriptGenerator) ClassUtils.getNewInstance(clazz);
+			} catch (Exception e) {
+				logger.warn(
+						"Unable to instantiate the configured {} due to a {} exception. Falling back to the default one.",
+						SystemConstants.DANDELION_DT_JS_GEN_CLASS, e.getClass().getName(), e);
+			}
+		}
+
+		if (javascriptGenerator == null) {
+			javascriptGenerator = new StandardJavascriptGenerator();
+		}
+
+		return javascriptGenerator;
+	}
+	
 	/**
 	 * <b>FOR INTERNAL USE ONLY</b>
 	 */

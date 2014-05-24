@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-paging-listbox",
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "paging-listbox",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "jar": "dandelion/datatables/paging/listbox.js"
+            }
+        }
+    ]
+}

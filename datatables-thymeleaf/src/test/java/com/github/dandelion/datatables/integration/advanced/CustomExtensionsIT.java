@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,19 +30,29 @@
 
 package com.github.dandelion.datatables.integration.advanced;
 
-import org.junit.runner.RunWith;
+import static org.fest.assertions.Assertions.assertThat;
 
-import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.advanced.CustomExtensionsBaseIT;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
+import org.junit.Test;
+
+import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 
 /**
  * Test the enablement of custom extensions.
  *
  * @author Thibault Duchateau
  */
-@RunWith(ThymeleafContextRunner.class)
-@ThymeleafTest
-public class CustomExtensionsIT extends CustomExtensionsBaseIT {
+public class CustomExtensionsIT extends ThymeleafBaseIT {
 
+	@Test
+	public void should_enable_myCustomFeature() {
+		goToPage("advanced/custom-extension/custom_extensions");
+		assertThat(getConfigurationFromPage("advanced/custom-extension/custom_extensions")).contains("\"bStateSave\":true");
+	}
+	
+	@Test
+	public void should_enable_myCustomFeature_and_myOtherCustomFeature() {
+		goToPage("advanced/custom-extension/custom_extensions2");
+		assertThat(getConfigurationFromPage("advanced/custom-extension/custom_extensions2")).contains("\"bStateSave\":true");
+		assertThat(getConfigurationFromPage("advanced/custom-extension/custom_extensions2")).contains("\"bAutoWidth\":true");
+	}
 }

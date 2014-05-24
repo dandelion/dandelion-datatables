@@ -29,6 +29,11 @@
  */
 package com.github.dandelion.datatables.core.callback;
 
+import static com.github.dandelion.datatables.core.util.JavascriptUtils.INDENT;
+import static com.github.dandelion.datatables.core.util.JavascriptUtils.NEWLINE;
+
+import java.util.List;
+
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 
 /**
@@ -52,16 +57,16 @@ public class Callback {
 	private CallbackType type;
 	private JavascriptFunction function;
 
-	public Callback(CallbackType type, String functionContent){
+	public Callback(CallbackType type, String functionContent) {
 		this.type = type;
 		this.function = new JavascriptFunction(functionContent, this.type.getArgs());
 	}
-	
-	public Callback(CallbackType type, JavascriptFunction function){
+
+	public Callback(CallbackType type, JavascriptFunction function) {
 		this.type = type;
 		this.function = function;
 	}
-	
+
 	public CallbackType getType() {
 		return type;
 	}
@@ -78,8 +83,31 @@ public class Callback {
 		this.function = function;
 	}
 
-	public void appendCode(String code){
+	public void appendCode(String code) {
+		this.function.appendCode(NEWLINE);
+		this.function.appendCode(INDENT);
+		this.function.appendCode(INDENT);
 		this.function.appendCode(code);
+	}
+
+	public static boolean hasCallback(CallbackType callbackType, List<Callback> callbacks) {
+		if (callbacks != null) {
+			for (Callback callback : callbacks) {
+				if (callback.getType().equals(callbackType)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public static Callback findByType(CallbackType type, List<Callback> callbacks) {
+		for (Callback callback : callbacks) {
+			if (callback.getType().equals(type)) {
+				return callback;
+			}
+		}
+		return null;
 	}
 
 	@Override

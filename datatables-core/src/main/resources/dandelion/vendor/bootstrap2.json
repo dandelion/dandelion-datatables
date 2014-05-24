@@ -1,0 +1,22 @@
+{
+    "bundle" : "bootstrap2",
+    "dependencies" : [ "jquery" ],
+    "assets": [
+        {
+            "name": "bootstrap2",
+            "version": "2.3.2",
+            "type": "js",
+            "locations": {
+                "cdn": "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.js"
+            }
+        },
+        {
+            "name": "bootstrap2",
+            "version": "2.3.2",
+            "type": "css",
+            "locations": {
+                "cdn": "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap.css"
+            }
+        }
+    ]
+}

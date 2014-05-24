@@ -1,0 +1,22 @@
+{
+    "bundle" : "ddl-dt-plugin-scroller",
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "scroller",
+            "version": "1.2.0",
+            "type": "js",
+            "locations": {
+                "jar": "dandelion/datatables/plugins/scroller/dataTables.scroller.js"
+            }
+        },
+        {
+            "name": "scroller",
+            "version": "1.2.0",
+            "type": "css",
+            "locations": {
+                "jar": "dandelion/datatables/plugins/scroller/dataTables.scroller.css"
+            }
+        }
+    ]
+}

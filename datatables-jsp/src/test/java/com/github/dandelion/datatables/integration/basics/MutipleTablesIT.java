@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,30 +32,22 @@ package com.github.dandelion.datatables.integration.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.Constants;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Test the multiple tables.
  *
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class MutipleTablesIT extends BaseIT {
+public class MutipleTablesIT extends JspBaseIT {
 
 	@Test
-	public void should_disable_paging() throws IOException, Exception {
+	public void should_disable_paging() {
 		goTo("/basics/multiple_tables.jsp");
 		
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper")).hasSize(1);
-		assertThat(find("#" + Constants.TABLE_ID2 + "_wrapper")).hasSize(1);
+		assertThat(find("#" + TABLE_ID + "_wrapper")).hasSize(1);
+		assertThat(find("#" + TABLE_ID2 + "_wrapper")).hasSize(1);
 	}
 }

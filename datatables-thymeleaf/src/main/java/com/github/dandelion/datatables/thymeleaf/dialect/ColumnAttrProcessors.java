@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,66 +30,75 @@
 
 package com.github.dandelion.datatables.thymeleaf.dialect;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.thymeleaf.processor.AttributeNameProcessorMatcher;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
-import com.github.dandelion.datatables.core.exception.DataTableProcessingException;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesColumnAttrProcessor;
+import com.github.dandelion.datatables.core.exception.DandelionDatatablesException;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThDefaultAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterCssClassAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterDateFormatAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterMinLengthAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterTypeAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterValuesAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThNameAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThPropertyAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThRenderFunctionAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSearchableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSelectorAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSortDirectionAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSortInitDirectionAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSortInitOrderAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSortTypeAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSortableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThVisibleAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThCssCellClassAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThFilterTypeAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThFilterValuesAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThFilterableAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThSearchableAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThSelectorAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThSortDirectionAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThSortInitAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThSortTypeAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThSortableAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThVisibleAttrProcessor;
 
 /**
  * All attribute processors used by Dandelion-DataTables.
- *
+ * 
  * @since 0.9.0
  */
 public enum ColumnAttrProcessors {
-	
-    BASIC_SORTABLE(ThSortableAttrProcessor.class, "sortable", "th"),
-    BASIC_FILTERABLE(ThFilterableAttrProcessor.class, "filterable", "th"),
-    BASIC_SEARCHABLE(ThSearchableAttrProcessor.class, "searchable", "th"),
-    BASIC_VISIBLE(ThVisibleAttrProcessor.class, "visible", "th"),
-    BASIC_FILTER_TYPE(ThFilterTypeAttrProcessor.class, "filterType", "th"),
-    BASIC_FILTER_VALUES(ThFilterValuesAttrProcessor.class, "filterValues", "th"),
-    BASIC_SORT_INIT(ThSortInitAttrProcessor.class, "sortinit", "th"),
-    BASIC_SORT_DIR(ThSortDirectionAttrProcessor.class, "sortdir", "th"),
-    BASIC_SORT_TYPE(ThSortTypeAttrProcessor.class, "sorttype", "th"),
-    BASIC_SELECTOR(ThSelectorAttrProcessor.class, "selector", "th"),
-    BASIC_CSS_CELLCLASS(ThCssCellClassAttrProcessor.class, "cssCellClass", "th");
-    
-    private Class<? extends AbstractDatatablesColumnAttrProcessor> processorClass;
-    private String attributeName;
-    private String elementNameFilter;
 
-    private ColumnAttrProcessors(Class<? extends AbstractDatatablesColumnAttrProcessor> processorClass, String attributeName, String elementNameFilter) {
-        this.processorClass = processorClass;
-        this.attributeName = attributeName;
-        this.elementNameFilter = elementNameFilter;
-    }
+	PROPERTY(ThPropertyAttrProcessor.class, "property", "th"), 
+	DEFAULT(ThDefaultAttrProcessor.class, "default", "th"), 
+	NAME(ThNameAttrProcessor.class, "name", "th"), 
+	RENDER_FUNCTION(ThRenderFunctionAttrProcessor.class, "renderFunction", "th"), 
+	SORTABLE(ThSortableAttrProcessor.class, "sortable", "th"), 
+	FILTERABLE(ThFilterableAttrProcessor.class, "filterable", "th"), 
+	SEARCHABLE(ThSearchableAttrProcessor.class, "searchable", "th"), 
+	VISIBLE(ThVisibleAttrProcessor.class, "visible", "th"), 
+	FILTER_TYPE(ThFilterTypeAttrProcessor.class, "filterType", "th"), 
+	FILTER_CSSCLASS(ThFilterCssClassAttrProcessor.class, "filterCssClass", "th"), 
+	FILTER_VALUES(ThFilterValuesAttrProcessor.class, "filterValues", "th"), 
+	FILTER_LENGTH(ThFilterMinLengthAttrProcessor.class, "filterMinLength", "th"), 
+	FILTER_DATEFORMAT(ThFilterDateFormatAttrProcessor.class, "filterDateFormat", "th"), 
+	SORT_INITDIRECTION(ThSortInitDirectionAttrProcessor.class, "sortInitDirection", "th"),
+	SORT_INITORDER(ThSortInitOrderAttrProcessor.class, "sortInitOrder", "th"),
+	SORT_DIR(ThSortDirectionAttrProcessor.class, "sortDir", "th"), 
+	SORT_TYPE(ThSortTypeAttrProcessor.class, "sortType", "th"), 
+	SELECTOR(ThSelectorAttrProcessor.class, "selector", "th"), 
+	CSS_CELLCLASS(ThCssCellClassAttrProcessor.class, "cssCellClass", "th");
 
-    public AbstractDatatablesColumnAttrProcessor getProcessor() {
-        AttributeNameProcessorMatcher matcher = new AttributeNameProcessorMatcher(attributeName, elementNameFilter);
-        try {
-            return processorClass.getDeclaredConstructor(IAttributeNameProcessorMatcher.class).newInstance(matcher);
-        } catch (InstantiationException e) {
-        	throw new DataTableProcessingException(e);
-        } catch (IllegalAccessException e) {
-        	throw new DataTableProcessingException(e);
-        } catch (InvocationTargetException e) {
-        	throw new DataTableProcessingException(e);
-        } catch (NoSuchMethodException e) {
-        	throw new DataTableProcessingException(e);
-        }
-    }
+	private Class<? extends AbstractColumnAttrProcessor> processorClass;
+	private String attributeName;
+	private String elementNameFilter;
+
+	private ColumnAttrProcessors(Class<? extends AbstractColumnAttrProcessor> processorClass, String attributeName,
+			String elementNameFilter) {
+		this.processorClass = processorClass;
+		this.attributeName = attributeName;
+		this.elementNameFilter = elementNameFilter;
+	}
+
+	public AbstractColumnAttrProcessor getProcessor() {
+		AttributeNameProcessorMatcher matcher = new AttributeNameProcessorMatcher(attributeName, elementNameFilter, DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse");
+		try {
+			return processorClass.getDeclaredConstructor(IAttributeNameProcessorMatcher.class).newInstance(matcher);
+		} catch (Exception e) {
+			throw new DandelionDatatablesException(e);
+		} 
+	}
 }

@@ -2,26 +2,19 @@ package com.github.dandelion.datatables.integration.html;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
+import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 
 /**
  * Test the HTML markup generation using an AJAX source.
  *
  * @author Thibault Duchateau
  */
-@RunWith(ThymeleafContextRunner.class)
-@ThymeleafTest
-public class AjaxSourceIT extends BaseIT {
+public class AjaxSourceIT extends ThymeleafBaseIT {
 
 	@Test
-	public void should_generate_table_markup() throws IOException, Exception {
+	public void should_generate_table_markup() {
 		goToPage("ajax/table");
 
 		assertThat(getTable()).hasSize(1);
@@ -39,7 +32,7 @@ public class AjaxSourceIT extends BaseIT {
 		assertThat(getTable().find("tbody").find("tr", 1).find("td", 4).getText()).isEqualTo("bibendum.fermentum.metus@ante.ca");
 		
 		// A script tag must be generated
-		assertThat(getHtmlBody().find("script")).hasSize(1);
+		assertThat(getHtmlBody().find("script")).hasSize(3);
 	}
 	
 

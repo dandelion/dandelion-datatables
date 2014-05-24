@@ -1,0 +1,22 @@
+	{
+    "bundle" : "ddl-dt-theme-bootstrap3-responsive",
+    "dependencies": [ "bootstrap3", "datatables" ],
+    "assets": [
+        {
+            "name": "bs3-responsive",
+            "version": "0.1.5",
+            "type": "js",
+            "locations": {
+                "jar": "dandelion/datatables/themes/bootstrap-responsive/js/datatables.responsive.js"
+            }
+        },
+        {
+            "name": "bs3-responsive",
+            "version": "0.1.5",
+            "type": "css",
+            "locations": {
+            	"jar": "dandelion/datatables/themes/bootstrap-responsive/css/datatables.responsive.css"
+            }
+        }
+    ]
+}

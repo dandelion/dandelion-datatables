@@ -29,10 +29,7 @@
  */
 package com.github.dandelion.datatables.core.processor.feature;
 
-import java.util.Map;
-
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFeature;
@@ -42,53 +39,52 @@ import com.github.dandelion.datatables.core.extension.feature.PaginationTypeFour
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeInputFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeListboxFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeScrollingFeature;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
-import com.github.dandelion.datatables.core.util.StringUtils;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
-public class FeaturePaginationTypeProcessor extends AbstractTableProcessor {
+public class FeaturePaginationTypeProcessor extends AbstractConfigurationProcessor {
 
 	@Override
-	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
+	public void doProcess() {
+
 		PaginationType type = null;
-		if (StringUtils.isNotBlank(param)) {
+		if (StringUtils.isNotBlank(stringifiedValue)) {
 			try {
-				type = PaginationType.valueOf(param.toUpperCase().trim());
+				type = PaginationType.valueOf(stringifiedValue.toUpperCase());
 			} catch (IllegalArgumentException e) {
-				throw new ConfigurationProcessingException(
-						param + " is not a valid value among " + PaginationType.values(), e);
+				throw new ConfigurationProcessingException(stringifiedValue + " is not a valid value among "
+						+ PaginationType.values(), e);
 			}
 
 			switch (type) {
-				case INPUT:
-					tableConfiguration.registerExtension(new PaginationTypeInputFeature());
-					break;
-				case LISTBOX:
-					tableConfiguration.registerExtension(new PaginationTypeListboxFeature());
-					break;
-				case SCROLLING:
-					tableConfiguration.registerExtension(new PaginationTypeScrollingFeature());
-					break;
-				case FOUR_BUTTON:
-					tableConfiguration.registerExtension(new PaginationTypeFourButtonFeature());
-					break;
-				
-				// --- Bootstrap 2 styles ---
-				case BOOTSTRAP:
-					tableConfiguration.registerExtension(new PaginationTypeBootstrapFeature());
-					break;
-				case BOOTSTRAP_FOUR_BUTTON:
-					tableConfiguration.registerExtension(new PaginationTypeBootstrapFourButtonFeature());
-					break;
-				case BOOTSTRAP_FULL_NUMBERS:
-					tableConfiguration.registerExtension(new PaginationTypeBootstrapFullNumbersFeature());
-					break;
-				
-				default:
-					break;
+			case INPUT:
+				tableConfiguration.registerExtension(new PaginationTypeInputFeature());
+				break;
+			case LISTBOX:
+				tableConfiguration.registerExtension(new PaginationTypeListboxFeature());
+				break;
+			case SCROLLING:
+				tableConfiguration.registerExtension(new PaginationTypeScrollingFeature());
+				break;
+			case FOUR_BUTTON:
+				tableConfiguration.registerExtension(new PaginationTypeFourButtonFeature());
+				break;
+
+			// --- Bootstrap 2 styles ---
+			case BOOTSTRAP:
+				tableConfiguration.registerExtension(new PaginationTypeBootstrapFeature());
+				break;
+			case BOOTSTRAP_FOUR_BUTTON:
+				tableConfiguration.registerExtension(new PaginationTypeBootstrapFourButtonFeature());
+				break;
+			case BOOTSTRAP_FULL_NUMBERS:
+				tableConfiguration.registerExtension(new PaginationTypeBootstrapFullNumbersFeature());
+				break;
+
+			default:
+				break;
 			}
 		}
-		
-		tableConfiguration.setFeaturePaginationType(type);
+
+		updateEntry(type);
 	}
 }

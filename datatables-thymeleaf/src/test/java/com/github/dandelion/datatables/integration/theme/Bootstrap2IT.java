@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,48 +32,40 @@ package com.github.dandelion.datatables.integration.theme;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Ignore;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.core.util.StringUtils;
-import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.theme.Bootstrap2BaseIT;
-import com.github.dandelion.datatables.testing.utils.Constants;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 
 /**
  * Test the Bootstrap2 theme feature.
  *
  * @author Thibault Duchateau
  */
-@RunWith(ThymeleafContextRunner.class)
-@ThymeleafTest
 @Ignore
-public class Bootstrap2IT extends Bootstrap2BaseIT {
+public class Bootstrap2IT extends ThymeleafBaseIT {
 
 	@Ignore
-	public void should_generate_bottom_right_link() throws IOException, Exception {
+	public void should_generate_bottom_right_link() {
 		goToPage("themes/bootstrap2_bottom_right_link");
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("style"))).isEqualTo("float:right;");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
+		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("style"))).isEqualTo("float:right;");
 	}
 	
 	@Ignore
-	public void should_generate_bottom_middle_link() throws IOException, Exception {
+	public void should_generate_bottom_middle_link() {
 		goToPage("themes/bootstrap2_bottom_middle_link");
 		
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
-		assertThat(StringUtils.trimAllWhitespace(find("#" + Constants.TABLE_ID + "_wrapper").find("div", 3).getAttribute("style"))).isEqualTo("float:left;margin-left:10px;");
+		assertThat(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("class")).isEqualTo("dandelion_dataTables_export");
+		assertThat(StringUtils.trimAllWhitespace(find("#" + TABLE_ID + "_wrapper").find("div", 3).getAttribute("style"))).isEqualTo("float:left;margin-left:10px;");
 	}
 	
 	@Ignore
-	public void should_generate_bottom_left_link() throws IOException, Exception {
+	public void should_generate_bottom_left_link() {
 		goToPage("themes/bootstrap2_bottom_left_link");
 		
-		FluentWebElement divExport = find("#" + Constants.TABLE_ID + "_wrapper").findFirst("div.span6").findFirst("div");
+		FluentWebElement divExport = find("#" + TABLE_ID + "_wrapper").findFirst("div.span6").findFirst("div");
 		
 		
 		assertThat(divExport.getAttribute("class")).isEqualTo("dandelion_dataTables_export");
@@ -81,30 +73,30 @@ public class Bootstrap2IT extends Bootstrap2BaseIT {
 	}
 	
 	@Ignore
-	public void should_generate_top_right_link() throws IOException, Exception {
+	public void should_generate_top_right_link() {
 		goToPage("themes/bootstrap2_top_right_link");
 		
-		FluentWebElement divExport = find("#" + Constants.TABLE_ID + "_wrapper").find("div.span6", 1).findFirst("div");
+		FluentWebElement divExport = find("#" + TABLE_ID + "_wrapper").find("div.span6", 1).findFirst("div");
 		
 		assertThat(divExport.getAttribute("class")).isEqualTo("dandelion_dataTables_export");
 		assertThat(StringUtils.trimAllWhitespace(divExport.getAttribute("style"))).isEqualTo("float:right;");
 	}
 	
 	@Ignore
-	public void should_generate_top_middle_link() throws IOException, Exception {
+	public void should_generate_top_middle_link() {
 		goToPage("themes/bootstrap2_top_middle_link");
 		
-		FluentWebElement divExport = find("#" + Constants.TABLE_ID + "_wrapper").find("div.span6", 1).findFirst("div");
+		FluentWebElement divExport = find("#" + TABLE_ID + "_wrapper").find("div.span6", 1).findFirst("div");
 		
 		assertThat(divExport.getAttribute("class")).isEqualTo("dandelion_dataTables_export");
 		assertThat(StringUtils.trimAllWhitespace(divExport.getAttribute("style"))).isEqualTo("float:left;margin-left:10px;");
 	}
 	
 	@Ignore
-	public void should_generate_top_left_link() throws IOException, Exception {
+	public void should_generate_top_left_link() {
 		goToPage("themes/bootstrap2_top_left_link");
 		
-		FluentWebElement divExport = find("#" + Constants.TABLE_ID + "_wrapper").findFirst("div.span6").findFirst("div");
+		FluentWebElement divExport = find("#" + TABLE_ID + "_wrapper").findFirst("div.span6").findFirst("div");
 		
 		assertThat(divExport.getAttribute("class")).isEqualTo("dandelion_dataTables_export");
 		assertThat(StringUtils.trimAllWhitespace(divExport.getAttribute("style"))).isEqualTo("float:left;margin-right:10px;");

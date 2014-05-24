@@ -4,10 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@ include file="../common/head.jsp"%>
 </head>
 <body>
-   <datatables:table id="myTableId" data="${persons}" sort="false">
+   <datatables:table id="myTableId" data="${persons}" sortable="false">
       <datatables:column title="Id" property="id" />
       <datatables:column title="FirstName" property="firstName" />
       <datatables:column title="LastName" property="lastName" />

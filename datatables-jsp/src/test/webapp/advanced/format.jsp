@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@ include file="../common/head.jsp"%>
 </head>
 <body>
    <datatables:table id="myTableId" data="${persons}">
@@ -12,7 +11,7 @@
       <datatables:column title="FirstName" property="firstName" />
       <datatables:column title="LastName" property="lastName" />
       <datatables:column title="City" property="address.town.name" />
-      <datatables:column title="Mail" property="mail" format="<a href=''mailto:{0}''>{0}</a>" />
+      <datatables:column title="Mail" property="mail" format="<a href=mailto:{0}>{0}</a>" />
       <datatables:column title="Birth date" property="birthDate" format="{0,date,dd-MM-yyyy}" />
       <datatables:column title="Test2" property="birthDate" format="{0,date,wrong-format}" />
    </datatables:table>

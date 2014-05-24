@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -31,36 +31,45 @@ package com.github.dandelion.datatables.core.processor.column;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
-import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.core.utils.EnumUtils;
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
-import com.github.dandelion.datatables.core.util.StringUtils;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
-public class SortDirectionProcessor extends AbstractColumnProcessor {
+/**
+ * <p>
+ * Column processor used to configure a sort direction.
+ * 
+ * @author Thibault Duchateau
+ * @see ColumnConfig#SORTDIRECTION
+ */
+public class SortDirectionProcessor extends AbstractConfigurationProcessor {
 
 	@Override
-	protected void process(String param, ColumnConfiguration columnConfiguration,
-			TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
-		if (StringUtils.isNotBlank(param)) {
+	public void doProcess() {
+
+		if (StringUtils.isNotBlank(stringifiedValue)) {
+
 			List<Direction> sortDirections = new ArrayList<Direction>();
-			String[] sortDirectionArray = param.trim().toUpperCase().split(",");
+			String[] sortDirectionArray = stringifiedValue.split(",");
 
 			for (String direction : sortDirectionArray) {
 				try {
-					sortDirections.add(Direction.valueOf(direction));
+					sortDirections.add(Direction.valueOf(direction.toUpperCase().trim()));
 				} catch (IllegalArgumentException e) {
-					throw new ConfigurationProcessingException(param + " is not a valid value among " + SortDirection.values(), e);
+					StringBuilder sb = new StringBuilder();
+					sb.append("'");
+					sb.append(stringifiedValue);
+					sb.append("' is not a valid sort direction. Possible values are: ");
+					sb.append(EnumUtils.printPossibleValuesOf(Direction.class));
+					throw new ConfigurationProcessingException(sb.toString(), e);
 				}
 			}
 
-			columnConfiguration.setSortDirections(sortDirections);
+			updateEntry(sortDirections);
 		}
-		
 	}
 }

@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-theme-jqueryui-blitzer",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
+    "assets": [
+        {
+            "name": "jqueryui-blitzer-css",
+            "version": "1.9.2",
+            "type": "css",
+            "locations": {
+                "cdn": "//ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/blitzer/jquery-ui.css"
+            }
+        }
+    ]
+}

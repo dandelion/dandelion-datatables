@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,23 +33,18 @@ package com.github.dandelion.datatables.integration.advanced;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Test the formatting feature.
  *
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class FormatIT extends BaseIT {
+public class FormatIT extends JspBaseIT {
 
 	@Test
-	public void should_format_a_mail_column() throws Exception {
+	public void should_format_a_mail_column() {
 		goToPage("advanced/format");
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).findFirst("a").getText()).isEqualTo("venenatis@Duisvolutpat.com");

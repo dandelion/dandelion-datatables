@@ -29,19 +29,19 @@
  */
 package com.github.dandelion.datatables.core.extension.plugin;
 
-import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.ResourceType;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Java implementation of the DataTables Scroller plugin.
  * 
- * @see <a href="http://datatables.net/extras/scroller/">Reference</a>
  * @author Thibault Duchateau
+ * @see TableConfig#PLUGIN_SCROLLER
  */
 public class ScrollerPlugin extends AbstractExtension {
 
@@ -58,15 +58,19 @@ public class ScrollerPlugin extends AbstractExtension {
 	 */
 	@Override
 	public void setup(HtmlTable table) {
-		addJsResource(new JsResource(ResourceType.PLUGIN, "Scroller", "datatables/plugins/scroller/scroller.min.js"));
-		if (StringUtils.isNotBlank(table.getTableConfiguration().getFeatureDom())) {
-			addParameter(new Parameter(DTConstants.DT_DOM, "S", Parameter.Mode.APPEND));
+
+		addBundle(DatatableBundles.DDL_DT_PLUGIN_SCROLLER);
+
+		String dom = TableConfig.FEATURE_DOM.valueFrom(table);
+		Boolean jqueryUiEnabled = TableConfig.FEATURE_JQUERYUI.valueFrom(table);
+
+		if (StringUtils.isNotBlank(dom)) {
+			addParameter(DTConstants.DT_DOM, "S", Parameter.Mode.APPEND);
 		} else {
-			if (table.getTableConfiguration().getFeatureJqueryUI() != null
-					&& table.getTableConfiguration().getFeatureJqueryUI()) {
-				addParameter(new Parameter(DTConstants.DT_DOM, "<\"H\"lfr>t<\"F\"ip>S", Parameter.Mode.OVERRIDE));
+			if (jqueryUiEnabled != null && jqueryUiEnabled) {
+				addParameter(DTConstants.DT_DOM, "<\"H\"lfr>t<\"F\"ip>S");
 			} else {
-				addParameter(new Parameter(DTConstants.DT_DOM, "frtiS", Parameter.Mode.OVERRIDE));
+				addParameter(DTConstants.DT_DOM, "frtiS");
 			}
 		}
 	}

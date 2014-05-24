@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -36,8 +36,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
-
 /**
  * <p>
  * Interface for all configuration loaders.
@@ -53,9 +51,11 @@ import com.github.dandelion.datatables.core.exception.ConfigurationLoadingExcept
 public interface ConfigurationLoader {
 
 	public final static String DT_DEFAULT_PROPERTIES = "config/datatables-default.properties";
+	public final static String DT_USER_PROPERTIES_LOCATION = "dandelion/datatables/";
 	public final static String DT_USER_PROPERTIES = "datatables";
-	public static final String DEFAULT_GROUP_NAME = "global";
-	
+	public final static String DEFAULT_GROUP_NAME = "global";
+	public final static String STANDALONE_BUNDLES_TO_EXCLUDE = "bootstrap-datepicker,bootstrap2,bootstrap3,jquery,jqueryui,moment";
+
 	/**
 	 * <p>
 	 * Load the default configuration from the internal properties file and
@@ -66,14 +66,13 @@ public interface ConfigurationLoader {
 	 * </ul>
 	 * 
 	 * @return the default properties
-	 * @throws ConfigurationLoadingException
-	 *             if the default properties cannot be loader.
 	 */
-	public Properties loadDefaultConfiguration() throws ConfigurationLoadingException;
+	public Properties loadDefaultConfiguration();
 
 	/**
 	 * <p>
-	 * Load the user configuration which can be localized thanks to the given locale.
+	 * Load the user configuration which can be localized thanks to the given
+	 * locale.
 	 * <p>
 	 * Once the bundle loaded, it is converted into Properties.
 	 * 
@@ -95,7 +94,7 @@ public interface ConfigurationLoader {
 	 * @return the resolved groups.
 	 */
 	public Set<String> resolveGroups(Locale locale);
-	
+
 	/**
 	 * <p>
 	 * Resolve configuration groups for the given locale.
@@ -117,13 +116,13 @@ public interface ConfigurationLoader {
 	 * <p>
 	 * For example, if the user properties file contains:<br />
 	 * <code>
-	 * group1.msg.search=My label<br/>
-	 * group1.msg.processing=My other label<br/>
+	 * group1.i18n.msg.search=My label<br/>
+	 * group1.i18n.msg.processing=My other label<br/>
 	 * </code> <br/>
 	 * the {@link ConfigurationLoader} must create a group called 'group1'
 	 * containing all properties present in the 'global' group but where
-	 * <code>msg.search</code> and <code>msg.processing</code> are overriden
-	 * with the user's ones.
+	 * <code>i18n.msg.search</code> and <code>i18n.msg.processing</code> are
+	 * overriden with the user's ones.
 	 * 
 	 * <p>
 	 * Note that:
@@ -131,6 +130,8 @@ public interface ConfigurationLoader {
 	 * <li>A configuration group can be enabled locally in a table thanks to an
 	 * tag attribute.</li>
 	 * <li>A configuration group always extends the 'global' group.</li>
+	 * <li>All properties must be prefixed by the group name (even for the
+	 * 'global' group).</li>
 	 * </ul>
 	 * 
 	 * @param map
@@ -141,8 +142,7 @@ public interface ConfigurationLoader {
 	 *            the resource bundle.
 	 * @param request
 	 *            The request sent by the browser.
-	 * @throws ConfigurationLoadingException 
 	 */
-	public void resolveConfigurations(Map<String, TableConfiguration> map, Locale locale, HttpServletRequest request)
-			throws ConfigurationLoadingException;
+	public void resolveConfigurations(Map<String, Map<ConfigToken<?>, Object>> map, Locale locale,
+			HttpServletRequest request);
 }

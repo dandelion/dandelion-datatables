@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,32 +29,41 @@
  */
 package com.github.dandelion.datatables.core.processor.column;
 
-import java.util.Map;
-
-import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.core.utils.EnumUtils;
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
-import com.github.dandelion.datatables.core.processor.AbstractColumnProcessor;
-import com.github.dandelion.datatables.core.util.StringUtils;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
-public class FilterTypeProcessor extends AbstractColumnProcessor {
+/**
+ * <p>
+ * Column processor used to configure a filter type.
+ * 
+ * @author Thibault Duchateau
+ * @see ColumnConfig#FILTERTYPE
+ */
+public class FilterTypeProcessor extends AbstractConfigurationProcessor {
 
 	@Override
-	protected void process(String param, ColumnConfiguration columnConfiguration,
-			TableConfiguration tableConfiguration, Map<Configuration, Object> confToBeApplied) {
-		if (StringUtils.isNotBlank(param)) {
+	public void doProcess() {
+
+		if (StringUtils.isNotBlank(stringifiedValue)) {
 
 			FilterType filterType = null;
+
 			try {
-				filterType = FilterType.valueOf(param.toUpperCase().trim());
+				filterType = FilterType.valueOf(stringifiedValue.toUpperCase());
 			} catch (IllegalArgumentException e) {
-				throw new ConfigurationProcessingException(param + " is not a valid value among " + FilterType.values(), e);
+				StringBuilder sb = new StringBuilder();
+				sb.append("'");
+				sb.append(stringifiedValue);
+				sb.append("' is not a valid filter type. Possible values are: ");
+				sb.append(EnumUtils.printPossibleValuesOf(FilterType.class));
+				throw new ConfigurationProcessingException(sb.toString(), e);
 			}
-			
-			columnConfiguration.setFilterType(filterType);
+
+			updateEntry(filterType);
 		}
-		
 	}
 }

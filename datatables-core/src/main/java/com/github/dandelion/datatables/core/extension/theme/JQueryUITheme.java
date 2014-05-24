@@ -29,11 +29,10 @@
  */
 package com.github.dandelion.datatables.core.extension.theme;
 
-import com.github.dandelion.datatables.core.asset.CssResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.ResourceType;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -41,6 +40,8 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * JQueryUI DataTables theme.
  * 
  * @since 0.7.1
+ * @see TableConfig#CSS_THEME
+ * @see TableConfig#CSS_THEMEOPTION
  */
 public class JQueryUITheme extends AbstractExtension {
 
@@ -52,16 +53,93 @@ public class JQueryUITheme extends AbstractExtension {
 	/**
 	 * {@inheritDoc}
 	 */
+	@SuppressWarnings("incomplete-switch")
 	@Override
-	public void setup(HtmlTable table) throws ExtensionLoadingException {
+	public void setup(HtmlTable table) {
 
+		addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI);
 		addParameter(new Parameter(DTConstants.DT_JQUERYUI, true));
-		addCssResource(new CssResource(ResourceType.THEME, "JQueryUITheme",
-				"datatables/themes/jqueryui/jqueryui.css"));
 
-		if (table.getTableConfiguration().getCssThemeOption() != null) {
-			addCssResource(new CssResource(ResourceType.EXTERNAL,
-					table.getTableConfiguration().getCssThemeOption().toString(), table.getTableConfiguration().getCssThemeOption().getCssSource()));
+		ThemeOption themeOption = TableConfig.CSS_THEMEOPTION.valueFrom(table);
+		
+		if (themeOption != null) {
+			switch(themeOption){
+			case BASE:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_BASE);
+				break;
+			case BLACKTIE:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_BLACKTIE);
+				break;
+			case BLITZER:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_BLITZER);
+				break;
+			case CUPERTINO:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_CUPERTINO);
+				break;
+			case DARKHIVE:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_DARKHIVE);
+				break;
+			case DOTLUV:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_DOTLUV);
+				break;
+			case EGGPLANT:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_EGGPLANT);
+				break;
+			case EXCITEBIKE:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_EXCITEBIKE);
+				break;
+			case FLICK:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_FLICK);
+				break;
+			case HOTSNEAKS:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_HOTSNEAKS);
+				break;
+			case HUMANITY:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_HUMANITY);
+				break;
+			case LEFROG:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_LEFROG);
+				break;
+			case MINTCHOC:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_MINTCHOC);
+				break;
+			case OVERCAST:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_OVERCAST);
+				break;
+			case PEPPERGRINDER:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_PEPPERGRINDER);
+				break;
+			case REDMOND:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_REDMOND);
+				break;
+			case SMOOTHNESS:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_SMOOTHNESS);
+				break;
+			case SOUTHSTREET:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_SOUTHSTREET);
+				break;
+			case START:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_START);
+				break;
+			case SUNNY:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_SUNNY);
+				break;
+			case SWANKYPURSE:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_SWANKYPURSE);
+				break;
+			case TRONTASTIC:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_TRONTASTIC);
+				break;
+			case UIDARKNESS:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_UIDARKNESS);
+				break;
+			case UILIGHTNESS:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_UILIGHTNESS);
+				break;
+			case VADER:
+				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_VADER);
+				break;
+			}
 		}
 
 		table.addCssClass("display");

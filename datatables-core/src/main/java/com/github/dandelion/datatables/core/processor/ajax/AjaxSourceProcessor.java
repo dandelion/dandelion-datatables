@@ -29,38 +29,36 @@
  */
 package com.github.dandelion.datatables.core.processor.ajax;
 
-import java.util.Map;
-
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.feature.AjaxFeature;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
-import com.github.dandelion.datatables.core.util.CollectionUtils;
-import com.github.dandelion.datatables.core.util.StringUtils;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
 /**
+ * <p>
  * Processor used when the table uses an AJAX source.
+ * 
+ * <p>
+ * Note that the passed URL is not processed here but in each module
+ * corresponding to the template engine currently being used.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class AjaxSourceProcessor extends AbstractTableProcessor {
+public class AjaxSourceProcessor extends AbstractConfigurationProcessor {
 
 	@Override
-	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
+	public void doProcess() {
 
-		if (StringUtils.isNotBlank(param)) {
+		if (StringUtils.isNotBlank(stringifiedValue)) {
+			Boolean serverSide = TableConfig.AJAX_SERVERSIDE.valueFrom(tableConfiguration);
 
-			Boolean serverSideEnabled = 
-					CollectionUtils.hasConfigurationWithValue(confToBeApplied, Configuration.AJAX_SERVERSIDE, true)
-					|| ( tableConfiguration.getAjaxServerSide() != null && tableConfiguration.getAjaxServerSide());
+			Boolean serverSideEnabled = serverSide != null && serverSide;
 			if (!serverSideEnabled) {
-				tableConfiguration.registerExtension(new AjaxFeature());
+				registerExtension(new AjaxFeature());
 			}
 
-			tableConfiguration.setAjaxSource(param);
+			updateEntry(stringifiedValue);
 		}
 	}
 }

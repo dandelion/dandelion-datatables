@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -31,8 +31,16 @@ package com.github.dandelion.datatables.core.extension.theme;
 
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 
+/**
+ * All built-in themes.
+ * 
+ * @author Thibault Duchateau
+ */
 public enum Theme {
-	BOOTSTRAP2(Bootstrap2Theme.class), JQUERYUI(JQueryUITheme.class);
+	
+	BOOTSTRAP2(Bootstrap2Theme.class),
+	BOOTSTRAP3(Bootstrap3Theme.class),
+	JQUERYUI(JQueryUITheme.class);
 	
 	private Class<? extends AbstractExtension> clazz;
 

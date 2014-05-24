@@ -38,6 +38,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 
 /**
+ * <p>
  * Test the mapping of DataTables URL parameters to {@link DatatablesCriterias}
  * when using server-side processing.
  * 
@@ -76,7 +77,7 @@ public class DatatablesCriteriasTest {
 	}
 
 	@Test
-	public void should_return_criterias_when_no_sorting_no_filtering() {
+	public void should_return_criterias_when_sorting_disabled_and_filtering_disabled() {
 
 		request.addParameter(DTConstants.DT_S_ECHO, "1");
 		request.addParameter(DTConstants.DT_I_COLUMNS, "2");
@@ -110,7 +111,7 @@ public class DatatablesCriteriasTest {
 	}
 
 	@Test
-	public void should_return_criterias_when_sorting_no_filtering() {
+	public void should_return_criterias_when_sorting_enabled_and_filtering_disabled() {
 
 		request.addParameter(DTConstants.DT_S_ECHO, "1");
 		request.addParameter(DTConstants.DT_I_COLUMNS, "2");
@@ -151,5 +152,151 @@ public class DatatablesCriteriasTest {
 		assertThat(criterias.getColumnDefs().get(0).isSorted()).isFalse();
 		assertThat(criterias.getColumnDefs().get(0).isFilterable()).isFalse();
 		assertThat(criterias.getColumnDefs().get(0).isFiltered()).isFalse();
+	}
+	
+	@Test
+	public void should_have_one_filterable_column() {
+		
+		request.addParameter(DTConstants.DT_S_ECHO, "1");
+		request.addParameter(DTConstants.DT_I_COLUMNS, "2");
+		request.addParameter(DTConstants.DT_I_DISPLAY_START, "0");
+		request.addParameter(DTConstants.DT_I_DISPLAY_LENGTH, "10");
+		
+		request.addParameter(DTConstants.DT_M_DATA_PROP + 0, "prop1");
+		request.addParameter(DTConstants.DT_B_SEARCHABLE + 0, "true");
+		request.addParameter(DTConstants.DT_B_SORTABLE + 0, "true");
+		
+		request.addParameter(DTConstants.DT_M_DATA_PROP + 1, "prop2");
+		request.addParameter(DTConstants.DT_B_SEARCHABLE + 1, "true");
+		request.addParameter(DTConstants.DT_B_SORTABLE + 1, "true");
+		request.addParameter(DTConstants.DT_I_SORTING_COLS, "1");
+		request.addParameter(DTConstants.DT_I_SORT_COL + "0", "0");
+		request.addParameter(DTConstants.DT_S_SORT_DIR + "0", "asc");
+		
+		DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
+		
+		assertThat(criterias.hasOneFilterableColumn()).isTrue();
+	}
+	
+	@Test
+	public void should_have_one_filtered_column(){
+
+		request.addParameter(DTConstants.DT_S_ECHO, "1");
+		request.addParameter(DTConstants.DT_I_COLUMNS, "2");
+		request.addParameter(DTConstants.DT_I_DISPLAY_START, "0");
+		request.addParameter(DTConstants.DT_I_DISPLAY_LENGTH, "10");
+		
+		request.addParameter(DTConstants.DT_M_DATA_PROP + 0, "prop1");
+		request.addParameter(DTConstants.DT_B_SEARCHABLE + 0, "true");
+		request.addParameter(DTConstants.DT_B_SORTABLE + 0, "true");
+		request.addParameter(DTConstants.DT_S_COLUMN_SEARCH + 0, "search");
+		
+		request.addParameter(DTConstants.DT_M_DATA_PROP + 1, "prop2");
+		request.addParameter(DTConstants.DT_B_SEARCHABLE + 1, "true");
+		request.addParameter(DTConstants.DT_B_SORTABLE + 1, "true");
+		
+		DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
+		
+		assertThat(criterias.hasOneFilteredColumn()).isTrue();
+		
+		assertThat(criterias.getColumnDefs().get(0).getSearch()).isEqualTo("search");
+		assertThat(criterias.getColumnDefs().get(0).getSearchFrom()).isNull();
+		assertThat(criterias.getColumnDefs().get(0).getSearchTo()).isNull();
+	}
+	
+	@Test
+	public void should_split_search_terms_when_using_from_only(){
+
+		request.addParameter(DTConstants.DT_S_ECHO, "1");
+		request.addParameter(DTConstants.DT_I_COLUMNS, "2");
+		request.addParameter(DTConstants.DT_I_DISPLAY_START, "0");
+		request.addParameter(DTConstants.DT_I_DISPLAY_LENGTH, "10");
+		
+		request.addParameter(DTConstants.DT_M_DATA_PROP + 0, "prop1");
+		request.addParameter(DTConstants.DT_B_SEARCHABLE + 0, "true");
+		request.addParameter(DTConstants.DT_B_SORTABLE + 0, "true");
+		request.addParameter(DTConstants.DT_S_COLUMN_SEARCH + 0, "left~");
+		
+		request.addParameter(DTConstants.DT_M_DATA_PROP + 1, "prop2");
+		request.addParameter(DTConstants.DT_B_SEARCHABLE + 1, "true");
+		request.addParameter(DTConstants.DT_B_SORTABLE + 1, "true");
+		
+		DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
+		
+		assertThat(criterias.getColumnDefs().get(0).getSearch()).isNull();
+		assertThat(criterias.getColumnDefs().get(0).getSearchFrom()).isEqualTo("left");
+		assertThat(criterias.getColumnDefs().get(0).getSearchTo()).isNull();
+	}
+	
+	@Test
+	public void should_split_search_terms_when_using_to_only(){
+
+		request.addParameter(DTConstants.DT_S_ECHO, "1");
+		request.addParameter(DTConstants.DT_I_COLUMNS, "2");
+		request.addParameter(DTConstants.DT_I_DISPLAY_START, "0");
+		request.addParameter(DTConstants.DT_I_DISPLAY_LENGTH, "10");
+		
+		request.addParameter(DTConstants.DT_M_DATA_PROP + 0, "prop1");
+		request.addParameter(DTConstants.DT_B_SEARCHABLE + 0, "true");
+		request.addParameter(DTConstants.DT_B_SORTABLE + 0, "true");
+		request.addParameter(DTConstants.DT_S_COLUMN_SEARCH + 0, "~right");
+		
+		request.addParameter(DTConstants.DT_M_DATA_PROP + 1, "prop2");
+		request.addParameter(DTConstants.DT_B_SEARCHABLE + 1, "true");
+		request.addParameter(DTConstants.DT_B_SORTABLE + 1, "true");
+		
+		DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
+		
+		assertThat(criterias.getColumnDefs().get(0).getSearch()).isNull();
+		assertThat(criterias.getColumnDefs().get(0).getSearchFrom()).isNull();
+		assertThat(criterias.getColumnDefs().get(0).getSearchTo()).isEqualTo("right");
+	}
+	
+	@Test
+	public void should_split_search_terms_when_using_from_and_to(){
+
+		request.addParameter(DTConstants.DT_S_ECHO, "1");
+		request.addParameter(DTConstants.DT_I_COLUMNS, "2");
+		request.addParameter(DTConstants.DT_I_DISPLAY_START, "0");
+		request.addParameter(DTConstants.DT_I_DISPLAY_LENGTH, "10");
+		
+		request.addParameter(DTConstants.DT_M_DATA_PROP + 0, "prop1");
+		request.addParameter(DTConstants.DT_B_SEARCHABLE + 0, "true");
+		request.addParameter(DTConstants.DT_B_SORTABLE + 0, "true");
+		request.addParameter(DTConstants.DT_S_COLUMN_SEARCH + 0, "left~right");
+		
+		request.addParameter(DTConstants.DT_M_DATA_PROP + 1, "prop2");
+		request.addParameter(DTConstants.DT_B_SEARCHABLE + 1, "true");
+		request.addParameter(DTConstants.DT_B_SORTABLE + 1, "true");
+		
+		DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
+		
+		assertThat(criterias.getColumnDefs().get(0).getSearch()).isNull();
+		assertThat(criterias.getColumnDefs().get(0).getSearchFrom()).isEqualTo("left");
+		assertThat(criterias.getColumnDefs().get(0).getSearchTo()).isEqualTo("right");
+	}
+	
+	@Test
+	public void should_have_an_empty_search_field_when_range_is_empty(){
+
+		request.addParameter(DTConstants.DT_S_ECHO, "1");
+		request.addParameter(DTConstants.DT_I_COLUMNS, "2");
+		request.addParameter(DTConstants.DT_I_DISPLAY_START, "0");
+		request.addParameter(DTConstants.DT_I_DISPLAY_LENGTH, "10");
+		
+		request.addParameter(DTConstants.DT_M_DATA_PROP + 0, "prop1");
+		request.addParameter(DTConstants.DT_B_SEARCHABLE + 0, "true");
+		request.addParameter(DTConstants.DT_B_SORTABLE + 0, "true");
+		request.addParameter(DTConstants.DT_S_COLUMN_SEARCH + 0, "~");
+		
+		request.addParameter(DTConstants.DT_M_DATA_PROP + 1, "prop2");
+		request.addParameter(DTConstants.DT_B_SEARCHABLE + 1, "true");
+		request.addParameter(DTConstants.DT_B_SORTABLE + 1, "true");
+		
+		DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
+		
+		assertThat(criterias.getColumnDefs().get(0).getSearch()).isEmpty();
+		assertThat(criterias.getColumnDefs().get(0).getSearchFrom()).isNull();
+		assertThat(criterias.getColumnDefs().get(0).getSearchTo()).isNull();
 	}
 }

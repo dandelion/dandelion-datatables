@@ -4,7 +4,7 @@
    <parent>
       <groupId>com.github.dandelion</groupId>
       <artifactId>dandelion-datatables</artifactId>
-      <version>0.9.4-SNAPSHOT</version>
+      <version>0.10.1-SNAPSHOT</version>
    </parent>
 
    <artifactId>datatables-core</artifactId>
@@ -13,13 +13,19 @@
 
    <dependencies>
 
+      <!-- Dandelion -->
+      <dependency>
+         <groupId>com.github.dandelion</groupId>
+         <artifactId>dandelion-core</artifactId>
+      </dependency>
+
       <!-- Json simple -->
       <dependency>
          <groupId>com.googlecode.json-simple</groupId>
          <artifactId>json-simple</artifactId>
-         <version>1.1.1</version>
       </dependency>
 
+      <!-- Commons BeanUtils -->
       <dependency>
          <groupId>commons-beanutils</groupId>
          <artifactId>commons-beanutils</artifactId>
@@ -32,37 +38,34 @@
          </exclusions>
       </dependency>
 
-      <!-- Servlet -->
+      <!-- Servlet API -->
       <dependency>
          <groupId>javax.servlet</groupId>
          <artifactId>javax.servlet-api</artifactId>
          <scope>provided</scope>
       </dependency>
-      
+
       <!-- Logging -->
       <dependency>
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-api</artifactId>
          <scope>compile</scope>
       </dependency>
-            
+
       <!-- Test -->
       <dependency>
          <groupId>org.easytesting</groupId>
          <artifactId>fest-assert</artifactId>
-         <version>${festassert.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-test</artifactId>
-         <version>${spring.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>javax.servlet.jsp</groupId>
          <artifactId>jsp-api</artifactId>
-         <version>${jsp.api.version}</version>
          <scope>test</scope>
       </dependency>
    </dependencies>

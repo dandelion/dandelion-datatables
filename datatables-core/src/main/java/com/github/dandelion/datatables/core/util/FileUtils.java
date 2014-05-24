@@ -37,8 +37,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-
 /**
  * Helper class used to extract content from different type of input.
  * 
@@ -53,7 +51,6 @@ public class FileUtils {
 	 * @param pathToFile
 	 * @return
 	 * @throws FileNotFoundException 
-	 * @throws BadConfigurationException 
 	 */
 	public static InputStream getFileFromWebapp(String pathToFile) throws FileNotFoundException {
 		File file = new File(pathToFile);
@@ -77,7 +74,6 @@ public class FileUtils {
 	 * TODO
 	 * @param pathToFile
 	 * @return
-	 * @throws BadConfigurationException 
 	 * @throws IOException
 	 */
 	public static String getFileContentFromClasspath(String pathToFile) throws IOException {
@@ -90,7 +86,6 @@ public class FileUtils {
 	 * @param pathToFile
 	 * @return
 	 * @throws IOException 
-	 * @throws BadConfigurationException 
 	 */
 	public static String getFileContentFromWebapp(String pathToFile) throws IOException {
 		return toString(getFileFromWebapp(pathToFile));

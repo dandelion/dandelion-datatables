@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,44 +30,74 @@
 package com.github.dandelion.datatables.core.extension;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-import com.github.dandelion.datatables.core.asset.CssResource;
+import javax.servlet.http.HttpServletRequest;
+
+import com.github.dandelion.core.Context;
+import com.github.dandelion.core.web.AssetRequestContext;
+import com.github.dandelion.core.web.WebConstants;
+import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
+import com.github.dandelion.datatables.core.asset.Parameter.Mode;
+import com.github.dandelion.datatables.core.callback.Callback;
+import com.github.dandelion.datatables.core.callback.CallbackType;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
+import com.github.dandelion.datatables.core.generator.configuration.AbstractConfigurationGenerator;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
+ * <p>
  * Abstract superclass for all extensions.
+ * <p>
+ * Lots of utilities are available in this class, allowing you to:
+ * <ul>
+ * <li>bufferize Javascript code before flushing it in the final
+ * {@link JsResource}</li>
+ * <li>add some {@link Parameter} to the generated DataTables configuration</li>
+ * <li>add some bundles to the current request</li>
+ * <li>add some {@link Callback} to the generated DataTables configuration</li>
+ * </ul>
  * 
  * @author Thibault Duchateau
  */
 public abstract class AbstractExtension implements Extension {
 
-	protected String name;
-	protected StringBuilder beforeAll;
-	protected StringBuilder afterAll;
-	protected StringBuilder beforeStartDocumentReady;
-	protected StringBuilder afterStartDocumentReady;
-	protected StringBuilder beforeEndDocumentReady;
-	protected List<JsResource> jsResources;
-	protected List<CssResource> cssResources;
-	protected List<Parameter> confs;
-	protected AbstractConfigurationGenerator configGenerator;
-	protected Boolean appendRandomNumber = false;
-	protected String function;
+	private String name;
+	private StringBuilder beforeAll;
+	private StringBuilder beforeStartDocumentReady;
+	private StringBuilder afterStartDocumentReady;
+	private StringBuilder beforeEndDocumentReady;
+	private StringBuilder afterAll;
+	private List<Parameter> confs;
+	private AbstractConfigurationGenerator configGenerator;
+	private String function;
+	private HtmlTable table;
 
-	public AbstractExtension(){
+	public AbstractExtension() {
 		this.name = getName();
 	}
-	
+
+	public void setupWrapper(HtmlTable table) {
+		this.table = table;
+		setup(table);
+	}
+
+	public abstract void setup(HtmlTable table);
+
 	public StringBuilder getBeforeAll() {
 		return beforeAll;
 	}
 
 	public StringBuilder getAfterAll() {
 		return afterAll;
+	}
+
+	public StringBuilder getBeforeStartDocumentReady() {
+		return beforeStartDocumentReady;
 	}
 
 	public StringBuilder getAfterStartDocumentReady() {
@@ -78,23 +108,7 @@ public abstract class AbstractExtension implements Extension {
 		return beforeEndDocumentReady;
 	}
 
-	public List<JsResource> getJsResources() {
-		return jsResources;
-	}
-
-	public void setJsResources(List<JsResource> jsResources) {
-		this.jsResources = jsResources;
-	}
-
-	public List<CssResource> getCssResources() {
-		return cssResources;
-	}
-
-	public void setCssResources(List<CssResource> cssResources) {
-		this.cssResources = cssResources;
-	}
-
-	public List<Parameter> getConfs() {
+	public List<Parameter> getParameters() {
 		return confs;
 	}
 
@@ -102,25 +116,105 @@ public abstract class AbstractExtension implements Extension {
 		this.confs = confs;
 	}
 
-	public void addJsResource(JsResource resource) {
-		if (this.jsResources == null) {
-			this.jsResources = new LinkedList<JsResource>();
-		}
-		this.jsResources.add(resource);
-	}
-
-	public void addCssResource(CssResource resource) {
-		if (this.cssResources == null) {
-			this.cssResources = new LinkedList<CssResource>();
-		}
-		this.cssResources.add(resource);
-	}
-
+	/**
+	 * <p>
+	 * Adds the passed {@link Parameter} to a temporary list.
+	 * 
+	 * <p>
+	 * Later this list is processed and all {@link Parameter}s are added to the
+	 * DataTables generated configuration.
+	 * 
+	 * @param parameter
+	 *            The param to add.
+	 */
 	public void addParameter(Parameter parameter) {
 		if (this.confs == null) {
 			this.confs = new ArrayList<Parameter>();
 		}
 		this.confs.add(parameter);
+	}
+
+	/**
+	 * <p>
+	 * Adds a new DataTables parameter to the generated configuration.
+	 * <p>
+	 * If the parameter already exists, it will be overriden.
+	 * 
+	 * @param parameterName
+	 *            Name of the parameter.
+	 * @param parameterValue
+	 *            Value of the parameter.
+	 */
+	public void addParameter(String parameterName, Object parameterValue) {
+		addParameter(new Parameter(parameterName, parameterValue));
+	}
+
+	/**
+	 * <p>
+	 * Adds a new DataTables parameter to the generated configuration, using a
+	 * custom method of updating.
+	 * 
+	 * @param parameterName
+	 *            Name of the parameter.
+	 * @param parameterValue
+	 *            Value of the parameter.
+	 * @param mode
+	 *            Method of updating used for this parameter.
+	 */
+	public void addParameter(String parameterName, Object parameterValue, Parameter.Mode mode) {
+		addParameter(new Parameter(parameterName, parameterValue, mode));
+	}
+
+	/**
+	 * Updates the current {@link HttpServletRequest} with the passed
+	 * {@link DatatableBundles}.
+	 * 
+	 * @param bundle
+	 *            The {@link DatatableBundles} to add.
+	 */
+	public void addBundle(DatatableBundles bundle) {
+		AssetRequestContext.get(table.getTableConfiguration().getRequest()).addBundles(bundle);
+	}
+
+	public void addBundleParameter(String assetName, String paramName, Object paramValue) {
+		AssetRequestContext.get(table.getTableConfiguration().getRequest()).addParameter(assetName, paramName,
+				paramValue);
+	}
+
+	/**
+	 * <p>
+	 * Adds a {@link Callback} to the DataTables generated configuration.
+	 * 
+	 * <p>
+	 * By default, if the {@link CallbackType} already exists in the
+	 * configuration, the code will be appended to the existing code.
+	 * 
+	 * @param callbackType
+	 *            The type of the callback.
+	 * @param javascript
+	 *            The Javascript code to execute in the callback.
+	 */
+	public void addCallback(CallbackType callbackType, String javascript) {
+		addParameter(new Parameter(callbackType.getName(), new JavascriptFunction(javascript, callbackType.getArgs()),
+				Mode.APPEND));
+	}
+
+	/**
+	 * <p>
+	 * Adds a {@link Callback} to the DataTables generated configuration,
+	 * specifying a method of updating if the {@link CallbackType} already
+	 * exists in the configuration.
+	 * 
+	 * @param callbackType
+	 *            The type of the callback.
+	 * @param javascript
+	 *            The Javascript code to execute in the callback.
+	 * @param mode
+	 *            Method of updating used for this parameter.
+	 */
+	public void addCallback(CallbackType callbackType, String javascript, Mode mode) {
+		addParameter(new Parameter(callbackType.getName(), new JavascriptFunction(javascript, callbackType.getArgs()),
+				mode));
 	}
 
 	public AbstractConfigurationGenerator getConfigGenerator() {
@@ -129,14 +223,6 @@ public abstract class AbstractExtension implements Extension {
 
 	public void setConfigGenerator(AbstractConfigurationGenerator configGenerator) {
 		this.configGenerator = configGenerator;
-	}
-
-	public Boolean getAppendRandomNumber() {
-		return appendRandomNumber;
-	}
-
-	public void setAppendRandomNumber(Boolean appendRandomNumber) {
-		this.appendRandomNumber = appendRandomNumber;
 	}
 
 	public void appendToBeforeAll(String beforeAll) {
@@ -182,69 +268,56 @@ public abstract class AbstractExtension implements Extension {
 		this.function = function;
 	}
 
+	public Map<String, String> getDynamicAttributes() {
+		return this.table.getDynamicAttributes();
+	}
+
+	public boolean isEnabled(ConfigToken<Boolean> configToken){
+		Boolean result = configToken.valueFrom(table.getTableConfiguration());
+		return result == null || true;
+	}
+	
+	public boolean isNotNull(ConfigToken<?> configToken){
+		Object result = configToken.valueFrom(table.getTableConfiguration());
+		return result != null;
+	}
+	
+	/**
+	 * @return the Dandelion {@link Context}.
+	 */
+	public Context getContext(){
+		Context context = (Context) table.getTableConfiguration().getRequest().getAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE);
+		return context;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((afterAll == null) ? 0 : afterAll.hashCode());
-		result = prime * result + ((afterStartDocumentReady == null) ? 0 : afterStartDocumentReady.hashCode());
-		result = prime * result + ((appendRandomNumber == null) ? 0 : appendRandomNumber.hashCode());
-		result = prime * result + ((beforeAll == null) ? 0 : beforeAll.hashCode());
-		result = prime * result + ((beforeEndDocumentReady == null) ? 0 : beforeEndDocumentReady.hashCode());
-		result = prime * result + ((beforeStartDocumentReady == null) ? 0 : beforeStartDocumentReady.hashCode());
-		result = prime * result + ((configGenerator == null) ? 0 : configGenerator.hashCode());
-		result = prime * result + ((confs == null) ? 0 : confs.hashCode());
-		result = prime * result + ((cssResources == null) ? 0 : cssResources.hashCode());
-		result = prime * result + ((function == null) ? 0 : function.hashCode());
-		result = prime * result + ((jsResources == null) ? 0 : jsResources.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((table == null) ? 0 : table.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		AbstractExtension other = (AbstractExtension) obj;
-		if (afterAll == null) {
-			if (other.afterAll != null) return false;
-		} else if (!afterAll.equals(other.afterAll)) return false;
-		if (afterStartDocumentReady == null) {
-			if (other.afterStartDocumentReady != null) return false;
-		} else if (!afterStartDocumentReady.equals(other.afterStartDocumentReady)) return false;
-		if (appendRandomNumber == null) {
-			if (other.appendRandomNumber != null) return false;
-		} else if (!appendRandomNumber.equals(other.appendRandomNumber)) return false;
-		if (beforeAll == null) {
-			if (other.beforeAll != null) return false;
-		} else if (!beforeAll.equals(other.beforeAll)) return false;
-		if (beforeEndDocumentReady == null) {
-			if (other.beforeEndDocumentReady != null) return false;
-		} else if (!beforeEndDocumentReady.equals(other.beforeEndDocumentReady)) return false;
-		if (beforeStartDocumentReady == null) {
-			if (other.beforeStartDocumentReady != null) return false;
-		} else if (!beforeStartDocumentReady.equals(other.beforeStartDocumentReady)) return false;
-		if (configGenerator == null) {
-			if (other.configGenerator != null) return false;
-		} else if (!configGenerator.equals(other.configGenerator)) return false;
-		if (confs == null) {
-			if (other.confs != null) return false;
-		} else if (!confs.equals(other.confs)) return false;
-		if (cssResources == null) {
-			if (other.cssResources != null) return false;
-		} else if (!cssResources.equals(other.cssResources)) return false;
-		if (function == null) {
-			if (other.function != null) return false;
-		} else if (!function.equals(other.function)) return false;
-		if (jsResources == null) {
-			if (other.jsResources != null) return false;
-		} else if (!jsResources.equals(other.jsResources)) return false;
 		if (name == null) {
-			if (other.name != null) return false;
-		} else if (!name.equals(other.name)) return false;
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (table == null) {
+			if (other.table != null)
+				return false;
+		} else if (!table.equals(other.table))
+			return false;
 		return true;
 	}
-	
-	
 }

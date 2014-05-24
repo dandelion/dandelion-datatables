@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-theme-jqueryui-mintchoc",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
+    "assets": [
+        {
+            "name": "jqueryui-mintchoc-css",
+            "version": "1.9.2",
+            "type": "css",
+            "locations": {
+                "cdn": "//ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/mint-choc/jquery-ui.css"
+            }
+        }
+    ]
+}

@@ -34,18 +34,19 @@ import java.util.Map;
 
 import org.json.simple.JSONValue;
 
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.ResourceType;
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * Java implementation of the DataTables FixedHeader plugin.
  * 
  * @author Thibault Duchateau
- * @see <a href="http://datatables.net/extras/fixedheader/">Reference</a>
+ * @see TableConfig#PLUGIN_FIXEDOFFSETTOP
+ * @see TableConfig#PLUGIN_FIXEDPOSITION
  */
 public class FixedHeaderPlugin extends AbstractExtension {
 
@@ -57,24 +58,17 @@ public class FixedHeaderPlugin extends AbstractExtension {
 		return "FixedHeader";
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void setup(HtmlTable table) {
 
-		Map<String, Object> specificConfObj = getSpecificCongiguration(table);
-		String specificConfStr = null;
-		if (!specificConfObj.isEmpty()) {
-			specificConfStr = JSONValue.toJSONString(specificConfObj);
-			appendToBeforeEndDocumentReady("new FixedHeader(oTable_" + table.getId() + ","
-					+ specificConfStr + ");");
-		} else {
-			appendToBeforeEndDocumentReady("new FixedHeader(oTable_" + table.getId() + ");");
-		}
+		addBundle(DatatableBundles.DDL_DT_PLUGIN_FIXEDHEADER);
 
-		addJsResource(new JsResource(ResourceType.PLUGIN, "FixedHeader", "datatables/plugins/fixedheader/fixedheader.min.js"));
+		Map<String, Object> specificConfObj = getSpecificCongiguration(table);
+		String specificConfStr = JSONValue.toJSONString(specificConfObj);
+		appendToBeforeEndDocumentReady("new FixedHeader(oTable_" + table.getId() + "," + specificConfStr + ");");
 	}
 
 	/**
@@ -89,24 +83,27 @@ public class FixedHeaderPlugin extends AbstractExtension {
 	private Map<String, Object> getSpecificCongiguration(HtmlTable table) {
 		Map<String, Object> conf = new HashMap<String, Object>();
 
+		String fixedPosition = TableConfig.PLUGIN_FIXEDPOSITION.valueFrom(table);
+		Integer fixedOffset = TableConfig.PLUGIN_FIXEDOFFSETTOP.valueFrom(table);
+		
 		// fixedPosition attribute (default "top")
-		if (StringUtils.isNotBlank(table.getTableConfiguration().getPluginFixedPosition())) {
-			if (table.getTableConfiguration().getPluginFixedPosition().equals("bottom")) {
+		if (StringUtils.isNotBlank(fixedPosition)) {
+			if (fixedPosition.toLowerCase().equals("bottom")) {
 				conf.put("bottom", true);
-			} else if (table.getTableConfiguration().getPluginFixedPosition().equals("right")) {
+			} else if (fixedPosition.toLowerCase().equals("right")) {
 				conf.put("right", true);
-			} else if (table.getTableConfiguration().getPluginFixedPosition().equals("left")) {
+			} else if (fixedPosition.toLowerCase().equals("left")) {
 				conf.put("left", true);
 			} else {
-				appendToBeforeEndDocumentReady("new FixedHeader(oTable_" + table.getId() + ");");
+				conf.put("top", true);
 			}
 		} else {
 			conf.put("top", true);
 		}
 
 		// offsetTop attribute
-		if (table.getTableConfiguration().getPluginFixedOffsetTop() != null) {
-			conf.put(DTConstants.DT_OFFSETTOP, table.getTableConfiguration().getPluginFixedOffsetTop());
+		if (fixedOffset != null) {
+			conf.put(DTConstants.DT_OFFSETTOP, fixedOffset);
 		}
 
 		return conf;

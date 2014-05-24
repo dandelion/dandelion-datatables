@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,19 +30,32 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import org.junit.runner.RunWith;
+import static org.fest.assertions.Assertions.assertThat;
 
-import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.basics.VisibleBaseIT;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
+import org.junit.Test;
+
+import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 
 /**
  * Test the visibility feature on columns.
  *
  * @author Thibault Duchateau
  */
-@RunWith(ThymeleafContextRunner.class)
-@ThymeleafTest
-public class VisibleIT extends VisibleBaseIT {
+public class VisibleIT extends ThymeleafBaseIT {
 
+	@Test
+	public void should_hide_the_last_column_using_dom() {
+		goToPage("basics/visible_dom");
+		
+		assertThat(getTable().find("thead").find("th")).hasSize(4);
+		assertThat(getTable().find("tbody").findFirst("tr").find("td")).hasSize(4);
+	}
+	
+	@Test
+	public void should_hide_the_last_column_using_ajax() {
+		goToPage("basics/visible_ajax");
+		
+		assertThat(getTable().find("thead").find("th")).hasSize(4);
+		assertThat(getTable().find("tbody").findFirst("tr").find("td")).hasSize(4);
+	}
 }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,42 +33,37 @@ package com.github.dandelion.datatables.integration.advanced;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Test the RowId feature.
  *
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class RowIdIT extends BaseIT {
+public class RowIdIT extends JspBaseIT {
 
 	@Test
-	public void should_generate_rowid_with_only_base() throws Exception {
-		goToPage("advanced/row_id_only_base");
+	public void should_generate_rowid_with_only_base() {
+		goToPage("advanced/row-id/row_id_only_base");
 		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("1");
 	}
 	
 	@Test
-	public void should_generate_rowid_with_prefix() throws Exception {
-		goToPage("advanced/row_id_with_prefix");
+	public void should_generate_rowid_with_prefix() {
+		goToPage("advanced/row-id/row_id_with_prefix");
 		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("id_1");
 	}
 	
 	@Test
-	public void should_generate_rowid_with_sufix() throws Exception {
-		goToPage("advanced/row_id_with_sufix");
+	public void should_generate_rowid_with_suffix() {
+		goToPage("advanced/row-id/row_id_with_suffix");
 		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("1_id");
 	}
 	
 	@Test
-	public void should_generate_rowid_with_prefix_and_sufix() throws Exception {
-		goToPage("advanced/row_id_with_prefix_and_sufix");
+	public void should_generate_rowid_with_prefix_and_suffix() {
+		goToPage("advanced/row-id/row_id_with_prefix_and_suffix");
 		assertThat(getTable().find("tbody").findFirst("tr").getId()).isEqualTo("id_1_di");
 	}
 }

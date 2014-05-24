@@ -94,7 +94,5 @@ public class DatatablesCriteriasMethodArgumentResolver implements HandlerMethodA
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
 		return DatatablesCriterias.getFromRequest(request);
-
 	}
-
 }

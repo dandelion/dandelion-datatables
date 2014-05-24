@@ -1,8 +1,37 @@
+/*
+ * [The "BSD licence"]
+ * Copyright (c) 2013-2014 Dandelion
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of Dandelion nor the names of its contributors 
+ * may be used to endorse or promote products derived from this software 
+ * without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package com.github.dandelion.datatables.thymeleaf.processor.el;
 
-import java.io.IOException;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,94 +41,84 @@ import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
-import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.aggregator.ResourceAggregator;
-import com.github.dandelion.datatables.core.asset.CssResource;
+import com.github.dandelion.core.asset.locator.impl.DelegateLocator;
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.web.AssetRequestContext;
+import com.github.dandelion.datatables.core.asset.ExtraJs;
 import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.ResourceType;
-import com.github.dandelion.datatables.core.asset.WebResources;
-import com.github.dandelion.datatables.core.cache.AssetCache;
-import com.github.dandelion.datatables.core.compressor.ResourceCompressor;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.constants.ExportConstants;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.exception.CompressionException;
-import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
-import com.github.dandelion.datatables.core.exception.DataNotFoundException;
-import com.github.dandelion.datatables.core.exception.ExportException;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
+import com.github.dandelion.datatables.core.callback.Callback;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
+import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
-import com.github.dandelion.datatables.core.export.ExportProperties;
-import com.github.dandelion.datatables.core.export.ExportType;
+import com.github.dandelion.datatables.core.export.ExportUtils;
+import com.github.dandelion.datatables.core.extension.feature.ExtraHtmlFeature;
+import com.github.dandelion.datatables.core.extension.feature.ExtraJsFeature;
 import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
+import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
+import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.DandelionUtils;
-import com.github.dandelion.datatables.core.util.RequestHelper;
-import com.github.dandelion.datatables.core.util.StringUtils;
+import com.github.dandelion.datatables.core.html.HtmlTag;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractDatatablesElProcessor;
-import com.github.dandelion.datatables.thymeleaf.util.DomUtils;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.config.ConfType;
+import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
 
 /**
  * <p>
- * Element processor applied to the internal HTML <code>div</code> tag.
- * <p>
- * The <code>div</code> is added by the TableInitializerProcessor after the
- * <code>table</code> in order to be processed after all the "table" processors.
+ * Element processor applied to the HTML {@code div} tag in order to finalize
+ * the configuration.
  * 
  * @author Thibault Duchateau
+ * @see {@link TableInitializerElProcessor#processMarkup}
  */
-public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
+public class TableFinalizerElProcessor extends AbstractElProcessor {
 
-	// Logger
 	private static Logger logger = LoggerFactory.getLogger(TableFinalizerElProcessor.class);
-
-	private HtmlTable htmlTable;
 
 	public TableFinalizerElProcessor(IElementNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getPrecedence() {
 		return 50000;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element, HtmlTable table) {
+	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
+			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable) {
 
-		// Get the HTTP request
-		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-
-        this.htmlTable = table;
-
-		if (this.htmlTable != null) {
+		if (htmlTable != null) {
 
 			@SuppressWarnings("unchecked")
-			Map<Configuration, Object> localConf = (Map<Configuration, Object>) request.getAttribute(DataTablesDialect.INTERNAL_TABLE_LOCAL_CONF);
+			Map<ConfigToken<?>, Object> stagingConf = (Map<ConfigToken<?>, Object>) RequestUtils.getFromRequest(
+					DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF, request);
 			
-			try {
-				Configuration.applyConfiguration(htmlTable.getTableConfiguration(), localConf);
-			} catch (ConfigurationLoadingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			applyLocalConfiguration(arguments, request, htmlTable, stagingConf);
+			
+			TableConfig.applyConfiguration(stagingConf, htmlTable);
+			TableConfig.processConfiguration(htmlTable);
 
-			applyCssConfiguration(arguments);
-			
-			applyExportConfiguration(arguments);
-			
 			// The table is being exported
-			if (RequestHelper.isTableBeingExported(request, this.htmlTable)) {
-				setupExport(arguments);
+			if (ExportUtils.isTableBeingExported(request, htmlTable)) {
+				setupExport(arguments, htmlTable);
 			}
-			// The table must be generated and displayed
+			// The table must be displayed
 			else {
-				setupHtmlGeneration(arguments, element, request);
+				setupHtml(arguments, request, htmlTable);
 			}
 		}
 
@@ -109,203 +128,184 @@ public class TableFinalizerElProcessor extends AbstractDatatablesElProcessor {
 		return ProcessorResult.OK;
 	}
 
+	/**
+	 * <p>
+	 * Applies the local configuration (coming from the {@code div} marked with
+	 * {@code dt:conf}) to the current table.
+	 * 
+	 * @param arguments
+	 *            The Thymeleaf arguments.
+	 * @param request
+	 *            The current {@link HttpServletRequest}.
+	 * @param htmlTable
+	 *            The {@link HtmlTable} which the local configuration will apply
+	 *            on.
+	 * @param stagingConf
+	 *            The staging configuration to applied on the current
+	 *            {@code HtmlTable} instance.
+	 */
 	@SuppressWarnings("unchecked")
-	private void applyExportConfiguration(Arguments arguments) {
-		// Get the HTTP request
-		HttpServletRequest request = ((IWebContext) arguments.getContext())
-				.getHttpServletRequest();
-
-		if (htmlTable.getTableConfiguration().getExportConfs() != null
-				&& !htmlTable.getTableConfiguration().getExportConfs().isEmpty()) {
-
-			htmlTable.getTableConfiguration().getExportConfs().clear();
-
-			Map<ExportType, ExportConf> exportConfMap = (Map<ExportType, ExportConf>) request
-					.getAttribute(DataTablesDialect.INTERNAL_EXPORT_CONF_MAP);
-
-			for (Entry<ExportType, ExportConf> entry : exportConfMap.entrySet()) {
-				htmlTable.getTableConfiguration().getExportConfs()
-						.add(entry.getValue());
-			}
-		}
-	}
-	
-	private void applyCssConfiguration(Arguments arguments){
+	private void applyLocalConfiguration(Arguments arguments, HttpServletRequest request, HtmlTable htmlTable, Map<ConfigToken<?>, Object> stagingConf) {
 		
-		// CSS class
-		if(htmlTable.getTableConfiguration().getCssClass() != null){
-			Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(
-					DataTablesDialect.INTERNAL_TABLE_NODE);
-			
-			String cssClass = ((Element) tableNode).getAttributeValue("class");
-			if(StringUtils.isNotBlank(cssClass)){
-				cssClass += " " + htmlTable.getTableConfiguration().getCssClass();
-				((Element) tableNode).setAttribute("class", cssClass);
+		Map<String, Map<ConfType, Object>> configs = (Map<String, Map<ConfType, Object>>) RequestUtils.getFromRequest(
+				DataTablesDialect.INTERNAL_BEAN_CONFIGS, request);
+		
+		if(configs != null){
+			if(configs.containsKey(htmlTable.getId())){
+				
+				// Export
+				Map<String, ExportConf> overloadedExportConf = (Map<String, ExportConf>)configs.get(htmlTable.getId()).get(ConfType.EXPORT);
+				if(overloadedExportConf != null && !overloadedExportConf.isEmpty()){
+					htmlTable.getTableConfiguration().getExportConfiguration().putAll(overloadedExportConf);
+				}
+				
+				// Callbacks
+				List<Callback> callbacks = (List<Callback>) configs.get(htmlTable.getId()).get(ConfType.CALLBACK);
+				if(callbacks != null && !callbacks.isEmpty()){
+					htmlTable.getTableConfiguration().setCallbacks(callbacks);
+				}
+				
+				// ExtraJs
+				Set<ExtraJs> extraJs = (Set<ExtraJs>) configs.get(htmlTable.getId()).get(ConfType.EXTRAJS);
+				if(extraJs != null && !extraJs.isEmpty()){
+					htmlTable.getTableConfiguration().setExtraJs(extraJs);
+					htmlTable.getTableConfiguration().registerExtension(new ExtraJsFeature());
+				}
+				
+				// ExtraHtml
+				List<ExtraHtml> extraHtmls = (List<ExtraHtml>) configs.get(htmlTable.getId()).get(ConfType.EXTRAHTML);
+				if(extraHtmls != null && !extraHtmls.isEmpty()){
+					htmlTable.getTableConfiguration().setExtraHtmlSnippets(extraHtmls);
+					htmlTable.getTableConfiguration().registerExtension(new ExtraHtmlFeature());
+				}
+				
+				// Configuration properties
+				Map<ConfigToken<?>, Object> localConf = (Map<ConfigToken<?>, Object>) configs.get(htmlTable.getId()).get(ConfType.PROPERTY);
+				if(localConf != null && !localConf.isEmpty()){
+					stagingConf.putAll(localConf);
+				}
 			}
 			else{
-				((Element) tableNode).setAttribute("class", htmlTable.getTableConfiguration().getCssClass().toString());
+				logger.warn("No configuration was found for the table with id '{}'", htmlTable.getId());
 			}
+		}
+		else{
+			logger.debug("No configuration to apply, i.e. no '" + DataTablesDialect.DIALECT_PREFIX
+					+ ":conf' has been found in the current template.");
 		}
 		
-		// CSS style
-		if(htmlTable.getTableConfiguration().getCssStyle() != null){
-			Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(
-					DataTablesDialect.INTERNAL_TABLE_NODE);
-			
-			String cssStyle = ((Element) tableNode).getAttributeValue("style");
-			if(StringUtils.isNotBlank(cssStyle)){
-				cssStyle += ";" + htmlTable.getTableConfiguration().getCssStyle();
-				((Element) tableNode).setAttribute("style", cssStyle);
-			}
-			else{
-				((Element) tableNode).setAttribute("style", htmlTable.getTableConfiguration().getCssStyle().toString());
-			}
+		Element configNode = (Element) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_NODE_CONFIG, request);
+		if(configNode != null){
+			configNode.getParent().removeChild(configNode);
 		}
 	}
-	
 
 	/**
-	 * Set up the export properties, before the filter intercepts the response.
+	 * <p>
+	 * Applies the CSS configuration (coming from {@link TableConfig} and
+	 * {@link ColumnConfig} to the current table.
+	 * 
+	 * @param arguments
+	 *            The Thymeleaf arguments.
+	 * @param request
+	 *            The current {@link HttpServletRequest}.
+	 * @param htmlTable
+	 *            The {@link HtmlTable} which the CSS configuration will apply
+	 *            on.
 	 */
-	private void setupExport(Arguments arguments) {
-		logger.debug("Setting export up ...");
+	private void applyCssConfiguration(Arguments arguments, HttpServletRequest request, HtmlTable htmlTable) {
+
+		Element tableElement = (Element) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_NODE_TABLE, request);
+
+		// CSS class
+		StringBuilder configuredCssClass = TableConfig.CSS_CLASS.valueFrom(htmlTable.getTableConfiguration());
+		if (configuredCssClass != null) {
+
+			String currentCssClass = tableElement.getAttributeValue("class");
+			if (StringUtils.isNotBlank(currentCssClass)) {
+				currentCssClass += HtmlTag.CLASS_SEPARATOR + configuredCssClass.toString();
+			}
+			else {
+				currentCssClass = configuredCssClass.toString();
+			}
+			tableElement.setAttribute("class", currentCssClass);
+		}
+
+		// CSS style
+		StringBuilder configuredCssStyle = TableConfig.CSS_STYLE.valueFrom(htmlTable.getTableConfiguration());
+		if (configuredCssStyle != null) {
+
+			String currentCssStyle = tableElement.getAttributeValue("style");
+			if (StringUtils.isNotBlank(currentCssStyle)) {
+				currentCssStyle += HtmlTag.STYLE_SEPARATOR + configuredCssStyle.toString();
+			}
+			else {
+				currentCssStyle = configuredCssStyle.toString();
+			}
+			tableElement.setAttribute("style", currentCssStyle);
+		}
+	}
+	
+	/**
+	 * Sets up the export properties, before the filter intercepts the response.
+	 * 
+	 * @param arguments
+	 *            The Thymeleaf arguments.
+	 * @param htmlTable
+	 *            The {@link HtmlTable} to export.
+	 */
+	private void setupExport(Arguments arguments, HtmlTable htmlTable) {
 
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-		HttpServletResponse response = ((IWebContext) arguments.getContext())
-				.getHttpServletResponse();
+		HttpServletResponse response = ((IWebContext) arguments.getContext()).getHttpServletResponse();
 
-		// Init the export properties
-		ExportProperties exportProperties = new ExportProperties();
+		String currentExportType = ExportUtils.getCurrentExportType(request);
 
-		ExportType currentExportType = getCurrentExportType(request);
+		htmlTable.getTableConfiguration().setExporting(true);
+		htmlTable.getTableConfiguration().setCurrentExportFormat(currentExportType);
 
-		exportProperties.setCurrentExportType(currentExportType);
-		exportProperties.setExportConf(this.htmlTable.getTableConfiguration().getExportConf(currentExportType));
-
-		this.htmlTable.getTableConfiguration().setExportProperties(exportProperties);
-		this.htmlTable.getTableConfiguration().setExporting(true);
-
-		try {
-			// Call the export delegate
-			ExportDelegate exportDelegate = new ExportDelegate(this.htmlTable, exportProperties,
-					request);
-			exportDelegate.launchExport();
-
-		} catch (ExportException e) {
-			logger.error("Something went wront with the Dandelion-datatables export configuration.");
-			e.printStackTrace();
-		} catch (BadConfigurationException e) {
-			logger.error("Something went wront with the Dandelion-datatables configuration.");
-			e.printStackTrace();
-		}
+		// Call the export delegate
+		ExportDelegate exportDelegate = new ExportDelegate(htmlTable, request);
+		exportDelegate.prepareExport();
 
 		response.reset();
 	}
 
 	/**
-	 * Set up the HTML table generation.
-	 */
-	private void setupHtmlGeneration(Arguments arguments, Element element, HttpServletRequest request) {
-		WebResources webResources = null;
-		
-		this.htmlTable.getTableConfiguration().setExporting(false);
-
-		try {
-
-			// First we check if the DataTables configuration already exist in the cache
-			String keyToTest = RequestHelper.getCurrentURIWithParameters(request) + "|" + htmlTable.getId();
-
-			if(DandelionUtils.isDevModeEnabled() || !AssetCache.cache.containsKey(keyToTest)){
-				logger.debug("No asset for the key {}. Generating...", keyToTest);
-				
-				// Init the web resources generator
-				WebResourceGenerator contentGenerator = new WebResourceGenerator(htmlTable);
-	
-				// Generate the web resources (JS, CSS) and wrap them into a
-				// WebResources POJO
-				webResources = contentGenerator.generateWebResources();
-				logger.debug("Web content generated successfully");
-				
-				AssetCache.cache.put(keyToTest, webResources);
-				logger.debug("Cache updated with new web resources");
-			}
-			else{
-				logger.debug("Asset(s) already exist, retrieving content from cache...");
-
-				webResources = (WebResources) AssetCache.cache.get(keyToTest);
-			}
-						
-			// Aggregation
-			if (htmlTable.getTableConfiguration().getMainAggregatorEnable()) {
-				logger.debug("Aggregation enabled");
-				ResourceAggregator.processAggregation(webResources, htmlTable);
-			}
-
-			// Compression
-			if (htmlTable.getTableConfiguration().getMainCompressorEnable()) {
-				logger.debug("Compression enabled");
-				ResourceCompressor.processCompression(webResources, htmlTable);
-			}
-
-			Element rootElement = arguments.getDocument().getFirstElementChild();
-			Element head = DomUtils.findElement(rootElement, "head");
-			Element body = DomUtils.findElement(rootElement, "body");
-			
-			// <link> HTML tag generation
-			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
-				if(entry.getValue().getType().equals(ResourceType.EXTERNAL)){
-					DomUtils.insertLinkTag(entry.getValue().getLocation(), head);
-				}
-				else{
-					DomUtils.insertLinkTag(RequestHelper.getAssetSource(entry.getKey(), htmlTable, request, false), head);
-				}
-			}
-			if (htmlTable.getTableConfiguration().getMainCdn() != null && htmlTable.getTableConfiguration().getMainCdn()) {
-				DomUtils.insertLinkTag(htmlTable.getTableConfiguration().getMainCdnCss(), head);
-			}
-
-			// <script> HTML tag generation
-			if (htmlTable.getTableConfiguration().getMainCdn() != null && htmlTable.getTableConfiguration().getMainCdn()) {
-				DomUtils.insertScriptTag(htmlTable.getTableConfiguration().getMainCdnJs(), body);
-			}
-			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
-				String src = RequestHelper.getAssetSource(entry.getKey(), htmlTable, request, false);
-				DomUtils.insertScriptTag(src, body);
-			}
-			String src = RequestHelper.getAssetSource(webResources.getMainJsFile().getName(), htmlTable, request, true);
-			DomUtils.insertScriptTag(src, body);
-
-			logger.debug("Web content generated successfully");
-		} catch (CompressionException e) {
-			logger.error("Something went wront with the compressor.");
-			throw new RuntimeException(e);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		} catch (BadConfigurationException e) {
-			logger.error("Something went wront with the Dandelion-datatables configuration.");
-			throw new RuntimeException(e);
-		} catch (DataNotFoundException e) {
-			logger.error("Something went wront with the data provider.");
-			throw new RuntimeException(e);
-		} catch (ExtensionLoadingException e) {
-			logger.error("Something went wront with the extension loading.");
-			throw new RuntimeException(e);
-		}
-	}
-
-	/**
-	 * Return the current export type asked by the user on export link click.
+	 * <p>
+	 * Sets up the required configuration to display the table.
 	 * 
-	 * @return An enum corresponding to the type of export.
+	 * @param arguments
+	 *            The Thymeleaf arguments.
+	 * @param request
+	 *            The current request.
+	 * @param htmlTable
+	 *            The {@link HtmlTable} which HTML and assets must be generated
+	 *            from.
 	 */
-	private ExportType getCurrentExportType(HttpServletRequest request) {
+	private void setupHtml(Arguments arguments, HttpServletRequest request, HtmlTable htmlTable) {
+		
+		htmlTable.getTableConfiguration().setExporting(false);
 
-		// Get the URL parameter used to identify the export type
-		String exportTypeString = request.getParameter(
-                ExportConstants.DDL_DT_REQUESTPARAM_EXPORT_TYPE);
+		// Init the web resources generator
+		WebResourceGenerator contentGenerator = new WebResourceGenerator(htmlTable);
 
-		// Convert it to the corresponding enum
+		// Generate the web resources (JS, CSS) and wrap them into a
+		// WebResources POJO
+		JsResource jsResource = contentGenerator.generateWebResources();
+		logger.debug("Web content generated successfully");
 
-        return ExportType.findByUrlParameter(Integer.parseInt(exportTypeString));
+		applyCssConfiguration(arguments, request, htmlTable);
+		
+		// Asset stack update
+		AssetRequestContext.get(request)
+			.addBundles(DatatableBundles.DATATABLES)
+			.addBundles(DatatableBundles.DDL_DT.getBundleName())
+			.addParameter("dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM,
+						DatatablesConfigurator.getJavascriptGenerator(), false);
+		
+		// Buffering generated Javascript
+		JavascriptGenerator javascriptGenerator = AssetRequestContext.get(request).getParameterValue("dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM);
+		javascriptGenerator.addResource(jsResource);
 	}
 }

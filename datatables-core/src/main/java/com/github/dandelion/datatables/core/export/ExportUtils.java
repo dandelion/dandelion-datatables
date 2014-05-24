@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -33,8 +33,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.github.dandelion.core.utils.ClassUtils;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -44,8 +47,37 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class ExportUtils {
+public final class ExportUtils {
 
+	/** Request attributes */
+
+	// Export properties
+	public static final String DDL_DT_REQUESTATTR_EXPORT_CONF = "ddl-dt-export-conf";
+
+	// Export content
+	public static final String DDL_DT_REQUESTATTR_EXPORT_CONTENT = "ddl-dt-export-content";
+
+	/** Request parameters */
+
+	// Table is being exported
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS = "dtp";
+	
+	// Export type (filter vs controller)
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_TYPE = "dtt";
+	
+	// Table id
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_ID = "dti";
+		
+	// Type of current export
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_FORMAT = "dtf";
+	
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_ORIENTATION = "dto";
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_HEADER = "dth";
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_MIME_TYPE = "dtmt";
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_EXTENSION = "dte";
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_NAME = "dtn";
+	public static final String DDL_DT_REQUESTPARAM_EXPORT_AUTOSIZE = "dts";
+	
 	/**
 	 * Renders the passed table by writing the data to the response.
 	 * 
@@ -55,27 +87,37 @@ public class ExportUtils {
 	 *            The export configuration (e.g. the export class to use).
 	 * @param response
 	 *            The response to update.
-	 * @throws ExportException
-	 *             if something goes wrong during the use of the export class or
-	 *             during the response update.
 	 */
-	public static void renderExport(HtmlTable table, ExportConf exportConf, HttpServletResponse response)
-			throws ExportException {
+	public static void renderExport(HtmlTable table, ExportConf exportConf, HttpServletResponse response) {
 
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		DatatablesExport exportClass = exportConf.getExportClass();
+		String exportClass = exportConf.getExportClass();
 
-		exportClass.initExport(table);
-
-		try {
-			exportClass.processExport(stream);
-		} catch (ExportException e) {
-			throw e;
+		// Check whether the class can be instantiated
+		if (!ClassUtils.isPresent(exportClass)) {
+			throw new ExportException("Unable to export in " + exportConf.getFormat()
+					+ " format because the export class cannot be found. Did you forget to add an extra dependency?");
 		}
 
+		Class<?> klass = null;
+		DatatablesExport export = null;
 		try {
-			writeToResponse(response, stream, exportConf.getFileName() + "." + exportConf.getType().getExtension(),
-					exportConf.getType().getMimeType());
+			klass = ClassUtils.getClass(exportClass);
+			export = (DatatablesExport) ClassUtils.getNewInstance(klass);
+		} catch (ClassNotFoundException e) {
+			throw new ExportException("Unable to load the class '" + exportClass + "'", e);
+		} catch (InstantiationException e) {
+			throw new ExportException("Unable to instanciate the class '" + exportClass + "'", e);
+		} catch (IllegalAccessException e) {
+			throw new ExportException("Unable to access the class '" + exportClass + "'", e);
+		}
+		
+		export.initExport(table);
+		export.processExport(stream);
+				
+		try {
+			writeToResponse(response, stream, exportConf.getFileName() + "." + exportConf.getFileExtension(),
+					exportConf.getMimeType());
 		} catch (IOException e) {
 			throw new ExportException(
 					"Unable to write to response using the " + exportClass.getClass().getSimpleName(), e);
@@ -106,5 +148,37 @@ public class ExportUtils {
 		ServletOutputStream out = response.getOutputStream();
 		baos.writeTo(out);
 		out.flush();
+	}
+	
+	
+	public static String getCurrentExportType(HttpServletRequest request) {
+
+		// Get the URL parameter used to identify the export type
+		String exportTypeString = request.getParameter(DDL_DT_REQUESTPARAM_EXPORT_FORMAT).toString();
+
+		return exportTypeString;
+	}
+	
+	/**
+	 * <p>
+	 * Check whether the table if being exported using the request
+	 * {@link ExportConstants#DDL_DT_REQUESTPARAM_EXPORT_ID} attribute.
+	 * 
+	 * <p>
+	 * The table's id must be tested in case of multiple tables are displayed on
+	 * the same page and exportable.
+	 * 
+	 * @return true if the table is being exported, false otherwise.
+	 */
+	public static Boolean isTableBeingExported(ServletRequest servletRequest, HtmlTable table) {
+		HttpServletRequest request = (HttpServletRequest) servletRequest;
+		Object exportInProgress = request.getAttribute(DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS);
+		return exportInProgress != null && exportInProgress.equals("true") ? true : false;
+	}
+	
+	/**
+	 * Prevent instantiation.
+	 */
+	private ExportUtils() {
 	}
 }

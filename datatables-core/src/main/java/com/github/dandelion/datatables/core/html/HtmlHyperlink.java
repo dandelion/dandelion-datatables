@@ -29,7 +29,8 @@
  */
 package com.github.dandelion.datatables.core.html;
 
-import com.github.dandelion.datatables.core.util.StringUtils;
+import com.github.dandelion.core.utils.StringUtils;
+
 
 
 /**

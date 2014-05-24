@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-sorting-currency",
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "sorting-currency",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "jar": "dandelion/datatables/sorting/currency.js"
+            }
+        }
+    ]
+}

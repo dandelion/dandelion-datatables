@@ -1,13 +1,13 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:dt="http://www.thymeleaf.org/dandelion/datatables">
 <head>
-<link href="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" rel="stylesheet" />
-<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js"></script>
-<script src="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"></script>
 </head>
 <body>
+   <div dt:conf="myTableId">
+      <div dt:confType="export" dt:type="csv" dt:url="@{/context/customCsvUrl}"></div>
+   </div>
    <table id="myTableId" dt:table="true" dt:export="csv">
-      <thead dt:csv:url="@{/context/customCsvUrl}">
+      <thead>
          <tr>
             <th>Id</th>
             <th>Firstname</th>
@@ -16,7 +16,7 @@
             <th>Mail</th>
          </tr>
       </thead>
-      <tbody th:remove="all-but-first">
+      <tbody>
          <tr th:each="person : ${persons}">
             <td th:text="${person.id}">1</td>
             <td th:text="${person.firstName}">John</td>

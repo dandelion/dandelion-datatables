@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-paging-fourbutton",
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "paging-fourbutton",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "jar": "dandelion/datatables/paging/four_button.js"
+            }
+        }
+    ]
+}

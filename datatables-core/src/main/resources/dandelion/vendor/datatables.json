@@ -1,0 +1,22 @@
+{
+    "bundle" : "datatables",
+    "dependencies": [ "jquery" ],
+    "assets": [
+        {
+            "name": "datatables",
+            "version": "1.9.4",
+            "type": "js",
+            "locations": {
+                "cdn": "//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"
+            }
+        },
+        {
+            "name": "datatables",
+            "version": "1.9.4",
+            "type": "css",
+            "locations": {
+                "cdn": "//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css"
+            }
+        }
+    ]
+}

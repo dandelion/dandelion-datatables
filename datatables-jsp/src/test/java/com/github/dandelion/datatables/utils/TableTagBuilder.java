@@ -64,12 +64,12 @@ public class TableTagBuilder {
 	}
 	
 	public TableTagBuilder paginate(Boolean paginate){
-		tableTag.setPaginate(paginate);
+		tableTag.setPageable(paginate);
 		return this;
 	}
 	
 	public TableTagBuilder filter(Boolean filter){
-		tableTag.setFilter(filter);
+		tableTag.setFilterable(filter);
 		return this;
 	}
 	
@@ -79,7 +79,7 @@ public class TableTagBuilder {
 	}
 	
 	public TableTagBuilder sort(Boolean sort){
-		tableTag.setSort(sort);
+		tableTag.setSortable(sort);
 		return this;
 	}
 	

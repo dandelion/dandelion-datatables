@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,33 +33,27 @@ package com.github.dandelion.datatables.integration.basics;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.Constants;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
+import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 
 /**
  * Test the pagination options.
  *
  * @author Gautier Dhordain
  */
-@RunWith(ThymeleafContextRunner.class)
-@ThymeleafTest
-public class LengthChangeIT extends BaseIT {
+public class LengthChangeIT extends ThymeleafBaseIT {
 
 	@Test
-	public void should_disable_length_change() throws Exception {
+	public void should_disable_length_change() {
         goToPage("basics/disable_length_change");
 
-		assertThat(find("#" + Constants.TABLE_ID + "_length")).hasSize(0);
+		assertThat(find("#" + TABLE_ID + "_length")).hasSize(0);
 	}
 
 	@Test
-	public void should_enable_length_change() throws Exception {
+	public void should_enable_length_change() {
         goToPage("basics/enable_length_change");
 
-		assertThat(find("#" + Constants.TABLE_ID + "_length")).hasSize(1);
+		assertThat(find("#" + TABLE_ID + "_length")).hasSize(1);
 	}
 }

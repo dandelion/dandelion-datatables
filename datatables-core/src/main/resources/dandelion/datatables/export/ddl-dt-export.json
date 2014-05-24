@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-export",
+    "dependencies": [ "jquery" ],
+    "assets": [
+        {
+            "name": "download",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "jar": "dandelion/datatables/export/download.js"
+            }
+        }
+    ]
+}

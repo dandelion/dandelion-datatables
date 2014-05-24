@@ -29,15 +29,16 @@
  */
 package com.github.dandelion.datatables.core.ajax;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * <p>
@@ -48,8 +49,10 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  * @author Thibault Duchateau
  * @since 0.8.2
  */
-public class DatatablesCriterias {
+public class DatatablesCriterias implements Serializable {
 
+	private static final long serialVersionUID = 8661357461501153387L;
+	
 	private String search;
 	private Integer displayStart;
 	private Integer displaySize;
@@ -111,7 +114,8 @@ public class DatatablesCriterias {
 	 */
 	public Boolean hasOneFilteredColumn() {
 		for (ColumnDef columnDef : this.columnDefs) {
-			if (StringUtils.isNotBlank(columnDef.getSearch())) {
+			if (StringUtils.isNotBlank(columnDef.getSearch()) || StringUtils.isNotBlank(columnDef.getSearchFrom())
+					|| StringUtils.isNotBlank(columnDef.getSearchTo())) {
 				return true;
 			}
 		}
@@ -160,7 +164,27 @@ public class DatatablesCriterias {
 				columnDef.setName(request.getParameter(DTConstants.DT_M_DATA_PROP + i));
 				columnDef.setFilterable(Boolean.parseBoolean(request.getParameter(DTConstants.DT_B_SEARCHABLE + i)));
 				columnDef.setSortable(Boolean.parseBoolean(request.getParameter(DTConstants.DT_B_SORTABLE + i)));
-				columnDef.setSearch(request.getParameter(DTConstants.DT_S_COLUMN_SEARCH + i));
+				
+				String columnSearch = request.getParameter(DTConstants.DT_S_COLUMN_SEARCH + i);
+				if(StringUtils.isNotBlank(columnSearch)) {
+					String[] splittedSearch = columnSearch.split("~");
+					if("~".equals(columnSearch)) {
+						columnDef.setSearch("");
+					}
+					else if(columnSearch.startsWith("~")) {
+						columnDef.setSearchTo(splittedSearch[1]);
+					}
+					else if(columnSearch.endsWith("~")) {
+						columnDef.setSearchFrom(splittedSearch[0]);
+					}
+					else if(columnSearch.contains("~")){
+						columnDef.setSearchFrom(splittedSearch[0]);
+						columnDef.setSearchTo(splittedSearch[1]);
+					}
+					else{
+						columnDef.setSearch(columnSearch);
+					}
+				}
 				
 				columnDefs.add(columnDef);
 			}

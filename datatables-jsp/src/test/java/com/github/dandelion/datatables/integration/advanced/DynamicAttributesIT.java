@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,12 +32,8 @@ package com.github.dandelion.datatables.integration.advanced;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.Constants;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Test the dynamic attributes.
@@ -45,9 +41,7 @@ import com.github.dandelion.datatables.testing.utils.JspTest;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class DynamicAttributesIT extends BaseIT {
+public class DynamicAttributesIT extends JspBaseIT {
 
 	@Test
 	public void should_accept_allowed_dynamic_attributes(){
@@ -61,19 +55,19 @@ public class DynamicAttributesIT extends BaseIT {
 	public void should_not_accept_class_as_a_dynamic_attribute(){
 		goToPage("advanced/dynamic_disallowed_class_attribute");
 		
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper")).hasSize(0);
+		assertThat(find("#" + TABLE_ID + "_wrapper")).hasSize(0);
 		assertThat(driver.getPageSource())
 				.contains(
-						"java.lang.IllegalArgumentException: The 'class' attribute is not allowed. Please use the 'cssClass' instead.");
+						"java.lang.IllegalArgumentException: The 'class' attribute is not allowed. Please use the 'cssClass' attribute instead.");
 	}
 	
 	@Test
 	public void should_not_accept_style_as_a_dynamic_attribute(){
 		goToPage("advanced/dynamic_disallowed_style_attribute");
 		
-		assertThat(find("#" + Constants.TABLE_ID + "_wrapper")).hasSize(0);
+		assertThat(find("#" + TABLE_ID + "_wrapper")).hasSize(0);
 		assertThat(driver.getPageSource())
 				.contains(
-						"java.lang.IllegalArgumentException: The 'style' attribute is not allowed. Please use the 'cssStyle' instead.");
+						"java.lang.IllegalArgumentException: The 'style' attribute is not allowed. Please use the 'cssStyle' attribute instead.");
 	}
 }

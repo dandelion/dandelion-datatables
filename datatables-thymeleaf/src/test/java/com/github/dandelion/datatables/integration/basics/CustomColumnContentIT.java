@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,26 +32,19 @@ package com.github.dandelion.datatables.integration.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
+import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 
 /**
  * Test the CDN activation.
  *
  * @author Thibault Duchateau
  */
-@RunWith(ThymeleafContextRunner.class)
-@ThymeleafTest
-public class CustomColumnContentIT extends BaseIT {
+public class CustomColumnContentIT extends ThymeleafBaseIT {
 
 	@Test
-	public void should_generate_mailto_link() throws IOException, Exception {
+	public void should_generate_mailto_link() {
 		goToPage("basics/custom_column_content");
 
 		assertThat(getTable().find("tbody").findFirst("tr").find("td", 4).find("a")).hasSize(1);

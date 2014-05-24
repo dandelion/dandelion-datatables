@@ -4,7 +4,7 @@
    <parent>
       <groupId>com.github.dandelion</groupId>
       <artifactId>dandelion-datatables</artifactId>
-      <version>0.9.4-SNAPSHOT</version>
+      <version>0.10.1-SNAPSHOT</version>
    </parent>
 
    <artifactId>datatables-extras</artifactId>
@@ -13,8 +13,6 @@
    <name>Dandelion :: Datatables :: Extras</name>
 
    <modules>
-      <module>datatables-compression-yui</module>
-      <module>datatables-servlet2</module>
       <module>datatables-spring3</module>
       <module>datatables-struts1</module>
       <module>datatables-struts2</module>

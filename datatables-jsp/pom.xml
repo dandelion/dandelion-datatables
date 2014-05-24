@@ -4,51 +4,44 @@
    <parent>
       <groupId>com.github.dandelion</groupId>
       <artifactId>dandelion-datatables</artifactId>
-      <version>0.9.4-SNAPSHOT</version>
+      <version>0.10.1-SNAPSHOT</version>
    </parent>
 
    <artifactId>datatables-jsp</artifactId>
    <packaging>jar</packaging>
    <name>Dandelion :: Datatables :: JSP Implementation</name>
-   <description>JSP implementation of Dandelion-DataTables, a Dandelion component that makes HTML table much nicer</description>
-
-   <properties>
-      <!-- Configuration -->
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-      <!-- Dependencies -->
-      <jsp.api.version>2.2</jsp.api.version>
-   </properties>
+   <description>JSP implementation of Dandelion-DataTables that provides a JSP taglib.</description>
 
    <dependencies>
-      <!-- Dandelion-DataTables core -->
+
+      <!-- Internal dependencies -->
       <dependency>
          <groupId>com.github.dandelion</groupId>
          <artifactId>datatables-core</artifactId>
-         <version>0.9.4-SNAPSHOT</version>
+         <version>0.10.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+         <groupId>com.github.dandelion</groupId>
+         <artifactId>dandelion-jsp</artifactId>
+      </dependency>
+      
+      <!-- JSP -->
+      <dependency>
+         <groupId>javax.servlet.jsp</groupId>
+         <artifactId>jsp-api</artifactId>
       </dependency>
 
-      <!-- Servlet -->
+      <!-- Servlet API -->
       <dependency>
          <groupId>javax.servlet</groupId>
          <artifactId>javax.servlet-api</artifactId>
          <scope>provided</scope>
       </dependency>
-
-      <!-- JSP -->
-      <dependency>
-         <groupId>javax.servlet.jsp</groupId>
-         <artifactId>jsp-api</artifactId>
-         <version>${jsp.api.version}</version>
-         <scope>provided</scope>
-      </dependency>
-
+      
+      <!-- JSTL -->
       <dependency>
          <groupId>javax.servlet</groupId>
          <artifactId>jstl</artifactId>
-         <version>1.2</version>
-         <scope>provided</scope>
       </dependency>
 
       <!-- Logging -->
@@ -57,11 +50,74 @@
          <artifactId>slf4j-api</artifactId>
       </dependency>
 
-      <!-- Test -->
+      <!-- Test dependencies -->
+
+      <!-- PhantomJS + GhostDriver -->
       <dependency>
-         <groupId>com.github.dandelion</groupId>
-         <artifactId>datatables-testing</artifactId>
-         <version>${project.version}</version>
+         <groupId>com.github.detro.ghostdriver</groupId>
+         <artifactId>phantomjsdriver</artifactId>
+         <scope>test</scope>
+      </dependency>
+
+      <!-- Fluentlenium -->
+      <dependency>
+         <groupId>org.fluentlenium</groupId>
+         <artifactId>fluentlenium-core</artifactId>
+         <scope>test</scope>
+      </dependency>
+
+      <!-- Jetty -->
+      <dependency>
+         <groupId>org.eclipse.jetty</groupId>
+         <artifactId>jetty-server</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.eclipse.jetty</groupId>
+         <artifactId>jetty-webapp</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.eclipse.jetty</groupId>
+         <artifactId>jetty-jsp</artifactId>
+         <scope>test</scope>
+      </dependency>
+
+      <!-- JUnit -->
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit-dep</artifactId>
+         <scope>test</scope>
+      </dependency>
+
+      <!-- FestAssert -->
+      <dependency>
+         <groupId>org.easytesting</groupId>
+         <artifactId>fest-assert</artifactId>
+         <scope>test</scope>
+      </dependency>
+
+      <!-- Spring + Jackson -->
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-test</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-webmvc</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.codehaus.jackson</groupId>
+         <artifactId>jackson-mapper-asl</artifactId>
+         <scope>test</scope>
+      </dependency>
+
+      <!-- XML APIs -->
+      <dependency>
+         <groupId>xml-apis</groupId>
+         <artifactId>xml-apis</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

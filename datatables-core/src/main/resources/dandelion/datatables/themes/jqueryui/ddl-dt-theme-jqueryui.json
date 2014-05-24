@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-theme-jqueryui",
+    "dependencies": [ "jqueryui" ],
+    "assets": [
+        {
+            "name": "jqueryui-css",
+            "version": "0.0.1",
+            "type": "css",
+            "locations": {
+                "jar": "dandelion/datatables/themes/jqueryui/jqueryui.css"
+            }
+        }
+    ]
+}

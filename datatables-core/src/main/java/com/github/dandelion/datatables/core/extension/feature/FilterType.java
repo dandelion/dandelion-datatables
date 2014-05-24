@@ -29,6 +29,11 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
+/**
+ * Type of filter that can be used when individual column filtering is enabled.
+ * 
+ * @author Thibault Duchateau
+ */
 public enum FilterType {
-	SELECT, INPUT, NUMBER, NUMBER_RANGE
+	SELECT, INPUT, NUMBER, NUMBER_RANGE, DATE_RANGE;
 }

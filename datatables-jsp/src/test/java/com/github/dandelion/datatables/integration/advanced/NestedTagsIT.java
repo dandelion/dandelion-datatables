@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,23 +33,18 @@ package com.github.dandelion.datatables.integration.advanced;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.BaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Test the nested tags.
  *
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class NestedTagsIT extends BaseIT {
+public class NestedTagsIT extends JspBaseIT {
 
 	@Test
-	public void should_display_column_based_on_JSTL_test() throws Exception {
+	public void should_display_column_based_on_JSTL_test() {
 		goToPage("advanced/nested_tags");
 		assertThat(getTable().find("th")).hasSize(7);
 	}

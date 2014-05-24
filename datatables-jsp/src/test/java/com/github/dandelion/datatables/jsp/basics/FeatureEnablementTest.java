@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,9 +34,10 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.mock.Mock;
 import com.github.dandelion.datatables.jsp.tag.DomBaseTest;
+import com.github.dandelion.datatables.mock.Mock;
 import com.github.dandelion.datatables.utils.TableTagBuilder;
 
 public class FeatureEnablementTest extends DomBaseTest {
@@ -54,35 +55,35 @@ public class FeatureEnablementTest extends DomBaseTest {
 
 	@Test
 	public void should_disable_info(){
-		assertThat(table.getTableConfiguration().getFeatureInfo()).isEqualTo(false);
+		assertThat(TableConfig.FEATURE_INFO.valueFrom(table.getTableConfiguration())).isFalse();
 		assertThat(mainConf.containsKey(DTConstants.DT_INFO)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_INFO)).isEqualTo(false);
 	}
 	
 	@Test
 	public void should_disable_lengthChange(){
-		assertThat(table.getTableConfiguration().getFeatureLengthChange()).isEqualTo(false);
+		assertThat(TableConfig.FEATURE_LENGTHCHANGE.valueFrom(table.getTableConfiguration())).isEqualTo(false);
 		assertThat(mainConf.containsKey(DTConstants.DT_LENGTH_CHANGE)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_LENGTH_CHANGE)).isEqualTo(false);
 	}
 	
 	@Test
 	public void should_disable_sort(){
-		assertThat(table.getTableConfiguration().getFeatureSort()).isEqualTo(false);
+		assertThat(TableConfig.FEATURE_SORTABLE.valueFrom(table.getTableConfiguration())).isFalse();
 		assertThat(mainConf.containsKey(DTConstants.DT_SORT)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_SORT)).isEqualTo(false);
 	}
 	
 	@Test
 	public void should_enable_filter(){
-		assertThat(table.getTableConfiguration().getFeatureFilterable()).isEqualTo(true);
+		assertThat(TableConfig.FEATURE_FILTERABLE.valueFrom(table.getTableConfiguration())).isTrue();
 		assertThat(mainConf.containsKey(DTConstants.DT_FILTER)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_FILTER)).isEqualTo(true);
 	}
 	
 	@Test
 	public void should_enable_paginate(){
-		assertThat(table.getTableConfiguration().getFeaturePaginate()).isEqualTo(true);
+		assertThat(TableConfig.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration())).isTrue();
 		assertThat(mainConf.containsKey(DTConstants.DT_PAGINATE)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_PAGINATE)).isEqualTo(true);
 	}

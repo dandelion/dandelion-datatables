@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,14 +29,9 @@
  */
 package com.github.dandelion.datatables.core.processor.ajax;
 
-import java.util.Map;
-
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.extension.feature.ServerSideFeature;
-import com.github.dandelion.datatables.core.processor.AbstractTableProcessor;
-import com.github.dandelion.datatables.core.util.StringUtils;
+import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 
 /**
  * Processor used when server-side processing is enabled.
@@ -44,22 +39,19 @@ import com.github.dandelion.datatables.core.util.StringUtils;
  * @author Thibault Duchateau
  * @since 0.9.0
  */
-public class AjaxServerSideProcessor extends AbstractTableProcessor {
+public class AjaxServerSideProcessor extends AbstractConfigurationProcessor {
 
 	@Override
-	public void process(String param, TableConfiguration tableConfiguration,
-			Map<Configuration, Object> confToBeApplied) throws ConfigurationProcessingException {
+	public void doProcess() {
 
-		Boolean retval = null;
-		if (StringUtils.isNotBlank(param)) {
-			retval = Boolean.parseBoolean(param);
+		if (StringUtils.isNotBlank(stringifiedValue)) {
+			Boolean retval = Boolean.parseBoolean(stringifiedValue);
 
-			if (retval != null && retval) {
-				tableConfiguration.registerExtension(new ServerSideFeature());
+			if (retval) {
+				registerExtension(new ServerSideFeature());
 			}
+
+			updateEntry(retval);
 		}
-
-		tableConfiguration.setAjaxServerSide(retval);
 	}
-
 }

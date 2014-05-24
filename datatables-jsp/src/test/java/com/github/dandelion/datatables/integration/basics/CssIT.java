@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,30 +32,33 @@ package com.github.dandelion.datatables.integration.basics;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.util.StringUtils;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.basics.CssBaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Test the CSS attributes.
  *
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class CssIT extends CssBaseIT {
+public class CssIT extends JspBaseIT {
 
 	@Test
-	public void should_apply_css_using_dom() throws IOException, Exception {
+	public void should_apply_css_stripe_classes_using_dom() {
+		goToPage("basics/css_stripe_classes");
+
+		assertThat(getTable().find("tbody").find("tr", 0).getAttribute("class")).isEqualTo("class1");
+		assertThat(getTable().find("tbody").find("tr", 1).getAttribute("class")).isEqualTo("class2");
+		assertThat(getTable().find("tbody").find("tr", 2).getAttribute("class")).isEqualTo("class1");
+		assertThat(getTable().find("tbody").find("tr", 3).getAttribute("class")).isEqualTo("class2");
+	}
+	
+	@Test
+	public void should_apply_css_using_dom() {
 		goToPage("basics/css_dom");
 
-		assertThat(getTable().find("thead").findFirst("th").getAttribute("class")).contains("column1class");
+		assertThat(getTable().find("thead").find("th", 0).getAttribute("class")).contains("column1class");
 		assertThat(getTable().find("thead").find("th", 1).getAttribute("class")).contains("column2class");
 		assertThat(StringUtils.trimAllWhitespace(getTable().find("thead").find("th", 1).getAttribute("style"))).contains("text-align:center;");
 		assertThat(StringUtils.trimAllWhitespace(getTable().find("thead").find("th", 2).getAttribute("style"))).contains("text-align:center;");
@@ -66,7 +69,7 @@ public class CssIT extends CssBaseIT {
 	}
 	
 	@Test
-	public void should_apply_css_using_ajax() throws IOException, Exception {
+	public void should_apply_css_using_ajax() {
 		goToPage("basics/css_ajax");
 
 		assertThat(getTable().find("thead").findFirst("th").getAttribute("class")).contains("column1class");

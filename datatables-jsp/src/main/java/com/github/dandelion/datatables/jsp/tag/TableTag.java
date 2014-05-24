@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,59 +29,54 @@
  */
 package com.github.dandelion.datatables.jsp.tag;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.github.dandelion.datatables.core.aggregator.ResourceAggregator;
-import com.github.dandelion.datatables.core.asset.CssResource;
-import com.github.dandelion.datatables.core.asset.JsResource;
-import com.github.dandelion.datatables.core.asset.ResourceType;
-import com.github.dandelion.datatables.core.asset.WebResources;
-import com.github.dandelion.datatables.core.cache.AssetCache;
-import com.github.dandelion.datatables.core.compressor.ResourceCompressor;
-import com.github.dandelion.datatables.core.configuration.Configuration;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.exception.BadConfigurationException;
-import com.github.dandelion.datatables.core.exception.CompressionException;
-import com.github.dandelion.datatables.core.exception.ConfigurationLoadingException;
-import com.github.dandelion.datatables.core.exception.DataNotFoundException;
-import com.github.dandelion.datatables.core.exception.ExportException;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
-import com.github.dandelion.datatables.core.export.ExportDelegate;
-import com.github.dandelion.datatables.core.export.ExportProperties;
-import com.github.dandelion.datatables.core.export.ExportType;
-import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
+import com.github.dandelion.core.utils.UrlUtils;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.DandelionUtils;
-import com.github.dandelion.datatables.core.util.RequestHelper;
-import com.github.dandelion.datatables.core.util.StringUtils;
 
 /**
  * <p>
- * Tag used to generate a HTML table.
+ * JSP tag used for creating HTML tables.
+ * 
+ * <p>
+ * Note that this tag supports dynamic attributes with only string values. See
+ * {@link #setDynamicAttribute(String, String, Object)} below.
+ * 
+ * <p>
+ * Example usage:
+ * 
+ * <pre>
+ * &lt;datatables:table id="myTableId" data="${persons}">
+ *    &lt;datatables:column title="Id" property="id" />
+ *    &lt;datatables:column title="LastName" property="lastName" />
+ *    &lt;datatables:column title="FirstName" property="firstName" />
+ *    &lt;datatables:column title="City" property="address.town.name" />
+ *    &lt;datatables:column title="Mail" property="mail" />
+ * &lt;/datatables:table>
+ * </pre>
  * 
  * @author Thibault Duchateau
  * @since 0.1.0
  */
 public class TableTag extends AbstractTableTag {
+	
 	private static final long serialVersionUID = 4528524566511084446L;
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(TableTag.class);
-
-	private final static char[] DISALLOWED_CHAR = {'-'};
-	
+	/**
+	 * Initializes a new staging configuration map to be applied to the
+	 * {@link TableConfiguration} instance.
+	 */
 	public TableTag(){
-		stagingConf = new HashMap<Configuration, Object>();
+		stagingConf = new HashMap<ConfigToken<?>, Object>();
 	}
 	
 	/**
@@ -89,28 +84,14 @@ public class TableTag extends AbstractTableTag {
 	 */
 	public int doStartTag() throws JspException {
 		
-		// We must ensure that the chosen table id doesn't contain any of the
-		// disallowed character because a Javascript variable will be created
-		// using this name
-		if(StringUtils.containsAny(id, DISALLOWED_CHAR)){
-			throw new JspException("The 'id' attribute cannot contain one of the following characters: " + String.valueOf(DISALLOWED_CHAR));
-		}
+		iterationNumber = 1; // Just used to identify the first row (header)
+		request = (HttpServletRequest) pageContext.getRequest();
+		response = (HttpServletResponse) pageContext.getResponse();
 		
-		// Init the table with its DOM id and a generated random number
-		table = new HtmlTable(id, (HttpServletRequest) pageContext.getRequest(), confGroup, dynamicAttributes);
-		try {
-			Configuration.applyConfiguration(table.getTableConfiguration(), stagingConf);
-		} catch (ConfigurationProcessingException e) {
-			throw new JspException(e);
-		} catch (ConfigurationLoadingException e) {
-			throw new JspException(e);
-		}
-		
-		// Just used to identify the first row (header)
-		iterationNumber = 1;
+		table = new HtmlTable(id, request, response, confGroup, dynamicAttributes);
 
-		// The table data are loaded using AJAX source
-		if ("AJAX".equals(this.loadingType)) {
+		// The table data are loaded using an AJAX source
+		if ("AJAX".equals(this.dataSourceType)) {
 
 			this.table.addHeaderRow();
 			this.table.addRow();
@@ -118,7 +99,7 @@ public class TableTag extends AbstractTableTag {
 			return EVAL_BODY_BUFFERED;
 		}
 		// The table data are loaded using a DOM source (Collection)
-		else if ("DOM".equals(this.loadingType)) {
+		else if ("DOM".equals(this.dataSourceType)) {
 
 			this.table.addHeaderRow();
 			
@@ -134,7 +115,7 @@ public class TableTag extends AbstractTableTag {
 	 */
 	public int doAfterBody() throws JspException {
 
-		this.iterationNumber++;
+		iterationNumber++;
 
 		return processIteration();
 	}
@@ -144,8 +125,17 @@ public class TableTag extends AbstractTableTag {
 	 */
 	public int doEndTag() throws JspException {
 
+		// At this point, all setters have been called and the staging
+		// configuration map should have been filled with user configuration
+		// The user configuration can now be applied to the default
+		// configuration
+		TableConfig.applyConfiguration(stagingConf, table);
+		
+		// Once all configuration are merged, they can be processed
+		TableConfig.processConfiguration(table);
+				
 		// The table is being exported
-		if (RequestHelper.isTableBeingExported(pageContext.getRequest(), table)) {
+		if (ExportUtils.isTableBeingExported(request, table)) {
 			return setupExport();
 		}
 		// The table must be generated and displayed
@@ -154,322 +144,8 @@ public class TableTag extends AbstractTableTag {
 		}
 	}
 
-	/**
-	 * Set up the export properties, before the filter intercepts the response.
-	 * 
-	 * @return allways SKIP_PAGE, because the export filter will override the
-	 *         response with the exported data instead of displaying the page.
-	 * @throws JspException
-	 *             if something went wrong during export.
-	 */
-	private int setupExport() throws JspException {
-
-		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-		HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
-
-		// Init the export properties
-		ExportProperties exportProperties = new ExportProperties();
-
-		ExportType currentExportType = getCurrentExportType();
-
-		exportProperties.setCurrentExportType(currentExportType);
-		exportProperties.setExportConf(table.getTableConfiguration().getExportConf(currentExportType));
-
-		this.table.getTableConfiguration().setExportProperties(exportProperties);
-		this.table.getTableConfiguration().setExporting(true);
-
-		try {
-			// Call the export delegate
-			ExportDelegate exportDelegate = new ExportDelegate(table, exportProperties, request);
-			exportDelegate.launchExport();
-
-		} catch (ExportException e) {
-			logger.error("Something went wront with the Dandelion export configuration.");
-			throw new JspException(e);
-		} catch (BadConfigurationException e) {
-			logger.error("Something went wront with the Dandelion configuration.");
-			throw new JspException(e);
-		}
-
-		response.reset();
-
-		return SKIP_PAGE;
-	}
-
-	/**
-	 * Set up the HTML table generation.
-	 * 
-	 * @return allways EVAL_PAGE to keep evaluating the page.
-	 * @throws JspException
-	 *             if something went wrong during the processing.
-	 */
-	private int setupHtmlGeneration() throws JspException {
-		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-		WebResources webResources = null;
-		
-		this.table.getTableConfiguration().setExporting(false);
-
-		try {
-			// First we check if the DataTables configuration already exist in the cache
-			String keyToTest = RequestHelper.getCurrentURIWithParameters(request) + "|" + table.getId();
-
-			if(DandelionUtils.isDevModeEnabled() || !AssetCache.cache.containsKey(keyToTest)){
-				logger.debug("No asset for the key {}. Generating...", keyToTest);
-				
-				// Init the web resources generator
-				WebResourceGenerator contentGenerator = new WebResourceGenerator(table);
-	
-				// Generate the web resources (JS, CSS) and wrap them into a
-				// WebResources POJO
-				webResources = contentGenerator.generateWebResources();
-				logger.debug("Web content generated successfully");
-				
-				AssetCache.cache.put(keyToTest, webResources);
-				logger.debug("Cache updated with new web resources");
-			}
-			else{
-				logger.debug("Asset(s) already exist, retrieving content from cache...");
-
-				webResources = (WebResources) AssetCache.cache.get(keyToTest);
-			}
-
-			// Aggregation
-			if (table.getTableConfiguration().getMainAggregatorEnable() != null && table.getTableConfiguration().getMainAggregatorEnable()) {
-				logger.debug("Aggregation enabled");
-				ResourceAggregator.processAggregation(webResources, table);
-			}
-
-			// Compression
-			if (table.getTableConfiguration().getMainCompressorEnable() != null && table.getTableConfiguration().getMainCompressorEnable()) {
-				logger.debug("Compression enabled");
-				ResourceCompressor.processCompression(webResources, table);
-			}
-
-			// <link> HTML tag generation
-			if (table.getTableConfiguration().getMainCdn() != null && table.getTableConfiguration().getMainCdn()) {
-				generateLinkTag(table.getTableConfiguration().getMainCdnCss());
-			}
-			for (Entry<String, CssResource> entry : webResources.getStylesheets().entrySet()) {
-				if(entry.getValue().getType().equals(ResourceType.EXTERNAL)){
-					generateLinkTag(entry.getValue().getLocation());
-				}
-				else{
-					String src = RequestHelper.getAssetSource(entry.getKey(), this.table, request, false);
-					generateLinkTag(src);
-				}
-			}
-
-			// HTML generation
-			pageContext.getOut().println(this.table.toHtml());
-
-			// <script> HTML tag generation
-			if (table.getTableConfiguration().getMainCdn() != null && table.getTableConfiguration().getMainCdn()) {
-				generateScriptTag(table.getTableConfiguration().getMainCdnJs());
-			}
-			for (Entry<String, JsResource> entry : webResources.getJavascripts().entrySet()) {
-				String src = RequestHelper.getAssetSource(entry.getKey(), this.table, request, false);
-				generateScriptTag(src);
-			}
-			// Main Javascript file
-			String src = RequestHelper.getAssetSource(webResources.getMainJsFile().getName(), this.table, request, true);
-			generateScriptTag(src);
-
-		} catch (IOException e) {
-			logger.error("Something went wront with the datatables tag");
-			throw new JspException(e);
-		} catch (CompressionException e) {
-			logger.error("Something went wront with the compressor.");
-			throw new JspException(e);
-		} catch (BadConfigurationException e) {
-			logger.error("Something went wront with the Dandelion configuration. Please check your Dandelion.properties file");
-			throw new JspException(e);
-		} catch (DataNotFoundException e) {
-			logger.error("Something went wront with the data provider");
-			throw new JspException(e);
-		} catch (ExtensionLoadingException e) {
-			logger.error("Something went wront during the extension loading");
-			throw new JspException(e);
-		}
-
-		return EVAL_PAGE;
-	}
-
-
-	/**
-	 * TODO
-	 */
-	public void release() {
-		super.release();
-	}
-	
-	public void setAutoWidth(Boolean autoWidth) {
-		stagingConf.put(Configuration.FEATURE_AUTOWIDTH, autoWidth);
-	}
-
-	public void setDeferRender(String deferRender) {
-		stagingConf.put(Configuration.AJAX_DEFERRENDER, deferRender);
-	}
-
-	public void setFilter(Boolean filterable) {
-		stagingConf.put(Configuration.FEATURE_FILTERABLE, filterable);
-	}
-
-	public void setInfo(Boolean info) {
-		stagingConf.put(Configuration.FEATURE_INFO, info);
-	}
-
-	public void setPaginate(Boolean paginate) {
-		stagingConf.put(Configuration.FEATURE_PAGINATE, paginate);
-	}
-
-	public void setLengthChange(Boolean lengthChange) {
-		stagingConf.put(Configuration.FEATURE_LENGTHCHANGE, lengthChange);
-	}
-
-	public void setProcessing(Boolean processing) {
-		stagingConf.put(Configuration.AJAX_PROCESSING, processing);
-	}
-
-	public void setServerSide(Boolean serverSide) {
-		stagingConf.put(Configuration.AJAX_SERVERSIDE, serverSide);
-	}
-	
-	public void setPaginationType(String paginationType) {
-		stagingConf.put(Configuration.FEATURE_PAGINATIONTYPE, paginationType);
-	}
-
-	public void setSort(Boolean sort) {
-		stagingConf.put(Configuration.FEATURE_SORT, sort);
-	}
-
-	public void setStateSave(String stateSave) {
-		stagingConf.put(Configuration.FEATURE_STATESAVE, stateSave);
-	}
-
-	public void setFixedHeader(String fixedHeader) {
-		stagingConf.put(Configuration.PLUGIN_FIXEDHEADER, fixedHeader);
-	}
-
-	public void setScroller(String scroller) {
-		stagingConf.put(Configuration.PLUGIN_SCROLLER, scroller);
-	}
-
-	public void setColReorder(String colReorder) {
-		stagingConf.put(Configuration.PLUGIN_COLREORDER, colReorder);
-	}
-
-	public void setScrollY(String scrollY) {
-		stagingConf.put(Configuration.FEATURE_SCROLLY, scrollY);
-	}
-
-	public void setScrollCollapse(String scrollCollapse) {
-		stagingConf.put(Configuration.FEATURE_SCROLLCOLLAPSE, scrollCollapse);
-	}
-
-	public void setScrollX(String scrollX) {
-		stagingConf.put(Configuration.FEATURE_SCROLLX, scrollX);
-	}
-
-	public void setScrollXInner(String scrollXInner) {
-		stagingConf.put(Configuration.FEATURE_SCROLLXINNER, scrollXInner);
-	}
-
-	public void setFixedPosition(String fixedPosition) {
-		stagingConf.put(Configuration.PLUGIN_FIXEDPOSITION, fixedPosition);
-	}
-
-	public void setOffsetTop(Integer fixedOffsetTop) {
-		stagingConf.put(Configuration.PLUGIN_FIXEDOFFSETTOP, fixedOffsetTop);
-	}
-
-	public void setCdn(Boolean cdn) {
-		stagingConf.put(Configuration.MAIN_CDN, cdn);
-	}
-
-	public void setExport(String export) {
-		stagingConf.put(Configuration.EXPORT_TYPES, export);
-	}
-
-	public String getLoadingType() {
-		return this.loadingType;
-	}
-
-	public void setUrl(String url) {
-		stagingConf.put(Configuration.AJAX_SOURCE, url);
-		this.loadingType = "AJAX";
-		this.url = url;
-	}
-
-	public void setJqueryUI(String jqueryUI) {
-		stagingConf.put(Configuration.FEATURE_JQUERYUI, jqueryUI);
-	}
-
-	public void setPipelining(String pipelining) {
-		stagingConf.put(Configuration.AJAX_PIPELINING, pipelining);
-	}
-	
-	public void setPipeSize(Integer pipeSize){
-		stagingConf.put(Configuration.AJAX_PIPESIZE, pipeSize);
-	}
-	
-	public void setExportLinks(String exportLinks) {
-		stagingConf.put(Configuration.EXPORT_LINKS, exportLinks);
-	}
-
-	public void setTheme(String theme) {
-		stagingConf.put(Configuration.CSS_THEME, theme);
-	}
-
-	public void setThemeOption(String themeOption) {
-		stagingConf.put(Configuration.CSS_THEMEOPTION, themeOption);
-	}
-
-	public void setFooter(String footer) {
-		this.footer = footer;
-	}
-
-	public void setAppear(String appear) {
-		stagingConf.put(Configuration.FEATURE_APPEAR, appear);
-	}
-	
-	public void setLengthMenu(String lengthMenu){
-		stagingConf.put(Configuration.FEATURE_LENGTHMENU, lengthMenu);
-	}
-	
-	public void setCssStripes(String cssStripesClasses){
-		stagingConf.put(Configuration.CSS_STRIPECLASSES, cssStripesClasses);
-	}
-	
-	public void setServerData(String serverData) {
-		stagingConf.put(Configuration.AJAX_SERVERDATA, serverData);
-	}
-
-	public void setServerParams(String serverParams) {
-		stagingConf.put(Configuration.AJAX_SERVERPARAM, serverParams);
-	}
-
-	public void setServerMethod(String serverMethod) {
-		stagingConf.put(Configuration.AJAX_SERVERMETHOD, serverMethod);
-	}
-
-	public void setDisplayLength(Integer displayLength) {
-		stagingConf.put(Configuration.FEATURE_DISPLAYLENGTH, displayLength);
-	}
-
-	public void setDom(String dom) {
-		stagingConf.put(Configuration.FEATURE_DOM, dom);
-	}
-
-	public void setExt(String extensions){
-		stagingConf.put(Configuration.MAIN_EXTENSION_NAMES, extensions);	
-	}
-	
-	public void setConfGroup(String confGroup) {
-		this.confGroup = confGroup;
-	}
-
 	public void setData(Collection<Object> data) {
-		this.loadingType = "DOM";
+		this.dataSourceType = "DOM";
 		this.data = data;
 
 		Collection<Object> dataTmp = (Collection<Object>) data;
@@ -481,6 +157,26 @@ public class TableTag extends AbstractTableTag {
 		}
 	}
 	
+	public void setUrl(String url) {
+		String processedUrl = UrlUtils.getProcessedUrl(url, (HttpServletRequest) pageContext.getRequest(),
+				(HttpServletResponse) pageContext.getResponse());
+		stagingConf.put(TableConfig.AJAX_SOURCE, processedUrl);
+		this.dataSourceType = "AJAX";
+		this.url = url;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	public void setRow(String row) {
+		this.row = row;
+	}
+	
+	public void setConfGroup(String confGroup) {
+		this.confGroup = confGroup;
+	}
+
 	public void setRowIdBase(String rowIdBase) {
 		this.rowIdBase = rowIdBase;
 	}
@@ -489,19 +185,183 @@ public class TableTag extends AbstractTableTag {
 		this.rowIdPrefix = rowIdPrefix;
 	}
 
-	public void setRowIdSufix(String rowIdSufix) {
-		this.rowIdSufix = rowIdSufix;
+	public void setRowIdSuffix(String rowIdSuffix) {
+		this.rowIdSuffix = rowIdSuffix;
+	}
+	
+	public void setEscapeXml(boolean escapeXml) {
+		this.escapeXml = escapeXml;
+	}
+	
+	public void setAutoWidth(boolean autoWidth) {
+		stagingConf.put(TableConfig.FEATURE_AUTOWIDTH, autoWidth);
+	}
+
+	public void setDeferRender(String deferRender) {
+		stagingConf.put(TableConfig.AJAX_DEFERRENDER, deferRender);
+	}
+
+	public void setFilterable(boolean filterable) {
+		stagingConf.put(TableConfig.FEATURE_FILTERABLE, filterable);
+	}
+
+	public void setInfo(boolean info) {
+		stagingConf.put(TableConfig.FEATURE_INFO, info);
+	}
+
+	public void setPageable(boolean pageable) {
+		stagingConf.put(TableConfig.FEATURE_PAGEABLE, pageable);
+	}
+
+	public void setLengthChange(boolean lengthChange) {
+		stagingConf.put(TableConfig.FEATURE_LENGTHCHANGE, lengthChange);
+	}
+
+	public void setProcessing(boolean processing) {
+		stagingConf.put(TableConfig.FEATURE_PROCESSING, processing);
+	}
+
+	public void setServerSide(boolean serverSide) {
+		stagingConf.put(TableConfig.AJAX_SERVERSIDE, serverSide);
+	}
+	
+	public void setPaginationType(String paginationType) {
+		stagingConf.put(TableConfig.FEATURE_PAGINATIONTYPE, paginationType);
+	}
+
+	public void setSortable(boolean sortable) {
+		stagingConf.put(TableConfig.FEATURE_SORTABLE, sortable);
+	}
+
+	public void setStateSave(String stateSave) {
+		stagingConf.put(TableConfig.FEATURE_STATESAVE, stateSave);
+	}
+
+	public void setScrollY(String scrollY) {
+		stagingConf.put(TableConfig.FEATURE_SCROLLY, scrollY);
+	}
+
+	public void setScrollCollapse(String scrollCollapse) {
+		stagingConf.put(TableConfig.FEATURE_SCROLLCOLLAPSE, scrollCollapse);
+	}
+
+	public void setScrollX(String scrollX) {
+		stagingConf.put(TableConfig.FEATURE_SCROLLX, scrollX);
+	}
+
+	public void setScrollXInner(String scrollXInner) {
+		stagingConf.put(TableConfig.FEATURE_SCROLLXINNER, scrollXInner);
+	}
+
+	public void setFixedPosition(String fixedPosition) {
+		stagingConf.put(TableConfig.PLUGIN_FIXEDPOSITION, fixedPosition);
+	}
+
+	public void setOffsetTop(int fixedOffsetTop) {
+		stagingConf.put(TableConfig.PLUGIN_FIXEDOFFSETTOP, fixedOffsetTop);
+	}
+
+	public void setExport(String export) {
+		stagingConf.put(TableConfig.EXPORT_ENABLED_FORMATS, export);
+	}
+
+	public void setExportStyle(String exportContainerStyle) {
+		stagingConf.put(TableConfig.EXPORT_CONTAINER_STYLE, exportContainerStyle);
+	}
+	
+	public void setExportClass(String exportContainerClass) {
+		stagingConf.put(TableConfig.EXPORT_CONTAINER_CLASS, exportContainerClass);
+	}
+	
+	public void setJqueryUI(String jqueryUI) {
+		stagingConf.put(TableConfig.FEATURE_JQUERYUI, jqueryUI);
+	}
+
+	public void setPipelining(String pipelining) {
+		stagingConf.put(TableConfig.AJAX_PIPELINING, pipelining);
+	}
+	
+	public void setPipeSize(int pipeSize){
+		stagingConf.put(TableConfig.AJAX_PIPESIZE, pipeSize);
+	}
+	
+	public void setReloadSelector(String reloadSelector){
+		stagingConf.put(TableConfig.AJAX_RELOAD_SELECTOR, reloadSelector);
+	}
+	
+	public void setReloadFunction(String reloadFunction){
+		stagingConf.put(TableConfig.AJAX_RELOAD_FUNCTION, reloadFunction);
+	}
+	
+	public void setTheme(String theme) {
+		stagingConf.put(TableConfig.CSS_THEME, theme);
+	}
+
+	public void setThemeOption(String themeOption) {
+		stagingConf.put(TableConfig.CSS_THEMEOPTION, themeOption);
+	}
+
+	public void setAppear(String appear) {
+		stagingConf.put(TableConfig.FEATURE_APPEAR, appear);
+	}
+	
+	public void setLengthMenu(String lengthMenu){
+		stagingConf.put(TableConfig.FEATURE_LENGTHMENU, lengthMenu);
+	}
+	
+	public void setCssStripes(String cssStripesClasses){
+		stagingConf.put(TableConfig.CSS_STRIPECLASSES, cssStripesClasses);
+	}
+	
+	public void setServerData(String serverData) {
+		stagingConf.put(TableConfig.AJAX_SERVERDATA, serverData);
+	}
+
+	public void setServerParam(String serverParam) {
+		stagingConf.put(TableConfig.AJAX_SERVERPARAM, serverParam);
+	}
+
+	public void setServerMethod(String serverMethod) {
+		stagingConf.put(TableConfig.AJAX_SERVERMETHOD, serverMethod);
+	}
+
+	public void setDisplayLength(int displayLength) {
+		stagingConf.put(TableConfig.FEATURE_DISPLAYLENGTH, displayLength);
+	}
+
+	public void setFilterDelay(int filterDelay) {
+		stagingConf.put(TableConfig.FEATURE_FILTER_DELAY, filterDelay);
+	}
+	
+	public void setFilterSelector(String filterSelector) {
+		stagingConf.put(TableConfig.FEATURE_FILTER_SELECTOR, filterSelector);
+	}
+	
+	public void setFilterClearSelector(String filterClearSelector) {
+		stagingConf.put(TableConfig.FEATURE_FILTER_CLEAR_SELECTOR, filterClearSelector);
+	}
+	
+	public void setFilterTrigger(String filterTrigger) {
+		stagingConf.put(TableConfig.FEATURE_FILTER_TRIGGER, filterTrigger);
+	}
+	
+	public void setDom(String dom) {
+		stagingConf.put(TableConfig.FEATURE_DOM, dom);
+	}
+
+	public void setExt(String extensions){
+		stagingConf.put(TableConfig.MAIN_EXTENSION_NAMES, extensions);	
 	}
 	
 	public void setCssStyle(String cssStyle) {
-		stagingConf.put(Configuration.CSS_STYLE, cssStyle);
+		stagingConf.put(TableConfig.CSS_STYLE, cssStyle);
 	}
 
 	public void setCssClass(String cssClass) {
-		stagingConf.put(Configuration.CSS_CLASS, cssClass);
+		stagingConf.put(TableConfig.CSS_CLASS, cssClass);
 	}
 	
 	public void setFilterPlaceholder(String filterPlaceholder) {
-		stagingConf.put(Configuration.FEATURE_FILTER_PLACEHOLDER, filterPlaceholder);
+		stagingConf.put(TableConfig.FEATURE_FILTER_PLACEHOLDER, filterPlaceholder);
 	}
 }

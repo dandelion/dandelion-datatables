@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,19 +30,29 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import org.junit.runner.RunWith;
+import static org.fest.assertions.Assertions.assertThat;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.basics.ScrollHorizontalBaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import org.fluentlenium.core.domain.FluentList;
+import org.fluentlenium.core.domain.FluentWebElement;
+import org.junit.Test;
+
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Test the horizontal scrolling.
  *
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class ScrollHorizontalIT extends ScrollHorizontalBaseIT {
+public class ScrollHorizontalIT extends JspBaseIT {
 	
+	@Test
+	public void should_enable_horizontal_scroll() {
+		goToPage("basics/scroll_horizontal_enable");
+
+		FluentList<FluentWebElement> wrapper = find("#" + TABLE_ID + "_wrapper");
+		assertThat(wrapper.find("div.dataTables_scroll")).hasSize(1);
+		assertThat(wrapper.find("div.dataTables_scroll").find("div.dataTables_scrollHead")).hasSize(1);
+		assertThat(wrapper.find("div.dataTables_scroll").find("div.dataTables_scrollHead").find("div.dataTables_scrollHeadInner")).hasSize(1);
+		assertThat(wrapper.find("div.dataTables_scroll").find("div.dataTables_scrollBody")).hasSize(1);
+	}
 }

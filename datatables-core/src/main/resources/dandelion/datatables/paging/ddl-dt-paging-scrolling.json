@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-paging-scrolling",
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "paging-scrolling",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "jar": "dandelion/datatables/paging/scrolling.js"
+            }
+        }
+    ]
+}

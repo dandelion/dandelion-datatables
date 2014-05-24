@@ -33,41 +33,34 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.feature.ServerSideFeature;
-import com.github.dandelion.datatables.core.processor.TableProcessor;
+import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
 public class AjaxServerSideProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public TableProcessor getProcessor() {
+	public ConfigurationProcessor getProcessor() {
 		return new AjaxServerSideProcessor();
 	}
-
-	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
-		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getAjaxServerSide()).isNull();
-	}
 	
 	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.processConfiguration("", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getAjaxServerSide()).isNull();
-	}
-	
-	@Test
-	public void should_set_true_and_register_a_feature_when_value_is_true() throws Exception {
-		processor.processConfiguration("true", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getAjaxServerSide()).isTrue();
+	public void should_set_true_and_register_a_feature_when_value_is_true() {
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERSIDE, "true");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(true);
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
 		assertThat(new ServerSideFeature()).isIn(tableConfiguration.getInternalExtensions());
 	}
 	
 	@Test
-	public void should_set_null_and_not_register_anything_when_value_is_false() throws Exception {
-		processor.processConfiguration("false", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getAjaxServerSide()).isFalse();
+	public void should_set_null_and_not_register_anything_when_value_is_false() {
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERSIDE, "false");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo(false);
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}
 }

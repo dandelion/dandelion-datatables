@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,15 +30,16 @@
 package com.github.dandelion.datatables.core.asset;
 
 /**
- * Enum containing the available modes of insertion for extraFile management.
+ * Enum containing the available insertion modes for an {@link ExtraJs}.
  * 
  * @author Thibault Duchateau
  */
 public enum InsertMode {
-	// The javascript is inserted before all instruction.
+	
+	// The javascript is inserted before all other instructions.
 	BEFOREALL, 
 	
-	// The javascript is inserted after all instruction.
+	// The javascript is inserted after all other instructions.
 	AFTERALL, 
 	
 	// The javascript is inserted just after the start of the jQuery $(document).ready() function.
@@ -48,5 +49,5 @@ public enum InsertMode {
 	BEFOREENDDOCUMENTREADY,
 	
 	// The javascript is inserted just before the start of the jQuery $(document).ready() function.
-	BEFORESTARTDOCUMENTREADY
+	BEFORESTARTDOCUMENTREADY;
 }

@@ -29,26 +29,28 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
+import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.FileUtils;
 
 /**
  * <p>
  * Feature used in accordance with the <code>sortType</code> column attribute to
  * help DataTables to configure the sort on a column.
  * <p>
- * See http://datatables.net/plug-ins/sorting for an overview of all available
- * sorting functions.
+ * See <a
+ * href="http://datatables.net/plug-ins/sorting">http://datatables.net/plugins
+ * /sorting</a> for an overview of all available sorting functions.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
+ * @see ColumnConfig#SORTTYPE
  */
 public class SortingFeature extends AbstractExtension {
 
@@ -58,48 +60,43 @@ public class SortingFeature extends AbstractExtension {
 	}
 
 	@Override
-	public void setup(HtmlTable table) throws ExtensionLoadingException {
+	public void setup(HtmlTable table) {
 		Set<SortType> enabledSortTypes = new HashSet<SortType>();
 
 		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
-			if (column.getColumnConfiguration().getSortType() != null) {
-				enabledSortTypes.add(column.getColumnConfiguration().getSortType());
+			String sortTypeString = ColumnConfig.SORTTYPE.valueFrom(column.getColumnConfiguration());
+			if (StringUtils.isNotBlank(sortTypeString)) {
+				SortType sortType = SortType.findByName(sortTypeString);
+				if (sortType != null) {
+					enabledSortTypes.add(sortType);
+				}
 			}
 		}
 
-		String content = null;
-
-		try {
-			for (SortType sortType : enabledSortTypes) {
-				switch (sortType) {
-				case DATE:
-					content = FileUtils.getFileContentFromClasspath("datatables/features/sorting/date-uk.js");
-					break;
-				case NATURAL:
-					content = FileUtils.getFileContentFromClasspath("datatables/features/sorting/naturalSort.js");
-					break;
-				case ALT_STRING:
-					content = FileUtils.getFileContentFromClasspath("datatables/features/sorting/alt-string.js");
-					break;
-				case ANTI_THE:
-					content = FileUtils.getFileContentFromClasspath("datatables/features/sorting/anti-the.js");
-					break;
-				case CURRENCY:
-					content = FileUtils.getFileContentFromClasspath("datatables/features/sorting/currency.js");
-					break;
-				case FILESIZE:
-					content = FileUtils.getFileContentFromClasspath("datatables/features/sorting/filesize.js");
-					break;
-				case FORMATTED_NUMBERS:
-					content = FileUtils.getFileContentFromClasspath("datatables/features/sorting/formatted-numbers.js");
-					break;
-				default:
-					break;
-				}
-				appendToBeforeAll(content);
+		for (SortType sortType : enabledSortTypes) {
+			switch (sortType) {
+			case DATE:
+				addBundle(DatatableBundles.DDL_DT_SORTING_DATE_UK);
+				break;
+			case NATURAL:
+				addBundle(DatatableBundles.DDL_DT_SORTING_NATURAL);
+				break;
+			case ALT_STRING:
+				addBundle(DatatableBundles.DDL_DT_SORTING_ALT_STRING);
+				break;
+			case ANTI_THE:
+				addBundle(DatatableBundles.DDL_DT_SORTING_ANTI_THE);
+				break;
+			case CURRENCY:
+				addBundle(DatatableBundles.DDL_DT_SORTING_CURRENCY);
+				break;
+			case FILESIZE:
+				addBundle(DatatableBundles.DDL_DT_SORTING_FILESIZE);
+				break;
+			case FORMATTED_NUMBERS:
+				addBundle(DatatableBundles.DDL_DT_SORTING_FORMATTED_NUMBER);
+				break;
 			}
-		} catch (IOException e) {
-			throw new ExtensionLoadingException("Unable to read the content of the file 'pipelining.js'", e);
 		}
 	}
 }

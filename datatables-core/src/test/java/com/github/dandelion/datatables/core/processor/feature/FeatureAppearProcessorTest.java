@@ -33,47 +33,42 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.processor.TableProcessor;
+import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
-import com.github.dandelion.datatables.core.processor.feature.FeatureAppearProcessor;
 
 public class FeatureAppearProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public TableProcessor getProcessor() {
+	public ConfigurationProcessor getProcessor() {
 		return new FeatureAppearProcessor();
 	}
 	
 	@Test
-	public void should_set_null_when_value_is_null() throws Exception {
-		processor.processConfiguration(null, tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureAppear()).isNull();
-	}
-	
-	@Test
-	public void should_set_null_when_value_is_empty() throws Exception {
-		processor.processConfiguration("", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureAppear()).isNull();
-	}
-	
-	@Test
 	public void should_return_fadein() throws Exception{
-		processor.processConfiguration("fadein", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureAppear()).isEqualTo("fadein");
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_APPEAR, "fadein");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("fadein");
 	}
 	
 	@Test
-	public void should_return_fadein_and_set_appear_duration() throws Exception {
-		processor.processConfiguration("fadein,1500", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureAppear()).isEqualTo("fadein");
-		assertThat(tableConfiguration.getFeatureAppearDuration()).isEqualTo("1500");
+	public void should_return_fadein_and_set_appear_duration() {
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_APPEAR, "fadein,1500");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("fadein");
+		assertThat(tableConfiguration.getStagingConfiguration().get(TableConfig.FEATURE_APPEAR_DURATION)).isEqualTo("1500");
 	}
 	
 	@Test
 	public void should_set_default_value_when_a_wrong_format_is_used() throws Exception{
-		processor.processConfiguration("blockkk", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureAppear()).isEqualTo("block");
-		processor.processConfiguration("fadein;12", tableConfiguration, confToBeApplied);
-		assertThat(tableConfiguration.getFeatureAppear()).isEqualTo("block");
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_APPEAR, "blockkk");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("block");
+
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_APPEAR, "fadein;12");
+		processor.process(entry, tableConfiguration);
+		assertThat(entry.getValue()).isEqualTo("block");
 	}
 }

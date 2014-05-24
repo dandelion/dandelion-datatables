@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,19 +30,19 @@
 package com.github.dandelion.datatables.extras.export.itext;
 
 import java.io.OutputStream;
-import java.util.Set;
 
-import com.github.dandelion.datatables.core.asset.DisplayType;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.export.DatatablesExport;
 import com.github.dandelion.datatables.core.export.ExportConf;
-import com.github.dandelion.datatables.core.export.ExportType;
+import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
+import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -56,22 +56,26 @@ import com.itextpdf.text.pdf.PdfWriter;
  */
 public class PdfExport implements DatatablesExport {
 
-	private HtmlTable htmlTable;
+	private HtmlTable table;
 	private ExportConf exportConf;
 
 	@Override
 	public void initExport(HtmlTable table) {
-		this.htmlTable = table;
-		if (table.getTableConfiguration().getExportConfs() != null && table.getTableConfiguration().getExportConf(ExportType.PDF) != null) {
-			this.exportConf = table.getTableConfiguration().getExportConf(ExportType.PDF);
-		}
+		this.table = table;
+		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.PDF);
 	}
 
 	@Override
-	public void processExport(OutputStream output) throws ExportException {
+	public void processExport(OutputStream output) {
 
-		Document document = new Document();
-
+		Document document = null;
+		if (exportConf.getOrientation() != null && exportConf.getOrientation().equals(Orientation.LANDSCAPE)) {
+			document = new Document(PageSize.LETTER.rotate());
+		}
+		else{
+			document = new Document();
+		}
+		
 		PdfWriter pdfWriter;
 		try {
 			pdfWriter = PdfWriter.getInstance(document, output);
@@ -82,80 +86,60 @@ public class PdfExport implements DatatablesExport {
 			addTable(document);
 
 		} catch (DocumentException e) {
-			throw new ExportException(e);
+			StringBuilder sb = new StringBuilder("Something went wrong during the PDF generation of the table '");
+			sb.append(table.getOriginalId());
+			sb.append("' and with the following export configuration: ");
+			sb.append(exportConf.toString());
+			throw new ExportException(sb.toString(), e);
 		} finally {
 			document.close();
 		}
 	}
 
-	private void addTitle(Document document) throws DocumentException{
-		Paragraph title = new Paragraph("Export");
+	private void addTitle(Document document) throws DocumentException {
+		Paragraph title = new Paragraph(exportConf.getFileName());
 		title.add(new Paragraph(" ")); // empty line
 		title.setAlignment(Element.ALIGN_CENTER);
-	    document.add(title);
+		document.add(title);
 	}
-	
+
 	private void addTable(Document document) throws DocumentException {
 
 		PdfPCell cell = null;
 
 		// Compute the column count in order to initialize the iText table
-		int columnCount = 0;
-		for (HtmlRow htmlRow : htmlTable.getBodyRows()) {
+		int columnCount = table.getLastHeaderRow().getColumns(ReservedFormat.ALL, ReservedFormat.PDF).size();
 
-			for (HtmlColumn column : htmlRow.getColumns()) {
+		if (columnCount != 0) {
 
-				Set<DisplayType> enabledDisplayTypes = column.getEnabledDisplayTypes();
-				if (enabledDisplayTypes != null
-						&& (enabledDisplayTypes.contains(DisplayType.ALL)
-						|| enabledDisplayTypes.contains(DisplayType.PDF))) {
-					columnCount++;
-				}
-			}
-			break;
-		}
+			PdfPTable pdfTable = new PdfPTable(columnCount);
+			pdfTable.setWidthPercentage(100f);
 
-		if(columnCount != 0){
-			
-			// Creation d'une PdfPTable avec 3 colonnes
-			PdfPTable table = new PdfPTable(columnCount);
-			table.setWidthPercentage(100f);
-			
 			// Header
 			if (exportConf != null && exportConf.getIncludeHeader()) {
-				
-				for (HtmlRow htmlRow : htmlTable.getHeadRows()) {
-					
-					for (HtmlColumn column : htmlRow.getColumns()) {
-						
-						Set<DisplayType> enabledDisplayTypes = column.getEnabledDisplayTypes();
-						if (enabledDisplayTypes != null 
-								&& (enabledDisplayTypes.contains(DisplayType.ALL)
-										|| enabledDisplayTypes.contains(DisplayType.PDF))) {
-							cell = new PdfPCell();
-							cell.setPhrase(new Phrase(column.getContent().toString()));
-							table.addCell(cell);
-						}
-					}
-				}
-			}
-			
-			for (HtmlRow htmlRow : htmlTable.getBodyRows()) {
-				
-				for (HtmlColumn column : htmlRow.getColumns()) {
-					
-					Set<DisplayType> enabledDisplayTypes = column.getEnabledDisplayTypes();
-					if (enabledDisplayTypes != null
-							&& (enabledDisplayTypes.contains(DisplayType.ALL)
-									|| enabledDisplayTypes.contains(DisplayType.PDF))) {
+
+				for (HtmlRow htmlRow : table.getHeadRows()) {
+
+					for (HtmlColumn column : htmlRow.getColumns(ReservedFormat.ALL, ReservedFormat.PDF)) {
+
 						cell = new PdfPCell();
 						cell.setPhrase(new Phrase(column.getContent().toString()));
-						table.addCell(cell);
+						pdfTable.addCell(cell);
 					}
 				}
 			}
-			
-			document.add(table);
+
+			for (HtmlRow htmlRow : table.getBodyRows()) {
+
+				for (HtmlColumn column : htmlRow.getColumns(ReservedFormat.ALL, ReservedFormat.PDF)) {
+
+					cell = new PdfPCell();
+					cell.setPhrase(new Phrase(column.getContent().toString()));
+					pdfTable.addCell(cell);
+				}
+			}
+
+			document.add(pdfTable);
 		}
 	}
 }

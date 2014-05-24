@@ -29,20 +29,19 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.asset.JavascriptFunction;
-import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.CallbackType;
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * Feature automatically added to the table when using AJAX sources.
+ * <p>
+ * Feature automatically added to the table when using an AJAX source.
  * 
  * @author Thibault Duchateau
  * @since 0.8.2
+ * @see TableConfig#AJAX_SOURCE
  */
 public class AjaxFeature extends AbstractExtension {
 
@@ -52,14 +51,10 @@ public class AjaxFeature extends AbstractExtension {
 	}
 
 	@Override
-	public void setup(HtmlTable table) throws ExtensionLoadingException {
-		addParameter(new Parameter(DTConstants.DT_B_DEFER_RENDER, true));
-		addParameter(new Parameter(DTConstants.DT_S_AJAXDATAPROP, ""));
-		addParameter(new Parameter(DTConstants.DT_S_AJAX_SOURCE, table.getTableConfiguration().getAjaxSource()));
-		addParameter(
-				new Parameter(
-						CallbackType.INIT.getName(), 
-						new JavascriptFunction("oTable_" + table.getId() + ".fnAdjustColumnSizing(true);",CallbackType.INIT.getArgs()),
-						Mode.APPEND));
+	public void setup(HtmlTable table) {
+		addParameter(DTConstants.DT_B_DEFER_RENDER, true);
+		addParameter(DTConstants.DT_S_AJAXDATAPROP, "");
+		addParameter(DTConstants.DT_S_AJAX_SOURCE, TableConfig.AJAX_SOURCE.valueFrom(table));
+		addCallback(CallbackType.INIT, "oTable_" + table.getId() + ".fnAdjustColumnSizing(true);");
 	}
 }

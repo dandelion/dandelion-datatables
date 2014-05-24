@@ -1,0 +1,14 @@
+{
+    "bundle" : "ddl-dt-sorting-natural",
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "sorting-natural",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "jar": "dandelion/datatables/sorting/natural.js"
+            }
+        }
+    ]
+}

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,19 +30,28 @@
 
 package com.github.dandelion.datatables.integration.configuration;
 
-import org.junit.runner.RunWith;
+import static org.fest.assertions.Assertions.assertThat;
 
-import com.github.dandelion.datatables.integration.JspContextRunner;
-import com.github.dandelion.datatables.testing.configuration.ConfigurationBaseIT;
-import com.github.dandelion.datatables.testing.utils.JspTest;
+import org.junit.Test;
+
+import com.github.dandelion.datatables.integration.JspBaseIT;
 
 /**
  * Tests for configuration loading and enablement.
  * 
  * @author Thibault Duchateau
  */
-@RunWith(JspContextRunner.class)
-@JspTest
-public class ConfigurationIT extends ConfigurationBaseIT {
+public class ConfigurationIT extends JspBaseIT {
 
+	@Test
+	public void should_use_overriden_global_configuration() {
+		goToPage("configuration/global_overriden");
+		assertThat(getTable().getAttribute("class")).contains("myClass");
+	}
+	
+	@Test
+	public void should_use_group1_configuration() {
+		goToPage("configuration/enable_custom_group");
+		assertThat(getTable().getAttribute("class")).contains("my-group1-class");
+	}
 }

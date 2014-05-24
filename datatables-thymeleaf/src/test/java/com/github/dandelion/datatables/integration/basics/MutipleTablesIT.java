@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,19 +30,24 @@
 
 package com.github.dandelion.datatables.integration.basics;
 
-import org.junit.runner.RunWith;
+import static org.fest.assertions.Assertions.assertThat;
 
-import com.github.dandelion.datatables.integration.ThymeleafContextRunner;
-import com.github.dandelion.datatables.testing.basics.MultipleTablesBaseIT;
-import com.github.dandelion.datatables.testing.utils.ThymeleafTest;
+import org.junit.Test;
+
+import com.github.dandelion.datatables.integration.ThymeleafBaseIT;
 
 /**
  * Test the multiple tables.
  *
  * @author Thibault Duchateau
  */
-@RunWith(ThymeleafContextRunner.class)
-@ThymeleafTest
-public class MutipleTablesIT extends MultipleTablesBaseIT {
+public class MutipleTablesIT extends ThymeleafBaseIT {
 
+	@Test
+	public void should_disable_paging() {
+		goToPage("basics/multiple");
+		
+		assertThat(find("#" + TABLE_ID + "_wrapper")).hasSize(1);
+		assertThat(find("#" + TABLE_ID2 + "_wrapper")).hasSize(1);
+	}
 }
