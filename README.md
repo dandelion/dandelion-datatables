@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/dandelion/dandelion-datatables.png?label=ready&title=Ready)](https://waffle.io/dandelion/dandelion-datatables)
 Dandelion-DataTables
 ========================
 
