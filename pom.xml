@@ -492,7 +492,6 @@
       <connection>scm:git:git://github.com/dandelion/dandelion-datatables.git</connection>
       <developerConnection>scm:git:git@github.com:dandelion/dandelion-datatables.git</developerConnection>
       <url>http://github.com/dandelion/dandelion-datatables</url>
-     <tag>HEAD</tag>
   </scm>
 
    <developers>
