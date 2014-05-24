@@ -29,6 +29,9 @@
  */
 package com.github.dandelion.datatables.core.asset;
 
+import static com.github.dandelion.datatables.core.util.JavascriptUtils.INDENT;
+import static com.github.dandelion.datatables.core.util.JavascriptUtils.NEWLINE;
+
 import com.github.dandelion.core.utils.StringUtils;
 
 /**

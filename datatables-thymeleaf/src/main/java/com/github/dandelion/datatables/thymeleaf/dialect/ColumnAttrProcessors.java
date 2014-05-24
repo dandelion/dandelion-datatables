@@ -35,6 +35,7 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
 import com.github.dandelion.datatables.core.exception.DandelionDatatablesException;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.ThCssCellClassAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThDefaultAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterCssClassAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterDateFormatAttrProcessor;
@@ -53,7 +54,6 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSortInitOrderA
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSortTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThSortableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThVisibleAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.basic.ThCssCellClassAttrProcessor;
 
 /**
  * All attribute processors used by Dandelion-DataTables.
