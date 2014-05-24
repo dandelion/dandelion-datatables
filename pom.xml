@@ -74,7 +74,6 @@
       <maven.source.version>2.2</maven.source.version>
       <maven.project-report-info.version>2.5.1</maven.project-report-info.version>
       <maven.site.version>3.1</maven.site.version>
-      <maven.release.version>2.4.1</maven.release.version>
       <maven.surefire.version>2.13</maven.surefire.version>
       <maven.failsafe.version>2.13</maven.failsafe.version>
       <maven.gpg.version>1.4</maven.gpg.version>
@@ -313,11 +312,6 @@
                <configuration>
                   <useSystemClassLoader>false</useSystemClassLoader>
                </configuration>
-            </plugin>
-            <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-release-plugin</artifactId>
-               <version>${maven.release.version}</version>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
