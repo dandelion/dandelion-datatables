@@ -35,6 +35,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.dandelion.core.Context;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.web.WebConstants;
@@ -48,6 +51,8 @@ import com.github.dandelion.datatables.core.exception.UnkownGroupException;
  */
 public class ConfigurationStore {
 
+	private static Logger LOGGER = LoggerFactory.getLogger(ConfigurationStore.class);
+	
 	/**
 	 * Static map containing all configurations
 	 */
@@ -79,7 +84,10 @@ public class ConfigurationStore {
 		}
         
 		Context context = (Context) request.getAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE);
-		if(context.isDevModeEnabled()){
+		if (context == null) {
+			LOGGER.warn("The Dandelion context doesn't seem to be available. Did you forget to declare the DandelionFilter in your web.xml file?");
+		}
+		else if (context.isDevModeEnabled()) {
 			clear();
 		}
 		
