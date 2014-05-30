@@ -212,8 +212,7 @@ public class AttributeUtils {
 		// Use the Thymeleaf Standard expression processor on the expression
 		Object result = null;
 
-		if (value.startsWith("${") && value.endsWith("}") || value.startsWith("@{")
-				&& value.endsWith("}") || value.startsWith("#{") && value.endsWith("}")) {
+		if (value.contains("${") || value.contains("@{") || value.contains("#{")) {
 			Configuration configuration = arguments.getConfiguration();
 			IStandardExpressionParser expressionParser = StandardExpressions.getExpressionParser(configuration);
 			IStandardExpression standardExpression = expressionParser.parseExpression(configuration, arguments, value);
