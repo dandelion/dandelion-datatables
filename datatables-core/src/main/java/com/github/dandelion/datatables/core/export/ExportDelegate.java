@@ -85,9 +85,10 @@ public class ExportDelegate {
 		if (!ClassUtils.isPresent(exportClassName)) {
 			StringBuilder sb = new StringBuilder("Unable to export in the ");
 			sb.append(exportFormat);
-			sb.append(" format because the export class ");
+			sb.append(" format because either the export class '");
 			sb.append(exportClassName);
-			sb.append(" is not present in the classpath. ");
+			sb.append("' or some other librairies ");
+			sb.append(" imported in the export class is not present in the classpath.");
 			sb.append("Did you forget to add a dependency?");
 			throw new ExportException(sb.toString());
 		}
