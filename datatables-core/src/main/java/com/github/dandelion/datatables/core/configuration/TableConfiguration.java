@@ -48,7 +48,6 @@ import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.html.HtmlTag;
-import com.github.dandelion.datatables.core.i18n.MessageResolver;
 
 /**
  * Contains all the table configuration.
@@ -74,13 +73,11 @@ public class TableConfiguration {
 
 	// I18n
 	private Properties messages = new Properties();
-	private MessageResolver internalMessageResolver;
 
-	// Class of the iterated objects. Only used in XML export.
 	private Set<Extension> internalExtensions;
-	private String tableId; // A CONSERVER
-	private HttpServletRequest request; // A CONSERVER
-	private HttpServletResponse response;// A CONSERVER
+	private String tableId;
+	private HttpServletRequest request;
+	private HttpServletResponse response;
 
 	/**
 	 * Return an instance of {@link TableConfiguration} for the
@@ -158,7 +155,6 @@ public class TableConfiguration {
 		this.exporting = objectToClone.exporting;
 		this.isExportable = objectToClone.isExportable;
 
-		this.internalMessageResolver = objectToClone.internalMessageResolver;
 		this.messages = objectToClone.messages;
 	}
 
@@ -327,14 +323,6 @@ public class TableConfiguration {
 
 	public void setMessages(Properties messages) {
 		this.messages = messages;
-	}
-
-	public void setInternalMessageResolver(MessageResolver internalResourceProvider) {
-		this.internalMessageResolver = internalResourceProvider;
-	}
-
-	public MessageResolver getInternalMessageResolver() {
-		return internalMessageResolver;
 	}
 
 	public String getMessage(String key) {

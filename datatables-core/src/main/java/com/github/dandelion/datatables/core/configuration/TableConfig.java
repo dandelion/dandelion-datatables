@@ -41,7 +41,6 @@ import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.i18n.LocaleResolver;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
 import com.github.dandelion.datatables.core.processor.BooleanProcessor;
 import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
@@ -210,7 +209,6 @@ public final class TableConfig {
 	public static ConfigToken<String> EXPORT_MIMETYPE = new ConfigToken<String>(ExportFormatProcessor.REGEX_EXPORT_MIMETYPE, new ExportFormatProcessor());
 	
 	public static ConfigToken<MessageResolver> I18N_MESSAGE_RESOLVER = new ConfigToken<MessageResolver>(P_I18N_MESSAGE_RESOLVER, new MessageResolverProcessor());
-	public static ConfigToken<LocaleResolver> I18N_LOCALE_RESOLVER = new ConfigToken<LocaleResolver>(P_I18N_LOCALE_RESOLVER, new MessageResolverProcessor());
 	public static ConfigToken<String> I18N_MSG_PROCESSING = new ConfigToken<String>(P_I18N_MSG_PROCESSING, new MessageProcessor());
 	public static ConfigToken<String> I18N_MSG_SEARCH = new ConfigToken<String>(P_I18N_MSG_SEARCH, new MessageProcessor());
 	public static ConfigToken<String> I18N_MSG_LENGTHMENU = new ConfigToken<String>(P_I18N_MSG_LENGTHMENU, new MessageProcessor());
@@ -289,7 +287,6 @@ public final class TableConfig {
 		internalConf.put(formalize(ExportFormatProcessor.REGEX_EXPORT_MIMETYPE), EXPORT_MIMETYPE);
 		
 		internalConf.put(formalize(P_I18N_MESSAGE_RESOLVER), I18N_MESSAGE_RESOLVER);
-		internalConf.put(formalize(P_I18N_LOCALE_RESOLVER), I18N_LOCALE_RESOLVER);
 		internalConf.put(formalize(P_I18N_MSG_PROCESSING), I18N_MSG_PROCESSING);
 		internalConf.put(formalize(P_I18N_MSG_SEARCH), I18N_MSG_SEARCH);
 		internalConf.put(formalize(P_I18N_MSG_LENGTHMENU), I18N_MSG_LENGTHMENU);

@@ -55,17 +55,11 @@ public class HtmlTable extends HtmlTag {
 	private TableConfiguration tableConfiguration;
 
 	public HtmlTable(String id, HttpServletRequest request, HttpServletResponse response) {
-		this.tag = "table";
-		this.originalId = id;
-		this.id = processId(id);
-		this.tableConfiguration = TableConfiguration.getInstance(id, request);
+		this(id, request, response, null, null);
 	}
 
 	public HtmlTable(String id, HttpServletRequest request, HttpServletResponse response, String groupName) {
-		this.tag = "table";
-		this.originalId = id;
-		this.id = processId(id);
-		this.tableConfiguration = TableConfiguration.getInstance(id, request, groupName);
+		this(id, request, response, groupName, null);
 	}
 
 	public HtmlTable(String id, HttpServletRequest request, HttpServletResponse response, String groupName, Map<String, String> dynamicAttributes) {
@@ -74,6 +68,7 @@ public class HtmlTable extends HtmlTag {
 		this.id = processId(id);
 		this.dynamicAttributes = dynamicAttributes;
 		this.tableConfiguration = TableConfiguration.getInstance(id, request, groupName);
+		TableConfig.processConfiguration(this);
 	}
 
 	/**

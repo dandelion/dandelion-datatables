@@ -136,8 +136,8 @@ public class ColumnTag extends AbstractColumnTag {
 			// If the 'titleKey' attribute is used, the column's title must be
 			// retrieved from the current ResourceBundle
 			if(columnTitle == null && titleKey != null){
-				if(parent.getTable().getTableConfiguration().getInternalMessageResolver() != null){
-					columnTitle = parent.getTable().getTableConfiguration().getInternalMessageResolver()
+				if(TableConfig.I18N_MESSAGE_RESOLVER.valueFrom(parent.getTable().getTableConfiguration()) != null){
+					columnTitle = TableConfig.I18N_MESSAGE_RESOLVER.valueFrom(parent.getTable().getTableConfiguration())
 							.getResource(titleKey, StringUtils.escape(this.escapeXml, this.property), pageContext);
 				}
 				else{

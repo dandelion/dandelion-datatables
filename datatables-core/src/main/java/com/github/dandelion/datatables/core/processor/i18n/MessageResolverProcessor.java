@@ -34,10 +34,19 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
 import com.github.dandelion.datatables.core.processor.AbstractConfigurationProcessor;
 import com.github.dandelion.datatables.core.util.ClassUtils;
 
+/**
+ * <p>
+ * Processor in charge of instanciating the configured message resolver.
+ * 
+ * @author Thibault Duchateau
+ * @since 0.9.0
+ * @see TableConfig#I18N_MESSAGE_RESOLVER
+ */
 public class MessageResolverProcessor extends AbstractConfigurationProcessor {
 
 	// Logger
@@ -46,24 +55,26 @@ public class MessageResolverProcessor extends AbstractConfigurationProcessor {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void doProcess() {
-		
-		MessageResolver resourceProvider = null;
+
+		MessageResolver messageResolver = null;
 
 		if (stringifiedValue != null) {
 			try {
 				Class<MessageResolver> classProperty = (Class<MessageResolver>) ClassUtils.getClass(stringifiedValue);
-				resourceProvider = classProperty.getDeclaredConstructor(new Class[] { HttpServletRequest.class })
+				messageResolver = classProperty.getDeclaredConstructor(new Class[] { HttpServletRequest.class })
 						.newInstance(tableConfiguration.getRequest());
 
-				logger.info("MessageResolver initialized with {}", resourceProvider.getClass().getSimpleName());
-			} catch (Exception e) {
-				logger.warn("Unable to instantiate the configured {} due to a {} exception", stringifiedValue, e.getClass()
-						.getName(), e);
+				logger.info("MessageResolver initialized with {}", messageResolver.getClass().getSimpleName());
 			}
-		} else {
+			catch (Exception e) {
+				logger.warn("Unable to instantiate the configured {} due to a {} exception", stringifiedValue, e
+						.getClass().getName(), e);
+			}
+		}
+		else {
 			logger.info("No {} configured", MessageResolver.class.getSimpleName());
 		}
 
-		tableConfiguration.setInternalMessageResolver(resourceProvider);
+		updateEntry(messageResolver);
 	}
 }
