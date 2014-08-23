@@ -33,6 +33,8 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Properties;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +45,7 @@ import com.github.dandelion.datatables.core.exception.ConfigurationLoadingExcept
 import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
 import com.github.dandelion.datatables.core.generator.javascript.StandardJavascriptGenerator;
 import com.github.dandelion.datatables.core.i18n.LocaleResolver;
+import com.github.dandelion.datatables.core.i18n.MessageResolver;
 import com.github.dandelion.datatables.core.i18n.StandardLocaleResolver;
 
 /**
@@ -72,6 +75,7 @@ public class DatatablesConfigurator {
 
 	private static ConfigurationLoader configurationLoader;
 	private static LocaleResolver localeResolver;
+	private static MessageResolver messageResolver;
 
 	/**
 	 * Return a uniq implementation of {@link LocaleResolver} using the
@@ -129,6 +133,49 @@ public class DatatablesConfigurator {
 		return localeResolver;
 	}
 
+	@SuppressWarnings("unchecked")
+	public static MessageResolver getMessageResolver(HttpServletRequest request) {
+		Properties userProperties = null;
+		String className = null;
+		ConfigurationLoader configurationLoader = getConfigurationLoader();
+
+		if (messageResolver == null) {
+
+			try {
+				userProperties = configurationLoader.loadUserConfiguration(Locale.getDefault());
+
+				if(userProperties != null){
+					try {
+							className = userProperties.getProperty("i18n.message.resolver");
+					} catch (MissingResourceException e) {
+	
+						logger.debug("No custom MessageResolver has been configured. Using default one.");
+					}
+				}
+
+				if(className == null){
+					Properties defaultProperties = configurationLoader.loadDefaultConfiguration();
+					className = defaultProperties.getProperty("i18n.message.resolver");
+				}
+
+				if (className != null) {
+						Class<MessageResolver> classProperty;
+						try {
+							classProperty = (Class<MessageResolver>) ClassUtils.getClass(className);
+							messageResolver = classProperty.getDeclaredConstructor(new Class[] { HttpServletRequest.class })
+									.newInstance(request);
+						} catch (Exception e) {
+							throw new ConfigurationLoadingException(e);
+						}
+				}
+			} catch (ConfigurationLoadingException e) {
+				throw new ConfigurationLoadingException("Unable to retrieve the MessageResolver using the class '"
+						+ className + "'", e);
+			}
+		}
+		return messageResolver;
+	}
+	
 	/**
 	 * <p>
 	 * Returns an implementation of {@link ConfigurationLoader} using the

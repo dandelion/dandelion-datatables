@@ -77,7 +77,8 @@ public class ConfigToken<T> {
 	public T valueFrom(TableConfiguration tableConfiguration) {
 		if (tableConfiguration.getConfigurations() != null) {
 			return (T) tableConfiguration.getConfigurations().get(this);
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -91,7 +92,8 @@ public class ConfigToken<T> {
 	public T valueFrom(HtmlTable table) {
 		if (table.getTableConfiguration().getConfigurations() != null) {
 			return (T) table.getTableConfiguration().getConfigurations().get(this);
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -115,18 +117,19 @@ public class ConfigToken<T> {
 		}
 	}
 
-	public void toto(){
-		
+	public void toto() {
+
 	}
-	
+
 	public void appendIn(TableConfiguration tableConfiguration, char value) {
-		tableConfiguration.getConfigurations().put(this, ((StringBuilder) tableConfiguration.getConfigurations().get(this)).append(value));
+		tableConfiguration.getConfigurations().put(this,
+				((StringBuilder) tableConfiguration.getConfigurations().get(this)).append(value));
 	}
 
 	public void appendIn(ColumnConfiguration columnConfiguration, String value) {
 		doAppendIn(columnConfiguration, value);
 	}
-	
+
 	public void appendIn(ColumnConfiguration columnConfiguration, char value) {
 		doAppendIn(columnConfiguration, String.valueOf(value));
 	}
@@ -142,7 +145,7 @@ public class ConfigToken<T> {
 			}
 		}
 	}
-	
+
 	public void setIn(T value, HtmlTable table) {
 		table.getTableConfiguration().getConfigurations().put(this, value);
 	}
@@ -151,6 +154,5 @@ public class ConfigToken<T> {
 	public String toString() {
 		return "['" + propertyName + "' / " + processor.getClass().getSimpleName() + "]";
 	}
-	
-	
+
 }

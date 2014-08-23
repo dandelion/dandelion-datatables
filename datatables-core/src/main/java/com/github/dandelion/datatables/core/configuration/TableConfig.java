@@ -41,7 +41,6 @@ import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.i18n.MessageResolver;
 import com.github.dandelion.datatables.core.processor.BooleanProcessor;
 import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
 import com.github.dandelion.datatables.core.processor.IntegerProcessor;
@@ -63,7 +62,6 @@ import com.github.dandelion.datatables.core.processor.feature.FeatureFilterSelec
 import com.github.dandelion.datatables.core.processor.feature.FeatureLengthMenuProcessor;
 import com.github.dandelion.datatables.core.processor.feature.FeaturePaginationTypeProcessor;
 import com.github.dandelion.datatables.core.processor.i18n.MessageProcessor;
-import com.github.dandelion.datatables.core.processor.i18n.MessageResolverProcessor;
 import com.github.dandelion.datatables.core.processor.main.MainExtensionNamesProcessor;
 
 /**
@@ -132,8 +130,6 @@ public final class TableConfig {
 	public static final String P_EXPORT_CONTAINER_STYLE = "export.container.style";
 	public static final String P_EXPORT_CONTAINER_CLASS = "export.container.class";
 	
-	public static final String P_I18N_MESSAGE_RESOLVER = "i18n.message.resolver";
-	public static final String P_I18N_LOCALE_RESOLVER = "i18n.locale.resolver";
 	public static final String P_I18N_MSG_PROCESSING = "i18n.msg.processing";
 	public static final String P_I18N_MSG_SEARCH = "i18n.msg.search";
 	public static final String P_I18N_MSG_LENGTHMENU = "i18n.msg.lengthmenu";
@@ -208,7 +204,6 @@ public final class TableConfig {
 	public static ConfigToken<String> EXPORT_FILENAME = new ConfigToken<String>(ExportFormatProcessor.REGEX_EXPORT_FILENAME, new ExportFormatProcessor());
 	public static ConfigToken<String> EXPORT_MIMETYPE = new ConfigToken<String>(ExportFormatProcessor.REGEX_EXPORT_MIMETYPE, new ExportFormatProcessor());
 	
-	public static ConfigToken<MessageResolver> I18N_MESSAGE_RESOLVER = new ConfigToken<MessageResolver>(P_I18N_MESSAGE_RESOLVER, new MessageResolverProcessor());
 	public static ConfigToken<String> I18N_MSG_PROCESSING = new ConfigToken<String>(P_I18N_MSG_PROCESSING, new MessageProcessor());
 	public static ConfigToken<String> I18N_MSG_SEARCH = new ConfigToken<String>(P_I18N_MSG_SEARCH, new MessageProcessor());
 	public static ConfigToken<String> I18N_MSG_LENGTHMENU = new ConfigToken<String>(P_I18N_MSG_LENGTHMENU, new MessageProcessor());
@@ -286,7 +281,6 @@ public final class TableConfig {
 		internalConf.put(formalize(ExportFormatProcessor.REGEX_EXPORT_FILENAME), EXPORT_FILENAME);
 		internalConf.put(formalize(ExportFormatProcessor.REGEX_EXPORT_MIMETYPE), EXPORT_MIMETYPE);
 		
-		internalConf.put(formalize(P_I18N_MESSAGE_RESOLVER), I18N_MESSAGE_RESOLVER);
 		internalConf.put(formalize(P_I18N_MSG_PROCESSING), I18N_MSG_PROCESSING);
 		internalConf.put(formalize(P_I18N_MSG_SEARCH), I18N_MSG_SEARCH);
 		internalConf.put(formalize(P_I18N_MSG_LENGTHMENU), I18N_MSG_LENGTHMENU);

@@ -48,6 +48,7 @@ import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.html.HtmlTag;
+import com.github.dandelion.datatables.core.i18n.MessageResolver;
 
 /**
  * Contains all the table configuration.
@@ -73,6 +74,7 @@ public class TableConfiguration {
 
 	// I18n
 	private Properties messages = new Properties();
+	private MessageResolver messageResolver;
 
 	private Set<Extension> internalExtensions;
 	private String tableId;
@@ -123,8 +125,9 @@ public class TableConfiguration {
 	 * 
 	 * @param userConf
 	 */
-	public TableConfiguration(Map<ConfigToken<?>, Object> userConf, HttpServletRequest request) {
+	public TableConfiguration(Map<ConfigToken<?>, Object> userConf, MessageResolver messageResolver, HttpServletRequest request) {
 		this.request = request;
+		this.messageResolver = messageResolver;
 		this.configurations = userConf;
 		this.stagingConfiguration = new HashMap<ConfigToken<?>, Object>();
 		this.exportConfiguration = new LinkedHashMap<String, ExportConf>();
@@ -142,6 +145,7 @@ public class TableConfiguration {
 	private TableConfiguration(String tableId, TableConfiguration objectToClone, HttpServletRequest request) {
 		this.request = request;
 		this.tableId = tableId;
+		this.messageResolver = objectToClone.messageResolver;
 		this.configurations = objectToClone.configurations;
 		this.stagingConfiguration = objectToClone.stagingConfiguration;
 		this.exportConfiguration = objectToClone.exportConfiguration;
@@ -171,7 +175,7 @@ public class TableConfiguration {
 	}
 
 	public void set(ConfigToken<?> configToken, Object object) {
-		configurations.put(configToken, object);
+		this.configurations.put(configToken, object);
 	}
 
 	public Map<ConfigToken<?>, Object> getConfigurations() {
@@ -321,6 +325,14 @@ public class TableConfiguration {
 		return messages;
 	}
 
+	public MessageResolver getMessageResolver() {
+		return messageResolver;
+	}
+
+	public void setMessageResolver(MessageResolver messageResolver) {
+		this.messageResolver = messageResolver;
+	}
+
 	public void setMessages(Properties messages) {
 		this.messages = messages;
 	}
@@ -341,7 +353,7 @@ public class TableConfiguration {
 		if (extraHtmls == null) {
 			extraHtmls = new ArrayList<ExtraHtml>();
 		}
-		extraHtmls.add(extraHtml);
+		this.extraHtmls.add(extraHtml);
 	}
 
 	public String getCurrentExportFormat() {

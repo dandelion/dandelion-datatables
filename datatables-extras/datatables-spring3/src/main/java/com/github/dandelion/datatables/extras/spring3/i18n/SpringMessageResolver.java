@@ -84,7 +84,7 @@ public class SpringMessageResolver extends AbstractMessageResolver {
 			try {
 				message = messageSource.getMessage(messageKey, null, locale);
 			} catch (NoSuchMessageException e) {
-				logger.warn("No message found with the key The message key {} and locale {}.", messageKey, locale);
+				logger.warn("No message found with the key {} and locale {}.", messageKey, locale);
 				if (StringUtils.isBlank(message)) {
 					message = UNDEFINED_KEY + messageKey + UNDEFINED_KEY;
 				}

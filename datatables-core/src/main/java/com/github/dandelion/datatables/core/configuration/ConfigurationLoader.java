@@ -55,7 +55,9 @@ public interface ConfigurationLoader {
 	public final static String DT_USER_PROPERTIES = "datatables";
 	public final static String DEFAULT_GROUP_NAME = "global";
 	public final static String STANDALONE_BUNDLES_TO_EXCLUDE = "bootstrap-datepicker,bootstrap2,bootstrap3,jquery,jqueryui,moment";
-
+	public final static String I18N_LOCALE_RESOLVER = "i18n.locale.resolver";
+	public final static String I18N_MESSAGE_RESOLVER = "i18n.message.resolver";
+	
 	/**
 	 * <p>
 	 * Load the default configuration from the internal properties file and
@@ -68,7 +70,7 @@ public interface ConfigurationLoader {
 	 * @return the default properties
 	 */
 	public Properties loadDefaultConfiguration();
-
+	
 	/**
 	 * <p>
 	 * Load the user configuration which can be localized thanks to the given

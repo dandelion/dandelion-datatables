@@ -61,7 +61,7 @@ public abstract class ColumnProcessorBaseTest {
 		MockPageContext mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
 		confToBeApplied = new HashMap<ConfigToken<?>, Object>();
-		tableConfiguration = new TableConfiguration(confToBeApplied, request);
+		tableConfiguration = new TableConfiguration(confToBeApplied, null, request);
 		tableConfiguration.setTableId("fakeId");
 		columnConfiguration = new ColumnConfiguration();
 	}

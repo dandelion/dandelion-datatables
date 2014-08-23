@@ -42,23 +42,23 @@ import com.github.dandelion.core.Context;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.web.WebConstants;
 import com.github.dandelion.datatables.core.exception.UnkownGroupException;
+import com.github.dandelion.datatables.core.i18n.MessageResolver;
 
 /**
  * Storage class for all configurations by Locale and group.
- *
+ * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
 public class ConfigurationStore {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(ConfigurationStore.class);
-	
+
 	/**
 	 * Static map containing all configurations
 	 */
-	private static Map<Locale, Map<String, Map<ConfigToken<?>, Object>>> configurationStore = 
-			new HashMap<Locale, Map<String, Map<ConfigToken<?>, Object>>>();
-	
+	private static Map<Locale, Map<String, Map<ConfigToken<?>, Object>>> configurationStore = new HashMap<Locale, Map<String, Map<ConfigToken<?>, Object>>>();
+
 	/**
 	 * <p>
 	 * Return the {@link TableConfiguration} prototype for the given locale
@@ -72,17 +72,19 @@ public class ConfigurationStore {
 	 * @return the stored proptotype of a {@link TableConfiguration}.
 	 */
 	public static TableConfiguration getPrototype(HttpServletRequest request, String groupName) {
-		
+
 		Locale locale = null;
 		String group = StringUtils.isBlank(groupName) ? ConfigurationLoader.DEFAULT_GROUP_NAME : groupName;
-		
-		// Retrieve the locale either from a configured LocaleResolver or using the default locale
+
+		// Retrieve the locale either from a configured LocaleResolver or using
+		// the default locale
 		if (request != null) {
 			locale = DatatablesConfigurator.getLocaleResolver().resolveLocale(request);
-		} else {
+		}
+		else {
 			locale = Locale.getDefault();
 		}
-        
+
 		Context context = (Context) request.getAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE);
 		if (context == null) {
 			LOGGER.warn("The Dandelion context doesn't seem to be available. Did you forget to declare the DandelionFilter in your web.xml file?");
@@ -90,11 +92,11 @@ public class ConfigurationStore {
 		else if (context.isDevModeEnabled()) {
 			clear();
 		}
-		
-		if(!configurationStore.containsKey(locale)){
+
+		if (!configurationStore.containsKey(locale)) {
 			resolveGroupsForLocale(locale, request);
 		}
-			
+
 		if (!configurationStore.get(locale).containsKey(group)) {
 			StringBuilder msg = new StringBuilder("The group '");
 			msg.append(group);
@@ -102,8 +104,10 @@ public class ConfigurationStore {
 			msg.append(configurationStore.get(locale).keySet());
 			throw new UnkownGroupException(msg.toString());
 		}
-		
-		return new TableConfiguration(configurationStore.get(locale).get(group), request);
+
+		MessageResolver messageResolver = DatatablesConfigurator.getMessageResolver(request);
+
+		return new TableConfiguration(configurationStore.get(locale).get(group), messageResolver, request);
 	}
 
 	/**
@@ -114,30 +118,30 @@ public class ConfigurationStore {
 	 */
 	public static void resolveGroupsForLocale(Locale locale, HttpServletRequest request) {
 		Map<String, Map<ConfigToken<?>, Object>> map = new HashMap<String, Map<ConfigToken<?>, Object>>();
-		
+
 		ConfigurationLoader confLoader = DatatablesConfigurator.getConfigurationLoader();
 
 		confLoader.loadDefaultConfiguration();
 		confLoader.loadUserConfiguration(locale);
-		confLoader.resolveGroups(locale);		
+		confLoader.resolveGroups(locale);
 		confLoader.resolveConfigurations(map, locale, request);
-		
+
 		configurationStore.put(locale, map);
 	}
-	
+
 	/**
 	 * <b>FOR INTERNAL USE ONLY</b>
 	 * 
 	 * @return
 	 */
-	public static Map<Locale, Map<String, Map<ConfigToken<?>, Object>>> getConfigurationStore(){
+	public static Map<Locale, Map<String, Map<ConfigToken<?>, Object>>> getConfigurationStore() {
 		return configurationStore;
 	}
-	
+
 	/**
 	 * <b>FOR INTERNAL USE ONLY</b>
 	 */
-	public static void clear(){
+	public static void clear() {
 		configurationStore.clear();
 	}
 }

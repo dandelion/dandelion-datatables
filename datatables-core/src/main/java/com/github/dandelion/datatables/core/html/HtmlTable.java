@@ -68,7 +68,6 @@ public class HtmlTable extends HtmlTag {
 		this.id = processId(id);
 		this.dynamicAttributes = dynamicAttributes;
 		this.tableConfiguration = TableConfiguration.getInstance(id, request, groupName);
-		TableConfig.processConfiguration(this);
 	}
 
 	/**

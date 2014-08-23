@@ -188,7 +188,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		if (userProperties != null && !userProperties.isEmpty()) {
 			for (Entry<Object, Object> entry : userProperties.entrySet()) {
 				String key = entry.getKey().toString();
-				if (!key.contains("i18n.locale.resolver") && !key.contains("main.standalone")) {
+				if (!key.contains(I18N_LOCALE_RESOLVER) && !key.contains(I18N_MESSAGE_RESOLVER) && !key.contains("main.standalone")) {
 					groups.add(key.substring(0, key.indexOf(".")));
 				}
 			}
@@ -222,7 +222,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 		Properties globalProperties = new Properties();
 		for (Entry<Object, Object> entry : defaultProperties.entrySet()) {
 			String key = entry.getKey().toString();
-			if (!key.equals("i18n.locale.resolver") && !key.equals("main.standalone")) {
+			if (!key.equals(I18N_LOCALE_RESOLVER) && !key.equals(I18N_MESSAGE_RESOLVER) && !key.equals("main.standalone")) {
 				globalProperties.put(key.substring(key.indexOf(".") + 1), entry.getValue());
 			}
 		}
@@ -266,7 +266,7 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 				if (configToken != null) {
 					userConf.put(configToken, entry.getValue().toString());
 				}
-				else {
+				else if(!key.equals(I18N_LOCALE_RESOLVER) && !key.equals(I18N_MESSAGE_RESOLVER)) {
 					if (wrongKeys.containsKey(groupName)) {
 						wrongKeys.get(groupName).add(key);
 					}
@@ -319,14 +319,14 @@ public class StandardConfigurationLoader implements ConfigurationLoader {
 			if (!userProps.isEmpty()) {
 				for (Entry<Object, Object> entry : userProps.entrySet()) {
 					String key = entry.getKey().toString();
-					if (key.contains(TableConfig.I18N_MESSAGE_RESOLVER.getPropertyName())
+					if (key.contains(I18N_MESSAGE_RESOLVER)
 							&& StringUtils.isBlank(entry.getValue().toString())) {
 						userProps.put(entry.getKey(), "com.github.dandelion.datatables.jsp.i18n.JstlMessageResolver");
 					}
 				}
 			}
 			else {
-				userProps.put("global." + TableConfig.I18N_MESSAGE_RESOLVER.getPropertyName(),
+				userProps.put("global." + I18N_MESSAGE_RESOLVER,
 						"com.github.dandelion.datatables.jsp.i18n.JstlMessageResolver");
 			}
 		}
