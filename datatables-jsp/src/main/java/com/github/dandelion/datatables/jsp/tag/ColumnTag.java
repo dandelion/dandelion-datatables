@@ -37,7 +37,7 @@ import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.configuration.ConfigurationLoader;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
@@ -85,30 +85,25 @@ public class ColumnTag extends AbstractColumnTag {
 	 * {@inheritDoc}
 	 */
 	public int doStartTag() throws JspException {
-		
+
 		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
-		if(parent != null){
-			
+		if (parent != null) {
+
 			// On the first iteration, a header cell must be added
-			if(parent.isFirstIteration()){
+			if (parent.isFirstIteration()) {
 				headerColumn = new HtmlColumn(true, null, dynamicAttributes, display);
 			}
-			
-			// Either using a DOM source or an AJAX source, the body is skipped
-			// is there is no data to iterate on
-			if(parent.getCurrentObject() == null) {
-				return SKIP_BODY;
-			}
+
 			// When using a DOM source, the 'property' attribute has precedence
 			// over the body, so we don't even evaluate it
-			else if(StringUtils.isNotBlank(property)){
+			if (StringUtils.isNotBlank(property)) {
 				return SKIP_BODY;
 			}
 			else {
 				return EVAL_BODY_BUFFERED;
 			}
 		}
-		
+
 		throw new JspException("The tag 'column' must be inside the 'table' tag.");
 	}
 
@@ -136,15 +131,15 @@ public class ColumnTag extends AbstractColumnTag {
 			// If the 'titleKey' attribute is used, the column's title must be
 			// retrieved from the current ResourceBundle
 			if(columnTitle == null && titleKey != null){
-				if(TableConfig.I18N_MESSAGE_RESOLVER.valueFrom(parent.getTable().getTableConfiguration()) != null){
-					columnTitle = TableConfig.I18N_MESSAGE_RESOLVER.valueFrom(parent.getTable().getTableConfiguration())
+				if(parent.getTable().getTableConfiguration().getMessageResolver() != null){
+					columnTitle = parent.getTable().getTableConfiguration().getMessageResolver()
 							.getResource(titleKey, StringUtils.escape(this.escapeXml, this.property), pageContext);
 				}
 				else{
 					columnTitle = MessageResolver.UNDEFINED_KEY + titleKey + MessageResolver.UNDEFINED_KEY;
 					logger.warn(
 							"You cannot use the 'titleKey' attribute if no message resolver is configured. Please take a look at the {} property in the configuration reference.",
-							TableConfig.I18N_MESSAGE_RESOLVER.getPropertyName());
+							ConfigurationLoader.I18N_MESSAGE_RESOLVER);
 				}
 			}
 			
