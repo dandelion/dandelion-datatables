@@ -194,8 +194,9 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 					+ ":conf' has been found in the current template.");
 		}
 		
+		// The config node (the one with the dt:conf attribute), if it exists
 		Element configNode = (Element) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_NODE_CONFIG, request);
-		if(configNode != null){
+		if (configNode != null) {
 			configNode.getParent().removeChild(configNode);
 		}
 	}

@@ -118,7 +118,8 @@ public class TableInitializerElProcessor extends AbstractElProcessor {
 	 * any conflict with native HTML tables</li>
 	 * <li>A "finalizing {@code div}" must be added after the HTML {@code table}
 	 * tag in order to finalize the Dandelion-Datatables configuration. The
-	 * {@code div} will be removed in its corresponding processor.</li>
+	 * {@code div} will be removed in its corresponding processor, i.e.
+	 * {@link TableFinalizerElProcessor}</li>
 	 * </ul>
 	 * <p>
 	 * 

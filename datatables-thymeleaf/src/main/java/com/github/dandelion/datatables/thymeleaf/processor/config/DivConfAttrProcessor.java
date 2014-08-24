@@ -84,24 +84,25 @@ public class DivConfAttrProcessor extends AbstractAttrProcessor {
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 
 		// A Map<ConfType, Object> is associated with each table id
-		Map<String, Map<ConfType, Object>> configs = (Map<String, Map<ConfType, Object>>) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_BEAN_CONFIGS, request);
-		
+		Map<String, Map<ConfType, Object>> configs = (Map<String, Map<ConfType, Object>>) RequestUtils.getFromRequest(
+				DataTablesDialect.INTERNAL_BEAN_CONFIGS, request);
+
 		String tableId = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
-		
-		if(configs != null && configs.containsKey(tableId)){
+
+		if (configs != null && configs.containsKey(tableId)) {
 			throw new ConfigurationProcessingException("A div with id '" + tableId
 					+ "' is already present in the current template.");
 		}
-		else{
+		else {
 			configs = new HashMap<String, Map<ConfType, Object>>();
 		}
-		
+
 		configs.put(tableId, new HashMap<ConfType, Object>());
 		RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_BEAN_CONFIGS, configs, request);
-		
+
 		// The node is stored to be easily accessed later during the processing
 		RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_NODE_CONFIG, element, request);
-	
+
 		return ProcessorResult.ok();
 	}
 }

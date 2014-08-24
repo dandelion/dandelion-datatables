@@ -43,11 +43,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
-import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.attr.AbstractAttrProcessor;
-import org.thymeleaf.util.DOMUtils;
 
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
@@ -68,6 +66,7 @@ import com.github.dandelion.datatables.core.export.HttpMethod;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.util.ProcessorUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
+import com.github.dandelion.datatables.thymeleaf.processor.el.DivExtraHtmlFinalizerElProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
 
@@ -151,7 +150,7 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 			processPropertyAttributes(element, configs, tableId);
 			break;
 		case EXTRAHTML:
-			processExtrahtmlAttributes(element, configs, tableId);
+			processExtraHtmlAttributes(element, configs, tableId);
 			break;
 		}
 		
@@ -170,15 +169,24 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 	}
 
 	/**
+	 * <p>
 	 * Processes ExtraHtml attributes in order to build an instance of
 	 * {@link ExtraHtml}.
 	 * 
+	 * <p>
+	 * As Thymeleaf runs a processor before the evaluation of its children, the
+	 * content of the HTML snippet is not set here but in a dedicated processor:
+	 * {@link DivExtraHtmlFinalizerElProcessor}. As such, a fake {@code div} tag
+	 * is added inside the main configuration {@code div} with the same
+	 * {@code uid} attribute.
+	 * 
 	 * @param element
 	 *            The {@code div} element which holds the attribute.
+	 * @see DivExtraHtmlFinalizerElProcessor
 	 */
 	@SuppressWarnings("unchecked")
-	private void processExtrahtmlAttributes(Element element, Map<String, Map<ConfType, Object>> configs, String tableId) {
-
+	private void processExtraHtmlAttributes(Element element, Map<String, Map<ConfType, Object>> configs, String tableId) {
+		
 		if (hasAttribute(element, "uid")) {
 
 			ExtraHtml extraHtml = new ExtraHtml();
@@ -197,26 +205,27 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 				extraHtml.setCssClass(getStringValue(element, "cssClass"));
 			}
 
-			if (!element.getChildren().isEmpty()) {
-				StringBuilder sb = new StringBuilder();
-				for (Node child : element.getChildren()) {
-					sb.append(DOMUtils.getXmlFor(child).replaceAll("[\n\r]", "").trim());
-				}
-				extraHtml.setContent(sb.toString());
-			}
-
 			if (configs.get(tableId).containsKey(ConfType.EXTRAHTML)) {
 				List<ExtraHtml> extraHtmls = (List<ExtraHtml>) configs.get(tableId).get(ConfType.EXTRAHTML);
 
 				extraHtmls.add(extraHtml);
-			} else {
+			}
+			else {
 				List<ExtraHtml> extraHtmls = new ArrayList<ExtraHtml>();
 				extraHtmls.add(extraHtml);
 
 				configs.get(tableId).put(ConfType.EXTRAHTML, extraHtmls);
 			}
 
-		} else {
+			// We add a fake div here, in order to be able to get the content
+			// processed
+			Element div = new Element("div");
+			div.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":tmp", "internalUseExtraHtml");
+			div.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":uid", extraHtml.getUid());
+			element.getParent().addChild(div);
+			
+		}
+		else {
 			throw new ConfigurationProcessingException(
 					"The attribute 'dt:uid' is required when defining an extra HTML snippet.");
 		}
