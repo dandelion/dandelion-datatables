@@ -9,7 +9,7 @@
 
    <groupId>com.github.dandelion</groupId>
    <artifactId>dandelion-datatables</artifactId>
-   <version>0.10.2-SNAPSHOT</version>
+   <version>0.11.0-SNAPSHOT</version>
    <packaging>pom</packaging>
    <name>Dandelion :: Datatables</name>
    <description>
@@ -43,7 +43,7 @@
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
       <!-- Dependencies -->
-      <dandelion.version>0.10.1</dandelion.version>
+      <dandelion.version>0.11.0-SNAPSHOT</dandelion.version>
       <thymeleaf.version>2.1.1.RELEASE</thymeleaf.version>
       <commons-beanutils.version>1.8.3</commons-beanutils.version>
       <servlet-api.version>3.0.1</servlet-api.version>
