@@ -34,9 +34,6 @@ import java.util.Iterator;
 
 public class JavascriptUtils {
 
-	public final static char NEWLINE = '\n';
-	public final static String INDENT = "   ";
-	
 	/**
 	 * <p>
 	 * Converts a collection of Strings into a Javascript array.

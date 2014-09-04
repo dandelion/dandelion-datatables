@@ -29,8 +29,6 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import static com.github.dandelion.datatables.core.util.JavascriptUtils.INDENT;
-
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
@@ -67,14 +65,14 @@ public class AjaxReloadFeature extends AbstractExtension {
 		StringBuilder js = new StringBuilder();
 
 		if (StringUtils.isNotBlank(reloadFunction)) {
-			js.append("$('").append(reloadSelector).append("').bind('click', function() {").append(NEWLINE).append(INDENT).append(INDENT);
-			js.append(reloadFunction).append("();").append(NEWLINE).append(INDENT);
-			js.append("});").append(NEWLINE);
+			js.append("$('").append(reloadSelector).append("').bind('click', function() {");
+			js.append(reloadFunction).append("();");
+			js.append("});");
 		}
 		else {
-			js.append("$('").append(reloadSelector).append("').bind('click', function() {").append(NEWLINE).append(INDENT).append(INDENT);
-			js.append("oTable_").append(table.getId()).append(".fnReloadAjax();").append(NEWLINE).append(INDENT);
-			js.append("});").append(NEWLINE);
+			js.append("$('").append(reloadSelector).append("').bind('click', function() {");
+			js.append("oTable_").append(table.getId()).append(".fnReloadAjax();");
+			js.append("});");
 		}
 		appendToBeforeEndDocumentReady(js.toString());
 	}

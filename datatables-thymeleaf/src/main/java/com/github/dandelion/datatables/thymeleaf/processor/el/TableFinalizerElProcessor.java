@@ -44,24 +44,23 @@ import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
+import com.github.dandelion.core.asset.generator.JavascriptGenerator;
 import com.github.dandelion.core.asset.locator.impl.DelegateLocator;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.asset.ExtraJs;
-import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.configuration.ColumnConfig;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.DatatableBundles;
-import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.extension.feature.ExtraHtmlFeature;
 import com.github.dandelion.datatables.core.extension.feature.ExtraJsFeature;
-import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
-import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
+import com.github.dandelion.datatables.core.generator.DatatableAssetBuffer;
+import com.github.dandelion.datatables.core.generator.jquery.DatatableJQueryJavascriptGenerator;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.html.HtmlTag;
@@ -288,25 +287,27 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 		
 		htmlTable.getTableConfiguration().setExporting(false);
 
-		// Init the web resources generator
-		WebResourceGenerator contentGenerator = new WebResourceGenerator(htmlTable);
+		// Get the right Javascript generator or create it if it doesn't exist
+		JavascriptGenerator javascriptGenerator = AssetRequestContext.get(request).getParameterValue(
+				"dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM);
 
-		// Generate the web resources (JS, CSS) and wrap them into a
-		// WebResources POJO
-		JsResource jsResource = contentGenerator.generateWebResources();
-		logger.debug("Web content generated successfully");
+		if (javascriptGenerator == null) {
+			javascriptGenerator = new DatatableJQueryJavascriptGenerator();
+		}
 
-		applyCssConfiguration(arguments, request, htmlTable);
-		
-		// Asset stack update
-		AssetRequestContext.get(request)
-			.addBundles(DatatableBundles.DATATABLES)
-			.addBundles(DatatableBundles.DDL_DT.getBundleName())
-			.addParameter("dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM,
-						DatatablesConfigurator.getJavascriptGenerator(), false);
-		
+		// Generate the code according to the table and its configuration
+		DatatableAssetBuffer dab = DatatableAssetBuffer.create(htmlTable);
+
 		// Buffering generated Javascript
-		JavascriptGenerator javascriptGenerator = AssetRequestContext.get(request).getParameterValue("dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM);
-		javascriptGenerator.addResource(jsResource);
+		javascriptGenerator.fillBuffer(dab);
+
+		// Update the asset request context with the enabled bundles and
+		// Javascript generator
+		AssetRequestContext
+			.get(request)
+			.addBundles(DatatableBundles.DDL_DT)
+			.addBundles(DatatableBundles.DATATABLES)
+			.addParameter("dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM, javascriptGenerator,
+					false);
 	}
 }

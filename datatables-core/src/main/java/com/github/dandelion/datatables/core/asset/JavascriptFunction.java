@@ -29,9 +29,6 @@
  */
 package com.github.dandelion.datatables.core.asset;
 
-import static com.github.dandelion.datatables.core.util.JavascriptUtils.INDENT;
-import static com.github.dandelion.datatables.core.util.JavascriptUtils.NEWLINE;
-
 import com.github.dandelion.core.utils.StringUtils;
 
 /**
@@ -50,24 +47,24 @@ public class JavascriptFunction {
 	private String code;
 	private boolean hasReturn;
 	private String[] args;
-	
-	public JavascriptFunction(String code){
+
+	public JavascriptFunction(String code) {
 		this.code = code;
 		this.hasReturn = false;
 		this.args = null;
 	}
-	
-	public JavascriptFunction(String code, boolean hasReturn){
+
+	public JavascriptFunction(String code, boolean hasReturn) {
 		this.code = code;
 		this.hasReturn = hasReturn;
 		this.args = null;
 	}
-	
+
 	public JavascriptFunction(String code, String... args) {
 		this.code = code;
 		this.args = args;
 	}
-	
+
 	public JavascriptFunction(String code, boolean hasReturn, String... args) {
 		this.code = code;
 		this.hasReturn = hasReturn;
@@ -79,35 +76,36 @@ public class JavascriptFunction {
 		StringBuilder js = new StringBuilder();
 		js.append("function(");
 		js.append((args != null ? StringUtils.join(args, ",") : ""));
-		js.append(") {").append(NEWLINE).append(INDENT).append(INDENT);
+		js.append("){");
 		js.append((hasReturn ? "return " : ""));
-		js.append(code).append(NEWLINE).append(INDENT);
+		js.append(code);
 		js.append("}");
 		return js.toString();
 	}
-	
-	public String getCode(){
+
+	public String getCode() {
 		return this.code;
 	}
-	
-	public void setCode(String code){
+
+	public void setCode(String code) {
 		this.code = code;
 	}
 
-	public void appendCode(String code){
+	public void appendCode(String code) {
 		this.code += code;
 	}
-	
-	public void appendCode(char character){
+
+	public void appendCode(char character) {
 		this.code += character;
 	}
-	
+
 	@Override
 	public boolean equals(Object javascriptFunction) {
-		if(javascriptFunction != null && javascriptFunction instanceof JavascriptFunction) {
-			JavascriptFunction castedJavascriptFunction = (JavascriptFunction)javascriptFunction;
+		if (javascriptFunction != null && javascriptFunction instanceof JavascriptFunction) {
+			JavascriptFunction castedJavascriptFunction = (JavascriptFunction) javascriptFunction;
 			return toString().equals(castedJavascriptFunction.toString());
-		} else {
+		}
+		else {
 			return false;
 		}
 	}

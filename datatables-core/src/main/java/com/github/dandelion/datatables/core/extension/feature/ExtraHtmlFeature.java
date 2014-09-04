@@ -52,9 +52,7 @@ public class ExtraHtmlFeature extends AbstractExtension {
 	public void setup(HtmlTable table) {
 		for (ExtraHtml group : table.getTableConfiguration().getExtraHtmlSnippets()) {
 			StringBuilder js = group.getJavascript();
-			appendToAfterStartDocumentReady(INDENTATION);
 			appendToAfterStartDocumentReady(js.toString());
-			appendToAfterStartDocumentReady(NEWLINE);
 		}
 	}
 }

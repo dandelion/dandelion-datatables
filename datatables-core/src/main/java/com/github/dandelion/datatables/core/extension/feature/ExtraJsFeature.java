@@ -29,8 +29,6 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import static com.github.dandelion.datatables.core.util.JavascriptUtils.INDENT;
-
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -95,22 +93,16 @@ public class ExtraJsFeature extends AbstractExtension {
 				AssetLocator locator = locators.get(asset.getConfigLocationKey());
 				String content = locator.getContent(asset, request);
 	
-				if (!content.endsWith("\n")) {
-					content += "\n";
-				}
-
 				switch (extraJs.getInsert()) {
 				case BEFOREALL:
 					appendToBeforeAll(content);
 					break;
 
 				case AFTERSTARTDOCUMENTREADY:
-					appendToAfterStartDocumentReady(INDENT);
 					appendToAfterStartDocumentReady(content);
 					break;
 
 				case BEFOREENDDOCUMENTREADY:
-					appendToAfterStartDocumentReady(INDENT);
 					appendToBeforeEndDocumentReady(content);
 					break;
 

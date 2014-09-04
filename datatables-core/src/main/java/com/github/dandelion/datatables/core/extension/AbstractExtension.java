@@ -121,9 +121,6 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public abstract class AbstractExtension implements Extension {
 
-	public static final String INDENTATION = "   ";
-	public static final String NEWLINE = "\n";
-	
 	private String extensionName;
 	private StringBuilder beforeAll;
 	private StringBuilder beforeStartDocumentReady;

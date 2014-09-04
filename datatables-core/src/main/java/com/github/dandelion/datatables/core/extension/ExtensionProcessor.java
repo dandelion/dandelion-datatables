@@ -29,9 +29,6 @@
  */
 package com.github.dandelion.datatables.core.extension;
 
-import static com.github.dandelion.datatables.core.util.JavascriptUtils.INDENT;
-import static com.github.dandelion.datatables.core.util.JavascriptUtils.NEWLINE;
-
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -190,7 +187,6 @@ public class ExtensionProcessor {
 
 		case APPEND:
 			newValue = new StringBuilder(((JavascriptFunction) conf.getValue()).getCode());
-			newValue.append(NEWLINE).append(INDENT).append(INDENT);
 			newValue.append(jsFunction.getCode());
 			jsFunction.setCode(newValue.toString());
 			mainConfig.put(conf.getName(), jsFunction);

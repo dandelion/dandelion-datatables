@@ -29,9 +29,6 @@
  */
 package com.github.dandelion.datatables.core.callback;
 
-import static com.github.dandelion.datatables.core.util.JavascriptUtils.INDENT;
-import static com.github.dandelion.datatables.core.util.JavascriptUtils.NEWLINE;
-
 import java.util.List;
 
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
@@ -84,9 +81,6 @@ public class Callback {
 	}
 
 	public void appendCode(String code) {
-		this.function.appendCode(NEWLINE);
-		this.function.appendCode(INDENT);
-		this.function.appendCode(INDENT);
 		this.function.appendCode(code);
 	}
 

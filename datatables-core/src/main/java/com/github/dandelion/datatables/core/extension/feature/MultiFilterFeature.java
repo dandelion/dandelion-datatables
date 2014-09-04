@@ -58,7 +58,6 @@ import com.github.dandelion.datatables.core.util.JavascriptUtils;
 public class MultiFilterFeature extends AbstractExtension {
 
 	public static final String MULTI_FILTER_FEATURE_NAME = "multiFilter";
-	private static final char NEWLINE = '\n';
 	
 	@Override
 	public String getExtensionName() {
@@ -88,55 +87,55 @@ public class MultiFilterFeature extends AbstractExtension {
 				}
 			}
 			
-			js = new StringBuilder(NEWLINE);
-			js.append("$('").append(filterSelector).append("').click(function() {").append(NEWLINE);
-			js.append("   var filterParams = {};").append(NEWLINE);
-			js.append("   $.each(").append(JavascriptUtils.toArray(selectors)).append(", function(i, selector){").append(NEWLINE);
-			js.append("      $(selector + ' .dandelion_column_filter').each(function (index) {").append(NEWLINE);
-			js.append("         if(!$(this).hasClass('search_init') && $(this).val() != ''){").append(NEWLINE);
-			js.append("            filterParams[$(this).attr('data-column-name')] = $(this).val();").append(NEWLINE);
-			js.append("         }").append(NEWLINE);
-			js.append("      });").append(NEWLINE);
-			js.append("   });").append(NEWLINE);
-			js.append("   oTable_").append(table.getId()).append(".fnMultiFilter( filterParams );").append(NEWLINE);
-			js.append("});").append(NEWLINE);
+			js = new StringBuilder();
+			js.append("$('").append(filterSelector).append("').click(function() {");
+			js.append("   var filterParams = {};");
+			js.append("   $.each(").append(JavascriptUtils.toArray(selectors)).append(", function(i, selector){");
+			js.append("      $(selector + ' .dandelion_column_filter').each(function (index) {");
+			js.append("         if(!$(this).hasClass('search_init') && $(this).val() != ''){");
+			js.append("            filterParams[$(this).attr('data-column-name')] = $(this).val();");
+			js.append("         }");
+			js.append("      });");
+			js.append("   });");
+			js.append("   oTable_").append(table.getId()).append(".fnMultiFilter( filterParams );");
+			js.append("});");
 		}
 		else {
-			js = new StringBuilder(NEWLINE);
-			js.append("$('" + filterSelector + "').click(function() {").append(NEWLINE);
-			js.append("   var filterParams = {};").append(NEWLINE);
-			js.append("   $('#").append(table.getId()).append(" .dandelion_column_filter').each(function (index) {;").append(NEWLINE);
-			js.append("      if(!$(this).hasClass('search_init') && $(this).val() != ''){").append(NEWLINE);
-			js.append("         filterParams[$(this).attr('data-column-name')] = $(this).val();").append(NEWLINE);
-			js.append("      }").append(NEWLINE);
-			js.append("   });").append(NEWLINE);
-			js.append("   oTable_").append(table.getId()).append(".fnMultiFilter( filterParams );").append(NEWLINE);
+			js = new StringBuilder();
+			js.append("$('" + filterSelector + "').click(function() {");
+			js.append("   var filterParams = {};");
+			js.append("   $('#").append(table.getId()).append(" .dandelion_column_filter').each(function (index) {;");
+			js.append("      if(!$(this).hasClass('search_init') && $(this).val() != ''){");
+			js.append("         filterParams[$(this).attr('data-column-name')] = $(this).val();");
+			js.append("      }");
+			js.append("   });");
+			js.append("   oTable_").append(table.getId()).append(".fnMultiFilter( filterParams );");
 			js.append("});");
 		}
 		appendToBeforeEndDocumentReady(js.toString());
 				
 		if(StringUtils.isNotBlank(filterClearSelector)) {
 			if(FilterPlaceholder.NONE.equals(filterPlaceholder)) {
-				js = new StringBuilder(NEWLINE);
-				js.append("$('").append(filterClearSelector).append("').click(function() {").append(NEWLINE);
-				js.append("   oTable_").append(table.getId()).append(".fnFilterClear();").append(NEWLINE);
-				js.append("   $.each(" + JavascriptUtils.toArray(selectors) + ", function(i, selector){").append(NEWLINE);
-				js.append("      $(selector + ' .dandelion_column_filter').each(function (index) {").append(NEWLINE);
-				js.append("         $(this).val('');").append(NEWLINE);
-				js.append("         $(this).trigger('blur');").append(NEWLINE);
-				js.append("      });").append(NEWLINE);
-				js.append("   });").append(NEWLINE);
-				js.append("});").append(NEWLINE);
+				js = new StringBuilder();
+				js.append("$('").append(filterClearSelector).append("').click(function() {");
+				js.append("   oTable_").append(table.getId()).append(".fnFilterClear();");
+				js.append("   $.each(" + JavascriptUtils.toArray(selectors) + ", function(i, selector){");
+				js.append("      $(selector + ' .dandelion_column_filter').each(function (index) {");
+				js.append("         $(this).val('');");
+				js.append("         $(this).trigger('blur');");
+				js.append("      });");
+				js.append("   });");
+				js.append("});");
 			}
 			else{
-				js = new StringBuilder(NEWLINE);
-				js.append("$('").append(filterClearSelector).append("').click(function() {").append(NEWLINE);
-				js.append("   $('#").append(table.getId()).append(" .dandelion_column_filter').each(function (index) {;").append(NEWLINE);
-				js.append("      $(this).val('');").append(NEWLINE);
-				js.append("      $(this).trigger('blur');").append(NEWLINE);
-				js.append("   });").append(NEWLINE);
-				js.append("   oTable_").append(table.getId()).append(".fnFilterClear();").append(NEWLINE);
-				js.append("});").append(NEWLINE);
+				js = new StringBuilder();
+				js.append("$('").append(filterClearSelector).append("').click(function() {");
+				js.append("   $('#").append(table.getId()).append(" .dandelion_column_filter').each(function (index) {;");
+				js.append("      $(this).val('');");
+				js.append("      $(this).trigger('blur');");
+				js.append("   });");
+				js.append("   oTable_").append(table.getId()).append(".fnFilterClear();");
+				js.append("});");
 			}
 			appendToBeforeEndDocumentReady(js.toString());
 		}
