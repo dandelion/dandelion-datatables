@@ -36,7 +36,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.core.constants.SystemConstants;
-import com.github.dandelion.datatables.core.generator.javascript.StandardJavascriptGenerator;
 import com.github.dandelion.datatables.core.i18n.StandardLocaleResolver;
 
 public class DatatablesConfiguratorTest {
@@ -66,18 +65,6 @@ public class DatatablesConfiguratorTest {
 	@Test
 	public void should_return_default_locale_resolver(){
 		assertThat(DatatablesConfigurator.getLocaleResolver()).isInstanceOf(StandardLocaleResolver.class);
-	}
-	
-	@Test
-	public void should_return_StandardJavascriptGenerator_from_default_configuration(){
-		assertThat(DatatablesConfigurator.getJavascriptGenerator()).isInstanceOf(StandardJavascriptGenerator.class);
-	}
-	
-	@Test
-	public void should_use_another_javascript_generator_using_system_property(){
-		System.setProperty(SystemConstants.DANDELION_DT_JS_GEN_CLASS, "com.github.dandelion.datatables.core.configuration.FakeJavascriptGenerator");
-		assertThat(DatatablesConfigurator.getJavascriptGenerator()).isInstanceOf(FakeJavascriptGenerator.class);
-		System.clearProperty(SystemConstants.DANDELION_DT_JS_GEN_CLASS);
 	}
 	
 	@After

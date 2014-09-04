@@ -43,9 +43,9 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
-import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
+import com.github.dandelion.datatables.core.generator.DatatableAssetBuffer;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
 
@@ -66,18 +66,18 @@ public class ExtensionProcessor {
 	private HtmlTable table;
 
 	/**
-	 * The container used for the DataTables initialization code.
+	 * The buffer used for the DataTables initialization code.
 	 */
-	private JsResource mainJsFile;
+	private DatatableAssetBuffer dab;
 
 	/**
 	 * The map containing the DataTables parameters.
 	 */
 	private Map<String, Object> mainConfig;
 
-	public ExtensionProcessor(HtmlTable table, JsResource mainJsFile, Map<String, Object> mainConfig) {
+	public ExtensionProcessor(HtmlTable table, DatatableAssetBuffer dab, Map<String, Object> mainConfig) {
 		this.table = table;
-		this.mainJsFile = mainJsFile;
+		this.dab = dab;
 		this.mainConfig = mainConfig;
 	}
 
@@ -108,22 +108,22 @@ public class ExtensionProcessor {
 
 		// Extension configuration loading
 		if (extension.getBeforeAll() != null) {
-			mainJsFile.appendToBeforeAll(extension.getBeforeAll().toString());
+			dab.appendToBeforeAll(extension.getBeforeAll().toString());
 		}
 		if (extension.getBeforeStartDocumentReady() != null) {
-			mainJsFile.appendToBeforeStartDocumentReady(extension.getBeforeStartDocumentReady().toString());
+			dab.appendToBeforeStartDocumentReady(extension.getBeforeStartDocumentReady().toString());
 		}
 		if (extension.getAfterStartDocumentReady() != null) {
-			mainJsFile.appendToAfterStartDocumentReady(extension.getAfterStartDocumentReady().toString());
+			dab.appendToAfterStartDocumentReady(extension.getAfterStartDocumentReady().toString());
 		}
 		if (extension.getBeforeEndDocumentReady() != null) {
-			mainJsFile.appendToBeforeEndDocumentReady(extension.getBeforeEndDocumentReady().toString());
+			dab.appendToBeforeEndDocumentReady(extension.getBeforeEndDocumentReady().toString());
 		}
 		if (extension.getAfterAll() != null) {
-			mainJsFile.appendToAfterAll(extension.getAfterAll().toString());
+			dab.appendToAfterAll(extension.getAfterAll().toString());
 		}
 		if (extension.getFunction() != null) {
-			mainJsFile.appendToDataTablesExtra(extension.getFunction());
+			dab.appendToDataTablesExtra(extension.getFunction());
 		}
 
 		// Extension custom configuration generator
@@ -142,7 +142,7 @@ public class ExtensionProcessor {
 				throw new ExtensionLoadingException("Unable to convert the configuration into JSON", e);
 			}
 
-			mainJsFile.appendToDataTablesExtraConf(writer.toString());
+			dab.appendToDataTablesExtraConf(writer.toString());
 		}
 	}
 

@@ -1,21 +1,21 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright
  * notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
- * 3. Neither the name of Dandelion nor the names of its contributors 
- * may be used to endorse or promote products derived from this software 
+ * 3. Neither the name of Dandelion nor the names of its contributors
+ * may be used to endorse or promote products derived from this software
  * without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -37,60 +37,88 @@ import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.core.asset.generator.jquery.JQueryAssetBuffer;
 import com.github.dandelion.datatables.core.exception.WebResourceGenerationException;
 import com.github.dandelion.datatables.core.extension.ExtensionLoader;
 import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
 
-/**
- * <p>
- * Class in charge of web resources generation.
- * 
- * <p>
- * The generated JSON (DataTables configuration) is pretty printed using a
- * custom writer written by Elad Tabak.
- * 
- * @author Thibault Duchateau
- */
-public class WebResourceGenerator {
+public class DatatableAssetBuffer extends JQueryAssetBuffer {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(WebResourceGenerator.class);
-
-	private HtmlTable table;
-	
-	/**
-	 * The DataTables configuration generator.
-	 */
-	private static DatatablesGenerator configGenerator;
-	
-	public WebResourceGenerator(HtmlTable table){
-		this.table = table;
+	private DatatableAssetBuffer() {
 	}
-	
-	/**
-	 * <p>
-	 * Main method which generated the web resources (js and css files).
-	 * 
-	 * @param pageContext
-	 *            Context of the servlet.
-	 * @param table
-	 *            Table from which the configuration is extracted.
-	 * @return A string corresponding to the Javascript code to return to the
-	 *         JSP.
-	 */
-	public JsResource generateWebResources() {
+
+	protected static Logger logger = LoggerFactory.getLogger(DatatableAssetBuffer.class);
+
+	private String processedId;
+	private String originalId;
+
+	private StringBuilder dataTablesConf;
+	private StringBuilder dataTablesExtra;
+	private StringBuilder dataTablesExtraConf;
+
+	public String getProcessedId() {
+		return processedId;
+	}
+
+	public void setProcessedId(String processedId) {
+		this.processedId = processedId;
+	}
+
+	public String getOriginalId() {
+		return originalId;
+	}
+
+	public void setOriginalId(String originalId) {
+		this.originalId = originalId;
+	}
+
+	public StringBuilder getDataTablesConf() {
+		return dataTablesConf;
+	}
+
+	public void appendToDataTablesConf(String dataTablesConf) {
+		if (this.dataTablesConf == null) {
+			this.dataTablesConf = new StringBuilder();
+		}
+		this.dataTablesConf.append(dataTablesConf);
+	}
+
+	public StringBuilder getDataTablesExtra() {
+		return dataTablesExtra;
+	}
+
+	public void appendToDataTablesExtra(String dataTablesExtra) {
+		if (this.dataTablesExtra == null) {
+			this.dataTablesExtra = new StringBuilder();
+		}
+		this.dataTablesExtra.append(dataTablesExtra);
+	}
+
+	public StringBuilder getDataTablesExtraConf() {
+		return dataTablesExtraConf;
+	}
+
+	public void appendToDataTablesExtraConf(String dataTablesExtraConf) {
+		if (this.dataTablesExtraConf == null) {
+			this.dataTablesExtraConf = new StringBuilder();
+		}
+		this.dataTablesExtraConf.append(dataTablesExtraConf);
+	}
+
+	public static DatatableAssetBuffer create(HtmlTable table) {
 
 		/**
 		 * Main configuration file building
 		 */
-		JsResource mainJsFile = new JsResource(table.getId(), table.getOriginalId());
-		
+		DatatableAssetBuffer dab = new DatatableAssetBuffer();
+		dab.setOriginalId(table.getOriginalId());
+		dab.setProcessedId(table.getId());
+
 		// Init the "configuration" map with the table informations
 		// The configuration may be updated depending on the user's choices
-		configGenerator = new DatatablesGenerator();
+		DatatablesGenerator configGenerator = new DatatablesGenerator();
 		Map<String, Object> mainConf = configGenerator.generateConfig(table);
 
 		/**
@@ -98,8 +126,8 @@ public class WebResourceGenerator {
 		 */
 		logger.debug("Loading extensions...");
 		ExtensionLoader extensionLoader = new ExtensionLoader(table);
-		extensionLoader.loadExtensions(mainJsFile, mainConf);
-		
+		extensionLoader.loadExtensions(dab, mainConf);
+
 		/**
 		 * Main configuration generation
 		 */
@@ -108,11 +136,12 @@ public class WebResourceGenerator {
 		try {
 			Writer writer = new JsonIndentingWriter();
 			JSONValue.writeJSONString(mainConf, writer);
-			mainJsFile.appendToDataTablesConf(writer.toString());
-		} catch (IOException e) {
+			dab.appendToDataTablesConf(writer.toString());
+		}
+		catch (IOException e) {
 			throw new WebResourceGenerationException("Unable to generate the JSON configuration", e);
 		}
 
-		return mainJsFile;
+		return dab;
 	}
 }

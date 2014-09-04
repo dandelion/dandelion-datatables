@@ -45,19 +45,18 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.asset.generator.JavascriptGenerator;
 import com.github.dandelion.core.asset.locator.impl.DelegateLocator;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.DatatablesConfigurator;
 import com.github.dandelion.datatables.core.configuration.DatatableBundles;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportUtils;
-import com.github.dandelion.datatables.core.generator.WebResourceGenerator;
-import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
+import com.github.dandelion.datatables.core.generator.DatatableAssetBuffer;
+import com.github.dandelion.datatables.core.generator.jquery.DatatableJQueryJavascriptGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -106,7 +105,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 
 	// Whether XML characters should be escaped
 	protected boolean escapeXml = true;
-	
+
 	/**
 	 * Internal attributes
 	 */
@@ -153,11 +152,13 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 				String rowId = getRowId();
 				if (StringUtils.isNotBlank(rowId)) {
 					this.table.addRow(rowId);
-				} else {
+				}
+				else {
 					this.table.addRow();
 				}
 				retval = EVAL_BODY_BUFFERED;
-			} else {
+			}
+			else {
 				retval = SKIP_BODY;
 			}
 
@@ -166,7 +167,8 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 			}
 
 			return retval;
-		} else {
+		}
+		else {
 			return SKIP_BODY;
 		}
 	}
@@ -194,11 +196,14 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 				Object propertyValue = PropertyUtils.getNestedProperty(this.currentObject,
 						StringUtils.escape(this.escapeXml, this.rowIdBase));
 				rowId.append(propertyValue != null ? propertyValue : "");
-			} catch (IllegalAccessException e) {
+			}
+			catch (IllegalAccessException e) {
 				throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
-			} catch (InvocationTargetException e) {
+			}
+			catch (InvocationTargetException e) {
 				throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
-			} catch (NoSuchMethodException e) {
+			}
+			catch (NoSuchMethodException e) {
 				throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
 			}
 		}
@@ -219,36 +224,35 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 	 */
 	protected int setupHtmlGeneration() throws JspException {
 
-		JsResource jsResource = null;
-
 		this.table.getTableConfiguration().setExporting(false);
 
+		// Get the right Javascript generator or create it if it doesn't exist
+		JavascriptGenerator javascriptGenerator = AssetRequestContext.get(this.request).getParameterValue(
+				"dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM);
+
+		if (javascriptGenerator == null) {
+			javascriptGenerator = new DatatableJQueryJavascriptGenerator();
+		}
+
+		// Generate the code according to the table and its configuration
+		DatatableAssetBuffer dab = DatatableAssetBuffer.create(this.table);
+
+		// Buffering generated Javascript
+		javascriptGenerator.fillBuffer(dab);
+
+		// Update the asset request context with the enabled bundles and
+		// Javascript generator
+		AssetRequestContext
+			.get(this.request)
+			.addBundles(DatatableBundles.DDL_DT)
+			.addBundles(DatatableBundles.DATATABLES)
+			.addParameter("dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM, javascriptGenerator,
+					false);
+
 		try {
-			// Init the web resources generator
-			WebResourceGenerator contentGenerator = new WebResourceGenerator(table);
-
-			// Generate the web resources (JS, CSS) and wrap them into a
-			// WebResources POJO
-			jsResource = contentGenerator.generateWebResources();
-			logger.debug("Web content generated successfully");
-
-			// Asset stack update
-			AssetRequestContext
-					.get(request)
-					.addBundles(DatatableBundles.DDL_DT)
-					.addBundles(DatatableBundles.DATATABLES)
-					.addParameter("dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM,
-							DatatablesConfigurator.getJavascriptGenerator(), false);
-
-			// Buffering generated Javascript
-			JavascriptGenerator javascriptGenerator = AssetRequestContext.get(request).getParameterValue(
-					"dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM);
-			javascriptGenerator.addResource(jsResource);
-
-			// HTML generation
-			pageContext.getOut().println(this.table.toHtml());
-
-		} catch (IOException e) {
+			this.pageContext.getOut().println(this.table.toHtml());
+		}
+		catch (IOException e) {
 			throw new JspException("Unable to generate the HTML markup for the table " + id, e);
 		}
 
@@ -276,7 +280,8 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 			ExportDelegate exportDelegate = new ExportDelegate(table, request);
 			exportDelegate.prepareExport();
 
-		} catch (ExportException e) {
+		}
+		catch (ExportException e) {
 			logger.error("Something went wront with the Dandelion export configuration.");
 			throw new JspException(e);
 		}
@@ -299,7 +304,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 
 		this.dynamicAttributes.put(localName, (String) value);
 	}
-	
+
 	/**
 	 * <p>
 	 * Validates the passed dynamic attribute.
