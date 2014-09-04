@@ -1,0 +1,31 @@
+#Features
+com.github.dandelion.datatables.core.extension.feature.AjaxFeature
+com.github.dandelion.datatables.core.extension.feature.AjaxReloadFeature
+com.github.dandelion.datatables.core.extension.feature.AppearFeature
+com.github.dandelion.datatables.core.extension.feature.ExportFeature
+com.github.dandelion.datatables.core.extension.feature.ExtraHtmlFeature
+com.github.dandelion.datatables.core.extension.feature.ExtraJsFeature
+com.github.dandelion.datatables.core.extension.feature.MultiFilterFeature
+com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFeature
+com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFourButtonFeature
+com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFullNumbersFeature
+com.github.dandelion.datatables.core.extension.feature.PaginationTypeExtJsFeature
+com.github.dandelion.datatables.core.extension.feature.PaginationTypeFourButtonFeature
+com.github.dandelion.datatables.core.extension.feature.PaginationTypeInputFeature
+com.github.dandelion.datatables.core.extension.feature.PaginationTypeListboxFeature
+com.github.dandelion.datatables.core.extension.feature.PaginationTypeScrollingFeature
+com.github.dandelion.datatables.core.extension.feature.PipeliningFeature
+com.github.dandelion.datatables.core.extension.feature.ServerSideFeature
+com.github.dandelion.datatables.core.extension.feature.SortingFeature
+
+# Plugins
+com.github.dandelion.datatables.core.extension.plugin.ColReorderPlugin
+com.github.dandelion.datatables.core.extension.plugin.FixedHeaderPlugin
+com.github.dandelion.datatables.core.extension.plugin.ScrollerPlugin
+
+# Themes
+com.github.dandelion.datatables.core.extension.theme.Bootstrap2ResponsiveTheme
+com.github.dandelion.datatables.core.extension.theme.Bootstrap2Theme
+com.github.dandelion.datatables.core.extension.theme.Bootstrap3ResponsiveTheme
+com.github.dandelion.datatables.core.extension.theme.Bootstrap3Theme
+com.github.dandelion.datatables.core.extension.theme.JQueryUITheme

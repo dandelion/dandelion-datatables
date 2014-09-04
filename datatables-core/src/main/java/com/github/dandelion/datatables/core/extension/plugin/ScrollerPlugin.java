@@ -45,12 +45,14 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class ScrollerPlugin extends AbstractExtension {
 
+	public static final String SCROLLER_PLUGIN_NAME = "scroller";
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getName() {
-		return "Scroller";
+	public String getExtensionName() {
+		return SCROLLER_PLUGIN_NAME;
 	}
 
 	/**

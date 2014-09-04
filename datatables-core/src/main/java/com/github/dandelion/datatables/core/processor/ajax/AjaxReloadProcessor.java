@@ -47,7 +47,7 @@ public class AjaxReloadProcessor extends AbstractConfigurationProcessor {
 	protected void doProcess() {
 
 		if (StringUtils.isNotBlank(stringifiedValue)) {
-			registerExtension(new AjaxReloadFeature());
+			registerExtension(AjaxReloadFeature.AJAX_RELOAD_FEATURE_NAME);
 			updateEntry(stringifiedValue);
 		}
 	}

@@ -57,11 +57,12 @@ import com.github.dandelion.datatables.core.util.JavascriptUtils;
  */
 public class MultiFilterFeature extends AbstractExtension {
 
+	public static final String MULTI_FILTER_FEATURE_NAME = "multiFilter";
 	private static final char NEWLINE = '\n';
 	
 	@Override
-	public String getName() {
-		return "multifilter";
+	public String getExtensionName() {
+		return MULTI_FILTER_FEATURE_NAME;
 	}
 
 	@Override

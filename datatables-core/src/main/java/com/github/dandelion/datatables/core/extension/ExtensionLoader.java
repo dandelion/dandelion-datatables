@@ -29,34 +29,31 @@
  */
 package com.github.dandelion.datatables.core.extension;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.asset.JsResource;
+import com.github.dandelion.core.utils.ServiceLoaderUtils;
+import com.github.dandelion.core.utils.Validate;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
+import com.github.dandelion.datatables.core.generator.DatatableAssetBuffer;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.ClassUtils;
 
 /**
  * <p>
  * Loader for all extensions : features, plugins, themes.
- * <p>
  * 
  * @author Thibault Duchateau
+ * @since 0.7.1
  */
 public class ExtensionLoader {
 
-	// Logger
 	private static Logger logger = LoggerFactory.getLogger(ExtensionLoader.class);
 
 	private HtmlTable table;
@@ -79,20 +76,44 @@ public class ExtensionLoader {
 		this.table = table;
 	}
 
-	public void loadExtensions(JsResource mainJsFile, Map<String, Object> mainConf) {
-		
-		registerBuiltInExtensions(table);
-		registerCustomExtensions(table);
-		
+	public void loadExtensions(DatatableAssetBuffer mainJsFile, Map<String, Object> mainConf) {
+
+		registerExtensions(table);
+
 		ExtensionProcessor extensionProcessor = new ExtensionProcessor(table, mainJsFile, mainConf);
 		extensionProcessor.process(table.getTableConfiguration().getInternalExtensions());
-		
+
 		Extension theme = TableConfig.CSS_THEME.valueFrom(table);
-		if(theme != null){
-			extensionProcessor.process(new HashSet<Extension>(Arrays.asList(theme)));			
+		if (theme != null) {
+			extensionProcessor.process(new HashSet<Extension>(Arrays.asList(theme)));
 		}
 	}
-	
+
+	/**
+	 * <p>
+	 * Returns the {@link Extension} associated with the passed name or
+	 * {@code null} if the {@link Extension} doesn't exist among all scanned
+	 * extensions.
+	 * 
+	 * @param extensionName
+	 *            The name of the {@link Extension} to retrieve.
+	 * @return the corresponding {@link Extension}.
+	 */
+	public static Extension get(String extensionName) {
+
+		Validate.notBlank(extensionName, "The extension name can't be blank");
+
+		ServiceLoader<Extension> loadedExtensions = ServiceLoader.load(Extension.class);
+
+		for (Extension ex : loadedExtensions) {
+			if (ex.getExtensionName().equalsIgnoreCase(extensionName)) {
+				return ex;
+			}
+		}
+
+		return null;
+	}
+
 	/**
 	 * Add custom extensions (for now features and plugins) to the current table
 	 * if they're activated.
@@ -100,103 +121,27 @@ public class ExtensionLoader {
 	 * @param table
 	 *            the HtmlTable to update with custom extensions.
 	 */
-	private void registerBuiltInExtensions(HtmlTable table) {
+	private void registerExtensions(HtmlTable table) {
 
-		logger.debug("Scanning built-in extensions...");
+		logger.debug("Scanning for extensions...");
 
-		// Scanning built-in extensions
-		List<Extension> builtinExtensions = scanForExtensions(
-				"com.github.dandelion.datatables.core.extension.plugin",
-				"com.github.dandelion.datatables.core.extension.theme");
+		// Get all available extensions from the classpath
+		List<Extension> builtInExtensions = ServiceLoaderUtils.getProvidersAsList(Extension.class);
 
 		// Load built-in extension if some are enabled
 		Set<String> extensionNames = TableConfig.MAIN_EXTENSION_NAMES.valueFrom(table);
-		if (builtinExtensions != null && !builtinExtensions.isEmpty() && extensionNames != null && !extensionNames.isEmpty()) {
+		if (builtInExtensions != null && !builtInExtensions.isEmpty() && extensionNames != null
+				&& !extensionNames.isEmpty()) {
 			for (String extensionToRegister : extensionNames) {
-				for (Extension extension : builtinExtensions) {
-					if (extensionToRegister.equalsIgnoreCase(extension.getName())) {
+				for (Extension extension : builtInExtensions) {
+					if (extensionToRegister.equalsIgnoreCase(extension.getExtensionName())) {
 						table.getTableConfiguration().registerExtension(extension);
-						logger.debug("Built-in extension {} registered", extension.getName());
+						logger.debug("Extension '{}' registered in table '{}'", extension.getExtensionName(),
+								table.getId());
 						continue;
 					}
 				}
 			}
-		} 
-	}
-	
-	/**
-	 * Add custom extensions (for now features and plugins) to the current table
-	 * if they're activated.
-	 * 
-	 * @param table
-	 *            the HtmlTable to update with custom extensions.
-	 */
-	private void registerCustomExtensions(HtmlTable table) {
-
-		String packageToScan = TableConfig.MAIN_EXTENSION_PACKAGE.valueFrom(table);
-		if (StringUtils.isNotBlank(packageToScan)) {
-
-			logger.debug("Scanning custom extensions...");
-
-			// Scanning custom extension based on the base.package property
-			List<Extension> customExtensions = scanForExtensions(packageToScan);
-
-			// Load custom extension if some are enabled
-			Set<String> extensionNames = TableConfig.MAIN_EXTENSION_NAMES.valueFrom(table);
-			if (customExtensions != null && !customExtensions.isEmpty() && extensionNames != null && !extensionNames.isEmpty()) {
-				for (String extensionToRegister : extensionNames) {
-					for (Extension customExtension : customExtensions) {
-						if (extensionToRegister.equals(customExtension.getName().toLowerCase())) {
-							table.getTableConfiguration().registerExtension(customExtension);
-							logger.debug("Custom extension '{}' registered", customExtension.getName());
-							continue;
-						}
-					}
-				}
-			} else {
-				logger.warn("A base backage to scan has been detected ('" + packageToScan
-						+ "') but no custom extension has been found inside.");
-			}
 		}
-	}
-	
-	private List<Extension> scanForExtensions(String... packageNames) {
-		List<Extension> extensions = new ArrayList<Extension>();
-		for(String packageName : packageNames){
-			extensions.addAll(scanForExtensions(packageName));
-		}
-		return extensions;
-	}
-	
-	private List<Extension> scanForExtensions(String packageName) {
-
-		// Init return value
-		List<Extension> retval = new ArrayList<Extension>();
-
-		List<Class<?>> customExtensionClassList = null;
-		
-		try {
-			customExtensionClassList = ClassUtils.getSubClassesInPackage(packageName, AbstractExtension.class);
-		} catch (ClassNotFoundException e) {
-			throw new ExtensionLoadingException("Unable to load extensions", e);
-		} catch (IOException e) {
-			throw new ExtensionLoadingException("Unable to access the package '" + packageName + "'", e);
-		}
-		
-		// Instanciate all found classes
-		for (Class<?> clazz : customExtensionClassList) {
-
-			try {
-				retval.add((AbstractExtension) ClassUtils.getClass(clazz.getName()).newInstance());
-			} catch (InstantiationException e) {
-				throw new ExtensionLoadingException("Unable to instanciate the class " + clazz.getName(), e);
-			} catch (IllegalAccessException e) {
-				throw new ExtensionLoadingException("Unable to access the class " + clazz.getName(), e);
-			} catch (ClassNotFoundException e) {
-				throw new ExtensionLoadingException("Unable to load the class " + clazz.getName(), e);
-			}
-		}
-
-		return retval;
 	}
 }

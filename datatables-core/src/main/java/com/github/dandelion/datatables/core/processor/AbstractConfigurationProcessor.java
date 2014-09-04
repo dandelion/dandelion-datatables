@@ -43,6 +43,7 @@ import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.configuration.TableConfiguration;
 import com.github.dandelion.datatables.core.extension.Extension;
+import com.github.dandelion.datatables.core.extension.ExtensionLoader;
 import com.github.dandelion.datatables.core.util.ProcessorUtils;
 
 /**
@@ -145,16 +146,28 @@ public abstract class AbstractConfigurationProcessor implements ConfigurationPro
 
 	/**
 	 * <p>
-	 * Utility method used to register an extension to the current
+	 * Utility method used to register an {@link Extension} in the current
 	 * {@link TableConfiguration} instance.
 	 * 
 	 * @param extension
-	 *            The extension to register.
+	 *            The {@link Extension} to register.
 	 */
 	protected void registerExtension(Extension extension) {
 		this.tableConfiguration.registerExtension(extension);
 	}
 
+	/**
+	 * <p>
+	 * Utility method used to register an {@link Extension} in the current
+	 * {@link TableConfiguration} instance.
+	 * 
+	 * @param extensionName
+	 *            The name of the {@link Extension} to register.
+	 */
+	protected void registerExtension(String extensionName) {
+		this.tableConfiguration.registerExtension(ExtensionLoader.get(extensionName));
+	}
+	
 	/**
 	 * <p>
 	 * Update the entry using with the new value.

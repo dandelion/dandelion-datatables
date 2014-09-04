@@ -29,8 +29,10 @@
  */
 package com.github.dandelion.datatables.core.processor.feature;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFourButtonFeature;
@@ -43,46 +45,60 @@ import com.github.dandelion.datatables.core.processor.AbstractConfigurationProce
 
 public class FeaturePaginationTypeProcessor extends AbstractConfigurationProcessor {
 
+	private static Logger logger = LoggerFactory.getLogger(FeaturePaginationTypeProcessor.class);
+
 	@Override
 	public void doProcess() {
 
 		PaginationType type = null;
+
 		if (StringUtils.isNotBlank(stringifiedValue)) {
+
+			// Let first try to match the value against an existing pagination
+			// type
 			try {
 				type = PaginationType.valueOf(stringifiedValue.toUpperCase());
-			} catch (IllegalArgumentException e) {
-				throw new ConfigurationProcessingException(stringifiedValue + " is not a valid value among "
-						+ PaginationType.values(), e);
+			}
+			// If not, we assume that you have previously registered an
+			// extension using the Extension mechanism
+			catch (IllegalArgumentException e) {
+				logger.info(
+						"The pagination type '{}' doesn't match any of the predefined pagination types. Make sure an extension is registered for this pagination type.",
+						stringifiedValue);
 			}
 
-			switch (type) {
-			case INPUT:
-				tableConfiguration.registerExtension(new PaginationTypeInputFeature());
-				break;
-			case LISTBOX:
-				tableConfiguration.registerExtension(new PaginationTypeListboxFeature());
-				break;
-			case SCROLLING:
-				tableConfiguration.registerExtension(new PaginationTypeScrollingFeature());
-				break;
-			case FOUR_BUTTON:
-				tableConfiguration.registerExtension(new PaginationTypeFourButtonFeature());
-				break;
+			if (type != null) {
 
-			// --- Bootstrap 2 styles ---
-			case BOOTSTRAP:
-				tableConfiguration.registerExtension(new PaginationTypeBootstrapFeature());
-				break;
-			case BOOTSTRAP_FOUR_BUTTON:
-				tableConfiguration.registerExtension(new PaginationTypeBootstrapFourButtonFeature());
-				break;
-			case BOOTSTRAP_FULL_NUMBERS:
-				tableConfiguration.registerExtension(new PaginationTypeBootstrapFullNumbersFeature());
-				break;
+				switch (type) {
+				case INPUT:
+					registerExtension(PaginationTypeInputFeature.PAGINATION_TYPE_INPUT_FEATURE_NAME);
+					break;
+				case LISTBOX:
+					registerExtension(PaginationTypeListboxFeature.PAGINATION_TYPE_LISTBOX_FEATURE_NAME);
+					break;
+				case SCROLLING:
+					registerExtension(PaginationTypeScrollingFeature.PAGINATION_TYPE_SCROLLING_FEATURE_NAME);
+					break;
+				case FOUR_BUTTON:
+					registerExtension(PaginationTypeFourButtonFeature.PAGINATION_TYPE_FOURBUTTON_FEATURE_NAME);
+					break;
 
-			default:
-				break;
+				// --- Bootstrap 2 styles ---
+				case BOOTSTRAP:
+					registerExtension(PaginationTypeBootstrapFeature.PAGINATION_TYPE_BS_FEATURE_NAME);
+					break;
+				case BOOTSTRAP_FOUR_BUTTON:
+					registerExtension(PaginationTypeBootstrapFourButtonFeature.PAGINATION_TYPE_BS_FOURBUTTON_FEATURE_NAME);
+					break;
+				case BOOTSTRAP_FULL_NUMBERS:
+					registerExtension(PaginationTypeBootstrapFullNumbersFeature.PAGINATION_TYPE_BS_FULLNUMBERS_FEATURE_NAME);
+					break;
+
+				default:
+					break;
+				}
 			}
+
 		}
 
 		updateEntry(type);

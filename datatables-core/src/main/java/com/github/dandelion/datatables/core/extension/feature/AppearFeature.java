@@ -45,9 +45,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class AppearFeature extends AbstractExtension {
 
+	public static final String APPEAR_FEATURE_NAME = "appear";
+
 	@Override
-	public String getName() {
-		return "appear";
+	public String getExtensionName() {
+		return APPEAR_FEATURE_NAME;
 	}
 
 	@Override

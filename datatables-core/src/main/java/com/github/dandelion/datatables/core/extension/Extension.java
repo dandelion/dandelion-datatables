@@ -109,14 +109,13 @@ public interface Extension {
 
 	/**
 	 * <p>
-	 * Returns the extension's name. The name is case-insensitive when loaded by
-	 * the JSP taglib or the Thymelead dialect.
+	 * Returns the extension's name.
 	 */
-	public String getName();
+	public String getExtensionName();
 
 	/**
 	 * <p>
-	 * Set the extension up.
+	 * Sets up the extension.
 	 * <p>
 	 * The HtmlTable object is available if a particular configuration is
 	 * needed.

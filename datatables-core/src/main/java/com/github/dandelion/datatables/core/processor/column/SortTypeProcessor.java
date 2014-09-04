@@ -51,7 +51,7 @@ public class SortTypeProcessor extends AbstractConfigurationProcessor {
 
 			SortType sortType = SortType.findByName(stringifiedValue);
 			if (sortType != null) {
-				registerExtension(new SortingFeature());
+				registerExtension(SortingFeature.SORTING_FEATURE_NAME);
 				updateEntry(sortType.getName());
 			} else {
 				updateEntry(stringifiedValue);

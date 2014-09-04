@@ -55,7 +55,7 @@ public class AjaxSourceProcessor extends AbstractConfigurationProcessor {
 
 			Boolean serverSideEnabled = serverSide != null && serverSide;
 			if (!serverSideEnabled) {
-				registerExtension(new AjaxFeature());
+				registerExtension(AjaxFeature.AJAX_FEATURE_NAME);
 			}
 
 			updateEntry(stringifiedValue);

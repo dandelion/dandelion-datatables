@@ -33,6 +33,7 @@ import static com.github.dandelion.datatables.core.util.JavascriptUtils.INDENT;
 import static com.github.dandelion.datatables.core.util.JavascriptUtils.NEWLINE;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Map;
@@ -47,7 +48,6 @@ import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.generator.DatatableAssetBuffer;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
 
 /**
  * Processor used to execute a processor against an {@link Extension}.
@@ -131,7 +131,7 @@ public class ExtensionProcessor {
 			logger.debug("Custom configuration generator used: {}", extension.getConfigGenerator().getClass()
 					.getSimpleName());
 
-			Writer writer = new JsonIndentingWriter();
+			Writer writer = new StringWriter();
 
 			Map<String, Object> conf = extension.getConfigGenerator().generateConfig(table);
 

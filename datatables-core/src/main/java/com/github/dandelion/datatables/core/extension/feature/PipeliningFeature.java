@@ -48,9 +48,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 // TODO asset template
 public class PipeliningFeature extends AbstractExtension {
 
+	public static final String PIPELINING_FEATURE_NAME = "pipelining";
+	
 	@Override
-	public String getName() {
-		return null;
+	public String getExtensionName() {
+		return PIPELINING_FEATURE_NAME;
 	}
 
 	@Override

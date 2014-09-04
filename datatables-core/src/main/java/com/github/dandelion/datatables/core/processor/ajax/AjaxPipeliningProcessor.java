@@ -55,7 +55,7 @@ public class AjaxPipeliningProcessor extends AbstractConfigurationProcessor {
 			Boolean retval = Boolean.parseBoolean(stringifiedValue);
 
 			if (retval != null && retval) {
-				registerExtension(new PipeliningFeature());
+				registerExtension(PipeliningFeature.PIPELINING_FEATURE_NAME);
 			}
 			
 			if(!isTableEntryPresent(TableConfig.AJAX_PIPESIZE)){

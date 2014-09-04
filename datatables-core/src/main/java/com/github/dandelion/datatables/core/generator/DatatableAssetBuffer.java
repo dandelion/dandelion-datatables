@@ -30,6 +30,7 @@
 package com.github.dandelion.datatables.core.generator;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
@@ -42,7 +43,6 @@ import com.github.dandelion.datatables.core.exception.WebResourceGenerationExcep
 import com.github.dandelion.datatables.core.extension.ExtensionLoader;
 import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.util.JsonIndentingWriter;
 
 public class DatatableAssetBuffer extends JQueryAssetBuffer {
 
@@ -132,9 +132,9 @@ public class DatatableAssetBuffer extends JQueryAssetBuffer {
 		 * Main configuration generation
 		 */
 		logger.debug("Transforming configuration to JSON...");
-		// Allways pretty prints the JSON
+
 		try {
-			Writer writer = new JsonIndentingWriter();
+			Writer writer = new StringWriter();
 			JSONValue.writeJSONString(mainConf, writer);
 			dab.appendToDataTablesConf(writer.toString());
 		}

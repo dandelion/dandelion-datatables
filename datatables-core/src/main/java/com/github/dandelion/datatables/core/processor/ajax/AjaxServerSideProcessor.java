@@ -48,7 +48,7 @@ public class AjaxServerSideProcessor extends AbstractConfigurationProcessor {
 			Boolean retval = Boolean.parseBoolean(stringifiedValue);
 
 			if (retval) {
-				registerExtension(new ServerSideFeature());
+				registerExtension(ServerSideFeature.SERVER_SIDE_FEATURE_NAME);
 			}
 
 			updateEntry(retval);

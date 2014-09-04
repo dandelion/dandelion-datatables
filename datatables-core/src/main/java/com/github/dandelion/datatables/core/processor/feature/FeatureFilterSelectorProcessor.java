@@ -19,7 +19,7 @@ public class FeatureFilterSelectorProcessor extends AbstractConfigurationProcess
 	public void doProcess() {
 
 		if (StringUtils.isNotBlank(stringifiedValue)) {
-			registerExtension(new MultiFilterFeature());
+			registerExtension(MultiFilterFeature.MULTI_FILTER_FEATURE_NAME);
 			addTableEntry(TableConfig.FEATURE_FILTER_TRIGGER, "click");
 			updateEntry(stringifiedValue);
 		}

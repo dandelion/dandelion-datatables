@@ -46,7 +46,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 public class JQueryUITheme extends AbstractExtension {
 
 	@Override
-	public String getName() {
+	public String getExtensionName() {
 		return "jQueryUI";
 	}
 

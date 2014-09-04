@@ -52,21 +52,79 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 /**
  * <p>
  * Abstract superclass for all extensions.
+ * </p>
  * <p>
  * Lots of utilities are available in this class, allowing you to:
+ * </p>
  * <ul>
- * <li>bufferize Javascript code before flushing it in the final
- * {@link JsResource}</li>
- * <li>add some {@link Parameter} to the generated DataTables configuration</li>
+ * <li>bufferize Javascript code, at different location, before flushing it in
+ * the final {@link JsResource}</li>
+ * <li>add some {@link Parameter} to the generated DataTables configuration,
+ * thanks to {@link #addParameter(*)} methods</li>
  * <li>add some bundles to the current request</li>
  * <li>add some {@link Callback} to the generated DataTables configuration</li>
  * </ul>
  * 
+ * <p>
+ * Also note that you can access the Dandelion {@link Context} using the
+ * {@link #getContext()}.
+ * </p>
+ * 
+ * <p>
+ * In order to use the extension mechanism, you should:
+ * </p>
+ * <ol>
+ * <li>Create a class that extends {@link AbstractExtension}. You could directly
+ * create a class that directly implements {@link Extension} but this is not
+ * recommended</li>
+ * <li>
+ * Create a file called
+ * <b>com.github.dandelion.datatables.core.extension.Extension</b> under the
+ * <b>META-INF/services</b> folder: <blockquote>
+ * 
+ * <pre>
+ * META - INF / services / com.github.dandelion.datatables.core.extension.Extension
+ * </pre>
+ * 
+ * </blockquote>
+ * 
+ * </li>
+ * <li>
+ * Add to the above file the full qualified name of your extension class. <br />
+ * For example, assuming the following extension class: <blockquote>
+ * 
+ * <pre>
+ * package com.company.extension;
+ * 
+ * public class MyExtension extends AbstractExtension {
+ *    ...
+ * }
+ * </pre>
+ * 
+ * </blockquote> The file
+ * <b>com.github.dandelion.datatables.core.extension.Extension</b> should
+ * contain: <blockquote>
+ * 
+ * <pre>
+ * com.company.extension.MyExtension
+ * </pre>
+ * 
+ * </blockquote>
+ * 
+ * </li>
+ * </ol>
+ * Note that if you wish to override an already existing extension, you
+ * shouldn't override the {@link #getExtensionName()} method.
+ * 
  * @author Thibault Duchateau
+ * @since 0.7.1
  */
 public abstract class AbstractExtension implements Extension {
 
-	private String name;
+	public static final String INDENTATION = "   ";
+	public static final String NEWLINE = "\n";
+	
+	private String extensionName;
 	private StringBuilder beforeAll;
 	private StringBuilder beforeStartDocumentReady;
 	private StringBuilder afterStartDocumentReady;
@@ -78,7 +136,7 @@ public abstract class AbstractExtension implements Extension {
 	private HtmlTable table;
 
 	public AbstractExtension() {
-		this.name = getName();
+		this.extensionName = getExtensionName();
 	}
 
 	public void setupWrapper(HtmlTable table) {
@@ -294,7 +352,7 @@ public abstract class AbstractExtension implements Extension {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((extensionName == null) ? 0 : extensionName.hashCode());
 		result = prime * result + ((table == null) ? 0 : table.hashCode());
 		return result;
 	}
@@ -308,10 +366,10 @@ public abstract class AbstractExtension implements Extension {
 		if (getClass() != obj.getClass())
 			return false;
 		AbstractExtension other = (AbstractExtension) obj;
-		if (name == null) {
-			if (other.name != null)
+		if (extensionName == null) {
+			if (other.extensionName != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!extensionName.equals(other.extensionName))
 			return false;
 		if (table == null) {
 			if (other.table != null)

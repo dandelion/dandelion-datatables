@@ -49,9 +49,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class PaginationTypeListboxFeature extends AbstractExtension {
 
+	public static final String PAGINATION_TYPE_LISTBOX_FEATURE_NAME = "paginationTypeListbox";
+	
 	@Override
-	public String getName() {
-		return "PaginationTypeListbox";
+	public String getExtensionName() {
+		return PAGINATION_TYPE_LISTBOX_FEATURE_NAME;
 	}
 
 	@Override

@@ -50,12 +50,14 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class FixedHeaderPlugin extends AbstractExtension {
 
+	public static final String FIXEDHEADER_PLUGIN_NAME = "fixedHeader";
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getName() {
-		return "FixedHeader";
+	public String getExtensionName() {
+		return FIXEDHEADER_PLUGIN_NAME;
 	}
 
 	/**

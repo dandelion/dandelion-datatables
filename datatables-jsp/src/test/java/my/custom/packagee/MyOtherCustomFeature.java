@@ -7,7 +7,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 public class MyOtherCustomFeature extends AbstractExtension {
 
 	@Override
-	public String getName() {
+	public String getExtensionName() {
 		return "myOtherCustomFeature";
 	}
 

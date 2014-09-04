@@ -35,8 +35,9 @@ import org.junit.Test;
 
 import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
+import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFeature;
+import com.github.dandelion.datatables.core.extension.feature.PaginationTypeInputFeature;
 import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
@@ -53,19 +54,23 @@ public class FeaturePaginationTypeProcessorTest extends TableProcessorBaseTest {
 		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_PAGINATIONTYPE, "bootstrap");
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo(PaginationType.BOOTSTRAP);
+		assertThat(tableConfiguration.getInternalExtensions()).contains(new PaginationTypeBootstrapFeature());
 
 		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_PAGINATIONTYPE, "BOOTSTRAP");
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo(PaginationType.BOOTSTRAP);
+		assertThat(tableConfiguration.getInternalExtensions()).contains(new PaginationTypeBootstrapFeature());
 
 		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_PAGINATIONTYPE, "INPUT");
 		processor.process(entry, tableConfiguration);
 		assertThat(entry.getValue()).isEqualTo(PaginationType.INPUT);
+		assertThat(tableConfiguration.getInternalExtensions()).contains(new PaginationTypeInputFeature());
 	}
-	
-	@Test(expected = ConfigurationProcessingException.class)
-	public void should_raise_an_exception() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_PAGINATIONTYPE, "boooootstrap");
-		processor.process(entry, tableConfiguration);
+
+	@Test
+	public void should_set_a_custom_paginationType_ans_no_extension() {
+		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_PAGINATIONTYPE, "custom-pagination-type");
+		assertThat(entry.getValue()).isEqualTo("custom-pagination-type");
+		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}
 }

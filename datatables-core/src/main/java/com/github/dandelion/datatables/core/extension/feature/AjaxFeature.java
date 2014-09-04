@@ -45,9 +45,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class AjaxFeature extends AbstractExtension {
 
+	public static final String AJAX_FEATURE_NAME = "ajax";
+
 	@Override
-	public String getName() {
-		return "AjaxFeature";
+	public String getExtensionName() {
+		return AJAX_FEATURE_NAME;
 	}
 
 	@Override

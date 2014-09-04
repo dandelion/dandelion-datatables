@@ -49,9 +49,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class PaginationTypeExtJsFeature extends AbstractExtension {
 
+	public static final String PAGINATION_TYPE_EXTJS_FEATURE_NAME = "paginationTypeExtJS";
+	
 	@Override
-	public String getName() {
-		return "PaginationTypeExtJs";
+	public String getExtensionName() {
+		return PAGINATION_TYPE_EXTJS_FEATURE_NAME;
 	}
 
 	@Override

@@ -30,7 +30,6 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
-import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -42,18 +41,20 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class ExtraHtmlFeature extends AbstractExtension {
 
+	public static final String EXTRA_HTML_FEATURE_NAME = "extraHtml";
+
 	@Override
-	public String getName() {
-		return "extraHtml";
+	public String getExtensionName() {
+		return EXTRA_HTML_FEATURE_NAME;
 	}
 
 	@Override
 	public void setup(HtmlTable table) {
 		for (ExtraHtml group : table.getTableConfiguration().getExtraHtmlSnippets()) {
 			StringBuilder js = group.getJavascript();
-			appendToAfterStartDocumentReady(JavascriptGenerator.INDENTATION);
+			appendToAfterStartDocumentReady(INDENTATION);
 			appendToAfterStartDocumentReady(js.toString());
-			appendToAfterStartDocumentReady(JavascriptGenerator.NEWLINE);
+			appendToAfterStartDocumentReady(NEWLINE);
 		}
 	}
 }

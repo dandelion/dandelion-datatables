@@ -47,7 +47,7 @@ public enum FilterPlaceholder {
 		this.name = name;
 	}
 
-	public String getName() {
+	public String getExtensionName() {
 		return name;
 	}
 }

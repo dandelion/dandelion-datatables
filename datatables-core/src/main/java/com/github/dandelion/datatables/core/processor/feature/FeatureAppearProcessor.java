@@ -26,7 +26,7 @@ public class FeatureAppearProcessor extends AbstractConfigurationProcessor {
 			}
 		}
 
-		registerExtension(new AppearFeature());
+		registerExtension(AppearFeature.APPEAR_FEATURE_NAME);
 		updateEntry(retval);
 	}
 }

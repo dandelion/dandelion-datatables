@@ -48,9 +48,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class ServerSideFeature extends AbstractExtension {
 
+	public static final String SERVER_SIDE_FEATURE_NAME = "serverSide";
+	
 	@Override
-	public String getName() {
-		return null;
+	public String getExtensionName() {
+		return SERVER_SIDE_FEATURE_NAME;
 	}
 
 	@Override

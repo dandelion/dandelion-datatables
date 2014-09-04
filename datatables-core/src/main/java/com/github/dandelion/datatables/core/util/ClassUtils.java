@@ -29,18 +29,7 @@
  */
 package com.github.dandelion.datatables.core.util;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.TreeSet;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import org.apache.commons.beanutils.MethodUtils;
 
@@ -148,85 +137,5 @@ public class ClassUtils {
 			// Class or one of its dependencies is not present...
 			return false;
 		}
-	}
-
-	public static List<Class<?>> getSubClassesInPackage(String packageName, Class<?> superClass) throws ClassNotFoundException, IOException {
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-
-		String path = packageName.replace('.', '/');
-		Enumeration<URL> resources = classLoader.getResources(path);
-		List<String> dirs = new ArrayList<String>();
-		while (resources.hasMoreElements()) {
-			URL resource = resources.nextElement();
-			dirs.add(URLDecoder.decode(resource.getFile(), "UTF-8"));
-		}
-		
-		TreeSet<String> classes = new TreeSet<String>();
-		for (String directory : dirs) {
-			classes.addAll(findClasses(directory, packageName));
-		}
-		
-		ArrayList<Class<?>> classList = new ArrayList<Class<?>>();
-		for (String clazz : classes) {
-			Class<?> clazzz = Class.forName(clazz);
-			if(superClass.isAssignableFrom(clazzz)){
-				classList.add(clazzz);
-			}
-		}
-		return classList;
-	}
-	
-	public static List<Class<?>> getAllClassesInPackage(String packageName) throws ClassNotFoundException, IOException {
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		String path = packageName.replace('.', '/');
-		Enumeration<URL> resources = classLoader.getResources(path);
-		List<String> dirs = new ArrayList<String>();
-		while (resources.hasMoreElements()) {
-			URL resource = resources.nextElement();
-			dirs.add(URLDecoder.decode(resource.getFile(), "UTF-8"));
-		}
-		TreeSet<String> classes = new TreeSet<String>();
-		for (String directory : dirs) {
-			classes.addAll(findClasses(directory, packageName));
-		}
-		ArrayList<Class<?>> classList = new ArrayList<Class<?>>();
-		for (String clazz : classes) {
-			classList.add(Class.forName(clazz));
-		}
-		return classList;
-	}
-	
-	private static TreeSet<String> findClasses(String path, String packageName) throws MalformedURLException, IOException {
-		TreeSet<String> classes = new TreeSet<String>();
-		if (path.startsWith("file:") && path.contains("!")) {
-			String[] split = path.split("!");
-			URL jar = new URL(split[0]);
-			ZipInputStream zip = new ZipInputStream(jar.openStream());
-			ZipEntry entry;
-			while ((entry = zip.getNextEntry()) != null) {
-				if (entry.getName().endsWith(".class")) {
-					String className = entry.getName().replaceAll("[$].*", "").replaceAll("[.]class", "").replace('/', '.');
-					if (className.startsWith(packageName)) {
-						classes.add(className);
-					}
-				}
-			}
-		}
-		File dir = new File(path);
-		if (!dir.exists()) {
-			return classes;
-		}
-		File[] files = dir.listFiles();
-		for (File file : files) {
-			if (file.isDirectory()) {
-				classes.addAll(findClasses(file.getAbsolutePath(), packageName + "." + file.getName()));
-			} else if (file.getName().endsWith(".class")) {
-				// Build the class name with the package name and the file after
-				// removing the .class extension
-				String className = packageName + '.' + file.getName().substring(0, file.getName().length() - 6);
-				classes.add(className);
-			}
-		}
-		return classes;
 	}
 }

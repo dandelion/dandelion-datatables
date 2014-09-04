@@ -72,7 +72,7 @@ public class ColumnFilteringGenerator extends AbstractConfigurationGenerator {
 		// Placeholder for filtering elements
 		FilterPlaceholder filterPlaceholder = TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(table);
 		if (filterPlaceholder != null) {
-			filteringConf.put(DTConstants.DT_S_PLACEHOLDER, filterPlaceholder.getName());
+			filteringConf.put(DTConstants.DT_S_PLACEHOLDER, filterPlaceholder.getExtensionName());
 		}
 
 		// Filtering trigger

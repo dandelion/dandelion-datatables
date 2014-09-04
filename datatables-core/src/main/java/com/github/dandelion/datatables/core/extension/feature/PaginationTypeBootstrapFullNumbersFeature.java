@@ -45,9 +45,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class PaginationTypeBootstrapFullNumbersFeature extends AbstractExtension {
 
+	public static final String PAGINATION_TYPE_BS_FULLNUMBERS_FEATURE_NAME = "paginationTypeBootstrapFullNumbers";
+	
 	@Override
-	public String getName() {
-		return "PaginationTypeBootstrapFullNumbers";
+	public String getExtensionName() {
+		return PAGINATION_TYPE_BS_FULLNUMBERS_FEATURE_NAME;
 	}
 
 	@Override

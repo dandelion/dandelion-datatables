@@ -49,9 +49,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class PaginationTypeInputFeature extends AbstractExtension {
 
+	public static final String PAGINATION_TYPE_INPUT_FEATURE_NAME = "paginationTypeInput";
+	
 	@Override
-	public String getName() {
-		return "PaginationTypeInput";
+	public String getExtensionName() {
+		return PAGINATION_TYPE_INPUT_FEATURE_NAME;
 	}
 
 	@Override

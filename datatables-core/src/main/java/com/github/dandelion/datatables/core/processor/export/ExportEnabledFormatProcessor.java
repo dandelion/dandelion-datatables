@@ -83,7 +83,7 @@ public class ExportEnabledFormatProcessor extends AbstractConfigurationProcessor
 				} 
 			}
 
-			registerExtension(new ExportFeature());
+			registerExtension(ExportFeature.EXPORT_FEATURE_NAME);
 		}
 	}
 }

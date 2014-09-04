@@ -30,7 +30,6 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import static com.github.dandelion.datatables.core.util.JavascriptUtils.INDENT;
-import static com.github.dandelion.datatables.core.util.JavascriptUtils.NEWLINE;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.configuration.DatatableBundles;
@@ -51,9 +50,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class AjaxReloadFeature extends AbstractExtension {
 
+	public static final String AJAX_RELOAD_FEATURE_NAME = "ajaxReload";
+
 	@Override
-	public String getName() {
-		return "AjaxFeature";
+	public String getExtensionName() {
+		return AJAX_RELOAD_FEATURE_NAME;
 	}
 
 	@Override
@@ -63,7 +64,7 @@ public class AjaxReloadFeature extends AbstractExtension {
 		String reloadSelector = TableConfig.AJAX_RELOAD_SELECTOR.valueFrom(table.getTableConfiguration());
 		String reloadFunction = TableConfig.AJAX_RELOAD_FUNCTION.valueFrom(table.getTableConfiguration());
 
-		StringBuilder js = new StringBuilder(NEWLINE);
+		StringBuilder js = new StringBuilder();
 
 		if (StringUtils.isNotBlank(reloadFunction)) {
 			js.append("$('").append(reloadSelector).append("').bind('click', function() {").append(NEWLINE).append(INDENT).append(INDENT);

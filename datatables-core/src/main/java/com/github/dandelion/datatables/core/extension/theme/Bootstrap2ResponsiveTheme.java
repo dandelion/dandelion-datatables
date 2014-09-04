@@ -74,7 +74,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 public class Bootstrap2ResponsiveTheme extends AbstractExtension {
 
 	@Override
-	public String getName() {
+	public String getExtensionName() {
 		return "bootstrap2-responsive";
 	}
 

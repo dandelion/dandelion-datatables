@@ -54,9 +54,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class SortingFeature extends AbstractExtension {
 
+	public static final String SORTING_FEATURE_NAME = "sorting";
+	
 	@Override
-	public String getName() {
-		return "SortingFeature";
+	public String getExtensionName() {
+		return SORTING_FEATURE_NAME;
 	}
 
 	@Override

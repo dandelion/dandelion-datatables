@@ -30,7 +30,6 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import static com.github.dandelion.datatables.core.util.JavascriptUtils.INDENT;
-import static com.github.dandelion.datatables.core.util.JavascriptUtils.NEWLINE;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.Parameter.Mode;
@@ -41,7 +40,6 @@ import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.HttpMethod;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
-import com.github.dandelion.datatables.core.generator.javascript.JavascriptGenerator;
 import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.html.HtmlHyperlink;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -70,11 +68,13 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class ExportFeature extends AbstractExtension {
 
+	public static final String EXPORT_FEATURE_NAME = "export";
+
 	private HtmlTable table;
 
 	@Override
-	public String getName() {
-		return "export";
+	public String getExtensionName() {
+		return EXPORT_FEATURE_NAME;
 	}
 
 	@Override
@@ -142,9 +142,9 @@ public class ExportFeature extends AbstractExtension {
 
 		// Once created, the extraHtml is transformed into Javascript and
 		// appended in the DataTables configuration
-		appendToAfterStartDocumentReady(JavascriptGenerator.INDENTATION);
+		appendToAfterStartDocumentReady(INDENTATION);
 		appendToAfterStartDocumentReady(extraHtml.getJavascript().toString());
-		appendToAfterStartDocumentReady(JavascriptGenerator.NEWLINE);
+		appendToAfterStartDocumentReady(NEWLINE);
 	}
 
 	private String getOnclick(ExportConf exportConf) {

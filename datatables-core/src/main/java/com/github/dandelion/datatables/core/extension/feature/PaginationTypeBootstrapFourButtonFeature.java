@@ -45,9 +45,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class PaginationTypeBootstrapFourButtonFeature extends AbstractExtension {
 
+	public static final String PAGINATION_TYPE_BS_FOURBUTTON_FEATURE_NAME = "paginationTypeBootstrapFourButton";
+	
 	@Override
-	public String getName() {
-		return "PaginationTypeBootstrapFourButton";
+	public String getExtensionName() {
+		return PAGINATION_TYPE_BS_FOURBUTTON_FEATURE_NAME;
 	}
 
 	@Override

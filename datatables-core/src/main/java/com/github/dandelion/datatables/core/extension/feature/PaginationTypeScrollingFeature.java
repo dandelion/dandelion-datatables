@@ -49,9 +49,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class PaginationTypeScrollingFeature extends AbstractExtension {
 
+	public static final String PAGINATION_TYPE_SCROLLING_FEATURE_NAME = "paginationTypeScrolling";
+	
 	@Override
-	public String getName() {
-		return "PaginationTypeScrolling";
+	public String getExtensionName() {
+		return PAGINATION_TYPE_SCROLLING_FEATURE_NAME;
 	}
 
 	@Override

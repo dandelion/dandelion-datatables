@@ -49,9 +49,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class PaginationTypeBootstrapFeature extends AbstractExtension {
 
+	public static final String PAGINATION_TYPE_BS_FEATURE_NAME = "paginationTypeBootstrap";
+
 	@Override
-	public String getName() {
-		return "PaginationTypeBootstrap";
+	public String getExtensionName() {
+		return PAGINATION_TYPE_BS_FEATURE_NAME;
 	}
 
 	@Override

@@ -53,7 +53,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 public abstract class AbstractFilteringFeature extends AbstractExtension {
 
 	@Override
-	public String getName() {
+	public String getExtensionName() {
 		return "filtering";
 	}
 

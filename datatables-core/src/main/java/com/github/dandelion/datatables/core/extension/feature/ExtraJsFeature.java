@@ -56,9 +56,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class ExtraJsFeature extends AbstractExtension {
 
+	public static final String EXTRA_JS_FEATURE_NAME = "extraJs";
+
 	@Override
-	public String getName() {
-		return "extraJs";
+	public String getExtensionName() {
+		return EXTRA_JS_FEATURE_NAME;
 	}
 
 	@Override
