@@ -38,7 +38,7 @@ import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
@@ -67,7 +67,7 @@ public class TableConfGroupAttrProcessor extends AbstractTableAttrProcessor {
 	 */
 	@Override
 	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-			Map<ConfigToken<?>, Object> stagingConf) {
+			Map<Option<?>, Object> stagingConf) {
 
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 

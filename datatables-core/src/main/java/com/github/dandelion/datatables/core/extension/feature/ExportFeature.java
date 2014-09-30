@@ -31,14 +31,13 @@ package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.Parameter.Mode;
-import com.github.dandelion.datatables.core.configuration.DatatableBundles;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.config.DatatableBundles;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.config.TableConfiguration;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.HttpMethod;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
-import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.html.HtmlHyperlink;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -90,8 +89,8 @@ public class ExportFeature extends AbstractExtension {
 			}
 		}
 
-		String exportContainerStyle = TableConfig.EXPORT_CONTAINER_STYLE.valueFrom(table);
-		String exportContainerClass = TableConfig.EXPORT_CONTAINER_CLASS.valueFrom(table);
+		String exportContainerStyle = DatatableOptions.EXPORT_CONTAINER_STYLE.valueFrom(table.getTableConfiguration());
+		String exportContainerClass = DatatableOptions.EXPORT_CONTAINER_CLASS.valueFrom(table.getTableConfiguration());
 
 		// In order to be easily positioned around the table, a DataTable
 		// feature is created
@@ -102,7 +101,7 @@ public class ExportFeature extends AbstractExtension {
 				+ (StringUtils.isNotBlank(exportContainerClass) ? exportContainerClass : ""));
 		extraHtml.setCssStyle(StringUtils.isNotBlank(exportContainerStyle) ? exportContainerStyle : "float: right;");
 
-		String dom = TableConfig.FEATURE_DOM.valueFrom(table);
+		String dom = DatatableOptions.FEATURE_DOM.valueFrom(table.getTableConfiguration());
 		if (StringUtils.isBlank(dom)) {
 			addParameter(DTConstants.DT_DOM, "lEfrtip", Mode.OVERRIDE);
 		}
@@ -146,7 +145,7 @@ public class ExportFeature extends AbstractExtension {
 	private String getOnclick(ExportConf exportConf) {
 
 		String oTableId = "oTable_" + table.getId();
-		String serverParamFunction = TableConfig.AJAX_SERVERPARAM.valueFrom(table);
+		String serverParamFunction = DatatableOptions.AJAX_SERVERPARAM.valueFrom(table.getTableConfiguration());
 		StringBuilder params = new StringBuilder();
 
 		StringBuilder exportFuncName = new StringBuilder("ddl_dt_launch_export_");

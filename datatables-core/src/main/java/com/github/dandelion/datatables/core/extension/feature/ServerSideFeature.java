@@ -30,7 +30,6 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 

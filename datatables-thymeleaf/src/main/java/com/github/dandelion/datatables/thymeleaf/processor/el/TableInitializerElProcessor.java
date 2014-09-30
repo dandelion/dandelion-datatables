@@ -40,9 +40,9 @@ import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.exception.DandelionDatatablesException;
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
@@ -95,7 +95,7 @@ public class TableInitializerElProcessor extends AbstractElProcessor {
 			
 			// Map used to store the table local configuration
 			RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF,
-					new HashMap<ConfigToken<?>, Object>(), request);
+					new HashMap<Option<?>, Object>(), request);
 
 			// The HTML needs to be updated
 			processMarkup(element);
@@ -103,7 +103,7 @@ public class TableInitializerElProcessor extends AbstractElProcessor {
 			return ProcessorResult.OK;
 		}
 		else{
-			throw new DandelionDatatablesException("The 'id' attribute is required by Dandelion-Datatables.");
+			throw new DandelionException("The 'id' attribute is required by Dandelion-Datatables.");
 		}
 	}
 	

@@ -29,35 +29,38 @@
  */
 package com.github.dandelion.datatables.core.processor.export;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
 import com.github.dandelion.core.web.WebConstants;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
 import com.github.dandelion.datatables.core.export.HttpMethod;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.export.ExportEnabledFormatProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
+	public OptionProcessor getProcessor() {
 		return new ExportEnabledFormatProcessor();
 	}
 
 	@Test
 	public void should_enable_csv_export_with_default_configuration() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.EXPORT_ENABLED_FORMATS, "csv");
-		processor.process(entry, tableConfiguration);
-		
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.EXPORT_ENABLED_FORMATS, "csv");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+				
 		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
 		assertThat(tableConfiguration.getExportConfiguration()).hasSize(1);
 		
@@ -74,9 +77,10 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 		assertThat(csvExportConf.getFileExtension()).isEqualTo("csv");
 		assertThat(csvExportConf.getOrientation()).isNull();
 		
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.EXPORT_ENABLED_FORMATS, "csv  ");
-		processor.process(entry, tableConfiguration);
-		
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.EXPORT_ENABLED_FORMATS, "csv  ");
+		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+				
 		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
 		assertThat(tableConfiguration.getExportConfiguration()).hasSize(1);
 		
@@ -94,9 +98,10 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 	
 	@Test
 	public void should_enable_csv_and_pdf_export() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.EXPORT_ENABLED_FORMATS, "csv,pdf");
-		processor.process(entry, tableConfiguration);
-		
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.EXPORT_ENABLED_FORMATS, "csv,pdf");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+				
 		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
 		assertThat(tableConfiguration.getExportConfiguration()).hasSize(2);
 		
@@ -129,9 +134,10 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 	
 	@Test
 	public void should_enable_csv_and_pdf_export_with_malformatted_string() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.EXPORT_ENABLED_FORMATS, "csv, pdf  ");
-		processor.process(entry, tableConfiguration);
-		
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.EXPORT_ENABLED_FORMATS, "csv, pdf  ");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+				
 		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
 		assertThat(tableConfiguration.getExportConfiguration()).hasSize(2);
 		
@@ -164,9 +170,10 @@ public class ExportEnableFormatsProcessorTest extends TableProcessorBaseTest {
 	
 	@Test
 	public void should_enable_totally_custom_export() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.EXPORT_ENABLED_FORMATS, "myformat");
-		processor.process(entry, tableConfiguration);
-		
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.EXPORT_ENABLED_FORMATS, "myformat");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+				
 		assertThat(tableConfiguration.isExportable()).isEqualTo(true);
 		assertThat(tableConfiguration.getExportConfiguration()).hasSize(1);
 		

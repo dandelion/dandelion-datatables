@@ -10,7 +10,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import com.github.dandelion.core.Context;
 import com.github.dandelion.core.web.WebConstants;
-import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.generator.DatatableAssetBuffer;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 

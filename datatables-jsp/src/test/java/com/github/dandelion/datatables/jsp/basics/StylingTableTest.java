@@ -30,14 +30,14 @@
 
 package com.github.dandelion.datatables.jsp.basics;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.jsp.tag.DomBaseTest;
 import com.github.dandelion.datatables.mock.Mock;
 import com.github.dandelion.datatables.utils.TableTagBuilder;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Styling table.
@@ -57,16 +57,16 @@ public class StylingTableTest extends DomBaseTest {
 	
 	@Test
 	public void should_set_css_style_using_class() {
-		assertThat(TableConfig.CSS_CLASS.valueFrom(table.getTableConfiguration()).toString()).isEqualTo("myClass");
+		assertThat(DatatableOptions.CSS_CLASS.valueFrom(table.getTableConfiguration()).toString()).isEqualTo("myClass");
 	}
 	
 	@Test
 	public void should_set_strip_classes() {
-		assertThat(TableConfig.CSS_STRIPECLASSES.valueFrom(table.getTableConfiguration())).isEqualTo("['myStrip1','myStrip2']");
+		assertThat(DatatableOptions.CSS_STRIPECLASSES.valueFrom(table.getTableConfiguration())).isEqualTo("['myStrip1','myStrip2']");
 	}
 	
 	@Test
 	public void should_set_css_style() {
-		assertThat(TableConfig.CSS_STYLE.valueFrom(table.getTableConfiguration()).toString()).isEqualTo("myStyle");
+		assertThat(DatatableOptions.CSS_STYLE.valueFrom(table.getTableConfiguration()).toString()).isEqualTo("myStyle");
 	}
 }

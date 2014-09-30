@@ -37,7 +37,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.github.dandelion.datatables.core.exception.ExportException;
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.datatables.core.export.DatatablesExport;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ReservedFormat;
@@ -112,7 +112,7 @@ public class XlsxExport implements DatatablesExport {
 			sb.append(table.getOriginalId());
 			sb.append("' and with the following export configuration: ");
 			sb.append(exportConf.toString());
-			throw new ExportException(sb.toString(), e);
+			throw new DandelionException(sb.toString(), e);
 		}
 	}
 }

@@ -38,9 +38,9 @@ import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBoot
 import com.github.dandelion.datatables.core.extension.plugin.ColReorderPlugin;
 import com.github.dandelion.datatables.core.extension.plugin.ScrollerPlugin;
 import com.github.dandelion.datatables.core.extension.theme.Bootstrap2Theme;
-import com.github.dandelion.datatables.core.generator.configuration.AbstractConfigurationGenerator;
-import com.github.dandelion.datatables.core.generator.configuration.ColumnFilteringGenerator;
-import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
+import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
+import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
+import com.github.dandelion.datatables.core.generator.DatatablesGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**

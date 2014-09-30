@@ -29,11 +29,10 @@
  */
 package com.github.dandelion.datatables.core.html;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockFilterConfig;
@@ -41,9 +40,10 @@ import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
 import com.github.dandelion.core.Context;
-import com.github.dandelion.core.DandelionMode;
-import com.github.dandelion.core.config.DandelionConfig;
+import com.github.dandelion.core.config.Profile;
 import com.github.dandelion.core.web.WebConstants;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class HtmlTableTest {
 
@@ -60,9 +60,14 @@ public class HtmlTableTest {
 		request = (HttpServletRequest) mockPageContext.getRequest();
 		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
 		response = (HttpServletResponse) mockPageContext.getResponse();
-		System.setProperty(DandelionConfig.DANDELION_MODE.getName(), DandelionMode.DEVELOPMENT.toString());
+		System.setProperty(Profile.DANDELION_PROFILE_ACTIVE, Profile.DEFAULT_DEV_PROFILE);
 	}
 
+	@After
+	public void tearDown(){
+		System.clearProperty(Profile.DANDELION_PROFILE_ACTIVE);
+	}
+	
 	@Test
 	public void should_generate_table_with_an_unallowed_character_in_the_id() {
 		table = new HtmlTable("table-id", request, response);

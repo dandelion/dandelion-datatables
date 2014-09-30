@@ -138,4 +138,13 @@ public class ClassUtils {
 			return false;
 		}
 	}
+	
+	/**
+	 * <p>
+	 * Suppress default constructor for noninstantiability.
+	 * </p>
+	 */
+	private ClassUtils() {
+		throw new AssertionError();
+	}
 }

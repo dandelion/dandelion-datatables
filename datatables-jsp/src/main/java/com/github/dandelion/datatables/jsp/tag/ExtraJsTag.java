@@ -37,8 +37,8 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.asset.ExtraJs;
 import com.github.dandelion.datatables.core.asset.InsertMode;
+import com.github.dandelion.datatables.core.extension.feature.ExtraJs;
 import com.github.dandelion.datatables.core.extension.feature.ExtraJsFeature;
 
 /**

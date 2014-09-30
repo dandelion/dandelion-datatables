@@ -30,20 +30,8 @@
 package com.github.dandelion.datatables.core.util;
 
 import java.util.Collection;
-import java.util.Map;
-
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 
 public class CollectionUtils {
-	
-	public static Boolean hasConfigurationWithValue(Map<ConfigToken<?>, Object> confMap, ConfigToken<?> config, Object value) {
-
-		if(confMap.containsKey(config) && confMap.get(config).equals(value)){
-			return true;
-		}
-
-		return false;
-	}
 	
 	/**
 	 * Return {@code true} if any element in '{@code candidates}' is contained

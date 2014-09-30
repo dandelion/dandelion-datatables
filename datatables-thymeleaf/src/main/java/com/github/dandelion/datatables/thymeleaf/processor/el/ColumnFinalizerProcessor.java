@@ -40,11 +40,12 @@ import org.thymeleaf.dom.Text;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.util.ConfigUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 
@@ -70,9 +71,9 @@ public class ColumnFinalizerProcessor extends AbstractElProcessor {
 	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
 			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable){
 		
-		Map<ConfigToken<?>, Object> stagingConf = (Map<ConfigToken<?>, Object>) arguments
+		Map<Option<?>, Object> stagingConf = (Map<Option<?>, Object>) arguments
 				.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF);
-		Map<ConfigToken<?>, Extension> stagingExt = (Map<ConfigToken<?>, Extension>) arguments
+		Map<Option<?>, Extension> stagingExt = (Map<Option<?>, Extension>) arguments
 				.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT);
 		
 		// Get the TH content
@@ -87,8 +88,8 @@ public class ColumnFinalizerProcessor extends AbstractElProcessor {
 		HtmlColumn htmlColumn = new HtmlColumn(true, content);
 
 		// Applies the staging configuration against the current column configuration
-		ColumnConfig.applyConfiguration(stagingConf, stagingExt, htmlColumn);
-		ColumnConfig.processConfiguration(htmlColumn, htmlTable);
+		ConfigUtils.applyConfiguration(stagingConf, stagingExt, htmlColumn);
+		ConfigUtils.processConfiguration(htmlColumn, htmlTable);
 		
 		// Add it to the table
 		if (htmlTable != null) {

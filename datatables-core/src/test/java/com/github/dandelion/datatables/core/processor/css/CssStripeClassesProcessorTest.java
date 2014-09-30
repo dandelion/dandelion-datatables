@@ -29,53 +29,67 @@
  */
 package com.github.dandelion.datatables.core.processor.css;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.css.CssStripeClassesProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CssStripeClassesProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
+	public OptionProcessor getProcessor() {
 		return new CssStripeClassesProcessor();
 	}
 	
 	@Test
 	public void should_set_a_js_array_when_using_one_class() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_STRIPECLASSES, "class1");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_STRIPECLASSES, "class1");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo("['class1']");
 		
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_STRIPECLASSES, "  class1");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_STRIPECLASSES, "  class1");
+		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo("['class1']");
 	}
 	
 	@Test
 	public void should_set_a_js_array_when_using_two_classes() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_STRIPECLASSES, "class1,class2");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_STRIPECLASSES, "class1,class2");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo("['class1','class2']");
 		
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_STRIPECLASSES, " class1, class2 ");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_STRIPECLASSES, " class1, class2 ");
+		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo("['class1','class2']");
 	}
 	
 	@Test
 	public void should_set_a_js_array_when_using_three_classes() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_STRIPECLASSES, "class1,class2,class3");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_STRIPECLASSES, "class1,class2,class3");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo("['class1','class2','class3']");
 		
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_STRIPECLASSES, " class1, class2,class3 ");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_STRIPECLASSES, " class1, class2,class3 ");
+		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo("['class1','class2','class3']");
 	}
 }

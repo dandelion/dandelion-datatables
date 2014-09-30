@@ -43,17 +43,18 @@ import org.springframework.mock.web.MockServletContext;
 
 import com.github.dandelion.core.Context;
 import com.github.dandelion.core.web.WebConstants;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.ConfigurationStore;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.config.TableConfiguration;
+import com.github.dandelion.datatables.core.config.TableConfigurationFactory;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 
 public abstract class TableProcessorBaseTest {
 
-	protected ConfigurationProcessor processor;
+	protected OptionProcessor processor;
 	protected TableConfiguration tableConfiguration;
 	protected HttpServletRequest request;
-	protected Map<ConfigToken<?>, Object> confToBeApplied;
-	protected Entry<ConfigToken<?>, Object> entry;
+	protected Map<Option<?>, Object> confToBeApplied;
+	protected Entry<Option<?>, Object> entry;
 	
 	@Before
 	public void setup() {
@@ -62,15 +63,14 @@ public abstract class TableProcessorBaseTest {
 		MockPageContext mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
 		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
-		confToBeApplied = new HashMap<ConfigToken<?>, Object>();
-		tableConfiguration = new TableConfiguration(confToBeApplied, null, request);
-		tableConfiguration.setTableId("fakeId");
+		confToBeApplied = new HashMap<Option<?>, Object>();
+		tableConfiguration = TableConfigurationFactory.getInstance("fakeId", request, null);
 	}
 	
 	@After
 	public void after(){
-		ConfigurationStore.clear();
+		TableConfigurationFactory.clear();
 	}
 	
-	public abstract ConfigurationProcessor getProcessor();
+	public abstract OptionProcessor getProcessor();
 }

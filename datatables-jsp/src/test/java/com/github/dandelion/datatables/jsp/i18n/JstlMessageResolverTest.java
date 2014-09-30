@@ -1,7 +1,5 @@
 package com.github.dandelion.datatables.jsp.i18n;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,6 +16,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockPageContext;
 
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class JstlMessageResolverTest {
 

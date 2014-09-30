@@ -1,8 +1,5 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
-import static org.fest.assertions.Assertions.assertThat;
-import static org.fest.assertions.MapAssert.entry;
-
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -13,6 +10,9 @@ import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
+
 public class PaginationTypeBootstrapFeatureTest  extends AbstractExtensionTest {
 
 
@@ -22,6 +22,6 @@ public class PaginationTypeBootstrapFeatureTest  extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new PaginationTypeBootstrapFeature())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
-		assertThat(mainConfig).includes(entry(DTConstants.DT_PAGINATION_TYPE, "bootstrap"));
+		assertThat(mainConfig).contains(entry(DTConstants.DT_PAGINATION_TYPE, "bootstrap"));
 	}
 }

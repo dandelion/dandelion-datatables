@@ -29,28 +29,32 @@
  */
 package com.github.dandelion.datatables.core.processor.ajax;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.feature.ServerSideFeature;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.ajax.AjaxServerSideProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AjaxServerSideProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
+	public OptionProcessor getProcessor() {
 		return new AjaxServerSideProcessor();
 	}
 	
 	@Test
 	public void should_set_true_and_register_a_feature_when_value_is_true() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERSIDE, "true");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SERVERSIDE, "true");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo(true);
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
 		assertThat(new ServerSideFeature()).isIn(tableConfiguration.getInternalExtensions());
@@ -58,8 +62,10 @@ public class AjaxServerSideProcessorTest extends TableProcessorBaseTest {
 	
 	@Test
 	public void should_set_null_and_not_register_anything_when_value_is_false() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SERVERSIDE, "false");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SERVERSIDE, "false");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo(false);
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}

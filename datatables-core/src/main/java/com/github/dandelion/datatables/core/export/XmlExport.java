@@ -37,9 +37,9 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.exception.ExportException;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -74,16 +74,17 @@ public class XmlExport implements DatatablesExport {
 
 		XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
 		XMLStreamWriter writer = null;
-		String objectType = TableConfig.INTERNAL_OBJECTTYPE.valueFrom(table.getTableConfiguration()).toLowerCase();
+		String objectType = DatatableOptions.INTERNAL_OBJECTTYPE.valueFrom(table.getTableConfiguration());
+		String normalizedObjectType = objectType.toLowerCase();
 		
 		try {
 			writer = outputFactory.createXMLStreamWriter(output);
 			writer.writeStartDocument("1.0");
 			
-			writer.writeStartElement(objectType + "s");
+			writer.writeStartElement(normalizedObjectType + "s");
 
 			for (HtmlRow row : table.getBodyRows()) {
-				writer.writeStartElement(objectType);
+				writer.writeStartElement(normalizedObjectType);
 
 				int i = 0;
 				for (HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.XML)) {
@@ -103,7 +104,7 @@ public class XmlExport implements DatatablesExport {
 			sb.append(table.getOriginalId());
 			sb.append("' and with the following export configuration: ");
 			sb.append(exportConf.toString());
-			throw new ExportException(sb.toString(), e);
+			throw new DandelionException(sb.toString(), e);
 		} 
 		finally {
 			try {
@@ -113,7 +114,7 @@ public class XmlExport implements DatatablesExport {
 				sb.append(table.getOriginalId());
 				sb.append("' and with the following export configuration: ");
 				sb.append(exportConf.toString());
-				throw new ExportException(sb.toString(), e);
+				throw new DandelionException(sb.toString(), e);
 			}
 		}
 	}

@@ -31,7 +31,7 @@ package com.github.dandelion.datatables.extras.export.itext;
 
 import java.io.OutputStream;
 
-import com.github.dandelion.datatables.core.exception.ExportException;
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.datatables.core.export.DatatablesExport;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
@@ -90,7 +90,7 @@ public class PdfExport implements DatatablesExport {
 			sb.append(table.getOriginalId());
 			sb.append("' and with the following export configuration: ");
 			sb.append(exportConf.toString());
-			throw new ExportException(sb.toString(), e);
+			throw new DandelionException(sb.toString(), e);
 		} finally {
 			document.close();
 		}

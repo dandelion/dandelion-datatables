@@ -29,18 +29,20 @@
  */
 package com.github.dandelion.datatables.core.html;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Before;
 import org.junit.Test;
 
+import com.github.dandelion.core.html.AbstractHtmlTag;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class HtmlTagTest {
 
-	protected HtmlTag tag;
+	protected AbstractHtmlTag tag;
 
 	@Before
 	public void createHtmlTag() {
-		tag = new HtmlTag() {
+		tag = new AbstractHtmlTag() {
 		};
 	}
 

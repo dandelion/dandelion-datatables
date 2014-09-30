@@ -29,28 +29,32 @@
  */
 package com.github.dandelion.datatables.core.processor.i18n;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.constants.DTMessages;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.i18n.MessageProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class MessageProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
+	public OptionProcessor getProcessor() {
 		return new MessageProcessor();
 	}
 	
 	@Test
 	public void should_add_a_message() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.I18N_MSG_INFO, "myInfo");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.I18N_MSG_INFO, "myInfo");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(tableConfiguration.getMessages().getProperty(DTMessages.INFO.getPropertyName())).isEqualTo("myInfo");
 	}
 }

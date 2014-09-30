@@ -30,8 +30,8 @@
 package com.github.dandelion.datatables.core.extension.theme;
 
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
-import com.github.dandelion.datatables.core.configuration.DatatableBundles;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableBundles;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
@@ -80,7 +80,7 @@ public class Bootstrap3Theme extends AbstractExtension {
 
 		addBundle(DatatableBundles.DDL_DT_THEME_BOOTSTRAP3);
 		
-		Boolean pageable = TableConfig.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration());
+		Boolean pageable = DatatableOptions.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration());
 		if(pageable != null && pageable){
 			addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
 		}

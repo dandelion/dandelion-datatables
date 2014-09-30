@@ -29,31 +29,34 @@
  */
 package com.github.dandelion.datatables.core.processor.ajax;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Test;
 
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.feature.AjaxReloadFeature;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.ajax.AjaxReloadFunctionProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AjaxReloadFunctionTest extends TableProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
+	public OptionProcessor getProcessor() {
 		return new AjaxReloadFunctionProcessor(true);
 	}
 
 	@Test
 	public void should_register_a_feature_when_a_reload_function_exists() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_RELOAD_FUNCTION, "myReloadFunction");
-		processor.process(entry, tableConfiguration);
-
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_RELOAD_FUNCTION, "myReloadFunction");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo("myReloadFunction");
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
 		assertThat(new AjaxReloadFeature()).isIn(tableConfiguration.getInternalExtensions());
@@ -61,10 +64,11 @@ public class AjaxReloadFunctionTest extends TableProcessorBaseTest {
 
 	@Test
 	public void should_register_a_feature_and_multiple_bundles_when_a_reload_function_exists() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_RELOAD_FUNCTION,
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_RELOAD_FUNCTION,
 				"bundle1, bundle2#myReloadFunction");
-		processor.process(entry, tableConfiguration);
-
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, true);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo("myReloadFunction");
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
 		assertThat(new AjaxReloadFeature()).isIn(tableConfiguration.getInternalExtensions());
@@ -72,9 +76,10 @@ public class AjaxReloadFunctionTest extends TableProcessorBaseTest {
 				"bundle2");
 	}
 
-	@Test(expected = ConfigurationProcessingException.class)
+	@Test(expected = DandelionException.class)
 	public void should_throw_an_exception_when_the_function_is_malformatted() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_RELOAD_FUNCTION, "#myReloadFunction");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_RELOAD_FUNCTION, "#myReloadFunction");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, true);
+		processor.process(pc);
 	}
 }

@@ -29,39 +29,46 @@
  */
 package com.github.dandelion.datatables.core.processor.css;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.core.DandelionException;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.css.CssThemeOptionProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CssThemeOptionProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
+	public OptionProcessor getProcessor() {
 		return new CssThemeOptionProcessor();
 	}
 	
 	@Test
 	public void should_set_theme_option() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_THEMEOPTION, "blacktie");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_THEMEOPTION, "blacktie");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo(ThemeOption.BLACKTIE);
 		
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_THEMEOPTION, "BLACKTIE");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_THEMEOPTION, "BLACKTIE");
+		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo(ThemeOption.BLACKTIE);
 	}
 	
-	@Test(expected = ConfigurationProcessingException.class)
+	@Test(expected = DandelionException.class)
 	public void should_raise_an_exception() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_THEMEOPTION, "unknownThemeOption");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_THEMEOPTION, "unknownThemeOption");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
 	}
 }

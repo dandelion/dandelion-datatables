@@ -30,14 +30,14 @@
 
 package com.github.dandelion.datatables.jsp.basics;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.jsp.tag.DomBaseTest;
 import com.github.dandelion.datatables.mock.Mock;
 import com.github.dandelion.datatables.utils.TableTagBuilder;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Pagination tests.
@@ -55,6 +55,6 @@ public class PaginationTest extends DomBaseTest {
 	
 	@Test
 	public void should_limit_display_length() {
-		assertThat(TableConfig.FEATURE_DISPLAYLENGTH.valueFrom(table.getTableConfiguration())).isEqualTo(40);
+		assertThat(DatatableOptions.FEATURE_DISPLAYLENGTH.valueFrom(table.getTableConfiguration())).isEqualTo(40);
 	}
 }

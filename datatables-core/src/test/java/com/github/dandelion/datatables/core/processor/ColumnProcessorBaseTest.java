@@ -40,19 +40,20 @@ import org.junit.Before;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.ConfigurationStore;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.config.ColumnConfiguration;
+import com.github.dandelion.datatables.core.config.TableConfiguration;
+import com.github.dandelion.datatables.core.config.TableConfigurationFactory;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 
 public abstract class ColumnProcessorBaseTest {
 
-	protected ConfigurationProcessor processor;
+	protected OptionProcessor processor;
 	protected TableConfiguration tableConfiguration;
 	protected ColumnConfiguration columnConfiguration;
 	protected HttpServletRequest request;
-	protected Map<ConfigToken<?>, Object> confToBeApplied;
-	protected Entry<ConfigToken<?>, Object> entry;
+	protected Map<Option<?>, Object> confToBeApplied;
+	protected Entry<Option<?>, Object> entry;
 	
 	@Before
 	public void setup() {
@@ -60,16 +61,15 @@ public abstract class ColumnProcessorBaseTest {
 		MockServletContext mockServletContext = new MockServletContext();
 		MockPageContext mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
-		confToBeApplied = new HashMap<ConfigToken<?>, Object>();
-		tableConfiguration = new TableConfiguration(confToBeApplied, null, request);
-		tableConfiguration.setTableId("fakeId");
+		confToBeApplied = new HashMap<Option<?>, Object>();
+		tableConfiguration = TableConfigurationFactory.getInstance("tableId", request, null);
 		columnConfiguration = new ColumnConfiguration();
 	}
 	
 	@After
 	public void after(){
-		ConfigurationStore.clear();
+		TableConfigurationFactory.clear();
 	}
 	
-	public abstract ConfigurationProcessor getProcessor();
+	public abstract OptionProcessor getProcessor();
 }

@@ -29,44 +29,60 @@
  */
 package com.github.dandelion.datatables.core.processor.column;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.util.Arrays;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.core.DandelionException;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.constants.Direction;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.column.SortDirectionProcessor;
 import com.github.dandelion.datatables.core.processor.ColumnProcessorBaseTest;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class SortDirectionProcessorTest extends ColumnProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
+	public OptionProcessor getProcessor() {
 		return new SortDirectionProcessor();
 	}
+	
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
 
 	@Test
-	public void should_leave_the_value_untouched_when_empty() {
-		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.SORTDIRECTION, "");
-		processor.process(entry, columnConfiguration, tableConfiguration);
-		assertThat(entry.getValue()).isEqualTo("");
+	public void should_return_null_when_the_option_value_is_empty() {
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.SORTDIRECTION, "");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+		processor.process(pc);
+		
+		assertThat(entry.getValue()).isNull();
 	}
 
 	@Test
 	public void should_map_to_an_enum_when_using_an_existing_value() {
-		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.SORTDIRECTION, " asc");
-		processor.process(entry, columnConfiguration, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.SORTDIRECTION, " asc");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo(Arrays.asList(Direction.ASC));
 	}
 	
-	@Test(expected = ConfigurationProcessingException.class)
+	@Test
 	public void should_throw_an_exception_wiwth_message() {
-		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.SORTDIRECTION, "assssc");
-		processor.process(entry, columnConfiguration, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.SORTDIRECTION, "assssc");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+		
+		exception.expect(DandelionException.class);
+		exception.expectMessage("");
+		
+		processor.process(pc);
 	}
 }

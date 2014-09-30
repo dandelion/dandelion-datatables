@@ -30,14 +30,14 @@
 
 package com.github.dandelion.datatables.jsp.basics;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.jsp.tag.DomBaseTest;
 import com.github.dandelion.datatables.mock.Mock;
 import com.github.dandelion.datatables.utils.TableTagBuilder;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Default table.
@@ -64,7 +64,7 @@ public class DefaultTableTest extends DomBaseTest {
 	@Test
 	public void should_generate_a_default_table() {
 		assertThat(table.getTableConfiguration().getInternalExtensions()).isNull();
-		assertThat(TableConfig.CSS_THEME.valueFrom(table.getTableConfiguration())).isNull();
+		assertThat(DatatableOptions.CSS_THEME.valueFrom(table.getTableConfiguration())).isNull();
 		//TODO more assertions are needed
 	}
 }

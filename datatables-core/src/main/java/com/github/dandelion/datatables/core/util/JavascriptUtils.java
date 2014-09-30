@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.core.util;
 import java.util.Collection;
 import java.util.Iterator;
 
-public class JavascriptUtils {
+public final class JavascriptUtils {
 
 	/**
 	 * <p>
@@ -47,20 +47,29 @@ public class JavascriptUtils {
 	 *            The collection of Strings to convert into a Javascript array.
 	 * @return a String representing a Javascript array.
 	 */
-	public static String toArray(Collection<String> collection){
+	public static String toArray(Collection<String> collection) {
 		StringBuilder sb = new StringBuilder("[");
 
 		Iterator<String> it = collection.iterator();
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			sb.append("'");
 			sb.append(it.next());
 			sb.append("'");
-			if(it.hasNext()){
+			if (it.hasNext()) {
 				sb.append(",");
 			}
 		}
 		sb.append("]");
-		
+
 		return sb.toString();
+	}
+
+	/**
+	 * <p>
+	 * Suppress default constructor for noninstantiability.
+	 * </p>
+	 */
+	private JavascriptUtils() {
+		throw new AssertionError();
 	}
 }

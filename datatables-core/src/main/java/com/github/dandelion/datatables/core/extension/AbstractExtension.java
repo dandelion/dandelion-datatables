@@ -39,14 +39,12 @@ import com.github.dandelion.core.Context;
 import com.github.dandelion.core.web.AssetRequestContext;
 import com.github.dandelion.core.web.WebConstants;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
-import com.github.dandelion.datatables.core.asset.JsResource;
 import com.github.dandelion.datatables.core.asset.Parameter;
 import com.github.dandelion.datatables.core.asset.Parameter.Mode;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.DatatableBundles;
-import com.github.dandelion.datatables.core.generator.configuration.AbstractConfigurationGenerator;
+import com.github.dandelion.datatables.core.config.DatatableBundles;
+import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -58,7 +56,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * </p>
  * <ul>
  * <li>bufferize Javascript code, at different location, before flushing it in
- * the final {@link JsResource}</li>
+ * the final {@link TODO}</li>
  * <li>add some {@link Parameter} to the generated DataTables configuration,
  * thanks to {@link #addParameter(*)} methods</li>
  * <li>add some bundles to the current request</li>
@@ -121,7 +119,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public abstract class AbstractExtension implements Extension {
 
-	private String extensionName;
+	private final String extensionName;
 	private StringBuilder beforeAll;
 	private StringBuilder beforeStartDocumentReady;
 	private StringBuilder afterStartDocumentReady;
@@ -327,15 +325,15 @@ public abstract class AbstractExtension implements Extension {
 		return this.table.getDynamicAttributes();
 	}
 
-	public boolean isEnabled(ConfigToken<Boolean> configToken){
-		Boolean result = configToken.valueFrom(table.getTableConfiguration());
-		return result == null || true;
-	}
+//	public boolean isEnabled(DatatableConfig configToken){
+//		Boolean result = configToken.valueFrom(table.getTableConfiguration());
+//		return result == null || true;
+//	}
 	
-	public boolean isNotNull(ConfigToken<?> configToken){
-		Object result = configToken.valueFrom(table.getTableConfiguration());
-		return result != null;
-	}
+//	public boolean isNotNull(ConfigToken<?> configToken){
+//		Object result = configToken.valueFrom(table.getTableConfiguration());
+//		return result != null;
+//	}
 	
 	/**
 	 * @return the Dandelion {@link Context}.

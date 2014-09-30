@@ -15,7 +15,7 @@ import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.util.DOMUtils;
 
-import com.github.dandelion.datatables.core.html.ExtraHtml;
+import com.github.dandelion.datatables.core.extension.feature.ExtraHtml;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;

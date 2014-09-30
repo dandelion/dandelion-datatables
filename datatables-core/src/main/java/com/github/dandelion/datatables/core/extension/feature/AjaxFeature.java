@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -56,7 +56,7 @@ public class AjaxFeature extends AbstractExtension {
 	public void setup(HtmlTable table) {
 		addParameter(DTConstants.DT_B_DEFER_RENDER, true);
 		addParameter(DTConstants.DT_S_AJAXDATAPROP, "");
-		addParameter(DTConstants.DT_S_AJAX_SOURCE, TableConfig.AJAX_SOURCE.valueFrom(table));
+		addParameter(DTConstants.DT_S_AJAX_SOURCE, DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
 		addCallback(CallbackType.INIT, "oTable_" + table.getId() + ".fnAdjustColumnSizing(true);");
 	}
 }

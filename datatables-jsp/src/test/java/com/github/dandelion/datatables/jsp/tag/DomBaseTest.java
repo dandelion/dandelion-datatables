@@ -41,7 +41,7 @@ import org.springframework.mock.web.MockServletContext;
 
 import com.github.dandelion.core.Context;
 import com.github.dandelion.core.web.WebConstants;
-import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
+import com.github.dandelion.datatables.core.generator.DatatablesGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.mock.Mock;
 import com.github.dandelion.datatables.utils.TableTagBuilder;

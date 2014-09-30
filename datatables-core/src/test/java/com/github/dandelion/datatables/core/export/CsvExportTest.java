@@ -29,14 +29,14 @@
  */
 package com.github.dandelion.datatables.core.export;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.util.Scanner;
 
 import org.junit.Test;
 import org.springframework.util.StringUtils;
 
 import com.github.dandelion.datatables.core.mock.Mock;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test the CSV export.

@@ -50,74 +50,17 @@
          <artifactId>slf4j-api</artifactId>
       </dependency>
 
-      <!-- Test dependencies -->
-
-      <!-- PhantomJS + GhostDriver -->
+      <!-- AssertJ -->
       <dependency>
-         <groupId>com.github.detro.ghostdriver</groupId>
-         <artifactId>phantomjsdriver</artifactId>
+         <groupId>org.assertj</groupId>
+         <artifactId>assertj-core</artifactId>
          <scope>test</scope>
       </dependency>
 
-      <!-- Fluentlenium -->
-      <dependency>
-         <groupId>org.fluentlenium</groupId>
-         <artifactId>fluentlenium-core</artifactId>
-         <scope>test</scope>
-      </dependency>
-
-      <!-- Jetty -->
-      <dependency>
-         <groupId>org.eclipse.jetty</groupId>
-         <artifactId>jetty-server</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.eclipse.jetty</groupId>
-         <artifactId>jetty-webapp</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.eclipse.jetty</groupId>
-         <artifactId>jetty-jsp</artifactId>
-         <scope>test</scope>
-      </dependency>
-
-      <!-- JUnit -->
-      <dependency>
-         <groupId>junit</groupId>
-         <artifactId>junit-dep</artifactId>
-         <scope>test</scope>
-      </dependency>
-
-      <!-- FestAssert -->
-      <dependency>
-         <groupId>org.easytesting</groupId>
-         <artifactId>fest-assert</artifactId>
-         <scope>test</scope>
-      </dependency>
-
-      <!-- Spring + Jackson -->
+      <!-- Spring Test -->
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-test</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-webmvc</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.codehaus.jackson</groupId>
-         <artifactId>jackson-mapper-asl</artifactId>
-         <scope>test</scope>
-      </dependency>
-
-      <!-- XML APIs -->
-      <dependency>
-         <groupId>xml-apis</groupId>
-         <artifactId>xml-apis</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

@@ -31,8 +31,8 @@ package com.github.dandelion.datatables.core.extension.plugin;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.configuration.DatatableBundles;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableBundles;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -63,8 +63,8 @@ public class ScrollerPlugin extends AbstractExtension {
 
 		addBundle(DatatableBundles.DDL_DT_PLUGIN_SCROLLER);
 
-		String dom = TableConfig.FEATURE_DOM.valueFrom(table);
-		Boolean jqueryUiEnabled = TableConfig.FEATURE_JQUERYUI.valueFrom(table);
+		String dom = DatatableOptions.FEATURE_DOM.valueFrom(table.getTableConfiguration());
+		Boolean jqueryUiEnabled = DatatableOptions.FEATURE_JQUERYUI.valueFrom(table.getTableConfiguration());
 
 		if (StringUtils.isNotBlank(dom)) {
 			addParameter(DTConstants.DT_DOM, "S", Parameter.Mode.APPEND);

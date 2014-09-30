@@ -34,8 +34,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
+import com.github.dandelion.datatables.core.config.ColumnConfiguration;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.export.ReservedFormat;
 
 /**
@@ -117,10 +117,10 @@ public class HtmlColumn extends HtmlTagWithContent {
 	protected StringBuilder getHtmlAttributes() {
 		StringBuilder html = new StringBuilder();
 		if (this.isHeaderColumn) {
-			html.append(writeAttribute("class", ColumnConfig.CSSCLASS.valueFrom(this.getColumnConfiguration())));
-			html.append(writeAttribute("style", ColumnConfig.CSSSTYLE.valueFrom(this.getColumnConfiguration())));
+			html.append(writeAttribute("class", DatatableOptions.CSSCLASS.valueFrom(this.getColumnConfiguration())));
+			html.append(writeAttribute("style", DatatableOptions.CSSSTYLE.valueFrom(this.getColumnConfiguration())));
 			
-			String columnId = ColumnConfig.ID.valueFrom(this.getColumnConfiguration());
+			String columnId = DatatableOptions.ID.valueFrom(this.getColumnConfiguration());
 			if (StringUtils.isNotBlank(columnId)) {
 				html.append(writeAttribute("id", columnId));
 			}
@@ -154,11 +154,11 @@ public class HtmlColumn extends HtmlTagWithContent {
 	
 	public void addCssClass(String cssClass) {
 		if (this.isHeaderColumn) {
-			StringBuilder cssClassSb = ColumnConfig.CSSCLASS.valueFrom(this.columnConfiguration);
+			StringBuilder cssClassSb = DatatableOptions.CSSCLASS.valueFrom(this.columnConfiguration);
 			if (cssClassSb != null && cssClassSb.length() != 0) {
-				ColumnConfig.CSSCLASS.appendIn(this.columnConfiguration, CLASS_SEPARATOR);
+				DatatableOptions.CSSCLASS.appendIn(this.columnConfiguration, CLASS_SEPARATOR);
 			}
-			ColumnConfig.CSSCLASS.appendIn(this.columnConfiguration, cssClass);
+			DatatableOptions.CSSCLASS.appendIn(this.columnConfiguration, cssClass);
 		}
 		else {
 			if (this.cssClass == null) {

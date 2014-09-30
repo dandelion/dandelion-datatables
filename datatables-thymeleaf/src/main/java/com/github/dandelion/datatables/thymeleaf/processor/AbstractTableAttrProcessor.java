@@ -40,7 +40,7 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 
 /**
@@ -59,7 +59,7 @@ public abstract class AbstractTableAttrProcessor extends AbstractAttrProcessor {
 	protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
 
 		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-		Map<ConfigToken<?>, Object> stagingConf = (Map<ConfigToken<?>, Object>) request
+		Map<Option<?>, Object> stagingConf = (Map<Option<?>, Object>) request
 				.getAttribute(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF);
 
 		// Make the actual attribute processing
@@ -90,5 +90,5 @@ public abstract class AbstractTableAttrProcessor extends AbstractAttrProcessor {
 	 *            Map containing the table local configuration.
 	 */
 	protected abstract void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-			Map<ConfigToken<?>, Object> stagingConf);
+			Map<Option<?>, Object> stagingConf);
 }

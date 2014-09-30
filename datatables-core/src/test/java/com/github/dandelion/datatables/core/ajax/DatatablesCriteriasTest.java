@@ -29,13 +29,13 @@
  */
 package com.github.dandelion.datatables.core.ajax;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.github.dandelion.datatables.core.constants.DTConstants;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * <p>

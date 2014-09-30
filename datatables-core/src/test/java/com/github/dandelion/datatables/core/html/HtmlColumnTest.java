@@ -29,13 +29,13 @@
  */
 package com.github.dandelion.datatables.core.html;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.export.ReservedFormat;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class HtmlColumnTest {
 
@@ -61,10 +61,10 @@ public class HtmlColumnTest {
 	@Test
 	public void should_create_header_column_with_id() {
 		column = new HtmlColumn(true, "content");
-		ColumnConfig.ID.setIn(column.getColumnConfiguration(), "fakeId");
+		DatatableOptions.ID.setIn(column.getColumnConfiguration(), "fakeId");
 		assertThat(column.isHeaderColumn()).isTrue();
 		assertThat(column.toHtml().toString()).isEqualTo(
-				"<" + column.getTag() + " id=\"" + ColumnConfig.ID.valueFrom(column.getColumnConfiguration()) + "\">content</"
+				"<" + column.getTag() + " id=\"" + DatatableOptions.ID.valueFrom(column.getColumnConfiguration()) + "\">content</"
 						+ column.getTag() + ">");
 	}
 	

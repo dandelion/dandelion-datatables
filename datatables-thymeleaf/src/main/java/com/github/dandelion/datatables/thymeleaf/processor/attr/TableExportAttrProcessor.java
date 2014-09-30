@@ -35,8 +35,8 @@ import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
 
@@ -62,8 +62,8 @@ public class TableExportAttrProcessor extends AbstractTableAttrProcessor {
 	 */
 	@Override
 	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-			Map<ConfigToken<?>, Object> stagingConf) {
+			Map<Option<?>, Object> stagingConf) {
 
-		stagingConf.put(TableConfig.EXPORT_ENABLED_FORMATS, element.getAttributeValue(attributeName));
+		stagingConf.put(DatatableOptions.EXPORT_ENABLED_FORMATS, element.getAttributeValue(attributeName));
 	}
 }

@@ -29,57 +29,64 @@
  */
 package com.github.dandelion.datatables.core.processor.ajax;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.feature.PipeliningFeature;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.ajax.AjaxPipeliningProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AjaxPipeliningProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
+	public OptionProcessor getProcessor() {
 		return new AjaxPipeliningProcessor();
 	}	
 
 	@Test
 	public void should_register_a_feature_and_use_default_pipelinig_when_value_is_true() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPELINING, "true");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_PIPELINING, "true");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
 		assertThat(entry.getValue()).isEqualTo(true);
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
-		assertThat(tableConfiguration.getStagingConfiguration().get(TableConfig.AJAX_PIPESIZE)).isEqualTo(5);
+		assertThat(tableConfiguration.getStagingConfiguration().get(DatatableOptions.AJAX_PIPESIZE)).isEqualTo(5);
 		assertThat(new PipeliningFeature()).isIn(tableConfiguration.getInternalExtensions());
 	}
 	
 	@Test
 	public void should_register_a_feature_and_leave_pipelining_untouched_when_value_is_true() {
-		tableConfiguration.getConfigurations().put(TableConfig.AJAX_PIPESIZE, 3);
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPELINING, "true");
-		processor.process(entry, tableConfiguration);
+		tableConfiguration.getConfigurations().put(DatatableOptions.AJAX_PIPESIZE, 3);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_PIPELINING, "true");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
 		assertThat(entry.getValue()).isEqualTo(true);
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
-		assertThat(tableConfiguration.getConfigurations().get(TableConfig.AJAX_PIPESIZE)).isEqualTo(3);
+		assertThat(tableConfiguration.getConfigurations().get(DatatableOptions.AJAX_PIPESIZE)).isEqualTo(3);
 		assertThat(new PipeliningFeature()).isIn(tableConfiguration.getInternalExtensions());
 	}
 	
 	@Test
 	public void should_not_register_anything_when_value_is_false() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPELINING, "false");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_PIPELINING, "false");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
 		assertThat(entry.getValue()).isEqualTo(false);
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}
 	
 	@Test
 	public void should_not_register_anything_when_value_is_wrong() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_PIPELINING, "weird");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_PIPELINING, "weird");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo(false);
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}

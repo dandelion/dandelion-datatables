@@ -32,8 +32,8 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.option.Option;
 
 /**
  * <p>
@@ -94,13 +94,13 @@ public class PropTag extends TagSupport {
 		// The tag is evaluated only once, at the first iteration
 		if(parent.isFirstIteration()){
 			
-			ConfigToken<?> configToken = TableConfig.findByPropertyName(name);
+			Option<?> option = DatatableOptions.findByName(name);
 			
-			if(configToken == null){
+			if(option == null){
 				throw new JspException("'" + name + "' is not a valid property. Please read the documentation.");
 			}
 			else{
-				parent.stagingConf.put(configToken, value);
+				parent.stagingConf.put(option, value);
 			}
 		}
 		

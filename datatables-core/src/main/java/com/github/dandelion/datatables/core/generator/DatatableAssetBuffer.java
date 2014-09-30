@@ -38,12 +38,20 @@ import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.generator.jquery.JQueryAssetBuffer;
-import com.github.dandelion.datatables.core.exception.WebResourceGenerationException;
 import com.github.dandelion.datatables.core.extension.ExtensionLoader;
-import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
+/**
+ * <p>
+ * Extension of {@link JQueryAssetBuffer} designed for buffering DataTable
+ * configuration.
+ * </p>
+ * 
+ * @author Thibault Duchateau
+ * @since 0.11.0
+ */
 public class DatatableAssetBuffer extends JQueryAssetBuffer {
 
 	private DatatableAssetBuffer() {
@@ -107,25 +115,34 @@ public class DatatableAssetBuffer extends JQueryAssetBuffer {
 		this.dataTablesExtraConf.append(dataTablesExtraConf);
 	}
 
-	public static DatatableAssetBuffer create(HtmlTable table) {
+	/**
+	 * <p>
+	 * Static helper intended to create the DataTable configuration from the
+	 * provided {@link HtmlTable}.
+	 * </p>
+	 * 
+	 * @param htmlTable
+	 *            The table from which the configuration will be generated.
+	 * @return a filled {@link DatatableAssetBuffer}.
+	 */
+	public static DatatableAssetBuffer create(HtmlTable htmlTable) {
 
 		/**
 		 * Main configuration file building
 		 */
 		DatatableAssetBuffer dab = new DatatableAssetBuffer();
-		dab.setOriginalId(table.getOriginalId());
-		dab.setProcessedId(table.getId());
+		dab.setOriginalId(htmlTable.getOriginalId());
+		dab.setProcessedId(htmlTable.getId());
 
 		// Init the "configuration" map with the table informations
-		// The configuration may be updated depending on the user's choices
 		DatatablesGenerator configGenerator = new DatatablesGenerator();
-		Map<String, Object> mainConf = configGenerator.generateConfig(table);
+		Map<String, Object> mainConf = configGenerator.generateConfig(htmlTable);
 
 		/**
 		 * Extension loading
 		 */
 		logger.debug("Loading extensions...");
-		ExtensionLoader extensionLoader = new ExtensionLoader(table);
+		ExtensionLoader extensionLoader = new ExtensionLoader(htmlTable);
 		extensionLoader.loadExtensions(dab, mainConf);
 
 		/**
@@ -139,7 +156,7 @@ public class DatatableAssetBuffer extends JQueryAssetBuffer {
 			dab.appendToDataTablesConf(writer.toString());
 		}
 		catch (IOException e) {
-			throw new WebResourceGenerationException("Unable to generate the JSON configuration", e);
+			throw new DandelionException("Unable to generate the JSON configuration", e);
 		}
 
 		return dab;

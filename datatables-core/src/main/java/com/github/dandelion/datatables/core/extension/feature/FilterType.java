@@ -30,7 +30,9 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 /**
+ * <p>
  * Type of filter that can be used when individual column filtering is enabled.
+ * </p>
  * 
  * @author Thibault Duchateau
  */

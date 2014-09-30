@@ -29,47 +29,55 @@
  */
 package com.github.dandelion.datatables.core.processor.feature;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFeature;
 import com.github.dandelion.datatables.core.extension.feature.PaginationTypeInputFeature;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.feature.FeaturePaginationTypeProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class FeaturePaginationTypeProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
+	public OptionProcessor getProcessor() {
 		return new FeaturePaginationTypeProcessor();
 	}
 
 	@Test
 	public void should_set_paginationtype() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_PAGINATIONTYPE, "bootstrap");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_PAGINATIONTYPE, "bootstrap");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo(PaginationType.BOOTSTRAP);
 		assertThat(tableConfiguration.getInternalExtensions()).contains(new PaginationTypeBootstrapFeature());
 
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_PAGINATIONTYPE, "BOOTSTRAP");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_PAGINATIONTYPE, "BOOTSTRAP");
+		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo(PaginationType.BOOTSTRAP);
 		assertThat(tableConfiguration.getInternalExtensions()).contains(new PaginationTypeBootstrapFeature());
 
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_PAGINATIONTYPE, "INPUT");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_PAGINATIONTYPE, "INPUT");
+		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo(PaginationType.INPUT);
 		assertThat(tableConfiguration.getInternalExtensions()).contains(new PaginationTypeInputFeature());
 	}
 
 	@Test
 	public void should_set_a_custom_paginationType_ans_no_extension() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_PAGINATIONTYPE, "custom-pagination-type");
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_PAGINATIONTYPE, "custom-pagination-type");
 		assertThat(entry.getValue()).isEqualTo("custom-pagination-type");
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}

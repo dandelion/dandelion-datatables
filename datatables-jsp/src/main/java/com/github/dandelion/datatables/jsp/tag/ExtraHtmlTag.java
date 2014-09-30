@@ -33,9 +33,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.extension.feature.ExtraHtml;
 import com.github.dandelion.datatables.core.extension.feature.ExtraHtmlFeature;
-import com.github.dandelion.datatables.core.html.ExtraHtml;
 
 /**
  * <p>

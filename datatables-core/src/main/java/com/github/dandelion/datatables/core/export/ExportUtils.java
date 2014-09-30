@@ -37,8 +37,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.utils.ClassUtils;
-import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -95,7 +95,7 @@ public final class ExportUtils {
 
 		// Check whether the class can be instantiated
 		if (!ClassUtils.isPresent(exportClass)) {
-			throw new ExportException("Unable to export in " + exportConf.getFormat()
+			throw new DandelionException("Unable to export in " + exportConf.getFormat()
 					+ " format because the export class cannot be found. Did you forget to add an extra dependency?");
 		}
 
@@ -105,11 +105,11 @@ public final class ExportUtils {
 			klass = ClassUtils.getClass(exportClass);
 			export = (DatatablesExport) ClassUtils.getNewInstance(klass);
 		} catch (ClassNotFoundException e) {
-			throw new ExportException("Unable to load the class '" + exportClass + "'", e);
+			throw new DandelionException("Unable to load the class '" + exportClass + "'", e);
 		} catch (InstantiationException e) {
-			throw new ExportException("Unable to instanciate the class '" + exportClass + "'", e);
+			throw new DandelionException("Unable to instanciate the class '" + exportClass + "'", e);
 		} catch (IllegalAccessException e) {
-			throw new ExportException("Unable to access the class '" + exportClass + "'", e);
+			throw new DandelionException("Unable to access the class '" + exportClass + "'", e);
 		}
 		
 		export.initExport(table);
@@ -119,7 +119,7 @@ public final class ExportUtils {
 			writeToResponse(response, stream, exportConf.getFileName() + "." + exportConf.getFileExtension(),
 					exportConf.getMimeType());
 		} catch (IOException e) {
-			throw new ExportException(
+			throw new DandelionException(
 					"Unable to write to response using the " + exportClass.getClass().getSimpleName(), e);
 		}
 	}

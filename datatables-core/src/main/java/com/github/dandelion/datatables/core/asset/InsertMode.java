@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.core.asset;
 
+import com.github.dandelion.datatables.core.extension.feature.ExtraJs;
+
 /**
  * Enum containing the available insertion modes for an {@link ExtraJs}.
  * 

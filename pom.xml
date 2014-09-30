@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
@@ -44,7 +45,7 @@
 
       <!-- Dependencies -->
       <dandelion.version>0.11.0-SNAPSHOT</dandelion.version>
-      <thymeleaf.version>2.1.1.RELEASE</thymeleaf.version>
+      <thymeleaf.version>2.1.3.RELEASE</thymeleaf.version>
       <commons-beanutils.version>1.8.3</commons-beanutils.version>
       <servlet-api.version>3.0.1</servlet-api.version>
       <slf4j.version>1.7.5</slf4j.version>
@@ -58,15 +59,10 @@
       <struts2.version>[2.0.5,)</struts2.version>
 
       <!-- Test dependencies -->
-      <fluentlenium.version>0.7.6</fluentlenium.version>
-      <phantomjsdriver.version>1.0.1</phantomjsdriver.version>
-      <festassert.version>1.4</festassert.version>
+      <assertj.version>1.6.0</assertj.version>
       <junit.version>4.11</junit.version>
-      <junit.dep.version>4.11</junit.dep.version>
       <spring.version>3.2.7.RELEASE</spring.version>
       <jackson.version>1.9.13</jackson.version>
-      <jetty.test.version>8.1.14.v20131031</jetty.test.version>
-      <xml-apis.version>1.4.01</xml-apis.version>
 
       <!-- Maven plugins -->
       <maven.compiler.version>2.3.2</maven.compiler.version>
@@ -75,7 +71,6 @@
       <maven.project-report-info.version>2.5.1</maven.project-report-info.version>
       <maven.site.version>3.1</maven.site.version>
       <maven.surefire.version>2.13</maven.surefire.version>
-      <maven.failsafe.version>2.13</maven.failsafe.version>
       <maven.gpg.version>1.4</maven.gpg.version>
    </properties>
 
@@ -205,61 +200,11 @@
             <version>${junit.version}</version>
          </dependency>
 
-         <!-- JUnit Dep -->
+         <!-- AssertJ -->
          <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit-dep</artifactId>
-            <version>${junit.dep.version}</version>
-         </dependency>
-
-         <!-- Fest Assert -->
-         <dependency>
-            <groupId>org.easytesting</groupId>
-            <artifactId>fest-assert</artifactId>
-            <version>${festassert.version}</version>
-         </dependency>
-
-         <!-- PhantomJS + GhostDriver -->
-         <dependency>
-            <groupId>com.github.detro.ghostdriver</groupId>
-            <artifactId>phantomjsdriver</artifactId>
-            <version>${phantomjsdriver.version}</version>
-            <exclusions>
-               <exclusion>
-                  <groupId>org.seleniumhq.selenium</groupId>
-                  <artifactId>selenium-server</artifactId>
-               </exclusion>
-            </exclusions>
-         </dependency>
-
-         <!-- Fluentlenium -->
-         <dependency>
-            <groupId>org.fluentlenium</groupId>
-            <artifactId>fluentlenium-core</artifactId>
-            <version>${fluentlenium.version}</version>
-            <exclusions>
-               <exclusion>
-                  <groupId>junit</groupId>
-                  <artifactId>junit-dep</artifactId>
-               </exclusion>
-            </exclusions>
-         </dependency>
-
-         <!-- Jetty -->
-         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>${jetty.test.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-webapp</artifactId>
-            <version>${jetty.test.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-jsp</artifactId>
-            <version>${jetty.test.version}</version>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
          </dependency>
 
          <!-- Spring + Jackson -->
@@ -284,13 +229,6 @@
             <version>${jackson.version}</version>
          </dependency>
 
-         <!-- XML APIs -->
-         <dependency>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-            <version>${xml-apis.version}</version>
-         </dependency>
-
       </dependencies>
    </dependencyManagement>
 
@@ -312,11 +250,6 @@
                <configuration>
                   <useSystemClassLoader>false</useSystemClassLoader>
                </configuration>
-            </plugin>
-            <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-failsafe-plugin</artifactId>
-               <version>${maven.failsafe.version}</version>
             </plugin>
          </plugins>
       </pluginManagement>
@@ -486,7 +419,7 @@
       <connection>scm:git:git://github.com/dandelion/dandelion-datatables.git</connection>
       <developerConnection>scm:git:git@github.com:dandelion/dandelion-datatables.git</developerConnection>
       <url>http://github.com/dandelion/dandelion-datatables</url>
-  </scm>
+   </scm>
 
    <developers>
       <developer>

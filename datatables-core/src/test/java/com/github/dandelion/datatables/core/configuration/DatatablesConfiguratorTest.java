@@ -29,14 +29,16 @@
  */
 package com.github.dandelion.datatables.core.configuration;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.github.dandelion.datatables.core.config.DatatableConfigurator;
+import com.github.dandelion.datatables.core.config.StandardConfigurationLoader;
 import com.github.dandelion.datatables.core.constants.SystemConstants;
 import com.github.dandelion.datatables.core.i18n.StandardLocaleResolver;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class DatatablesConfiguratorTest {
 
@@ -47,28 +49,28 @@ public class DatatablesConfiguratorTest {
 	
 	@Test
 	public void should_use_StandardConfigurationLoader_by_default() {
-		assertThat(DatatablesConfigurator.getConfigurationLoader()).isInstanceOf(StandardConfigurationLoader.class);
+		assertThat(DatatableConfigurator.getConfigurationLoader()).isInstanceOf(StandardConfigurationLoader.class);
 	}
 	
 	@Test
 	public void should_use_another_configution_loader_using_system_property(){
 		System.setProperty(SystemConstants.DANDELION_DT_CONFLOADER_CLASS, "com.github.dandelion.datatables.core.configuration.FakeConfigurationLoader");
-		assertThat(DatatablesConfigurator.getConfigurationLoader()).isInstanceOf(FakeConfigurationLoader.class);
+		assertThat(DatatableConfigurator.getConfigurationLoader()).isInstanceOf(FakeConfigurationLoader.class);
 		System.clearProperty(SystemConstants.DANDELION_DT_CONFLOADER_CLASS);
 	}
 	
 	@Test
 	public void should_return_StandardLocaleResolver_from_default_configuration(){
-		assertThat(DatatablesConfigurator.getLocaleResolver()).isInstanceOf(StandardLocaleResolver.class);
+		assertThat(DatatableConfigurator.getLocaleResolver()).isInstanceOf(StandardLocaleResolver.class);
 	}
 	
 	@Test
 	public void should_return_default_locale_resolver(){
-		assertThat(DatatablesConfigurator.getLocaleResolver()).isInstanceOf(StandardLocaleResolver.class);
+		assertThat(DatatableConfigurator.getLocaleResolver()).isInstanceOf(StandardLocaleResolver.class);
 	}
 	
 	@After
 	public void after(){
-		DatatablesConfigurator.clear();
+		DatatableConfigurator.clear();
 	}
 }

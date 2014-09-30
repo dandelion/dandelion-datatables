@@ -41,7 +41,7 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.el.TableFinalizerElProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
@@ -90,7 +90,7 @@ public class DivConfAttrProcessor extends AbstractAttrProcessor {
 		String tableId = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
 		if (configs != null && configs.containsKey(tableId)) {
-			throw new ConfigurationProcessingException("A div with id '" + tableId
+			throw new DandelionException("A div with id '" + tableId
 					+ "' is already present in the current template.");
 		}
 		else {

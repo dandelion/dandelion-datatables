@@ -1,15 +1,15 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.util.Arrays;
 import java.util.HashSet;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AppearFeatureTest extends AbstractExtensionTest {
 
@@ -18,11 +18,11 @@ public class AppearFeatureTest extends AbstractExtensionTest {
 
 		AppearFeature appearFeature = new AppearFeature();
 		
-		TableConfig.FEATURE_APPEAR.setIn(table.getTableConfiguration(), "fadein");
+		DatatableOptions.FEATURE_APPEAR.setIn(table.getTableConfiguration(), "fadein");
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(appearFeature)));
 
-		StringBuilder cssStyle = TableConfig.CSS_STYLE.valueFrom(table.getTableConfiguration());
+		StringBuilder cssStyle = DatatableOptions.CSS_STYLE.valueFrom(table.getTableConfiguration());
 		
 		assertThat(cssStyle.toString()).contains("display:none;");
 		assertThat(appearFeature.getBeforeEndDocumentReady().toString()).contains("$('#fakeId').fadeIn();");
@@ -33,12 +33,12 @@ public class AppearFeatureTest extends AbstractExtensionTest {
 
 		AppearFeature appearFeature = new AppearFeature();
 		
-		TableConfig.FEATURE_APPEAR.setIn(table.getTableConfiguration(), "fadein");
-		TableConfig.FEATURE_APPEAR_DURATION.setIn(table.getTableConfiguration(), "2000");
+		DatatableOptions.FEATURE_APPEAR.setIn(table.getTableConfiguration(), "fadein");
+		DatatableOptions.FEATURE_APPEAR_DURATION.setIn(table.getTableConfiguration(), "2000");
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(appearFeature)));
 
-		StringBuilder cssStyle = TableConfig.CSS_STYLE.valueFrom(table.getTableConfiguration());
+		StringBuilder cssStyle = DatatableOptions.CSS_STYLE.valueFrom(table.getTableConfiguration());
 		
 		assertThat(cssStyle.toString()).contains("display:none;");
 		assertThat(appearFeature.getBeforeEndDocumentReady().toString()).contains("$('#fakeId').fadeIn(2000);");
@@ -49,7 +49,7 @@ public class AppearFeatureTest extends AbstractExtensionTest {
 
 		AppearFeature appearFeature = new AppearFeature();
 		
-		TableConfig.FEATURE_APPEAR.setIn(table.getTableConfiguration(), "block");
+		DatatableOptions.FEATURE_APPEAR.setIn(table.getTableConfiguration(), "block");
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(appearFeature)));
 

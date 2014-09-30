@@ -29,51 +29,64 @@
  */
 package com.github.dandelion.datatables.core.processor.feature;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
+import com.github.dandelion.core.DandelionException;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.feature.FeatureFilterPlaceholderProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class FeatureFilterPlaceholderProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
+	public OptionProcessor getProcessor() {
 		return new FeatureFilterPlaceholderProcessor();
 	}
 
 	@Test
 	public void should_set_filterplaceholder() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_FILTER_PLACEHOLDER, "none");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, "none");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo(FilterPlaceholder.NONE);
 		
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_FILTER_PLACEHOLDER, "NONE");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, "NONE");
+		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo(FilterPlaceholder.NONE);
 		
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_FILTER_PLACEHOLDER, "head_after");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, "head_after");
+		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo(FilterPlaceholder.HEAD_AFTER);
 
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_FILTER_PLACEHOLDER, "head_before");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, "head_before");
+		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo(FilterPlaceholder.HEAD_BEFORE);
 
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_FILTER_PLACEHOLDER, "foot");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, "foot");
+		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo(FilterPlaceholder.FOOT);
 	}
 	
-	@Test(expected = ConfigurationProcessingException.class)
+	@Test(expected = DandelionException.class)
 	public void should_raise_an_exception() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_FILTER_PLACEHOLDER, "nooooone");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, "nooooone");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
 	}
 }

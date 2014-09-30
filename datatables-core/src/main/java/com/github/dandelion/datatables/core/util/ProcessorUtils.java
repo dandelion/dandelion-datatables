@@ -31,13 +31,14 @@ package com.github.dandelion.datatables.core.util;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 
 /**
  * <p>
- * Utilities related to the {@link ConfigurationProcessor}.
+ * Utilities related to the {@link OptionProcessor}.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
@@ -47,13 +48,14 @@ public final class ProcessorUtils {
 	/**
 	 * <p>
 	 * Some processors accept a special syntax, allowing to load one or more
-	 * Dandelion {@link Bundle}s in the current {@link HttpServletRequest}.
-	 * 
+	 * Dandelion bundles in the current {@link HttpServletRequest}.
+	 * </p>
 	 * <p>
 	 * The syntax is as follows:<br />
 	 * {@code bundleNameToAdd[,anotherBundleName]#javascriptObject}.
+	 * </p>
 	 * 
-	 * @throws ConfigurationProcessingException
+	 * @throws DandelionException
 	 *             if the passed value contains an incorrect format.
 	 */
 	public static String getValueAfterProcessingBundles(String value, HttpServletRequest request) {
@@ -61,12 +63,13 @@ public final class ProcessorUtils {
 		// The value may contain a hash, indicating that one or more bundles
 		// should be loaded in the current request
 		if (value.contains("#")) {
+
 			String[] splittedValue = value.split("#");
 			if (value.startsWith("#") || splittedValue.length != 2) {
 				StringBuilder sb = new StringBuilder();
-				sb.append("Wrong format used in the attribute value. ");
+				sb.append("Wrong format used in the option value. ");
 				sb.append("The right format is: 'bundleToAdd#javascriptObject'");
-				throw new ConfigurationProcessingException(sb.toString());
+				throw new DandelionException(sb.toString());
 			}
 			else {
 				if (splittedValue[0].contains(",")) {
@@ -91,8 +94,11 @@ public final class ProcessorUtils {
 	}
 
 	/**
-	 * Prevent instantiation.
+	 * <p>
+	 * Suppress default constructor for noninstantiability.
+	 * </p>
 	 */
 	private ProcessorUtils() {
+		throw new AssertionError();
 	}
 }

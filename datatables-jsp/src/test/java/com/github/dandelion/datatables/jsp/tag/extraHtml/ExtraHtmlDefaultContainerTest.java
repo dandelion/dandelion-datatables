@@ -1,7 +1,5 @@
 package com.github.dandelion.datatables.jsp.tag.extraHtml;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.io.UnsupportedEncodingException;
 
 import javax.servlet.jsp.JspException;
@@ -9,7 +7,9 @@ import javax.servlet.jsp.JspException;
 import org.junit.Test;
 import org.springframework.mock.web.MockBodyContent;
 
-import com.github.dandelion.datatables.core.html.ExtraHtml;
+import com.github.dandelion.datatables.core.extension.feature.ExtraHtml;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExtraHtmlDefaultContainerTest extends ExtraHtmlBaseTest {
 

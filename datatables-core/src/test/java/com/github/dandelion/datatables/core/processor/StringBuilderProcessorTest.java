@@ -1,7 +1,5 @@
 package com.github.dandelion.datatables.core.processor;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,41 +11,49 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.datatables.core.config.ColumnConfiguration;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.config.TableConfiguration;
+import com.github.dandelion.datatables.core.config.TableConfigurationFactory;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.StringBuilderProcessor;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class StringBuilderProcessorTest {
 
 	protected TableConfiguration tableConfiguration;
 	protected ColumnConfiguration columnConfiguration;
 	protected HttpServletRequest request;
-	protected Map<ConfigToken<?>, Object> confToBeApplied;
+	protected Map<Option<?>, Object> confToBeApplied;
 
 	@Before
 	public void setup() {
 		MockServletContext mockServletContext = new MockServletContext();
 		MockPageContext mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
-		confToBeApplied = new HashMap<ConfigToken<?>, Object>();
-		tableConfiguration = new TableConfiguration(confToBeApplied, null, request);
+		confToBeApplied = new HashMap<Option<?>, Object>();
+		tableConfiguration = TableConfigurationFactory.getInstance("tableId", request, null);
 		columnConfiguration = new ColumnConfiguration();
 	}
 
 	@Test
 	public void should_update_the_table_entry() throws Exception{
-		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_CLASS, "someString");
-		ConfigurationProcessor processor = new StringBuilderProcessor();
-		processor.process(entry, tableConfiguration);
+		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_CLASS, "someString");
+		OptionProcessor processor = new StringBuilderProcessor();
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+		processor.process(pc);
 		assertThat(entry.getValue().toString()).isEqualTo("someString");
 	}
 	
 	@Test
 	public void should_update_the_column_entry() throws Exception{
-		Entry<ConfigToken<?>, Object> entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.CSS_CLASS, "someString");
-		ConfigurationProcessor processor = new StringBuilderProcessor();
-		processor.process(entry, columnConfiguration, tableConfiguration);
+		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_CLASS, "someString");
+		OptionProcessor processor = new StringBuilderProcessor();
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+		processor.process(pc);
 		assertThat(entry.getValue().toString()).isEqualTo("someString");
 	}
 }

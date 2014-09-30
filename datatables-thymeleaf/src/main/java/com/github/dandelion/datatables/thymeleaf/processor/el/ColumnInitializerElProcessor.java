@@ -40,9 +40,9 @@ import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 
@@ -72,8 +72,8 @@ public class ColumnInitializerElProcessor extends AbstractElProcessor {
 	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
 			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable) {
 
-		Map<ConfigToken<?>, Object> stagingConf = new HashMap<ConfigToken<?>, Object>();
-		Map<ConfigToken<?>, Extension> stagingExtension = new HashMap<ConfigToken<?>, Extension>();
+		Map<Option<?>, Object> stagingConf = new HashMap<Option<?>, Object>();
+		Map<Option<?>, Extension> stagingExtension = new HashMap<Option<?>, Extension>();
 
 		// The staging configuration is stored as a local variable. It must be
 		// accessible in all column head processors.

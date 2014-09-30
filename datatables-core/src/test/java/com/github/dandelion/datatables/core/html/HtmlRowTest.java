@@ -29,12 +29,12 @@
  */
 package com.github.dandelion.datatables.core.html;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.core.export.ReservedFormat;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class HtmlRowTest {
 

@@ -32,11 +32,10 @@ package com.github.dandelion.datatables.core.extension.feature;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.DatatableBundles;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
+import com.github.dandelion.datatables.core.config.DatatableBundles;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -71,17 +70,17 @@ public class MultiFilterFeature extends AbstractExtension {
 		
 		addBundle(DatatableBundles.DDL_DT_MULTIFILTER);
 		
-		String filterSelector = TableConfig.FEATURE_FILTER_SELECTOR.valueFrom(table.getTableConfiguration());
-		String filterClearSelector = TableConfig.FEATURE_FILTER_CLEAR_SELECTOR.valueFrom(table.getTableConfiguration());
+		String filterSelector = DatatableOptions.FEATURE_FILTER_SELECTOR.valueFrom(table.getTableConfiguration());
+		String filterClearSelector = DatatableOptions.FEATURE_FILTER_CLEAR_SELECTOR.valueFrom(table.getTableConfiguration());
 		Set<String> selectors = null;
 		StringBuilder js = null;
-		FilterPlaceholder filterPlaceholder = TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(table);
+		FilterPlaceholder filterPlaceholder = DatatableOptions.FEATURE_FILTER_PLACEHOLDER.valueFrom(table.getTableConfiguration());
 		
 		if(filterPlaceholder != null && filterPlaceholder.equals(FilterPlaceholder.NONE)) {
 			
 			selectors = new HashSet<String>();
 			for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
-				String selector = ColumnConfig.SELECTOR.valueFrom(column.getColumnConfiguration());
+				String selector = DatatableOptions.SELECTOR.valueFrom(column.getColumnConfiguration());
 				if(StringUtils.isNotBlank(selector)) {
 					selectors.add(selector);
 				}
@@ -143,17 +142,17 @@ public class MultiFilterFeature extends AbstractExtension {
 
 	private void checkConfiguration(HtmlTable table) {
 		
-		String buttonId = TableConfig.FEATURE_FILTER_SELECTOR.valueFrom(table.getTableConfiguration());
+		String buttonId = DatatableOptions.FEATURE_FILTER_SELECTOR.valueFrom(table.getTableConfiguration());
 		if (StringUtils.isBlank(buttonId)) {
 			StringBuilder msg = new StringBuilder();
 			msg.append("A filter button must be set in order to make the multi-filter work.");
 			msg.append(" Please use the filterButton/dt:filterButton (JSP/Thymeleaf) table attribute.");
-			throw new ExtensionLoadingException(msg.toString());
+			throw new DandelionException(msg.toString());
 		}
 
 		Set<String> columnWithoutName = new HashSet<String>();
 		for (HtmlColumn headerColumn : table.getLastHeaderRow().getColumns()) {
-			String name = ColumnConfig.NAME.valueFrom(headerColumn.getColumnConfiguration());
+			String name = DatatableOptions.NAME.valueFrom(headerColumn.getColumnConfiguration());
 			if (StringUtils.isBlank(name)) {
 				columnWithoutName.add(name);
 			}
@@ -163,7 +162,7 @@ public class MultiFilterFeature extends AbstractExtension {
 			StringBuilder msg = new StringBuilder();
 			msg.append("All columns must have a name in order to make the multi-filter work.");
 			msg.append(" Please use the name/dt:name (JSP/Thymeleaf) column attribute to assign a name to each column.");
-			throw new ExtensionLoadingException(msg.toString());
+			throw new DandelionException(msg.toString());
 		}
 	}
 }

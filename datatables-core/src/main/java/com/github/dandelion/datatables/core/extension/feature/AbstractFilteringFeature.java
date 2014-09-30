@@ -29,21 +29,23 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.DatatableBundles;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableBundles;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
-import com.github.dandelion.datatables.core.generator.configuration.ColumnFilteringGenerator;
+import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
  * <p>
  * Java implementation of the DataTables Column Filter Add-on written by Jovan
  * Popovic.
+ * </p>
+ * 
  * <p>
  * The add-on now lives in its own repository <a
  * href="https://github.com/tduchateau/jquery-datatables-column-filter"
  * >here</a>.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.7.1
@@ -52,9 +54,11 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public abstract class AbstractFilteringFeature extends AbstractExtension {
 
+	public static final String FILTERING_FEATURE_NAME = "filtering";
+
 	@Override
 	public String getExtensionName() {
-		return "filtering";
+		return FILTERING_FEATURE_NAME;
 	}
 
 	@Override
@@ -62,7 +66,7 @@ public abstract class AbstractFilteringFeature extends AbstractExtension {
 
 		addBundle(DatatableBundles.DDL_DT_FILTERING);
 
-		FilterPlaceholder filterPlaceHolder = TableConfig.FEATURE_FILTER_PLACEHOLDER.valueFrom(table);
+		FilterPlaceholder filterPlaceHolder = DatatableOptions.FEATURE_FILTER_PLACEHOLDER.valueFrom(table.getTableConfiguration());
 		if (filterPlaceHolder != null) {
 			switch (filterPlaceHolder) {
 			case FOOT:

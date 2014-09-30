@@ -34,9 +34,9 @@ import java.util.GregorianCalendar;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
 
 /**
  * POJO that stores an export type configuration.
@@ -156,7 +156,7 @@ public class ExportConf {
 				sb.append(this.orientation);
 				sb.append("' is not a valid orientation. Possible values are: ");
 				sb.append(EnumUtils.printPossibleValuesOf(Orientation.class));
-				throw new ConfigurationProcessingException(sb.toString());
+				throw new DandelionException(sb.toString());
 			}
 			this.orientation = orientationEnum;
 		}

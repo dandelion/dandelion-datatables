@@ -36,6 +36,9 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.github.dandelion.datatables.core.config.ConfigurationLoader;
+import com.github.dandelion.datatables.core.option.Option;
+
 public class FakeConfigurationLoader implements ConfigurationLoader {
 
 	@Override
@@ -57,7 +60,7 @@ public class FakeConfigurationLoader implements ConfigurationLoader {
 	}
 
 	@Override
-	public void resolveConfigurations(Map<String, Map<ConfigToken<?>, Object>> map, Locale locale,
+	public void resolveConfigurations(Map<String, Map<Option<?>, Object>> map, Locale locale,
 			HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		

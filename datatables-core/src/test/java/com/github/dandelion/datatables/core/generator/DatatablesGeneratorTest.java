@@ -29,8 +29,6 @@
  */
 package com.github.dandelion.datatables.core.generator;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -54,18 +52,18 @@ import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.constants.DTMessages;
 import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
-import com.github.dandelion.datatables.core.generator.configuration.DatatablesGenerator;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("unchecked")
 public class DatatablesGeneratorTest {
@@ -170,7 +168,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_mData() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.PROPERTY, "aProperty");
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.PROPERTY, "aProperty");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -185,7 +183,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_render_function() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.RENDERFUNCTION, "aRenderFunction");
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.RENDERFUNCTION, "aRenderFunction");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -200,7 +198,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_default_content() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.DEFAULTVALUE, "aDefaultContent");
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.DEFAULTVALUE, "aDefaultContent");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -216,7 +214,7 @@ public class DatatablesGeneratorTest {
 	public void should_set_sort_direction() {
 		List<Direction> sortDirections = new ArrayList<Direction>();
 		sortDirections.add(Direction.DESC);
-		firstColumn.getColumnConfiguration().set(ColumnConfig.SORTDIRECTION, sortDirections);
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.SORTDIRECTION, sortDirections);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -236,7 +234,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_one_sort_init_direction() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.SORTINITDIRECTION, "desc");
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.SORTINITDIRECTION, "desc");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -247,11 +245,11 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_one_sort_init_direction_sort_init_order() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.SORTINITDIRECTION, "desc");
-		firstColumn.getColumnConfiguration().set(ColumnConfig.SORTINITORDER, 1);
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.SORTINITDIRECTION, "desc");
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.SORTINITORDER, 1);
 		HtmlColumn secondColumn = headerRow.addHeaderColumn("secondColumn");
-		secondColumn.getColumnConfiguration().set(ColumnConfig.SORTINITDIRECTION, "asc");
-		secondColumn.getColumnConfiguration().set(ColumnConfig.SORTINITORDER, 0);
+		secondColumn.getColumnConfiguration().addOption(DatatableOptions.SORTINITDIRECTION, "asc");
+		secondColumn.getColumnConfiguration().addOption(DatatableOptions.SORTINITORDER, 0);
 		Set<String> enabledDisplayTypes = new HashSet<String>();
 		enabledDisplayTypes.add(ReservedFormat.HTML);
 		secondColumn.setEnabledDisplayTypes(enabledDisplayTypes);
@@ -266,14 +264,14 @@ public class DatatablesGeneratorTest {
 	
 	@Test
 	public void should_set_several_sort_init_directions() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.SORTINITDIRECTION, "desc");
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.SORTINITDIRECTION, "desc");
 		headerRow.addHeaderColumn("secondColumn");
 		HtmlColumn thirdColumn = headerRow.addHeaderColumn("thirdColumn");
 		Set<String> enabledDisplayTypes = new HashSet<String>();
 		enabledDisplayTypes.add(ReservedFormat.XLS);
 		thirdColumn.setEnabledDisplayTypes(enabledDisplayTypes);
 		HtmlColumn fourthColumn = headerRow.addHeaderColumn("fourthColumn");
-		fourthColumn.getColumnConfiguration().set(ColumnConfig.SORTINITDIRECTION, "asc");
+		fourthColumn.getColumnConfiguration().addOption(DatatableOptions.SORTINITDIRECTION, "asc");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -285,7 +283,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_sorting_type() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.SORTTYPE, SortType.NATURAL.getName());
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.SORTTYPE, SortType.NATURAL.getName());
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -299,7 +297,7 @@ public class DatatablesGeneratorTest {
 	
 	@Test
 	public void should_set_auto_width() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_AUTOWIDTH, true);
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_AUTOWIDTH, true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -309,7 +307,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_defer_render() {
-		table.getTableConfiguration().set(TableConfig.AJAX_DEFERRENDER, true);
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_DEFERRENDER, true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -319,7 +317,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_filterable() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_FILTERABLE, true);
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_FILTERABLE, true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -329,7 +327,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_info() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_INFO, true);
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_INFO, true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -339,7 +337,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_paginate() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_PAGEABLE, true);
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_PAGEABLE, true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -349,7 +347,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_display_length() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_DISPLAYLENGTH, 10);
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_DISPLAYLENGTH, 10);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -359,7 +357,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_length_change() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_LENGTHCHANGE, true);
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_LENGTHCHANGE, true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -369,7 +367,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_pagination_type() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_PAGINATIONTYPE, PaginationType.INPUT);
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_PAGINATIONTYPE, PaginationType.INPUT);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -379,7 +377,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_sort() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_SORTABLE, true);
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_SORTABLE, true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -389,7 +387,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_state_save() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_STATESAVE, true);
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_STATESAVE, true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -399,7 +397,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_jquery_ui() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_JQUERYUI, true);
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_JQUERYUI, true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -409,7 +407,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_length_menu() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_LENGTHMENU, "[[100px],[200px]]");
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_LENGTHMENU, "[[100px],[200px]]");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -419,7 +417,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_stripe_classes() {
-		table.getTableConfiguration().set(TableConfig.CSS_STRIPECLASSES, "['oddClass','evenClass']");
+		table.getTableConfiguration().addOption(DatatableOptions.CSS_STRIPECLASSES, "['oddClass','evenClass']");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -429,7 +427,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_scroll_y() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_SCROLLY, "100px");
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_SCROLLY, "100px");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -439,7 +437,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_scroll_collapse() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_SCROLLCOLLAPSE, true);
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_SCROLLCOLLAPSE, true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -449,7 +447,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_scroll_x() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_SCROLLX, "100%");
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_SCROLLX, "100%");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -459,7 +457,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_scroll_inner() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_SCROLLXINNER, "110%");
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_SCROLLXINNER, "110%");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -469,7 +467,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_processing() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_PROCESSING, true);
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_PROCESSING, true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -482,10 +480,10 @@ public class DatatablesGeneratorTest {
 		// TODO : should server side properties be triggered by server side
 		// boolean definition ?
 		// table.setServerSide(false);
-		table.getTableConfiguration().set(TableConfig.AJAX_SOURCE, "aUrl");
-		table.getTableConfiguration().set(TableConfig.AJAX_SERVERDATA, "someServerData");
-		table.getTableConfiguration().set(TableConfig.AJAX_SERVERPARAM, "someServerParam");
-		table.getTableConfiguration().set(TableConfig.AJAX_SERVERMETHOD, "GET");
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SOURCE, "aUrl");
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERDATA, "someServerData");
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERPARAM, "someServerParam");
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERMETHOD, "GET");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -494,7 +492,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_server_side() {
-		table.getTableConfiguration().set(TableConfig.AJAX_SERVERSIDE, true);
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERSIDE, true);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -504,8 +502,8 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_server_side_and_datasource_url() {
-		table.getTableConfiguration().set(TableConfig.AJAX_SERVERSIDE, true);
-		table.getTableConfiguration().set(TableConfig.AJAX_SOURCE, "aUrl");
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERSIDE, true);
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SOURCE, "aUrl");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -515,8 +513,8 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_server_side_and_server_data_url() {
-		table.getTableConfiguration().set(TableConfig.AJAX_SERVERSIDE, true);
-		table.getTableConfiguration().set(TableConfig.AJAX_SERVERDATA, "someServerData");
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERSIDE, true);
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERDATA, "someServerData");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -526,8 +524,8 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_server_side_and_server_param_url() {
-		table.getTableConfiguration().set(TableConfig.AJAX_SERVERSIDE, true);
-		table.getTableConfiguration().set(TableConfig.AJAX_SERVERPARAM, "someServerParam");
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERSIDE, true);
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERPARAM, "someServerParam");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -537,8 +535,8 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_server_side_and_server_method_url() {
-		table.getTableConfiguration().set(TableConfig.AJAX_SERVERSIDE, true);
-		table.getTableConfiguration().set(TableConfig.AJAX_SERVERMETHOD, "GET");
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERSIDE, true);
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERMETHOD, "GET");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -580,7 +578,7 @@ public class DatatablesGeneratorTest {
 	
 	@Test
 	public void should_set_dom() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_DOM, "aDom");
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_DOM, "aDom");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 

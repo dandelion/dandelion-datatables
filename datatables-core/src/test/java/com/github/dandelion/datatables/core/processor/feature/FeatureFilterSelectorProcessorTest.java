@@ -29,41 +29,47 @@
  */
 package com.github.dandelion.datatables.core.processor.feature;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.util.ArrayList;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.feature.MultiFilterFeature;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.feature.FeatureFilterSelectorProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class FeatureFilterSelectorProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
+	public OptionProcessor getProcessor() {
 		return new FeatureFilterSelectorProcessor();
 	}
 
 	@Test
 	public void should_do_nothing_when_empty_string() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_FILTER_SELECTOR, "");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_FILTER_SELECTOR, "");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo("");
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}
 	
 	@Test
 	public void should_enable_multifiltering_when_nonempty_string() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_FILTER_SELECTOR, "aCssSelector");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_FILTER_SELECTOR, "aCssSelector");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo("aCssSelector");
 		assertThat(new ArrayList<Extension>(tableConfiguration.getInternalExtensions())).contains(new MultiFilterFeature());
-		assertThat(tableConfiguration.getStagingConfiguration().get(TableConfig.FEATURE_FILTER_TRIGGER)).isEqualTo("click");
+		assertThat(tableConfiguration.getStagingConfiguration().get(DatatableOptions.FEATURE_FILTER_TRIGGER)).isEqualTo("click");
 	}
 }

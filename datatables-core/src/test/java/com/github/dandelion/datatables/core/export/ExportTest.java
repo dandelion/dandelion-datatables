@@ -41,7 +41,7 @@ import org.springframework.mock.web.MockServletContext;
 
 import com.github.dandelion.core.Context;
 import com.github.dandelion.core.web.WebConstants;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.mock.Mock;
 import com.github.dandelion.datatables.core.mock.Person;
@@ -89,7 +89,7 @@ public class ExportTest {
 			table.getLastBodyRow().addColumn(person.getMail());
 		}
 
-		TableConfig.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), Mock.persons.get(0).getClass()
+		DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), Mock.persons.get(0).getClass()
 				.getSimpleName());
 	}
 
@@ -114,7 +114,7 @@ public class ExportTest {
 			table.getLastBodyRow().addColumn(person.getMail());
 		}
 
-		TableConfig.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), Mock.persons.get(0).getClass()
+		DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), Mock.persons.get(0).getClass()
 				.getSimpleName());
 	}
 

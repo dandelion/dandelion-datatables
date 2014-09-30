@@ -1,20 +1,20 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.util.Arrays;
 import java.util.HashSet;
 
 import org.junit.Test;
 
 import com.github.dandelion.core.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.configuration.DatatableBundles;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableBundles;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.HttpMethod;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExportFeatureTest extends AbstractExtensionTest {
 
@@ -95,7 +95,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		exportConf.setUrl("/myExportUrl");
 		exportConf.setLabel("CSV");
 		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
-		table.getTableConfiguration().set(TableConfig.AJAX_SERVERPARAM, "param1=val1&param2=val2");
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERPARAM, "param1=val1&param2=val2");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).isEmpty();
@@ -112,7 +112,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		exportConf.setUrl("/myExportUrl?existingParam=val");
 		exportConf.setLabel("CSV");
 		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
-		table.getTableConfiguration().set(TableConfig.AJAX_SERVERPARAM, "param1=val1&param2=val2");
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERPARAM, "param1=val1&param2=val2");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).isEmpty();
@@ -130,7 +130,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		exportConf.setMethod(HttpMethod.POST);
 		exportConf.setLabel("CSV");
 		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
-		table.getTableConfiguration().set(TableConfig.AJAX_SERVERPARAM, "param1=val1&param2=val2");
+		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERPARAM, "param1=val1&param2=val2");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).contains(DatatableBundles.DDL_DT_EXPORT.getBundleName());

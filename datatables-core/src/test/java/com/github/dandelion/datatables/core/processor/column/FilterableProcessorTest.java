@@ -29,69 +29,82 @@
  */
 package com.github.dandelion.datatables.core.processor.column;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.column.FilterableProcessor;
 import com.github.dandelion.datatables.core.processor.ColumnProcessorBaseTest;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class FilterableProcessorTest extends ColumnProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
+	public OptionProcessor getProcessor() {
 		return new FilterableProcessor();
 	}
 
 	@Test
-	public void should_leave_the_value_untouched_when_empty() {
-		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.FILTERABLE, "");
-		processor.process(entry, columnConfiguration, tableConfiguration);
-		assertThat(entry.getValue()).isEqualTo("");
+	public void should_return_null_when_the_value_is_empty() {
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FILTERABLE, "");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+		processor.process(pc);
+
+		assertThat(entry.getValue()).isNull();
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}
-	
+
 	@Test
-	public void should_leave_the_value_untouched_when_false() {
-		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.FILTERABLE, "false");
-		processor.process(entry, columnConfiguration, tableConfiguration);
-		assertThat(entry.getValue()).isEqualTo("false");
+	public void should_return_false_when_the_value_is_false() {
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FILTERABLE, "false");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+		processor.process(pc);
+
+		assertThat(entry.getValue()).isEqualTo(false);
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}
 
 	@Test
 	public void should_register_an_extension_and_initialize_the_filter_type_when_true() {
-		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.FILTERABLE, "true ");
-		Map<ConfigToken<?>, Extension> stagingExtensions = new HashMap<ConfigToken<?>, Extension>();
-		stagingExtensions.put(ColumnConfig.FILTERABLE, new FakeFilteringFeature());
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FILTERABLE, "true ");
+		Map<Option<?>, Extension> stagingExtensions = new HashMap<Option<?>, Extension>();
+		stagingExtensions.put(DatatableOptions.FILTERABLE, new FakeFilteringFeature());
 		columnConfiguration.setStagingExtension(stagingExtensions);
-		
-		processor.process(entry, columnConfiguration, tableConfiguration);
+
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+		processor.process(pc);
+
 		assertThat(entry.getValue()).isEqualTo(true);
-		assertThat(new ArrayList<Extension>(tableConfiguration.getInternalExtensions())).contains(new FakeFilteringFeature());
-		assertThat(columnConfiguration.getStagingConfigurations().get(ColumnConfig.FILTERTYPE)).isEqualTo(FilterType.INPUT);
+		assertThat(new ArrayList<Extension>(tableConfiguration.getInternalExtensions())).contains(
+				new FakeFilteringFeature());
+		assertThat(columnConfiguration.getStagingConfigurations().get(DatatableOptions.FILTERTYPE)).isEqualTo(
+				FilterType.INPUT);
 	}
-	
+
 	@Test
 	public void should_register_an_extension_when_true() {
-		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.FILTERABLE, "true ");
-		Map<ConfigToken<?>, Extension> stagingExtensions = new HashMap<ConfigToken<?>, Extension>();
-		stagingExtensions.put(ColumnConfig.FILTERABLE, new FakeFilteringFeature());
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FILTERABLE, "true ");
+		Map<Option<?>, Extension> stagingExtensions = new HashMap<Option<?>, Extension>();
+		stagingExtensions.put(DatatableOptions.FILTERABLE, new FakeFilteringFeature());
 		columnConfiguration.setStagingExtension(stagingExtensions);
-		columnConfiguration.set(ColumnConfig.FILTERTYPE, FilterType.SELECT);
-		
-		processor.process(entry, columnConfiguration, tableConfiguration);
+		columnConfiguration.addOption(DatatableOptions.FILTERTYPE, FilterType.SELECT);
+
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+		processor.process(pc);
+
 		assertThat(entry.getValue()).isEqualTo(true);
-		assertThat(new ArrayList<Extension>(tableConfiguration.getInternalExtensions())).contains(new FakeFilteringFeature());
-		assertThat(ColumnConfig.FILTERTYPE.valueFrom(columnConfiguration)).isEqualTo(FilterType.SELECT);
+		assertThat(new ArrayList<Extension>(tableConfiguration.getInternalExtensions())).contains(
+				new FakeFilteringFeature());
+		assertThat(DatatableOptions.FILTERTYPE.valueFrom(columnConfiguration)).isEqualTo(FilterType.SELECT);
 	}
 }

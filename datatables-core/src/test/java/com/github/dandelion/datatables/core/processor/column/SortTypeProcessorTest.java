@@ -29,42 +29,50 @@
  */
 package com.github.dandelion.datatables.core.processor.column;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.column.SortTypeProcessor;
 import com.github.dandelion.datatables.core.processor.ColumnProcessorBaseTest;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class SortTypeProcessorTest extends ColumnProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
-		return new SortTypeProcessor();
+	public OptionProcessor getProcessor() {
+		return new SortTypeProcessor(true);
 	}
 
 	@Test
-	public void should_leave_the_value_untouched_when_empty() {
-		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.SORTTYPE, "");
-		processor.process(entry, columnConfiguration, tableConfiguration);
-		assertThat(entry.getValue()).isEqualTo("");
+	public void should_return_null_when_the_option_value_is_empty() {
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.SORTTYPE, "");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+		processor.process(pc);
+		
+		assertThat(entry.getValue()).isNull();;
 	}
 
 	@Test
 	public void should_map_to_an_enum_when_using_an_existing_value() {
-		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.SORTTYPE, "natural");
-		processor.process(entry, columnConfiguration, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.SORTTYPE, "natural");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo(SortType.NATURAL.getName());
 	}
 	
 	@Test
 	public void should_be_able_to_use_a_custom_sort_type() {
-		entry = new MapEntry<ConfigToken<?>, Object>(ColumnConfig.SORTTYPE, "my-sorttype");
-		processor.process(entry, columnConfiguration, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.SORTTYPE, "my-sorttype");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo("my-sorttype");
 	}
 }

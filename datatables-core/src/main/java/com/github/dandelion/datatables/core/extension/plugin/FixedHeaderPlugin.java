@@ -35,8 +35,8 @@ import java.util.Map;
 import org.json.simple.JSONValue;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.DatatableBundles;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableBundles;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -85,8 +85,8 @@ public class FixedHeaderPlugin extends AbstractExtension {
 	private Map<String, Object> getSpecificCongiguration(HtmlTable table) {
 		Map<String, Object> conf = new HashMap<String, Object>();
 
-		String fixedPosition = TableConfig.PLUGIN_FIXEDPOSITION.valueFrom(table);
-		Integer fixedOffset = TableConfig.PLUGIN_FIXEDOFFSETTOP.valueFrom(table);
+		String fixedPosition = DatatableOptions.PLUGIN_FIXEDPOSITION.valueFrom(table.getTableConfiguration());
+		Integer fixedOffset = DatatableOptions.PLUGIN_FIXEDOFFSETTOP.valueFrom(table.getTableConfiguration());
 		
 		// fixedPosition attribute (default "top")
 		if (StringUtils.isNotBlank(fixedPosition)) {

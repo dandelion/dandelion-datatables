@@ -37,8 +37,8 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
 import com.github.dandelion.datatables.core.extension.Extension;
+import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 
 /**
@@ -58,9 +58,9 @@ public abstract class AbstractColumnAttrProcessor extends AbstractAttrProcessor 
 	@SuppressWarnings("unchecked")
 	protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
 
-		Map<ConfigToken<?>, Object> stagingConf = (Map<ConfigToken<?>, Object>) arguments
+		Map<Option<?>, Object> stagingConf = (Map<Option<?>, Object>) arguments
 				.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF);
-		Map<ConfigToken<?>, Extension> stagingExt = (Map<ConfigToken<?>, Extension>) arguments
+		Map<Option<?>, Extension> stagingExt = (Map<Option<?>, Extension>) arguments
 				.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT);
 
 		// Perform the actual attribute processing
@@ -94,5 +94,5 @@ public abstract class AbstractColumnAttrProcessor extends AbstractAttrProcessor 
 	 * @return result of process
 	 */
 	protected abstract void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-			Map<ConfigToken<?>, Object> stagingConf, Map<ConfigToken<?>, Extension> stagingExt);
+			Map<Option<?>, Object> stagingConf, Map<Option<?>, Extension> stagingExt);
 }

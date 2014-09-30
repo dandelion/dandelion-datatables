@@ -46,24 +46,24 @@ import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.core.asset.generator.JavascriptGenerator;
 import com.github.dandelion.core.asset.locator.impl.DelegateLocator;
+import com.github.dandelion.core.html.AbstractHtmlTag;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.asset.ExtraJs;
 import com.github.dandelion.datatables.core.callback.Callback;
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.DatatableBundles;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableBundles;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportUtils;
+import com.github.dandelion.datatables.core.extension.feature.ExtraHtml;
 import com.github.dandelion.datatables.core.extension.feature.ExtraHtmlFeature;
+import com.github.dandelion.datatables.core.extension.feature.ExtraJs;
 import com.github.dandelion.datatables.core.extension.feature.ExtraJsFeature;
 import com.github.dandelion.datatables.core.generator.DatatableAssetBuffer;
-import com.github.dandelion.datatables.core.generator.jquery.DatatableJQueryJavascriptGenerator;
-import com.github.dandelion.datatables.core.html.ExtraHtml;
+import com.github.dandelion.datatables.core.generator.DatatableJQueryJavascriptGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.html.HtmlTag;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.util.ConfigUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.config.ConfType;
@@ -103,13 +103,13 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 		if (htmlTable != null) {
 
 			@SuppressWarnings("unchecked")
-			Map<ConfigToken<?>, Object> stagingConf = (Map<ConfigToken<?>, Object>) RequestUtils.getFromRequest(
+			Map<Option<?>, Object> stagingConf = (Map<Option<?>, Object>) RequestUtils.getFromRequest(
 					DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF, request);
 			
 			applyLocalConfiguration(arguments, request, htmlTable, stagingConf);
 			
-			TableConfig.applyConfiguration(stagingConf, htmlTable);
-			TableConfig.processConfiguration(htmlTable);
+			ConfigUtils.applyConfiguration(stagingConf, htmlTable);
+			ConfigUtils.processConfiguration(htmlTable);
 
 			// The table is being exported
 			if (ExportUtils.isTableBeingExported(request, htmlTable)) {
@@ -144,7 +144,7 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 	 *            {@code HtmlTable} instance.
 	 */
 	@SuppressWarnings("unchecked")
-	private void applyLocalConfiguration(Arguments arguments, HttpServletRequest request, HtmlTable htmlTable, Map<ConfigToken<?>, Object> stagingConf) {
+	private void applyLocalConfiguration(Arguments arguments, HttpServletRequest request, HtmlTable htmlTable, Map<Option<?>, Object> stagingConf) {
 		
 		Map<String, Map<ConfType, Object>> configs = (Map<String, Map<ConfType, Object>>) RequestUtils.getFromRequest(
 				DataTablesDialect.INTERNAL_BEAN_CONFIGS, request);
@@ -179,7 +179,7 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 				}
 				
 				// Configuration properties
-				Map<ConfigToken<?>, Object> localConf = (Map<ConfigToken<?>, Object>) configs.get(htmlTable.getId()).get(ConfType.PROPERTY);
+				Map<Option<?>, Object> localConf = (Map<Option<?>, Object>) configs.get(htmlTable.getId()).get(ConfType.PROPERTY);
 				if(localConf != null && !localConf.isEmpty()){
 					stagingConf.putAll(localConf);
 				}
@@ -218,12 +218,12 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 		Element tableElement = (Element) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_NODE_TABLE, request);
 
 		// CSS class
-		StringBuilder configuredCssClass = TableConfig.CSS_CLASS.valueFrom(htmlTable.getTableConfiguration());
+		StringBuilder configuredCssClass = DatatableOptions.CSS_CLASS.valueFrom(htmlTable.getTableConfiguration());
 		if (configuredCssClass != null) {
 
 			String currentCssClass = tableElement.getAttributeValue("class");
 			if (StringUtils.isNotBlank(currentCssClass)) {
-				currentCssClass += HtmlTag.CLASS_SEPARATOR + configuredCssClass.toString();
+				currentCssClass += AbstractHtmlTag.CLASS_SEPARATOR + configuredCssClass.toString();
 			}
 			else {
 				currentCssClass = configuredCssClass.toString();
@@ -232,12 +232,12 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 		}
 
 		// CSS style
-		StringBuilder configuredCssStyle = TableConfig.CSS_STYLE.valueFrom(htmlTable.getTableConfiguration());
+		StringBuilder configuredCssStyle = DatatableOptions.CSS_STYLE.valueFrom(htmlTable.getTableConfiguration());
 		if (configuredCssStyle != null) {
 
 			String currentCssStyle = tableElement.getAttributeValue("style");
 			if (StringUtils.isNotBlank(currentCssStyle)) {
-				currentCssStyle += HtmlTag.STYLE_SEPARATOR + configuredCssStyle.toString();
+				currentCssStyle += AbstractHtmlTag.STYLE_SEPARATOR + configuredCssStyle.toString();
 			}
 			else {
 				currentCssStyle = configuredCssStyle.toString();
@@ -284,6 +284,8 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 	 *            from.
 	 */
 	private void setupHtml(Arguments arguments, HttpServletRequest request, HtmlTable htmlTable) {
+		
+		applyCssConfiguration(arguments, request, htmlTable);
 		
 		htmlTable.getTableConfiguration().setExporting(false);
 

@@ -39,38 +39,39 @@ import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.datatables.core.asset.JavascriptFunction;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
 import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.generator.DatatableAssetBuffer;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
+ * <p>
  * Processor used to execute a processor against an {@link Extension}.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
 public class ExtensionProcessor {
 
-	// Logger
 	private static Logger logger = LoggerFactory.getLogger(ExtensionProcessor.class);
 
 	/**
 	 * The table instance where extensions must be loaded.
 	 */
-	private HtmlTable table;
+	private final HtmlTable table;
 
 	/**
 	 * The buffer used for the DataTables initialization code.
 	 */
-	private DatatableAssetBuffer dab;
+	private final DatatableAssetBuffer dab;
 
 	/**
 	 * The map containing the DataTables parameters.
 	 */
-	private Map<String, Object> mainConfig;
+	private final Map<String, Object> mainConfig;
 
 	public ExtensionProcessor(HtmlTable table, DatatableAssetBuffer dab, Map<String, Object> mainConfig) {
 		this.table = table;
@@ -90,7 +91,6 @@ public class ExtensionProcessor {
 
 		if (extension != null) {
 
-			// Extension initialization
 			extension.setupWrapper(table);
 			injectIntoMainJsFile(extension);
 			injectIntoMainConfiguration(extension);
@@ -135,8 +135,9 @@ public class ExtensionProcessor {
 			// Allways pretty prints the JSON
 			try {
 				JSONValue.writeJSONString(conf, writer);
-			} catch (IOException e) {
-				throw new ExtensionLoadingException("Unable to convert the configuration into JSON", e);
+			}
+			catch (IOException e) {
+				throw new DandelionException("Unable to convert the configuration into JSON", e);
 			}
 
 			dab.appendToDataTablesExtraConf(writer.toString());
@@ -160,9 +161,11 @@ public class ExtensionProcessor {
 
 					if (mainConfig.get(param.getName()) instanceof JavascriptFunction) {
 						processJavascriptFunction(param);
-					} else if (mainConfig.get(param.getName()) instanceof JavascriptSnippet) {
+					}
+					else if (mainConfig.get(param.getName()) instanceof JavascriptSnippet) {
 						processJavascriptSnippet(param);
-					} else {
+					}
+					else {
 						processString(param);
 					}
 				}

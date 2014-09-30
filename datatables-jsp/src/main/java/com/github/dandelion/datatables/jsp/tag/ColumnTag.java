@@ -34,14 +34,14 @@ import java.util.HashMap;
 import javax.servlet.jsp.JspException;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.ColumnConfiguration;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.ConfigurationLoader;
+import com.github.dandelion.datatables.core.config.ColumnConfiguration;
+import com.github.dandelion.datatables.core.config.ConfigurationLoader;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.i18n.MessageResolver;
+import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.jsp.extension.feature.FilteringFeature;
 
 /**
@@ -77,8 +77,8 @@ public class ColumnTag extends AbstractColumnTag {
 	 * map to be applied to the {@link ColumnConfiguration} instance.
 	 */
 	public ColumnTag(){
-		stagingConf = new HashMap<ConfigToken<?>, Object>();
-		stagingExtension = new HashMap<ConfigToken<?>, Extension>();
+		stagingConf = new HashMap<Option<?>, Object>();
+		stagingExtension = new HashMap<Option<?>, Extension>();
 	}
 	
 	/**
@@ -185,7 +185,7 @@ public class ColumnTag extends AbstractColumnTag {
 	}
 	
 	public void setName(String name) {
-		stagingConf.put(ColumnConfig.NAME, name);
+		stagingConf.put(DatatableOptions.NAME, name);
 	}
 	
 	public void setProperty(String property) {
@@ -193,7 +193,7 @@ public class ColumnTag extends AbstractColumnTag {
 		this.property = property;
 		
 		// For AJAX sources
-		stagingConf.put(ColumnConfig.PROPERTY, property);
+		stagingConf.put(DatatableOptions.PROPERTY, property);
 	}
 
 	public void setFormat(String format) {
@@ -201,15 +201,15 @@ public class ColumnTag extends AbstractColumnTag {
 	}
 	
 	public void setCssStyle(String cssStyle) {
-		stagingConf.put(ColumnConfig.CSSSTYLE, cssStyle);
+		stagingConf.put(DatatableOptions.CSSSTYLE, cssStyle);
 	}
 
 	public void setCssClass(String cssClass) {
-		stagingConf.put(ColumnConfig.CSSCLASS, cssClass);
+		stagingConf.put(DatatableOptions.CSSCLASS, cssClass);
 	}
 
 	public void setSortable(Boolean sortable) {
-		stagingConf.put(ColumnConfig.SORTABLE, sortable);
+		stagingConf.put(DatatableOptions.SORTABLE, sortable);
 	}
 
 	public void setCssCellStyle(String cssCellStyle) {
@@ -217,7 +217,7 @@ public class ColumnTag extends AbstractColumnTag {
 		this.cssCellStyle = cssCellStyle;
 		
 		// For AJAX sources
-		stagingConf.put(ColumnConfig.CSSCELLSTYLE, cssCellStyle);
+		stagingConf.put(DatatableOptions.CSSCELLSTYLE, cssCellStyle);
 	}
 
 	public void setCssCellClass(String cssCellClass) {
@@ -225,48 +225,48 @@ public class ColumnTag extends AbstractColumnTag {
 		this.cssCellClass = cssCellClass;
 		
 		// For AJAX sources
-		stagingConf.put(ColumnConfig.CSSCELLCLASS, cssCellClass);
+		stagingConf.put(DatatableOptions.CSSCELLCLASS, cssCellClass);
 	}
 
 	public void setFilterable(Boolean filterable) {
-		stagingConf.put(ColumnConfig.FILTERABLE, filterable);
-		stagingExtension.put(ColumnConfig.FILTERABLE, new FilteringFeature());
+		stagingConf.put(DatatableOptions.FILTERABLE, filterable);
+		stagingExtension.put(DatatableOptions.FILTERABLE, new FilteringFeature());
 	}
 
 	public void setSearchable(Boolean searchable) {
-		stagingConf.put(ColumnConfig.SEARCHABLE, searchable);
+		stagingConf.put(DatatableOptions.SEARCHABLE, searchable);
 	}
 
 	public void setVisible(Boolean visible) {
-		stagingConf.put(ColumnConfig.VISIBLE, visible);
+		stagingConf.put(DatatableOptions.VISIBLE, visible);
 	}
 	
 	public void setFilterType(String filterType) {
-		stagingConf.put(ColumnConfig.FILTERTYPE, filterType);
+		stagingConf.put(DatatableOptions.FILTERTYPE, filterType);
 	}
 
 	public void setFilterValues(String filterValues) {
-		stagingConf.put(ColumnConfig.FILTERVALUES, filterValues);
+		stagingConf.put(DatatableOptions.FILTERVALUES, filterValues);
 	}
 
 	public void setFilterCssClass(String filterCssClass) {
-		stagingConf.put(ColumnConfig.FILTERCSSCLASS, filterCssClass);
+		stagingConf.put(DatatableOptions.FILTERCSSCLASS, filterCssClass);
 	}
 
 	public void setFilterPlaceholder(String filterPlaceholder) {
-		stagingConf.put(ColumnConfig.FILTERPLACEHOLDER, filterPlaceholder);
+		stagingConf.put(DatatableOptions.FILTERPLACEHOLDER, filterPlaceholder);
 	}
 
 	public void setSortDirection(String sortDirection) {
-		stagingConf.put(ColumnConfig.SORTDIRECTION, sortDirection);
+		stagingConf.put(DatatableOptions.SORTDIRECTION, sortDirection);
 	}
 
 	public void setSortInitDirection(String sortInitDirection) {
-		stagingConf.put(ColumnConfig.SORTINITDIRECTION, sortInitDirection);
+		stagingConf.put(DatatableOptions.SORTINITDIRECTION, sortInitDirection);
 	}
 
 	public void setSortInitOrder(String sortInitOrder) {
-		stagingConf.put(ColumnConfig.SORTINITORDER, sortInitOrder);
+		stagingConf.put(DatatableOptions.SORTINITORDER, sortInitOrder);
 	}
 	
 	public void setDisplay(String display) {
@@ -278,30 +278,30 @@ public class ColumnTag extends AbstractColumnTag {
 		this.defaultValue = defaultValue;
 		
 		// For AJAX sources
-		stagingConf.put(ColumnConfig.DEFAULTVALUE, defaultValue);
+		stagingConf.put(DatatableOptions.DEFAULTVALUE, defaultValue);
 	}
 	
 	public void setRenderFunction(String renderFunction) {
-		stagingConf.put(ColumnConfig.RENDERFUNCTION, renderFunction);
+		stagingConf.put(DatatableOptions.RENDERFUNCTION, renderFunction);
 	}
 
 	public void setSelector(String selector) {
-		stagingConf.put(ColumnConfig.SELECTOR, selector);
+		stagingConf.put(DatatableOptions.SELECTOR, selector);
 	}
 
 	public void setSortType(String sortType) {
-		stagingConf.put(ColumnConfig.SORTTYPE, sortType);
+		stagingConf.put(DatatableOptions.SORTTYPE, sortType);
 	}
 
 	public void setFilterMinLength(Integer filterMinLength) {
-		stagingConf.put(ColumnConfig.FILTERMINLENGTH, filterMinLength);
+		stagingConf.put(DatatableOptions.FILTERMINLENGTH, filterMinLength);
 	}
 	
 	public void setFilterDateFormat(String filterDateFormat) {
-		stagingConf.put(ColumnConfig.FILTERDATEFORMAT, filterDateFormat);
+		stagingConf.put(DatatableOptions.FILTERDATEFORMAT, filterDateFormat);
 	}
 	
 	public void setId(String id) {
-		stagingConf.put(ColumnConfig.ID, id);
+		stagingConf.put(DatatableOptions.ID, id);
 	}
 }

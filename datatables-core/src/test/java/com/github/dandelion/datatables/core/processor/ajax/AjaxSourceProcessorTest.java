@@ -29,30 +29,33 @@
  */
 package com.github.dandelion.datatables.core.processor.ajax;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.feature.AjaxFeature;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.ajax.AjaxSourceProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AjaxSourceProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
+	public OptionProcessor getProcessor() {
 		return new AjaxSourceProcessor();
 	}
 
 	@Test
 	public void should_set_the_source_and_register_a_feature_when_serverside_is_disabled() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SOURCE, "/myAjaxSource");
-		tableConfiguration.getConfigurations().put(TableConfig.AJAX_SERVERSIDE, false);
-		processor.process(entry, tableConfiguration);
-		
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SOURCE, "/myAjaxSource");
+		tableConfiguration.getConfigurations().put(DatatableOptions.AJAX_SERVERSIDE, false);
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+				
 		assertThat(entry.getValue()).isEqualTo("/myAjaxSource");
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
 		assertThat(new AjaxFeature()).isIn(tableConfiguration.getInternalExtensions());
@@ -60,10 +63,11 @@ public class AjaxSourceProcessorTest extends TableProcessorBaseTest {
 	
 	@Test
 	public void should_set_the_source_and_not_register_a_feature_when_serverside_is_enabled() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.AJAX_SOURCE, "/myAjaxSource");
-		tableConfiguration.getConfigurations().put(TableConfig.AJAX_SERVERSIDE, true);
-		processor.process(entry, tableConfiguration);
-		
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SOURCE, "/myAjaxSource");
+		tableConfiguration.getConfigurations().put(DatatableOptions.AJAX_SERVERSIDE, true);
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+				
 		assertThat(entry.getValue()).isEqualTo("/myAjaxSource");
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}

@@ -29,12 +29,14 @@
  */
 package com.github.dandelion.datatables.core.html;
 
+import com.github.dandelion.core.html.AbstractHtmlTag;
+
 /**
  * Abstract superclass for all HTML tags with embedded content.
  * 
  * @author Gautier Dhordain
  */
-public abstract class HtmlTagWithContent extends HtmlTag {
+public abstract class HtmlTagWithContent extends AbstractHtmlTag {
 
 	/**
 	 * Content of the tag.

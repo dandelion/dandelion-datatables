@@ -35,16 +35,27 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.configuration.TableConfiguration;
+import com.github.dandelion.core.html.AbstractHtmlTag;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.config.TableConfiguration;
+import com.github.dandelion.datatables.core.config.TableConfigurationFactory;
 
 /**
+ * <p>
  * Plain old HTML <code>table</code> tag.
+ * </p>
+ * <p>
+ * All rows are backed by different {@link LinkedList}, one for each part of the
+ * table.
+ * </p>
+ * <p>
+ * An instance of {@link TableConfiguration} is also attached.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.1.0
  */
-public class HtmlTable extends HtmlTag {
+public class HtmlTable extends AbstractHtmlTag {
 
 	// Internal attributes
 	private String originalId;
@@ -62,17 +73,15 @@ public class HtmlTable extends HtmlTag {
 		this(id, request, response, groupName, null);
 	}
 
-	public HtmlTable(String id, HttpServletRequest request, HttpServletResponse response, String groupName, Map<String, String> dynamicAttributes) {
+	public HtmlTable(String id, HttpServletRequest request, HttpServletResponse response, String groupName,
+			Map<String, String> dynamicAttributes) {
 		this.tag = "table";
 		this.originalId = id;
 		this.id = processId(id);
 		this.dynamicAttributes = dynamicAttributes;
-		this.tableConfiguration = TableConfiguration.getInstance(id, request, groupName);
+		this.tableConfiguration = TableConfigurationFactory.getInstance(id, request, groupName);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public StringBuilder toHtml() {
 		StringBuilder html = new StringBuilder();
@@ -123,8 +132,8 @@ public class HtmlTable extends HtmlTag {
 	protected StringBuilder getHtmlAttributes() {
 		StringBuilder html = new StringBuilder();
 		html.append(writeAttribute("id", this.id));
-		html.append(writeAttribute("class", TableConfig.CSS_CLASS.valueFrom(this.tableConfiguration)));
-		html.append(writeAttribute("style", TableConfig.CSS_STYLE.valueFrom(this.tableConfiguration)));
+		html.append(writeAttribute("class", DatatableOptions.CSS_CLASS.valueFrom(this.tableConfiguration)));
+		html.append(writeAttribute("style", DatatableOptions.CSS_STYLE.valueFrom(this.tableConfiguration)));
 		return html;
 	}
 
@@ -182,7 +191,7 @@ public class HtmlTable extends HtmlTag {
 	public HtmlRow getFirstHeaderRow() {
 		return ((LinkedList<HtmlRow>) this.head).getFirst();
 	}
-	
+
 	public HtmlRow getLastHeaderRow() {
 		return ((LinkedList<HtmlRow>) this.head).getLast();
 	}
@@ -192,27 +201,26 @@ public class HtmlTable extends HtmlTag {
 	}
 
 	public void addCssStyle(String cssStyle) {
-		if(TableConfig.CSS_STYLE.valueFrom(this.tableConfiguration) == null){
-			TableConfig.CSS_STYLE.setIn(this.tableConfiguration, new StringBuilder());
+		if (DatatableOptions.CSS_STYLE.valueFrom(this.tableConfiguration) == null) {
+			DatatableOptions.CSS_STYLE.setIn(this.tableConfiguration, new StringBuilder());
 		}
-		else{
-			TableConfig.CSS_STYLE.appendIn(this.tableConfiguration, STYLE_SEPARATOR);
+		else {
+			DatatableOptions.CSS_STYLE.appendIn(this.tableConfiguration, STYLE_SEPARATOR);
 		}
-		
-		TableConfig.CSS_STYLE.appendIn(this.tableConfiguration, cssStyle);
+
+		DatatableOptions.CSS_STYLE.appendIn(this.tableConfiguration, cssStyle);
 	}
-	
+
 	public void addCssClass(String cssClass) {
-		if(TableConfig.CSS_CLASS.valueFrom(this.tableConfiguration) == null){
-			TableConfig.CSS_CLASS.setIn(this.tableConfiguration, new StringBuilder());
+		if (DatatableOptions.CSS_CLASS.valueFrom(this.tableConfiguration) == null) {
+			DatatableOptions.CSS_CLASS.setIn(this.tableConfiguration, new StringBuilder());
 		}
-		else{
-			TableConfig.CSS_CLASS.appendIn(this.tableConfiguration, CLASS_SEPARATOR);
+		else {
+			DatatableOptions.CSS_CLASS.appendIn(this.tableConfiguration, CLASS_SEPARATOR);
 		}
-		
-		TableConfig.CSS_CLASS.appendIn(this.tableConfiguration, cssClass);
+		DatatableOptions.CSS_CLASS.appendIn(this.tableConfiguration, cssClass);
 	}
-	
+
 	public TableConfiguration getTableConfiguration() {
 		return tableConfiguration;
 	}
@@ -220,7 +228,7 @@ public class HtmlTable extends HtmlTag {
 	public void setTableConfiguration(TableConfiguration tableConfiguration) {
 		this.tableConfiguration = tableConfiguration;
 	}
-	
+
 	public String getOriginalId() {
 		return originalId;
 	}
@@ -229,7 +237,7 @@ public class HtmlTable extends HtmlTag {
 		this.originalId = originalId;
 	}
 
-	private String processId(String id){
+	private String processId(String id) {
 		return id.replaceAll("[^A-Za-z0-9 ]", "");
 	}
 }

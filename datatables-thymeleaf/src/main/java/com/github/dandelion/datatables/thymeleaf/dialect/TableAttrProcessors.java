@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.thymeleaf.dialect;
 import org.thymeleaf.processor.AttributeNameProcessorMatcher;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
-import com.github.dandelion.datatables.core.exception.DandelionDatatablesException;
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAppearAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAutoWidthAttrProcessor;
@@ -156,7 +156,7 @@ public enum TableAttrProcessors {
 			return processorClass.getDeclaredConstructor(IAttributeNameProcessorMatcher.class).newInstance(matcher);
 		}
 		catch (Exception e) {
-			throw new DandelionDatatablesException(e);
+			throw new DandelionException(e);
 		}
 	}
 }

@@ -29,8 +29,6 @@
  */
 package com.github.dandelion.datatables.core.generator;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -50,16 +48,16 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import com.github.dandelion.core.Context;
 import com.github.dandelion.core.web.WebConstants;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
-import com.github.dandelion.datatables.core.generator.configuration.ColumnFilteringGenerator;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for the Column Filtering generator.
@@ -124,7 +122,7 @@ public class ColumnFilteringGeneratorTest {
 
 	@Test
 	public void should_generate_filter_placeholder() {
-		table.getTableConfiguration().set(TableConfig.FEATURE_FILTER_PLACEHOLDER, FilterPlaceholder.FOOT);
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, FilterPlaceholder.FOOT);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -134,8 +132,8 @@ public class ColumnFilteringGeneratorTest {
 
 	@Test
 	public void should_generate_filtertype_number() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERABLE, true);
-		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERTYPE, FilterType.NUMBER);
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.FILTERABLE, true);
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.FILTERTYPE, FilterType.NUMBER);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -151,8 +149,8 @@ public class ColumnFilteringGeneratorTest {
 
 	@Test
 	public void should_generate_filtertype_select() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERABLE, true);
-		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERTYPE, FilterType.SELECT);
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.FILTERABLE, true);
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.FILTERTYPE, FilterType.SELECT);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -168,8 +166,8 @@ public class ColumnFilteringGeneratorTest {
 
 	@Test
 	public void should_generate_filtertype_number_range() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERABLE, true);
-		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERTYPE, FilterType.NUMBER_RANGE);
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.FILTERABLE, true);
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.FILTERTYPE, FilterType.NUMBER_RANGE);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -185,8 +183,8 @@ public class ColumnFilteringGeneratorTest {
 
 	@Test
 	public void should_generate_filtertype_text() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERABLE, true);
-		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERTYPE, FilterType.INPUT);
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.FILTERABLE, true);
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.FILTERTYPE, FilterType.INPUT);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -202,7 +200,7 @@ public class ColumnFilteringGeneratorTest {
 
 	@Test
 	public void should_generate_filter_selector() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.SELECTOR, "mySelector");
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.SELECTOR, "mySelector");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
@@ -219,7 +217,7 @@ public class ColumnFilteringGeneratorTest {
 
 	@Test
 	public void should_generate_filter_values() {
-		firstColumn.getColumnConfiguration().set(ColumnConfig.FILTERVALUES, "myValues");
+		firstColumn.getColumnConfiguration().addOption(DatatableOptions.FILTERVALUES, "myValues");
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 

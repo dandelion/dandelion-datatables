@@ -29,46 +29,56 @@
  */
 package com.github.dandelion.datatables.core.processor.feature;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.feature.FeatureAppearProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class FeatureAppearProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
+	public OptionProcessor getProcessor() {
 		return new FeatureAppearProcessor();
 	}
 	
 	@Test
 	public void should_return_fadein() throws Exception{
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_APPEAR, "fadein");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_APPEAR, "fadein");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo("fadein");
 	}
 	
 	@Test
 	public void should_return_fadein_and_set_appear_duration() {
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_APPEAR, "fadein,1500");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_APPEAR, "fadein,1500");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo("fadein");
-		assertThat(tableConfiguration.getStagingConfiguration().get(TableConfig.FEATURE_APPEAR_DURATION)).isEqualTo("1500");
+		assertThat(tableConfiguration.getStagingConfiguration().get(DatatableOptions.FEATURE_APPEAR_DURATION)).isEqualTo("1500");
 	}
 	
 	@Test
 	public void should_set_default_value_when_a_wrong_format_is_used() throws Exception{
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_APPEAR, "blockkk");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_APPEAR, "blockkk");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo("block");
 
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.FEATURE_APPEAR, "fadein;12");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_APPEAR, "fadein;12");
+		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat(entry.getValue()).isEqualTo("block");
 	}
 }

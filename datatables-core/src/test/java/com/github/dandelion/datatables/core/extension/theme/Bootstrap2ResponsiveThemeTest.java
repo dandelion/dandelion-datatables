@@ -1,8 +1,5 @@
 package com.github.dandelion.datatables.core.extension.theme;
 
-import static org.fest.assertions.Assertions.assertThat;
-import static org.fest.assertions.MapAssert.entry;
-
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -15,6 +12,9 @@ import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
+
 public class Bootstrap2ResponsiveThemeTest extends AbstractExtensionTest {
 
 	@Test
@@ -23,7 +23,7 @@ public class Bootstrap2ResponsiveThemeTest extends AbstractExtensionTest {
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
 		assertThat(mainConfig).hasSize(4);
-		assertThat(mainConfig).includes(entry(DTConstants.DT_AUTO_WIDTH, false));
+		assertThat(mainConfig).contains(entry(DTConstants.DT_AUTO_WIDTH, false));
 		assertThat(mainConfig.keySet()).contains(CallbackType.DRAW.getName(), CallbackType.ROW.getName(), CallbackType.PREDRAW.getName());
 		
 		assertThat(mainConfig.get(CallbackType.DRAW.getName()).toString())

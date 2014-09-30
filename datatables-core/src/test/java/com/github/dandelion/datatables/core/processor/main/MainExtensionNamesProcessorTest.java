@@ -29,46 +29,56 @@
  */
 package com.github.dandelion.datatables.core.processor.main;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.util.Set;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.processor.ConfigurationProcessor;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
+import com.github.dandelion.datatables.core.option.processor.main.MainExtensionNamesProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class MainExtensionNamesProcessorTest extends TableProcessorBaseTest {
 
 	@Override
-	public ConfigurationProcessor getProcessor() {
+	public OptionProcessor getProcessor() {
 		return new MainExtensionNamesProcessor();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Test
 	public void should_set_a_set_containing_only_one_feature() throws Exception{
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.MAIN_EXTENSION_NAMES, "feature1");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.MAIN_EXTENSION_NAMES, "feature1");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat((Set<String>)entry.getValue()).contains("feature1");
 		
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.MAIN_EXTENSION_NAMES, "FEATURE1");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.MAIN_EXTENSION_NAMES, "FEATURE1");
+		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat((Set<String>)entry.getValue()).contains("feature1");
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Test
 	public void should_set_a_set_containing_multiple_features() throws Exception{
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.MAIN_EXTENSION_NAMES, "feature1,feature2");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.MAIN_EXTENSION_NAMES, "feature1,feature2");
+		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat((Set<String>)entry.getValue()).contains("feature1", "feature2");
 		
-		entry = new MapEntry<ConfigToken<?>, Object>(TableConfig.MAIN_EXTENSION_NAMES, "FEATURE1 , feature2 ");
-		processor.process(entry, tableConfiguration);
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.MAIN_EXTENSION_NAMES, "FEATURE1 , feature2 ");
+		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		processor.process(pc);
+		
 		assertThat((Set<String>)entry.getValue()).contains("feature1", "feature2");
 	}
 }

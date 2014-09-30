@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.jsp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 
 /**
  * <p>
@@ -106,11 +106,11 @@ public class ColumnHeadTag extends BodyTagSupport {
 
 	public void setCssStyle(String cssStyle) {
 		ColumnTag parent = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
-		parent.getStagingConf().put(ColumnConfig.CSSSTYLE, cssStyle);
+		parent.getStagingConf().put(DatatableOptions.CSSSTYLE, cssStyle);
 	}
 
 	public void setCssClass(String cssClass) {
 		ColumnTag parent = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
-		parent.getStagingConf().put(ColumnConfig.CSSCLASS, cssClass);
+		parent.getStagingConf().put(DatatableOptions.CSSCLASS, cssClass);
 	}
 }

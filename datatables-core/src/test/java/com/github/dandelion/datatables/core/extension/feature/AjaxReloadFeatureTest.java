@@ -1,17 +1,17 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.util.Arrays;
 import java.util.HashSet;
 
 import org.junit.Test;
 
 import com.github.dandelion.core.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.configuration.DatatableBundles;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableBundles;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AjaxReloadFeatureTest extends AbstractExtensionTest {
 
@@ -24,7 +24,7 @@ public class AjaxReloadFeatureTest extends AbstractExtensionTest {
 		js.append("$('").append(mySelector).append("').bind('click', function() {");
 		js.append("oTable_").append(table.getId()).append(".fnReloadAjax();");
 		js.append("});");
-		TableConfig.AJAX_RELOAD_SELECTOR.setIn(table.getTableConfiguration(), mySelector);
+		DatatableOptions.AJAX_RELOAD_SELECTOR.setIn(table.getTableConfiguration(), mySelector);
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(ajaxReloadFeature)));
 
@@ -42,8 +42,8 @@ public class AjaxReloadFeatureTest extends AbstractExtensionTest {
 		js.append("$('").append(mySelector).append("').bind('click', function() {");
 		js.append(myFunction).append("();");
 		js.append("});");
-		TableConfig.AJAX_RELOAD_SELECTOR.setIn(table.getTableConfiguration(), mySelector);
-		TableConfig.AJAX_RELOAD_FUNCTION.setIn(table.getTableConfiguration(), myFunction);
+		DatatableOptions.AJAX_RELOAD_SELECTOR.setIn(table.getTableConfiguration(), mySelector);
+		DatatableOptions.AJAX_RELOAD_FUNCTION.setIn(table.getTableConfiguration(), myFunction);
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(ajaxReloadFeature)));
 

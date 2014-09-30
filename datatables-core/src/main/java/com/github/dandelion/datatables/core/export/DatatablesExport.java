@@ -31,7 +31,7 @@ public interface DatatablesExport {
 	 * @param output
 	 *            The stream to fill and which will override the default
 	 *            response during export.
-	 * @throws ExportException
+	 * @throws DandelionException
 	 *             if something goes wrong during the export.
 	 */
 	public void processExport(OutputStream output);

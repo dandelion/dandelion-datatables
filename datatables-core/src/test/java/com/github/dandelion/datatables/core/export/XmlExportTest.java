@@ -29,11 +29,11 @@
  */
 package com.github.dandelion.datatables.core.export;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.util.Scanner;
 
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test the XML export.

@@ -30,11 +30,16 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
-import com.github.dandelion.datatables.core.html.ExtraHtml;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * TODO
+ * <p>
+ * This feature allows to register extra HTML snippets in the table.
+ * </p>
+ * <p>
+ * Each extra HTML snippet will be made available in the generated configuration
+ * through the {@link TableConfig#FEATURE_DOM} configuration.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.10.0

@@ -44,10 +44,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.util.ConfigUtils;
 
 /**
  * <p>
@@ -76,8 +77,8 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	/**
 	 * Map holding the staging configuration to apply to the column.
 	 */
-	protected Map<ConfigToken<?>, Object> stagingConf;
-	protected Map<ConfigToken<?>, Extension> stagingExtension;
+	protected Map<Option<?>, Object> stagingConf;
+	protected Map<Option<?>, Extension> stagingExtension;
 
 	/**
 	 * Tag attributes
@@ -137,10 +138,12 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		// with user configuration
 		// The user configuration can now be applied to the default
 		// configuration
-		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headerColumn);
+		ConfigUtils.applyConfiguration(stagingConf, stagingExtension, headerColumn);
+//		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headerColumn);
 		
 		// Once all configuration are merged, they can be processed
-		ColumnConfig.processConfiguration(headerColumn, parent.getTable());
+		ConfigUtils.processConfiguration(headerColumn, parent.getTable());
+//		ColumnConfig.processConfiguration(headerColumn, parent.getTable());
 
 		parent.getTable().getLastHeaderRow().addColumn(headerColumn);
 	}
@@ -190,18 +193,26 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 			headerColumn.setContent(new StringBuilder(content));
 		}
 
-		ColumnConfig.DEFAULTVALUE.setIn(headerColumn.getColumnConfiguration(),
-				StringUtils.isNotBlank(defaultValue) ? defaultValue : "");
+		if(StringUtils.isNotBlank(this.defaultValue)){
+			headerColumn.getColumnConfiguration().getConfigurations().put(DatatableOptions.DEFAULTVALUE, defaultValue);
+		}
+		else {
+			headerColumn.getColumnConfiguration().getConfigurations().put(DatatableOptions.DEFAULTVALUE, "");
+		}
+//		ColumnConfig.DEFAULTVALUE.setIn(headerColumn.getColumnConfiguration(),
+//				StringUtils.isNotBlank(defaultValue) ? defaultValue : "");
 
 		// At this point, all setters have been called and both the staging
 		// configuration map and staging extension map should have been filled
 		// with user configuration
 		// The user configuration can now be applied to the default
 		// configuration
-		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headerColumn);
+		ConfigUtils.applyConfiguration(stagingConf, stagingExtension, headerColumn);
+//		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headerColumn);
 		
 		// Once all configuration are merged, they can be processed
-		ColumnConfig.processConfiguration(headerColumn, parent.getTable());
+		ConfigUtils.processConfiguration(headerColumn, parent.getTable());
+//		ColumnConfig.processConfiguration(headerColumn, parent.getTable());
 
 		parent.getTable().getLastHeaderRow().addColumn(headerColumn);
 	}
@@ -308,7 +319,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		return this.headerColumn;
 	}
 	
-	protected Map<ConfigToken<?>, Object> getStagingConf(){
+	protected Map<Option<?>, Object> getStagingConf(){
 		return stagingConf;
 	}
 }

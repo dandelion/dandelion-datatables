@@ -35,9 +35,9 @@ import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
-import com.github.dandelion.datatables.core.configuration.ColumnConfig;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.Extension;
+import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
@@ -67,10 +67,10 @@ public class ThFilterTypeAttrProcessor extends AbstractColumnAttrProcessor {
 	 */
 	@Override
 	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-			Map<ConfigToken<?>, Object> stagingConf, Map<ConfigToken<?>, Extension> stagingExt) {
+			Map<Option<?>, Object> stagingConf, Map<Option<?>, Extension> stagingExt) {
 
 		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-		stagingConf.put(ColumnConfig.FILTERTYPE, attrValue);
+		stagingConf.put(DatatableOptions.FILTERTYPE, attrValue);
 	}
 }

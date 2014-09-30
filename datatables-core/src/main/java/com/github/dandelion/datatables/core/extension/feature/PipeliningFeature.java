@@ -30,8 +30,8 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
-import com.github.dandelion.datatables.core.configuration.DatatableBundles;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableBundles;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -57,12 +57,12 @@ public class PipeliningFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		
+
 		addBundle(DatatableBundles.DDL_DT_AJAX_PIPELINING);
 		
 		addBundleParameter("pipelining-js", "oCache", "oCache_" + table.getId());
 		
-		Integer pipeSize = TableConfig.AJAX_PIPESIZE.valueFrom(table);
+		Integer pipeSize = DatatableOptions.AJAX_PIPESIZE.valueFrom(table.getTableConfiguration());
 		// Adapt the pipe size if it has been overriden
 		if (pipeSize != null && pipeSize != 5) {
 			addBundleParameter("pipelining-js", "var iPipe = 5", "var iPipe = " + pipeSize);

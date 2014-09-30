@@ -47,23 +47,22 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.utils.UrlUtils;
 import com.github.dandelion.core.web.WebConstants;
-import com.github.dandelion.datatables.core.asset.ExtraJs;
 import com.github.dandelion.datatables.core.asset.InsertMode;
 import com.github.dandelion.datatables.core.callback.Callback;
 import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.exception.ConfigurationProcessingException;
-import com.github.dandelion.datatables.core.exception.DandelionDatatablesException;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.export.HttpMethod;
-import com.github.dandelion.datatables.core.html.ExtraHtml;
+import com.github.dandelion.datatables.core.extension.feature.ExtraHtml;
+import com.github.dandelion.datatables.core.extension.feature.ExtraJs;
+import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.util.ProcessorUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.el.DivExtraHtmlFinalizerElProcessor;
@@ -133,7 +132,7 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 			sb.append(confTypeStr.trim());
 			sb.append("' is not a valid configuration type. Possible values are: ");
 			sb.append(EnumUtils.printPossibleValuesOf(ConfType.class));
-			throw new ConfigurationProcessingException(sb.toString());
+			throw new DandelionException(sb.toString());
 		}
 
 		switch (confType) {
@@ -163,7 +162,7 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 		if (parent == null || !"div".equals(parent.getNormalizedName())
 				|| !parent.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":conf")
 				|| StringUtils.isBlank(parent.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":conf"))) {
-			throw new DandelionDatatablesException(
+			throw new DandelionException(
 					"The element 'div dt:confType=\"...\"' must be inside an element 'div dt:conf=\"tableId\"'.");
 		}
 	}
@@ -226,7 +225,7 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 			
 		}
 		else {
-			throw new ConfigurationProcessingException(
+			throw new DandelionException(
 					"The attribute 'dt:uid' is required when defining an extra HTML snippet.");
 		}
 	}
@@ -249,7 +248,7 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 			exportFormat = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":type").trim().toLowerCase();
 			conf = new ExportConf(exportFormat);
 		} else {
-			throw new ConfigurationProcessingException(
+			throw new DandelionException(
 					"The attribute 'dt:type' is required when defining an export configuration.");
 		}
 
@@ -310,7 +309,7 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 				sb.append(methodStr);
 				sb.append("' is not a valid HTTP method. Possible values are: ");
 				sb.append(EnumUtils.printPossibleValuesOf(HttpMethod.class));
-				throw new ConfigurationProcessingException(sb.toString());
+				throw new DandelionException(sb.toString());
 			}
 
 			conf.setMethod(methodEnum);
@@ -344,7 +343,7 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 				sb.append(orientationStr);
 				sb.append("' is not a valid orientation. Possible values are: ");
 				sb.append(EnumUtils.printPossibleValuesOf(Orientation.class));
-				throw new ConfigurationProcessingException(sb.toString());
+				throw new DandelionException(sb.toString());
 			}
 
 			conf.setOrientation(orientationEnum);
@@ -396,7 +395,7 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 					sb.append(typeStr);
 					sb.append("' is not a valid callback type. Possible values are: ");
 					sb.append(EnumUtils.printPossibleValuesOf(CallbackType.class));
-					throw new ConfigurationProcessingException(sb.toString());
+					throw new DandelionException(sb.toString());
 				}
 
 				if (configs.get(tableId).containsKey(ConfType.CALLBACK)) {
@@ -418,11 +417,11 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 					configs.get(tableId).put(ConfType.CALLBACK, callbacks);
 				}
 			} else {
-				throw new ConfigurationProcessingException("The attribute '" + DataTablesDialect.DIALECT_PREFIX
+				throw new DandelionException("The attribute '" + DataTablesDialect.DIALECT_PREFIX
 						+ ":function' is required when defining a callback.");
 			}
 		} else {
-			throw new ConfigurationProcessingException("The attribute '" + DataTablesDialect.DIALECT_PREFIX
+			throw new DandelionException("The attribute '" + DataTablesDialect.DIALECT_PREFIX
 					+ ":type' is required when defining a callback.");
 		}
 	}
@@ -452,7 +451,7 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 					sb.append(insert);
 					sb.append("' is not a valid insert mode. Possible values are: ");
 					sb.append(EnumUtils.printPossibleValuesOf(InsertMode.class));
-					throw new ConfigurationProcessingException(sb.toString());
+					throw new DandelionException(sb.toString());
 				}
 			} else {
 				insertMode = InsertMode.BEFOREALL;
@@ -470,7 +469,7 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 
 			}
 		} else {
-			throw new ConfigurationProcessingException(
+			throw new DandelionException(
 					"The attribute 'dt:bundles' is required when defining an extra JavaScript.");
 		}
 	}
@@ -488,25 +487,25 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 		if (hasAttribute(element, "name")) {
 
 			String name = getStringValue(element, "name");
-			ConfigToken<?> configToken = TableConfig.findByPropertyName(name);
+			Option<?> configToken = DatatableOptions.findByName(name);
 			String value = getStringValue(element, "value");
 
 			if (configToken == null) {
-				throw new ConfigurationProcessingException("'" + name
+				throw new DandelionException("'" + name
 						+ "' is not a valid property. Please read the documentation.");
 			} else {
 
 				if (configs.get(tableId).containsKey(ConfType.PROPERTY)) {
-					((Map<ConfigToken<?>, Object>) configs.get(tableId).get(ConfType.PROPERTY)).put(configToken,
+					((Map<Option<?>, Object>) configs.get(tableId).get(ConfType.PROPERTY)).put(configToken,
 							value);
 				} else {
-					Map<ConfigToken<?>, Object> stagingConf = new HashMap<ConfigToken<?>, Object>();
+					Map<Option<?>, Object> stagingConf = new HashMap<Option<?>, Object>();
 					stagingConf.put(configToken, value);
 					configs.get(tableId).put(ConfType.PROPERTY, stagingConf);
 				}
 			}
 		} else {
-			throw new ConfigurationProcessingException(
+			throw new DandelionException(
 					"The attribute 'dt:name' is required when overloading a configuration property.");
 		}
 	}

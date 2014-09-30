@@ -37,8 +37,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.utils.ClassUtils;
-import com.github.dandelion.datatables.core.exception.ExportException;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.web.filter.DatatablesFilter;
 
@@ -76,7 +76,7 @@ public class ExportDelegate {
 
 		String exportClassName = exportConf.getExportClass();
 		if (exportClassName == null) {
-			throw new ExportException("No export class has been configured for the '" + exportFormat
+			throw new DandelionException("No export class has been configured for the '" + exportFormat
 					+ "' format. Please configure it before exporting.");
 		}
 		logger.debug("Selected export class: {}", exportClassName);
@@ -90,7 +90,7 @@ public class ExportDelegate {
 			sb.append("' or some other librairies ");
 			sb.append(" imported in the export class is not present in the classpath.");
 			sb.append("Did you forget to add a dependency?");
-			throw new ExportException(sb.toString());
+			throw new DandelionException(sb.toString());
 		}
 
 		// Instantiates the export class and processes the export
@@ -100,11 +100,11 @@ public class ExportDelegate {
 			exportClass = ClassUtils.getClass(exportClassName);
 			obj = ClassUtils.getNewInstance(exportClass);
 		} catch (ClassNotFoundException e) {
-			throw new ExportException("Unable to load the class '" + exportClassName + "'", e);
+			throw new DandelionException("Unable to load the class '" + exportClassName + "'", e);
 		} catch (InstantiationException e) {
-			throw new ExportException("Unable to instanciate the class '" + exportClassName + "'", e);
+			throw new DandelionException("Unable to instanciate the class '" + exportClassName + "'", e);
 		} catch (IllegalAccessException e) {
-			throw new ExportException("Unable to access the class '" + exportClassName + "'", e);
+			throw new DandelionException("Unable to access the class '" + exportClassName + "'", e);
 		}
 
 		((DatatablesExport) obj).initExport(htmlTable);

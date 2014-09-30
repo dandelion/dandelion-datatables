@@ -39,9 +39,10 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.utils.ServiceLoaderUtils;
 import com.github.dandelion.core.utils.Validate;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.generator.DatatableAssetBuffer;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -56,7 +57,7 @@ public class ExtensionLoader {
 
 	private static Logger logger = LoggerFactory.getLogger(ExtensionLoader.class);
 
-	private HtmlTable table;
+	private final HtmlTable table;
 
 	/**
 	 * Constructor of the ExtensionLoader.
@@ -83,7 +84,7 @@ public class ExtensionLoader {
 		ExtensionProcessor extensionProcessor = new ExtensionProcessor(table, mainJsFile, mainConf);
 		extensionProcessor.process(table.getTableConfiguration().getInternalExtensions());
 
-		Extension theme = TableConfig.CSS_THEME.valueFrom(table);
+		Extension theme = DatatableOptions.CSS_THEME.valueFrom(table.getTableConfiguration());
 		if (theme != null) {
 			extensionProcessor.process(new HashSet<Extension>(Arrays.asList(theme)));
 		}
@@ -111,7 +112,8 @@ public class ExtensionLoader {
 			}
 		}
 
-		return null;
+		throw new DandelionException("The requested extension \"" + extensionName
+				+ "\" is not present in the classpath.");
 	}
 
 	/**
@@ -129,7 +131,7 @@ public class ExtensionLoader {
 		List<Extension> builtInExtensions = ServiceLoaderUtils.getProvidersAsList(Extension.class);
 
 		// Load built-in extension if some are enabled
-		Set<String> extensionNames = TableConfig.MAIN_EXTENSION_NAMES.valueFrom(table);
+		Set<String> extensionNames = DatatableOptions.MAIN_EXTENSION_NAMES.valueFrom(table.getTableConfiguration());
 		if (builtInExtensions != null && !builtInExtensions.isEmpty() && extensionNames != null
 				&& !extensionNames.isEmpty()) {
 			for (String extensionToRegister : extensionNames) {

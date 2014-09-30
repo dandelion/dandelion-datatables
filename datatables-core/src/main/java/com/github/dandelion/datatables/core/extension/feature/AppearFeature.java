@@ -30,7 +30,7 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -55,8 +55,8 @@ public class AppearFeature extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 
-		String appear = TableConfig.FEATURE_APPEAR.valueFrom(table);
-		String appearDuration = TableConfig.FEATURE_APPEAR_DURATION.valueFrom(table);
+		String appear = DatatableOptions.FEATURE_APPEAR.valueFrom(table.getTableConfiguration());
+		String appearDuration = DatatableOptions.FEATURE_APPEAR_DURATION.valueFrom(table.getTableConfiguration());
 
 		if ("block".equals(appear)) {
 			appendToBeforeEndDocumentReady("$('#" + table.getId() + "').show();");

@@ -29,7 +29,7 @@
  */
 package com.github.dandelion.datatables.core.constants;
 
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 
 /**
  * 
@@ -39,24 +39,24 @@ import com.github.dandelion.datatables.core.configuration.TableConfig;
  */
 public enum DTMessages {
 
-	PROCESSING("sProcessing", TableConfig.P_I18N_MSG_PROCESSING),
-	SEARC("sSearch", TableConfig.P_I18N_MSG_SEARCH),
-	LENGTHMENU("sLengthMenu", TableConfig.P_I18N_MSG_LENGTHMENU),
-	INFO("sInfo", TableConfig.P_I18N_MSG_INFO),
-	INFOEMPTY("sInfoEmpty", TableConfig.P_I18N_MSG_INFOEMPTY),
-	INFOFILTERED("sInfoFiltered", TableConfig.P_I18N_MSG_INFOFILTERED),
-	INFOPOSTFIX("sInfoPostFix", TableConfig.P_I18N_MSG_INFOPOSTFIX),
-	LOADINGRECORDS("sLoadingRecords", TableConfig.P_I18N_MSG_LOADINGRECORDS),
-	ZERORECORDS("sZeroRecords", TableConfig.P_I18N_MSG_ZERORECORDS),
-	EMPTYTABLE("sEmptyTable", TableConfig.P_I18N_MSG_EMPTYTABLE),
+	PROCESSING("sProcessing", DatatableOptions.I18N_MSG_PROCESSING.getName()),
+	SEARC("sSearch", DatatableOptions.I18N_MSG_SEARCH.getName()),
+	LENGTHMENU("sLengthMenu", DatatableOptions.I18N_MSG_LENGTHMENU.getName()),
+	INFO("sInfo", DatatableOptions.I18N_MSG_INFO.getName()),
+	INFOEMPTY("sInfoEmpty", DatatableOptions.I18N_MSG_INFOEMPTY.getName()),
+	INFOFILTERED("sInfoFiltered", DatatableOptions.I18N_MSG_INFOFILTERED.getName()),
+	INFOPOSTFIX("sInfoPostFix", DatatableOptions.I18N_MSG_INFOPOSTFIX.getName()),
+	LOADINGRECORDS("sLoadingRecords", DatatableOptions.I18N_MSG_LOADINGRECORDS.getName()),
+	ZERORECORDS("sZeroRecords", DatatableOptions.I18N_MSG_ZERORECORDS.getName()),
+	EMPTYTABLE("sEmptyTable", DatatableOptions.I18N_MSG_EMPTYTABLE.getName()),
 	PAGINATE("oPaginate", ""),
-	PAGINATE_FIRST("sFirst", TableConfig.P_I18N_MSG_PAGINATE_FIRST),
-	PAGINATE_PREVIOUS("sPrevious", TableConfig.P_I18N_MSG_PAGINATE_PREVIOUS),
-	PAGINATE_NEXT("sNext", TableConfig.P_I18N_MSG_PAGINATE_NEXT),
-	PAGINATE_LAST("sLast", TableConfig.P_I18N_MSG_PAGINATE_LAST),
+	PAGINATE_FIRST("sFirst", DatatableOptions.I18N_MSG_PAGINATE_FIRST.getName()),
+	PAGINATE_PREVIOUS("sPrevious", DatatableOptions.I18N_MSG_PAGINATE_PREVIOUS.getName()),
+	PAGINATE_NEXT("sNext", DatatableOptions.I18N_MSG_PAGINATE_NEXT.getName()),
+	PAGINATE_LAST("sLast", DatatableOptions.I18N_MSG_PAGINATE_LAST.getName()),
 	ARIA("oAria", ""),
-	ARIA_SORT_ASC("sSortAscending", TableConfig.P_I18N_MSG_ARIA_SORTASC),
-	ARIA_SORT_DESC("sSortDescending", TableConfig.P_I18N_MSG_ARIA_SORTDESC);
+	ARIA_SORT_ASC("sSortAscending", DatatableOptions.I18N_MSG_ARIA_SORTASC.getName()),
+	ARIA_SORT_DESC("sSortDescending", DatatableOptions.I18N_MSG_ARIA_SORTDESC.getName());
 	
 	private String realName;
 	

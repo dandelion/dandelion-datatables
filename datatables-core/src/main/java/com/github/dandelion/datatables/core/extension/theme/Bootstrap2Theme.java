@@ -29,11 +29,11 @@
  */
 package com.github.dandelion.datatables.core.extension.theme;
 
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
-import com.github.dandelion.datatables.core.configuration.DatatableBundles;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
+import com.github.dandelion.datatables.core.config.DatatableBundles;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.exception.ExtensionLoadingException;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -61,22 +61,22 @@ public class Bootstrap2Theme extends AbstractExtension {
 
 		addBundle(DatatableBundles.DDL_DT_THEME_BOOTSTRAP2);
 		
-		Boolean paging = TableConfig.FEATURE_PAGEABLE.valueFrom(table);
+		Boolean paging = DatatableOptions.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration());
 		if(paging != null && paging == true){
 			addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP);
-			if(TableConfig.FEATURE_PAGINATIONTYPE.valueFrom(table.getTableConfiguration()) == null){
+			if(DatatableOptions.FEATURE_PAGINATIONTYPE.valueFrom(table.getTableConfiguration()) == null){
 				addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
 			}
 		}
 		
-		ThemeOption themeOption = TableConfig.CSS_THEMEOPTION.valueFrom(table);
+		ThemeOption themeOption = DatatableOptions.CSS_THEMEOPTION.valueFrom(table.getTableConfiguration());
 		
 		if (themeOption != null) {
 			if(themeOption.equals(ThemeOption.TABLECLOTH)){
 				addBundle(DatatableBundles.DDL_DT_THEME_BOOTSTRAP2_TABLECLOTH);
 			}
 			else{
-				throw new ExtensionLoadingException("Only the 'tablecloth' theme option is compatible with the 'bootstrap2' theme");
+				throw new DandelionException("Only the 'tablecloth' theme option is compatible with the 'bootstrap2' theme");
 			}
 		}
 		

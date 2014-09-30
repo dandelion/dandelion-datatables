@@ -29,8 +29,6 @@
  */
 package com.github.dandelion.datatables.core.html;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Before;
@@ -46,6 +44,8 @@ import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.HtmlTableBuilder;
 import com.github.dandelion.datatables.core.mock.Mock;
 import com.github.dandelion.datatables.core.mock.Person;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class HtmlTableBuilderTest {
 

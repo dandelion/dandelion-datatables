@@ -1,7 +1,5 @@
 package com.github.dandelion.datatables.jsp.i18n;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.util.Locale;
 
 import javax.servlet.jsp.jstl.core.Config;
@@ -10,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class JstlLocaleResolverTest {
 

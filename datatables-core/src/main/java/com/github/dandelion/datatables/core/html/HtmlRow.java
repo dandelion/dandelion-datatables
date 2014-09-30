@@ -35,6 +35,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.github.dandelion.core.html.AbstractHtmlTag;
 import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.util.CollectionUtils;
 
@@ -44,7 +45,7 @@ import com.github.dandelion.datatables.core.util.CollectionUtils;
  * @author Thibault Duchateau
  * @since 0.1.0
  */
-public class HtmlRow extends HtmlTag {
+public class HtmlRow extends AbstractHtmlTag {
 
 	/**
 	 * List of columns (<code>td</code> tag) inside the row (<code>tr</code>

@@ -45,19 +45,19 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.generator.JavascriptGenerator;
 import com.github.dandelion.core.asset.locator.impl.DelegateLocator;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.configuration.ConfigToken;
-import com.github.dandelion.datatables.core.configuration.DatatableBundles;
-import com.github.dandelion.datatables.core.configuration.TableConfig;
-import com.github.dandelion.datatables.core.exception.ExportException;
+import com.github.dandelion.datatables.core.config.DatatableBundles;
+import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.generator.DatatableAssetBuffer;
-import com.github.dandelion.datatables.core.generator.jquery.DatatableJQueryJavascriptGenerator;
+import com.github.dandelion.datatables.core.generator.DatatableJQueryJavascriptGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.Option;
 
 /**
  * <p>
@@ -111,7 +111,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 	 */
 	// Map containing the staging configuration to be applied to the table at
 	// the end of the tag processing
-	protected Map<ConfigToken<?>, Object> stagingConf;
+	protected Map<Option<?>, Object> stagingConf;
 	protected Integer iterationNumber;
 	protected HtmlTable table;
 	protected Iterator<Object> iterator;
@@ -142,7 +142,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 				Object object = iterator.next();
 
 				this.setCurrentObject(object);
-				stagingConf.put(TableConfig.INTERNAL_OBJECTTYPE, object.getClass().getSimpleName());
+				stagingConf.put(DatatableOptions.INTERNAL_OBJECTTYPE, object.getClass().getSimpleName());
 
 				if (row != null) {
 					pageContext.setAttribute(row, object);
@@ -281,7 +281,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 			exportDelegate.prepareExport();
 
 		}
-		catch (ExportException e) {
+		catch (DandelionException e) {
 			logger.error("Something went wront with the Dandelion export configuration.");
 			throw new JspException(e);
 		}
