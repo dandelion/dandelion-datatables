@@ -167,6 +167,7 @@ public class DatatablesCriterias implements Serializable {
 				
 				String columnSearch = request.getParameter(DTConstants.DT_S_COLUMN_SEARCH + i);
 				if(StringUtils.isNotBlank(columnSearch)) {
+					columnDef.setFiltered(true);
 					String[] splittedSearch = columnSearch.split("~");
 					if("~".equals(columnSearch)) {
 						columnDef.setSearch("");

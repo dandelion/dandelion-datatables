@@ -199,9 +199,51 @@ public class DatatablesCriteriasTest {
 		
 		assertThat(criterias.hasOneFilteredColumn()).isTrue();
 		
+		assertThat(criterias.getColumnDefs().get(0).isFiltered()).isTrue();
 		assertThat(criterias.getColumnDefs().get(0).getSearch()).isEqualTo("search");
 		assertThat(criterias.getColumnDefs().get(0).getSearchFrom()).isNull();
 		assertThat(criterias.getColumnDefs().get(0).getSearchTo()).isNull();
+		
+		assertThat(criterias.getColumnDefs().get(1).isFiltered()).isFalse();
+	}
+	
+	@Test
+	public void should_have_multiple_filtered_columns(){
+
+		request.addParameter(DTConstants.DT_S_ECHO, "1");
+		request.addParameter(DTConstants.DT_I_COLUMNS, "3");
+		request.addParameter(DTConstants.DT_I_DISPLAY_START, "0");
+		request.addParameter(DTConstants.DT_I_DISPLAY_LENGTH, "10");
+		
+		request.addParameter(DTConstants.DT_M_DATA_PROP + 0, "prop1");
+		request.addParameter(DTConstants.DT_B_SEARCHABLE + 0, "true");
+		request.addParameter(DTConstants.DT_B_SORTABLE + 0, "true");
+		request.addParameter(DTConstants.DT_S_COLUMN_SEARCH + 0, "search-term-column-1");
+		
+		request.addParameter(DTConstants.DT_M_DATA_PROP + 1, "prop2");
+		request.addParameter(DTConstants.DT_B_SEARCHABLE + 1, "true");
+		request.addParameter(DTConstants.DT_B_SORTABLE + 1, "true");
+		request.addParameter(DTConstants.DT_S_COLUMN_SEARCH + 1, "search-term-column2");
+		
+		request.addParameter(DTConstants.DT_M_DATA_PROP + 2, "prop3");
+		request.addParameter(DTConstants.DT_B_SEARCHABLE + 2, "true");
+		request.addParameter(DTConstants.DT_B_SORTABLE + 2, "true");
+		
+		DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
+		
+		assertThat(criterias.hasOneFilteredColumn()).isTrue();
+		
+		assertThat(criterias.getColumnDefs().get(0).isFiltered()).isTrue();
+		assertThat(criterias.getColumnDefs().get(0).getSearch()).isEqualTo("search-term-column-1");
+		assertThat(criterias.getColumnDefs().get(0).getSearchFrom()).isNull();
+		assertThat(criterias.getColumnDefs().get(0).getSearchTo()).isNull();
+		
+		assertThat(criterias.getColumnDefs().get(1).isFiltered()).isTrue();
+		assertThat(criterias.getColumnDefs().get(1).getSearch()).isEqualTo("search-term-column2");
+		assertThat(criterias.getColumnDefs().get(1).getSearchFrom()).isNull();
+		assertThat(criterias.getColumnDefs().get(1).getSearchTo()).isNull();
+		
+		assertThat(criterias.getColumnDefs().get(2).isFiltered()).isFalse();
 	}
 	
 	@Test
@@ -223,6 +265,7 @@ public class DatatablesCriteriasTest {
 		
 		DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
 		
+		assertThat(criterias.getColumnDefs().get(0).isFiltered()).isTrue();
 		assertThat(criterias.getColumnDefs().get(0).getSearch()).isNull();
 		assertThat(criterias.getColumnDefs().get(0).getSearchFrom()).isEqualTo("left");
 		assertThat(criterias.getColumnDefs().get(0).getSearchTo()).isNull();
@@ -247,9 +290,12 @@ public class DatatablesCriteriasTest {
 		
 		DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
 		
+		assertThat(criterias.getColumnDefs().get(0).isFiltered()).isTrue();
 		assertThat(criterias.getColumnDefs().get(0).getSearch()).isNull();
 		assertThat(criterias.getColumnDefs().get(0).getSearchFrom()).isNull();
 		assertThat(criterias.getColumnDefs().get(0).getSearchTo()).isEqualTo("right");
+		
+		assertThat(criterias.getColumnDefs().get(1).isFiltered()).isFalse();
 	}
 	
 	@Test
@@ -271,9 +317,12 @@ public class DatatablesCriteriasTest {
 		
 		DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
 		
+		assertThat(criterias.getColumnDefs().get(0).isFiltered()).isTrue();
 		assertThat(criterias.getColumnDefs().get(0).getSearch()).isNull();
 		assertThat(criterias.getColumnDefs().get(0).getSearchFrom()).isEqualTo("left");
 		assertThat(criterias.getColumnDefs().get(0).getSearchTo()).isEqualTo("right");
+		
+		assertThat(criterias.getColumnDefs().get(1).isFiltered()).isFalse();
 	}
 	
 	@Test
@@ -295,8 +344,11 @@ public class DatatablesCriteriasTest {
 		
 		DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
 		
+		assertThat(criterias.getColumnDefs().get(0).isFiltered()).isTrue();
 		assertThat(criterias.getColumnDefs().get(0).getSearch()).isEmpty();
 		assertThat(criterias.getColumnDefs().get(0).getSearchFrom()).isNull();
 		assertThat(criterias.getColumnDefs().get(0).getSearchTo()).isNull();
+		
+		assertThat(criterias.getColumnDefs().get(1).isFiltered()).isFalse();
 	}
 }
