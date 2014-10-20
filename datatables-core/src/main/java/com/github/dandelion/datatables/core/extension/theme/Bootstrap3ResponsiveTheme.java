@@ -29,29 +29,35 @@
  */
 package com.github.dandelion.datatables.core.extension.theme;
 
-import com.github.dandelion.datatables.core.asset.Parameter.Mode;
-import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.extension.Parameter.Mode;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.CallbackType;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
  * Extension that adds a responsive behaviour to the table.
+ * </p>
  * <p>
  * Based on <a
  * href="https://github.com/Comanche/datatables-responsive">datatables
  * -responsive</a>, developed by <a
  * href="https://github.com/Comanche">Comanche</a>.
+ * </p>
  * <p>
  * The extension updates the asset graph with the bootstrap2-responsive bundle,
  * add necessary variables and adds the needed DataTable's parameters.
+ * </p>
  * <p>
  * Also note that the HTML markup needs to be updated with the
  * <code>data-class</code> and <code>data-hide</code> dynamic attributes.
+ * </p>
  * <p>
  * For example:
+ * </p>
  * 
  * <pre>
  * &lt;datatables:table id="myTableId" data="${persons}" ext="bootstrap2,bootstrap2-responsive">
@@ -65,8 +71,8 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
- * @see TableConfig#CSS_THEME
- * @see TableConfig#CSS_THEMEOPTION
+ * @see DatatableOptions#CSS_THEME
+ * @see DatatableOptions#CSS_THEMEOPTION
  */
 public class Bootstrap3ResponsiveTheme extends AbstractExtension {
 
@@ -80,7 +86,7 @@ public class Bootstrap3ResponsiveTheme extends AbstractExtension {
 
 		// Add necessary web resources
 		addBundle(DatatableBundles.DDL_DT_THEME_BOOTSTRAP3_RESPONSIVE);
-        
+
 		// Necessary variables and breakpoint definitions
 		StringBuilder var = new StringBuilder();
 		var.append("var responsiveHelper_").append(table.getId()).append(";\n");

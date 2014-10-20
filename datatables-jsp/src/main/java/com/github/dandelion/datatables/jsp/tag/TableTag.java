@@ -37,11 +37,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 
 import com.github.dandelion.core.utils.UrlUtils;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
-import com.github.dandelion.datatables.core.config.TableConfiguration;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.TableConfiguration;
 import com.github.dandelion.datatables.core.util.ConfigUtils;
 
 /**
@@ -130,11 +130,11 @@ public class TableTag extends AbstractTableTag {
 		// configuration map should have been filled with user configuration
 		// The user configuration can now be applied to the default
 		// configuration
-		ConfigUtils.applyConfiguration(stagingConf, table);
+		ConfigUtils.applyStagingOptions(stagingConf, table);
 //		TableConfig.applyConfiguration(stagingConf, table);
 		
 		// Once all configuration are merged, they can be processed
-		ConfigUtils.processConfiguration(table);
+		ConfigUtils.processOptions(table);
 //		TableConfig.processConfiguration(table);
 				
 		// The table is being exported
@@ -160,6 +160,11 @@ public class TableTag extends AbstractTableTag {
 		}
 	}
 	
+	/**
+	 * 
+	 * <p>May be a runtime expression.</p>
+	 * @param url
+	 */
 	public void setUrl(String url) {
 		String processedUrl = UrlUtils.getProcessedUrl(url, (HttpServletRequest) pageContext.getRequest(),
 				(HttpServletResponse) pageContext.getResponse());

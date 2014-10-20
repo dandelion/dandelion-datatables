@@ -38,7 +38,10 @@ import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * Default class used to export in the CSV format.
+ * <p>
+ * CSV implementation of {@link DatatablesExport} that exports data in CSV
+ * format.
+ * </p>
  * 
  * @author Thibault Duchateau
  */
@@ -76,7 +79,8 @@ public class CsvExport implements DatatablesExport {
 
 		try {
 			output.write(buffer.toString().getBytes());
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			StringBuilder sb = new StringBuilder("Something went wrong during the CSV generation of the table '");
 			sb.append(table.getOriginalId());
 			sb.append("' and with the following export configuration: ");

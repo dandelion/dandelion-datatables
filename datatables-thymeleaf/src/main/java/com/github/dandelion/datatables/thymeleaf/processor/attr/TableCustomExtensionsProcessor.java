@@ -35,15 +35,17 @@ import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
-import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
- * Attribute processor applied to the {@code table} tag for the
- * {@link TableConfig#MAIN_EXTENSION_NAMES} configuration.
+ * <p>
+ * Attribute processor applied to the {@code table} and associated with the
+ * {@link DatatableOptions#MAIN_EXTENSION_NAMES} option.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -59,9 +61,6 @@ public class TableCustomExtensionsProcessor extends AbstractTableAttrProcessor {
 		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
 			Map<Option<?>, Object> stagingConf) {

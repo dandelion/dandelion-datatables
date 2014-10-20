@@ -31,8 +31,8 @@ package com.github.dandelion.datatables.core.processor.column;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessor;

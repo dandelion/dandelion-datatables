@@ -33,7 +33,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessor;

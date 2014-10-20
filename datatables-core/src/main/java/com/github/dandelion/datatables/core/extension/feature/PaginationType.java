@@ -30,8 +30,10 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 /**
+ * <p>
  * Enum containing all alternative pagination style.
- *
+ * </p>
+ * 
  * @author Thibault Duchateau
  */
 public enum PaginationType {

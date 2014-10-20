@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.servlet.support.RequestContextUtils;
 
-import com.github.dandelion.datatables.core.i18n.LocaleResolver;
+import com.github.dandelion.core.i18n.LocaleResolver;
 
 /**
  * <p>Spring implementation of the {@link LocaleResolver}.

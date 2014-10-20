@@ -35,8 +35,8 @@ import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
-import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.Extension;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.extension.feature.FilteringFeature;
@@ -44,8 +44,10 @@ import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrPro
 import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
- * Attribute processor applied to the {@code th} tag for the
- * {@link ColumnConfig#FILTERABLE} configuration.
+ * <p>
+ * Attribute processor applied to the {@code th} and associated with the
+ * {@link DatatableOptions#FILTERABLE} option.
+ * </p>
  * 
  * @author Thibault Duchateau
  */
@@ -55,17 +57,11 @@ public class ThFilterableAttrProcessor extends AbstractColumnAttrProcessor {
 		super(matcher);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getPrecedence() {
 		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
 			Map<Option<?>, Object> stagingConf, Map<Option<?>, Extension> stagingExt) {

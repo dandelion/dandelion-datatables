@@ -40,10 +40,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.DandelionException;
-import com.github.dandelion.datatables.core.asset.JavascriptFunction;
-import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
-import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.generator.DatatableAssetBuffer;
+import com.github.dandelion.core.asset.generator.js.JsFunction;
+import com.github.dandelion.core.asset.generator.js.JsSnippet;
+import com.github.dandelion.datatables.core.generator.DatatableJQueryContent;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -66,16 +65,16 @@ public class ExtensionProcessor {
 	/**
 	 * The buffer used for the DataTables initialization code.
 	 */
-	private final DatatableAssetBuffer dab;
+	private final DatatableJQueryContent datatableContent;
 
 	/**
 	 * The map containing the DataTables parameters.
 	 */
 	private final Map<String, Object> mainConfig;
 
-	public ExtensionProcessor(HtmlTable table, DatatableAssetBuffer dab, Map<String, Object> mainConfig) {
+	public ExtensionProcessor(HtmlTable table, DatatableJQueryContent datatableContent, Map<String, Object> mainConfig) {
 		this.table = table;
-		this.dab = dab;
+		this.datatableContent = datatableContent;
 		this.mainConfig = mainConfig;
 	}
 
@@ -105,22 +104,22 @@ public class ExtensionProcessor {
 
 		// Extension configuration loading
 		if (extension.getBeforeAll() != null) {
-			dab.appendToBeforeAll(extension.getBeforeAll().toString());
+			datatableContent.appendToBeforeAll(extension.getBeforeAll().toString());
 		}
 		if (extension.getBeforeStartDocumentReady() != null) {
-			dab.appendToBeforeStartDocumentReady(extension.getBeforeStartDocumentReady().toString());
+			datatableContent.appendToBeforeStartDocumentReady(extension.getBeforeStartDocumentReady().toString());
 		}
 		if (extension.getAfterStartDocumentReady() != null) {
-			dab.appendToAfterStartDocumentReady(extension.getAfterStartDocumentReady().toString());
+			datatableContent.appendToAfterStartDocumentReady(extension.getAfterStartDocumentReady().toString());
 		}
 		if (extension.getBeforeEndDocumentReady() != null) {
-			dab.appendToBeforeEndDocumentReady(extension.getBeforeEndDocumentReady().toString());
+			datatableContent.appendToBeforeEndDocumentReady(extension.getBeforeEndDocumentReady().toString());
 		}
 		if (extension.getAfterAll() != null) {
-			dab.appendToAfterAll(extension.getAfterAll().toString());
+			datatableContent.appendToAfterAll(extension.getAfterAll().toString());
 		}
 		if (extension.getFunction() != null) {
-			dab.appendToDataTablesExtra(extension.getFunction());
+			datatableContent.appendToDataTablesExtra(extension.getFunction());
 		}
 
 		// Extension custom configuration generator
@@ -132,7 +131,6 @@ public class ExtensionProcessor {
 
 			Map<String, Object> conf = extension.getConfigGenerator().generateConfig(table);
 
-			// Allways pretty prints the JSON
 			try {
 				JSONValue.writeJSONString(conf, writer);
 			}
@@ -140,7 +138,7 @@ public class ExtensionProcessor {
 				throw new DandelionException("Unable to convert the configuration into JSON", e);
 			}
 
-			dab.appendToDataTablesExtraConf(writer.toString());
+			datatableContent.appendToDataTablesExtraConf(writer.toString());
 		}
 	}
 
@@ -159,10 +157,10 @@ public class ExtensionProcessor {
 				// configuration
 				if (mainConfig.containsKey(param.getName())) {
 
-					if (mainConfig.get(param.getName()) instanceof JavascriptFunction) {
-						processJavascriptFunction(param);
+					if (mainConfig.get(param.getName()) instanceof JsFunction) {
+						processJsFunction(param);
 					}
-					else if (mainConfig.get(param.getName()) instanceof JavascriptSnippet) {
+					else if (mainConfig.get(param.getName()) instanceof JsSnippet) {
 						processJavascriptSnippet(param);
 					}
 					else {
@@ -178,9 +176,9 @@ public class ExtensionProcessor {
 		}
 	}
 
-	private void processJavascriptFunction(Parameter conf) {
+	private void processJsFunction(Parameter conf) {
 
-		JavascriptFunction jsFunction = (JavascriptFunction) mainConfig.get(conf.getName());
+		JsFunction jsFunction = (JsFunction) mainConfig.get(conf.getName());
 		StringBuilder newValue = null;
 
 		switch (conf.getMode()) {
@@ -189,7 +187,7 @@ public class ExtensionProcessor {
 			break;
 
 		case APPEND:
-			newValue = new StringBuilder(((JavascriptFunction) conf.getValue()).getCode());
+			newValue = new StringBuilder(((JsFunction) conf.getValue()).getCode());
 			newValue.append(jsFunction.getCode());
 			jsFunction.setCode(newValue.toString());
 			mainConfig.put(conf.getName(), jsFunction);
@@ -197,13 +195,13 @@ public class ExtensionProcessor {
 
 		case PREPEND:
 			newValue = new StringBuilder(jsFunction.getCode());
-			newValue.append(((JavascriptFunction) conf.getValue()).getCode());
+			newValue.append(((JsFunction) conf.getValue()).getCode());
 			jsFunction.setCode(newValue.toString());
 			mainConfig.put(conf.getName(), jsFunction);
 			break;
 
 		case APPEND_WITH_SPACE:
-			newValue = new StringBuilder(((JavascriptFunction) conf.getValue()).getCode());
+			newValue = new StringBuilder(((JsFunction) conf.getValue()).getCode());
 			newValue.append(" ");
 			newValue.append(jsFunction.getCode());
 			jsFunction.setCode(newValue.toString());
@@ -213,7 +211,7 @@ public class ExtensionProcessor {
 		case PREPEND_WITH_SPACE:
 			newValue = new StringBuilder(jsFunction.getCode());
 			newValue.append(" ");
-			newValue.append(((JavascriptFunction) conf.getValue()).getCode());
+			newValue.append(((JsFunction) conf.getValue()).getCode());
 			jsFunction.setCode(newValue.toString());
 			mainConfig.put(conf.getName(), jsFunction);
 			break;
@@ -225,7 +223,7 @@ public class ExtensionProcessor {
 
 	private void processJavascriptSnippet(Parameter conf) {
 
-		JavascriptSnippet jsSnippet = (JavascriptSnippet) mainConfig.get(conf.getName());
+		JsSnippet jsSnippet = (JsSnippet) mainConfig.get(conf.getName());
 		String newValue = null;
 
 		switch (conf.getMode()) {
@@ -234,25 +232,25 @@ public class ExtensionProcessor {
 			break;
 
 		case APPEND:
-			newValue = ((JavascriptSnippet) conf.getValue()).getJavascript() + jsSnippet.getJavascript();
+			newValue = ((JsSnippet) conf.getValue()).getJavascript() + jsSnippet.getJavascript();
 			jsSnippet.setJavascript(newValue);
 			mainConfig.put(conf.getName(), jsSnippet);
 			break;
 
 		case PREPEND:
-			newValue = jsSnippet.getJavascript() + ((JavascriptSnippet) conf.getValue()).getJavascript();
+			newValue = jsSnippet.getJavascript() + ((JsSnippet) conf.getValue()).getJavascript();
 			jsSnippet.setJavascript(newValue);
 			mainConfig.put(conf.getName(), jsSnippet);
 			break;
 
 		case APPEND_WITH_SPACE:
-			newValue = ((JavascriptSnippet) conf.getValue()).getJavascript() + " " + jsSnippet.getJavascript();
+			newValue = ((JsSnippet) conf.getValue()).getJavascript() + " " + jsSnippet.getJavascript();
 			jsSnippet.setJavascript(newValue);
 			mainConfig.put(conf.getName(), jsSnippet);
 			break;
 
 		case PREPEND_WITH_SPACE:
-			newValue = jsSnippet.getJavascript() + " " + ((JavascriptSnippet) conf.getValue()).getJavascript();
+			newValue = jsSnippet.getJavascript() + " " + ((JsSnippet) conf.getValue()).getJavascript();
 			jsSnippet.setJavascript(newValue);
 			mainConfig.put(conf.getName(), jsSnippet);
 			break;

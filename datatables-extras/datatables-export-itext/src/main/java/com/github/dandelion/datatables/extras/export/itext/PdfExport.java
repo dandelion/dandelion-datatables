@@ -50,7 +50,10 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 /**
- * Default PDF export implementation.
+ * <p>
+ * PDF implementation of {@link DatatablesExport} that exports data in PDF
+ * format using iText.
+ * </p>
  * 
  * @author Thibault Duchateau
  */
@@ -72,10 +75,10 @@ public class PdfExport implements DatatablesExport {
 		if (exportConf.getOrientation() != null && exportConf.getOrientation().equals(Orientation.LANDSCAPE)) {
 			document = new Document(PageSize.LETTER.rotate());
 		}
-		else{
+		else {
 			document = new Document();
 		}
-		
+
 		PdfWriter pdfWriter;
 		try {
 			pdfWriter = PdfWriter.getInstance(document, output);
@@ -85,13 +88,15 @@ public class PdfExport implements DatatablesExport {
 			addTitle(document);
 			addTable(document);
 
-		} catch (DocumentException e) {
+		}
+		catch (DocumentException e) {
 			StringBuilder sb = new StringBuilder("Something went wrong during the PDF generation of the table '");
 			sb.append(table.getOriginalId());
 			sb.append("' and with the following export configuration: ");
 			sb.append(exportConf.toString());
 			throw new DandelionException(sb.toString(), e);
-		} finally {
+		}
+		finally {
 			document.close();
 		}
 	}

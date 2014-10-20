@@ -32,9 +32,7 @@ package com.github.dandelion.datatables.core.option;
 import java.util.Map;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.config.ColumnConfiguration;
-import com.github.dandelion.datatables.core.config.TableConfiguration;
-import com.github.dandelion.datatables.core.generator.DatatablesGenerator;
+import com.github.dandelion.datatables.core.generator.DatatableConfigGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 
@@ -70,7 +68,7 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
  * 
  * @param <T>
  *            Type of the option, crucial for the JavaScript generation. See
- *            {@link DatatablesGenerator}.
+ *            {@link DatatableConfigGenerator}.
  * @author Thibault Duchateau
  * @since 0.11.0
  * @see OptionProcessor

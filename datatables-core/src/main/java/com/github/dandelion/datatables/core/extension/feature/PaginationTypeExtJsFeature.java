@@ -29,27 +29,29 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
  * Activates the ExtJS pagination by:
+ * </p>
  * <ul>
- * <li>Updating the bundle graph with the bundle <code>paginationType-extjs</code>
- * </li>
+ * <li>Updating the bundle graph with the bundle
+ * <code>paginationType-extjs</code></li>
  * <li>Setting the pagination type to <code>extStyle</code></li>
  * </ul>
  * 
  * @author Thibault Duchateau
- * @see TableConfig#FEATURE_PAGINATIONTYPE
+ * @see DatatableOptions#FEATURE_PAGINATIONTYPE
  */
 public class PaginationTypeExtJsFeature extends AbstractExtension {
 
 	public static final String PAGINATION_TYPE_EXTJS_FEATURE_NAME = "paginationTypeExtJS";
-	
+
 	@Override
 	public String getExtensionName() {
 		return PAGINATION_TYPE_EXTJS_FEATURE_NAME;

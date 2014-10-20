@@ -33,29 +33,31 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
  * Feature used in accordance with the <code>sortType</code> column attribute to
  * help DataTables to configure the sort on a column.
+ * </p>
  * <p>
  * See <a
  * href="http://datatables.net/plug-ins/sorting">http://datatables.net/plugins
  * /sorting</a> for an overview of all available sorting functions.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
- * @see ColumnConfig#SORTTYPE
+ * @see DatatableOptions#SORTTYPE
  */
 public class SortingFeature extends AbstractExtension {
 
 	public static final String SORTING_FEATURE_NAME = "sorting";
-	
+
 	@Override
 	public String getExtensionName() {
 		return SORTING_FEATURE_NAME;

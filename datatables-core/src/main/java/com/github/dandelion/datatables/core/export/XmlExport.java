@@ -39,14 +39,17 @@ import javax.xml.stream.XMLStreamWriter;
 
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
- * Default class used to export in the XML format.
- *
+ * <p>
+ * XML implementation of {@link DatatablesExport} that exports data in XML
+ * format using the standard Java XML API.
+ * </p>
+ * 
  * @author Thibault Duchateau
  */
 public class XmlExport implements DatatablesExport {

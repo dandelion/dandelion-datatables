@@ -30,21 +30,23 @@
 package com.github.dandelion.datatables.core.extension.theme;
 
 import com.github.dandelion.core.DandelionException;
-import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.core.asset.generator.js.JsSnippet;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
+ * <p>
  * Bootstrap v2 DataTables theme.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.7.1
- * @see TableConfig#CSS_THEME
- * @see TableConfig#CSS_THEMEOPTION
+ * @see DatatableOptions#CSS_THEME
+ * @see DatatableOptions#CSS_THEMEOPTION
  */
 public class Bootstrap2Theme extends AbstractExtension {
 
@@ -60,26 +62,27 @@ public class Bootstrap2Theme extends AbstractExtension {
 	public void setup(HtmlTable table) {
 
 		addBundle(DatatableBundles.DDL_DT_THEME_BOOTSTRAP2);
-		
+
 		Boolean paging = DatatableOptions.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration());
-		if(paging != null && paging == true){
+		if (paging != null && paging == true) {
 			addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP);
-			if(DatatableOptions.FEATURE_PAGINATIONTYPE.valueFrom(table.getTableConfiguration()) == null){
+			if (DatatableOptions.FEATURE_PAGINATIONTYPE.valueFrom(table.getTableConfiguration()) == null) {
 				addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
 			}
 		}
-		
+
 		ThemeOption themeOption = DatatableOptions.CSS_THEMEOPTION.valueFrom(table.getTableConfiguration());
-		
+
 		if (themeOption != null) {
-			if(themeOption.equals(ThemeOption.TABLECLOTH)){
+			if (themeOption.equals(ThemeOption.TABLECLOTH)) {
 				addBundle(DatatableBundles.DDL_DT_THEME_BOOTSTRAP2_TABLECLOTH);
 			}
-			else{
-				throw new DandelionException("Only the 'tablecloth' theme option is compatible with the 'bootstrap2' theme");
+			else {
+				throw new DandelionException(
+						"Only the 'tablecloth' theme option is compatible with the 'bootstrap2' theme");
 			}
 		}
-		
-		addParameter(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]"));
+
+		addParameter(DTConstants.DT_AS_STRIPE_CLASSES, new JsSnippet("[]"));
 	}
 }

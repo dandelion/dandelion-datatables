@@ -30,21 +30,22 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
  * Feature automatically added to the table when the end-user makes use of the
- * {@link TableConfig#AJAX_RELOAD_SELECTOR} or the
- * {@link TableConfig#AJAX_RELOAD_FUNCTION}.
+ * {@link DatatableOptions#AJAX_RELOAD_SELECTOR} or the
+ * {@link DatatableOptions#AJAX_RELOAD_FUNCTION}.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
- * @see TableConfig#AJAX_RELOAD_SELECTOR
- * @see TableConfig#AJAX_RELOAD_FUNCTION
+ * @see DatatableOptions#AJAX_RELOAD_SELECTOR
+ * @see DatatableOptions#AJAX_RELOAD_FUNCTION
  */
 public class AjaxReloadFeature extends AbstractExtension {
 

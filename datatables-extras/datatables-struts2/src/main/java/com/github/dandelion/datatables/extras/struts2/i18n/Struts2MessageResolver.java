@@ -34,14 +34,16 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.struts2.views.jsp.TagUtils;
 
+import com.github.dandelion.core.i18n.AbstractMessageResolver;
+import com.github.dandelion.core.i18n.MessageResolver;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.i18n.AbstractMessageResolver;
-import com.github.dandelion.datatables.core.i18n.MessageResolver;
 import com.opensymphony.xwork2.TextProvider;
 import com.opensymphony.xwork2.ognl.OgnlValueStack;
 
 /**
+ * <p>
  * Struts2 implementation of the {@link MessageResolver}.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.9.1
@@ -52,9 +54,6 @@ public class Struts2MessageResolver extends AbstractMessageResolver {
 		super(request);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getResource(String messageKey, String defaultValue, Object... params) {
 
@@ -67,11 +66,11 @@ public class Struts2MessageResolver extends AbstractMessageResolver {
 		// Both title and titleKey attributes are not used
 		if (messageKey == null || StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
 			message = StringUtils.capitalize(defaultValue);
-		} 
+		}
 		// the titleKey attribute is used
 		else {
 			OgnlValueStack stack = (OgnlValueStack) TagUtils.getStack(pageContext);
-			
+
 			for (Object o : stack.getRoot()) {
 				if (o instanceof TextProvider) {
 					TextProvider tp = (TextProvider) o;

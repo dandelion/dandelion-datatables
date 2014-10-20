@@ -33,7 +33,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.github.dandelion.datatables.core.i18n.LocaleResolver;
+import com.github.dandelion.core.i18n.LocaleResolver;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.LocaleProvider;
 import com.opensymphony.xwork2.ognl.OgnlValueStack;
@@ -41,15 +41,13 @@ import com.opensymphony.xwork2.ognl.OgnlValueStack;
 /**
  * <p>
  * Struts2 implementation of the {@link LocaleResolver}.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.9.1
  */
 public class Struts2LocaleResolver implements LocaleResolver {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Locale resolveLocale(HttpServletRequest request) {
 

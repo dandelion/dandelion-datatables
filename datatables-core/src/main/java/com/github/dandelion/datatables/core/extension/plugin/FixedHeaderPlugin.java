@@ -35,18 +35,20 @@ import java.util.Map;
 import org.json.simple.JSONValue;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
+ * <p>
  * Java implementation of the DataTables FixedHeader plugin.
+ * </p>
  * 
  * @author Thibault Duchateau
- * @see TableConfig#PLUGIN_FIXEDOFFSETTOP
- * @see TableConfig#PLUGIN_FIXEDPOSITION
+ * @see DatatableOptions#PLUGIN_FIXEDOFFSETTOP
+ * @see DatatableOptions#PLUGIN_FIXEDPOSITION
  */
 public class FixedHeaderPlugin extends AbstractExtension {
 
@@ -87,19 +89,23 @@ public class FixedHeaderPlugin extends AbstractExtension {
 
 		String fixedPosition = DatatableOptions.PLUGIN_FIXEDPOSITION.valueFrom(table.getTableConfiguration());
 		Integer fixedOffset = DatatableOptions.PLUGIN_FIXEDOFFSETTOP.valueFrom(table.getTableConfiguration());
-		
+
 		// fixedPosition attribute (default "top")
 		if (StringUtils.isNotBlank(fixedPosition)) {
 			if (fixedPosition.toLowerCase().equals("bottom")) {
 				conf.put("bottom", true);
-			} else if (fixedPosition.toLowerCase().equals("right")) {
+			}
+			else if (fixedPosition.toLowerCase().equals("right")) {
 				conf.put("right", true);
-			} else if (fixedPosition.toLowerCase().equals("left")) {
+			}
+			else if (fixedPosition.toLowerCase().equals("left")) {
 				conf.put("left", true);
-			} else {
+			}
+			else {
 				conf.put("top", true);
 			}
-		} else {
+		}
+		else {
 			conf.put("top", true);
 		}
 

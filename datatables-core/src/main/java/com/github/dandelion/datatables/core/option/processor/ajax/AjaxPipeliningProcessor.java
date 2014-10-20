@@ -30,8 +30,8 @@
 package com.github.dandelion.datatables.core.option.processor.ajax;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.feature.PipeliningFeature;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 

@@ -1197,7 +1197,7 @@
       </documentation>
    </attribute-processor>
    
-   <attribute-processor name="insert"
+   <attribute-processor name="placeholder"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
       <restrictions tags="div" attributes="dt:confType=extrajs" />
       <documentation>
@@ -1208,14 +1208,15 @@
             <li>Required: <b>no</b></li>
             <li>Possible values: 
                <b>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beforeall</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beforestartdocumentready</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;afterstartdocumentready</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beforeenddocumentready</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;afterall</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;before_all</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;before_start_document_ready</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;after_start_document_ready</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;before_end_document_ready</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;after_end_document_ready</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;after_all</p>
             </b>
             </li>
-            <li>Default: <b>beforeall</b></li>
+            <li>Default: <b>before_all</b></li>
             <li>Data source: <b>DOM / AJAX</b></li>
             </ul>
             </p>

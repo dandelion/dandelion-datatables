@@ -44,14 +44,13 @@ import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.core.asset.generator.JavascriptGenerator;
+import com.github.dandelion.core.asset.generator.js.jquery.JQueryContent;
+import com.github.dandelion.core.asset.generator.js.jquery.JQueryContentGenerator;
 import com.github.dandelion.core.asset.locator.impl.DelegateLocator;
 import com.github.dandelion.core.html.AbstractHtmlTag;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.callback.Callback;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportUtils;
@@ -59,9 +58,10 @@ import com.github.dandelion.datatables.core.extension.feature.ExtraHtml;
 import com.github.dandelion.datatables.core.extension.feature.ExtraHtmlFeature;
 import com.github.dandelion.datatables.core.extension.feature.ExtraJs;
 import com.github.dandelion.datatables.core.extension.feature.ExtraJsFeature;
-import com.github.dandelion.datatables.core.generator.DatatableAssetBuffer;
-import com.github.dandelion.datatables.core.generator.DatatableJQueryJavascriptGenerator;
+import com.github.dandelion.datatables.core.generator.DatatableJQueryContent;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.Callback;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.util.ConfigUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
@@ -73,9 +73,9 @@ import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
  * <p>
  * Element processor applied to the HTML {@code div} tag in order to finalize
  * the configuration.
+ * </p>
  * 
  * @author Thibault Duchateau
- * @see {@link TableInitializerElProcessor#processMarkup}
  */
 public class TableFinalizerElProcessor extends AbstractElProcessor {
 
@@ -108,8 +108,8 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 			
 			applyLocalConfiguration(arguments, request, htmlTable, stagingConf);
 			
-			ConfigUtils.applyConfiguration(stagingConf, htmlTable);
-			ConfigUtils.processConfiguration(htmlTable);
+			ConfigUtils.applyStagingOptions(stagingConf, htmlTable);
+			ConfigUtils.processOptions(htmlTable);
 
 			// The table is being exported
 			if (ExportUtils.isTableBeingExported(request, htmlTable)) {
@@ -289,20 +289,20 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 		
 		htmlTable.getTableConfiguration().setExporting(false);
 
-		// Get the right Javascript generator or create it if it doesn't exist
-		JavascriptGenerator javascriptGenerator = AssetRequestContext.get(request).getParameterValue(
+		// Generate the JavaScript code according to the table and its configuration
+		JQueryContent datatableContent = new DatatableJQueryContent(htmlTable);
+
+		// Get the existing JavaScript generator or create it if it doesn't exist
+		JQueryContentGenerator javascriptGenerator = AssetRequestContext.get(request).getParameterValue(
 				"dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM);
 
 		if (javascriptGenerator == null) {
-			javascriptGenerator = new DatatableJQueryJavascriptGenerator();
+			javascriptGenerator = new JQueryContentGenerator(datatableContent);
 		}
-
-		// Generate the code according to the table and its configuration
-		DatatableAssetBuffer dab = DatatableAssetBuffer.create(htmlTable);
-
-		// Buffering generated Javascript
-		javascriptGenerator.fillBuffer(dab);
-
+		else {
+			javascriptGenerator.appendContent(datatableContent);
+		}
+		
 		// Update the asset request context with the enabled bundles and
 		// Javascript generator
 		AssetRequestContext

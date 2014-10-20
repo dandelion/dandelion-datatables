@@ -44,9 +44,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.util.ConfigUtils;
 
@@ -138,11 +138,11 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		// with user configuration
 		// The user configuration can now be applied to the default
 		// configuration
-		ConfigUtils.applyConfiguration(stagingConf, stagingExtension, headerColumn);
+		ConfigUtils.applyStagingOptionsAndExtensions(stagingConf, stagingExtension, headerColumn);
 //		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headerColumn);
 		
 		// Once all configuration are merged, they can be processed
-		ConfigUtils.processConfiguration(headerColumn, parent.getTable());
+		ConfigUtils.processOptions(headerColumn, parent.getTable());
 //		ColumnConfig.processConfiguration(headerColumn, parent.getTable());
 
 		parent.getTable().getLastHeaderRow().addColumn(headerColumn);
@@ -151,10 +151,10 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 	/**
 	 * <p>
 	 * Adds a body column to the last body row when using a DOM source.
+	 * </p>
 	 * 
 	 * @param content
 	 *            Content of the <code>td</code> cell.
-	 * @param content
 	 * @throws JspException
 	 */
 	protected void addDomBodyColumn(String content) throws JspException {
@@ -207,11 +207,11 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
 		// with user configuration
 		// The user configuration can now be applied to the default
 		// configuration
-		ConfigUtils.applyConfiguration(stagingConf, stagingExtension, headerColumn);
+		ConfigUtils.applyStagingOptionsAndExtensions(stagingConf, stagingExtension, headerColumn);
 //		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headerColumn);
 		
 		// Once all configuration are merged, they can be processed
-		ConfigUtils.processConfiguration(headerColumn, parent.getTable());
+		ConfigUtils.processOptions(headerColumn, parent.getTable());
 //		ColumnConfig.processConfiguration(headerColumn, parent.getTable());
 
 		parent.getTable().getLastHeaderRow().addColumn(headerColumn);

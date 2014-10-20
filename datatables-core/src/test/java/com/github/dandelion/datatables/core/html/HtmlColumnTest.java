@@ -32,8 +32,8 @@ package com.github.dandelion.datatables.core.html;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.export.ReservedFormat;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

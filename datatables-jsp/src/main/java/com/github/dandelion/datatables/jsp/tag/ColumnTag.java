@@ -33,14 +33,14 @@ import java.util.HashMap;
 
 import javax.servlet.jsp.JspException;
 
+import com.github.dandelion.core.i18n.MessageResolver;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.config.ColumnConfiguration;
-import com.github.dandelion.datatables.core.config.ConfigurationLoader;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.config.ConfigLoader;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
-import com.github.dandelion.datatables.core.i18n.MessageResolver;
+import com.github.dandelion.datatables.core.option.ColumnConfiguration;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.jsp.extension.feature.FilteringFeature;
 
@@ -139,7 +139,7 @@ public class ColumnTag extends AbstractColumnTag {
 					columnTitle = MessageResolver.UNDEFINED_KEY + titleKey + MessageResolver.UNDEFINED_KEY;
 					logger.warn(
 							"You cannot use the 'titleKey' attribute if no message resolver is configured. Please take a look at the {} property in the configuration reference.",
-							ConfigurationLoader.I18N_MESSAGE_RESOLVER);
+							ConfigLoader.I18N_MESSAGE_RESOLVER);
 				}
 			}
 			

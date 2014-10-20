@@ -29,11 +29,11 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
-import com.github.dandelion.datatables.core.generator.ColumnFilteringGenerator;
+import com.github.dandelion.datatables.core.generator.ColumnFilteringConfigGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
@@ -49,8 +49,8 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * @author Thibault Duchateau
  * @since 0.7.1
- * @see ColumnConfig#FILTERABLE
- * @see TableConfig#FEATURE_FILTER_PLACEHOLDER
+ * @see DatatableOptions#FILTERABLE
+ * @see DatatableOptions#FEATURE_FILTER_PLACEHOLDER
  */
 public abstract class AbstractFilteringFeature extends AbstractExtension {
 
@@ -66,7 +66,8 @@ public abstract class AbstractFilteringFeature extends AbstractExtension {
 
 		addBundle(DatatableBundles.DDL_DT_FILTERING);
 
-		FilterPlaceholder filterPlaceHolder = DatatableOptions.FEATURE_FILTER_PLACEHOLDER.valueFrom(table.getTableConfiguration());
+		FilterPlaceholder filterPlaceHolder = DatatableOptions.FEATURE_FILTER_PLACEHOLDER.valueFrom(table
+				.getTableConfiguration());
 		if (filterPlaceHolder != null) {
 			switch (filterPlaceHolder) {
 			case FOOT:
@@ -88,7 +89,7 @@ public abstract class AbstractFilteringFeature extends AbstractExtension {
 		}
 
 		setFunction("columnFilter");
-		setConfigGenerator(new ColumnFilteringGenerator());
+		setConfigGenerator(new ColumnFilteringConfigGenerator());
 	}
 
 	protected abstract void adaptHeader(HtmlTable table);

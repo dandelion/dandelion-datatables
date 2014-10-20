@@ -29,23 +29,24 @@
  */
 package com.github.dandelion.datatables.core.extension.plugin;
 
-import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.extension.Parameter;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
+ * <p>
  * Java implementation of the DataTables ColReorder plugin.
+ * </p>
  * 
  * @see <a href="http://datatables.net/extras/colreorder/">Reference</a>
  * @author Thibault Duchateau
- * @see TableConfig#PLUGIN_COLREORDER
  */
 public class ColReorderPlugin extends AbstractExtension {
 
 	public static final String COLREORDER_PLUGIN_NAME = "colReorder";
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -61,5 +62,5 @@ public class ColReorderPlugin extends AbstractExtension {
 	public void setup(HtmlTable table) {
 		addBundle(DatatableBundles.DDL_DT_PLUGIN_COLREORDER);
 		addParameter(DTConstants.DT_DOM, "R", Parameter.Mode.PREPEND);
-	}	
+	}
 }

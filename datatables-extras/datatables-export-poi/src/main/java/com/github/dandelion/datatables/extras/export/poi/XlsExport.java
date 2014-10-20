@@ -46,7 +46,10 @@ import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
- * Default Excel export class.
+ * <p>
+ * XLS implementation of {@link DatatablesExport} that exports data in XLS
+ * format using Apache POI.
+ * </p>
  * 
  * @author Thibault Duchateau
  */

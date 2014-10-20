@@ -38,13 +38,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 
 /**
  * <p>
  * POJO that wraps all the parameters sent by Datatables to the server when
  * server-side processing is enabled. This bean can then be used to build SQL
  * queries.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.8.2
@@ -52,18 +53,15 @@ import com.github.dandelion.datatables.core.constants.DTConstants;
 public class DatatablesCriterias implements Serializable {
 
 	private static final long serialVersionUID = 8661357461501153387L;
-	
-	private String search;
-	private Integer displayStart;
-	private Integer displaySize;
-	private List<ColumnDef> columnDefs;
-	private List<ColumnDef> sortingColumnDefs;
-	private Integer internalCounter;
 
-	public DatatablesCriterias() {
-	}
+	private final String search;
+	private final Integer displayStart;
+	private final Integer displaySize;
+	private final List<ColumnDef> columnDefs;
+	private final List<ColumnDef> sortingColumnDefs;
+	private final Integer internalCounter;
 
-	public DatatablesCriterias(String search, Integer displayStart, Integer displaySize, List<ColumnDef> columnDefs,
+	private DatatablesCriterias(String search, Integer displayStart, Integer displaySize, List<ColumnDef> columnDefs,
 			List<ColumnDef> sortingColumnDefs, Integer internalCounter) {
 		this.search = search;
 		this.displayStart = displayStart;
@@ -164,29 +162,29 @@ public class DatatablesCriterias implements Serializable {
 				columnDef.setName(request.getParameter(DTConstants.DT_M_DATA_PROP + i));
 				columnDef.setFilterable(Boolean.parseBoolean(request.getParameter(DTConstants.DT_B_SEARCHABLE + i)));
 				columnDef.setSortable(Boolean.parseBoolean(request.getParameter(DTConstants.DT_B_SORTABLE + i)));
-				
+
 				String columnSearch = request.getParameter(DTConstants.DT_S_COLUMN_SEARCH + i);
-				if(StringUtils.isNotBlank(columnSearch)) {
+				if (StringUtils.isNotBlank(columnSearch)) {
 					columnDef.setFiltered(true);
 					String[] splittedSearch = columnSearch.split("~");
-					if("~".equals(columnSearch)) {
+					if ("~".equals(columnSearch)) {
 						columnDef.setSearch("");
 					}
-					else if(columnSearch.startsWith("~")) {
+					else if (columnSearch.startsWith("~")) {
 						columnDef.setSearchTo(splittedSearch[1]);
 					}
-					else if(columnSearch.endsWith("~")) {
+					else if (columnSearch.endsWith("~")) {
 						columnDef.setSearchFrom(splittedSearch[0]);
 					}
-					else if(columnSearch.contains("~")){
+					else if (columnSearch.contains("~")) {
 						columnDef.setSearchFrom(splittedSearch[0]);
 						columnDef.setSearchTo(splittedSearch[1]);
 					}
-					else{
+					else {
 						columnDef.setSearch(columnSearch);
 					}
 				}
-				
+
 				columnDefs.add(columnDef);
 			}
 
@@ -205,7 +203,8 @@ public class DatatablesCriterias implements Serializable {
 			}
 
 			return new DatatablesCriterias(sSearch, iDisplayStart, iDisplayLength, columnDefs, sortingColumnDefs, iEcho);
-		} else {
+		}
+		else {
 			return null;
 		}
 	}

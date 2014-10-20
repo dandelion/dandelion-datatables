@@ -9,8 +9,8 @@
 
    <artifactId>datatables-thymeleaf</artifactId>
    <packaging>jar</packaging>
-   <name>Dandelion :: Datatables :: Thymeleaf Implementation</name>
-   <description>Thymeleaf implementation of Dandelion-DataTables that provides a Thymeleaf dialect.</description>
+   <name>Dandelion :: Datatables :: Thymeleaf dialect</name>
+   <description>Thymeleaf dialect for the Dandelion-DataTables component.</description>
 
    <dependencies>
 
@@ -68,16 +68,4 @@
       </dependency>
    </dependencies>
 
-   <build>
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-         </plugin>
-      </plugins>
-   </build>
 </project>

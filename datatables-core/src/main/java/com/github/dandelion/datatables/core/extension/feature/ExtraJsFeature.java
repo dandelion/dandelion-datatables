@@ -47,6 +47,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * <p>
  * Feature used to insert end-user Javascript files in the generated DataTable
  * confguration.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
@@ -64,53 +65,58 @@ public class ExtraJsFeature extends AbstractExtension {
 	public void setup(HtmlTable table) {
 
 		AssetMapper assetMapper = new AssetMapper(table.getTableConfiguration().getRequest(), getContext());
-		
+
 		HttpServletRequest request = table.getTableConfiguration().getRequest();
 		Set<AssetStorageUnit> assetsToInject = null;
-		
+
 		for (ExtraJs extraJs : table.getTableConfiguration().getExtraJs()) {
-			
+
 			assetsToInject = new LinkedHashSet<AssetStorageUnit>();
-	
-//			AssetQuery aq = new AssetQuery(table.getTableConfiguration().getRequest(), getContext()).;
-			for(String bundleName : extraJs.getBundles()){
-				assetsToInject.addAll(getContext().getBundleStorage().getBundleDag().getVertex(bundleName).getAssetStorageUnits());
+
+			// AssetQuery aq = new
+			// AssetQuery(table.getTableConfiguration().getRequest(),
+			// getContext()).;
+			for (String bundleName : extraJs.getBundles()) {
+				assetsToInject.addAll(getContext().getBundleStorage().getBundleDag().getVertex(bundleName)
+						.getAssetStorageUnits());
 			}
 
 			Set<AssetStorageUnit> filteredAsus = new LinkedHashSet<AssetStorageUnit>();
-			for (AssetStorageUnit asu: assetsToInject) {
+			for (AssetStorageUnit asu : assetsToInject) {
 				if (asu.getType().equals(AssetType.js)) {
 					filteredAsus.add(asu);
 				}
 			}
-			
+
 			Set<Asset> processedAssets = assetMapper.mapToAssets(filteredAsus);
-	
+
 			Map<String, AssetLocator> locators = getContext().getAssetLocatorsMap();
-	
+
 			for (Asset asset : processedAssets) {
 				AssetLocator locator = locators.get(asset.getConfigLocationKey());
 				String content = locator.getContent(asset, request);
-	
-				switch (extraJs.getInsert()) {
-				case BEFOREALL:
+
+				switch (extraJs.getPlaceholder()) {
+				case BEFORE_ALL:
 					appendToBeforeAll(content);
 					break;
-
-				case AFTERSTARTDOCUMENTREADY:
+				case BEFORE_START_DOCUMENT_READY:
+					appendToBeforeStartDocumentReady(content);
+					break;
+				case AFTER_START_DOCUMENT_READY:
 					appendToAfterStartDocumentReady(content);
 					break;
-
-				case BEFOREENDDOCUMENTREADY:
+				case COMPONENT_CONFIGURATION:
+					appendToComponentConfiguration(content);
+					break;
+				case BEFORE_END_DOCUMENT_READY:
 					appendToBeforeEndDocumentReady(content);
 					break;
-
-				case AFTERALL:
-					appendToAfterAll(content);
+				case AFTER_END_DOCUMENT_READY:
+					appendToAfterEndDocumentReady(content);
 					break;
-
-				case BEFORESTARTDOCUMENTREADY:
-					appendToBeforeStartDocumentReady(content);
+				case AFTER_ALL:
+					appendToAfterAll(content);
 					break;
 				}
 			}

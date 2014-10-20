@@ -12,11 +12,11 @@ import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
 import com.github.dandelion.core.DandelionException;
-import com.github.dandelion.datatables.core.config.ColumnConfiguration;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
-import com.github.dandelion.datatables.core.config.TableConfiguration;
-import com.github.dandelion.datatables.core.config.TableConfigurationFactory;
+import com.github.dandelion.datatables.core.option.ColumnConfiguration;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.TableConfiguration;
+import com.github.dandelion.datatables.core.option.TableConfigurationFactory;
 import com.github.dandelion.datatables.core.option.processor.IntegerProcessor;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessor;

@@ -47,21 +47,19 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import com.github.dandelion.core.Context;
+import com.github.dandelion.core.asset.generator.js.JsFunction;
+import com.github.dandelion.core.asset.generator.js.JsSnippet;
 import com.github.dandelion.core.web.WebConstants;
-import com.github.dandelion.datatables.core.asset.JavascriptFunction;
-import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
-import com.github.dandelion.datatables.core.callback.Callback;
-import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
-import com.github.dandelion.datatables.core.constants.DTConstants;
-import com.github.dandelion.datatables.core.constants.DTMessages;
-import com.github.dandelion.datatables.core.constants.Direction;
 import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.Callback;
+import com.github.dandelion.datatables.core.option.CallbackType;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
+import com.github.dandelion.datatables.core.option.Direction;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -87,7 +85,7 @@ public class DatatablesGeneratorTest {
 		defaultProperties.put(DTConstants.DT_S_DEFAULT_CONTENT, "");
 	}
 
-	private DatatablesGenerator generator;
+	private DatatableConfigGenerator generator;
 	private HtmlTable table;
 	private HtmlRow headerRow;
 	private HtmlColumn firstColumn;
@@ -97,7 +95,7 @@ public class DatatablesGeneratorTest {
 		request = new MockHttpServletRequest();
 		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
 		response = new MockHttpServletResponse();
-		generator = new DatatablesGenerator();
+		generator = new DatatableConfigGenerator();
 	}
 
 	@Before
@@ -191,7 +189,7 @@ public class DatatablesGeneratorTest {
 		assertThat(columnsProperties).hasSize(1);
 		Map<String, Object> firstColumnProperties = columnsProperties.get(0);
 		Map<String, Object> customProperties = new HashMap<String, Object>(defaultProperties);
-		customProperties.put(DTConstants.DT_COLUMN_RENDERER, new JavascriptSnippet("aRenderFunction"));
+		customProperties.put(DTConstants.DT_COLUMN_RENDERER, new JsSnippet("aRenderFunction"));
 		customProperties.put(DTConstants.DT_S_DEFAULT_CONTENT, "");
 		assertThat(firstColumnProperties).isEqualTo(customProperties);
 	}
@@ -412,7 +410,7 @@ public class DatatablesGeneratorTest {
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(2);
-		assertThat(mainConf.get(DTConstants.DT_A_LENGTH_MENU)).isEqualTo(new JavascriptSnippet("[[100px],[200px]]"));
+		assertThat(mainConf.get(DTConstants.DT_A_LENGTH_MENU)).isEqualTo(new JsSnippet("[[100px],[200px]]"));
 	}
 
 	@Test
@@ -422,7 +420,7 @@ public class DatatablesGeneratorTest {
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(2);
-		assertThat(mainConf.get(DTConstants.DT_AS_STRIPE_CLASSES)).isEqualTo(new JavascriptSnippet("['oddClass','evenClass']"));
+		assertThat(mainConf.get(DTConstants.DT_AS_STRIPE_CLASSES)).isEqualTo(new JsSnippet("['oddClass','evenClass']"));
 	}
 
 	@Test
@@ -519,7 +517,7 @@ public class DatatablesGeneratorTest {
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(3);
-		assertThat(mainConf.get(DTConstants.DT_FN_SERVERDATA)).isEqualTo(new JavascriptSnippet("someServerData"));
+		assertThat(mainConf.get(DTConstants.DT_FN_SERVERDATA)).isEqualTo(new JsSnippet("someServerData"));
 	}
 
 	@Test
@@ -530,7 +528,7 @@ public class DatatablesGeneratorTest {
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(3);
-		assertThat(mainConf.get(DTConstants.DT_FN_SERVERPARAMS)).isEqualTo(new JavascriptSnippet("someServerParam"));
+		assertThat(mainConf.get(DTConstants.DT_FN_SERVERPARAMS)).isEqualTo(new JsSnippet("someServerParam"));
 	}
 
 	@Test
@@ -546,7 +544,7 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_a_callback() {
-		Callback callback = new Callback(CallbackType.CREATEDROW, "aJavascriptFunction");
+		Callback callback = new Callback(CallbackType.CREATEDROW, "aJsFunction");
 		List<Callback> callbacks = new ArrayList<Callback>();
 		callbacks.add(callback);
 		table.getTableConfiguration().setCallbacks(callbacks);
@@ -554,26 +552,26 @@ public class DatatablesGeneratorTest {
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(2);
-		assertThat(mainConf.get(CallbackType.CREATEDROW.getName())).isEqualTo(new JavascriptFunction(callback.getFunction().getCode(), CallbackType.CREATEDROW.getArgs()));
+		assertThat(mainConf.get(CallbackType.CREATEDROW.getName())).isEqualTo(new JsFunction(callback.getFunction().getCode(), CallbackType.CREATEDROW.getArgs()));
 	}
 
 	@Test
 	public void should_set_several_callbacks() {
 		List<Callback> callbacks = new ArrayList<Callback>();
-		Callback callback = new Callback(CallbackType.CREATEDROW, "aJavascriptFunction");
+		Callback callback = new Callback(CallbackType.CREATEDROW, "aJsFunction");
 		callbacks.add(callback);
-		Callback callback2 = new Callback(CallbackType.COOKIE, "anotherJavascriptFunction");
+		Callback callback2 = new Callback(CallbackType.COOKIE, "anotherJsFunction");
 		callbacks.add(callback2);
-		Callback callback3 = new Callback(CallbackType.PREDRAW, "aThirdJavascriptFunction");
+		Callback callback3 = new Callback(CallbackType.PREDRAW, "aThirdJsFunction");
 		callbacks.add(callback3);
 		table.getTableConfiguration().setCallbacks(callbacks);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(4);
-		assertThat(mainConf.get(CallbackType.CREATEDROW.getName())).isEqualTo(new JavascriptFunction(callback.getFunction().getCode(), CallbackType.CREATEDROW.getArgs()));
-		assertThat(mainConf.get(CallbackType.COOKIE.getName())).isEqualTo(new JavascriptFunction(callback2.getFunction().getCode(), CallbackType.COOKIE.getArgs()));
-		assertThat(mainConf.get(CallbackType.PREDRAW.getName())).isEqualTo(new JavascriptFunction(callback3.getFunction().getCode(), CallbackType.PREDRAW.getArgs()));
+		assertThat(mainConf.get(CallbackType.CREATEDROW.getName())).isEqualTo(new JsFunction(callback.getFunction().getCode(), CallbackType.CREATEDROW.getArgs()));
+		assertThat(mainConf.get(CallbackType.COOKIE.getName())).isEqualTo(new JsFunction(callback2.getFunction().getCode(), CallbackType.COOKIE.getArgs()));
+		assertThat(mainConf.get(CallbackType.PREDRAW.getName())).isEqualTo(new JsFunction(callback3.getFunction().getCode(), CallbackType.PREDRAW.getArgs()));
 	}
 	
 	@Test

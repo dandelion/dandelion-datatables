@@ -39,38 +39,34 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.DandelionException;
+import com.github.dandelion.core.i18n.LocaleResolver;
+import com.github.dandelion.core.i18n.MessageResolver;
+import com.github.dandelion.core.i18n.StandardLocaleResolver;
 import com.github.dandelion.core.utils.ClassUtils;
-import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.constants.SystemConstants;
-import com.github.dandelion.datatables.core.i18n.LocaleResolver;
-import com.github.dandelion.datatables.core.i18n.MessageResolver;
-import com.github.dandelion.datatables.core.i18n.StandardLocaleResolver;
 
 /**
  * <p>
  * The {@link DatatableConfigurator} is used to pick up different classes in
  * charge of the configuration loading, instantiate them and cache them.
- * 
+ * </p>
  * <ul>
  * <li>The locale resolver, in charge of retrieving the current locale from
  * which the configuration will be loaded</li>
  * <li>The configuration loader, in charge of loading default and user
  * properties and resolve configurations groups</li>
  * </ul>
- * <p>
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
  * @see LocaleResolver
  * @see StandardLocaleResolver
- * @see ConfigurationLoader
- * @see StandardConfigurationLoader
+ * @see ConfigLoader
+ * @see ConfigLoader
  */
 public class DatatableConfigurator {
 
 	private static Logger logger = LoggerFactory.getLogger(DatatableConfigurator.class);
 
-	private static ConfigurationLoader configurationLoader;
 	private static LocaleResolver localeResolver;
 	private static MessageResolver messageResolver;
 
@@ -92,39 +88,42 @@ public class DatatableConfigurator {
 	public static LocaleResolver getLocaleResolver() {
 		Properties userProperties = null;
 		String className = null;
-		ConfigurationLoader configurationLoader = getConfigurationLoader();
+		ConfigLoader configurationLoader = getConfigLoader();
 
 		if (localeResolver == null) {
 
 			try {
 				userProperties = configurationLoader.loadUserConfiguration(Locale.getDefault());
 
-				if(userProperties != null){
+				if (userProperties != null) {
 					try {
-							className = userProperties.getProperty(ConfigurationLoader.I18N_LOCALE_RESOLVER);
-					} catch (MissingResourceException e) {
-	
+						className = userProperties.getProperty(ConfigLoader.I18N_LOCALE_RESOLVER);
+					}
+					catch (MissingResourceException e) {
+
 						logger.debug("No custom LocaleResolver has been configured. Using default one.");
 					}
 				}
 
-				if(className == null){
+				if (className == null) {
 					Properties defaultProperties = configurationLoader.loadDefaultConfiguration();
-					className = defaultProperties.getProperty(ConfigurationLoader.I18N_LOCALE_RESOLVER);
+					className = defaultProperties.getProperty(ConfigLoader.I18N_LOCALE_RESOLVER);
 				}
 
 				if (className != null) {
-						Class<LocaleResolver> classProperty;
-						try {
-							classProperty = (Class<LocaleResolver>) ClassUtils.getClass(className);
-							localeResolver = (LocaleResolver) ClassUtils.getNewInstance(classProperty);
-						} catch (Exception e) {
-							throw new DandelionException(e);
-						}
+					Class<LocaleResolver> classProperty;
+					try {
+						classProperty = (Class<LocaleResolver>) ClassUtils.getClass(className);
+						localeResolver = (LocaleResolver) ClassUtils.getNewInstance(classProperty);
+					}
+					catch (Exception e) {
+						throw new DandelionException(e);
+					}
 				}
-			} catch (DandelionException e) {
-				throw new DandelionException("Unable to retrieve the LocaleResolver using the class '"
-						+ className + "'", e);
+			}
+			catch (DandelionException e) {
+				throw new DandelionException("Unable to retrieve the LocaleResolver using the class '" + className
+						+ "'", e);
 			}
 		}
 		return localeResolver;
@@ -134,90 +133,78 @@ public class DatatableConfigurator {
 	public static MessageResolver getMessageResolver(HttpServletRequest request) {
 		Properties userProperties = null;
 		String className = null;
-		ConfigurationLoader configurationLoader = getConfigurationLoader();
+		ConfigLoader configurationLoader = getConfigLoader();
 
 		if (messageResolver == null) {
 
 			try {
 				userProperties = configurationLoader.loadUserConfiguration(Locale.getDefault());
 
-				if(userProperties != null){
+				if (userProperties != null) {
 					try {
-							className = userProperties.getProperty(ConfigurationLoader.I18N_MESSAGE_RESOLVER);
-					} catch (MissingResourceException e) {
-	
+						className = userProperties.getProperty(ConfigLoader.I18N_MESSAGE_RESOLVER);
+					}
+					catch (MissingResourceException e) {
+
 						logger.debug("No custom MessageResolver has been configured. Using default one.");
 					}
 				}
 
-				if(className == null){
+				if (className == null) {
 					Properties defaultProperties = configurationLoader.loadDefaultConfiguration();
-					className = defaultProperties.getProperty(ConfigurationLoader.I18N_MESSAGE_RESOLVER);
+					className = defaultProperties.getProperty(ConfigLoader.I18N_MESSAGE_RESOLVER);
 				}
 
 				if (className != null) {
-						Class<MessageResolver> classProperty;
-						try {
-							classProperty = (Class<MessageResolver>) ClassUtils.getClass(className);
-							messageResolver = classProperty.getDeclaredConstructor(new Class[] { HttpServletRequest.class })
-									.newInstance(request);
-						} catch (Exception e) {
-							throw new DandelionException(e);
-						}
+					Class<MessageResolver> classProperty;
+					try {
+						classProperty = (Class<MessageResolver>) ClassUtils.getClass(className);
+						messageResolver = classProperty
+								.getDeclaredConstructor(new Class[] { HttpServletRequest.class }).newInstance(request);
+					}
+					catch (Exception e) {
+						throw new DandelionException(e);
+					}
 				}
-			} catch (DandelionException e) {
-				throw new DandelionException("Unable to retrieve the MessageResolver using the class '"
-						+ className + "'", e);
+			}
+			catch (DandelionException e) {
+				throw new DandelionException("Unable to retrieve the MessageResolver using the class '" + className
+						+ "'", e);
 			}
 		}
 		return messageResolver;
 	}
-	
+
 	/**
-	 * <p>
-	 * Returns an implementation of {@link ConfigurationLoader} using the
-	 * following strategy:
-	 * <ol>
-	 * <li>Check first if the <code>dandelion.datatables.confloader.class</code>
-	 * system property is set and tries to instantiate it</li>
-	 * <li>Otherwise, instantiate the {@link StandardConfigurationLoader} based
-	 * on property files</li>
-	 * </ol>
-	 * 
-	 * @return an implementation of {@link ConfigurationLoader}.
+	 * @return the uniq instance of {@link ConfigLoader}.
 	 */
-	public static ConfigurationLoader getConfigurationLoader() {
-
-		if (configurationLoader == null) {
-
-			logger.debug("Initializing the configuration loader...");
-
-			if (StringUtils.isNotBlank(System.getProperty(SystemConstants.DANDELION_DT_CONFLOADER_CLASS))) {
-				Class<?> clazz;
-				try {
-					clazz = ClassUtils.getClass(System.getProperty(SystemConstants.DANDELION_DT_CONFLOADER_CLASS));
-					configurationLoader = (ConfigurationLoader) ClassUtils.getNewInstance(clazz);
-				} catch (Exception e) {
-					logger.warn(
-							"Unable to instantiate the configured {} due to a {} exception. Falling back to the default one.",
-							SystemConstants.DANDELION_DT_CONFLOADER_CLASS, e.getClass().getName(), e);
-				} 
-			}
-
-			if (configurationLoader == null) {
-				configurationLoader = new StandardConfigurationLoader();
-			}
-		}
-
-		return configurationLoader;
+	public static ConfigLoader getConfigLoader() {
+		return ConfigLoaderHolder.INSTANCE;
 	}
 
+	/**
+	 * TODO
+	 * @author Thibault Duchateau
+	 *
+	 */
+	private static class ConfigLoaderHolder{
+		
+		private final static ConfigLoader INSTANCE = new ConfigLoader();
+	}
 	
 	/**
 	 * <b>FOR INTERNAL USE ONLY</b>
 	 */
 	public static void clear() {
-		configurationLoader = null;
 		localeResolver = null;
+	}
+	
+	/**
+	 * <p>
+	 * Suppress default constructor for noninstantiability.
+	 * </p>
+	 */
+	private DatatableConfigurator() {
+		throw new AssertionError();
 	}
 }

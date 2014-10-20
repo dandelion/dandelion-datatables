@@ -32,15 +32,15 @@ package com.github.dandelion.datatables.core.option.processor.column;
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.feature.AbstractFilteringFeature;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 
 /**
  * <p>
- * Processor used to parse the option value as a {@link FilterType}.
+ * Processor associated with the {@link DatatableOptions#FILTERTYPE} option.
  * </p>
  * 
  * @author Thibault Duchateau

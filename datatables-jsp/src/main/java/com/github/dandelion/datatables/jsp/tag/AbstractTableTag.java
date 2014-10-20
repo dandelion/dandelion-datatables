@@ -46,17 +46,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.DandelionException;
-import com.github.dandelion.core.asset.generator.JavascriptGenerator;
+import com.github.dandelion.core.asset.generator.js.jquery.JQueryContent;
+import com.github.dandelion.core.asset.generator.js.jquery.JQueryContentGenerator;
 import com.github.dandelion.core.asset.locator.impl.DelegateLocator;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportUtils;
-import com.github.dandelion.datatables.core.generator.DatatableAssetBuffer;
-import com.github.dandelion.datatables.core.generator.DatatableJQueryJavascriptGenerator;
+import com.github.dandelion.datatables.core.generator.DatatableJQueryContent;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 
 /**
@@ -76,7 +76,6 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 
 	private static final long serialVersionUID = 4788079931487986884L;
 
-	// Logger
 	protected static Logger logger = LoggerFactory.getLogger(TableTag.class);
 
 	/**
@@ -226,19 +225,19 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 
 		this.table.getTableConfiguration().setExporting(false);
 
-		// Get the right Javascript generator or create it if it doesn't exist
-		JavascriptGenerator javascriptGenerator = AssetRequestContext.get(this.request).getParameterValue(
+		// Generate the JavaScript code according to the table and its configuration
+		JQueryContent datatableContent = new DatatableJQueryContent(this.table);
+
+		// Get the existing JavaScript generator or create it if it doesn't exist
+		JQueryContentGenerator javascriptGenerator = AssetRequestContext.get(this.request).getParameterValue(
 				"dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM);
 
 		if (javascriptGenerator == null) {
-			javascriptGenerator = new DatatableJQueryJavascriptGenerator();
+			javascriptGenerator = new JQueryContentGenerator(datatableContent);
 		}
-
-		// Generate the code according to the table and its configuration
-		DatatableAssetBuffer dab = DatatableAssetBuffer.create(this.table);
-
-		// Buffering generated Javascript
-		javascriptGenerator.fillBuffer(dab);
+		else {
+			javascriptGenerator.appendContent(datatableContent);
+		}
 
 		// Update the asset request context with the enabled bundles and
 		// Javascript generator

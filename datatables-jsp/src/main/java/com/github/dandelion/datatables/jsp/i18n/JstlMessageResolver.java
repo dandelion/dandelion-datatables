@@ -40,9 +40,9 @@ import org.apache.taglibs.standard.tag.common.fmt.BundleSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.i18n.AbstractMessageResolver;
+import com.github.dandelion.core.i18n.MessageResolver;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.i18n.AbstractMessageResolver;
-import com.github.dandelion.datatables.core.i18n.MessageResolver;
 import com.github.dandelion.datatables.jsp.tag.ColumnTag;
 
 /**

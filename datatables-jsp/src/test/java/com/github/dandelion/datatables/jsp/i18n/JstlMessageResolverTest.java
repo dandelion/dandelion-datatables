@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockPageContext;
 
-import com.github.dandelion.datatables.core.i18n.MessageResolver;
+import com.github.dandelion.core.i18n.MessageResolver;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -6,9 +6,11 @@ import java.util.HashSet;
 import org.junit.Test;
 
 import com.github.dandelion.core.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
+
+import static com.github.dandelion.core.asset.generator.js.jquery.JQueryContentPlaceholder.BEFORE_END_DOCUMENT_READY;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,7 +21,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
-		assertThat(mainJsFile.getBeforeEndDocumentReady().toString()).contains(
+		assertThat(datatableContent.getPlaceholderContent().get(BEFORE_END_DOCUMENT_READY).toString()).contains(
 				"new FixedHeader(oTable_" + table.getId() + ",{\"top\":true});");
 	}
 
@@ -29,7 +31,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
-		assertThat(mainJsFile.getBeforeEndDocumentReady().toString()).contains(
+		assertThat(datatableContent.getPlaceholderContent().get(BEFORE_END_DOCUMENT_READY).toString()).contains(
 				"new FixedHeader(oTable_" + table.getId() + ",{\"top\":true});");
 	}
 	
@@ -39,7 +41,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
-		assertThat(mainJsFile.getBeforeEndDocumentReady().toString()).contains(
+		assertThat(datatableContent.getPlaceholderContent().get(BEFORE_END_DOCUMENT_READY).toString()).contains(
 				"new FixedHeader(oTable_" + table.getId() + ",{\"bottom\":true});");
 	}
 	
@@ -49,7 +51,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
-		assertThat(mainJsFile.getBeforeEndDocumentReady().toString()).contains(
+		assertThat(datatableContent.getPlaceholderContent().get(BEFORE_END_DOCUMENT_READY).toString()).contains(
 				"new FixedHeader(oTable_" + table.getId() + ",{\"right\":true});");
 	}
 	
@@ -59,7 +61,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
-		assertThat(mainJsFile.getBeforeEndDocumentReady().toString()).contains(
+		assertThat(datatableContent.getPlaceholderContent().get(BEFORE_END_DOCUMENT_READY).toString()).contains(
 				"new FixedHeader(oTable_" + table.getId() + ",{\"right\":true});");
 	}
 	
@@ -69,7 +71,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
-		assertThat(mainJsFile.getBeforeEndDocumentReady().toString()).contains(
+		assertThat(datatableContent.getPlaceholderContent().get(BEFORE_END_DOCUMENT_READY).toString()).contains(
 				"new FixedHeader(oTable_" + table.getId() + ",{\"left\":true});");
 	}
 	
@@ -79,7 +81,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
-		assertThat(mainJsFile.getBeforeEndDocumentReady().toString()).contains(
+		assertThat(datatableContent.getPlaceholderContent().get(BEFORE_END_DOCUMENT_READY).toString()).contains(
 				"new FixedHeader(oTable_" + table.getId() + ",{\"offsetTop\":30,\"top\":true});");
 	}
 }

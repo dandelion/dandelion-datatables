@@ -42,7 +42,9 @@ import com.github.dandelion.core.utils.ClassUtils;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
+ * <p>
  * Utilities used when exporting data.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -61,23 +63,23 @@ public final class ExportUtils {
 
 	// Table is being exported
 	public static final String DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS = "dtp";
-	
+
 	// Export type (filter vs controller)
 	public static final String DDL_DT_REQUESTPARAM_EXPORT_TYPE = "dtt";
-	
+
 	// Table id
 	public static final String DDL_DT_REQUESTPARAM_EXPORT_ID = "dti";
-		
+
 	// Type of current export
 	public static final String DDL_DT_REQUESTPARAM_EXPORT_FORMAT = "dtf";
-	
+
 	public static final String DDL_DT_REQUESTPARAM_EXPORT_ORIENTATION = "dto";
 	public static final String DDL_DT_REQUESTPARAM_EXPORT_HEADER = "dth";
 	public static final String DDL_DT_REQUESTPARAM_EXPORT_MIME_TYPE = "dtmt";
 	public static final String DDL_DT_REQUESTPARAM_EXPORT_EXTENSION = "dte";
 	public static final String DDL_DT_REQUESTPARAM_EXPORT_NAME = "dtn";
 	public static final String DDL_DT_REQUESTPARAM_EXPORT_AUTOSIZE = "dts";
-	
+
 	/**
 	 * Renders the passed table by writing the data to the response.
 	 * 
@@ -104,23 +106,27 @@ public final class ExportUtils {
 		try {
 			klass = ClassUtils.getClass(exportClass);
 			export = (DatatablesExport) ClassUtils.getNewInstance(klass);
-		} catch (ClassNotFoundException e) {
+		}
+		catch (ClassNotFoundException e) {
 			throw new DandelionException("Unable to load the class '" + exportClass + "'", e);
-		} catch (InstantiationException e) {
+		}
+		catch (InstantiationException e) {
 			throw new DandelionException("Unable to instanciate the class '" + exportClass + "'", e);
-		} catch (IllegalAccessException e) {
+		}
+		catch (IllegalAccessException e) {
 			throw new DandelionException("Unable to access the class '" + exportClass + "'", e);
 		}
-		
+
 		export.initExport(table);
 		export.processExport(stream);
-				
+
 		try {
 			writeToResponse(response, stream, exportConf.getFileName() + "." + exportConf.getFileExtension(),
 					exportConf.getMimeType());
-		} catch (IOException e) {
-			throw new DandelionException(
-					"Unable to write to response using the " + exportClass.getClass().getSimpleName(), e);
+		}
+		catch (IOException e) {
+			throw new DandelionException("Unable to write to response using the "
+					+ exportClass.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -149,8 +155,7 @@ public final class ExportUtils {
 		baos.writeTo(out);
 		out.flush();
 	}
-	
-	
+
 	public static String getCurrentExportType(HttpServletRequest request) {
 
 		// Get the URL parameter used to identify the export type
@@ -158,15 +163,17 @@ public final class ExportUtils {
 
 		return exportTypeString;
 	}
-	
+
 	/**
 	 * <p>
 	 * Check whether the table if being exported using the request
-	 * {@link ExportConstants#DDL_DT_REQUESTPARAM_EXPORT_ID} attribute.
+	 * {@link ExportUtils#DDL_DT_REQUESTPARAM_EXPORT_ID} attribute.
+	 * </p>
 	 * 
 	 * <p>
 	 * The table's id must be tested in case of multiple tables are displayed on
 	 * the same page and exportable.
+	 * </p>
 	 * 
 	 * @return true if the table is being exported, false otherwise.
 	 */
@@ -175,7 +182,7 @@ public final class ExportUtils {
 		Object exportInProgress = request.getAttribute(DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS);
 		return exportInProgress != null && exportInProgress.equals("true") ? true : false;
 	}
-	
+
 	/**
 	 * Prevent instantiation.
 	 */

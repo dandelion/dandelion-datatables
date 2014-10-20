@@ -29,27 +29,29 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.core.asset.generator.js.JsSnippet;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
- * <p>Pipelining feature that may be used if server-side processing has been
+ * <p>
+ * Pipelining feature that may be used if server-side processing has been
  * enabled.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.8.2
  * @see ServerSideFeature
- * @see TableConfig#AJAX_PIPESIZE
+ * @see DatatableOptions#AJAX_PIPESIZE
  */
 // TODO asset template
 public class PipeliningFeature extends AbstractExtension {
 
 	public static final String PIPELINING_FEATURE_NAME = "pipelining";
-	
+
 	@Override
 	public String getExtensionName() {
 		return PIPELINING_FEATURE_NAME;
@@ -59,15 +61,15 @@ public class PipeliningFeature extends AbstractExtension {
 	public void setup(HtmlTable table) {
 
 		addBundle(DatatableBundles.DDL_DT_AJAX_PIPELINING);
-		
+
 		addBundleParameter("pipelining-js", "oCache", "oCache_" + table.getId());
-		
+
 		Integer pipeSize = DatatableOptions.AJAX_PIPESIZE.valueFrom(table.getTableConfiguration());
 		// Adapt the pipe size if it has been overriden
 		if (pipeSize != null && pipeSize != 5) {
 			addBundleParameter("pipelining-js", "var iPipe = 5", "var iPipe = " + pipeSize);
-		} 
+		}
 
-		addParameter(DTConstants.DT_FN_SERVERDATA, new JavascriptSnippet("fnDataTablesPipeline"));
+		addParameter(DTConstants.DT_FN_SERVERDATA, new JsSnippet("fnDataTablesPipeline"));
 	}
 }

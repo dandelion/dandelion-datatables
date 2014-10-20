@@ -29,19 +29,22 @@
  */
 package com.github.dandelion.datatables.core.extension.theme;
 
-import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.core.asset.generator.js.JsSnippet;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
  * Bootstrap v3 DataTables theme.
+ * </p>
+ * 
  * <p>
  * Example usage with JSP:
+ * </p>
  * 
  * <pre>
  * &lt;datatables:table id="myTableId" data="${persons}" cssClass="table" theme="bootstrap3">
@@ -54,6 +57,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * </pre>
  * <p>
  * Example usage with Thymeleaf:
+ * </p>
  * 
  * <pre>
  * &lt;table id="myTableId" dt:table="true" dt:theme="bootstrap3"&gt;
@@ -63,7 +67,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
- * @see TableConfig#CSS_THEME
+ * @see DatatableOptions#CSS_THEME
  */
 public class Bootstrap3Theme extends AbstractExtension {
 
@@ -79,12 +83,12 @@ public class Bootstrap3Theme extends AbstractExtension {
 	public void setup(HtmlTable table) {
 
 		addBundle(DatatableBundles.DDL_DT_THEME_BOOTSTRAP3);
-		
+
 		Boolean pageable = DatatableOptions.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration());
-		if(pageable != null && pageable){
+		if (pageable != null && pageable) {
 			addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
 		}
-		
-		addParameter(DTConstants.DT_AS_STRIPE_CLASSES, new JavascriptSnippet("[]"));
+
+		addParameter(DTConstants.DT_AS_STRIPE_CLASSES, new JsSnippet("[]"));
 	}
 }

@@ -40,8 +40,8 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.config.TableConfiguration;
 import com.github.dandelion.datatables.core.export.ExportConf;
+import com.github.dandelion.datatables.core.option.TableConfiguration;
 import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 

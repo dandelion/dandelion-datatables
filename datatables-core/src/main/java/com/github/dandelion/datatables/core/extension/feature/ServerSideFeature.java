@@ -29,26 +29,29 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.CallbackType;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
  * Feature that is always enabled when server-side processing has been
  * activated.
+ * </p>
  * <p>
  * Removing the fnAddjustColumnSizing will cause strange column's width at each
  * interaction with the table (paging, sorting, filtering ...)
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.8.2
- * @see TableConfig#AJAX_SERVERSIDE
+ * @see DatatableOptions#AJAX_SERVERSIDE
  */
 public class ServerSideFeature extends AbstractExtension {
 
 	public static final String SERVER_SIDE_FEATURE_NAME = "serverSide";
-	
+
 	@Override
 	public String getExtensionName() {
 		return SERVER_SIDE_FEATURE_NAME;

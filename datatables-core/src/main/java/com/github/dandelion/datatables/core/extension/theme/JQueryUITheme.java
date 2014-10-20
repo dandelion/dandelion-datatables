@@ -29,19 +29,21 @@
  */
 package com.github.dandelion.datatables.core.extension.theme;
 
-import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.extension.Parameter;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
+ * <p>
  * JQueryUI DataTables theme.
+ * </p>
  * 
  * @since 0.7.1
- * @see TableConfig#CSS_THEME
- * @see TableConfig#CSS_THEMEOPTION
+ * @see DatatableOptions#CSS_THEME
+ * @see DatatableOptions#CSS_THEMEOPTION
  */
 public class JQueryUITheme extends AbstractExtension {
 
@@ -61,9 +63,9 @@ public class JQueryUITheme extends AbstractExtension {
 		addParameter(new Parameter(DTConstants.DT_JQUERYUI, true));
 
 		ThemeOption themeOption = DatatableOptions.CSS_THEMEOPTION.valueFrom(table.getTableConfiguration());
-		
+
 		if (themeOption != null) {
-			switch(themeOption){
+			switch (themeOption) {
 			case BASE:
 				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_BASE);
 				break;

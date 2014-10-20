@@ -42,51 +42,59 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
  * Builder used to create instances of {@link HtmlTable}. This builder is mainly
  * used as an export utility and for testing.
  * </p>
- * <p>For example, considering the following simple {@code Person} class:
+ * <p>
+ * For example, considering the following simple {@code Person} class:
+ * </p>
+ * 
  * <pre>
  * public class Person {
- *    private Long id;
- *    private String firstName;
- *    private String lastName;
- *    private String mail;
- *    private Date birthDate;
+ * 	private Long id;
+ * 	private String firstName;
+ * 	private String lastName;
+ * 	private String mail;
+ * 	private Date birthDate;
  * 
- *    // Accessors...
+ * 	// Accessors...
  * }
  * </pre>
+ * <p>
+ * The builder allows to create fully configured instance of {@link HtmlTable}
+ * as follows:
  * </p>
- * The builder allows to create fully configured instance of {@link HtmlTable} as follows:
+ * 
  * <pre>
- * HtmlTable table = new HtmlTableBuilder&lt;Person&gt;().newBuilder("yourTableId", persons, request)
- *    .column().fillWithProperty("id").title("Id")
- *    .column().fillWithProperty("firstName").title("Firtname")
- *    .column().fillWithProperty("lastName").title("Lastname")
- *    .column().fillWithProperty("mail").title("Mail")
- *    .column().fillWithProperty("birthDate", "{0,date,dd-MM-yyyy}").title("BirthDate")
- *    .build();
+ * HtmlTable table = new HtmlTableBuilder&lt;Person&gt;().newBuilder(&quot;yourTableId&quot;, persons, request).column()
+ * 		.fillWithProperty(&quot;id&quot;).title(&quot;Id&quot;).column().fillWithProperty(&quot;firstName&quot;).title(&quot;Firtname&quot;).column()
+ * 		.fillWithProperty(&quot;lastName&quot;).title(&quot;Lastname&quot;).column().fillWithProperty(&quot;mail&quot;).title(&quot;Mail&quot;).column()
+ * 		.fillWithProperty(&quot;birthDate&quot;, &quot;{0,date,dd-MM-yyyy}&quot;).title(&quot;BirthDate&quot;).build();
  * </pre>
+ * <p>
  * where:
+ * </p>
  * <ul>
- * <li>{@code yourTableId} is the HTML id that has be assigned to the {@code table} tag</li>
+ * <li>{@code yourTableId} is the HTML id that has be assigned to the
+ * {@code table} tag</li>
  * <li>{@code persons} is a collection of {@code Person}</li>
  * <li>{@code request} is the current {@link HttpServletRequest}</li>
  * </ul>
+ * 
+ * @param <T>
+ *            Type of the data used to build the table.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
 public class HtmlTableBuilder<T> {
 
-	// Logger
 	private static Logger logger = LoggerFactory.getLogger(HtmlTableBuilder.class);
 
 	public ColumnStep newBuilder(String id, List<T> data, HttpServletRequest request) {
@@ -96,23 +104,30 @@ public class HtmlTableBuilder<T> {
 	public ColumnStep newBuilder(String id, List<T> data, HttpServletRequest request, ExportConf exportConf) {
 		return new Steps<T>(id, data, request, exportConf);
 	}
-	
+
 	public static interface ColumnStep {
 		FirstContentStep column();
 	}
 
 	public static interface FirstContentStep {
 		SecondContentStep fillWithProperty(String propertyName);
+
 		SecondContentStep fillWithProperty(String propertyName, String pattern);
+
 		SecondContentStep fillWithProperty(String propertyName, String pattern, String defaultContent);
+
 		SecondContentStep fillWith(String content);
 	}
 
 	public static interface SecondContentStep {
 		SecondContentStep andProperty(String propertyName);
+
 		SecondContentStep andProperty(String propertyName, String pattern);
+
 		SecondContentStep andProperty(String propertyName, String pattern, String defaultContent);
+
 		SecondContentStep and(String content);
+
 		BuildStep title(String title);
 	}
 
@@ -122,6 +137,7 @@ public class HtmlTableBuilder<T> {
 
 	public static interface BuildStep {
 		HtmlTable build();
+
 		FirstContentStep column();
 	}
 
@@ -143,11 +159,11 @@ public class HtmlTableBuilder<T> {
 			this.data = data;
 			this.request = request;
 			this.exportConf = new ExportConf(request);
-			if(exportConf != null) {
+			if (exportConf != null) {
 				this.exportConf.mergeWith(exportConf);
 			}
 		}
-		
+
 		// Table configuration
 
 		public Steps<T> column() {
@@ -225,12 +241,14 @@ public class HtmlTableBuilder<T> {
 
 		public HtmlTable build() {
 			HtmlTable table = new HtmlTable(id, request, response);
-			
+
 			table.getTableConfiguration().getExportConfiguration().put(exportConf.getFormat(), exportConf);
 
 			if (data != null && data.size() > 0) {
-				DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), data.get(0).getClass().getSimpleName());
-			} else {
+				DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), data.get(0).getClass()
+						.getSimpleName());
+			}
+			else {
 				DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), "???");
 			}
 
@@ -240,7 +258,8 @@ public class HtmlTableBuilder<T> {
 				String title = DatatableOptions.TITLE.valueFrom(column.getColumnConfiguration());
 				if (StringUtils.isNotBlank(title)) {
 					column.setContent(new StringBuilder(title));
-				} else {
+				}
+				else {
 					column.setContent(new StringBuilder(""));
 				}
 				table.getLastHeaderRow().addColumn(column);
@@ -264,16 +283,20 @@ public class HtmlTableBuilder<T> {
 									if (StringUtils.isNotBlank(columnElement.getPattern())) {
 										MessageFormat messageFormat = new MessageFormat(columnElement.getPattern());
 										content += messageFormat.format(new Object[] { tmpObject });
-									} else {
+									}
+									else {
 										content += String.valueOf(tmpObject);
 									}
-								} catch (Exception e) {
+								}
+								catch (Exception e) {
 									logger.warn("Something went wrong with the property {}. Check that an accessor method for this property exists in the bean.");
 									content += columnElement.getDefaultValue();
 								}
-							} else if (columnElement.getContent() != null) {
+							}
+							else if (columnElement.getContent() != null) {
 								content += columnElement.getContent();
-							} else {
+							}
+							else {
 								content += columnElement.getDefaultValue();
 							}
 						}

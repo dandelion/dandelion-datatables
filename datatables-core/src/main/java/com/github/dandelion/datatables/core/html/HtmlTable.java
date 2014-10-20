@@ -36,9 +36,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.github.dandelion.core.html.AbstractHtmlTag;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
-import com.github.dandelion.datatables.core.config.TableConfiguration;
-import com.github.dandelion.datatables.core.config.TableConfigurationFactory;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
+import com.github.dandelion.datatables.core.option.TableConfiguration;
+import com.github.dandelion.datatables.core.option.TableConfigurationFactory;
 
 /**
  * <p>

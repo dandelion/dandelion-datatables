@@ -34,30 +34,32 @@ import java.util.Set;
 
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.util.JavascriptUtils;
-
 
 /**
  * <p>
  * Feature that is always enabled when server-side processing has been
  * activated.
+ * </p>
+ * 
  * <p>
  * Removing the fnAddjustColumnSizing will cause strange column's width at each
  * interaction with the table (paging, sorting, filtering ...)
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
- * @see TableConfig#AJAX_SERVERSIDE
+ * @see DatatableOptions#AJAX_SERVERSIDE
  */
 public class MultiFilterFeature extends AbstractExtension {
 
 	public static final String MULTI_FILTER_FEATURE_NAME = "multiFilter";
-	
+
 	@Override
 	public String getExtensionName() {
 		return MULTI_FILTER_FEATURE_NAME;
@@ -65,27 +67,29 @@ public class MultiFilterFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		
+
 		checkConfiguration(table);
-		
+
 		addBundle(DatatableBundles.DDL_DT_MULTIFILTER);
-		
+
 		String filterSelector = DatatableOptions.FEATURE_FILTER_SELECTOR.valueFrom(table.getTableConfiguration());
-		String filterClearSelector = DatatableOptions.FEATURE_FILTER_CLEAR_SELECTOR.valueFrom(table.getTableConfiguration());
+		String filterClearSelector = DatatableOptions.FEATURE_FILTER_CLEAR_SELECTOR.valueFrom(table
+				.getTableConfiguration());
 		Set<String> selectors = null;
 		StringBuilder js = null;
-		FilterPlaceholder filterPlaceholder = DatatableOptions.FEATURE_FILTER_PLACEHOLDER.valueFrom(table.getTableConfiguration());
-		
-		if(filterPlaceholder != null && filterPlaceholder.equals(FilterPlaceholder.NONE)) {
-			
+		FilterPlaceholder filterPlaceholder = DatatableOptions.FEATURE_FILTER_PLACEHOLDER.valueFrom(table
+				.getTableConfiguration());
+
+		if (filterPlaceholder != null && filterPlaceholder.equals(FilterPlaceholder.NONE)) {
+
 			selectors = new HashSet<String>();
 			for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
 				String selector = DatatableOptions.SELECTOR.valueFrom(column.getColumnConfiguration());
-				if(StringUtils.isNotBlank(selector)) {
+				if (StringUtils.isNotBlank(selector)) {
 					selectors.add(selector);
 				}
 			}
-			
+
 			js = new StringBuilder();
 			js.append("$('").append(filterSelector).append("').click(function() {");
 			js.append("   var filterParams = {};");
@@ -112,9 +116,9 @@ public class MultiFilterFeature extends AbstractExtension {
 			js.append("});");
 		}
 		appendToBeforeEndDocumentReady(js.toString());
-				
-		if(StringUtils.isNotBlank(filterClearSelector)) {
-			if(FilterPlaceholder.NONE.equals(filterPlaceholder)) {
+
+		if (StringUtils.isNotBlank(filterClearSelector)) {
+			if (FilterPlaceholder.NONE.equals(filterPlaceholder)) {
 				js = new StringBuilder();
 				js.append("$('").append(filterClearSelector).append("').click(function() {");
 				js.append("   oTable_").append(table.getId()).append(".fnFilterClear();");
@@ -126,10 +130,11 @@ public class MultiFilterFeature extends AbstractExtension {
 				js.append("   });");
 				js.append("});");
 			}
-			else{
+			else {
 				js = new StringBuilder();
 				js.append("$('").append(filterClearSelector).append("').click(function() {");
-				js.append("   $('#").append(table.getId()).append(" .dandelion_column_filter').each(function (index) {;");
+				js.append("   $('#").append(table.getId())
+						.append(" .dandelion_column_filter').each(function (index) {;");
 				js.append("      $(this).val('');");
 				js.append("      $(this).trigger('blur');");
 				js.append("   });");
@@ -141,7 +146,7 @@ public class MultiFilterFeature extends AbstractExtension {
 	}
 
 	private void checkConfiguration(HtmlTable table) {
-		
+
 		String buttonId = DatatableOptions.FEATURE_FILTER_SELECTOR.valueFrom(table.getTableConfiguration());
 		if (StringUtils.isBlank(buttonId)) {
 			StringBuilder msg = new StringBuilder();

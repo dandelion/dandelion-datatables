@@ -39,9 +39,9 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.github.dandelion.core.i18n.AbstractMessageResolver;
+import com.github.dandelion.core.i18n.MessageResolver;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.i18n.AbstractMessageResolver;
-import com.github.dandelion.datatables.core.i18n.MessageResolver;
 
 /**
  * Spring implementation of the {@link MessageResolver}.

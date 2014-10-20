@@ -35,15 +35,16 @@ import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
-import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
  * <p>
- * Attribute processor applied to the {@code table} tag for the
- * {@link TableConfig#FEATURE_APPEAR} configuration.
+ * Attribute processor applied to the {@code table} and associated with the
+ * {@link DatatableOptions#FEATURE_APPEAR} option.
+ * </p>
  * 
  * @author Thibault Duchateau
  */
@@ -53,17 +54,11 @@ public class TableAppearAttrProcessor extends AbstractTableAttrProcessor {
 		super(matcher);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getPrecedence() {
 		return 8000;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
 			Map<Option<?>, Object> stagingConf) {

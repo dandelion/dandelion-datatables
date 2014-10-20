@@ -9,8 +9,8 @@
 
    <artifactId>datatables-jsp</artifactId>
    <packaging>jar</packaging>
-   <name>Dandelion :: Datatables :: JSP Implementation</name>
-   <description>JSP implementation of Dandelion-DataTables that provides a JSP taglib.</description>
+   <name>Dandelion :: Datatables :: JSP taglib</name>
+   <description>JSP taglib for the Dandelion-DataTables component.</description>
 
    <dependencies>
 
@@ -65,16 +65,4 @@
       </dependency>
    </dependencies>
 
-   <build>
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-         </plugin>
-      </plugins>
-   </build>
 </project>

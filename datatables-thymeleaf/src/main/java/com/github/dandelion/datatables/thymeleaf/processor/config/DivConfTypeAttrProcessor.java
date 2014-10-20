@@ -48,20 +48,20 @@ import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 
 import com.github.dandelion.core.DandelionException;
+import com.github.dandelion.core.asset.generator.js.jquery.JQueryContentPlaceholder;
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.utils.UrlUtils;
 import com.github.dandelion.core.web.WebConstants;
-import com.github.dandelion.datatables.core.asset.InsertMode;
-import com.github.dandelion.datatables.core.callback.Callback;
-import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportConf.Orientation;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.export.HttpMethod;
 import com.github.dandelion.datatables.core.extension.feature.ExtraHtml;
 import com.github.dandelion.datatables.core.extension.feature.ExtraJs;
+import com.github.dandelion.datatables.core.option.Callback;
+import com.github.dandelion.datatables.core.option.CallbackType;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.util.ProcessorUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
@@ -439,32 +439,32 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 
 			String bundles = AttributeUtils.parseStringAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX
 					+ ":bundles");
-			InsertMode insertMode = null;
+			JQueryContentPlaceholder placeholder = null;
 
-			if (hasAttribute(element, "insert")) {
-				String insert = getStringValue(element, "insert");
+			if (hasAttribute(element, "placeholder")) {
+				String insert = getStringValue(element, "placeholder");
 				try {
-					insertMode = InsertMode.valueOf(insert.toUpperCase().trim());
+					placeholder = JQueryContentPlaceholder.valueOf(insert.toUpperCase().trim());
 				} catch (IllegalArgumentException e) {
 					StringBuilder sb = new StringBuilder();
 					sb.append("'");
 					sb.append(insert);
-					sb.append("' is not a valid insert mode. Possible values are: ");
-					sb.append(EnumUtils.printPossibleValuesOf(InsertMode.class));
+					sb.append("' is not a valid placeholder. Possible values are: ");
+					sb.append(EnumUtils.printPossibleValuesOf(JQueryContentPlaceholder.class));
 					throw new DandelionException(sb.toString());
 				}
 			} else {
-				insertMode = InsertMode.BEFOREALL;
+				placeholder = JQueryContentPlaceholder.BEFORE_ALL;
 			}
 
 			Set<String> bundleSet = new HashSet<String>(Arrays.asList(bundles.split(",")));
 			if (configs.get(tableId).containsKey(ConfType.EXTRAJS)) {
 				((Set<ExtraJs>) configs.get(tableId).get(ConfType.EXTRAJS)).add(new ExtraJs(bundleSet,
-						insertMode));
+						placeholder));
 			}
 			else {
 				Set<ExtraJs> extraFiles = new HashSet<ExtraJs>();
-				extraFiles.add(new ExtraJs(bundleSet, insertMode));
+				extraFiles.add(new ExtraJs(bundleSet, placeholder));
 				configs.get(tableId).put(ConfType.EXTRAJS, extraFiles);
 
 			}

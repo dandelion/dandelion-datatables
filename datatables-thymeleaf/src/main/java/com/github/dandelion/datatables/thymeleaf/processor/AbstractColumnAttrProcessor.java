@@ -44,6 +44,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 /**
  * <p>
  * Abstract superclass for all processors applied to the {@code th} tag.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -91,7 +92,6 @@ public abstract class AbstractColumnAttrProcessor extends AbstractAttrProcessor 
 	 *            Map containing the column local configuration.
 	 * @param stagingExt
 	 *            Map containing the column local extension.
-	 * @return result of process
 	 */
 	protected abstract void doProcessAttribute(Arguments arguments, Element element, String attributeName,
 			Map<Option<?>, Object> stagingConf, Map<Option<?>, Extension> stagingExt);

@@ -40,7 +40,6 @@ import org.thymeleaf.dom.Text;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
-import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -88,8 +87,8 @@ public class ColumnFinalizerProcessor extends AbstractElProcessor {
 		HtmlColumn htmlColumn = new HtmlColumn(true, content);
 
 		// Applies the staging configuration against the current column configuration
-		ConfigUtils.applyConfiguration(stagingConf, stagingExt, htmlColumn);
-		ConfigUtils.processConfiguration(htmlColumn, htmlTable);
+		ConfigUtils.applyStagingOptionsAndExtensions(stagingConf, stagingExt, htmlColumn);
+		ConfigUtils.processOptions(htmlColumn, htmlTable);
 		
 		// Add it to the table
 		if (htmlTable != null) {

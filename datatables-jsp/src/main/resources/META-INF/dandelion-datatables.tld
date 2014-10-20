@@ -4,7 +4,7 @@
    version="2.0">
    <description>Set of tags for manipulating HTML table with DataTables.</description>
    <display-name>dandelion-datatables</display-name>
-   <tlib-version>0100</tlib-version>
+   <tlib-version>0110</tlib-version>
    <short-name>datatables</short-name>
    <uri>http://github.com/dandelion/datatables</uri>
 
@@ -19,7 +19,7 @@
       </description>
       <name>table</name>
       <tag-class>com.github.dandelion.datatables.jsp.tag.TableTag</tag-class>
-      <tei-class>com.github.dandelion.datatables.jsp.tei.TableTagExtraInfo</tei-class>
+      <tei-class>com.github.dandelion.datatables.jsp.tag.TableTagExtraInfo</tei-class>
       <body-content>JSP</body-content>
       <attribute>
          <description>
@@ -1746,20 +1746,21 @@
             <li>Required: <b>no</b></li>
             <li>Possible values: 
                <b>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beforeall</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beforestartdocumentready</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;afterstartdocumentready</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beforeenddocumentready</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;afterall</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;before_all</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;before_start_document_ready</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;after_start_document_ready</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;before_end_document_ready</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;after_end_document_ready</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;after_all</p>
             </b>
             </li>
-            <li>Default: <b>beforeall</b></li>
+            <li>Default: <b>before_all</b></li>
             <li>Data source: <b>DOM / AJAX</b></li>
             </ul>
             </p>
          ]]>
          </description>
-         <name>insert</name>
+         <name>placeholder</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
    </tag>

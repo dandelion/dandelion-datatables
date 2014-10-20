@@ -29,14 +29,16 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
  * Activates the Bootstrap2 pagination by:
+ * </p>
  * <ul>
  * <li>Updating the bundle graph with the bundle
  * <code>paginationType-bootstrap</code></li>
@@ -44,7 +46,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * </ul>
  * 
  * @author Thibault Duchateau
- * @see TableConfig#FEATURE_PAGINATIONTYPE
+ * @see DatatableOptions#FEATURE_PAGINATIONTYPE
  */
 public class PaginationTypeBootstrapFeature extends AbstractExtension {
 

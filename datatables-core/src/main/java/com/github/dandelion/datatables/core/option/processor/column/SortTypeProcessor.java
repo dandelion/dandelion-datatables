@@ -32,9 +32,18 @@ package com.github.dandelion.datatables.core.option.processor.column;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.extension.feature.SortingFeature;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 
+/**
+ * <p>
+ * Processor associated with the {@link DatatableOptions#SORTTYPE} option.
+ * </p>
+ * 
+ * @author Thibault Duchateau
+ * @see DatatableOptions#SORTTYPE
+ */
 public class SortTypeProcessor extends AbstractOptionProcessor {
 
 	public SortTypeProcessor() {
@@ -56,11 +65,12 @@ public class SortTypeProcessor extends AbstractOptionProcessor {
 			if (sortType != null) {
 				context.registerExtension(SortingFeature.SORTING_FEATURE_NAME);
 				retval = sortType.getName();
-			} else {
+			}
+			else {
 				retval = valueAsString;
 			}
 		}
-		
+
 		return retval;
 	}
 }

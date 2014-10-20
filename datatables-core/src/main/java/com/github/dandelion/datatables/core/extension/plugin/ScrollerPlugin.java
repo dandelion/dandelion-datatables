@@ -30,18 +30,19 @@
 package com.github.dandelion.datatables.core.extension.plugin;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.extension.Parameter;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
+ * <p>
  * Java implementation of the DataTables Scroller plugin.
+ * </p>
  * 
  * @author Thibault Duchateau
- * @see TableConfig#PLUGIN_SCROLLER
  */
 public class ScrollerPlugin extends AbstractExtension {
 
@@ -68,10 +69,12 @@ public class ScrollerPlugin extends AbstractExtension {
 
 		if (StringUtils.isNotBlank(dom)) {
 			addParameter(DTConstants.DT_DOM, "S", Parameter.Mode.APPEND);
-		} else {
+		}
+		else {
 			if (jqueryUiEnabled != null && jqueryUiEnabled) {
 				addParameter(DTConstants.DT_DOM, "<\"H\"lfr>t<\"F\"ip>S");
-			} else {
+			}
+			else {
 				addParameter(DTConstants.DT_DOM, "frtiS");
 			}
 		}

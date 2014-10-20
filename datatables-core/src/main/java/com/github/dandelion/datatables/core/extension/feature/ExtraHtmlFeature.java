@@ -31,6 +31,7 @@ package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
@@ -38,7 +39,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * </p>
  * <p>
  * Each extra HTML snippet will be made available in the generated configuration
- * through the {@link TableConfig#FEATURE_DOM} configuration.
+ * through the {@link DatatableOptions#FEATURE_DOM} configuration.
  * </p>
  * 
  * @author Thibault Duchateau

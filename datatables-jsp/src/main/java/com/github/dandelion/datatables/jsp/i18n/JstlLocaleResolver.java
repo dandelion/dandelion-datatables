@@ -35,14 +35,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.jstl.core.Config;
 
-import com.github.dandelion.datatables.core.i18n.LocaleResolver;
+import com.github.dandelion.core.i18n.LocaleResolver;
 
 /**
  * <p>
  * JSTL implementation of the {@link LocaleResolver}.
+ * </p>
+ * 
  * <p>
  * The locale is retrieved first from the request scope and then from the
  * session scope.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.9.0

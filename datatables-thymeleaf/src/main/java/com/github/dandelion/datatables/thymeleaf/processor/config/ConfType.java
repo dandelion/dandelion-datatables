@@ -30,22 +30,25 @@
 package com.github.dandelion.datatables.thymeleaf.processor.config;
 
 /**
+ * <p>
  * All possible configuration types that can be set in the
  * {@link DivConfTypeAttrProcessor}.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
  */
 public enum ConfType {
 	EXPORT, CALLBACK, EXTRAJS, EXTRAHTML, PROPERTY;
-	
+
 	public static String possibleValues() {
 		StringBuilder possibleValues = new StringBuilder();
 		for (int i = 0; i < values().length; i++) {
 			possibleValues.append("'").append(values()[i].name().toLowerCase()).append("'");
 			if (i < values().length - 2) {
 				possibleValues.append(", ");
-			} else if (i == (values().length - 2)) {
+			}
+			else if (i == (values().length - 2)) {
 				possibleValues.append(" and ");
 			}
 		}

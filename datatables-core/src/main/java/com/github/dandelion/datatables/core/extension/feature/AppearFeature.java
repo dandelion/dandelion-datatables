@@ -30,18 +30,19 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
  * Extension used to add an effect when the table has finished being drawed.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
- * @see TableConfig#FEATURE_APPEAR
- * @see TableConfig#FEATURE_APPEAR_DURATION
+ * @see DatatableOptions#FEATURE_APPEAR
+ * @see DatatableOptions#FEATURE_APPEAR_DURATION
  */
 public class AppearFeature extends AbstractExtension {
 
@@ -60,11 +61,13 @@ public class AppearFeature extends AbstractExtension {
 
 		if ("block".equals(appear)) {
 			appendToBeforeEndDocumentReady("$('#" + table.getId() + "').show();");
-		} else {
+		}
+		else {
 			table.addCssStyle("display:none;");
 			if (StringUtils.isNotBlank(appearDuration)) {
 				appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn(" + appearDuration + ");");
-			} else {
+			}
+			else {
 				appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn();");
 			}
 		}

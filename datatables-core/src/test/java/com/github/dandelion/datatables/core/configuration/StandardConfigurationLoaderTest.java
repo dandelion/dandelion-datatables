@@ -41,9 +41,8 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.dandelion.datatables.core.config.DatatableOptions;
-import com.github.dandelion.datatables.core.config.StandardConfigurationLoader;
-import com.github.dandelion.datatables.core.constants.SystemConstants;
+import com.github.dandelion.datatables.core.config.ConfigLoader;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,17 +51,17 @@ public class StandardConfigurationLoaderTest {
 
 	HttpServletRequest request;
 	MockPageContext mockPageContext;
-	StandardConfigurationLoader loader;
+	ConfigLoader loader;
 	
 	@Before
 	public void setup() {
 		MockServletContext mockServletContext = new MockServletContext();
 		mockPageContext = new MockPageContext(mockServletContext);
 		request = (HttpServletRequest) mockPageContext.getRequest();
-		loader = new StandardConfigurationLoader();
+		loader = new ConfigLoader();
 		loader.loadDefaultConfiguration();
 		
-		System.clearProperty(SystemConstants.DANDELION_DT_CONFIGURATION);
+		System.clearProperty(ConfigLoader.DANDELION_DT_CONFIGURATION);
 	}
 	
 	@Test
@@ -76,7 +75,7 @@ public class StandardConfigurationLoaderTest {
 	@Test
 	public void should_load_user_properties_from_system_property() {
 		String path = new File("src/test/resources/loadingTest/test1/").getAbsolutePath();
-		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
+		System.setProperty(ConfigLoader.DANDELION_DT_CONFIGURATION, path);
 		
 		Properties userProperties = loader.loadUserConfiguration(request.getLocale());
 		
@@ -88,7 +87,7 @@ public class StandardConfigurationLoaderTest {
 	@Test
 	public void should_resolve_global_group_only_and_override_with_user_properties() {
 		String path = new File("src/test/resources/loadingTest/test1/").getAbsolutePath();
-		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
+		System.setProperty(ConfigLoader.DANDELION_DT_CONFIGURATION, path);
 		
 		Map<String, Map<Option<?>, Object>> map = new HashMap<String, Map<Option<?>, Object>>();
 
@@ -109,7 +108,7 @@ public class StandardConfigurationLoaderTest {
 	@Test
 	public void should_resolve_global_group1_and_group2_from_user_properties() {
 		String path = new File("src/test/resources/loadingTest/test2/").getAbsolutePath();
-		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
+		System.setProperty(ConfigLoader.DANDELION_DT_CONFIGURATION, path);
 		
 		Map<String, Map<Option<?>, Object>> map = new HashMap<String, Map<Option<?>, Object>>();
 
@@ -138,7 +137,7 @@ public class StandardConfigurationLoaderTest {
 	@Test
 	public void should_resolve_group1_only_from_user_properties() {
 		String path = new File("src/test/resources/loadingTest/test3/").getAbsolutePath();
-		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
+		System.setProperty(ConfigLoader.DANDELION_DT_CONFIGURATION, path);
 		
 		Map<String, Map<Option<?>, Object>> map = new HashMap<String, Map<Option<?>, Object>>();
 
@@ -160,7 +159,7 @@ public class StandardConfigurationLoaderTest {
 	@Test
 	public void should_use_en_properties_first() {
 		String path = new File("src/test/resources/loadingTest/test4/").getAbsolutePath();
-		System.setProperty(SystemConstants.DANDELION_DT_CONFIGURATION, path);
+		System.setProperty(ConfigLoader.DANDELION_DT_CONFIGURATION, path);
 		
 		Map<String, Map<Option<?>, Object>> map = new HashMap<String, Map<Option<?>, Object>>();
 

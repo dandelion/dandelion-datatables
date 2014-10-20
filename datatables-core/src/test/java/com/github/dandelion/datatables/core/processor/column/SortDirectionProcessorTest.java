@@ -36,8 +36,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.github.dandelion.core.DandelionException;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
-import com.github.dandelion.datatables.core.constants.Direction;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
+import com.github.dandelion.datatables.core.option.Direction;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessor;

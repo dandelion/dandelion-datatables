@@ -42,13 +42,14 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.utils.ServiceLoaderUtils;
 import com.github.dandelion.core.utils.Validate;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
-import com.github.dandelion.datatables.core.generator.DatatableAssetBuffer;
+import com.github.dandelion.datatables.core.generator.DatatableJQueryContent;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
  * Loader for all extensions : features, plugins, themes.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.7.1
@@ -60,28 +61,22 @@ public class ExtensionLoader {
 	private final HtmlTable table;
 
 	/**
+	 * <p>
 	 * Constructor of the ExtensionLoader.
+	 * </p>
 	 * 
 	 * @param table
 	 *            The table containing module informations.
-	 * @param mainJsFile
-	 *            The main Javascript file which will be generated and may be
-	 *            updated accordingly to modules.
-	 * @param mainConfig
-	 *            Main DataTables configuration which may be updated accordingly
-	 *            to modules.
-	 * @param webResources
-	 *            The wrapper POJO containing all web resources to generate.
 	 */
 	public ExtensionLoader(HtmlTable table) {
 		this.table = table;
 	}
 
-	public void loadExtensions(DatatableAssetBuffer mainJsFile, Map<String, Object> mainConf) {
+	public void loadExtensions(DatatableJQueryContent datatableContent, Map<String, Object> mainConf) {
 
 		registerExtensions(table);
 
-		ExtensionProcessor extensionProcessor = new ExtensionProcessor(table, mainJsFile, mainConf);
+		ExtensionProcessor extensionProcessor = new ExtensionProcessor(table, datatableContent, mainConf);
 		extensionProcessor.process(table.getTableConfiguration().getInternalExtensions());
 
 		Extension theme = DatatableOptions.CSS_THEME.valueFrom(table.getTableConfiguration());
@@ -95,6 +90,7 @@ public class ExtensionLoader {
 	 * Returns the {@link Extension} associated with the passed name or
 	 * {@code null} if the {@link Extension} doesn't exist among all scanned
 	 * extensions.
+	 * </p>
 	 * 
 	 * @param extensionName
 	 *            The name of the {@link Extension} to retrieve.
@@ -117,8 +113,10 @@ public class ExtensionLoader {
 	}
 
 	/**
+	 * <p>
 	 * Add custom extensions (for now features and plugins) to the current table
 	 * if they're activated.
+	 * </p>
 	 * 
 	 * @param table
 	 *            the HtmlTable to update with custom extensions.

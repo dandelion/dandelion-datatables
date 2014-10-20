@@ -33,11 +33,12 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.github.dandelion.datatables.core.config.ColumnConfiguration;
-import com.github.dandelion.datatables.core.config.TableConfiguration;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.ExtensionLoader;
+import com.github.dandelion.datatables.core.option.ColumnConfiguration;
 import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.TableConfiguration;
+import com.github.dandelion.datatables.core.util.ConfigUtils;
 import com.github.dandelion.datatables.core.util.ProcessorUtils;
 
 /**
@@ -187,18 +188,21 @@ public class OptionProcessingContext {
 
 	/**
 	 * <p>
-	 * Test whether the passed {@link ConfigToken} is already present in the
+	 * Test whether the passed {@link Option} is already present in the
 	 * configuration map.
+	 * </p>
 	 * <p>
 	 * In most of the cases, this is useful to initialize a entry with a default
 	 * value.
+	 * </p>
 	 * 
-	 * @param configToken
+	 * @param option
+	 *            The option to test.
 	 * @return {@code true} if present, otherwise {@code false}.
 	 */
-	public boolean isOptionPresent(Option<?> config) {
-		return this.tableConfiguration.getConfigurations().containsKey(config) || this.columnConfiguration != null
-				&& this.columnConfiguration.getConfigurations().containsKey(config);
+	public boolean isOptionPresent(Option<?> option) {
+		return this.tableConfiguration.getConfigurations().containsKey(option) || this.columnConfiguration != null
+				&& this.columnConfiguration.getConfigurations().containsKey(option);
 	}
 
 	/**
@@ -213,16 +217,16 @@ public class OptionProcessingContext {
 	 * <p>
 	 * The staging configuration map will be merged in the final map just after
 	 * the end of the loop. See the
-	 * {@link TableConfig#processConfiguration(com.github.dandelion.datatables.core.html.HtmlTable)}
+	 * {@link ConfigUtils#processOptions(com.github.dandelion.datatables.core.html.HtmlTable)}
 	 * method.
 	 * 
-	 * @param configToken
-	 *            The new {@link ConfigToken} to add.
+	 * @param option
+	 *            The new {@link Option} to add.
 	 * @param value
-	 *            The value associated with the {@link ConfigToken}.
+	 *            The value associated with the {@link Option}.
 	 */
-	public void addTableEntry(Option<?> config, Object value) {
-		this.tableConfiguration.getStagingConfiguration().put(config, value);
+	public void addTableEntry(Option<?> option, Object value) {
+		this.tableConfiguration.getStagingConfiguration().put(option, value);
 	}
 
 	/**
@@ -237,15 +241,15 @@ public class OptionProcessingContext {
 	 * <p>
 	 * The staging configuration map will be merged in the final map just after
 	 * the end of the loop. See the
-	 * {@link ColumnConfig#processConfiguration(com.github.dandelion.datatables.core.html.HtmlColumn, com.github.dandelion.datatables.core.html.HtmlTable)}
+	 * {@link ConfigUtils#processOptions(com.github.dandelion.datatables.core.html.HtmlColumn, com.github.dandelion.datatables.core.html.HtmlTable)}
 	 * method.
 	 * 
-	 * @param configToken
-	 *            The new {@link ConfigToken} to add.
+	 * @param option
+	 *            The new {@link Option} to add.
 	 * @param value
-	 *            The value associated with the {@link ConfigToken}.
+	 *            The value associated with the {@link Option}.
 	 */
-	public void addColumnEntry(Option<?> config, Object value) {
-		this.columnConfiguration.getStagingConfigurations().put(config, value);
+	public void addColumnEntry(Option<?> option, Object value) {
+		this.columnConfiguration.getStagingConfigurations().put(option, value);
 	}
 }

@@ -29,23 +29,26 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
+ * <p>
  * Alternative pagination style mixing {@link PaginationTypeBootstrapFeature}
  * and {@link PaginationTypeFourButtonFeature}.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @author Serdyn du Toit
- * @see TableConfig#FEATURE_PAGINATIONTYPE
+ * @see DatatableOptions#FEATURE_PAGINATIONTYPE
  */
 public class PaginationTypeBootstrapFourButtonFeature extends AbstractExtension {
 
 	public static final String PAGINATION_TYPE_BS_FOURBUTTON_FEATURE_NAME = "paginationTypeBootstrapFourButton";
-	
+
 	@Override
 	public String getExtensionName() {
 		return PAGINATION_TYPE_BS_FOURBUTTON_FEATURE_NAME;

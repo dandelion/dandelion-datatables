@@ -43,9 +43,9 @@ import org.springframework.mock.web.MockServletContext;
 
 import com.github.dandelion.core.Context;
 import com.github.dandelion.core.web.WebConstants;
-import com.github.dandelion.datatables.core.config.TableConfiguration;
-import com.github.dandelion.datatables.core.config.TableConfigurationFactory;
 import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.TableConfiguration;
+import com.github.dandelion.datatables.core.option.TableConfigurationFactory;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 
 public abstract class TableProcessorBaseTest {

@@ -35,15 +35,17 @@ import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
-import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
- * Attribute processor applied to the {@code table} tag for the
- * {@link TableConfig#CSS_THEMEOPTION} configuration.
+ * <p>
+ * Attribute processor applied to the {@code table} and associated with the
+ * {@link DatatableOptions#CSS_THEMEOPTION} option.
+ * </p>
  * 
  * @author Thibault Duchateau
  */

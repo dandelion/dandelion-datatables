@@ -10,7 +10,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import com.github.dandelion.core.Context;
 import com.github.dandelion.core.web.WebConstants;
-import com.github.dandelion.datatables.core.generator.DatatableAssetBuffer;
+import com.github.dandelion.datatables.core.generator.DatatableJQueryContent;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 public class AbstractExtensionTest {
@@ -19,7 +19,7 @@ public class AbstractExtensionTest {
 	private MockHttpServletResponse response;
 	protected ExtensionProcessor extensionProcessor;
 	protected HtmlTable table;
-	protected DatatableAssetBuffer mainJsFile;
+	protected DatatableJQueryContent datatableContent;
 	protected Map<String, Object> mainConfig;
 	
 	@Before
@@ -31,8 +31,8 @@ public class AbstractExtensionTest {
 		table.addHeaderRow();
 		table.getLastHeaderRow().addHeaderColumn("column1");
 		table.getLastHeaderRow().addHeaderColumn("column2");
-		mainJsFile = DatatableAssetBuffer.create(table);
+		datatableContent = new DatatableJQueryContent(table);
 		mainConfig = new HashMap<String, Object>();
-		extensionProcessor = new ExtensionProcessor(table, mainJsFile, mainConfig);
+		extensionProcessor = new ExtensionProcessor(table, datatableContent, mainConfig);
 	}
 }

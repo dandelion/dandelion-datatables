@@ -48,7 +48,9 @@ import com.github.dandelion.datatables.core.extension.theme.Theme;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 
 /**
- * General utility methods used in the Dandelion-Datatables dialect.
+ * <p>
+ * Set of utilities used in the Dandelion-Datatables dialect.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @author Pavel Janecka
@@ -98,14 +100,16 @@ public class AttributeUtils {
 	}
 
 	/**
-	 * Parse an attribute's value of Boolean class.
+	 * <p>
+	 * Parses the value of an attribute as a {@link Boolean}.
+	 * </p>
 	 * 
 	 * @param arguments
 	 *            Thymeleaf {@link Arguments}
-	 * @param value
-	 *            The expression to parse
-	 * @param clazz
-	 *            {@link Class} of the attribute's value
+	 * @param element
+	 *            The element in which an attribute is to be parsed.
+	 * @param attributeName
+	 *            The attribute name for which the value is to be parsed.
 	 * @return A Boolean which is evaluated :
 	 *         <ul>
 	 *         <li>either using the "true" or "false" strings</li>
@@ -133,16 +137,16 @@ public class AttributeUtils {
 	}
 
 	/**
-	 * Parse an attribute's value of String class.
+	 * <p>
+	 * Parses the value of an attribute as a {@link String}.
+	 * </p>
 	 * 
 	 * @param arguments
 	 *            Thymeleaf {@link Arguments}
-	 * @param value
-	 *            The expression to parse
-	 * @param defaultValue
-	 *            The default value
-	 * @param clazz
-	 *            {@link Class} of the attribute's value
+	 * @param element
+	 *            The element in which an attribute is to be parsed.
+	 * @param attributeName
+	 *            The attribute name for which the value is to be parsed.
 	 * @return A string which is evaluated :
 	 *         <ul>
 	 *         <li>either using a specific case (e.g. asc/desc)</li>
@@ -169,15 +173,21 @@ public class AttributeUtils {
 		return processStandardExpression(arguments, value, String.class);
 	}
 
+	
 	/**
-	 * Parse an attribute's value of any class.
+	 * <p>
+	 * Parses the value of an attribute according to the provided {@code clazz}.
+	 * </p>
 	 * 
 	 * @param arguments
 	 *            Thymeleaf {@link Arguments}
-	 * @param value
-	 *            The expression to parse
+	 * @param element
+	 *            The element in which an attribute is to be parsed.
+	 * @param attributeName
+	 *            The attribute name for which the value is to be parsed.
 	 * @param clazz
-	 *            {@link Class} of the attribute's value
+	 *            The {@link Class} in which the value of the given attribute
+	 *            name is to be parsed.
 	 * @return the default value if the expression to parse is null or the value
 	 *         of the Thymeleaf Standard expression processing.
 	 */
@@ -195,7 +205,10 @@ public class AttributeUtils {
 	}
 
 	/**
-	 * Process the Thymelead Standard Expression processor on an expression.
+	 * <p>
+	 * Processes the provided value using the Thymeleaf Standard Expression
+	 * processor.
+	 * </p>
 	 * 
 	 * @param arguments
 	 *            Thymeleaf {@link Arguments}

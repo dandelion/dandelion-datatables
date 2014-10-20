@@ -1,7 +1,7 @@
 package my.custom.packagee;
 
-import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 public class MyOtherCustomFeature extends AbstractExtension {

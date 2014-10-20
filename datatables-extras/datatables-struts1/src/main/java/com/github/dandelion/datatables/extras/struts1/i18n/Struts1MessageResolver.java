@@ -38,29 +38,26 @@ import org.apache.struts.util.MessageResources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.i18n.AbstractMessageResolver;
+import com.github.dandelion.core.i18n.MessageResolver;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.i18n.AbstractMessageResolver;
-import com.github.dandelion.datatables.core.i18n.MessageResolver;
 
 /**
  * <p>
  * Struts1 implementation of the {@link MessageResolver}.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.9.1
  */
 public class Struts1MessageResolver extends AbstractMessageResolver {
 
-	// Logger
 	private static Logger logger = LoggerFactory.getLogger(Struts1MessageResolver.class);
 		
 	public Struts1MessageResolver(HttpServletRequest request) {
 		super(request);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getResource(String messageKey, String defaultValue, Object... params) {
 

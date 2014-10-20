@@ -33,7 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

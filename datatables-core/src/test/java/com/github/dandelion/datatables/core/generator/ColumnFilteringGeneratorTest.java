@@ -46,16 +46,15 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import com.github.dandelion.core.Context;
+import com.github.dandelion.core.asset.generator.js.JsSnippet;
 import com.github.dandelion.core.web.WebConstants;
-import com.github.dandelion.datatables.core.asset.JavascriptSnippet;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
-import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -69,7 +68,7 @@ public class ColumnFilteringGeneratorTest {
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 
-	private ColumnFilteringGenerator generator;
+	private ColumnFilteringConfigGenerator generator;
 	private HtmlTable table;
 	private HtmlRow headerRow;
 	private HtmlColumn firstColumn;
@@ -79,7 +78,7 @@ public class ColumnFilteringGeneratorTest {
 		request = new MockHttpServletRequest();
 		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
 		response = new MockHttpServletResponse();
-		generator = new ColumnFilteringGenerator();
+		generator = new ColumnFilteringConfigGenerator();
 	}
 
 	@Before
@@ -224,7 +223,7 @@ public class ColumnFilteringGeneratorTest {
 		List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
 		Map<String, Object> conf = new HashMap<String, Object>();
 
-		conf.put(DTConstants.DT_FILTER_VALUES, new JavascriptSnippet("myValues"));
+		conf.put(DTConstants.DT_FILTER_VALUES, new JsSnippet("myValues"));
 		conf.put(DTConstants.DT_FILTER_TYPE, "null");
 		aoColumnsContent.add(conf);
 

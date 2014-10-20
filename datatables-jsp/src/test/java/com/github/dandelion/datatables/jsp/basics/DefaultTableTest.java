@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.jsp.basics;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.jsp.tag.DomBaseTest;
 import com.github.dandelion.datatables.mock.Mock;
 import com.github.dandelion.datatables.utils.TableTagBuilder;

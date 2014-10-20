@@ -46,8 +46,9 @@ import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
 
 /**
  * <p>
- * Attribute processor applied to the {@code table} tag to retrieve and store in
- * the request the activated configuration group name;
+ * Attribute processor applied to the {@code table} that stores in the current
+ * request the name of the enabled option group.
+ * </p>
  * 
  * @author Thibault Duchateau
  */
@@ -62,9 +63,6 @@ public class TableConfGroupAttrProcessor extends AbstractTableAttrProcessor {
 		return DataTablesDialect.DT_HIGHEST_PRECEDENCE - 1;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
 			Map<Option<?>, Object> stagingConf) {

@@ -5,11 +5,11 @@ import java.util.HashSet;
 
 import org.junit.Test;
 
+import com.github.dandelion.core.asset.generator.js.JsFunction;
 import com.github.dandelion.core.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.asset.JavascriptFunction;
-import com.github.dandelion.datatables.core.callback.CallbackType;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
+import com.github.dandelion.datatables.core.option.CallbackType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,6 +22,6 @@ public class ServerSideFeatureTest extends AbstractExtensionTest {
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(0);
 		assertThat(mainConfig.get(CallbackType.INIT.getName()).toString())
-		.isEqualTo(new JavascriptFunction("oTable_fakeId.fnAdjustColumnSizing(true);", CallbackType.INIT.getArgs()).toString());
+		.isEqualTo(new JsFunction("oTable_fakeId.fnAdjustColumnSizing(true);", CallbackType.INIT.getArgs()).toString());
 	}
 }

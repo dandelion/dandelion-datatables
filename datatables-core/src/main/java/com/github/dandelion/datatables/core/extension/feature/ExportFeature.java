@@ -30,16 +30,16 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.asset.Parameter.Mode;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
-import com.github.dandelion.datatables.core.config.TableConfiguration;
-import com.github.dandelion.datatables.core.constants.DTConstants;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.HttpMethod;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.extension.Parameter.Mode;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlHyperlink;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
+import com.github.dandelion.datatables.core.option.TableConfiguration;
 
 /**
  * <p>
@@ -51,17 +51,16 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * uid {@code E}.
  * 
  * <p>
- * If the {@link TableConfig#FEATURE_DOM} is not present in the
+ * If the {@link DatatableOptions#FEATURE_DOM} is not present in the
  * {@link TableConfiguration} instance, the export links container will be
  * inserted with the following configuration: {@code lEfrtip}. Otherwise, the
  * container must be added manually thanks to the
- * {@link TableConfig#FEATURE_DOM} feature.
+ * {@link DatatableOptions#FEATURE_DOM} feature.
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
- * @see TableConfig#EXPORT_ENABLED_FORMATS
- * @see TableConfig#EXPORT_LINK_POSITIONS
- * @see TableConfig#FEATURE_DOM
+ * @see DatatableOptions#EXPORT_ENABLED_FORMATS
+ * @see DatatableOptions#FEATURE_DOM
  */
 public class ExportFeature extends AbstractExtension {
 
@@ -82,8 +81,7 @@ public class ExportFeature extends AbstractExtension {
 		// If the export has been configured to be triggered with a POST, PUT or
 		// DELETE HTTP method, a custom plugin must be added to the page
 		for (ExportConf exportConf : table.getTableConfiguration().getExportConfiguration().values()) {
-			if (exportConf.getMethod().equals(HttpMethod.POST) 
-					|| exportConf.getMethod().equals(HttpMethod.PUT)
+			if (exportConf.getMethod().equals(HttpMethod.POST) || exportConf.getMethod().equals(HttpMethod.PUT)
 					|| exportConf.getMethod().equals(HttpMethod.DELETE)) {
 				addBundle(DatatableBundles.DDL_DT_EXPORT);
 			}

@@ -30,17 +30,19 @@
 package com.github.dandelion.datatables.core.option.processor.column;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
 import com.github.dandelion.datatables.core.extension.feature.FilterType;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 
 /**
- * 
- * TODO
+ * <p>
+ * Processor associated with the {@link DatatableOptions#FILTERABLE} option.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
+ * @see DatatableOptions#FILTERABLE
  */
 public class FilterableProcessor extends AbstractOptionProcessor {
 

@@ -36,16 +36,15 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.dandelion.core.Context;
+import com.github.dandelion.core.asset.generator.js.JsFunction;
 import com.github.dandelion.core.web.AssetRequestContext;
 import com.github.dandelion.core.web.WebConstants;
-import com.github.dandelion.datatables.core.asset.JavascriptFunction;
-import com.github.dandelion.datatables.core.asset.Parameter;
-import com.github.dandelion.datatables.core.asset.Parameter.Mode;
-import com.github.dandelion.datatables.core.callback.Callback;
-import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.generator.AbstractConfigurationGenerator;
+import com.github.dandelion.datatables.core.DatatableBundles;
+import com.github.dandelion.datatables.core.extension.Parameter.Mode;
+import com.github.dandelion.datatables.core.generator.AbstractConfigGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.Callback;
+import com.github.dandelion.datatables.core.option.CallbackType;
 
 /**
  * <p>
@@ -58,7 +57,9 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * <li>bufferize Javascript code, at different location, before flushing it in
  * the final {@link TODO}</li>
  * <li>add some {@link Parameter} to the generated DataTables configuration,
- * thanks to {@link #addParameter(*)} methods</li>
+ * thanks to {@link #addParameter(Parameter)},
+ * {@link #addParameter(String, Object)} and
+ * {@link #addParameter(String, Object, Mode)} methods</li>
  * <li>add some bundles to the current request</li>
  * <li>add some {@link Callback} to the generated DataTables configuration</li>
  * </ul>
@@ -74,7 +75,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * <ol>
  * <li>Create a class that extends {@link AbstractExtension}. You could directly
  * create a class that directly implements {@link Extension} but this is not
- * recommended</li>
+ * recommended.</li>
  * <li>
  * Create a file called
  * <b>com.github.dandelion.datatables.core.extension.Extension</b> under the
@@ -123,10 +124,12 @@ public abstract class AbstractExtension implements Extension {
 	private StringBuilder beforeAll;
 	private StringBuilder beforeStartDocumentReady;
 	private StringBuilder afterStartDocumentReady;
+	private StringBuilder componentConfiguration;
 	private StringBuilder beforeEndDocumentReady;
+	private StringBuilder afterEndDocumentReady;
 	private StringBuilder afterAll;
 	private List<Parameter> confs;
-	private AbstractConfigurationGenerator configGenerator;
+	private AbstractConfigGenerator configGenerator;
 	private String function;
 	private HtmlTable table;
 
@@ -163,10 +166,6 @@ public abstract class AbstractExtension implements Extension {
 
 	public List<Parameter> getParameters() {
 		return confs;
-	}
-
-	public void setConfs(List<Parameter> confs) {
-		this.confs = confs;
 	}
 
 	/**
@@ -248,7 +247,7 @@ public abstract class AbstractExtension implements Extension {
 	 *            The Javascript code to execute in the callback.
 	 */
 	public void addCallback(CallbackType callbackType, String javascript) {
-		addParameter(new Parameter(callbackType.getName(), new JavascriptFunction(javascript, callbackType.getArgs()),
+		addParameter(new Parameter(callbackType.getName(), new JsFunction(javascript, callbackType.getArgs()),
 				Mode.APPEND));
 	}
 
@@ -266,15 +265,15 @@ public abstract class AbstractExtension implements Extension {
 	 *            Method of updating used for this parameter.
 	 */
 	public void addCallback(CallbackType callbackType, String javascript, Mode mode) {
-		addParameter(new Parameter(callbackType.getName(), new JavascriptFunction(javascript, callbackType.getArgs()),
+		addParameter(new Parameter(callbackType.getName(), new JsFunction(javascript, callbackType.getArgs()),
 				mode));
 	}
 
-	public AbstractConfigurationGenerator getConfigGenerator() {
+	public AbstractConfigGenerator getConfigGenerator() {
 		return configGenerator;
 	}
 
-	public void setConfigGenerator(AbstractConfigurationGenerator configGenerator) {
+	public void setConfigGenerator(AbstractConfigGenerator configGenerator) {
 		this.configGenerator = configGenerator;
 	}
 
@@ -306,6 +305,20 @@ public abstract class AbstractExtension implements Extension {
 		this.beforeEndDocumentReady.append(beforeEndDocumentReady);
 	}
 
+	public void appendToAfterEndDocumentReady(String afterEndDocumentReady) {
+		if (this.afterEndDocumentReady == null) {
+			this.afterEndDocumentReady = new StringBuilder();
+		}
+		this.afterEndDocumentReady.append(afterEndDocumentReady);
+	}
+	
+	public void appendToComponentConfiguration(String componentConfiguration) {
+		if (this.componentConfiguration == null) {
+			this.componentConfiguration = new StringBuilder();
+		}
+		this.componentConfiguration.append(componentConfiguration);
+	}
+	
 	public void appendToAfterAll(String afterAll) {
 		if (this.afterAll == null) {
 			this.afterAll = new StringBuilder();
@@ -325,24 +338,25 @@ public abstract class AbstractExtension implements Extension {
 		return this.table.getDynamicAttributes();
 	}
 
-//	public boolean isEnabled(DatatableConfig configToken){
-//		Boolean result = configToken.valueFrom(table.getTableConfiguration());
-//		return result == null || true;
-//	}
-	
-//	public boolean isNotNull(ConfigToken<?> configToken){
-//		Object result = configToken.valueFrom(table.getTableConfiguration());
-//		return result != null;
-//	}
-	
+	// public boolean isEnabled(DatatableConfig configToken){
+	// Boolean result = configToken.valueFrom(table.getTableConfiguration());
+	// return result == null || true;
+	// }
+
+	// public boolean isNotNull(ConfigToken<?> configToken){
+	// Object result = configToken.valueFrom(table.getTableConfiguration());
+	// return result != null;
+	// }
+
 	/**
 	 * @return the Dandelion {@link Context}.
 	 */
-	public Context getContext(){
-		Context context = (Context) table.getTableConfiguration().getRequest().getAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE);
+	public Context getContext() {
+		Context context = (Context) table.getTableConfiguration().getRequest()
+				.getAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE);
 		return context;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -364,12 +378,14 @@ public abstract class AbstractExtension implements Extension {
 		if (extensionName == null) {
 			if (other.extensionName != null)
 				return false;
-		} else if (!extensionName.equals(other.extensionName))
+		}
+		else if (!extensionName.equals(other.extensionName))
 			return false;
 		if (table == null) {
 			if (other.table != null)
 				return false;
-		} else if (!table.equals(other.table))
+		}
+		else if (!table.equals(other.table))
 			return false;
 		return true;
 	}

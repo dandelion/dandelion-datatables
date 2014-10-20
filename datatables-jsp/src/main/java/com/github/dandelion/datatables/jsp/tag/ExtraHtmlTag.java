@@ -35,31 +35,30 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.extension.feature.ExtraHtml;
 import com.github.dandelion.datatables.core.extension.feature.ExtraHtmlFeature;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
- * JSP tag used to create a HTML snippet and insert it anywhere around the table thanks to the {@link TableConfig#FEATURE_DOM} configuration.
- * 
+ * JSP tag used to create a HTML snippet and insert it anywhere around the table
+ * thanks to the {@link DatatableOptions#FEATURE_DOM} configuration.
+ * </p>
  * <p>
  * Note that this tag will be processed only once, at the first iteration.
- * 
+ * </p>
  * <p>
  * Example usage:
+ * </p>
  * 
  * <pre>
- * &lt;script>
- *    function myInitCallback(oSettings, json) {
- *      // some stuff
- *    }
- * &lt;/script>
- * ...
- * &lt;datatables:table id="myTableId" data="${persons}">
- *    &lt;datatables:column title="Id" property="id" />
- *    &lt;datatables:column title="Firstname" property="firstName" />
- *    &lt;datatables:column title="LastName" property="lastName" />
- *    &lt;datatables:column title="City" property="address.town.name" />
- *    &lt;datatables:column title="Mail" property="mail" />
- *    &lt;datatables:callback type="init" function="myInitCallback" />
+ * &lt;datatables:table id="myTableId" data="${persons}" dom="l0frtip"> 
+ *   &lt;datatables:column title="Id" property="id" />
+ *   &lt;datatables:column title="LastName" property="lastName" />
+ *   &lt;datatables:column title="FirstName" property="firstName" />
+ *   &lt;datatables:column title="City" property="address.town.name" />
+ *   &lt;datatables:column title="Mail" property="mail" />
+ *   &lt;datatables:extraHtml uid="0" cssStyle="float:right; margin-left: 5px;"> 
+ *     &lt;a class="btn" onclick="alert('Click!');">My custom link&lt;/a> 
+ *   &lt;/datatables:extraHtml>
  * &lt;/datatables:table>
  * </pre>
  * 
@@ -77,15 +76,16 @@ public class ExtraHtmlTag extends BodyTagSupport {
 	private String container;
 	private String cssStyle;
 	private String cssClass;
-	private boolean escapeXml = true; // Whether XML characters should be escaped
-	
+	private boolean escapeXml = true; // Whether XML characters should be
+										// escaped
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public int doStartTag() throws JspException {
-		
+
 		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
-		if(parent != null){
+		if (parent != null) {
 			return EVAL_BODY_BUFFERED;
 		}
 
@@ -101,7 +101,7 @@ public class ExtraHtmlTag extends BodyTagSupport {
 
 		// The tag is evaluated only once, at the first iteration
 		if (parent.isFirstIteration()) {
-			
+
 			ExtraHtml extraHtml = new ExtraHtml();
 			extraHtml.setUid(uid);
 			extraHtml.setContainer(StringUtils.isNotBlank(container) ? StringUtils.escape(this.escapeXml,
@@ -111,7 +111,7 @@ public class ExtraHtmlTag extends BodyTagSupport {
 			if (getBodyContent() != null) {
 				extraHtml.setContent(getBodyContent().getString().replaceAll("[\n\r]", "").trim());
 			}
-			
+
 			parent.getTable().getTableConfiguration().addExtraHtmlSnippet(extraHtml);
 			parent.getTable().getTableConfiguration().registerExtension(new ExtraHtmlFeature());
 		}

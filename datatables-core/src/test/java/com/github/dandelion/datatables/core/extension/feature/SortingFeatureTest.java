@@ -7,10 +7,10 @@ import java.util.List;
 import org.junit.Test;
 
 import com.github.dandelion.core.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.config.DatatableBundles;
-import com.github.dandelion.datatables.core.config.DatatableOptions;
+import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

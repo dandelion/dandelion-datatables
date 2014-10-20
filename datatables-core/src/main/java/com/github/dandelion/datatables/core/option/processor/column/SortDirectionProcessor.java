@@ -35,22 +35,24 @@ import java.util.List;
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.utils.EnumUtils;
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.constants.Direction;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
+import com.github.dandelion.datatables.core.option.Direction;
 import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 
 /**
  * <p>
- * Column processor used to configure a sort direction.
+ * Processor associated with the {@link DatatableOptions#SORTDIRECTION} option.
+ * </p>
  * 
  * @author Thibault Duchateau
- * @see ColumnConfig#SORTDIRECTION
+ * @see DatatableOptions#SORTDIRECTION
  */
 public class SortDirectionProcessor extends AbstractOptionProcessor {
 
 	@Override
 	protected Object getProcessedValue(OptionProcessingContext context) {
-		
+
 		String valueAsString = context.getValueAsString();
 		if (StringUtils.isNotBlank(valueAsString)) {
 
@@ -60,7 +62,8 @@ public class SortDirectionProcessor extends AbstractOptionProcessor {
 			for (String direction : sortDirectionArray) {
 				try {
 					sortDirections.add(Direction.valueOf(direction.toUpperCase().trim()));
-				} catch (IllegalArgumentException e) {
+				}
+				catch (IllegalArgumentException e) {
 					StringBuilder sb = new StringBuilder();
 					sb.append("'");
 					sb.append(valueAsString);
@@ -72,7 +75,7 @@ public class SortDirectionProcessor extends AbstractOptionProcessor {
 
 			return sortDirections;
 		}
-		
+
 		return null;
 	}
 }

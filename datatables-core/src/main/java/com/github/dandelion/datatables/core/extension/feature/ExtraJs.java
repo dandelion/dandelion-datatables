@@ -31,38 +31,32 @@ package com.github.dandelion.datatables.core.extension.feature;
 
 import java.util.Set;
 
-import com.github.dandelion.datatables.core.asset.InsertMode;
+import com.github.dandelion.core.asset.generator.js.jquery.JQueryContentPlaceholder;
 
 /**
+ * <p>
  * POJO used to wrap a set of bundles to be inserted in the generated DataTable
- * configuration..
+ * configuration.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
  */
 public class ExtraJs {
 
-	private Set<String> bundles;
-	private InsertMode insert;
+	private final Set<String> bundles;
+	private final JQueryContentPlaceholder placeholder;
 
-	public ExtraJs(Set<String> bundles, InsertMode insert) {
+	public ExtraJs(Set<String> bundles, JQueryContentPlaceholder placeholder) {
 		this.bundles = bundles;
-		this.insert = insert;
+		this.placeholder = placeholder;
 	}
 
 	public Set<String> getBundles() {
 		return bundles;
 	}
 
-	public void setBundles(Set<String> bundles) {
-		this.bundles = bundles;
-	}
-
-	public InsertMode getInsert() {
-		return insert;
-	}
-
-	public void setInsert(InsertMode insert) {
-		this.insert = insert;
+	public JQueryContentPlaceholder getPlaceholder() {
+		return placeholder;
 	}
 }

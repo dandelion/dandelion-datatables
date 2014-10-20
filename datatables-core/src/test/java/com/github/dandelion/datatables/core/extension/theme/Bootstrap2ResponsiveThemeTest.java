@@ -5,12 +5,14 @@ import java.util.HashSet;
 
 import org.junit.Test;
 
+import com.github.dandelion.core.asset.generator.js.JsFunction;
 import com.github.dandelion.core.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.asset.JavascriptFunction;
-import com.github.dandelion.datatables.core.callback.CallbackType;
-import com.github.dandelion.datatables.core.constants.DTConstants;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
+import com.github.dandelion.datatables.core.generator.DTConstants;
+import com.github.dandelion.datatables.core.option.CallbackType;
+
+import static com.github.dandelion.core.asset.generator.js.jquery.JQueryContentPlaceholder.BEFORE_ALL;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
@@ -27,12 +29,12 @@ public class Bootstrap2ResponsiveThemeTest extends AbstractExtensionTest {
 		assertThat(mainConfig.keySet()).contains(CallbackType.DRAW.getName(), CallbackType.ROW.getName(), CallbackType.PREDRAW.getName());
 		
 		assertThat(mainConfig.get(CallbackType.DRAW.getName()).toString())
-			.isEqualTo(new JavascriptFunction("responsiveHelper_fakeId.respond();", CallbackType.DRAW.getArgs()).toString());
+			.isEqualTo(new JsFunction("responsiveHelper_fakeId.respond();", CallbackType.DRAW.getArgs()).toString());
 		assertThat(mainConfig.get(CallbackType.ROW.getName()).toString())
-			.isEqualTo(new JavascriptFunction("responsiveHelper_fakeId.createExpandIcon(nRow);", CallbackType.ROW.getArgs()).toString());
+			.isEqualTo(new JsFunction("responsiveHelper_fakeId.createExpandIcon(nRow);", CallbackType.ROW.getArgs()).toString());
 		assertThat(mainConfig.get(CallbackType.PREDRAW.getName()).toString())
-			.isEqualTo(new JavascriptFunction("if (!responsiveHelper_fakeId) { responsiveHelper_fakeId = new ResponsiveDatatablesHelper(oTable_fakeId, breakpointDefinition); }", CallbackType.PREDRAW.getArgs()).toString());
+			.isEqualTo(new JsFunction("if (!responsiveHelper_fakeId) { responsiveHelper_fakeId = new ResponsiveDatatablesHelper(oTable_fakeId, breakpointDefinition); }", CallbackType.PREDRAW.getArgs()).toString());
 		
-		assertThat(mainJsFile.getBeforeAll().toString()).isEqualTo("var responsiveHelper_fakeId;\nvar breakpointDefinition = { tablet: 1024, phone : 480 };\n");
+		assertThat(datatableContent.getPlaceholderContent().get(BEFORE_ALL).toString()).contains("var responsiveHelper_fakeId;\nvar breakpointDefinition = { tablet: 1024, phone : 480 };\n");
 	}
 }

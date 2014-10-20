@@ -35,15 +35,24 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.datatables.core.config.ColumnConfiguration;
-import com.github.dandelion.datatables.core.config.TableConfiguration;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.ColumnConfiguration;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.core.option.TableConfiguration;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 
+/**
+ * <p>
+ * Set of utilities to help dealing with {@link DatatableOptions}.
+ * </p>
+ * 
+ * @author Thibault Duchateau
+ * @since 0.11.0
+ */
 public final class ConfigUtils {
 
 	protected static Logger logger = LoggerFactory.getLogger(ConfigUtils.class);
@@ -52,6 +61,7 @@ public final class ConfigUtils {
 	 * <p>
 	 * Overloads the configurations stored in the {@link TableConfiguration}
 	 * instance with the one passed as parameter.
+	 * </p>
 	 * 
 	 * @param stagingConf
 	 *            The staging configurations filled either with the JSP taglib
@@ -60,7 +70,7 @@ public final class ConfigUtils {
 	 *            The table which holds the {@link TableConfiguration} to
 	 *            overload.
 	 */
-	public static void applyConfiguration(Map<Option<?>, Object> stagingConf, HtmlTable table) {
+	public static void applyStagingOptions(Map<Option<?>, Object> stagingConf, HtmlTable table) {
 
 		for (Entry<Option<?>, Object> stagingEntry : stagingConf.entrySet()) {
 			table.getTableConfiguration().getConfigurations().put(stagingEntry.getKey(), stagingEntry.getValue());
@@ -71,8 +81,8 @@ public final class ConfigUtils {
 	 * <p>
 	 * At this point, the configuration stored inside the
 	 * {@link TableConfiguration} contains only Strings. All these strings will
-	 * be processed in this method, depending on the {@link ConfigToken} they
-	 * are bound to.
+	 * be processed in this method, depending on the {@link DatatableOptions}
+	 * they are bound to.
 	 * </p>
 	 * <p>
 	 * Once processed, all strings will be replaced by the typed value.
@@ -85,7 +95,7 @@ public final class ConfigUtils {
 	 * @param table
 	 *            The table which holds the configuration to process.
 	 */
-	public static void processConfiguration(HtmlTable table) {
+	public static void processOptions(HtmlTable table) {
 
 		Map<Option<?>, Object> configurations = table.getTableConfiguration().getConfigurations();
 
@@ -95,7 +105,8 @@ public final class ConfigUtils {
 				logger.debug("Processing configuration \"{}\" with the value \"{}\"({})", entry.getKey(),
 						entry.getValue(), entry.getValue().getClass().getSimpleName());
 				OptionProcessor optionProcessor = entry.getKey().getProcessor();
-				OptionProcessingContext pc = new OptionProcessingContext(entry, table.getTableConfiguration(), null, optionProcessor.isBundleGraphUpdatable());
+				OptionProcessingContext pc = new OptionProcessingContext(entry, table.getTableConfiguration(), null,
+						optionProcessor.isBundleGraphUpdatable());
 				optionProcessor.process(pc);
 			}
 
@@ -108,9 +119,11 @@ public final class ConfigUtils {
 	 * <p>
 	 * Overloads the configurations stored in the {@link ColumnConfiguration}
 	 * instance with the one passed as parameter.
+	 * </p>
 	 * <p>
 	 * Only configuration token with not blank values will be merged into the
 	 * {@link ColumnConfiguration} instance.
+	 * </p>
 	 * 
 	 * @param stagingConf
 	 *            The staging configurations filled either with the JSP taglib
@@ -122,7 +135,7 @@ public final class ConfigUtils {
 	 *            The column which holds the {@link ColumnConfiguration} to
 	 *            overload.
 	 */
-	public static void applyConfiguration(Map<Option<?>, Object> stagingConf,
+	public static void applyStagingOptionsAndExtensions(Map<Option<?>, Object> stagingConf,
 			Map<Option<?>, Extension> stagingExtensions, HtmlColumn column) {
 
 		for (Entry<Option<?>, Object> stagingEntry : stagingConf.entrySet()) {
@@ -136,26 +149,28 @@ public final class ConfigUtils {
 	 * <p>
 	 * At this point, the configuration stored inside the
 	 * {@link ColumnConfiguration} contains only Strings. All these strings will
-	 * be processed in this method, depending on the {@link ConfigToken} they
-	 * are bound to.
-	 * 
+	 * be processed in this method, depending on the {@link DatatableOptions}
+	 * they are bound to.
+	 * </p>
 	 * <p>
 	 * Once processed, all strings will be replaced by the typed value.
+	 * </p>
 	 * 
 	 * @param column
 	 *            The column which contains the configurations to process.
 	 * @param table
 	 *            The table may be used by processor to register extensions.
 	 */
-	public static void processConfiguration(HtmlColumn column, HtmlTable table) {
+	public static void processOptions(HtmlColumn column, HtmlTable table) {
 
 		if (column.getColumnConfiguration().getConfigurations() != null) {
 			for (Entry<Option<?>, Object> entry : column.getColumnConfiguration().getConfigurations().entrySet()) {
-				
+
 				OptionProcessor optionProcessor = entry.getKey().getProcessor();
-				OptionProcessingContext pc = new OptionProcessingContext(entry, table.getTableConfiguration(), column.getColumnConfiguration(), optionProcessor.isBundleGraphUpdatable());
+				OptionProcessingContext pc = new OptionProcessingContext(entry, table.getTableConfiguration(),
+						column.getColumnConfiguration(), optionProcessor.isBundleGraphUpdatable());
 				optionProcessor.process(pc);
-				
+
 			}
 
 			// Merging staging configuration into to the final configuration map
