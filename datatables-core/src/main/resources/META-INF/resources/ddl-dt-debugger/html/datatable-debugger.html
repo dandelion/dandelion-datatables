@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Dandelion debugger">
+<meta name="author" content="Dandelion team">
+<title>Dandelion debugger</title>
+<link rel="stylesheet" href="%CONTEXT%/ddl-debugger/css/bootstrap.min.css"></link>
+<link rel="stylesheet" href="%CONTEXT%/ddl-debugger/css/dashboard.css">
+<link rel="stylesheet" href="%CONTEXT%/ddl-debugger/css/graph.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+          data-target="#navbar">
+          <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
+            class="icon-bar"></span> <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="%CONTEXT%/%DEBUGGER_PARAM%">Dandelion Debugger</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="http://dandelion-forum.48353.x6.nabble.com/">Support</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar">
+        %COMPONENTS%
+        <ul class="nav nav-sidebar">
+          <li class="nav-header disabled"><a>Actions</a></li>
+          %ACTION_LINKS%
+        </ul>
+      </div>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Dandelion-Datatables debugger</h1>
+        <p>
+          Pending...
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="%CONTEXT%/ddl-debugger/js/jquery-1.11.1.min.js"></script>
+  <script src="%CONTEXT%/ddl-debugger/js/bootstrap.min.js"></script>
+</body>
+</html>
