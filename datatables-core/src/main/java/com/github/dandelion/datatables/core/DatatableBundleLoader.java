@@ -29,13 +29,13 @@
  */
 package com.github.dandelion.datatables.core;
 
-import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.core.bundle.loader.spi.AbstractBundleLoader;
+import com.github.dandelion.core.bundle.loader.AbstractBundleLoader;
+import com.github.dandelion.core.storage.BundleStorageUnit;
 
 /**
  * <p>
@@ -66,12 +66,7 @@ public class DatatableBundleLoader extends AbstractBundleLoader {
 	}
 
 	@Override
-	public boolean isRecursive() {
-		return true;
-	}
-
-	@Override
-	public Set<String> getExcludedPaths() {
-		return Collections.emptySet();
+	protected void doCustomBundlePostProcessing(List<BundleStorageUnit> bundles) {
+		// Do nothing
 	}
 }
