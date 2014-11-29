@@ -55,106 +55,121 @@ import com.github.dandelion.datatables.core.util.CollectionUtils;
  * 
  * @author Thibault Duchateau
  */
-public class ColumnFilteringConfigGenerator extends AbstractConfigGenerator {
+public class YadcfConfigGenerator {
 
-	private static Logger logger = LoggerFactory.getLogger(ColumnFilteringConfigGenerator.class);
+	private static Logger logger = LoggerFactory.getLogger(YadcfConfigGenerator.class);
 
-	public Map<String, Object> generateConfig(HtmlTable table) {
+	public List<Map<String, Object>> generateConfig(HtmlTable table) {
 
-		logger.debug("Generating Column Filtering configuration...");
+		logger.debug("Generating YADCF Filtering configuration...");
 
-		// Filtering configuration object
-		Map<String, Object> filteringConf = new HashMap<String, Object>();
-
-		// Placeholder for filtering elements
-		FilterPlaceholder filterPlaceholder = DatatableOptions.FEATURE_FILTER_PLACEHOLDER.valueFrom(table.getTableConfiguration());
-		if (filterPlaceholder != null) {
-			filteringConf.put(DTConstants.DT_S_PLACEHOLDER, filterPlaceholder.getExtensionName());
-		}
-
-		// Filtering trigger
-		String filterTrigger = DatatableOptions.FEATURE_FILTER_TRIGGER.valueFrom(table.getTableConfiguration());
-		if (StringUtils.isNotBlank(filterTrigger)) {
-			filteringConf.put(DTConstants.DT_S_FILTERING_TRIGGER, filterTrigger);
-		}
-
-		// Filtering delay
-		Integer filterColumnDelay = DatatableOptions.FEATURE_FILTER_DELAY.valueFrom(table.getTableConfiguration());
-		if (filterColumnDelay != null) {
-			filteringConf.put(DTConstants.DT_I_FILTERING_DELAY, filterColumnDelay);
-		}
+		List<Map<String, Object>> retval = new ArrayList<Map<String, Object>>();
+		
+//		// Placeholder for filtering elements
+//		FilterPlaceholder filterPlaceholder = DatatableOptions.FEATURE_FILTER_PLACEHOLDER.valueFrom(table.getTableConfiguration());
+//		if (filterPlaceholder != null) {
+//			filteringConf.put(DTConstants.DT_S_PLACEHOLDER, filterPlaceholder.getExtensionName());
+//		}
+//
+//		// Filtering trigger
+//		String filterTrigger = DatatableOptions.FEATURE_FILTER_TRIGGER.valueFrom(table.getTableConfiguration());
+//		if (StringUtils.isNotBlank(filterTrigger)) {
+//			filteringConf.put(DTConstants.DT_S_FILTERING_TRIGGER, filterTrigger);
+//		}
+//
+//		// Filtering delay
+//		Integer filterColumnDelay = DatatableOptions.FEATURE_FILTER_DELAY.valueFrom(table.getTableConfiguration());
+//		if (filterColumnDelay != null) {
+//			filteringConf.put(DTConstants.DT_I_FILTERING_DELAY, filterColumnDelay);
+//		}
 
 		// Columns configuration
-		Map<String, Object> tmp = null;
 		List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
+		int columnIndex = 0;
 		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
+
 
 			Set<String> enabledDisplayTypes = column.getEnabledDisplayTypes();
 			if (CollectionUtils.containsAny(enabledDisplayTypes, ReservedFormat.ALL, ReservedFormat.HTML)) {
-				tmp = new HashMap<String, Object>();
+
+				// Filtering configuration object
+				Map<String, Object> columnConf = new HashMap<String, Object>();
 
 				ColumnConfiguration columnConfiguration = column.getColumnConfiguration();
 
 				Boolean filterable = DatatableOptions.FILTERABLE.valueFrom(columnConfiguration);
-				FilterType filterType = DatatableOptions.FILTERTYPE.valueFrom(columnConfiguration);
-				if (filterable != null && filterable && filterType != null) {
+				if (filterable != null && filterable) {
 
+					columnConf.put("column_number", columnIndex);
+					FilterType filterType = DatatableOptions.FILTERTYPE.valueFrom(columnConfiguration);
+					if(filterType != null){
+						
+					
 					switch (filterType) {
 					case INPUT:
-						tmp.put(DTConstants.DT_FILTER_TYPE, "text");
+						columnConf.put("filter_type", "text");
+						break;
+					case AUTO_COMPLETE:
+						columnConf.put("filter_type", "auto_complete");
 						break;
 					case NUMBER:
-						tmp.put(DTConstants.DT_FILTER_TYPE, "number");
+						columnConf.put("filter_type", "number");
 						break;
 					case SELECT:
-						tmp.put(DTConstants.DT_FILTER_TYPE, "select");
+						columnConf.put(DTConstants.DT_FILTER_TYPE, "select");
 						break;
 					case NUMBER_RANGE:
-						tmp.put(DTConstants.DT_FILTER_TYPE, "number-range");
+						columnConf.put(DTConstants.DT_FILTER_TYPE, "number-range");
 						break;
 					case DATE_RANGE:
-						tmp.put(DTConstants.DT_FILTER_TYPE, "date-range");
+						columnConf.put(DTConstants.DT_FILTER_TYPE, "range_date");
 						String dateFormat = DatatableOptions.FILTERDATEFORMAT.valueFrom(columnConfiguration);
 						if (StringUtils.isNotBlank(dateFormat)) {
-							tmp.put(DTConstants.DT_S_DATEFORMAT, dateFormat);
+							columnConf.put(DTConstants.DT_S_DATEFORMAT, dateFormat);
 						}
 						break;
 					}
-				} else {
-					tmp.put(DTConstants.DT_FILTER_TYPE, "null");
-				}
+					}
+					else {
+						columnConf.put("filter_type", "text");
+					}
+					retval.add(columnConf);
+				} 
 
-				String name = DatatableOptions.NAME.valueFrom(columnConfiguration);
-				if (StringUtils.isNotBlank(name)) {
-					tmp.put(DTConstants.DT_NAME, name);
-				}
+//				String name = DatatableOptions.NAME.valueFrom(columnConfiguration);
+//				if (StringUtils.isNotBlank(name)) {
+//					tmp.put(DTConstants.DT_NAME, name);
+//				}
 
-				String selector = DatatableOptions.SELECTOR.valueFrom(columnConfiguration);
-				if (StringUtils.isNotBlank(selector)) {
-					tmp.put(DTConstants.DT_S_SELECTOR, selector);
-				}
-
-				String filterValues = DatatableOptions.FILTERVALUES.valueFrom(columnConfiguration);
-				if (StringUtils.isNotBlank(filterValues)) {
-					tmp.put(DTConstants.DT_FILTER_VALUES, new JsSnippet(filterValues));
-				}
-
-				Integer filterMinLength = DatatableOptions.FILTERMINLENGTH.valueFrom(columnConfiguration);
-				if (filterMinLength != null) {
-					tmp.put(DTConstants.DT_FILTER_LENGTH, filterMinLength);
-				}
-				aoColumnsContent.add(tmp);
-
-				String filterCssClass = DatatableOptions.FILTERCSSCLASS.valueFrom(columnConfiguration);
-				if (StringUtils.isNotBlank(filterCssClass)) {
-					tmp.put(DTConstants.DT_FILTER_CLASS, filterCssClass);
-				}
+//				String selector = DatatableOptions.SELECTOR.valueFrom(columnConfiguration);
+//				if (StringUtils.isNotBlank(selector)) {
+//					tmp.put(DTConstants.DT_S_SELECTOR, selector);
+//				}
+//
+//				String filterValues = DatatableOptions.FILTERVALUES.valueFrom(columnConfiguration);
+//				if (StringUtils.isNotBlank(filterValues)) {
+//					tmp.put(DTConstants.DT_FILTER_VALUES, new JsSnippet(filterValues));
+//				}
+//
+//				Integer filterMinLength = DatatableOptions.FILTERMINLENGTH.valueFrom(columnConfiguration);
+//				if (filterMinLength != null) {
+//					tmp.put(DTConstants.DT_FILTER_LENGTH, filterMinLength);
+//				}
+//				aoColumnsContent.add(tmp);
+//
+//				String filterCssClass = DatatableOptions.FILTERCSSCLASS.valueFrom(columnConfiguration);
+//				if (StringUtils.isNotBlank(filterCssClass)) {
+//					tmp.put(DTConstants.DT_FILTER_CLASS, filterCssClass);
+//				}
+				
 			}
+			
+			columnIndex++;
 		}
-		filteringConf.put(DTConstants.DT_AOCOLUMNS, aoColumnsContent);
+//		filteringConf.put(DTConstants.DT_AOCOLUMNS, aoColumnsContent);
 
 		logger.debug("Column filtering configuration generated");
 
-		return filteringConf;
+		return retval;
 	}
 }

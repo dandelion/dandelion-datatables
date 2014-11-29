@@ -37,5 +37,5 @@ package com.github.dandelion.datatables.core.extension.feature;
  * @author Thibault Duchateau
  */
 public enum FilterType {
-	SELECT, INPUT, NUMBER, NUMBER_RANGE, DATE_RANGE;
+	SELECT, INPUT, NUMBER, NUMBER_RANGE, DATE_RANGE, AUTO_COMPLETE;
 }

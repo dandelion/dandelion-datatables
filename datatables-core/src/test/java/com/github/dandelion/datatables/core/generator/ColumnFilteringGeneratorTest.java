@@ -121,12 +121,12 @@ public class ColumnFilteringGeneratorTest {
 
 	@Test
 	public void should_generate_filter_placeholder() {
-		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, FilterPlaceholder.FOOT);
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, FilterPlaceholder.FOOTER);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(2);
-		assertThat(mainConf.get(DTConstants.DT_S_PLACEHOLDER)).isEqualTo("foot");
+		assertThat(mainConf.get(DTConstants.DT_S_PLACEHOLDER)).isEqualTo("footer");
 	}
 
 	@Test

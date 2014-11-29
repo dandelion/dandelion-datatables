@@ -64,23 +64,17 @@ public class FeatureFilterPlaceholderProcessorTest extends TableProcessorBaseTes
 		
 		assertThat(entry.getValue()).isEqualTo(FilterPlaceholder.NONE);
 		
-		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, "head_after");
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, "header");
 		pc = new OptionProcessingContext(entry, tableConfiguration, null);
 		processor.process(pc);
 		
-		assertThat(entry.getValue()).isEqualTo(FilterPlaceholder.HEAD_AFTER);
+		assertThat(entry.getValue()).isEqualTo(FilterPlaceholder.HEADER);
 
-		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, "head_before");
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, "footer");
 		pc = new OptionProcessingContext(entry, tableConfiguration, null);
 		processor.process(pc);
 		
-		assertThat(entry.getValue()).isEqualTo(FilterPlaceholder.HEAD_BEFORE);
-
-		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, "foot");
-		pc = new OptionProcessingContext(entry, tableConfiguration, null);
-		processor.process(pc);
-		
-		assertThat(entry.getValue()).isEqualTo(FilterPlaceholder.FOOT);
+		assertThat(entry.getValue()).isEqualTo(FilterPlaceholder.FOOTER);
 	}
 	
 	@Test(expected = DandelionException.class)

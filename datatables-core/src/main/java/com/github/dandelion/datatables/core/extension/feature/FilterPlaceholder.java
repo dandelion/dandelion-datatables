@@ -36,9 +36,8 @@ package com.github.dandelion.datatables.core.extension.feature;
  * @author Thibault Duchateau
  */
 public enum FilterPlaceholder {
-	HEAD_BEFORE("head:before"), 
-	HEAD_AFTER("head:after"), 
-	FOOT("foot"), 
+	FOOTER("footer"),
+	HEADER("header"),
 	NONE("none");
 	
 	private String name;
