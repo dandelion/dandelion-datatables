@@ -41,7 +41,6 @@ import com.github.dandelion.core.web.AssetRequestContext;
 import com.github.dandelion.core.web.WebConstants;
 import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.Parameter.Mode;
-import com.github.dandelion.datatables.core.generator.AbstractConfigGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.option.Callback;
 import com.github.dandelion.datatables.core.option.CallbackType;
@@ -129,7 +128,6 @@ public abstract class AbstractExtension implements Extension {
 	private StringBuilder afterEndDocumentReady;
 	private StringBuilder afterAll;
 	private List<Parameter> confs;
-	private AbstractConfigGenerator configGenerator;
 	private String function;
 	private HtmlTable table;
 
@@ -267,14 +265,6 @@ public abstract class AbstractExtension implements Extension {
 	public void addCallback(CallbackType callbackType, String javascript, Mode mode) {
 		addParameter(new Parameter(callbackType.getName(), new JsFunction(javascript, callbackType.getArgs()),
 				mode));
-	}
-
-	public AbstractConfigGenerator getConfigGenerator() {
-		return configGenerator;
-	}
-
-	public void setConfigGenerator(AbstractConfigGenerator configGenerator) {
-		this.configGenerator = configGenerator;
 	}
 
 	public void appendToBeforeAll(String beforeAll) {

@@ -36,9 +36,6 @@ import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBoot
 import com.github.dandelion.datatables.core.extension.plugin.ColReorderPlugin;
 import com.github.dandelion.datatables.core.extension.plugin.ScrollerPlugin;
 import com.github.dandelion.datatables.core.extension.theme.Bootstrap2Theme;
-import com.github.dandelion.datatables.core.generator.AbstractConfigGenerator;
-import com.github.dandelion.datatables.core.generator.ColumnFilteringConfigGenerator;
-import com.github.dandelion.datatables.core.generator.DatatableConfigGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**
@@ -55,30 +52,9 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * <li>one or more CssResource, i.e. CSS code externalized in a file</li>
  * <li>one or more Parameter, i.e. one or more specific DataTables parameters
  * that will be used during the DataTables initialization</li>
- * <li>an AbstractConfigurationGenerator if the extension needs its own
- * configuration generator. The one used for the main DataTables configuration
- * is the {@link DatatableConfigGenerator}. You can also take a look at the
- * {@link ColumnFilteringConfigGenerator} to see the configuration generated for the
- * Column Filtering add-on.</li>
- * <li>a potential Javascript function name that will be called after DataTables
- * initialization. <br>
- * Example : columnFilter <blockquote>
- * 
- * <pre>
- * oTable_myTableId = $('#myTableId').dataTable(oTable_myTableId_params).columnFilter({...});
- * </pre>
- * 
- * </blockquote></li>
- * <li>Javascript code to add in the main JS resource, i.e. the resource that
- * contains the DataTables initilization Javascript code. You can add Javascript
- * code at multiple locations in this file thanks to the following attributes :
- * <ul>
- * <li>beforeAll</li>
- * <li>beforeStartDocumentReady</li>
- * <li>afterStartDocumentReady</li>
- * <li>beforeEndDocumentReady</li>
  * <li>afterAll</li>
  * </ul>
+ * TODO
  * These attributes can be visualized in the following Javascript snippet :
  * <blockquote>
  * 
@@ -157,10 +133,6 @@ public interface Extension {
 
 	public void addParameter(Parameter conf);
 
-	public AbstractConfigGenerator getConfigGenerator();
-
-	public void setConfigGenerator(AbstractConfigGenerator configGenerator);
-
 	public void appendToBeforeAll(String beforeAll);
 
 	public void appendToBeforeStartDocumentReady(String beforeStartDocumentReady);
@@ -170,8 +142,4 @@ public interface Extension {
 	public void appendToBeforeEndDocumentReady(String beforeEndDocumentReady);
 
 	public void appendToAfterAll(String afterAll);
-
-	public String getFunction();
-
-	public void setFunction(String function);
 }

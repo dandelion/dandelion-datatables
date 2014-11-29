@@ -29,17 +29,9 @@
  */
 package com.github.dandelion.datatables.core.extension;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.Collection;
 import java.util.Map;
 
-import org.json.simple.JSONValue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.generator.js.JsFunction;
 import com.github.dandelion.core.asset.generator.js.JsSnippet;
 import com.github.dandelion.datatables.core.generator.DatatableJQueryContent;
@@ -54,8 +46,6 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * @since 0.9.0
  */
 public class ExtensionProcessor {
-
-	private static Logger logger = LoggerFactory.getLogger(ExtensionProcessor.class);
 
 	/**
 	 * The table instance where extensions must be loaded.
@@ -117,28 +107,6 @@ public class ExtensionProcessor {
 		}
 		if (extension.getAfterAll() != null) {
 			datatableContent.appendToAfterAll(extension.getAfterAll().toString());
-		}
-		if (extension.getFunction() != null) {
-			datatableContent.appendToDataTablesExtra(extension.getFunction());
-		}
-
-		// Extension custom configuration generator
-		if (extension.getConfigGenerator() != null) {
-			logger.debug("Custom configuration generator used: {}", extension.getConfigGenerator().getClass()
-					.getSimpleName());
-
-			Writer writer = new StringWriter();
-
-			Map<String, Object> conf = extension.getConfigGenerator().generateConfig(table);
-
-			try {
-				JSONValue.writeJSONString(conf, writer);
-			}
-			catch (IOException e) {
-				throw new DandelionException("Unable to convert the configuration into JSON", e);
-			}
-
-			datatableContent.appendToDataTablesExtraConf(writer.toString());
 		}
 	}
 

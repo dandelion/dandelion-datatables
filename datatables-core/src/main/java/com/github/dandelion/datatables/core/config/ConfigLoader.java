@@ -384,6 +384,14 @@ public class ConfigLoader {
 
 	/**
 	 * TODO
+	 * @return
+	 */
+	public Properties getUserProperties(){
+		return this.userProperties;
+	}
+	
+	/**
+	 * TODO
 	 * 
 	 * @param userProps
 	 */

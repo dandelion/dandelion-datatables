@@ -66,9 +66,8 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 
 	/**
 	 * <p>
-	 * Generates the configuration
-	 * If no custom config is specified with table attributes, DataTables will
-	 * internally use default one.
+	 * Generates the configuration If no custom config is specified with table
+	 * attributes, DataTables will internally use default one.
 	 * 
 	 * @param table
 	 *            The POJO containing the HTML table.
@@ -96,13 +95,12 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 		return mainConf;
 	}
 
-	private void generateScrollingConfiguration(Map<String, Object> mainConf,
-			TableConfiguration tableConfiguration) {
+	private void generateScrollingConfiguration(Map<String, Object> mainConf, TableConfiguration tableConfiguration) {
 		String featureScrollY = DatatableOptions.FEATURE_SCROLLY.valueFrom(tableConfiguration);
 		Boolean featureScrollCollapse = DatatableOptions.FEATURE_SCROLLCOLLAPSE.valueFrom(tableConfiguration);
 		String featureScrollX = DatatableOptions.FEATURE_SCROLLX.valueFrom(tableConfiguration);
 		String featureScrollXInner = DatatableOptions.FEATURE_SCROLLXINNER.valueFrom(tableConfiguration);
-		
+
 		if (StringUtils.isNotBlank(featureScrollY)) {
 			mainConf.put(DTConstants.DT_SCROLLY, featureScrollY);
 		}
@@ -116,14 +114,16 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 			mainConf.put(DTConstants.DT_SCROLLXINNER, featureScrollXInner);
 		}
 	}
+
 	private void generateFeatureEnablementConfiguration(Map<String, Object> mainConf,
 			TableConfiguration tableConfiguration) {
-		
+
 		Boolean featureFilterable = DatatableOptions.FEATURE_FILTERABLE.valueFrom(tableConfiguration);
 		Boolean featureInfo = DatatableOptions.FEATURE_INFO.valueFrom(tableConfiguration);
 		Boolean featurePaginate = DatatableOptions.FEATURE_PAGEABLE.valueFrom(tableConfiguration);
 		Boolean featureSort = DatatableOptions.FEATURE_SORTABLE.valueFrom(tableConfiguration);
-		
+		Boolean featureProcessing = DatatableOptions.FEATURE_PROCESSING.valueFrom(tableConfiguration);
+
 		if (featureFilterable != null) {
 			mainConf.put(DTConstants.DT_FILTER, featureFilterable);
 		}
@@ -136,10 +136,13 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 		if (featureSort != null) {
 			mainConf.put(DTConstants.DT_SORT, featureSort);
 		}
+		if (featureProcessing != null) {
+			mainConf.put(DTConstants.DT_B_PROCESSING, featureProcessing);
+		}
 	}
 
 	private void generateMiscConfiguration(Map<String, Object> mainConf, TableConfiguration tableConfiguration) {
-		
+
 		String featureDom = DatatableOptions.FEATURE_DOM.valueFrom(tableConfiguration);
 		Boolean featureAutoWidth = DatatableOptions.FEATURE_AUTOWIDTH.valueFrom(tableConfiguration);
 		String featureLengthMenu = DatatableOptions.FEATURE_LENGTHMENU.valueFrom(tableConfiguration);
@@ -149,15 +152,15 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 		PaginationType featurePaginationType = DatatableOptions.FEATURE_PAGINATIONTYPE.valueFrom(tableConfiguration);
 		Boolean featureStateSave = DatatableOptions.FEATURE_STATESAVE.valueFrom(tableConfiguration);
 		Boolean featureJqueryUi = DatatableOptions.FEATURE_JQUERYUI.valueFrom(tableConfiguration);
-		
+
 		if (StringUtils.isNotBlank(featureDom)) {
 			mainConf.put(DTConstants.DT_DOM, featureDom);
 		}
-		if(featureAutoWidth != null){
+		if (featureAutoWidth != null) {
 			mainConf.put(DTConstants.DT_AUTO_WIDTH, featureAutoWidth);
 		}
 		if (featureDisplayLength != null) {
-			mainConf.put(DTConstants.DT_I_DISPLAY_LENGTH, featureDisplayLength);
+			mainConf.put(DTConstants.DT_I_LENGTH, featureDisplayLength);
 		}
 		if (featureLengthChange != null) {
 			mainConf.put(DTConstants.DT_LENGTH_CHANGE, featureLengthChange);
@@ -175,15 +178,14 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 			mainConf.put(DTConstants.DT_A_LENGTH_MENU, new JsSnippet(featureLengthMenu));
 		}
 		if (StringUtils.isNotBlank(cssStripeClasses)) {
-			mainConf.put(DTConstants.DT_AS_STRIPE_CLASSES,
-					new JsSnippet(cssStripeClasses));
+			mainConf.put(DTConstants.DT_AS_STRIPE_CLASSES, new JsSnippet(cssStripeClasses));
 		}
-		
+
 	}
 
 	private void generateColumnConfiguration(Map<String, Object> mainConf, HtmlTable table,
 			TableConfiguration tableConfiguration) {
-		
+
 		// Columns configuration using aoColumn
 		Map<String, Object> tmp = null;
 		List<Map<String, Object>> aoColumnsContent = new ArrayList<Map<String, Object>>();
@@ -196,25 +198,25 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 
 				// Name
 				String name = DatatableOptions.NAME.valueFrom(columnConfiguration);
-				if(StringUtils.isNotBlank(name)) {
-					tmp.put(DTConstants.DT_S_NAME, name);
+				if (StringUtils.isNotBlank(name)) {
+					tmp.put(DTConstants.DT_NAME, name);
 				}
-				
+
 				// Sortable
 				Boolean sortable = DatatableOptions.SORTABLE.valueFrom(columnConfiguration);
-				if(sortable != null) {
+				if (sortable != null) {
 					tmp.put(DTConstants.DT_SORTABLE, sortable);
 				}
 
 				// Searchable
 				Boolean searchable = DatatableOptions.SEARCHABLE.valueFrom(columnConfiguration);
-				if(searchable != null){
+				if (searchable != null) {
 					tmp.put(DTConstants.DT_SEARCHABLE, searchable);
 				}
 
 				// Visible
 				Boolean visible = DatatableOptions.VISIBLE.valueFrom(columnConfiguration);
-				if(visible != null){
+				if (visible != null) {
 					tmp.put(DTConstants.DT_VISIBLE, visible);
 				}
 
@@ -231,10 +233,10 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 
 				String defaultValue = DatatableOptions.DEFAULTVALUE.valueFrom(columnConfiguration);
 				if (defaultValue != null) {
-					tmp.put(DTConstants.DT_S_DEFAULT_CONTENT, defaultValue);
+					tmp.put(DTConstants.DT_DEFAULT_CONTENT, defaultValue);
 				}
 				else {
-					tmp.put(DTConstants.DT_S_DEFAULT_CONTENT, "");
+					tmp.put(DTConstants.DT_DEFAULT_CONTENT, "");
 				}
 
 				// Column's style (AJAX only)
@@ -259,7 +261,7 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 				// Sorting type
 				String sortType = DatatableOptions.SORTTYPE.valueFrom(columnConfiguration);
 				if (StringUtils.isNotBlank(sortType)) {
-					tmp.put(DTConstants.DT_S_TYPE, sortType);
+					tmp.put(DTConstants.DT_TYPE, sortType);
 				}
 
 				aoColumnsContent.add(tmp);
@@ -272,9 +274,9 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 		List<Object> aaSortingContent = new ArrayList<Object>();
 		Map<Integer, Map<Integer, String>> sortedColumnMap = new TreeMap<Integer, Map<Integer, String>>();
 		int columnIndex = 0;
-		
+
 		for (HtmlColumn column : table.getLastHeaderRow().getColumns(ReservedFormat.ALL, ReservedFormat.HTML)) {
-			
+
 			String sortInitDirection = DatatableOptions.SORTINITDIRECTION.valueFrom(column.getColumnConfiguration());
 			Integer sortInitOrder = DatatableOptions.SORTINITORDER.valueFrom(column.getColumnConfiguration());
 
@@ -283,22 +285,22 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 				value.put(columnIndex, sortInitDirection);
 				sortedColumnMap.put(sortInitOrder, value);
 			}
-			else if(StringUtils.isNotBlank(sortInitDirection)){
+			else if (StringUtils.isNotBlank(sortInitDirection)) {
 				Map<Integer, String> value = new HashMap<Integer, String>();
 				value.put(columnIndex, sortInitDirection);
 				sortedColumnMap.put(sortedColumnMap.keySet().size(), value);
 			}
 			columnIndex++;
 		}
-		
-		for(Entry<Integer, Map<Integer, String>> entry : sortedColumnMap.entrySet()) {
+
+		for (Entry<Integer, Map<Integer, String>> entry : sortedColumnMap.entrySet()) {
 			aaSortingtmp = new ArrayList<Object>();
 			Integer key = entry.getValue().entrySet().iterator().next().getKey();
 			aaSortingtmp.add(key);
 			aaSortingtmp.add(entry.getValue().get(key));
 			aaSortingContent.add(aaSortingtmp);
 		}
-		
+
 		if (!aaSortingContent.isEmpty()) {
 			mainConf.put(DTConstants.DT_SORT_INIT, aaSortingContent);
 		}
@@ -324,9 +326,11 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 					if (entry.getKey().equals(conf.getPropertyName())) {
 						if (entry.getKey().toString().contains("paginate")) {
 							languagePaginateMap.put(conf.getRealName(), entry.getValue());
-						} else if (entry.getKey().toString().contains("aria")) {
+						}
+						else if (entry.getKey().toString().contains("aria")) {
 							languageAriaMap.put(conf.getRealName(), entry.getValue());
-						} else {
+						}
+						else {
 							languageMap.put(conf.getRealName(), entry.getValue());
 						}
 						break;
@@ -358,39 +362,38 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 	 *            The table configuration to read from.
 	 */
 	private void generateAjaxConfiguration(Map<String, Object> mainConf, TableConfiguration tableConfiguration) {
-		Boolean ajaxProcessing = DatatableOptions.FEATURE_PROCESSING.valueFrom(tableConfiguration);
-		Boolean ajaxDeferRender = DatatableOptions.AJAX_DEFERRENDER.valueFrom(tableConfiguration);
 		Boolean ajaxServerSide = DatatableOptions.AJAX_SERVERSIDE.valueFrom(tableConfiguration);
-		
-		if (ajaxProcessing != null) {
-			mainConf.put(DTConstants.DT_B_PROCESSING, ajaxProcessing);
+		Boolean ajaxDeferRender = DatatableOptions.AJAX_DEFERRENDER.valueFrom(tableConfiguration);
+
+		if (ajaxServerSide != null) {
+			// String ajaxSource =
+			// DatatableOptions.AJAX_SOURCE.valueFrom(tableConfiguration);
+			// String ajaxServerData =
+			// DatatableOptions.AJAX_SERVERDATA.valueFrom(tableConfiguration);
+			// String ajaxServerParam =
+			// DatatableOptions.AJAX_SERVERPARAM.valueFrom(tableConfiguration);
+			// String ajaxServerMethod =
+			// DatatableOptions.AJAX_SERVERMETHOD.valueFrom(tableConfiguration);
+
+			mainConf.put(DTConstants.DT_B_SERVER_SIDE, ajaxServerSide);
+
+			// if (StringUtils.isNotBlank(ajaxSource)) {
+			// mainConf.put(DTConstants.DT_S_AJAX_SOURCE, ajaxSource);
+			// }
+			// if (StringUtils.isNotBlank(ajaxServerData)) {
+			// mainConf.put(DTConstants.DT_FN_SERVERDATA, new
+			// JsSnippet(ajaxServerData));
+			// }
+			// if (StringUtils.isNotBlank(ajaxServerParam)) {
+			// mainConf.put(DTConstants.DT_FN_SERVERPARAMS, new
+			// JsSnippet(ajaxServerParam));
+			// }
+			// if (StringUtils.isNotBlank(ajaxServerMethod)) {
+			// mainConf.put(DTConstants.DT_S_SERVERMETHOD, ajaxServerMethod);
+			// }
 		}
 		if (ajaxDeferRender != null) {
 			mainConf.put(DTConstants.DT_DEFER_RENDER, ajaxDeferRender);
-		}
-		
-		if (ajaxServerSide != null) {
-			String ajaxSource = DatatableOptions.AJAX_SOURCE.valueFrom(tableConfiguration);
-			String ajaxServerData = DatatableOptions.AJAX_SERVERDATA.valueFrom(tableConfiguration);
-			String ajaxServerParam = DatatableOptions.AJAX_SERVERPARAM.valueFrom(tableConfiguration);
-			String ajaxServerMethod = DatatableOptions.AJAX_SERVERMETHOD.valueFrom(tableConfiguration);
-			
-			mainConf.put(DTConstants.DT_B_SERVER_SIDE, ajaxServerSide);
-
-			if (StringUtils.isNotBlank(ajaxSource)) {
-				mainConf.put(DTConstants.DT_S_AJAX_SOURCE, ajaxSource);
-			}
-			if (StringUtils.isNotBlank(ajaxServerData)) {
-				mainConf.put(DTConstants.DT_FN_SERVERDATA,
-						new JsSnippet(ajaxServerData));
-			}
-			if (StringUtils.isNotBlank(ajaxServerParam)) {
-				mainConf.put(DTConstants.DT_FN_SERVERPARAMS,
-						new JsSnippet(ajaxServerParam));
-			}
-			if (StringUtils.isNotBlank(ajaxServerMethod)) {
-				mainConf.put(DTConstants.DT_S_SERVERMETHOD, ajaxServerMethod);
-			}
 		}
 	}
 

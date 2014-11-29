@@ -40,7 +40,6 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.generator.js.jquery.JQueryContent;
-import com.github.dandelion.core.utils.StringBuilderUtils;
 import com.github.dandelion.datatables.core.extension.ExtensionLoader;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -68,10 +67,6 @@ public class DatatableJQueryContent extends JQueryContent {
 	 */
 	private final String originalId;
 
-	// TODO remove
-	private final StringBuilder dataTablesExtra;
-	private final StringBuilder dataTablesExtraConf;
-
 	/**
 	 * <p>
 	 * Build and fill a new instance of {@link DatatableJQueryContent} from the
@@ -83,8 +78,6 @@ public class DatatableJQueryContent extends JQueryContent {
 	 */
 	public DatatableJQueryContent(HtmlTable htmlTable) {
 
-		this.dataTablesExtra = new StringBuilder();
-		this.dataTablesExtraConf = new StringBuilder();
 		this.processedId = htmlTable.getId();
 		this.originalId = htmlTable.getOriginalId();
 
@@ -122,30 +115,12 @@ public class DatatableJQueryContent extends JQueryContent {
 		appendToComponentConfiguration(getComponentConf(this).toString());
 	}
 
-	public void appendToDataTablesExtra(String dataTablesExtra) {
-		this.dataTablesExtra.append(dataTablesExtra);
-	}
-
-	public void appendToDataTablesExtraConf(String dataTablesExtraConf) {
-		this.dataTablesExtraConf.append(dataTablesExtraConf);
-	}
-
 	private StringBuilder getComponentConf(DatatableJQueryContent datatableContent) {
 
 		StringBuilder datatablesConfiguration = new StringBuilder();
 
-		datatablesConfiguration.append("oTable_").append(this.processedId).append(".DataTable(oTable_")
+		datatablesConfiguration.append("oTable_").append(this.processedId).append("=$('#").append(this.originalId).append("').DataTable(oTable_")
 				.append(this.processedId).append("_params)");
-
-		if (StringBuilderUtils.isNotBlank(this.dataTablesExtra)) {
-			datatablesConfiguration.append(".");
-			datatablesConfiguration.append(this.dataTablesExtra);
-			datatablesConfiguration.append("(");
-			if (StringBuilderUtils.isNotBlank(this.dataTablesExtra)) {
-				datatablesConfiguration.append(this.dataTablesExtraConf);
-			}
-			datatablesConfiguration.append(")");
-		}
 
 		datatablesConfiguration.append(";");
 
@@ -155,7 +130,7 @@ public class DatatableJQueryContent extends JQueryContent {
 	private StringBuilder getJavaScriptVariables(DatatableJQueryContent datatableAssetBuffer, String datatableConfig) {
 
 		StringBuilder variables = new StringBuilder();
-		variables.append("var oTable_").append(this.processedId).append("=$('#").append(this.originalId).append("');");
+		variables.append("var oTable_").append(this.processedId).append(";");
 		variables.append("var oTable_").append(this.processedId).append("_params=").append(datatableConfig).append(";");
 
 		return variables;

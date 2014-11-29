@@ -40,8 +40,6 @@ import com.github.dandelion.datatables.core.generator.DTConstants;
  */
 public enum CallbackType {
 
-	COOKIE(DTConstants.DT_FN_COOKIE_CBK, true, "sName", "oData", "sExpires", "sPath"),
-	
 	CREATEDROW(DTConstants.DT_FN_CREATED_ROW, false, "nRow", "aData", "iDataIndex"),
 	
 	DRAW(DTConstants.DT_FN_DRAW_CBK, false, "oSettings"),

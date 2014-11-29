@@ -82,7 +82,7 @@ public class DatatablesGeneratorTest {
 		displayTypeNotUsedForColumnDefinition.add(ReservedFormat.XLSX);
 		displayTypeNotUsedForColumnDefinition.add(ReservedFormat.PDF);
 
-		defaultProperties.put(DTConstants.DT_S_DEFAULT_CONTENT, "");
+		defaultProperties.put(DTConstants.DT_DEFAULT_CONTENT, "");
 	}
 
 	private DatatableConfigGenerator generator;
@@ -104,17 +104,6 @@ public class DatatablesGeneratorTest {
 		table.getTableConfiguration().getConfigurations().clear();
 		headerRow = table.addHeaderRow();
 		firstColumn = headerRow.addHeaderColumn("firstColumn");
-	}
-
-	@Test
-	public void should_have_default_values() {
-		table = new HtmlTable("aTable", request, response);
-		headerRow = table.addHeaderRow();
-
-		Map<String, Object> mainConf = generator.generateConfig(table);
-
-		assertThat(mainConf).hasSize(1);
-		assertThat(mainConf.get(DTConstants.DT_AOCOLUMNS)).isEqualTo(new ArrayList<Object>());
 	}
 
 	@Test
@@ -175,7 +164,7 @@ public class DatatablesGeneratorTest {
 		Map<String, Object> firstColumnProperties = columnsProperties.get(0);
 		Map<String, Object> customProperties = new HashMap<String, Object>(defaultProperties);
 		customProperties.put(DTConstants.DT_DATA, "aProperty");
-		customProperties.put(DTConstants.DT_S_DEFAULT_CONTENT, "");
+		customProperties.put(DTConstants.DT_DEFAULT_CONTENT, "");
 		assertThat(firstColumnProperties).isEqualTo(customProperties);
 	}
 
@@ -190,7 +179,7 @@ public class DatatablesGeneratorTest {
 		Map<String, Object> firstColumnProperties = columnsProperties.get(0);
 		Map<String, Object> customProperties = new HashMap<String, Object>(defaultProperties);
 		customProperties.put(DTConstants.DT_COLUMN_RENDERER, new JsSnippet("aRenderFunction"));
-		customProperties.put(DTConstants.DT_S_DEFAULT_CONTENT, "");
+		customProperties.put(DTConstants.DT_DEFAULT_CONTENT, "");
 		assertThat(firstColumnProperties).isEqualTo(customProperties);
 	}
 
@@ -204,7 +193,7 @@ public class DatatablesGeneratorTest {
 		assertThat(columnsProperties).hasSize(1);
 		Map<String, Object> firstColumnProperties = columnsProperties.get(0);
 		Map<String, Object> customProperties = new HashMap<String, Object>(defaultProperties);
-		customProperties.put(DTConstants.DT_S_DEFAULT_CONTENT, "aDefaultContent");
+		customProperties.put(DTConstants.DT_DEFAULT_CONTENT, "aDefaultContent");
 		assertThat(firstColumnProperties).isEqualTo(customProperties);
 	}
 
@@ -289,7 +278,7 @@ public class DatatablesGeneratorTest {
 		assertThat(columnsProperties).hasSize(1);
 		Map<String, Object> firstColumnProperties = columnsProperties.get(0);
 		Map<String, Object> customProperties = new HashMap<String, Object>(defaultProperties);
-		customProperties.put(DTConstants.DT_S_TYPE, "natural");
+		customProperties.put(DTConstants.DT_TYPE, "natural");
 		assertThat(firstColumnProperties).isEqualTo(customProperties);
 	}
 	
@@ -350,7 +339,7 @@ public class DatatablesGeneratorTest {
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(2);
-		assertThat(mainConf.get(DTConstants.DT_I_DISPLAY_LENGTH)).isEqualTo(10);
+		assertThat(mainConf.get(DTConstants.DT_I_LENGTH)).isEqualTo(10);
 	}
 
 	@Test
@@ -475,9 +464,6 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_ignore_ajax_properties_if_server_side_not_enabled() {
-		// TODO : should server side properties be triggered by server side
-		// boolean definition ?
-		// table.setServerSide(false);
 		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SOURCE, "aUrl");
 		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERDATA, "someServerData");
 		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERPARAM, "someServerParam");
@@ -486,60 +472,6 @@ public class DatatablesGeneratorTest {
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(1);
-	}
-
-	@Test
-	public void should_set_server_side() {
-		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERSIDE, true);
-
-		Map<String, Object> mainConf = generator.generateConfig(table);
-
-		assertThat(mainConf).hasSize(2);
-		assertThat(mainConf.get(DTConstants.DT_B_SERVER_SIDE)).isEqualTo(true);
-	}
-
-	@Test
-	public void should_set_server_side_and_datasource_url() {
-		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERSIDE, true);
-		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SOURCE, "aUrl");
-
-		Map<String, Object> mainConf = generator.generateConfig(table);
-
-		assertThat(mainConf).hasSize(3);
-		assertThat(mainConf.get(DTConstants.DT_S_AJAX_SOURCE)).isEqualTo("aUrl");
-	}
-
-	@Test
-	public void should_set_server_side_and_server_data_url() {
-		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERSIDE, true);
-		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERDATA, "someServerData");
-
-		Map<String, Object> mainConf = generator.generateConfig(table);
-
-		assertThat(mainConf).hasSize(3);
-		assertThat(mainConf.get(DTConstants.DT_FN_SERVERDATA)).isEqualTo(new JsSnippet("someServerData"));
-	}
-
-	@Test
-	public void should_set_server_side_and_server_param_url() {
-		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERSIDE, true);
-		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERPARAM, "someServerParam");
-
-		Map<String, Object> mainConf = generator.generateConfig(table);
-
-		assertThat(mainConf).hasSize(3);
-		assertThat(mainConf.get(DTConstants.DT_FN_SERVERPARAMS)).isEqualTo(new JsSnippet("someServerParam"));
-	}
-
-	@Test
-	public void should_set_server_side_and_server_method_url() {
-		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERSIDE, true);
-		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERMETHOD, "GET");
-
-		Map<String, Object> mainConf = generator.generateConfig(table);
-
-		assertThat(mainConf).hasSize(3);
-		assertThat(mainConf.get(DTConstants.DT_S_SERVERMETHOD)).isEqualTo("GET");
 	}
 
 	@Test
@@ -560,18 +492,15 @@ public class DatatablesGeneratorTest {
 		List<Callback> callbacks = new ArrayList<Callback>();
 		Callback callback = new Callback(CallbackType.CREATEDROW, "aJsFunction");
 		callbacks.add(callback);
-		Callback callback2 = new Callback(CallbackType.COOKIE, "anotherJsFunction");
+		Callback callback2 = new Callback(CallbackType.PREDRAW, "aThirdJsFunction");
 		callbacks.add(callback2);
-		Callback callback3 = new Callback(CallbackType.PREDRAW, "aThirdJsFunction");
-		callbacks.add(callback3);
 		table.getTableConfiguration().setCallbacks(callbacks);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
-		assertThat(mainConf).hasSize(4);
+		assertThat(mainConf).hasSize(3);
 		assertThat(mainConf.get(CallbackType.CREATEDROW.getName())).isEqualTo(new JsFunction(callback.getFunction().getCode(), CallbackType.CREATEDROW.getArgs()));
-		assertThat(mainConf.get(CallbackType.COOKIE.getName())).isEqualTo(new JsFunction(callback2.getFunction().getCode(), CallbackType.COOKIE.getArgs()));
-		assertThat(mainConf.get(CallbackType.PREDRAW.getName())).isEqualTo(new JsFunction(callback3.getFunction().getCode(), CallbackType.PREDRAW.getArgs()));
+		assertThat(mainConf.get(CallbackType.PREDRAW.getName())).isEqualTo(new JsFunction(callback2.getFunction().getCode(), CallbackType.PREDRAW.getArgs()));
 	}
 	
 	@Test
