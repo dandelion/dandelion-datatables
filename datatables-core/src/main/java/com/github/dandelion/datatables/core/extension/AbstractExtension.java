@@ -128,7 +128,6 @@ public abstract class AbstractExtension implements Extension {
 	private StringBuilder afterEndDocumentReady;
 	private StringBuilder afterAll;
 	private List<Parameter> confs;
-	private String function;
 	private HtmlTable table;
 
 	public AbstractExtension() {
@@ -263,8 +262,7 @@ public abstract class AbstractExtension implements Extension {
 	 *            Method of updating used for this parameter.
 	 */
 	public void addCallback(CallbackType callbackType, String javascript, Mode mode) {
-		addParameter(new Parameter(callbackType.getName(), new JsFunction(javascript, callbackType.getArgs()),
-				mode));
+		addParameter(new Parameter(callbackType.getName(), new JsFunction(javascript, callbackType.getArgs()), mode));
 	}
 
 	public void appendToBeforeAll(String beforeAll) {
@@ -301,14 +299,14 @@ public abstract class AbstractExtension implements Extension {
 		}
 		this.afterEndDocumentReady.append(afterEndDocumentReady);
 	}
-	
+
 	public void appendToComponentConfiguration(String componentConfiguration) {
 		if (this.componentConfiguration == null) {
 			this.componentConfiguration = new StringBuilder();
 		}
 		this.componentConfiguration.append(componentConfiguration);
 	}
-	
+
 	public void appendToAfterAll(String afterAll) {
 		if (this.afterAll == null) {
 			this.afterAll = new StringBuilder();
@@ -316,27 +314,9 @@ public abstract class AbstractExtension implements Extension {
 		this.afterAll.append(afterAll);
 	}
 
-	public String getFunction() {
-		return function;
-	}
-
-	public void setFunction(String function) {
-		this.function = function;
-	}
-
 	public Map<String, String> getDynamicAttributes() {
 		return this.table.getDynamicAttributes();
 	}
-
-	// public boolean isEnabled(DatatableConfig configToken){
-	// Boolean result = configToken.valueFrom(table.getTableConfiguration());
-	// return result == null || true;
-	// }
-
-	// public boolean isNotNull(ConfigToken<?> configToken){
-	// Object result = configToken.valueFrom(table.getTableConfiguration());
-	// return result != null;
-	// }
 
 	/**
 	 * @return the Dandelion {@link Context}.

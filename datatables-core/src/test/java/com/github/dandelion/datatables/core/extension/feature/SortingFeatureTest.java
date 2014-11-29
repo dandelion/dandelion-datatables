@@ -39,19 +39,8 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 	}
 	
 	@Test
-	public void shoud_load_the_extension_with_currency() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().addOption(DatatableOptions.SORTTYPE, SortType.CURRENCY.getName());
-		
-		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
-
-		List<String> bundles = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true));
-		assertThat(bundles).hasSize(1);
-		assertThat(bundles.contains(DatatableBundles.DDL_DT_SORTING_CURRENCY));
-	}
-	
-	@Test
 	public void shoud_load_the_extension_with_date() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().addOption(DatatableOptions.SORTTYPE, SortType.DATE.getName());
+		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().addOption(DatatableOptions.SORTTYPE, SortType.DATE_UK.getName());
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
 
@@ -69,17 +58,6 @@ public class SortingFeatureTest extends AbstractExtensionTest {
 		List<String> bundles = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true));
 		assertThat(bundles).hasSize(1);
 		assertThat(bundles.contains(DatatableBundles.DDL_DT_SORTING_FILESIZE));
-	}
-	
-	@Test
-	public void shoud_load_the_extension_with_formatted_numbers() {
-		table.getLastHeaderRow().getColumns().get(0).getColumnConfiguration().addOption(DatatableOptions.SORTTYPE, SortType.FORMATTED_NUMBERS.getName());
-		
-		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new SortingFeature())));
-
-		List<String> bundles = Arrays.asList(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true));
-		assertThat(bundles).hasSize(1);
-		assertThat(bundles.contains(DatatableBundles.DDL_DT_SORTING_FORMATTED_NUMBER));
 	}
 	
 	@Test

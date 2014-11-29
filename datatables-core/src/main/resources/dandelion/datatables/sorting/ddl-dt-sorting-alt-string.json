@@ -1,11 +1,7 @@
 {
-    "bundle" : "ddl-dt-sorting-alt-string",
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "name": "sorting-altstring",
-            "version": "1.0.0",
-            "type": "js",
             "locations": {
                 "jar": "dandelion/datatables/sorting/alt-string.js"
             }

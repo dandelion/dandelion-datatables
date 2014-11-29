@@ -29,11 +29,7 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -65,41 +61,14 @@ public class SortingFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		Set<SortType> enabledSortTypes = new HashSet<SortType>();
 
 		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
 			String sortTypeString = DatatableOptions.SORTTYPE.valueFrom(column.getColumnConfiguration());
 			if (StringUtils.isNotBlank(sortTypeString)) {
 				SortType sortType = SortType.findByName(sortTypeString);
 				if (sortType != null) {
-					enabledSortTypes.add(sortType);
+					addBundle(sortType.getBundle());
 				}
-			}
-		}
-
-		for (SortType sortType : enabledSortTypes) {
-			switch (sortType) {
-			case DATE:
-				addBundle(DatatableBundles.DDL_DT_SORTING_DATE_UK);
-				break;
-			case NATURAL:
-				addBundle(DatatableBundles.DDL_DT_SORTING_NATURAL);
-				break;
-			case ALT_STRING:
-				addBundle(DatatableBundles.DDL_DT_SORTING_ALT_STRING);
-				break;
-			case ANTI_THE:
-				addBundle(DatatableBundles.DDL_DT_SORTING_ANTI_THE);
-				break;
-			case CURRENCY:
-				addBundle(DatatableBundles.DDL_DT_SORTING_CURRENCY);
-				break;
-			case FILESIZE:
-				addBundle(DatatableBundles.DDL_DT_SORTING_FILESIZE);
-				break;
-			case FORMATTED_NUMBERS:
-				addBundle(DatatableBundles.DDL_DT_SORTING_FORMATTED_NUMBER);
-				break;
 			}
 		}
 	}

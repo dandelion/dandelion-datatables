@@ -1,11 +1,7 @@
 {
-    "bundle" : "ddl-dt-sorting-anti-the",
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "name": "anti-the",
-            "version": "1.0.0",
-            "type": "js",
             "locations": {
                 "jar": "dandelion/datatables/sorting/anti-the.js"
             }

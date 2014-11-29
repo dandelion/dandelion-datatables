@@ -3,7 +3,7 @@
     "assets": [
         {
             "locations": {
-                "jar": "dandelion/datatables/sorting/filesize.js"
+                "jar": "dandelion/datatables/sorting/turkish-string.js"
             }
         }
     ]
