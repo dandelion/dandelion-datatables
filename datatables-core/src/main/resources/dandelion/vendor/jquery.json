@@ -3,10 +3,9 @@
     "assets": [
 		{
 		    "name": "jquery",
-		    "version": "1.11.0",
-		    "type": "js",
+		    "version": "1.11.1",
 		    "locations": {
-		        "cdn": "//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.js"
+		        "cdn": "//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"
 		    }
 		}
     ]
