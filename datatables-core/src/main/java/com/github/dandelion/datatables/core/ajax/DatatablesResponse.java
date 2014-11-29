@@ -33,43 +33,45 @@ import java.util.List;
 
 /**
  * <p>
- * Bean that wraps a response that must be sent back to Datatables to update the
- * table when server-side processing is enabled.
+ * Wrapper object the response that must be sent back to Datatables to update
+ * the table when server-side processing is enabled.
+ * </p>
  * <p>
  * Since Datatables only support JSON at the moment, this bean must be converted
  * to JSON by the server.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.8.2
  */
 public class DatatablesResponse<T> {
 
-	private final List<T> aaData;
-	private final Long iTotalRecords;
-	private final Long iTotalDisplayRecords;
-	private final Integer sEcho;
+	private final List<T> data;
+	private final Long recordsTotal;
+	private final Long recordsFiltered;
+	private final Integer draw;
 
 	private DatatablesResponse(DataSet<T> dataSet, DatatablesCriterias criterias) {
-		this.aaData = dataSet.getRows();
-		this.iTotalRecords = dataSet.getTotalRecords();
-		this.iTotalDisplayRecords = dataSet.getTotalDisplayRecords();
-		this.sEcho = criterias.getInternalCounter();
+		this.data = dataSet.getRows();
+		this.recordsTotal = dataSet.getTotalRecords();
+		this.recordsFiltered = dataSet.getTotalDisplayRecords();
+		this.draw = criterias.getDraw();
 	}
 
-	public List<T> getAaData() {
-		return aaData;
+	public List<T> getData() {
+		return data;
 	}
 
-	public Long getiTotalRecords() {
-		return iTotalRecords;
+	public Long getRecordsTotal() {
+		return recordsTotal;
 	}
 
-	public Long getiTotalDisplayRecords() {
-		return iTotalDisplayRecords;
+	public Long getRecordsFiltered() {
+		return recordsFiltered;
 	}
 
-	public Integer getsEcho() {
-		return sEcho;
+	public Integer getDraw() {
+		return draw;
 	}
 
 	public static <T> DatatablesResponse<T> build(DataSet<T> dataSet, DatatablesCriterias criterias) {

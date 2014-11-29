@@ -1,89 +1,113 @@
-var oCache = {
-	iCacheLower : -1
-};
+//
+// Pipelining function for DataTables. To be used to the `ajax` option of DataTables
+//
+$.fn.dataTable.pipeline = function(opts) {
+	// Configuration options
+	var conf = $.extend({
+		pages : 5, // number of pages to cache
+		url : '', // script url
+		data : null, // function or object with parameters to send to the server
+		// matching how `ajax.data` works in DataTables
+		method : 'GET' // Ajax HTTP method
+	}, opts);
 
-function fnSetKey(aoData, sKey, mValue) {
-	for ( var i = 0, iLen = aoData.length; i < iLen; i++) {
-		if (aoData[i].name == sKey) {
-			aoData[i].value = mValue;
+	// Private variables for storing the cache
+	var cacheLower = -1;
+	var cacheUpper = null;
+	var cacheLastRequest = null;
+	var cacheLastJson = null;
+
+	return function(request, drawCallback, settings) {
+		var ajax = false;
+		var requestStart = request.start;
+		var drawStart = request.start;
+		var requestLength = request.length;
+		var requestEnd = requestStart + requestLength;
+
+		if (settings.clearCache) {
+			// API requested that the cache be cleared
+			ajax = true;
+			settings.clearCache = false;
+		} else if (cacheLower < 0 || requestStart < cacheLower
+				|| requestEnd > cacheUpper) {
+			// outside cached data - need to make a request
+			ajax = true;
+		} else if (JSON.stringify(request.order) !== JSON
+				.stringify(cacheLastRequest.order)
+				|| JSON.stringify(request.columns) !== JSON
+						.stringify(cacheLastRequest.columns)
+				|| JSON.stringify(request.search) !== JSON
+						.stringify(cacheLastRequest.search)) {
+			// properties changed (ordering, columns, searching)
+			ajax = true;
 		}
-	}
-}
 
-function fnGetKey(aoData, sKey) {
-	for ( var i = 0, iLen = aoData.length; i < iLen; i++) {
-		if (aoData[i].name == sKey) {
-			return aoData[i].value;
-		}
-	}
-	return null;
-}
+		// Store the request for checking next time around
+		cacheLastRequest = $.extend(true, {}, request);
 
-function fnDataTablesPipeline(sSource, aoData, fnCallback) {
-	var iPipe = 5; /* Ajust the pipe size */
+		if (ajax) {
+			// Need data from the server
+			if (requestStart < cacheLower) {
+				requestStart = requestStart
+						- (requestLength * (conf.pages - 1));
 
-	var bNeedServer = false;
-	var sEcho = fnGetKey(aoData, "sEcho");
-	var iRequestStart = fnGetKey(aoData, "iDisplayStart");
-	var iRequestLength = fnGetKey(aoData, "iDisplayLength");
-	var iRequestEnd = iRequestStart + iRequestLength;
-	oCache.iDisplayStart = iRequestStart;
-
-	/* outside pipeline? */
-	if (oCache.iCacheLower < 0 || iRequestStart < oCache.iCacheLower
-			|| iRequestEnd > oCache.iCacheUpper) {
-		bNeedServer = true;
-	}
-
-	/* sorting etc changed? */
-	if (oCache.lastRequest && !bNeedServer) {
-		for ( var i = 0, iLen = aoData.length; i < iLen; i++) {
-			if (aoData[i].name != "iDisplayStart"
-					&& aoData[i].name != "iDisplayLength"
-					&& aoData[i].name != "sEcho") {
-				if (aoData[i].value != oCache.lastRequest[i].value) {
-					bNeedServer = true;
-					break;
+				if (requestStart < 0) {
+					requestStart = 0;
 				}
 			}
+
+			cacheLower = requestStart;
+			cacheUpper = requestStart + (requestLength * conf.pages);
+
+			request.start = requestStart;
+			request.length = requestLength * conf.pages;
+
+			// Provide the same `data` options as DataTables.
+			if ($.isFunction(conf.data)) {
+				// As a function it is executed with the data object as an arg
+				// for manipulation. If an object is returned, it is used as the
+				// data object to submit
+				var d = conf.data(request);
+				if (d) {
+					$.extend(request, d);
+				}
+			} else if ($.isPlainObject(conf.data)) {
+				// As an object, the data given extends the default
+				$.extend(request, conf.data);
+			}
+
+			settings.jqXHR = $.ajax({
+				"type" : conf.method,
+				"url" : conf.url,
+				"data" : request,
+				"dataType" : "json",
+				"cache" : false,
+				"success" : function(json) {
+					cacheLastJson = $.extend(true, {}, json);
+
+					if (cacheLower != drawStart) {
+						json.data.splice(0, drawStart - cacheLower);
+					}
+					json.data.splice(requestLength, json.data.length);
+
+					drawCallback(json);
+				}
+			});
+		} else {
+			json = $.extend(true, {}, cacheLastJson);
+			json.draw = request.draw; // Update the echo for each response
+			json.data.splice(0, requestStart - cacheLower);
+			json.data.splice(requestLength, json.data.length);
+
+			drawCallback(json);
 		}
 	}
+};
 
-	/* Store the request for checking next time around */
-	oCache.lastRequest = aoData.slice();
-
-	if (bNeedServer) {
-		if (iRequestStart < oCache.iCacheLower) {
-			iRequestStart = iRequestStart - (iRequestLength * (iPipe - 1));
-			if (iRequestStart < 0) {
-				iRequestStart = 0;
-			}
-		}
-
-		oCache.iCacheLower = iRequestStart;
-		oCache.iCacheUpper = iRequestStart + (iRequestLength * iPipe);
-		oCache.iDisplayLength = fnGetKey(aoData, "iDisplayLength");
-		fnSetKey(aoData, "iDisplayStart", iRequestStart);
-		fnSetKey(aoData, "iDisplayLength", iRequestLength * iPipe);
-
-		$.getJSON(sSource, aoData, function(json) {
-			/* Callback processing */
-			oCache.lastJson = jQuery.extend(true, {}, json);
-
-			if (oCache.iCacheLower != oCache.iDisplayStart) {
-				json.aaData
-						.splice(0, oCache.iDisplayStart - oCache.iCacheLower);
-			}
-			json.aaData.splice(oCache.iDisplayLength, json.aaData.length);
-
-			fnCallback(json)
-		});
-	} else {
-		json = jQuery.extend(true, {}, oCache.lastJson);
-		json.sEcho = sEcho; /* Update the echo for each response */
-		json.aaData.splice(0, iRequestStart - oCache.iCacheLower);
-		json.aaData.splice(iRequestLength, json.aaData.length);
-		fnCallback(json);
-		return;
-	}
-}
+// Register an API method that will empty the pipelined data, forcing an Ajax
+// fetch on the next draw (i.e. `table.clearPipeline().draw()`)
+$.fn.dataTable.Api.register('clearPipeline()', function() {
+	return this.iterator('table', function(settings) {
+		settings.clearCache = true;
+	});
+});

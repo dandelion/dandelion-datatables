@@ -29,9 +29,18 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.List;
+import java.util.Map;
+
+import org.json.simple.JSONValue;
+
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
-import com.github.dandelion.datatables.core.generator.ColumnFilteringConfigGenerator;
+import com.github.dandelion.datatables.core.generator.YadcfConfigGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
 
@@ -70,13 +79,10 @@ public abstract class AbstractFilteringFeature extends AbstractExtension {
 				.getTableConfiguration());
 		if (filterPlaceHolder != null) {
 			switch (filterPlaceHolder) {
-			case FOOT:
+			case FOOTER:
 				adaptFooter(table);
 				break;
-			case HEAD_AFTER:
-				adaptHeader(table);
-				break;
-			case HEAD_BEFORE:
+			case HEADER:
 				adaptHeader(table);
 				break;
 			case NONE:
@@ -88,8 +94,32 @@ public abstract class AbstractFilteringFeature extends AbstractExtension {
 			adaptFooter(table);
 		}
 
-		setFunction("columnFilter");
-		setConfigGenerator(new ColumnFilteringConfigGenerator());
+		YadcfConfigGenerator configGenerator = new YadcfConfigGenerator();
+		List<Map<String, Object>> config = configGenerator.generateConfig(table);
+		
+		Writer writer = new StringWriter();
+		try {
+			JSONValue.writeJSONString(config , writer);
+		}
+		catch (IOException e) {
+			throw new DandelionException("Unable to convert the configuration to JSON", e);
+		}
+		
+		StringBuilder yadcf = new StringBuilder("yadcf.init(oTable_");
+		yadcf.append(table.getId());
+		yadcf.append(",");
+		yadcf.append(writer.toString());
+		
+		if(filterPlaceHolder != null){
+			yadcf.append(", '");
+			yadcf.append(filterPlaceHolder.getExtensionName());
+			yadcf.append("'");
+		}
+		
+		yadcf.append(");");
+		appendToBeforeEndDocumentReady(yadcf.toString());
+//		setFunction("columnFilter");
+//		setConfigGenerator(new ColumnFilteringConfigGenerator());
 	}
 
 	protected abstract void adaptHeader(HtmlTable table);

@@ -1,4 +1,5 @@
 /*
+
  * [The "BSD licence"]
  * Copyright (c) 2012 Dandelion
  * All rights reserved.
@@ -29,7 +30,13 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.option.CallbackType;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
@@ -59,6 +66,28 @@ public class ServerSideFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addCallback(CallbackType.INIT, "oTable_" + table.getId() + ".fnAdjustColumnSizing(true);");
+		Map<String, String> ajaxParams = new HashMap<String, String>();
+		ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
+		ajaxParams.put(DTConstants.DT_S_AJAXDATAPROP, "data");
+
+		String extraParams = DatatableOptions.AJAX_PARAMS.valueFrom(table.getTableConfiguration());
+		if (StringUtils.isNotBlank(extraParams)) {
+			StringBuilder paramObject = new StringBuilder("oTable_").append(table.getId()).append("_params");
+			StringBuilder js = new StringBuilder();
+			js.append(paramObject).append(".ajax = ");
+			js.append(extraParams);
+			js.append("();\n");
+			for (Entry<String, String> ajaxParam : ajaxParams.entrySet()) {
+				js.append(paramObject).append(".ajax.").append(ajaxParam.getKey()).append(" = '")
+						.append(ajaxParam.getValue());
+				js.append("';\n");
+			}
+			appendToAfterStartDocumentReady(js.toString());
+		}
+		else {
+			addParameter(DTConstants.DT_S_AJAX_SOURCE, ajaxParams);
+		}
+
+		addCallback(CallbackType.INIT, "oTable_" + table.getId() + ".columns.adjust().draw();");
 	}
 }

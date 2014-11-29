@@ -5,8 +5,6 @@ import java.util.HashSet;
 
 import org.junit.Test;
 
-import com.github.dandelion.core.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtensionTest;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
@@ -22,14 +20,12 @@ public class AjaxReloadFeatureTest extends AbstractExtensionTest {
 		String mySelector = "#myReloadSelector";
 		StringBuilder js = new StringBuilder();
 		js.append("$('").append(mySelector).append("').bind('click', function() {");
-		js.append("oTable_").append(table.getId()).append(".fnReloadAjax();");
+		js.append("oTable_").append(table.getId()).append(".ajax.reload();");
 		js.append("});");
 		DatatableOptions.AJAX_RELOAD_SELECTOR.setIn(table.getTableConfiguration(), mySelector);
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(ajaxReloadFeature)));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).contains(
-				DatatableBundles.DDL_DT_AJAX_RELOAD.getBundleName());
 		assertThat(ajaxReloadFeature.getBeforeEndDocumentReady().toString()).isEqualTo(js.toString());
 	}
 	
@@ -47,8 +43,6 @@ public class AjaxReloadFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(ajaxReloadFeature)));
 
-		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).contains(
-				DatatableBundles.DDL_DT_AJAX_RELOAD.getBundleName());
 		assertThat(ajaxReloadFeature.getBeforeEndDocumentReady().toString()).isEqualTo(js.toString());
 	}
 }

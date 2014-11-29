@@ -29,6 +29,9 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
@@ -55,10 +58,12 @@ public class AjaxFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addParameter(DTConstants.DT_B_DEFER_RENDER, true);
-		addParameter(DTConstants.DT_S_AJAXDATAPROP, "");
-		addParameter(DTConstants.DT_S_AJAX_SOURCE,
-				DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
-		addCallback(CallbackType.INIT, "oTable_" + table.getId() + ".fnAdjustColumnSizing(true);");
+		addParameter(DTConstants.DT_DEFER_RENDER, true);
+
+		Map<String, String> ajaxParams = new HashMap<String, String>();
+		ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
+		ajaxParams.put(DTConstants.DT_S_AJAXDATAPROP, "");
+		addParameter(DTConstants.DT_S_AJAX_SOURCE, ajaxParams);
+		addCallback(CallbackType.INIT, "oTable_" + table.getId() + ".columns.adjust().draw();");
 	}
 }

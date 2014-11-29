@@ -1,7 +1,9 @@
 package com.github.dandelion.datatables.core.extension.feature;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -24,12 +26,15 @@ public class AjaxFeatureTest extends AbstractExtensionTest {
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new AjaxFeature())));
 
+		Map<String, String> ajaxParams = new HashMap<String, String>();
+		ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
+		ajaxParams.put(DTConstants.DT_S_AJAXDATAPROP, "");
+		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(0);
 		assertThat(mainConfig).contains(
-				entry(DTConstants.DT_B_DEFER_RENDER, true),
-				entry(DTConstants.DT_S_AJAXDATAPROP, ""),
-				entry(DTConstants.DT_S_AJAX_SOURCE, "/ajaxSource"));
+				entry(DTConstants.DT_DEFER_RENDER, true),
+				entry(DTConstants.DT_S_AJAX_SOURCE, ajaxParams));
 		assertThat(mainConfig.get(CallbackType.INIT.getName()).toString())
-		.isEqualTo(new JsFunction("oTable_fakeId.fnAdjustColumnSizing(true);", CallbackType.INIT.getArgs()).toString());
+		.isEqualTo(new JsFunction("oTable_fakeId.columns.adjust().draw();", CallbackType.INIT.getArgs()).toString());
 	}
 }

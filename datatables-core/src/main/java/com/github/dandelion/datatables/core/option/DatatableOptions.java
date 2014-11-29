@@ -152,10 +152,12 @@ public final class DatatableOptions {
 	public static final Option<Boolean> AJAX_DEFERRENDER = new Option<Boolean>("ajax.deferRender",
 			new BooleanProcessor(), 100);
 	public static final Option<String> AJAX_SOURCE = new Option<String>("ajax.source", new AjaxSourceProcessor(), 100);
+	public static final Option<String> AJAX_PARAMS = new Option<String>("ajax.params",
+			new StringProcessor(true), 98);
 	public static final Option<Boolean> AJAX_SERVERSIDE = new Option<Boolean>("ajax.serverSide",
 			new AjaxServerSideProcessor(), 99);
 	public static final Option<Boolean> AJAX_PIPELINING = new Option<Boolean>("ajax.pipelining",
-			new AjaxPipeliningProcessor(), 100);
+			new AjaxPipeliningProcessor(), 101);
 	public static final Option<Integer> AJAX_PIPESIZE = new Option<Integer>("ajax.pipeSize", new IntegerProcessor(),
 			100);
 	public static final Option<String> AJAX_SERVERDATA = new Option<String>("ajax.serverData",
@@ -168,7 +170,7 @@ public final class DatatableOptions {
 			new AjaxReloadSelectorProcessor(), 100);
 	public static final Option<String> AJAX_RELOAD_FUNCTION = new Option<String>("ajax.reloadFunction",
 			new AjaxReloadFunctionProcessor(true), 100);
-
+	
 	public static final Option<String> PLUGIN_FIXEDPOSITION = new Option<String>("plugin.fixedPosition",
 			new StringProcessor(), 100);
 	public static final Option<Integer> PLUGIN_FIXEDOFFSETTOP = new Option<Integer>("plugin.fixedOffsetTop",

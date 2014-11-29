@@ -22,6 +22,6 @@ public class ServerSideFeatureTest extends AbstractExtensionTest {
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(0);
 		assertThat(mainConfig.get(CallbackType.INIT.getName()).toString())
-		.isEqualTo(new JsFunction("oTable_fakeId.fnAdjustColumnSizing(true);", CallbackType.INIT.getArgs()).toString());
+		.isEqualTo(new JsFunction("oTable_fakeId.columns.adjust().draw();", CallbackType.INIT.getArgs()).toString());
 	}
 }

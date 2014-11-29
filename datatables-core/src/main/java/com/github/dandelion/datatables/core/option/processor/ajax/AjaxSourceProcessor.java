@@ -38,10 +38,12 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
 /**
  * <p>
  * Processor used when the table uses an AJAX source.
+ * </p>
  * 
  * <p>
  * Note that the passed URL is not processed here but in each module
  * corresponding to the template engine currently being used.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.9.0

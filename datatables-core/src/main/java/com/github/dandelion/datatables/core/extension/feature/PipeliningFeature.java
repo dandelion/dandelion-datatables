@@ -29,6 +29,15 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.simple.JSONValue;
+
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.generator.js.JsSnippet;
 import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -47,7 +56,6 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  * @see ServerSideFeature
  * @see DatatableOptions#AJAX_PIPESIZE
  */
-// TODO asset template
 public class PipeliningFeature extends AbstractExtension {
 
 	public static final String PIPELINING_FEATURE_NAME = "pipelining";
@@ -61,15 +69,20 @@ public class PipeliningFeature extends AbstractExtension {
 	public void setup(HtmlTable table) {
 
 		addBundle(DatatableBundles.DDL_DT_AJAX_PIPELINING);
-
-		addBundleParameter("pipelining-js", "oCache", "oCache_" + table.getId());
-
 		Integer pipeSize = DatatableOptions.AJAX_PIPESIZE.valueFrom(table.getTableConfiguration());
-		// Adapt the pipe size if it has been overriden
-		if (pipeSize != null && pipeSize != 5) {
-			addBundleParameter("pipelining-js", "var iPipe = 5", "var iPipe = " + pipeSize);
-		}
 
-		addParameter(DTConstants.DT_FN_SERVERDATA, new JsSnippet("fnDataTablesPipeline"));
+		Map<String, Object> ajaxParams = new HashMap<String, Object>();
+		ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
+		if (pipeSize != null && pipeSize != 5) {
+			ajaxParams.put("pages", pipeSize);
+		}
+		Writer writer = new StringWriter();
+		try {
+			JSONValue.writeJSONString(ajaxParams, writer);
+		}
+		catch (IOException e) {
+			throw new DandelionException("Unable to convert the configuration to JSON", e);
+		}
+		addParameter(DTConstants.DT_S_AJAX_SOURCE, new JsSnippet("$.fn.dataTable.pipeline( " + writer.toString() + ")"));
 	}
 }
