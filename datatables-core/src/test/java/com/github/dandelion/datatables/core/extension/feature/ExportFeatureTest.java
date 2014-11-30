@@ -49,7 +49,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).isEmpty();
-		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){window.location=\"/myExportUrl?\" + decodeURIComponent($.param(oTable_fakeId.oApi._fnAjaxParameters(oTable_fakeId.fnSettings())).replace(/\\+/g,' '));}");
+		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){window.location=\"/myExportUrl?\" + decodeURIComponent($.param(oTable_fakeId.ajax.params())).replace(/\\+/g,' ');}");
 	}
 	
 	@Test
@@ -65,7 +65,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).isEmpty();
-		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){window.location=\"/myExportUrl?existingParam=val&\" + decodeURIComponent($.param(oTable_fakeId.oApi._fnAjaxParameters(oTable_fakeId.fnSettings())).replace(/\\+/g,' '));}");
+		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){window.location=\"/myExportUrl?existingParam=val&\" + decodeURIComponent($.param(oTable_fakeId.ajax.params())).replace(/\\+/g,' ');}");
 	}
 	
 	@Test
@@ -82,7 +82,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).contains(DatatableBundles.DDL_DT_EXPORT.getBundleName());
-		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){$.download('/myExportUrl', decodeURIComponent($.param(oTable_fakeId.oApi._fnAjaxParameters(oTable_fakeId.fnSettings())).replace(/\\+/g,' '),'POST'));}");
+		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){$.download('/myExportUrl', decodeURIComponent($.param(oTable_fakeId.ajax.params())).replace(/\\+/g,' '),'POST'));}");
 	}
 	
 	@Test
@@ -99,7 +99,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).isEmpty();
-		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){var aoData = oTable_fakeId.oApi._fnAjaxParameters(oTable_fakeId.fnSettings());param1=val1&param2=val2(aoData);window.location=\"/myExportUrl?\" + decodeURIComponent($.param(aoData)).replace(/\\+/g,' ');}");
+		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){var aoData = oTable_fakeId.ajax.params();param1=val1&param2=val2(aoData);window.location=\"/myExportUrl?\" + decodeURIComponent($.param(aoData)).replace(/\\+/g,' ');}");
 	}
 	
 	@Test
@@ -116,7 +116,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).isEmpty();
-		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){var aoData = oTable_fakeId.oApi._fnAjaxParameters(oTable_fakeId.fnSettings());param1=val1&param2=val2(aoData);window.location=\"/myExportUrl?existingParam=val&\" + decodeURIComponent($.param(aoData)).replace(/\\+/g,' ');}");
+		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){var aoData = oTable_fakeId.ajax.params();param1=val1&param2=val2(aoData);window.location=\"/myExportUrl?existingParam=val&\" + decodeURIComponent($.param(aoData)).replace(/\\+/g,' ');}");
 	}
 	
 	@Test
@@ -134,6 +134,6 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).contains(DatatableBundles.DDL_DT_EXPORT.getBundleName());
-		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){var aoData = oTable_fakeId.oApi._fnAjaxParameters(oTable_fakeId.fnSettings());param1=val1&param2=val2(aoData);$.download('/myExportUrl', decodeURIComponent($.param(aoData)).replace(/\\+/g,' '),'POST');}");
+		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){var aoData = oTable_fakeId.ajax.params();param1=val1&param2=val2(aoData);$.download('/myExportUrl', decodeURIComponent($.param(aoData)).replace(/\\+/g,' '),'POST');}");
 	}
 }

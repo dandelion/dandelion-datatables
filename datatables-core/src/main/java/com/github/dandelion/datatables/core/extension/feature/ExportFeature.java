@@ -159,8 +159,7 @@ public class ExportFeature extends AbstractExtension {
 		if (StringUtils.isNotBlank(serverParamFunction)) {
 			params.append("aoData");
 
-			exportFunc.append("var aoData = ").append(oTableId).append(".oApi._fnAjaxParameters(").append(oTableId)
-					.append(".fnSettings());");
+			exportFunc.append("var aoData = ").append(oTableId).append(".ajax.params();");
 			exportFunc.append(serverParamFunction).append("(aoData);");
 
 			// HTTP GET
@@ -188,7 +187,7 @@ public class ExportFeature extends AbstractExtension {
 		}
 		// No additionnal URL params
 		else {
-			params.append(oTableId).append(".oApi._fnAjaxParameters(").append(oTableId).append(".fnSettings()");
+			params.append(oTableId).append(".ajax.params()");
 
 			// HTTP GET
 			if (exportConf.getMethod().equals(HttpMethod.GET)) {
@@ -203,7 +202,7 @@ public class ExportFeature extends AbstractExtension {
 				// Parameters should be decoded because jQuery.param() uses
 				// .serialize() which encodes the URL
 				exportFunc.append("\" + decodeURIComponent($.param(").append(params.toString())
-						.append(")).replace(/\\+/g,' '));");
+						.append(")).replace(/\\+/g,' ');");
 			}
 			// HTTP POST/PUT/DELETE
 			else {
