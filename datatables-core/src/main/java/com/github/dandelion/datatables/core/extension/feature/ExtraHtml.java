@@ -99,8 +99,8 @@ public class ExtraHtml {
 		
 		StringBuilder js = new StringBuilder();
 
-		js.append("$.fn.dataTableExt.aoFeatures.push({");
-		js.append("\"fnInit\": function( oDTSettings ){");
+		js.append("$.fn.dataTable.ext.feature.push({");
+		js.append("\"fnInit\": function( settings ){");
 		js.append("var container = document.createElement('" + this.container + "');");
 		
 		if(StringUtils.isNotBlank(this.cssClass)){

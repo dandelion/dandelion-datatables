@@ -463,18 +463,6 @@ public class DatatablesGeneratorTest {
 	}
 
 	@Test
-	public void should_ignore_ajax_properties_if_server_side_not_enabled() {
-		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SOURCE, "aUrl");
-		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERDATA, "someServerData");
-		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERPARAM, "someServerParam");
-		table.getTableConfiguration().addOption(DatatableOptions.AJAX_SERVERMETHOD, "GET");
-
-		Map<String, Object> mainConf = generator.generateConfig(table);
-
-		assertThat(mainConf).hasSize(1);
-	}
-
-	@Test
 	public void should_set_a_callback() {
 		Callback callback = new Callback(CallbackType.CREATEDROW, "aJsFunction");
 		List<Callback> callbacks = new ArrayList<Callback>();
