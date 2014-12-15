@@ -34,11 +34,12 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxParamsAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAppearAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAutoWidthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableConfGroupAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableCustomExtensionsProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableDeferRenderAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxDeferRenderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableDisplayLengthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableDomAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportAttrProcessor;
@@ -55,8 +56,8 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TableLengthChang
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableLengthMenuAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePageableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePaginationTypeAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePipeSizeAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePipeliningAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxPipeSizeAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxPipeliningAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableProcessingAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableReloadFunctionAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableReloadSelectorAttrProcessor;
@@ -64,16 +65,13 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollColla
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollXAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollXInnerAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollYAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerDataAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerMethodAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerParamAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableServerSideAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxServerSideAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableSortableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableStateSaveAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableStripeClassesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeOptionAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableUrlAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxUrlAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TheadFixedOffsetTopAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TheadFixedPositionAttrProcessor;
 
@@ -122,17 +120,15 @@ public enum TableAttrProcessors {
     FEATURE_EXPORT_CONTAINER_CLASS(TableExportContainerClassAttrProcessor.class, "exportClass", "table"),
 
     // AJAX processors
-    AJAX_URL(TableUrlAttrProcessor.class, "url", "table"),
-    AJAX_SERVER_SIDE(TableServerSideAttrProcessor.class, "serverSide", "table"),
-    AJAX_DEFER_RENDER(TableDeferRenderAttrProcessor.class, "deferRender", "table"),
-    AJAX_PIPELINING(TablePipeliningAttrProcessor.class, "pipelining", "table"),
-    AJAX_PIPESIZE(TablePipeSizeAttrProcessor.class, "pipeSize", "table"),
+    AJAX_URL(TableAjaxUrlAttrProcessor.class, "url", "table"),
+    AJAX_SERVER_SIDE(TableAjaxServerSideAttrProcessor.class, "serverSide", "table"),
+    AJAX_DEFER_RENDER(TableAjaxDeferRenderAttrProcessor.class, "deferRender", "table"),
+    AJAX_PIPELINING(TableAjaxPipeliningAttrProcessor.class, "pipelining", "table"),
+    AJAX_PIPESIZE(TableAjaxPipeSizeAttrProcessor.class, "pipeSize", "table"),
     AJAX_PROCESSING(TableProcessingAttrProcessor.class, "processing", "table"),
-    AJAX_SERVER_DATA(TableServerDataAttrProcessor.class, "serverData", "table"),
-    AJAX_SERVER_PARAM(TableServerParamAttrProcessor.class, "serverParam", "table"),
-    AJAX_SERVER_METHOD(TableServerMethodAttrProcessor.class, "serverMethod", "table"),
     AJAX_RELOAD_SELECTOR(TableReloadSelectorAttrProcessor.class, "reloadSelector", "table"),
     AJAX_RELOAD_FUNCTION(TableReloadFunctionAttrProcessor.class, "reloadFunction", "table"),
+    AJAX_PARAMS(TableAjaxParamsAttrProcessor.class, "ajaxParams", "table"),
 
 	// Theme processors
 	THEME(TableThemeAttrProcessor.class, "theme", "table"), 

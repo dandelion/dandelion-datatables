@@ -49,9 +49,9 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
  * 
  * @author Thibault Duchateau
  */
-public class TablePipeSizeAttrProcessor extends AbstractTableAttrProcessor {
+public class TableAjaxPipeSizeAttrProcessor extends AbstractTableAttrProcessor {
 
-	public TablePipeSizeAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	public TableAjaxPipeSizeAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 

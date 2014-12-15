@@ -44,14 +44,15 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 /**
  * <p>
  * Attribute processor applied to the {@code table} and associated with the
- * {@link DatatableOptions#AJAX_SERVERPARAM} option.
+ * {@link DatatableOptions#AJAX_DEFERRENDER} option.
  * </p>
  * 
  * @author Thibault Duchateau
+ * @since 0.10.0
  */
-public class TableServerParamAttrProcessor extends AbstractTableAttrProcessor {
+public class TableAjaxDeferRenderAttrProcessor extends AbstractTableAttrProcessor {
 
-	public TableServerParamAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	public TableAjaxDeferRenderAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
@@ -64,8 +65,8 @@ public class TableServerParamAttrProcessor extends AbstractTableAttrProcessor {
 	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
 			Map<Option<?>, Object> stagingConf) {
 
-		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
+		Boolean attrValue = AttributeUtils.parseBooleanAttribute(arguments, element, attributeName);
 
-		stagingConf.put(DatatableOptions.AJAX_SERVERPARAM, attrValue);
+		stagingConf.put(DatatableOptions.AJAX_DEFERRENDER, attrValue);
 	}
 }

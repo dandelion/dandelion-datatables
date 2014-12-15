@@ -44,14 +44,14 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 /**
  * <p>
  * Attribute processor applied to the {@code table} and associated with the
- * {@link DatatableOptions#AJAX_SERVERMETHOD} option.
+ * {@link DatatableOptions#AJAX_PIPELINING} option.
  * </p>
  * 
  * @author Thibault Duchateau
  */
-public class TableServerMethodAttrProcessor extends AbstractTableAttrProcessor {
+public class TableAjaxPipeliningAttrProcessor extends AbstractTableAttrProcessor {
 
-	public TableServerMethodAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	public TableAjaxPipeliningAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
@@ -64,8 +64,8 @@ public class TableServerMethodAttrProcessor extends AbstractTableAttrProcessor {
 	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
 			Map<Option<?>, Object> stagingConf) {
 
-		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
+		Boolean attrValue = AttributeUtils.parseBooleanAttribute(arguments, element, attributeName);
 
-		stagingConf.put(DatatableOptions.AJAX_SERVERMETHOD, attrValue);
+		stagingConf.put(DatatableOptions.AJAX_PIPELINING, attrValue);
 	}
 }

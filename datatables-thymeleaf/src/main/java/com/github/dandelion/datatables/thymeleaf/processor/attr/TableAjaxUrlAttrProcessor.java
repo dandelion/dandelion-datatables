@@ -44,14 +44,14 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 /**
  * <p>
  * Attribute processor applied to the {@code table} and associated with the
- * {@link DatatableOptions#AJAX_SERVERDATA} option.
+ * {@link DatatableOptions#AJAX_SOURCE} option.
  * </p>
  * 
  * @author Thibault Duchateau
  */
-public class TableServerDataAttrProcessor extends AbstractTableAttrProcessor {
+public class TableAjaxUrlAttrProcessor extends AbstractTableAttrProcessor {
 
-	public TableServerDataAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	public TableAjaxUrlAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
@@ -66,6 +66,6 @@ public class TableServerDataAttrProcessor extends AbstractTableAttrProcessor {
 
 		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-		stagingConf.put(DatatableOptions.AJAX_SERVERDATA, attrValue);
+		stagingConf.put(DatatableOptions.AJAX_SOURCE, attrValue);
 	}
 }

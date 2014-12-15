@@ -62,6 +62,8 @@ import com.github.dandelion.datatables.core.option.Option;
 /**
  * <p>
  * Superclass of {@link TableTag} containing:
+ * </p>
+ * 
  * <ul>
  * <li>tag attributes declaration (note that all the corresponding setters are
  * in the {@link TableTag}</li>

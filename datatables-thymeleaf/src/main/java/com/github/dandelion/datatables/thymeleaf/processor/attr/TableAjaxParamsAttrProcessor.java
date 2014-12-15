@@ -44,28 +44,29 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 /**
  * <p>
  * Attribute processor applied to the {@code table} and associated with the
- * {@link DatatableOptions#AJAX_SERVERSIDE} option.
+ * {@link DatatableOptions#AJAX_PARAMS} option.
  * </p>
  * 
  * @author Thibault Duchateau
+ * @since 0.11.0
  */
-public class TableServerSideAttrProcessor extends AbstractTableAttrProcessor {
+public class TableAjaxParamsAttrProcessor extends AbstractTableAttrProcessor {
 
-	public TableServerSideAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	public TableAjaxParamsAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
 	@Override
 	public int getPrecedence() {
-		return DataTablesDialect.DT_DEFAULT_PRECEDENCE - 1;
+		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
 	}
 
 	@Override
 	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
 			Map<Option<?>, Object> stagingConf) {
 
-		Boolean attrValue = AttributeUtils.parseBooleanAttribute(arguments, element, attributeName);
+		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-		stagingConf.put(DatatableOptions.AJAX_SERVERSIDE, attrValue);
+		stagingConf.put(DatatableOptions.AJAX_PARAMS, attrValue);
 	}
 }

@@ -47,7 +47,7 @@ public class StringProcessorTest {
 
 	@Test
 	public void should_update_the_entry_with_null_when_using_an_empty_string() throws Exception{
-		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SERVERDATA, "");
+		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SOURCE, "");
 		OptionProcessor processor = new StringProcessor();
 		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
 		processor.process(pc);
@@ -56,7 +56,7 @@ public class StringProcessorTest {
 	
 	@Test
 	public void should_update_the_entry_with_the_same_string() throws Exception{
-		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SERVERDATA, "someString");
+		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SOURCE, "someString");
 		OptionProcessor processor = new StringProcessor();
 		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
 		processor.process(pc);
@@ -65,7 +65,7 @@ public class StringProcessorTest {
 	
 	@Test
 	public void should_update_the_table_entry_with_the_same_string_and_update_active_bundles() throws Exception{
-		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SERVERDATA, "bundleToAdd#someString");
+		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SOURCE, "bundleToAdd#someString");
 		OptionProcessor processor = new StringProcessor(true);
 		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration, true);
 		processor.process(pc);
@@ -75,7 +75,7 @@ public class StringProcessorTest {
 	
 	@Test
 	public void should_update_the_column_entry_with_the_same_string_and_update_active_bundles_with_one_bundle() throws Exception{
-		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SERVERDATA, "bundleToAdd#someString");
+		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SOURCE, "bundleToAdd#someString");
 		OptionProcessor processor = new StringProcessor(true);
 		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration, true);
 		processor.process(pc);
@@ -85,7 +85,7 @@ public class StringProcessorTest {
 	
 	@Test
 	public void should_update_the_column_entry_with_the_same_string_and_update_active_bundles_with_multiple_bundles() throws Exception{
-		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SERVERDATA, " bundle1,bundle2#someString");
+		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SOURCE, " bundle1,bundle2#someString");
 		OptionProcessor processor = new StringProcessor(true);
 		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration, true);
 		processor.process(pc);
@@ -95,7 +95,7 @@ public class StringProcessorTest {
 	
 	@Test(expected = DandelionException.class)
 	public void should_throw_an_exception_when_using_a_wrong_format() throws Exception{
-		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SERVERDATA, "bundleToAdd#");
+		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SOURCE, "bundleToAdd#");
 		OptionProcessor processor = new StringProcessor(true);
 		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration, true);
 		processor.process(pc);
@@ -103,7 +103,7 @@ public class StringProcessorTest {
 	
 	@Test(expected = DandelionException.class)
 	public void should_throw_an_exception_when_using_a_wrong_format2() throws Exception{
-		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SERVERDATA, "#someString");
+		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SOURCE, "#someString");
 		OptionProcessor processor = new StringProcessor(true);
 		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration, true);
 		processor.process(pc);

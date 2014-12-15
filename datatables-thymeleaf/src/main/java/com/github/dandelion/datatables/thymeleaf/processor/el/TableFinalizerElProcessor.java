@@ -85,17 +85,11 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 		super(matcher);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getPrecedence() {
 		return 50000;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
 			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable) {

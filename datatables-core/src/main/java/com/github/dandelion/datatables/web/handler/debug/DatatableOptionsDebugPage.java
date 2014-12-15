@@ -176,9 +176,7 @@ public class DatatableOptionsDebugPage extends AbstractDebugPage {
 		table.append(tr(DatatableOptions.AJAX_PIPESIZE, optionsGroup));
 		table.append(tr(DatatableOptions.AJAX_RELOAD_FUNCTION, optionsGroup));
 		table.append(tr(DatatableOptions.AJAX_RELOAD_SELECTOR, optionsGroup));
-		table.append(tr(DatatableOptions.AJAX_SERVERDATA, optionsGroup));
-		table.append(tr(DatatableOptions.AJAX_SERVERMETHOD, optionsGroup));
-		table.append(tr(DatatableOptions.AJAX_SERVERPARAM, optionsGroup));
+		table.append(tr(DatatableOptions.AJAX_PARAMS, optionsGroup));
 
 		// Plugin-related options
 		table.append("<tr class='header-tr'><td colspan='3'>Plugin-related options</td></tr>");

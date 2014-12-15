@@ -47,13 +47,16 @@ import com.github.dandelion.datatables.core.util.ConfigUtils;
 /**
  * <p>
  * JSP tag used for creating HTML tables.
+ * </p>
  * 
  * <p>
  * Note that this tag supports dynamic attributes with only string values. See
  * {@link #setDynamicAttribute(String, String, Object)} below.
+ * </p>
  * 
  * <p>
  * Example usage:
+ * </p>
  * 
  * <pre>
  * &lt;datatables:table id="myTableId" data="${persons}">
@@ -321,16 +324,8 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(DatatableOptions.CSS_STRIPECLASSES, cssStripesClasses);
 	}
 	
-	public void setServerData(String serverData) {
-		stagingConf.put(DatatableOptions.AJAX_SERVERDATA, serverData);
-	}
-
-	public void setServerParam(String serverParam) {
-		stagingConf.put(DatatableOptions.AJAX_SERVERPARAM, serverParam);
-	}
-
-	public void setServerMethod(String serverMethod) {
-		stagingConf.put(DatatableOptions.AJAX_SERVERMETHOD, serverMethod);
+	public void setAjaxParams(String ajaxParams) {
+		stagingConf.put(DatatableOptions.AJAX_PARAMS, ajaxParams);
 	}
 
 	public void setDisplayLength(int displayLength) {

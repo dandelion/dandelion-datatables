@@ -160,12 +160,6 @@ public final class DatatableOptions {
 			new AjaxPipeliningProcessor(), 101);
 	public static final Option<Integer> AJAX_PIPESIZE = new Option<Integer>("ajax.pipeSize", new IntegerProcessor(),
 			100);
-	public static final Option<String> AJAX_SERVERDATA = new Option<String>("ajax.serverData",
-			new StringProcessor(true), 100);
-	public static final Option<String> AJAX_SERVERPARAM = new Option<String>("ajax.serverParam", new StringProcessor(
-			true), 100);
-	public static final Option<String> AJAX_SERVERMETHOD = new Option<String>("ajax.serverMethod",
-			new StringProcessor(), 100);
 	public static final Option<String> AJAX_RELOAD_SELECTOR = new Option<String>("ajax.reloadSelector",
 			new AjaxReloadSelectorProcessor(), 100);
 	public static final Option<String> AJAX_RELOAD_FUNCTION = new Option<String>("ajax.reloadFunction",

@@ -44,21 +44,20 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 /**
  * <p>
  * Attribute processor applied to the {@code table} and associated with the
- * {@link DatatableOptions#AJAX_DEFERRENDER} option.
+ * {@link DatatableOptions#AJAX_SERVERSIDE} option.
  * </p>
  * 
  * @author Thibault Duchateau
- * @since 0.10.0
  */
-public class TableDeferRenderAttrProcessor extends AbstractTableAttrProcessor {
+public class TableAjaxServerSideAttrProcessor extends AbstractTableAttrProcessor {
 
-	public TableDeferRenderAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+	public TableAjaxServerSideAttrProcessor(IAttributeNameProcessorMatcher matcher) {
 		super(matcher);
 	}
 
 	@Override
 	public int getPrecedence() {
-		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
+		return DataTablesDialect.DT_DEFAULT_PRECEDENCE - 1;
 	}
 
 	@Override
@@ -67,6 +66,6 @@ public class TableDeferRenderAttrProcessor extends AbstractTableAttrProcessor {
 
 		Boolean attrValue = AttributeUtils.parseBooleanAttribute(arguments, element, attributeName);
 
-		stagingConf.put(DatatableOptions.AJAX_DEFERRENDER, attrValue);
+		stagingConf.put(DatatableOptions.AJAX_SERVERSIDE, attrValue);
 	}
 }

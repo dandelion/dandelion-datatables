@@ -408,54 +408,19 @@
       <attribute>
          <description>
          <![CDATA[
-            <p>Allows you to override the default function which obtains the data from the server ($.getJSON) so something more suitable for your application.</p>
+            <p>Allows you pass extra AJAX params to the request made agains the server.</p>
             <p>Also note that you can automatically load any Dandelion bundle using the syntax: 'bundleName#javascriptFunction'.</p>
             <p>
             <ul>
             <li>Required: <b>no</b></li>
             <li>Possible values: <b>any String representing the name of an accessible Javascript function</b></li>
             <li>Data source: <b>AJAX</b></li>
-            <li>Configuration property: <b>ajax.serverData</b></li>
+            <li>Configuration property: <b>ajax.ajaxParams</b></li>
             </ul>
             </p>
          ]]>
          </description>
-         <name>serverData</name>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <description>
-         <![CDATA[
-            <p>Allows you to send extra information to the server when using an AJAX source.</p>
-            <p>Also note that you can automatically load any Dandelion bundle using the syntax: 'bundleName#javascriptFunction'.</p>
-            <p>
-            <ul>
-            <li>Required: <b>no</b></li>
-            <li>Possible values: <b>any String representing the name of an accessible Javascript function</b></li>
-            <li>Data source: <b>AJAX</b></li>
-            <li>Configuration property: <b>ajax.serverParam</b></li>
-            </ul>
-            </p>
-         ]]>
-         </description>
-         <name>serverParam</name>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <description>
-         <![CDATA[
-            <p>Allows you to change the HTTP method called to obtain data when using an AJAX source.</p>
-            <p>
-            <ul>
-            <li>Required: <b>no</b></li>
-            <li>Possible values: <b>any valid HTTP method</b></li>
-            <li>Data source: <b>AJAX</b></li>
-            <li>Configuration property: <b>ajax.serverMethod</b></li>
-            </ul>
-            </p>
-         ]]>
-         </description>
-         <name>serverMethod</name>
+         <name>ajaxParams</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>

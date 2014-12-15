@@ -41,7 +41,7 @@ public class EmptyStringProcessorTest {
 
 	@Test
 	public void should_update_the_table_entry_with_an_empty_string() throws Exception{
-		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SERVERDATA, "");
+		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SOURCE, "");
 		OptionProcessor processor = new EmptyStringProcessor();
 		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
 		processor.process(pc);
@@ -50,7 +50,7 @@ public class EmptyStringProcessorTest {
 	
 	@Test
 	public void should_update_the_column_entry_with_an_empty_string() throws Exception{
-		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SERVERDATA, "");
+		Entry<Option<?>, Object> entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_SOURCE, "");
 		OptionProcessor processor = new EmptyStringProcessor();
 		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
 		processor.process(pc);
