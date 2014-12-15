@@ -143,7 +143,6 @@ public class ExportFeature extends AbstractExtension {
 	private String getOnclick(ExportConf exportConf) {
 
 		String oTableId = "oTable_" + table.getId();
-		String serverParamFunction = DatatableOptions.AJAX_SERVERPARAM.valueFrom(table.getTableConfiguration());
 		StringBuilder params = new StringBuilder();
 
 		StringBuilder exportFuncName = new StringBuilder("ddl_dt_launch_export_");
@@ -155,61 +154,28 @@ public class ExportFeature extends AbstractExtension {
 		exportFunc.append(exportFuncName.toString());
 		exportFunc.append("(){");
 
-		// Custom URL params exist
-		if (StringUtils.isNotBlank(serverParamFunction)) {
-			params.append("aoData");
+		params.append(oTableId).append(".ajax.params()");
 
-			exportFunc.append("var aoData = ").append(oTableId).append(".ajax.params();");
-			exportFunc.append(serverParamFunction).append("(aoData);");
-
-			// HTTP GET
-			if (exportConf.getMethod().equals(HttpMethod.GET)) {
-				exportFunc.append("window.location=\"").append(exportConf.getUrl());
-				if (exportConf.getUrl().contains("?")) {
-					exportFunc.append("&");
-				}
-				else {
-					exportFunc.append("?");
-				}
-
-				// Parameters should be decoded because jQuery.param() uses
-				// .serialize() which encodes the URL
-				exportFunc.append("\" + decodeURIComponent($.param(").append(params.toString())
-						.append(")).replace(/\\+/g,' ');");
+		// HTTP GET
+		if (exportConf.getMethod().equals(HttpMethod.GET)) {
+			exportFunc.append("window.location=\"").append(exportConf.getUrl());
+			if (exportConf.getUrl().contains("?")) {
+				exportFunc.append("&");
 			}
-			// HTTP POST/PUT/DELETE
 			else {
-				exportFunc.append("$.download('").append(exportConf.getUrl()).append("', decodeURIComponent($.param(")
-						.append(params.toString()).append(")).replace(/\\+/g,' '),'").append(exportConf.getMethod())
-						.append("');");
+				exportFunc.append("?");
 			}
 
+			// Parameters should be decoded because jQuery.param() uses
+			// .serialize() which encodes the URL
+			exportFunc.append("\" + decodeURIComponent($.param(").append(params.toString())
+					.append(")).replace(/\\+/g,' ');");
 		}
-		// No additionnal URL params
+		// HTTP POST/PUT/DELETE
 		else {
-			params.append(oTableId).append(".ajax.params()");
-
-			// HTTP GET
-			if (exportConf.getMethod().equals(HttpMethod.GET)) {
-				exportFunc.append("window.location=\"").append(exportConf.getUrl());
-				if (exportConf.getUrl().contains("?")) {
-					exportFunc.append("&");
-				}
-				else {
-					exportFunc.append("?");
-				}
-
-				// Parameters should be decoded because jQuery.param() uses
-				// .serialize() which encodes the URL
-				exportFunc.append("\" + decodeURIComponent($.param(").append(params.toString())
-						.append(")).replace(/\\+/g,' ');");
-			}
-			// HTTP POST/PUT/DELETE
-			else {
-				exportFunc.append("$.download('").append(exportConf.getUrl()).append("', decodeURIComponent($.param(")
-						.append(params.toString()).append(")).replace(/\\+/g,' '),'").append(exportConf.getMethod())
-						.append("'));");
-			}
+			exportFunc.append("$.download('").append(exportConf.getUrl()).append("', decodeURIComponent($.param(")
+					.append(params.toString()).append(")).replace(/\\+/g,' '),'").append(exportConf.getMethod())
+					.append("'));");
 		}
 
 		exportFunc.append("}");
