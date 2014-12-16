@@ -1,0 +1,963 @@
+=== A.1. `<datatables:table>` tag
+
+The `<datatables:table>` tag allows you to display a HTML table thanks to a set of attributes and nested `<datatables:column>` tags.
+
+[discrete]
+==== Usage
+
+You can either use a "DOM" source, i.e. any Object with an iterator() method or an "AJAX" source, i.e. using a web service returns data formatted in JSON.
+
+[source,xml]
+----
+<datatables:table id="myTableId" data="${myCollection}">
+  <datatables:column title="id" property="id" />
+  <datatables:column title="firstName" property="firstName" />
+  <datatables:column title="LastName" property="lastName" />
+  <datatables:column title="City" property="address.town.name" />
+  <datatables:column title="Mail" property="mail" />
+</datatables:table>
+----
+
+Note that:
+
+* you can also use _dynamic attributes_, i.e. attributes that are not officially declared in the <abbr title="TagLib Descriptor">TLD</abbr>. This is convenient especially for all native HTML attributes. 
+
+[source,xml]
+----
+<datatables:table cellspacing="5">
+  ...
+</datatables:table>
+----
+
+* you can use _expression language_ (EL) in all attributes. 
+
+[source,xml]
+----
+<datatables:table info="${...}">
+  ...
+</datatables:table>
+----
+
+[discrete]
+==== Reference
+
+The _Config_ information mentioned in the Description column indicates with which name you can refer to the corresponding feature in the configuration file or n/a otherwise.
+
+.`<datatables:table>` tag reference
+[cols="1,9,1,1,1"]
+|===
+|Attribute name |Attribute description |Value(s) |Default value |Data source compatibility
+
+|[[jsp-table-id]]*id*
+|DOM id of the `table`
+
+*_Required_*
+|	
+|
+|DOM/AJAX
+
+|[[jsp-table-data]]*data*
+|Bean used to populate the table
+
+*_Either data or url attribute is required_* 
+|Any Java object with an iterator() method
+|
+|DOM
+
+|[[jsp-table-url]]*url*
+|URL called by DataTables to populate the table. Data returned must be in the JSON format
+
+*_Either data or url attribute is required_*
+|Any valid URL
+|
+|AJAX
+
+|[[jsp-table-appear]]*appear*
+|Display mode used when the table has finished loading and must appear in the page. A duration can be set (in milliseconds) if the display mode is set to <strong>fadein</strong>
+
+Option: <<opt-feature.appear,feature.appear>>
+|block\|fadein[,duration]
+|fadein
+|DOM/AJAX
+
+|[[jsp-table-autoWidth]]*autoWidth*
+|Enable or disable automatic column width calculation
+
+Option: <<opt-feature.autoWidth,feature.autoWidth>>
+|true \| false
+|true
+|DOM/AJAX
+
+|[[jsp-table-confGroup]]*confGroup*
+|Name of the configuration group to activate for the current table
+|
+|
+|DOM/AJAX
+
+|[[jsp-table-cssStyle]]*cssStyle*
+|CSS style to be applied on the `<table>` tag
+
+Option: <<opt-css.style,css.style>>
+|
+|
+|DOM/AJAX
+
+|[[jsp-table-cssClass]]*cssClass*
+|CSS class(es) to be applied on the `<table>` tag
+
+Option: <<opt-css.class,css.class>>
+|
+|
+|DOM/AJAX
+
+|[[jsp-table-cssStripes]]*cssStripes*
+|Comma-separated list of CSS classes that should be applied to displayed rows. This sequence of CSS classes may be of any length, and DataTables will apply each class sequentially, looping when required.
+
+Option: <<opt-css.cssStripes,css.cssStripes>>
+|
+|
+|DOM/AJAX
+
+|[[jsp-table-deferRender]]*deferRender*
+|Defer the creation of the table elements for each row until they are needed for a draw
+
+Option: <<opt-ajax.deferRender,ajax.deferRender>>
+|true\|false
+|false
+|AJAX
+
+|[[jsp-table-displayLength]]*displayLength*
+|Number of rows to display on a single page when using pagination
+
+Option: <<opt-feature.displayLength,feature.displayLength>>
+|
+|10
+|DOM/AJAX
+
+|[[jsp-table-dom]]*dom*
+|Allows you to specify exactly where in the DOM you want DataTables to inject the various controls it adds to the page (for example you might want the pagination controls at the top of the table).
+
+Option: <<opt-feature.dom,feature.dom>>
+|See <<4-2-dom-positioning, DOM positioning>>
+|lfrtip
+|DOM/AJAX
+
+|[[jsp-table-escapeXml]]*escapeXml*
+|Whether XML characters should be escaped or not
+|true\|false
+|true
+|DOM/AJAX
+
+|[[jsp-table-export]]*export*
+|Comma-separated list of enabled export formats. Some formats use reserved words, such as 'csv', 'xls', 'xlsx', 'pdf' and 'xml'
+
+Option: <<opt-export.enabled.formats,export.enabled.formats>>
+|
+|
+|DOM/AJAX
+
+|[[jsp-table-exportStyle]]*exportStyle*
+|CSS style to be applied to the container used for export links
+
+Option: <<opt-export.container.style,export.container.style>>
+|
+|
+|DOM/AJAX
+
+|[[jsp-table-exportClass]]*exportClass*
+|CSS class(es) to be applied to the container used for export links
+
+Option: <<opt-export.container.class,export.container.class>>
+|
+|
+|DOM/AJAX
+
+|[[jsp-table-ext]]*ext*
+|Comma-separated names of extensions to register in the current table
+
+Option: <<opt-main.extension.names,main.extension.names>>
+|
+|
+|DOM/AJAX
+
+|[[jsp-table-filterable]]*filterable*
+|Enable or disable global filtering of data
+
+Option: <<opt-feature.filterable,feature.filterable>>
+|true\|false
+|true
+|DOM/AJAX
+
+|[[jsp-table-filterPlaceholder]]*filterPlaceholder*
+|Placeholder used to hold the individual column filtering elements
+
+Option: <<opt-feature.filterPlaceholder,feature.filterPlaceholder>>
+|head_before \| head_after \| foot \| none
+|foot
+|DOM/AJAX
+
+|[[jsp-table-filterDelay]]*filterDelay*
+|Delay (in milliseconds) to be used before the AJAX call is performed to obtain data
+
+Option: <<opt-feature.filterDelay,feature.filterDelay>>
+|
+|500ms
+|DOM/AJAX
+
+|[[jsp-table-filterSelector]]*filterSelector*
+|jQuery selector targeting the element on which a 'click' event will be bound to trigger the filtering
+
+Option: <<opt-feature.filterSelector,feature.filterSelector>>
+|Any jQuery selector
+|
+|DOM/AJAX
+
+|[[jsp-table-filterClearSelector]]*filterClearSelector*
+|jQuery selector targeting the element on which a 'click' event will be bound to trigger the clearing of all filter elements
+
+Option: <<opt-feature.filterClearSelector,feature.filterClearSelector>>
+|Any jQuery selector
+|
+|DOM/AJAX
+
+|[[jsp-table-fixedPosition]]*fixedPosition*
+|(<a href="/datatables/features/plugins/fixedheader.html">fixedHeader</a>) Respectively fix the header, footer, left column, right column
+
+Option: <<opt-plugin.fixedPosition,plugin.fixedPosition>>
+|top \| bottom \| left \| right
+|top
+|DOM/AJAX
+
+|[[jsp-table-info]]*info*
+|Enable or disable the table information display. This shows information about the data that is currently visible on the page, including information about filtered data if that action is being performed
+
+Option: <<opt-feature.info,feature.info>>
+|true\|false
+|true
+|DOM/AJAX
+
+|[[jsp-table-jqueryUI]]*jqueryUI*
+|Enable jQuery UI ThemeRoller support
+
+Option: <<opt-feature.jqueryUi,feature.jqueryUi>>
+|
+|
+|DOM/AJAX
+
+|[[jsp-table-lengthChange]]*lengthChange*
+|If <strong>pageable</strong> is set to true, allows the end user to select the size of a formatted page from a select menu (sizes are 10, 25, 50 and 100)
+
+Option: <<opt-feature.lengthChange,feature.lengthChange>>
+|true\|false
+|true
+|DOM/AJAX
+
+|[[jsp-table-lengthMenu]]*lengthMenu*
+|Specify the entries in the length drop down menu that DataTables show when pagination is enabled
+
+Option: <<opt-feature.lengthMenu,feature.lengthMenu>>
+|
+|10,25,50,100
+|DOM/AJAX
+
+|[[jsp-table-offsetTop]]*offsetTop*
+|(<a href="/datatables/features/plugins/fixedheader.html">fixedHeader</a>) Offset applied on the top
+
+Option: <<opt-plugin.fixedOffsetTop,plugin.fixedOffsetTop>>
+|
+|
+|DOM/AJAX
+
+|[[jsp-table-pageable]]*pageable*
+|Enable or disable pagination
+
+Option: <<opt-feature.pageable,feature.pageable>>
+|true\|false
+|true
+|DOM/AJAX
+
+|[[jsp-table-paginationType]]*paginationType*
+|Name of the pagination interaction methods which present different page controls to the end user.
+
+Option: <<opt-feature.paginationType,feature.paginationType>>
+|two_button \| full_numbers \| four_button \| bootstrap \| scrolling \| input \| listbox \| extJs \| bootstrap_full_numbers \| bootstrap_four_button
+|two_button
+|DOM/AJAX
+
+|[[jsp-table-pipelining]]*pipelining*
+|Enable pipelining data for paging when server-side processing is enabled.
+
+Option: <<opt-ajax.pipelining,ajax.pipelining>>
+|true\|false
+|false
+|AJAX
+
+|[[jsp-table-pipeSize]]*pipeSize*
+|Pipe size used when pipelining is enabled, i.e. times that the user can page before a request must be made of the server.
+
+Option: <<opt-ajax.pipeSize,ajax.pipeSize>>
+|Any integer starting from 1
+|1
+|AJAX
+
+|[[jsp-table-processing]]*processing*
+|Enable or disable the display of a 'processing' indicator when the table is being processed (e.g. a sort). This is particularly useful for tables with large amounts of data where it can take a noticeable amount of time to sort the entries
+
+Option: <<opt-feature.processing,feature.processing>>
+|
+|10
+|AJAX
+
+|[[jsp-table-reloadFunction]]*reloadFunction*
+|Name of a Javascript function that will be called in the 'click' event bound by the reloadSelector attribute. Note that when using this attribute, you will have to call manually the 'fnReloadAjax()' function
+
+Option: <<opt-ajax.reloadFunction,ajax.reloadFunction>>
+|Any String representing the name of an accessible Javascript function. <<3-3-bundle-special-syntax, Bundle special syntax>> allowed.
+|Empty string
+|AJAX
+
+|[[jsp-table-reloadSelector]]*reloadSelector*
+|jQuery selector targeting the element on which a 'click' event will be bound to trigger the table reloading
+
+Option: <<opt-ajax.reloadSelector,ajax.reloadSelector>>
+|Any jQuery selector
+|Empty string
+|AJAX
+
+|[[jsp-table-row]]*row*
+|Name under which the object representing the current row is added to the pageContext, allowing you to access the object in the body of a `column` tag. If data must be displayed without any decoration, use the {% refjsp dt column property %} attribute of the column tag
+|
+|
+|DOM
+
+|[[jsp-table-rowIdBase]]*rowIdBase*
+|Evaluated as a property of the bean being iterated on
+|
+|
+|DOM
+
+|[[jsp-table-rowIdPrefix]]*rowIdPrefix*
+|Prefix used to build an ID that will be applied on all table rows. If <strong>rowIdBase</strong> is used, the <strong>rowIdPrefix</strong> is prepended to the <strong>rowIdBase</strong>
+|
+|
+|DOM
+
+|[[jsp-table-rowIdSufix]]*rowIdSufix*
+|Suffix used to build an ID that will be applied on all table rows. If <strong>rowIdBase</strong> is used, the <strong>rowIdSuffix</strong> is appended to the <strong>rowIdBase</strong>
+|
+|
+|DOM
+
+|[[jsp-table-scrollCollapse]]*scrollCollapse*
+|When vertical (y) scrolling is enabled, DataTables will force the height of the table's viewport to the given height at all times (useful for layout). However, this can look odd when filtering data down to a small data set, and the footer is left "floating" further down. This parameter (when enabled) will cause DataTables to collapse the table's viewport down when the result set will fit within the given Y height.
+
+Option: <<opt-feature.scrollCollapse,feature.scrollCollapse>>
+|true\|false
+|false
+|DOM/AJAX
+
+|[[jsp-table-scrollX]]*scrollX*
+|Enable horizontal scrolling. When a table is too wide to fit into a certain layout, or you have a large number of columns in the table, you can enable x-scrolling to show the table in a viewport, which can be scrolled
+
+Option: <<opt-feature.scrollX,feature.scrollX>>
+|Any CSS unit, or a number (in which case it will be treated as a pixel measurement)
+|Empty string, i.e. disabled
+|DOM/AJAX
+
+|[[jsp-table-scrollXInner]]*scrollXInner*
+|Use more width than it might otherwise do when x-scrolling is enabled
+
+Option: <<opt-feature.scrollXInner,feature.scrollXInner>>
+|
+|
+|DOM/AJAX
+
+|[[jsp-table-scrollY]]*scrollY*
+|Enable vertical scrolling. Vertical scrolling will constrain the DataTable to the given height, and enable scrolling for any data which overflows the current viewport. This can be used as an alternative to paging to display a lot of data in a small area (although paging and scrolling can both be enabled at the same time)
+
+Option: <<opt-feature.scrollY,feature.scrollY>>
+|Any CSS unit, or a number (in which case it will be treated as a pixel measurement)
+|Empty string, i.e. disabled
+|DOM/AJAX
+
+|[[jsp-table-serverData]]*serverData*
+|Allows you to override the default function which obtains the data from the server ($.getJSON) so something more suitable for your application
+
+Option: <<opt-ajax.serverData,ajax.serverData>>
+|Any String representing the name of an accessible Javascript function. <<3-3-bundle-special-syntax, Bundle special syntax>> allowed.
+|
+|AJAX
+
+|[[jsp-table-serverMethod]]serverMethod
+|Allows you to change the HTTP method called to obtain data when using an AJAX source
+
+Option: <<opt-ajax.serverMethod,ajax.serverMethod>>
+|Any valid HTTP method
+|GET
+|AJAX
+
+|[[jsp-table-serverParam]]serverParam
+|Allows you to send extra information to the server when using AJAX source
+
+Option: <<opt-ajax.serverParam,ajax.serverParam>>
+|Any String representing the name of an accessible Javascript function. <<3-3-bundle-special-syntax, Bundle special syntax>> allowed.
+|
+|AJAX
+
+|[[jsp-table-stateSave]]stateSave
+|When enabled a cookie will be used to save table display information such as pagination information, display length, filtering and sorting. As such when the end user reloads the page the display display will match what thy had previously set up
+
+Option: <<opt-ajax.stateSave,ajax.stateSave>>
+|true\|false
+|false
+|DOM/AJAX
+
+|[[jsp-table-serverSide]]serverSide
+|Configure DataTables to use server-side processing. Note that the <strong>url</strong> attribute must be given in order to give DataTables a source to obtain the required data for each draw
+
+Option: <<opt-ajax.serverSide,ajax.serverSide>>
+|true\|false
+|false
+|AJAX
+
+|[[jsp-table-sortable]]sortable
+|Enable or disable sorting of columns. Sorting of individual columns can be disabled by the "sortable" attribute of column tag
+
+Option: <<opt-feature.sortable,feature.sortable>>
+|true \| false
+|true
+|DOM/AJAX
+
+|[[jsp-table-theme]]theme
+|Name of a theme to activate for the current table
+
+Option: <<opt-css.theme,css.theme>>
+|bootstrap2 \| bootstrap3 \| jqueryui
+|
+|DOM/AJAX
+
+|[[jsp-table-themeOption]]themeOption
+|Name of an option to activate in relation to the current activated theme.
+
+Option: <<opt-css.themeOption,css.themeOption>>
+|See the <<themeOption-list, full list>>
+|
+|DOM/AJAX
+
+|===
+[[themeOption-list]] Theme options list:
+
+* bla
+* bla
+     
+=== A.2. `<datatables:column>` tag
+
+The `<datatables:column>` tag allows you to define the content of a column. 
+
+[discrete]
+==== Usage
+
+This tag must be used inside the <<a-1-code-datatables-table-code-tag, `<datatables:table>`>> tag.
+
+You can either let the <code>property</code> attribute handle the content of a cell. This attribute allows to access to a bean's property.
+   
+For example:
+[source, xml]
+---- 
+<datatables:table id="myTableId" data="${myCollection}" ...>
+  <datatables:column property="aPropertyOfTheBean" ... />
+</datatables:table>
+----
+
+Or you can set a body and put anything you want inside (HTML, JSTL tags, Spring tags, ...). See the <<jsp-table-row, `row` table attribute which can be particularly useful in this case.
+
+[source, xml]
+---- 
+<datatables:table id="myTableId" data="${myCollection}" row="aStringRepresentingTheBean" ...>
+  <datatables:column ...>
+    <span color="red;">
+      <c:out value="${aStringRepresentingTheBean.aPropertyOfTheBean}" />
+    </span>
+  </datatables:column>
+</datatables:table>
+----
+
+[discrete]
+==== Reference
+
+.`<datatables:column>` tag reference
+[cols="1,9,1,1,1"]
+|===
+|Attribute name |Attribute description |Value(s) |Default value |Data source compatibility
+
+|[[jsp-column-title]]*title*
+|Title to be given to the column (<code>th</code> content). Optionnaly, the title can be assigned thanks to the <strong>titleKey</strong> attribute
+|
+|
+|DOM/AJAX
+
+|[[jsp-column-titleKey]]*titleKey*
+|Resource key used to lookup the title value in the configured resource bundle
+|
+|
+|DOM/AJAX
+
+|[[jsp-column-name]]*name*
+|Name to be given to the column. Mainly used when using AJAX source and server-side processing
+|
+|
+|DOM/AJAX
+
+|[[jsp-column-property]]*property*
+|When using a DOM source, this is the name of the object's attribute of the collection being iterated on. When using an AJAX source, this is the name of the JSON property to be read from the data obtained by the AJAX call
+|
+|
+|DOM/AJAX
+
+|[[jsp-column-sortable]]*sortable*
+|Enable or disable sorting on column
+|true \| false
+|true
+|DOM/AJAX
+
+|[[jsp-column-sortInitDirection]]*sortInitDirection*
+|If the column is sortable, sets the default sorting direction
+|asc \| desc
+|asc
+|DOM/AJAX
+
+|[[jsp-column-sortInitOrder]]*sortInitOrder*
+|If the column is sortable, sets the order in which the sort should be initialized
+|Any column index (starting from 0)
+|
+|DOM/AJAX
+
+|[[jsp-column-sortDirection]]*sortDirection*
+|Comma-separated list of directions to be used to control the sorting sequence
+|Comma-separated list of 'asc' or 'desc' strings
+|
+|DOM/AJAX
+
+|[[jsp-column-sortType]]*sortType*
+|If the column is sortable, configures the type of sort to apply to the column
+|natural \| date \| anti_the \| alt_string \| currency \| filesize \| formatted_number
+|Type-based, internally guessed by DataTables
+|DOM/AJAX
+
+|[[jsp-column-escapeXml]]*escapeXml*
+|Whether XML characters should be escaped or not
+|true \| false
+|true
+|DOM/AJAX
+
+|[[jsp-column-filterable]]*filterable*
+|Enable or disable filtering in the column. By default, an input field will be created in the tfoot section of the table
+|true \| false
+|false
+|DOM/AJAX
+
+|[[jsp-column-filterType]]*filterType*
+|If the column is filterable, confires the filter type
+|select \| input \| number \| number_range \| date_range
+|input
+|DOM/AJAX
+
+|[[jsp-column-filterValues]]*filterValues*
+|Name of a Javascript variable containing data used to populate the filtering select
+|Either an array of values or an array of objects
+|
+|DOM/AJAX
+
+|[[jsp-column-filterMinLength]]*filterMinLength*
+|Number of characters to be entered in the filtering input field before filtering is triggered
+|Any number
+|0 (filtering is triggered on keyup)
+|DOM/AJAX
+
+|[[jsp-column-filterDateFormat]]*filterDateFormat*
+|Date format to be applied to the datepicker when the filterType is set to "date_range"
+|Any combination of 'dd', 'd', 'mm', 'm', 'yyyy', 'yy' with '-', '/' or '.' as separator
+|mm/dd/yyyy
+|DOM/AJAX
+
+|[[jsp-column-filterCssClass]]*filterCssClass*
+|If the column is filterable, CSS class(es) to be applied on the filtering element (whose type depends on the filter type)
+|
+|
+|DOM/AJAX
+
+|[[jsp-column-cssStyle]]*cssStyle*
+|CSS style to be applied on the header cell of the column (<code>th</code>)
+|
+|
+|DOM/AJAX
+
+|[[jsp-column-cssCellStyle]]*cssCellStyle*
+|CSS style to be applied on all column cells (<code>td</code>)
+|
+|
+|DOM
+
+|[[jsp-column-cssClass]]*cssClass*
+|CSS class(es) to be applied on the header cell of the column (<code>th</code>)
+|
+|
+|DOM/AJAX
+
+|[[jsp-column-cssCellClass]]*cssCellClass*
+|CSS class(es) to be applied on all column cells (<code>td</code>)
+|
+|
+|DOM/AJAX
+
+|[[jsp-column-display]]*display*
+|Comma-separated list of strings used to filter in which view(s) the column content will be displayed. Not that some strings are reserved:
+
+* 'all': the content will appear both client-side and is all export formats
+* 'csv': the content will appear only in the csv export
+* 'xls': the content will appear only in the xls export
+* 'xlsx': the content will appear only in the xlsx export
+* 'pdf': the content will appear only in the pdf export
+* 'xml': the content will appear only in the xml export
+|
+|all (HTML and in all export formats)
+|DOM/AJAX
+
+|[[jsp-column-id]]*id*
+|DOM id to be given to the header cell (<code>th</code>)
+|
+|
+|DOM/AJAX
+
+|[[jsp-column-default]]*default*
+|Default string to be used if the value return from the <strong>property</strong> attribute is empty or null
+|
+|Empty string
+|DOM/AJAX
+
+|[[jsp-column-searchable]]*searchable*
+|Enable or disable searching in the column. If false, the column won't be filtered by the global search field
+|true \| false
+|true
+|DOM/AJAX
+
+|[[jsp-column-renderFunction]]*renderFunction*
+|Name of a Javascript function that will be called to render the column when using an AJAX source
+|Any String representing the name of an accessible Javascript function. <<3-3-bundle-special-syntax, Bundle special syntax>> allowed
+|
+|AJAX
+
+|[[jsp-column-format]]*format*
+|http://docs.oracle.com/javase/6/docs/api/java/text/MessageFormat.html[MessageFormat] pattern that will be used to format the value passed in the <strong>property</strong> attribute
+|Any valid pattern
+|
+|DOM
+
+|[[jsp-column-visible]]*visible*
+|Enable or disable the display of the column. Note that even if the column is not visible, it is searchable
+|true \| false
+|true
+|DOM/AJAX
+
+|[[jsp-column-selector]]*selector*
+|jQuery selector targeting any element that will be
+            populated with a filtering element (depending on the <strong>filterType</strong>
+            attribute). This attribute only makes sense when the <strong>filterPlaceholder</strong>
+            attribute is set to <code>none</code> (i.e. for external
+            filtering form)
+|Any jQuery selector
+|Empty string
+|DOM/AJAX
+|===
+
+=== A.3. `<datatables:columnHead>` tag
+
+The `<datatables:columnHead>` tag allows you to fill in a column header with a more complex content than a simple string.
+
+[discrete]
+==== Usage
+
+This tag must be used inside the <<a-2-code-datatables-column-code-tag,`<datatables:column>`>>  tag.
+
+For example:
+[source, xml]
+----
+<datatables:table id="myTableId" data="${myCollection}" ...>
+  <datatables:column>
+    <datatables:columnHead>
+      <!-- The HTML code here will appear in the column header... -->
+    </datatables:columnHead>
+    <!-- The HTML code here will appear in each cell -->
+    </datatables:column>
+</datatables:table>
+----
+
+[discrete]
+==== Reference
+
+This tag has no attribute.
+
+=== A.4. `<datatables:option>` tag
+
+=== A.5. `<datatables:export>` tag
+
+Configures a type of export, e.g. allowing to apply CSS on export links.
+
+[discrete]
+==== Usage
+
+[source, xml]
+----
+<datatables:table ...>
+   ...
+   <datatables:export type="pdf" cssClass="btn btn-info" />
+   <datatables:export type="xls" cssClass="btn btn-success" />
+   ...
+</datatables:table>
+----
+
+Note that to configure an export, first it must be activated using the <<jsp-table-export, `export`>> table attribute.
+
+[discrete]
+==== Reference
+
+.`<datatables:export>` tag reference
+[cols="1,9,1,1,1"]
+|===
+|Attribute name |Attribute description |Value(s) |Default value |Data source compatibility
+
+|[[jsp-export-type]]*type*
+|Type of export to configure
+
+*_Required_*
+|Must match one of the value set in the <<jsp-table-export, `export`>> table attribute
+|
+|DOM/AJAX
+
+|[[jsp-export-label]]*label*
+|Label to be applied to the export link
+|Any string
+|The upper-cased value of the <<jsp-export-type, `type`>> export attribute
+|DOM/AJAX
+
+|[[jsp-export-cssStyle]]*cssStyle*
+|CSS style to be applied to the export link
+|
+|
+|DOM/AJAX
+
+|[[jsp-export-cssClass]]*cssClass*
+|CSS class(es) to be applied to the export link
+|
+|
+|DOM/AJAX
+
+|[[jsp-export-includeHeader]]*includeHeader*
+|Whether header cells (`<th>`) should appear in the export file or not
+|true \| false
+|true
+|DOM/AJAX
+
+|[[jsp-export-fileName]]*fileName*
+|Name to be given to the export file (without extension)
+|Any string
+|[exportType-upperCased]-[yyyymmDD]
+|DOM/AJAX
+
+|[[jsp-export-fileName]]*fileExtension*
+|File extension of the export file. Note that if reserved words are used, the file extension will be automatically set
+|Any string
+|The lower-cased value of the <<jsp-export-type, `type`>> export attribute
+|DOM/AJAX
+
+|[[jsp-export-autoSize]]*autoSize*
+|Whether columns should be autosized in the export file
+|true \| false
+|true
+|DOM/AJAX
+
+|[[jsp-export-url]]*url*
+|URL to be used for exporting. Handy if you want to customize exports using controllers. By default (i.e. if no
+            <strong>url</strong> attribute is used), Dandelion generates an internal
+            URL for export processing. Note that the URL is internally
+            processed by prepending the request context path and
+            appending all existing parameters
+|true \| false
+|true
+|DOM/AJAX
+
+|[[jsp-export-method]]*method*
+|HTTP method to be used when performing the export call
+|Any valid HTTP method
+|GET
+|DOM/AJAX
+
+|[[jsp-export-orientation]]*orientation*
+|Orientation of the export file (PDF only)
+|landscape \| portrait
+|landscape
+|DOM/AJAX
+
+|[[jsp-export-mimeType]]*mimeType*
+|Mime type applied to the response when downloading the export file. Note that if one of the reserved words is used, the mime type will be automatically set
+|
+|
+|DOM/AJAX
+
+|[[jsp-export-escapeXml]]*escapeXml*
+|Whether XML characters should be escaped or not
+|true \| false
+|true
+|DOM/AJAX
+|===
+
+=== A.6. `<datatables:callback>` tag
+
+The `<datatables:callback>`  tag allows you to configure one or multiple DataTables callbacks in the table.
+
+[discrete]
+==== Usage
+
+[source, xml]
+----
+<datatables:table>
+  ...
+  <datatables:callback type="..." function="..." />
+  ...
+</datatables:table>
+----
+
+See <<7-3-using-callbacks>> for more details. 
+
+[discrete]
+==== Reference
+
+.`<datatables:callback>` tag reference
+[cols="1,9,1,1,1"]
+|===
+|Attribute name |Attribute description |Value(s) |Default value |Data source compatibility
+
+|[[jsp-callback-type]]*type*
+|Type of the callback
+
+*_Required_*
+|cookie \| createdrow \| draw \| footer \| format \| header \| info \| init \| predraw \| row
+|
+|DOM/AJAX
+
+|[[jsp-callback-function]]*function*
+|Name of a Javascript function that will be called inside the configured callback
+
+*_Required_*
+|Any String representing the name of an accessible Javascript function. <<3-3-bundle-special-syntax, Bundle special syntax>> allowed
+|
+|DOM/AJAX
+|===
+
+=== A.7. `<datatables:extraJs>` tag
+
+Specify the location of an extra file containing Javascript code which will be merged with the main Javascript generated file.
+
+[discrete]
+==== Usage
+
+[source, xml]
+----
+<datatables:table>
+  ...
+  <datatables:extraJs bundles="bundle1" />
+  ...
+</datatables:table>
+----
+
+See the <<7-1-using-extra-javascript>> for more details. 
+
+[discrete]
+==== Reference
+
+.`<datatables:extraJs>` tag reference
+[cols="1,9,1,1,1"]
+|===
+|Attribute name |Attribute description |Value(s) |Default value |Data source compatibility
+
+|[[jsp-extraJs-bundles]]*bundles*
+|Comma-separated list of bundle to include in the current request
+
+*_Required_*
+|Any figure between 0 and 9 is recommended
+|
+|DOM/AJAX
+
+|[[jsp-extraJs-insert]]*insert*
+|Location where extra file content will be inserted into the generated configuration
+|See <<7-1-using-extra-javascript>> for all possible values
+|BEFOREALL
+|DOM/AJAX
+|===
+
+=== A.8. `<datatables:extraHtml>` tag
+
+The `<datatables:extraHtml>` tag allows you to create a HTML snippet that will be used as a http://legacy.datatables.net/development/features[DataTables feature plug-in].
+
+Once created, the snippet must be activated thanks to {% refjsp dt table dom %} table attribute.
+
+[discrete]
+==== Usage
+
+Specify the location of a file containing a JSON-formatted DataTables configuration to merge with the generated one.
+
+[source, xml]
+----
+<datatables:table id="myTableId" data="${persons}" dom="l0frtip">
+  ...
+  <datatables:extraHtml uid="0" cssStyle="float:right; margin-left: 5px;">
+    <a class="btn" onclick="alert('Click!');">My custom link</a>
+  </datatables:extraHtml>
+  ...
+</datatables:table>
+----
+
+See the <<_7_2_using_extra_html_snippets, extra HTML snippets section>> for more information. 
+
+[discrete]
+==== Reference
+
+.`<datatables:extraHtml>` tag reference
+[cols="1,9,1,1,1"]
+|===
+|Attribute name |Attribute description |Value(s) |Default value |Data source compatibility
+
+|[[jsp-extraHtml-uid]]*uid*
+|The identifying character to be assigned to the HTML snippet. Once the HTML snippet created, it must be activated thanks to the <<jsp-table-dom, `dom`>> table attribute. See the <<7-2-using-extra-html-snippets, extra HTML snippets section>>
+
+*_Required_*
+|Any figure between 0 and 9 is recommended
+|
+|DOM/AJAX
+
+|[[jsp-extraHtml-cssStyle]]*cssStyle*
+|CSS style to be applied to the container of the extra HTML snippet
+|
+|
+|DOM/AJAX
+
+|[[jsp-extraHtml-cssClass]]*cssClass*
+|CSS class(es) to be applied to the container of the extra HTML snippet
+|
+|
+|DOM/AJAX
+
+|[[jsp-extraHtml-container]]*container*
+|Container used to wrap the extra HTML snippet
+|Any valid HTML element
+|div
+|DOM/AJAX
+
+|[[jsp-extraHtml-escapeXml]]*escapeXml*
+|Whether XML characters should be escaped or not
+|true \| false
+|true
+|DOM/AJAX
+|===
+
+

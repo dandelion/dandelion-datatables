@@ -1,0 +1,159 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+      <groupId>com.github.dandelion</groupId>
+      <artifactId>dandelion-datatables</artifactId>
+      <version>0.11.0-SNAPSHOT</version>
+   </parent>
+
+   <artifactId>datatables-docs</artifactId>
+   <packaging>pom</packaging>
+   <name>Dandelion :: Datatables :: Documentation</name>
+   <description>Documentation of the Dandelion-Datatables component</description>
+
+   <properties>
+      <!-- Configuration -->
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+      <!-- Dependencies -->
+      <dandelion.version>0.11.0-SNAPSHOT</dandelion.version>
+      <asciidoctor.version>1.5.0</asciidoctor.version>
+      <asciidoctor-pdf.version>1.5.0.alpha.4</asciidoctor-pdf.version>
+
+      <!-- Maven plugins -->
+      <maven.compiler.version>2.4</maven.compiler.version>
+      <maven.surefire.version>2.13</maven.surefire.version>
+      <maven.failsafe.version>2.13</maven.failsafe.version>
+      <maven.build.helper.version>1.9</maven.build.helper.version>
+   </properties>
+
+   <dependencies>
+      <dependency>
+         <groupId>rubygems</groupId>
+         <artifactId>asciidoctor-diagram</artifactId>
+         <version>1.2.1</version>
+         <type>gem</type>
+         <scope>provided</scope>
+         <exclusions>
+            <exclusion>
+               <groupId>rubygems</groupId>
+               <artifactId>asciidoctor</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+   </dependencies>
+
+   <build>
+      <defaultGoal>process-resources</defaultGoal>
+      <plugins>
+         <plugin>
+            <groupId>org.asciidoctor</groupId>
+            <artifactId>asciidoctor-maven-plugin</artifactId>
+            <version>${asciidoctor.version}</version>
+            <executions>
+               <execution>
+                  <id>generate-html</id>
+                  <phase>generate-resources</phase>
+                  <goals>
+                     <goal>process-asciidoc</goal>
+                  </goals>
+                  <configuration>
+                     <backend>html</backend>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>generate-pdf</id>
+                  <phase>generate-resources</phase>
+                  <goals>
+                     <goal>process-asciidoc</goal>
+                  </goals>
+                  <configuration>
+                     <backend>pdf</backend>
+                     <attributes>
+                        <pagenums />
+                        <toc />
+                        <idprefix />
+                        <idseparator>-</idseparator>
+                     </attributes>
+                  </configuration>
+               </execution>
+            </executions>
+            <configuration>
+               <sourceDirectory>src/asciidoc</sourceDirectory>
+               <!-- The gem-maven-plugin appends the scope (e.g., provided) to the gemPath defined in the plugin configuration -->
+               <gemPath>${project.build.directory}/gems-provided</gemPath>
+               <requires>
+                  <require>asciidoctor-diagram</require>
+               </requires>
+               <sourceHighlighter>coderay</sourceHighlighter>
+
+               <attributes>
+                  <!-- <stylesheet>./assets/css/doc.css</stylesheet> -->
+                  <toc>left</toc>
+                  <icons>font</icons>
+                  <sectanchors>true</sectanchors>
+                  <!-- set the idprefix to blank -->
+                  <idprefix />
+                  <idseparator>-</idseparator>
+                  <docinfo1>true</docinfo1>
+               </attributes>
+            </configuration>
+            <dependencies>
+               <dependency>
+                  <groupId>org.asciidoctor</groupId>
+                  <artifactId>asciidoctorj-pdf</artifactId>
+                  <version>1.5.0-alpha.6</version>
+               </dependency>
+               <dependency>
+                  <groupId>org.asciidoctor</groupId>
+                  <artifactId>asciidoctorj</artifactId>
+                  <version>1.5.2</version>
+               </dependency>
+            </dependencies>
+         </plugin>
+         <plugin>
+            <groupId>de.saumya.mojo</groupId>
+            <artifactId>gem-maven-plugin</artifactId>
+            <version>1.0.5</version>
+            <configuration>
+               <!-- align JRuby version with AsciidoctorJ to avoid redundant downloading -->
+               <jrubyVersion>1.7.9</jrubyVersion>
+               <gemHome>${project.build.directory}/gems</gemHome>
+               <gemPath>${project.build.directory}/gems</gemPath>
+            </configuration>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>initialize</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
+
+   <repositories>
+      <repository>
+         <id>rubygems-proxy-releases</id>
+         <name>RubyGems.org Proxy (Releases)</name>
+         <url>http://rubygems-proxy.torquebox.org/releases</url>
+         <releases>
+            <enabled>true</enabled>
+         </releases>
+         <snapshots>
+            <enabled>false</enabled>
+         </snapshots>
+      </repository>
+      <repository>
+         <id>sonatype-nexus-snapshots</id>
+         <name>Sonatype Nexus Snapshots</name>
+         <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+         <snapshots>
+            <enabled>true</enabled>
+         </snapshots>
+      </repository>
+   </repositories>
+</project>

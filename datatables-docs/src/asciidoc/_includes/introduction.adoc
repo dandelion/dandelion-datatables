@@ -1,0 +1,23 @@
+== 1. Introducing Dandelion-Datatables
+
+=== 1.1. What is Dandelion-Datatables?
+
+Dandelion-Datatables is the first and most advanced component of the http://dandelion.github.io[Dandelion framework]. 
+
+It allows you to quickly create full-featured HTML tables based on the amazing http://datatables.net[DataTables] jQuery plugin authored by https://twitter.com/DataTables[Allan Jardine].
+
+=== 1.2. Features overview
+
+Dandelion-Datatables support almost all native features of http://datatables.net[DataTables] and adds more.
+Listed below are some of the key features:
+
+* Basic operations like sorting, filtering, paging, ...
+* DOM and AJAX sources
+* Server-side processing
+* Theming: Bootstrap 2, Bootstrap 3 and jQueryUI
+* Fully customizable exports (XLS, XLSX, PDF, XML, ...)
+* I18n
+* Integration with http://spring.io/[Spring] and other projects
+* Support for both template engines: JSP and http://www.thymeleaf.org/[Thymeleaf] 
+* Easily extensible
+

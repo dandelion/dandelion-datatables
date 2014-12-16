@@ -1,0 +1,54 @@
+= Dandelion-Datatables {ddl-version} Documentation
+Thibault Duchateau <https://github.com/tduchateau[@tduchateau]>
+
+:description: This guide describes the basic structure of an AsciiDoc document, how to create your first AsciiDoc document, how to add other structural elements such as lists, block quotes and source code, and how to convert an AsciiDoc document to HTML, DocBook and PDF.
+:keywords: AsciiDoc, Asciidoctor, syntax, reference, learn, how to, writers, authors
+:toc: left
+:toclevels: 3
+:imagesdir: images
+:include-dir: _includes
+:homepage: http://dandelion.github.io/datatables
+:ddl-version: 0.11.0
+:core-link: http://dandelion.github.io/core
+
+include::{include-dir}/introduction.adoc[]
+
+include::{include-dir}/installation.adoc[]
+
+include::{include-dir}/links-with-core.adoc[]
+
+include::{include-dir}/basics.adoc[]
+
+include::{include-dir}/styling.adoc[]
+
+include::{include-dir}/export.adoc[]
+
+include::{include-dir}/advanced.adoc[]
+
+include::{include-dir}/ajax.adoc[]
+
+include::{include-dir}/i18n.adoc[]
+
+include::{include-dir}/plugins.adoc[]
+
+include::{include-dir}/configuration-options.adoc[]
+
+include::{include-dir}/debugger.adoc[]
+
+include::{include-dir}/extending.adoc[]
+
+== Appendix A: JSP taglib reference
+
+include::{include-dir}/reference-jsp-taglib.adoc[]
+
+== Appendix B: Thymeleaf dialect reference
+
+include::{include-dir}/reference-thymeleaf-dialect.adoc[]
+
+== Appendix C: Configuration options reference
+
+include::{include-dir}/reference-options.adoc[]
+
+== Appendix D: Vendor bundles reference
+
+include::{include-dir}/reference-bundle.adoc[]

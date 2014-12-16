@@ -1,0 +1,145 @@
+== 10. Plugins
+
+=== 10.1. Scroller
+
+<p>
+   This plugin allows you to scroll inside the table data.
+</p>
+
+<h3 class="section-title">Using JSP</h3>
+<p>
+   You just need to enable the extension by adding <code>scroller</code> to the {% refjsp dt table ext %} table attribute.
+</p>
+<p>
+   By default, the height is <code>300px</code> but you can configure it with the {% refjsp dt table scrollY %} table attribute.
+</p>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" data="${persons}" ext="scroller" scrollY="400px">
+   &lt;datatables:column title="Id" property="id" />
+   &lt;datatables:column title="FirstName" property="firstName" />
+   &lt;datatables:column title="LastName" property="lastName" />
+   &lt;datatables:column title="City" property="address.town.name" />
+   &lt;datatables:column title="Mail" property="mail" />
+&lt;/datatables:table>
+</pre>
+
+<h3 class="section-title">Using Thymeleaf</h3>
+<p>
+   Just enable the extension by adding <code>scroller</code> to the {% reftl dt table ext %} table attribute.
+</p>
+<pre class="prettyprint">
+&lt;table id="myTable" dt:table="true" dt:ext="scroller" dt:scrollY="400px">
+   &lt;thead dt:scroller="true">
+      &lt;tr>
+         &lt;th>Id&lt;/th>
+         &lt;th>Firstname&lt;/th>
+         &lt;th>Lastname&lt;/th>
+         &lt;th>City&lt;/th>
+         &lt;th>Mail&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+   &lt;tbody>
+      &lt;tr th:each="person : ${persons}">
+         &lt;td th:text="${person?.id}">1&lt;/td>
+         &lt;td th:text="${person?.firstName}">John&lt;/td>
+         &lt;td th:text="${person?.lastName}">Doe&lt;/td>
+         &lt;td th:text="${person?.address?.town?.name}">Nobody knows!&lt;/td>
+         &lt;td th:text="${person?.mail}">john@doe.com&lt;/td>
+      &lt;/tr>
+   &lt;/tbody>
+&lt;/table>
+</pre>
+
+=== 10.2. ColReorder
+
+<p>
+   This plugin allows you to reorder columns using drag'n'drop.
+</p>
+
+<h3 class="section-title">Using JSP</h3>
+<p>
+   Just enable the extension by adding <code>colreorder</code> to the {% refjsp dt table ext %} table attribute.
+</p>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" data="${persons}" ext="colreorder">
+   &lt;datatables:column title="Id" property="id" />
+   &lt;datatables:column title="FirstName" property="firstName" />
+   &lt;datatables:column title="LastName" property="lastName" />
+   &lt;datatables:column title="City" property="address.town.name" />
+   &lt;datatables:column title="Mail" property="mail" />
+&lt;/datatables:table>
+</pre>
+
+<h3 class="section-title">Using Thymeleaf</h3>
+<p>
+   Just enable the extension by adding <code>scroller</code> to the {% reftl dt table ext %} table attribute.
+</p>
+<pre class="prettyprint">
+&lt;table id="myTable" dt:table="true" dt:ext="colreorder">
+   &lt;thead>
+      &lt;tr>
+         &lt;th>Id&lt;/th>
+         &lt;th>Firstname&lt;/th>
+         &lt;th>Lastname&lt;/th>
+         &lt;th>City&lt;/th>
+         &lt;th>Mail&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+   &lt;tbody>
+      &lt;tr th:each="person : ${persons}">
+         &lt;td th:text="${person?.id}">1&lt;/td>
+         &lt;td th:text="${person?.firstName}">John&lt;/td>
+         &lt;td th:text="${person?.lastName}">Doe&lt;/td>
+         &lt;td th:text="${person?.address?.town?.name}">Nobody knows!&lt;/td>
+         &lt;td>&lt;a th:href="${'mailto:' + person?.mail}" th:text="${person?.mail}">john@doe.com&lt;/a>&lt;/td>
+      &lt;/tr>
+   &lt;/tbody>
+&lt;/table>
+</pre>
+
+=== 10.3. FixedHeader
+
+<p>
+   This plugin allows you to fixed the table header by scrolling.
+</p>
+
+<h3 class="section-title">Using JSP</h3>
+<p>
+   Just enable the extension by adding <code>fixedheader</code> to the {% refjsp dt table ext %} table attribute.
+</p>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" data="${persons}" fixedHeader="true" offsetTop="40">
+   &lt;datatables:column title="Id" property="id" />
+   &lt;datatables:column title="FirstName" property="firstName" />
+   &lt;datatables:column title="LastName" property="lastName" />
+   &lt;datatables:column title="City" property="address.town.name" />
+   &lt;datatables:column title="Mail" property="mail" />
+&lt;/datatables:table>
+</pre>
+
+<h3 class="section-title">Using Thymeleaf</h3>
+<p>
+   Just enable the extension by adding <code>fixedheader</code> to the {% reftl dt table ext %} table attribute.
+</p>
+<pre class="prettyprint">
+&lt;table id="myTable" dt:table="true" dt:ext="fixedheader">
+   &lt;thead>
+      &lt;tr>
+         &lt;th>Id&lt;/th>
+         &lt;th>Firstname&lt;/th>
+         &lt;th>Lastname&lt;/th>
+         &lt;th>City&lt;/th>
+         &lt;th>Mail&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+   &lt;tbody>
+      &lt;tr th:each="person : ${persons}">
+         &lt;td th:text="${person?.id}">1&lt;/td>
+         &lt;td th:text="${person?.firstName}">John&lt;/td>
+         &lt;td th:text="${person?.lastName}">Doe&lt;/td>
+         &lt;td th:text="${person?.address?.town?.name}">Nobody knows !&lt;/td>
+         &lt;td>&lt;a th:href="${'mailto:' + person?.mail}" th:text="${person?.mail}">john@doe.com&lt;/a>&lt;/td>
+      &lt;/tr>
+   &lt;/tbody>
+&lt;/table>
+</pre>

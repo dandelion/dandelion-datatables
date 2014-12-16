@@ -1,0 +1,6 @@
+== 12. Debugger
+
+=== 12.1. Debugger
+
+Since the earliest version of Dandelion-Datatables, we've been trying to develop the component in a modular manner. That's why if you dig into the source code, you'll see lots of already existing extensions as the {% javadoc dt datatables-core AjaxFeature %}, the {% javadoc dt datatables-core ServerSideFeature %}, or the {% javadoc dt datatables-core Bootstrap2Theme %}, ...
+

@@ -1,0 +1,804 @@
+== 6. Export
+
+<p>
+   Dandelion-Datatables provides two ways to handle table export:
+</p>
+<ul>
+   <li>
+      Either using a servlet filter: fast to set up but not very
+      configurable and only compatible with DOM sources. Use it for
+      basic exports only.
+   </li>
+   <li>
+      Or using a controller: this one offers you a full control over
+      what is exported but requires a bit more work to set up.
+      Compatible with DOM and AJAX sources.
+   </li>
+</ul>
+<p>
+   Use one of the ways described above using the following compatibility matrix:
+</p>
+<table class="table table-striped" style="width:70%;margin:auto;" id="ecm">
+   <thead>
+      <tr>
+         <th></th>
+         <th>JSP</th>
+         <th>Thymeleaf</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td><strong>DOM source</strong></td>
+         <td><a href="filter-based-exports.html">Filter-based export</a><br /><a href="controller-based-exports.html">Controller-based export</a></td>
+         <td><a href="filter-based-exports.html">Filter-based export</a><br /><a href="controller-based-exports.html">Controller-based export</a> + {% reftl dt th property %}</td>
+      </tr>
+      <tr>
+         <td><strong>AJAX source</strong></td>
+         <td><a href="controller-based-exports.html">Controller-based export</a></td>
+         <td><a href="controller-based-exports.html">Controller-based export</a> + {% reftl dt th property %}</td>
+      </tr>
+   </tbody>
+</table>
+
+=== 6.1 Introducing the export feature
+
+<p>
+   Since the v0.10.0, you can use any export format you want. However
+   Dandelion-Datatables provides ready-to-use features allowing have an
+   exportable table within seconds.
+</p>
+
+<h3 class="section-title" id="hiw">How it works?</h3>
+<p>
+   Whether you use <a
+      href="/datatables/features/export/filter-based-exports.html">filter-based</a>
+   or <a
+      href="/datatables/features/export/controller-based-exports.html">controller-based</a>
+   exports, Dandelion-Datatables uses an
+   <i>export class</i> that describes the content of the export.
+</p>
+<p>
+   Dandelion-Datatables provides built-in exports classes for the
+   following formats:
+   <strong>CSV</strong>, <strong>XML</strong>, <strong>PDF</strong>, <strong>XLS</strong>
+   and <strong>XLSX</strong>. These classes can be used to quickly set up export in your application.
+</p>
+<p>
+   Of course if you need to customize the rendered file, you can write
+   <a href="/datatables/features/export/plugging-in-your-onw-export-class.html">your
+      own export classes</a>. 
+</p>
+
+<h3 class="section-title" id="uj">Text-based export formats: CSV, XML</h3>
+<p>
+   For the text-based export formats, such as CSV or XML, no additional
+   dependency is required and built-in export classes ( {% javadoc dt datatables-core CsvExport %} 
+   and {% javadoc dt datatables-core XmlExport %} ) are bundled within the
+   <i>datatables-core</i> artifact.
+</p>
+
+<h3 class="section-title" id="uj">Binary-based export formats: XLS, XLSX, PDF</h3>
+<p>
+   Binary export formats, such as XLS or PDF, require most of the time some additional dependencies.
+</p>
+<p>
+   For these formats, Dandelion-Datatables provides some extras:
+</p>
+<ul>
+   <li><a href="https://github.com/dandelion/dandelion-datatables/tree/master/datatables-extras/datatables-export-itext">datatables-export-itext</a>: used for PDF exports</li>
+   <li><a href="https://github.com/dandelion/dandelion-datatables/tree/master/datatables-extras/datatables-export-poi">datatables-export-poi</a>: used for XLS exports</li>
+   <li><a href="https://github.com/dandelion/dandelion-datatables/tree/master/datatables-extras/datatables-export-poi-ooxml">datatables-export-poi-ooxml</a>: used for XLSX exports (Excel 2007 or later)</li>
+</ul>
+<p>
+   Each of those dependencies contains:
+</p>
+<ul>
+   <li>an export class that will be used by default by Dandelion-Datatables if the corresponding export format is enabled in the table </li>
+   <li>the corresponding third-party dependency (e.g. the iText library for the <i>datatatables-export-itext</i> extra)</li>
+</ul>
+<p>
+   In order to use one of these extras, just add the corresponding dependency to your classpath.
+</p>
+<h4>XLS export</h4>
+<p>
+   {% assign artifact = 'datatables-export-poi' %}
+   {% include build-tools.html %}
+</p>
+<h4>XLSX export</h4>
+<p>
+   {% assign artifact = 'datatables-export-poi-ooxml' %}
+   {% include build-tools.html %}
+</p>
+<h4>PDF export</h4>
+<p>
+   {% assign artifact = 'datatables-export-itext' %}
+   {% include build-tools.html %}
+</p>
+
+<p>
+   Note that those extras are just here to help you or to get inspired
+   for writing your own. You can of course
+   <a href="/datatables/features/export/plugging-in-your-onw-export-class.html">write
+      your own export class</a>.
+</p>
+
+=== 6.2. Filter-based exports
+
+<p>The export feature was initially designed to work with a servlet
+   filter. The principle is simple: once you click on an export link,
+   the configured servlet filter intercepts the request, retrieves the
+   table and renders it in the chosen format instead of displaying
+   it in a view. 
+</p>
+<p>
+   This is the fastest way to make exports work. But in return, you
+   won't be able to customize a lot the output file. For example, all data will be
+   rendered, whether the table is paged or not. The same applies for filtering and sorting.
+</p>
+<p>
+   Here follows the guide to set up the filter.   
+</p>
+
+<h3 class="section-title" id="sutsf">Setting up the servlet filter</h3>
+<p>
+   You just need to declare the Datatables servlet filter in your <code>web.xml</code> file as follows:
+</p>
+<pre class="prettyprint">
+&lt;!-- Dandelion-Datatables filter used for basic export -->
+&lt;filter>
+   &lt;filter-name>datatables&lt;/filter-name>
+   &lt;filter-class>com.github.dandelion.datatables.core.web.filter.DatatablesFilter&lt;/filter-class>
+&lt;/filter>
+&lt;filter-mapping>
+   &lt;filter-name>datatables&lt;/filter-name>
+   &lt;url-pattern>/*&lt;/url-pattern>
+&lt;/filter-mapping> 
+</pre>
+
+<p class="alert alert-warn">
+   <strong><i class="fa fa-warning fa-2x"></i></strong> Ensure to
+   declare the Datatables servlet filter
+   <strong>after any other filter</strong> that is used to encode your
+   data, as the typical
+   <strong>org.springframework.web.filter.CharacterEncodingFilter</strong>
+</p>
+<p>
+   Once the servlet filter configured, you have to enable export locally, in your table. 
+</p>
+
+{% include datatables/export/activating-export.html %}
+
+<h3 class="section-title" id="sutsf">Customizing the export content</h3>
+<p>
+   Even if filter-based exports provides less flexibility than
+   <a href="/datatables/features/export/controller-based-exports.html">controller-based</a>
+   ones, Dandelion-Datatables has some options allowing you to configure
+   the export content just by using either the JSP taglib or the
+   Thymeleaf dialect.
+</p>
+
+<h4>Using JSP</h4>
+<p>
+   This is done thanks to the {% refjsp dt column display %} column
+   attribute. Just precise in this attribute in what format you want the
+   corresponding content to appear. The format(s) you will precise must
+   match with these set in the {% refjsp dt table export %} attribute.
+</p>
+<p>
+   For instance, setting the {% refjsp dt column display %} attribute to
+   <code>html</code>
+   means that the corresponding column will only appear in the HTML
+   source code, not in the export file.
+</p> 
+<p>
+   In the following example, we don't want HTML code to be displayed in
+   the exported
+   <strong>Mail</strong> column. That's why a second "Mail" column is
+   added with the {% refjsp dt column display %} attribute set to
+   <code>csv,xls</code>
+   (i.e. not
+   <code>html</code>
+   ) and with just the bean's property inside (thanks to the {% refjsp dt column property %} attribute).
+</p>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" data="${persons}" row="person" export="csv,xls">
+   &lt;datatables:column title="Id" property="id" />
+   &lt;datatables:column title="FirstName" property="firstName" />
+   &lt;datatables:column title="LastName" property="lastName" />
+   &lt;datatables:column title="City" property="address.town.name" display="html" />
+   &lt;datatables:column title="Mail" display="html">
+      &lt;a href="mailto:${person.mail}">${person.mail}&lt;/a>
+   &lt;/datatables:column>
+   &lt;datatables:column title="Mail" property="mail" display="csv,xls" />
+   &lt;datatables:export type="xls" includeHeader="true" fileName="my-export-name" cssClass="btn" label="xls" />
+&lt;/datatables:table>
+</pre>
+
+<h4>Using Thymeleaf</h4>
+<p>
+   Using Thymeleaf, just use the {% reftl dt td csv %} (or <code>dt:*</code>) TD attribute to adapt the cell's content in the corresponding format.
+</p>
+<pre class="prettyprint">
+&lt;table id="myTable" dt:table="true" dt:export="pdf,xls,csv">
+   &lt;thead>
+      &lt;tr>
+         &lt;th>Id&lt;/th>
+         &lt;th>Firstname&lt;/th>
+         &lt;th>Lastname&lt;/th>
+         &lt;th>City&lt;/th>
+         &lt;th>Mail&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+   &lt;tbody>
+      &lt;tr th:each="person : ${persons}">
+         &lt;td th:text="${person?.id}">1&lt;/td>
+         &lt;td th:text="${person?.firstName}">John&lt;/td>
+         &lt;td th:text="${person?.lastName}">Doe&lt;/td>
+         &lt;td th:text="${person?.address?.town?.name}">Nobody knows!&lt;/td>
+         &lt;td dt:csv="${person?.mail}" dt:xls="${person?.mail}">
+            &lt;a th:href="${'mailto:' + person?.mail}" th:text="${person?.mail}">john@doe.com&lt;/a>
+         &lt;/td>
+      &lt;/tr>
+   &lt;/tbody>
+&lt;/table>
+</pre>
+
+<h3 class="section-title" id="ueo">Using export options</h3>
+<p>
+   Finally, some extra options are available in order to configure the export.
+</p>
+<p>
+   Using JSP, all options can be passed in the {% refjsp dt export %} tag.
+</p>
+<p>
+   Using Thymeleaf, you'll have to use the
+   <a href="/datatables/features/advanced/configuration-div.html">configuration
+      div</a> introduced in the v0.10.0.
+</p>
+<table class="table table-striped table-hover">
+   <thead>
+      <tr>
+         <th>Option</th>
+         <th>Description</th>
+         <th>JSP</th>
+         <th>Thymeleaf</th>
+         <th>Compatible formats</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td>File name</td>
+         <td>Name of the export file (without extension)</td>
+         <td><code>&lt;datatables:export ... fileName="my-export-file" /&gt;</code></td>
+         <td><code>&lt;div dt:confType="export" dt:fileName="my-export-file"&gt;&lt;/div&gt;</code></td>
+         <td>CSV, XML, PDF, XLS, XLSX</td>
+      </tr>
+      <tr>
+         <td>File extension</td>
+         <td>Extension of export file</td>
+         <td><code>&lt;datatables:export ... fileExtension="xls" /&gt;</code></td>
+         <td><code>&lt;div dt:confType="export" dt:fileExtension="xls"&gt;&lt;/div&gt;</code></td>
+         <td>CSV, XML, PDF, XLS, XLSX</td>
+      </tr>
+      <tr>
+         <td>Include header</td>
+         <td>Display/hide the column headers in the export file</td>
+         <td><code>&lt;datatables:export ... includeHeader="true" /&gt;</code></td>
+         <td><code>&lt;div dt:confType="export" dt:includeHeader="true"&gt;&lt;/div&gt;</code></td>
+         <td>CSV, PDF, XLS, XLSX</td>
+      </tr>
+      <tr>
+         <td>Orientation</td>
+         <td>Orientation of the PDF export file</td>
+         <td><code>&lt;datatables:export ... orientation="landscape" /&gt;</code></td>
+         <td><code>&lt;div dt:confType="export" dt:orientation="landscape"&gt;&lt;/div&gt;</code></td>
+         <td>PDF</td>
+      </tr>
+      <tr>
+         <td>Autosize</td>
+         <td>Automatically adapt the cells size according to their content</td>
+         <td><code>&lt;datatables:export ... autoSize="true" /&gt;</code></td>
+         <td><code>&lt;div dt:confType="export" dt:autoSize="true"&gt;&lt;/div&gt;</code></td>
+         <td>XLS, XLSX</td>
+      </tr>   
+   </tbody>
+</table>
+
+=== 6.3. Controller-based exports
+
+<p>
+   Contrary to <a href="filter-based-exports.html">filter-based
+      exports</a>, controller-based exports allow you to fully configure
+   the content of the export. We could resume it to WYSIWYE:
+   <strong>W</strong>hat <strong>Y</strong>ou <strong>S</strong>ee <strong>I</strong>s <strong>W</strong>hat <strong>Y</strong>ou... <strong>E</strong>xport
+   :-)
+</p>
+<p>
+   In return, you'll see in this tutorial that it requires a bit more work.
+</p>
+
+<h3 class="section-title" id="suaec">Setting up an export controller</h3>
+<p>
+   Actually, there are several ways to do it:
+</p>
+<ul>
+   <li>Writing a controller dedicated to all exports in your application</li>
+   <li>Use only one controller that mixes methods that redirect to views and methods used for exporting data</li>
+   <li>It's up to you :-)</li>
+</ul>
+<p>
+   Whichever method you use, note that you need to have two objects at
+   your disposal:
+   <code>HttpServletRequest</code>
+   and
+   <code>HttpServletResponse</code>
+   .
+</p>
+<h4 id="suaec-rd">1. Retrieve data</h4>
+<p>
+   First step, you need to retrieve data that will be used to build your export file. For example:
+</p>
+<pre class="prettyprint">
+DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
+List&lt;Person> persons = personService.findPersonsWithDatatablesCriterias(criterias).getRows();
+</pre>
+<p>
+   where <code>request</code> is the current <code>HttpServletRequest</code>.
+</p>
+
+<p class="alert alert-info">
+   <strong><i class="fa fa-info-circle fa-2x"></i></strong>&nbsp; Note that the {% javadoc dt datatables-core DatatablesCriterias %} object is same used in <a href="/datatables/features/ajax/">AJAX tutorials</a>.
+</p>
+
+<h4 id="suaec-baioe">2. Build an instance of {% javadoc dt datatables-core ExportConf %}</h4>
+<p>
+   Then, you need to build an instance of {% javadoc dt datatables-core ExportConf %}, which allows you to configure the export in multiple ways:
+</p>
+<ul>
+   <li>column headers displaying</li>
+   <li>export file name</li>
+   <li>auto size enablement (for Excel exports)</li>
+   <li>export class: the class used to generate the export content</li>
+</ul>
+<p>
+   A builder has been written to ease its creation. You can see below an usage example of the builder for a CSV format:
+</p>
+<pre class="prettyprint">
+ExportConf exportCsvConf = new ExportConf.Builder(ReservedFormat.CSV)
+   .header(true)
+   .exportClass(new CsvExport())
+   .build();
+</pre>
+<p>Note that:</p>
+<ul>
+   <li>you need to pass the desired export format in the constructor of the builder. Some formats use reserved keywords. See {% javadoc dt datatables-core ReservedFormat %}</li>
+   <li>the <code>header(Boolean)</code> method indicates that column headers need to be displayed in the export file</li>
+   <li>the <code>exportClass(DatatablesExport)</code> method is used to set up the class that will generate the export content. Here we use the built-in {% javadoc dt datatables-core CsvExport %} class</li>
+</ul>
+
+<p class="alert alert-info">
+   <strong><i class="fa fa-info-circle fa-2x"></i></strong>&nbsp; You
+   can of course use your own export class. Read more
+   <a href="/datatables/features/export/plugging-in-your-onw-export-class.html">here</a>.
+</p>
+
+<h4 id="suaec-baioh">3. Build an instance of {% javadoc dt datatables-core HtmlTable %}</h4>
+<p>
+   Once you have both data and the associated export configuration, you can now build an instance of {% javadoc dt datatables-core HtmlTable %}, which is the object used in any export class. 
+</p>
+<p>
+   Once again, you have at your disposal a fluent API allowing you to easily build an instance of {% javadoc dt datatables-core HtmlTable %}. See below:
+</p>
+<pre class="prettyprint">
+HtmlTable table = new HtmlTableBuilder&lt;Person&gt;().newBuilder("tableId", persons, request, exportCsvConf)
+   .column().fillWithProperty("id").title("Id")
+   .column().fillWithProperty("firstName").title("Firtname")
+   .column().fillWithProperty("lastName").title("Lastname")
+   .column().fillWithProperty("address.town.name").title("City")
+   .column().fillWithProperty("mail").title("Mail")
+   .column().fillWithProperty("birthDate", "{0,date,dd-MM-yyyy}").title("Birth date")
+   .build();
+</pre>
+<p>
+   Note in the above example that:
+</p>
+<ul>
+   <li>columns are added thanks to the <code>column(...)</code> method and must terminate with the <code>title(...)</code> method</li>
+   <li>you can easily configure the column content using the <code>fillWith(...)</code>, <code>fillWithProperty(...)</code>, and <code>andProperty(...)</code> methods</li>
+   <li>you need to configure the export by passing the previously created instance of {% javadoc dt datatables-core ExportConf %} in the constructor of the builder</li>
+</ul>
+<p class="alert alert-info">
+   <strong><i class="fa fa-info-circle fa-2x"></i></strong>&nbsp; 
+   It is also worth noting that the {% javadoc dt datatables-core HtmlTable %} instance just wraps data that will
+   appear in the export file. It means that all the
+   filtering/sorting/paging part should have already been done in the
+   <a href="#suaec-rd">first step</a>, thanks to the {% javadoc dt datatables-core DatatablesCriterias %} object.
+</p>
+
+<h4 id="suaec-rtgef">4. Render the generated export file</h4>
+<p>
+   Last step, you need to use the configured export class to generate
+   the export content and write it to the response (instead of
+   redirecting to a view).
+</p>
+<p>
+   Fortunately, a utility method has been written for that, located in the {% javadoc dt datatables-core ExportUtils %} class. Use it as follows: 
+</p>
+<pre class="prettyprint">
+ExportUtils.renderExport(table, exportCsvConf, response);
+</pre>
+<p>
+   Where:
+</p>
+<ul>
+   <li>table is the instance of {% javadoc dt datatables-core HtmlTable %} built in the step 3</li>
+   <li>exportCsvConf is the instance of {% javadoc dt datatables-core ExportConf %} built in the step 2</li>
+   <li>response is the <code>HttpServletResponse</code> in which the content of the export will be written (and proposed to download)</li>
+</ul>
+
+<p>
+   At this point, you have set up the plumbing necessary to make exports work. You can now activate export locally.
+</p>
+
+{% include datatables/export/activating-export.html %}
+
+<h3 class="section-title" id="ewsm">Example with Spring MVC</h3>
+<p>
+   Here follows a complete example using Spring MVC.
+</p>
+<pre class="prettyprint">
+@Controller
+@RequestMapping(value = "/export")
+public class ExportController {
+   
+   @Autowired
+   private PersonService personService;
+   
+   @RequestMapping(produces = "text/csv")
+   public void csv(@DatatablesParams DatatablesCriterias criterias, HttpServletRequest request, HttpServletResponse response) throws ExportException, IOException {
+	
+   // Get data to export
+   List&lt;Person&gt; persons = personService.findPersonsWithDatatablesCriterias(criterias).getRows();
+   
+   // Build the export configuration
+   // The custom format "myFormat" is just a wrapper around pdf
+   ExportConf exportCsvConf = new ExportConf.Builder("csv")
+      .header(true)
+      .exportClass(new CsvExport())
+      .build();
+
+   // Build the table to export from the data and the export configuration
+   HtmlTable table = new HtmlTableBuilder&lt;Person&gt;().newBuilder("tableId", persons, request, exportCsvConf)
+      .column().fillWithProperty("id").title("Id")
+      .column().fillWithProperty("firstName").title("Firtname")
+      .column().fillWithProperty("lastName").title("Lastname")
+      .column().fillWithProperty("address.town.name").title("City")
+      .column().fillWithProperty("mail").title("Mail")
+      .column().fillWithProperty("birthDate", "{0,date,dd-MM-yyyy}").title("BirthDate")
+      .build();
+
+   // Render the export in the browser
+   ExportUtils.renderExport(table, exportCsvConf, response);
+}
+</pre>
+<p>
+   In this example, you may have noticed that:
+</p>
+<ul>
+   <li>the class is mapped to the request <code>/export</code></li>
+   <li>the <code>csv(...)</code> method has just a <code>@RequestMapping</code> configured with <code>produces = "text/csv"</code></li>
+</ul>
+<p>
+   Since we use the default strategy of the content negociation manager
+   (i.e. PPA, for path extension, then parameter, then Accept header),
+   URLs like
+   <code>http://domain/contextPath/export.csv</code>
+   should match and the
+   <code>csv(...)</code>
+   method will be called.
+</p>
+
+=== 6.4. Customizing export links
+
+<p>
+   By defaut, export links are a bit ugly but you can of course customize them to fit your needs.
+</p>
+
+<h3 class="section-title">Styling the links</h3>
+<h4>Using JSP</h4>
+<p>
+   You can use the {% refjsp dt export %} tag to customize the export links. This tag allows you to configure one type of export at a time.
+</p>
+<p>
+   Using this tag, you can for instance add CSS classes to the links or change the link's label.
+</p>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" data="${persons}" export="csv,xml">
+   &lt;datatables:column title="Id" property="id" />
+   &lt;datatables:column title="FirstName" property="firstName" />
+   &lt;datatables:column title="LastName" property="lastName" />
+   &lt;datatables:column title="City" property="address.town.name" />
+   &lt;datatables:column title="Mail" property="mail" />
+   &lt;datatables:export type="csv" cssClass="btn btn-success" />
+   &lt;datatables:export type="xml" cssClass="btn btn-info" label="XML export" />
+&lt;/datatables:table>
+</pre>
+
+<h4>Using Thymeleaf</h4>
+<p>
+   This is done thanks to the <a href="">configuration div</a> introduced in the v0.10.0. Use it as follows:
+</p>
+<pre class="prettyprint">
+&lt;div dt:conf="myTableId">
+   &lt;div dt:confType="export" dt:type="pdf" dt:cssClass="btn btn-info" dt:url="@{/export.pdf}">&lt;/div>
+   &lt;div dt:confType="export" dt:type="xls" dt:cssClass="btn btn-success" dt:url="@{/export.xls}">&lt;/div>
+&lt;/div>
+
+&lt;table id="myTableId" dt:table="true" dt:url="@{/persons}" dt:serverside="true" dt:processing="true" dt:export="pdf,xls">
+   &lt;thead>
+      &lt;tr>
+         &lt;th dt:property="id">Id&lt;/th>
+         &lt;th dt:property="firstName">Firstname&lt;/th>
+         &lt;th dt:property="lastName">Lastname&lt;/th>
+         &lt;th dt:property="address.town.name">City&lt;/th>
+         &lt;th dt:property="mail">Mail&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+&lt;/table>
+</pre>
+
+<h3 class="section-title">Adapting links position</h3>
+<p>
+   By default, export links are displayed at top right. Depending on
+   your needs, you may want to move links around the table.
+</p>
+<p>
+   Since the v0.10.0, export links generation is plugged in the <a
+      href="/datatables/features/basics/dom-positioning.html">DOM
+      positioning</a> feature. A new letter has been made available: <strong>E</strong>
+   (for Export).
+</p>
+
+<h4>Using JSP</h4>
+<p>
+   You just need to use the {% refjsp dt table dom %} attribute.
+</p>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" url="/persons" serverSide="true" processing="true" export="pdf,xls" dom="lEfrtiEp">
+   &lt;datatables:column title="Id" property="id" />
+   &lt;datatables:column title="FirstName" property="firstName" />
+   &lt;datatables:column title="LastName" property="lastName" />
+   &lt;datatables:column title="City" property="address.town.name" />
+   &lt;datatables:column title="Mail" property="mail" />
+   &lt;datatables:export type="pdf" cssClass="btn" url="/export.pdf" />
+   &lt;datatables:export type="xls" cssClass="btn" url="/export.xls" />
+&lt;/datatables:table>
+</pre>
+
+<h4>Using Thymeleaf</h4>
+<p>
+   You can use the {% reftl dt table dom %} attribute.
+</p>
+<pre class="prettyprint">
+&lt;div dt:conf="myTableId">
+   &lt;div dt:confType="export" dt:type="pdf" dt:cssClass="btn" dt:url="@{/export.pdf}">&lt;/div>
+   &lt;div dt:confType="export" dt:type="xls" dt:cssClass="btn" dt:url="@{/export.xls}">&lt;/div>
+&lt;/div>
+
+&lt;table id="myTableId" dt:table="true" dt:url="@{/persons}" dt:serverside="true" dt:processing="true" dt:export="pdf,xls" dt:dom="lEfrtiEp">
+   &lt;thead>
+      &lt;tr>
+         &lt;th dt:property="id">Id&lt;/th>
+         &lt;th dt:property="firstName">Firstname&lt;/th>
+         &lt;th dt:property="lastName">Lastname&lt;/th>
+         &lt;th dt:property="address.town.name">City&lt;/th>
+         &lt;th dt:property="mail">Mail&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+&lt;/table>
+</pre>
+
+<p class="alert alert-warn">
+   <strong><i class="fa fa-warning fa-2x"></i></strong> Note that for
+   now, because of the limitation in the usage of the <a
+      href="http://legacy.datatables.net/development/features">DataTables
+      feature plug-ins</a>, some conflicts may occur if multiple exportable
+   tables are displayed on the same page.
+</p>
+
+=== 6.5. Customizing export URLs
+
+<p>
+   In cases where you want to use controller-based exports, you'll have
+   to bypass the default export URLs generated by the framework. It can
+   easily be done using some attributes. Let's see in this tutorial how
+   to configure those URLs.
+</p>
+
+<h3 class="section-title" id="uacu">Using a custom URL</h3>
+<p>
+   You can choose to override the default export URL that is generated by the framework. 
+</p>
+
+<h4>Using JSP</h4>
+<p>
+   For this purpose, you can use the {% refjsp dt export url %} export attribute like this:
+</p>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" url="/persons" serverSide="true" processing="true" export="csv">
+   &lt;datatables:column title="Id" property="id" />
+   &lt;datatables:column title="FirstName" property="firstName" />
+   &lt;datatables:column title="LastName" property="lastName" />
+   &lt;datatables:column title="City" property="address.town.name" />
+   &lt;datatables:column title="Mail">
+      &lt;a href="mailto:${person.mail}">${person.mail}&lt;/a>
+   &lt;/datatables:column>
+   &lt;datatables:export type="csv" cssClass="btn" url="/export.csv" />
+&lt;/datatables:table>
+</pre>
+
+<h4>Using Thymeleaf</h4>
+<p>
+   With Thymeleaf, you need to use the <a
+      href="/datatables/features/advanced/configuration-div.html">configuration
+      div</a> introduced in the v0.10.0.
+</p>
+<p>
+   Just set the
+   <code>dt:url</code>
+   attribute of the div marked with
+   <code>confType="export"</code>
+   .
+</p>
+<pre class="prettyprint">
+&lt;div dt:conf="myTableId">
+   &lt;div dt:confType="export" dt:type="csv" dt:cssClass="btn" dt:url="@{/export.csv}">&lt;/div>
+&lt;/div>
+
+&lt;table id="myTableId" dt:table="true" dt:url="@{/persons}" dt:serverside="true" dt:processing="true" dt:export="csv">
+   &lt;thead>
+      &lt;tr>
+         &lt;th dt:property="id">Id&lt;/th>
+         &lt;th dt:property="firstName">Firstname&lt;/th>
+         &lt;th dt:property="lastName">Lastname&lt;/th>
+         &lt;th dt:property="address.town.name">City&lt;/th>
+         &lt;th dt:property="mail">Mail&lt;/th>
+         &lt;th dt:property="birthDate" dt:renderFunction="moment,custom-rendering#toDate">Birthdate&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+&lt;/table>
+</pre>
+
+<h3 class="section-title" id="cthm">Changing the HTTP method</h3>
+<p>
+   By default, a HTTP GET is performed during the export call but you may wish to use another HTTP method.
+</p>
+
+<h4>Using JSP</h4>
+<p>
+   You can use the {% refjsp dt export method %} export attribute. Its default value is <code>GET</code>.
+</p>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" url="/persons" serverSide="true" processing="true" export="csv">
+   &lt;datatables:column title="Id" property="id" />
+   &lt;datatables:column title="FirstName" property="firstName" />
+   &lt;datatables:column title="LastName" property="lastName" />
+   &lt;datatables:column title="City" property="address.town.name" />
+   &lt;datatables:column title="Mail">
+      &lt;a href="mailto:${person.mail}">${person.mail}&lt;/a>
+   &lt;/datatables:column>
+   &lt;datatables:export type="csv" cssClass="btn" url="/export.csv" method="POST" />
+&lt;/datatables:table>
+</pre>
+   
+<h4>Using Thymeleaf</h4>
+<p>
+   You can use the <code>dt:method</code> attribute of the div marked with
+   <code>confType="export"</code>.
+</p>
+<pre class="prettyprint">
+&lt;div dt:conf="myTableId">
+   &lt;div dt:confType="export" dt:type="csv" dt:cssClass="btn" dt:url="@{/export.csv}" dt:label="Export using a HTTP POST" dt:method="post">&lt;/div>
+&lt;/div>
+
+&lt;table id="myTableId" dt:table="true" dt:url="@{/persons}" dt:serverside="true" dt:processing="true" dt:export="csv">
+   &lt;thead>
+      &lt;tr>
+         &lt;th dt:property="id">Id&lt;/th>
+         &lt;th dt:property="firstName">Firstname&lt;/th>
+         &lt;th dt:property="lastName">Lastname&lt;/th>
+         &lt;th dt:property="address.town.name">City&lt;/th>
+         &lt;th dt:property="mail">Mail&lt;/th>
+         &lt;th dt:property="birthDate" dt:renderFunction="moment,custom-rendering#toDate">Birthdate&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+&lt;/table>
+</pre>
+
+=== 6.6. Plugging-in your own export class
+
+<p>
+   Dandelion-Datatables is configured to use default export classes for
+   each export format. Let's see in this tutorial how it is done and how
+   to configure your own ones.
+</p>
+
+<h3 class="section-title" id="wyoec">Writing your own export class</h3>
+<p>
+   Begin by creating a class that implements the {% javadoc dt datatables-core DatatablesExport %} interface.
+</p>
+<pre class="prettyprint">
+package my.package;
+
+public class MyExportClass implements DatatablesExport {
+
+   private HtmlTable table;
+
+   @Override
+   public void initExport(HtmlTable table) {
+      this.table = table;
+      //  Some other stuff
+   }
+
+   @Override
+   public void processExport(OutputStream output) throws ExportException {
+      // Write anything inside the output using the HtmlTable instance
+   }
+}
+</pre>
+<p>
+   Note that you can get inspired of built-in export classes:
+</p>
+<ul>
+   <li>{% javadoc dt datatables-core XmlExport %}</li>
+   <li>{% javadoc dt datatables-core CsvExport %}</li>
+   <li>{% javadoc dt datatables-export-itext PdfExport %}</li>
+   <li>{% javadoc dt datatables-export-poi XlsExport %}</li>
+   <li>{% javadoc dt datatables-export-poi-ooxml XlsxExport %}</li>
+</ul>
+
+<h3 class="section-title" id="ctcec">Configuring the custom export class</h3>
+<p>
+   Once your export class created, you just need to register it inside the Dandelion-Datatables' configuration.
+</p>
+<p>
+   Depending on the export format, you'll have to use one of the following configuration property:
+</p>
+<table class="table table-striped table-hover" style="width:50%;">
+   <thead>
+      <tr>
+         <th style="width:50%;">Export format</th>
+         <th style="width:50%;">Export configuration</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td>CSV</td>
+         <td><a href="/datatables/docs/ref/configuration/#export.csv.class"><code>export.csv.class</code></a></td>
+      </tr>
+      <tr>
+         <td>XML</td>
+         <td><a href="/datatables/docs/ref/configuration/#export.xml.class"><code>export.xml.class</code></a></td>
+      </tr>
+      <tr>
+         <td>PDF</td>
+         <td><a href="/datatables/docs/ref/configuration/#export.pdf.class"><code>export.pdf.class</code></a></td>
+      </tr>
+      <tr>
+         <td>XLS</td>
+         <td><a href="/datatables/docs/ref/configuration/#export.xls.class"><code>export.xls.class</code></a></td>
+      </tr>
+      <tr>
+         <td>XLSX</td>
+         <td><a href="/datatables/docs/ref/configuration/#export.xlsx.class"><code>export.xlsx.class</code></a></td>
+      </tr>
+   </tbody>
+</table>
+<p>
+   Remember that you have several alternatives to register your custom export class:
+</p>
+<ul>
+   <li>Register it <a href="/datatables/features/configuration/override-conf.html">locally</a> in a table, by overriding the corresponding export configuration</li>
+   <li>Register it <a href="/datatables/features/configuration/global-configuration.html">globally</a>, using the <i>datatables.properties</i> global configuration file</li>
+   <li>Or register it using <a href="/datatables/features/configuration/configuration-groups.html">configuration groups</a>!</li>
+</ul>

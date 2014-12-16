@@ -1,0 +1,61 @@
+== 3. Links with Dandelion Core
+
+=== 3.1. Standalone mode
+
+Since the v0.10.0, Dandelion-Datatables uses {core-link}[Dandelion Core] to handle assets of your application. For some reasons, you may wish to disable the dependency mechanism and manage all client-side dependencies by yourself. Let's see how.
+
+Actually, it's as simple as setting the <<opt-main.standalone, `main.standalone`>> option to `true` in your <a href="/datatables/features/configuration/configuration-overloading.html">configuration file</a>.
+
+.datatables.properties	
+[source, properties]
+----
+main.standalone=true
+----
+
+As soon as the above option is declared in your configuration file, Dandelion-Datatables will use the exclusion mechanism of <a href="/dandelion">Dandelion Core</a> for all the assets contained in the <a href="/datatables/docs/ref/bundles/">vendor bundles</a> but <i>datatables</i>.
+
+In this way, you can still use Dandelion-Datatables with your legacy assets.
+
+=== 3.2. Overriding asset bundles
+
+=== 3.3. Bundle special syntax
+
+Since the v0.10.0, some options allows you to directly interact with the
+   <a href="/dandelion/features/asset-bundles/building-a-bundle-graph/">bundle
+      graph</a>. Let's see how.
+
+==== 3.3.1. New bundle syntax
+
+Some features now accept the following syntax:
+
+[source, xml]
+----
+attribute="bundleName#jsObject"
+----
+
+Where:
+
+* `bundleName` is the name of the <a href="/dandelion/features/asset-bundles/introducing-asset-bundles.html">asset bundle</a> to include in the current request
+* `jsObject` is a JavaScript object: a function, an array, or any other Javascript object depending on the attribute
+
+Of course you can also specify multiple bundles, comma-separated:
+
+[source, xml]
+----
+attribute="bundle1,bundle2#jsObject"
+----
+
+TIP: Note that you could have achieved the same goal by using the Dandelion <a href="/dandelion/features/asset-bundles/interacting-with-the-asset-bundles/using-the-jsp-taglib.html">JSP taglib</a> or the <a href="/dandelion/features/asset-bundles/interacting-with-the-asset-bundles/using-the-thymeleaf-dialect.html">Thymeleaf dialect</a>. But this syntax is finally a convenient shortcut, preventing you from bringing another dependency and declaring another JSP taglib / Thymeleaf dialect.
+
+==== 3.3.2. Example
+
+For example, you can use this new syntax in the {% refjsp dt table serverData %} / {% reftl dt table serverData %} table attribute, normally used to replace the default AJAX call by a <a href="/datatables/features/ajax/customizing-ajax-calls.html#fcac">totally customized one</a>.
+
+Assuming that the following function, intended to make the AJAX call, is stored in a Javascript file, which is part of a bundle called <code>my-bundle</code>, you could automatically load this bundle in the current request by using:
+
+[source, xml]
+----
+<datatables:table id="myTableId" url="/persons" serverSide="true" serverData="my-bundle#myAjaxRequest">
+  ...
+</datatables:table>
+----

@@ -1,0 +1,639 @@
+== 5. Styling
+
+There are a number of ways in which DataTables allows you to style tables and HTML it adds to the document. Dandelion-DataTables supports some of them but also provides themes integration such as the <a href="/datatables/features/styling/bootstrap2.html">Bootstrap2 theme</a>. But let's see the basics first.
+	
+=== 5.1. Basics
+
+<h3 class="section-title" id="stt">Styling the table</h3>
+<p>
+	Some attributes are available in the JSP taglib, allowing you to style different elements:
+</p>
+<ul>
+   <li>the {% refjsp dt table cssStyle %} table attribute allows you to apply inlined style. It's a pass through attribute for the <code>style</code> HTML attribute</li>
+   <li>the {% refjsp dt table cssClass %} table attribute allows you to apply some CSS classes to the table. It's a pass through attribute for the <code>class</code> HTML attribute</li>
+   <li>finally, the {% refjsp dt table cssStripes %} table attribute allows you to apply a sequence of CSS classes that should be applied to displayed rows. This sequence of CSS classes may be of any length, and DataTables will apply each class sequentially, looping when required</li>
+</ul>
+
+<h4>Using JSP</h4>
+<p>
+	You will find below an example that shows how to use the {% refjsp dt table cssClass %} table attribute and the {% refjsp dt column cssClass %} and {% refjsp dt column cssStyle %} column attributes.
+</p>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" data="${persons}" cssClass="myClass">
+   &lt;datatables:column title="Id" property="id" />
+   &lt;datatables:column title="FirstName" property="firstName" />
+   &lt;datatables:column title="LastName" property="lastName" />
+   &lt;datatables:column title="Mail" property="mail" />
+&lt;/datatables:table>
+</pre>
+
+<h4>Using Thymeleaf</h4>
+<p>
+   Since the Thymeleaf syntax is based on pure HTML, most of the previous attributes are natively available in HTML.
+</p>
+<p>
+   However, if for example you need to set the stripe classes, you can use the  {% reftl dt table dt:stripeclasses %} table attribute.
+</p> 
+<pre class="prettyprint">
+&lt;table id="myTableId" dt:table="true" dt:stripeclasses="class1,class2">
+   &lt;thead>
+      &lt;tr>
+         &lt;th>Id&lt;/th>
+         &lt;th>Firstname&lt;/th>
+         &lt;th>Lastname&lt;/th>
+         &lt;th>Mail&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+   ...
+&lt;/table>
+</pre>
+
+<h3 class="section-title" id="stc">Styling the columns</h3>
+<p>
+	As for the table, some attributes are available in the JSP taglib:
+</p>
+<ul>
+   <li>the {% refjsp dt column cssStyle %} and {% refjsp dt column cssCellStyle %} column attributes, allowing you to apply inlined style respectively on the corresponding <code>&lt;th&gt;</code> tag and all <code>&lt;td&gt;</code> tags of the same column</li>
+   <li>the {% refjsp dt column cssClass %} and {% refjsp dt column cssCellClass %} column attributes, allowing you to apply CSS classes on the corresponding <code>&lt;th&gt;</code> tag and all <code>&lt;td&gt;</code> tags of the same column</li>
+</ul>
+
+<h4>Using JSP</h4>
+<p>
+   You will find below an example that shows how to use the {% refjsp dt table cssClass %} table attribute and the {% refjsp dt column cssClass %} and {% refjsp dt column cssStyle %} column attributes.
+</p>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" data="${persons}">
+   &lt;datatables:column title="Id" property="id" cssClass="myColumn1Class" />
+   &lt;datatables:column title="FirstName" property="firstName" cssClass="myColumn2Class" />
+   &lt;datatables:column title="LastName" property="lastName" cssStyle="text-align:center;" />
+   &lt;datatables:column title="Mail" property="mail" />
+&lt;/datatables:table>
+</pre>
+
+<h4>Using Thymeleaf</h4>
+<p>
+   Since the Thymeleaf syntax is based on pure HTML, most of the previous attributes are natively available in HTML.
+</p>
+<p>
+   However, if for example you need to set the stripe classes, you can use the  {% reftl dt table dt:stripeclasses %} table attribute.
+</p> 
+<pre class="prettyprint">
+&lt;table id="myTableId" dt:table="true" dt:stripeclasses="class1,class2">
+   &lt;thead>
+      &lt;tr>
+         &lt;th class="myColumn1Class">Id&lt;/th>
+         &lt;th class="myColumn2Class">Firstname&lt;/th>
+         &lt;th style="text-align:center;">Lastname&lt;/th>
+         &lt;th>Mail&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+   &lt;tbody>
+      &lt;tr th:each="person : ${persons}">
+         &lt;td th:text="${person?.id}">1&lt;/td>
+         &lt;td th:text="${person?.firstName}">John&lt;/td>
+         &lt;td th:text="${person?.lastName}">Doe&lt;/td>
+         &lt;td>&lt;a th:href="${'mailto:' + person.mail}" th:text="${person.mail}">john@doe.com&lt;/a>&lt;/td>
+      &lt;/tr>
+   &lt;/tbody>
+&lt;/table>
+</pre>
+
+<h3 class="section-title" id="ltaess">Using external styles</h3>
+<p>
+   DataTables will add a number of elements to the page, each with a suitable default ID and/or class to allow CSS selectors to address the element.
+</p>
+<p>
+   You will find below the reference of the id's and classes applied to HTML elements added by DataTables and Dandelion-Datatables:
+</p>
+<table class="table table-striped table-bordered table-hover">
+   <thead>
+      <tr>
+         <th>Feature</th>
+         <th>Information</th>
+         <th>ID</th>
+         <th>Class(es)</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td>Processing indicator</td>
+         <td>By default inserted before the table (can be changed by using the {% refjsp dt table dom %} table attribute)</td>
+         <td>*_processing</td>
+         <td>dataTables_processing</td>
+      </tr>
+      <tr>
+         <td>Change display length</td>
+         <td>By default inserted before the table (can be changed by using the {% refjsp dt table dom %} table attribute)</td>
+         <td>*_length</td>
+         <td>dataTables_length</td>
+      </tr>
+      <tr>
+         <td>Filter</td>
+         <td>By default inserted before the table (can be changed by using the {% refjsp dt table dom %} table attribute)</td>
+         <td>*_filter</td>
+         <td>dataTables_filter</td>
+      </tr>
+      <tr>
+         <td>Filter (input fields)</td>
+         <td>Applied on all input fields generated when column are marked as filterable</td>
+         <td></td>
+         <td>dandelion_text_filter</td>
+      </tr>
+      <tr>
+         <td>Filter (drop-down lists)</td>
+         <td>Applied on all drop-down lists generated when column are marked as filterable</td>
+         <td></td>
+         <td>dandelion_select_filter</td>
+      </tr>
+      <tr>
+         <td>Pagination</td>
+         <td>By default inserted after the table (can be changed by using the {% refjsp dt table dom %} table attribute)</td>
+         <td>*_paginate</td>
+         <td>dataTables_paginate</td>
+      </tr>
+      <tr>
+         <td>Pagination</td>
+         <td></td>
+         <td>*_previous</td>
+         <td>paginate_disabled_previous <br> paginate_enabled_previous</td>
+      </tr>
+      <tr>
+         <td>Pagination</td>
+         <td></td>
+         <td>*_next</td>
+         <td>paginate_disabled_next <br> paginate_enabled_next</td>
+      </tr>
+      <tr>
+         <td>Display information</td>
+         <td>By default inserted after the table (can be changed by using the {% refjsp dt table dom %} table attribute)</td>
+         <td>*_info</td>
+         <td>dataTables_info</td>
+      </tr>
+      <tr>
+         <td>Sorting (headers)</td>
+         <td>Applied to the TH in the table header if no sort direction is being applied</td>
+         <td></td>
+         <td>sorting</td>
+      </tr>
+      <tr>
+         <td>Sorting (headers)</td>
+         <td>Applied to the TH in the table header if a sort direction has been applied</td>
+         <td></td>
+         <td>sorting_asc <br> sorting_desc</td>
+      </tr>
+      <tr>
+         <td>Sorting (headers)</td>
+         <td>Applied to the TH in the table header if sorting is disabled</td>
+         <td></td>
+         <td>sorting_asc_disabled <br> sorting_desc_disabled</td>
+      </tr>
+      <tr>
+         <td>Sorting (columns)</td>
+         <td>Applied to the TD's in the column which is being sorted upon. The '_1', '_2' and '_3' prefix is applied for multi-column sorting in priority order.</td>
+         <td></td>
+         <td>sorting_1<br>sorting_2<br>sorting_3</td>
+      </tr>
+      <tr>
+         <td>General</td>
+         <td>General wrapper div element around the table</td>
+         <td>*_wrapper</td>
+         <td>dataTables_wrapper</td>
+      </tr>
+      <tr>
+         <td>Zero records found cell</td>
+         <td>This class name is applied to the table cell which reports that 'zero records' have been found. This cell is dynamically created by DataTables, so this class is applied to allow extra styling.</td>
+         <td></td>
+         <td>dataTables_empty</td>
+      </tr>
+      <tr>
+         <td>Export</td>
+         <td>This class name is applied to all export div element (those containing export links)</td>
+         <td></td>
+         <td>dandelion_dataTables_export</td>
+      </tr>
+   </tbody>
+</table>
+
+=== 5.2. Theming
+
+<p>
+   For now, three themes are supported:
+</p>
+<div class="section-index">
+   <ul>
+      <li>
+         <a href="/datatables/features/styling/themes/bootstrap2.html"><i class="fa fa-angle-double-right"></i> Bootstrap 2</a>
+      </li>
+      <li>
+         <a href="/datatables/features/styling/themes/bootstrap3.html"><i class="fa fa-angle-double-right"></i> Bootstrap 3</a>
+      </li>
+      <li>
+         <a href="/datatables/features/styling/themes/jqueryui.html"><i class="fa fa-angle-double-right"></i> jQuery UI</a>
+      </li>
+   </ul>
+</div>
+
+==== 5.2.1. Bootstrap 2
+
+<p>
+   Dandelion-Datatables provides an easy way to apply the
+   <a href="http://getbootstrap.com/2.3.2/">Bootstrap framework</a> (v2)
+   on your tables.
+</p>
+
+<h3 class="section-title" id="atb2t">Activating the Bootstrap 2 theme</h3>
+<p>
+   Just follow these steps:
+</p>
+<ol>
+   <li><i>Use the JSP taglib / Thymeleaf dialect</i>
+      <p>
+         Set the {% refjsp dt table theme %} (JSP) / {% reftl dt table theme %} (Thymeleaf) table attribute to <code>bootstrap2</code>.
+      </p>
+   </li>
+   <li><i>Use the Bootstrap classes</i>
+      <p>
+         At least, you need to add the
+         <code>table</code>
+         CSS class. But you can use any of the other CSS classes
+         provided by Bootstrap:
+         <code>table-striped</code>
+         ,
+         <code>table-bordered</code>
+         , ...
+      </p>
+      <p>
+         Just use the {% refjsp dt table cssClass %} table attribute of
+         the JSP taglib, or simply the
+         <code>class</code>
+         table attribute when using Thymeleaf.
+      </p>
+   </li>
+</ol>
+
+<h3 class="section-title" id="ex">Example</h3>
+<h4>Using JSP</h4>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" data="${persons}" theme="bootstrap2" cssClass="table table-striped">
+   &lt;datatables:column title="Id" property="id" />
+   &lt;datatables:column title="FirstName" property="firstName" />
+   &lt;datatables:column title="LastName" property="lastName" />
+   &lt;datatables:column title="Street" property="address.town.name" />
+   &lt;datatables:column title="Mail" property="mail" />
+&lt;/datatables:table>
+</pre>
+
+<h4>Using Thymeleaf</h4>
+<pre class="prettyprint">
+&lt;table id="myTableId" dt:table="true" dt:theme="bootstrap2" class="table table-striped">
+   &lt;thead>
+      &lt;tr>
+         &lt;th>Id&lt;/th>
+         &lt;th>Firstname&lt;/th>
+         &lt;th>Lastname&lt;/th>
+         &lt;th>Street&lt;/th>
+         &lt;th>Mail&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+   &lt;tbody>
+      &lt;tr th:each="person : ${persons}">
+         &lt;td th:text="${person?.id}">1&lt;/td>
+         &lt;td th:text="${person?.firstName}">John&lt;/td>
+         &lt;td th:text="${person?.lastName}">Doe&lt;/td>
+         &lt;td th:text="${person?.address?.town?.name}">Nobody knows!&lt;/td>
+         &lt;td th:text="${person?.mail}">john@doe.com&lt;/td>
+      &lt;/tr>
+   &lt;/tbody>
+&lt;/table>
+</pre>
+
+
+<h3 class="section-title" id="ato">Alternative styles with TableCloth</h3>
+<p>
+   Since the v0.9.1, you can additionally apply some theme options to
+   the BS2 theme, thanks to
+   <a href="http://tableclothjs.com/">tablecloth</a>.
+</p>
+<p>
+   Just follow these steps:
+</p>
+<ol>
+   <li>
+      Set the {% refjsp dt table themeOption %} (JSP) / {% reftl dt table themeOption %} (Thymeleaf) table attribute to <code>tablecloth</code>.
+   </li>
+   <li>Add a CSS class among: <code>table-dark</code>, <code>table-stats</code>
+      or <code>table-paper</code>.
+   </li>
+</ol>
+<h4>Example with JSP</h4>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" data="${persons}" theme="bootstrap2" themeOption="tablecloth" cssClass="table table-dark table-striped table-bordered table-condensed">
+   &lt;datatables:column title="Id" property="id" />
+   &lt;datatables:column title="FirstName" property="firstName" />
+   &lt;datatables:column title="LastName" property="lastName" />
+   &lt;datatables:column title="Street" property="address.town.name" />
+   &lt;datatables:column title="Mail" property="mail" />
+&lt;/datatables:table>
+</pre>
+<h4>Example with Thymeleaf</h4>
+<pre class="prettyprint">
+&lt;table id="myTableId" dt:table="true" dt:theme="bootstrap2" dt:themeOption="tablecloth" class="table table-dark table-striped table-bordered table-condensed">
+   &lt;thead>
+      &lt;tr>
+         &lt;th>Id&lt;/th>
+         &lt;th>LastName&lt;/th>
+         &lt;th>FirstName&lt;/th>
+         &lt;th>City&lt;/th>
+         &lt;th>Mail&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+   &lt;tbody>
+      &lt;tr th:each="person : ${persons}">
+         &lt;td th:text="${person?.id}">1&lt;/td>
+         &lt;td th:text="${person?.lastName}">Doe&lt;/td>
+         &lt;td th:text="${person?.firstName}">John&lt;/td>
+         &lt;td th:text="${person?.address?.town?.name}">Nobody knows!&lt;/td>
+         </pre>
+
+<h3 class="section-title" id="mytr">Making your table responsive</h3>
+<p>
+   Starting from the v0.10.0, an extension based on
+   <a href="https://github.com/Comanche/datatables-responsive">datatables-responsible</a>,
+   authored by <a href="https://github.com/Comanche">Comanche</a>, has
+   been added, allowing you to add a responsibe behaviour to your tables.
+</p>
+<p>
+   To enable a responsive behaviour, you need:
+</p>
+<ol>
+   <li>To activate the <i>datatables-responsive</i> extension using the
+      {% refjsp dt table ext%} (JSP) / {% reftl dt table ext %}
+      (Thymeleaf) table attribute.
+   </li>
+   <li>Add some data-* attributes to the table elements:
+      <ul>
+         <li>Add the <code>data-class="expand"</code> attribute to
+            the <code>th</code> element for the respective column that
+            will you want to display the expand icon in. The th element
+            cannot be for a column that will be hidden.
+         </li>
+         <li>Add <code>data-hide="phone,tablet"</code> to the <code>th</code>
+            element for the respective column that will you want to hide
+            when the window is resized.
+         </li>
+         <li>Add <code>data-name="Hidden Column Name"</code> to the
+            <code>th</code> element for the respective column that will
+            you would like its label to be set to when hidden.
+         </li>
+      </ul>
+   </li>
+</ol>
+<p>
+   That's all!
+</p>
+
+<h4>Example using JSP</h4>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" data="${persons}" theme="bootstrap2" ext="bootstrap2-responsive" cssClass="table table-striped table-bordered">
+   &lt;datatables:column title="Id" property="id" data-class="expand" />
+   &lt;datatables:column title="FirstName" property="firstName" />
+   &lt;datatables:column title="LastName" property="lastName" />
+   &lt;datatables:column title="Street" property="address.town.name" data-hide="phone,tablet" />
+   &lt;datatables:column title="Mail" property="mail" data-hide="phone,tablet" />
+&lt;/datatables:table>
+</pre>
+
+<h4>Example using Thymeleaf</h4>
+<pre class="prettyprint">
+&lt;table id="myTableId" dt:table="true" dt:theme="bootstrap2" class="table table-striped table-bordered" dt:ext="bootstrap2-responsive">
+   &lt;thead>
+      &lt;tr>
+         &lt;th data-class="expand">Id&lt;/th>
+         &lt;th>LastName&lt;/th>
+         &lt;th>FirstName&lt;/th>
+         &lt;th data-hide="phone,tablet">City&lt;/th>
+         &lt;th data-hide="phone,tablet">Mail&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+   &lt;tbody>
+      &lt;tr th:each="person : ${persons}">
+         &lt;td th:text="${person?.id}">1&lt;/td>
+         &lt;td th:text="${person?.lastName}">Doe&lt;/td>
+         &lt;td th:text="${person?.firstName}">John&lt;/td>
+         &lt;td th:text="${person?.address?.town?.name}">Nobody knows!&lt;/td>
+         &lt;td th:text="${person?.mail}">john@doe.com&lt;/td>
+      &lt;/tr>
+   &lt;/tbody>
+&lt;/table>
+</pre>
+
+==== 5.2.2. Bootstrap 3
+
+<p>
+   Dandelion-Datatables provides an easy way to apply the
+   <a href="http://getbootstrap.com/">Bootstrap framework</a> (v3)
+   on your tables.
+</p>
+
+<h3 class="section-title" id="atb3t">Activating the Bootstrap 3 theme</h3>
+<p>
+   Just follow these steps:
+</p>
+<ol>
+   <li><i>Use the JSP taglib / Thymeleaf dialect</i>
+      <p>
+         Set the {% refjsp dt table theme %} (JSP) / {% reftl dt table theme %} (Thymeleaf) table attribute to <code>bootstrap3</code>.
+      </p>
+   </li>
+   <li><i>Use the Bootstrap classes</i>
+      <p>
+         At least, you need to add the
+         <code>table</code>
+         CSS class. But you can use any of the other CSS classes
+         provided by Bootstrap:
+         <code>table-striped</code>
+         ,
+         <code>table-bordered</code>
+         , ...
+      </p>
+      <p>
+         Just use the {% refjsp dt table cssClass %} table attribute of
+         the JSP taglib, or simply the
+         <code>class</code>
+         table attribute when using Thymeleaf.
+      </p>
+   </li>
+</ol>
+
+<h3 class="section-title" id="ex">Example</h3>
+<h4>Using JSP</h4>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" data="${persons}" theme="bootstrap3" cssClass="table table-striped">
+   &lt;datatables:column title="Id" property="id" />
+   &lt;datatables:column title="FirstName" property="firstName" />
+   &lt;datatables:column title="LastName" property="lastName" />
+   &lt;datatables:column title="Street" property="address.town.name" />
+   &lt;datatables:column title="Mail" property="mail" />
+&lt;/datatables:table>
+</pre>
+
+<h4>Using Thymeleaf</h4>
+<pre class="prettyprint">
+&lt;table id="myTableId" dt:table="true" dt:theme="bootstrap3" class="table table-striped">
+   &lt;thead>
+      &lt;tr>
+         &lt;th>Id&lt;/th>
+         &lt;th>Firstname&lt;/th>
+         &lt;th>Lastname&lt;/th>
+         &lt;th>Street&lt;/th>
+         &lt;th>Mail&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+   &lt;tbody>
+      &lt;tr th:each="person : ${persons}">
+         &lt;td th:text="${person?.id}">1&lt;/td>
+         &lt;td th:text="${person?.firstName}">John&lt;/td>
+         &lt;td th:text="${person?.lastName}">Doe&lt;/td>
+         &lt;td th:text="${person?.address?.town?.name}">Nobody knows !&lt;/td>
+         &lt;td th:text="${person?.mail}">john@doe.com&lt;/td>
+      &lt;/tr>
+   &lt;/tbody>
+&lt;/table>
+</pre>
+
+
+<h3 class="section-title" id="mytr">Making your table responsive</h3>
+<p>
+   Starting from the v0.10.0, an extension based on
+   <a href="https://github.com/Comanche/datatables-responsive">datatables-responsible</a>,
+   authored by <a href="https://github.com/Comanche">Comanche</a>, has
+   been added, allowing you to add a responsibe behaviour to your tables.
+</p>
+<p>
+   To enable a responsive behaviour, you need:
+</p>
+<ol>
+   <li>To activate the <i>datatables-responsive</i> extension using the
+      {% refjsp dt table ext%} (JSP) / {% reftl dt table ext %}
+      (Thymeleaf) table attribute.
+   </li>
+   <li>Add some data-* attributes to the table elements:
+      <ul>
+         <li>Add the <code>data-class="expand"</code> attribute to
+            the <code>th</code> element for the respective column that
+            will you want to display the expand icon in. The th element
+            cannot be for a column that will be hidden.
+         </li>
+         <li>Add <code>data-hide="phone,tablet"</code> to the <code>th</code>
+            element for the respective column that will you want to hide
+            when the window is resized.
+         </li>
+         <li>Add <code>data-name="Hidden Column Name"</code> to the
+            <code>th</code> element for the respective column that will
+            you would like its label to be set to when hidden.
+         </li>
+      </ul>
+   </li>
+</ol>
+<p>
+   That's all!
+</p>
+
+<h4>Example using JSP</h4>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" data="${persons}" theme="bootstrap3" ext="bootstrap3-responsive" cssClass="table table-striped table-bordered">
+   &lt;datatables:column title="Id" property="id" data-class="expand" />
+   &lt;datatables:column title="FirstName" property="firstName" />
+   &lt;datatables:column title="LastName" property="lastName" />
+   &lt;datatables:column title="Street" property="address.town.name" data-hide="phone,tablet" />
+   &lt;datatables:column title="Mail" property="mail" data-hide="phone,tablet" />
+&lt;/datatables:table>
+</pre>
+
+<h4>Example using Thymeleaf</h4>
+<pre class="prettyprint">
+&lt;table id="myTableId" dt:table="true" dt:theme="bootstrap3" class="table table-striped table-bordered" dt:ext="bootstrap3-responsive">
+   &lt;thead>
+      &lt;tr>
+         &lt;th data-class="expand">Id&lt;/th>
+         &lt;th>LastName&lt;/th>
+         &lt;th>FirstName&lt;/th>
+         &lt;th data-hide="phone,tablet">City&lt;/th>
+         &lt;th data-hide="phone,tablet">Mail&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+   &lt;tbody>
+      &lt;tr th:each="person : ${persons}">
+         &lt;td th:text="${person?.id}">1&lt;/td>
+         &lt;td th:text="${person?.lastName}">Doe&lt;/td>
+         &lt;td th:text="${person?.firstName}">John&lt;/td>
+         &lt;td th:text="${person?.address?.town?.name}">Nobody knows!&lt;/td>
+         &lt;td th:text="${person?.mail}">john@doe.com&lt;/td>
+      &lt;/tr>
+   &lt;/tbody>
+&lt;/table>
+</pre>
+
+==== 5.2.3. jQuery UI
+
+<p>
+   Dandelion-Datatables provides an easy way to apply the
+   <a href="http://jqueryui.com/themeroller/">ThemeRoller</a> themes
+   from <a href="http://jqueryui.com/">jQueryUI</a>.
+</p>
+
+<h3 class="section-title" id="atjquit">Activating the jQuery UI theme</h3>
+<p>
+   Just follow these steps:
+</p>
+<ol>
+   <li><i>Use the JSP taglib / Thymeleaf dialect</i>
+      <p>
+         Set the {% refjsp dt table theme %} (JSP) / {% reftl dt table theme %} (Thymeleaf) table attribute to
+         <code>jqueryui</code>
+         .
+      </p></li>
+   <li><i>Choose a theme option</i>
+      <p>
+         Use the {% refjsp dt table themeOption %} (JSP) / {% reftl dt table dt:themeOption %} (Thymeleaf) table attributes to select
+         a theme option. See <a
+            href="/datatables/docs/ref/configuration/#themeoptions">full
+            list</a> of available values.
+      </p></li>
+</ol>
+
+<h3 class="section-title" id="ex">Example</h3>
+<h4>Using JSP</h4>
+<pre class="prettyprint">
+&lt;datatables:table id="myTableId" data="${persons}" theme="jqueryui" themeOption="blacktie">
+   &lt;datatables:column title="Id" property="id" />
+   &lt;datatables:column title="FirstName" property="firstName" />
+   &lt;datatables:column title="LastName" property="lastName" />
+   &lt;datatables:column title="City" property="address.town.name" />
+   &lt;datatables:column title="Mail" property="mail" />
+&lt;/datatables:table>
+</pre>
+
+<h4>Using Thymeleaf</h4>
+<pre class="prettyprint">
+&lt;table id="myTableId" dt:table="true" dt:theme="jqueryui" themeOption="blacktie">
+   &lt;thead>
+      &lt;tr>
+         &lt;th>Id&lt;/th>
+         &lt;th>Firstname&lt;/th>
+         &lt;th>Lastname&lt;/th>
+         &lt;th>Street&lt;/th>
+         &lt;th>Mail&lt;/th>
+      &lt;/tr>
+   &lt;/thead>
+   &lt;tbody>
+      &lt;tr th:each="person : ${persons}">
+         &lt;td th:text="${person?.id}">1&lt;/td>
+         &lt;td th:text="${person?.firstName}">John&lt;/td>
+         &lt;td th:text="${person?.lastName}">Doe&lt;/td>
+         &lt;td th:text="${person?.address?.town?.name}">Nobody knows!&lt;/td>
+         &lt;td th:text="${person?.mail}">john@doe.com&lt;/td>
+      &lt;/tr>
+   &lt;/tbody>
+&lt;/table>
+</pre>

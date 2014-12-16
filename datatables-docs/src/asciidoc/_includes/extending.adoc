@@ -1,0 +1,174 @@
+== 13. Extending Dandelion-Datatables
+
+=== 13.1. Introducing the extension mechanism
+
+Since the earliest version of Dandelion-Datatables, we've been trying to develop the component in a modular manner. That's why if you dig into the source code, you'll see lots of already existing extensions as the {% javadoc dt datatables-core AjaxFeature %}, the {% javadoc dt datatables-core ServerSideFeature %}, or the {% javadoc dt datatables-core Bootstrap2Theme %}, ...
+
+
+Starting from the v0.9.0, you can now write your own extensions, thus providing a powerful mechanism to customize your tables.
+
+[discrete]
+==== 13.1.1. What is an extension?
+
+Any extension will generally fall into one of three categories:
+
+* *Theme*: extension used to theme a table (e.g. {% javadoc dt datatables-core Bootstrap2Theme %})
+* *Plugin*: extension used to encapsulate a DataTables' native plugin (e.g. {% javadoc dt datatables-core ScrollerPlugin %})
+* *Feature*: all other extensions (e.g. {% javadoc dt datatables-core ServerSideFeature %})</li>
+
+But generally speaking, we'll call it simply _extension_.
+
+[discrete]
+==== 13.1.2. What can I do with an extension?
+
+[discrete]
+===== 13.1.2.1. Access the DataTables' parameters
+
+One of the key features of Dandelion-Datatables is that it generates all the needed DataTables parameters for you, depending on how you used the JSP taglib or the Thymeleaf dialect.
+
+By using the extension mechanism, you can easily modify these parameters:
+
+* by adding or replacing any of them
+* by adding a DataTable <<7-3-using-callbacks, callback>>
+* by chaining another Javascript call
+
+[discrete]
+===== 13.1.2.2. Access the Dandelion bundles
+
+Often the extension needs some extra Javascript code, e.g. a library.
+
+The concept of <a
+      href="/dandelion/features/asset-bundles/introducing-asset-bundles.html">asset
+      bundle</a> introduced in the v0.10.0 is also accessible from any
+   extension. Thus, you can benefit from the powerful asset system of
+   Dandelion and play with bundles inside your extension.
+
+[discrete]
+===== 13.1.2.3. Access the whole generated Javascript file
+
+Any Javascript code can be inserted in the generated Javascript file. Useful if you need for example to set a variable before the DataTables initialization.
+
+[discrete]
+===== 13.1.2.4. Access the HTML table
+
+The HTML table can be easily accessed, as well as the columns and all other nested tags.
+
+To summarize, you have here a powerful mechanism in situations where all ready-to-use extensions don't fit your needs.
+
+To go further, see how to write your own extension in <a href="writing-your-own-extension.html">this tutorial</a>. Or you can already take a look at some examples <a href="examples.html">here</a>.
+
+=== 13.2. Writing your own extension
+
+Writing you own extension is quite easy. Just follow these steps:
+
+* Step 1: create a class that extends `com.github.dandelion.datatables.core.extension.AbstractExtension`:
+
++
+[source, java]
+----
+package com.example;
+
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.html.HtmlTable;
+
+public class MyCustomExtension extends AbstractExtension {
+
+  public String getName() {
+    return "myAwesomeExtension"; // <1>
+  }
+
+  public void setup(HtmlTable table) { // <2>
+    // load some bundles...
+    // modify the TableConfiguration...
+    // add, remove, update any DataTable parameter...
+    // <3>
+  }
+}
+----
+<1> The name is important here. It will be used later to activate the extension.
+<2> The `HtmlTable` instance is made available here, thus providing access to both the table structure (HTML) and its configuration through the `TableConfiguration` instance.
+<3> The `AbstractExtension` class provides plenty of utilities for dealing with TODO.
+
+* Step 2 : in the `META-INF/services` folder of your project, create a text file (UTF-8 encoded) using the following convention:
+
+.Example with a Maven project
+[source, xml]
+----
+project-root
+|__ src
+   |__ main
+      |__ resources
+         |__ META-INF
+            |__ services
+               |__ com.github.dandelion.datatables.core.extension.Extension
+----
+
+Inside this file, just add the fully qualified name of your extension. 
+
+ com.example.MyCustomExtension
+
+Dandelion-Datatables will then load your custom extension thanks to the http://docs.oracle.com/javase/tutorial/ext/basics/spi.html#the-serviceloader-class[Service Loader mechanism], as any other ones provided by the component.
+ 
+=== 13.3. Activating your own extension
+
+Once the extension and the `com.github.dandelion.datatables.core.extension.Extension` file created, the extension will be detected by the component, but it still needs to be _activated_ in one or more tables.
+
+As for the majority of <<_11_configuration_options,configuration options>>, there are several ways to activate your extension.
+
+[discrete]
+=== 13.3.1. Globally
+
+Globally implicitly means using <<_11_3_using_global_options, global options>>, i.e. you can activate the extension in all tables of your web application.
+
+That is what the <<opt-main.extension.names, `main.extension.names`>> option is for.
+
+[source, properties]
+----
+global.main.extension.names=myAwesomeExtension <1>
+----
+<1> Note that the <<opt-main.extension.names, `main.extension.names`>> option is prefixed by the `global` group, thus activating the extension glboally. Also note that `myAwesomeExtension` if the name of the extension previously set in the `getName()` method of the extension.
+ 
+NOTE: You can of course reduce the scope of application by using a <<_11_4_using_option_groups, custom option group>> instead of the global one.
+
+[discrete]
+=== 13.3.2. Locally
+
+Locally implicitly means either using the <<_appendix_a_jsp_taglib_reference, JSP taglib>> or the <<_appendix_b_thymeleaf_dialect_reference, Thymeleaf dialect>>, i.e. in a single table.
+
+[discrete]
+==== Using JSP
+
+Use the <<jsp-table-ext, `ext`>> table attribute and set one or more extension names separated by a comma.
+
+[source, xml]
+----
+<datatables:table ... ext="myAwesomeExtension"> <1>
+  ...
+</datatables:table>
+----
+<1> `myAwesomeExtension` if the name of the extension previously set in the `getName()` method of the extension
+
+[discrete]
+==== Using Thymeleaf
+
+Use the <<tml-table-ext, `dt:ext`>> in the same way as for JSP.
+
+[source, xml]
+----
+<table ... dt:ext="myAwesomeExtension"> <1>
+  ...
+</table>
+----
+<1> `myAwesomeExtension` if the name of the extension previously set in the `getName()` method of the extension
+
+And that's all! Your extension(s) will be loaded as any other built-in extension before the table is displayed.
+
+=== 13.4. Extending an already existing extension
+
+NOTE: Pending
+
+https://github.com/dandelion/dandelion-datatables/tree/dandelion-datatables-{ddl-version}/datatables-core/src/main/java/com/github/dandelion/datatables/core/extension
+
+=== 13.5. Examples
+
+NOTE: Pending
