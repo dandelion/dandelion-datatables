@@ -54,21 +54,15 @@ public class FixedHeaderPlugin extends AbstractExtension {
 
 	public static final String FIXEDHEADER_PLUGIN_NAME = "fixedHeader";
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getExtensionName() {
 		return FIXEDHEADER_PLUGIN_NAME;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setup(HtmlTable table) {
 
-		addBundle(DatatableBundles.DDL_DT_PLUGIN_FIXEDHEADER);
+		addBundle(DatatableBundles.DATATABLES_FIXEDHEADER);
 
 		Map<String, Object> specificConfObj = getSpecificCongiguration(table);
 		String specificConfStr = JSONValue.toJSONString(specificConfObj);

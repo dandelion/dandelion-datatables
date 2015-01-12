@@ -39,13 +39,18 @@ package com.github.dandelion.datatables.core;
  */
 public enum DatatableBundles {
 
+	// Vendors
 	DATATABLES("datatables"),
+	DATATABLES_COLREORDER("datatables-colreorder"),
+	DATATABLES_FIXEDHEADER("datatables-fixedheader"),
+	DATATABLES_SCROLLER("datatables-scroller"),
 	BOOTSTRAP_DATEPICKER("bootstrap-datepicker"),
+	YADCF("yadcf"),
+	JQUERY_DOWNLOAD("jquery.download"),
 	
+	// Dandelion
 	DDL_DT_ROOT("ddl-dt-root"),
 	DDL_DT("ddl-dt"),
-	
-	DDL_DT_EXPORT("ddl-dt-export"),
 	
 	DDL_DT_AJAX_PIPELINING("ddl-dt-ajax-pipelining"),
 	
@@ -81,11 +86,6 @@ public enum DatatableBundles {
 	DDL_DT_THEME_JQUERYUI_UILIGHTNESS("ddl-dt-theme-jqueryui-uilightness"),
 	DDL_DT_THEME_JQUERYUI_VADER("ddl-dt-theme-jqueryui-vader"),
 	
-	DDL_DT_PLUGIN_COLREORDER("ddl-dt-plugin-colreorder"),
-	DDL_DT_PLUGIN_FIXEDHEADER("ddl-dt-plugin-fixedheader"),
-	DDL_DT_PLUGIN_SCROLLER("ddl-dt-plugin-scroller"),
-	
-	DDL_DT_FILTERING("ddl-dt-filtering"),
 	DDL_DT_MULTIFILTER("ddl-dt-multifilter"),
 	
 	DDL_DT_SORTING_ALT_STRING("ddl-dt-sorting-alt-string"),

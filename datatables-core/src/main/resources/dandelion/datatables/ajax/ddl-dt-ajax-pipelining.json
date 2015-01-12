@@ -1,11 +1,7 @@
 {
-    "bundle" : "ddl-dt-ajax-pipelining",
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "name": "pipelining",
-            "version": "1.0.0",
-            "type": "js",
             "locations": {
                 "jar" : "dandelion/datatables/ajax/pipelining.js"
             }

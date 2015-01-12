@@ -48,7 +48,7 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.generator.js.jquery.JQueryContent;
 import com.github.dandelion.core.asset.generator.js.jquery.JQueryContentGenerator;
-import com.github.dandelion.core.asset.locator.impl.DelegateLocator;
+import com.github.dandelion.core.asset.locator.impl.ApiLocator;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.DatatableBundles;
@@ -232,7 +232,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 
 		// Get the existing JavaScript generator or create it if it doesn't exist
 		JQueryContentGenerator javascriptGenerator = AssetRequestContext.get(this.request).getParameterValue(
-				"dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM);
+				"dandelion-datatables", ApiLocator.API_CONTENT_PARAM);
 
 		if (javascriptGenerator == null) {
 			javascriptGenerator = new JQueryContentGenerator(datatableContent);
@@ -247,7 +247,7 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 			.get(this.request)
 			.addBundles(DatatableBundles.DDL_DT)
 			.addBundles(DatatableBundles.DATATABLES)
-			.addParameter("dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM, javascriptGenerator,
+			.addParameter("dandelion-datatables", ApiLocator.API_CONTENT_PARAM, javascriptGenerator,
 					false);
 
 		try {

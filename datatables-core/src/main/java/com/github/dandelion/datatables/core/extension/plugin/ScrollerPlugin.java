@@ -48,21 +48,15 @@ public class ScrollerPlugin extends AbstractExtension {
 
 	public static final String SCROLLER_PLUGIN_NAME = "scroller";
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getExtensionName() {
 		return SCROLLER_PLUGIN_NAME;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setup(HtmlTable table) {
 
-		addBundle(DatatableBundles.DDL_DT_PLUGIN_SCROLLER);
+		addBundle(DatatableBundles.DATATABLES_SCROLLER);
 
 		String dom = DatatableOptions.FEATURE_DOM.valueFrom(table.getTableConfiguration());
 		Boolean jqueryUiEnabled = DatatableOptions.FEATURE_JQUERYUI.valueFrom(table.getTableConfiguration());

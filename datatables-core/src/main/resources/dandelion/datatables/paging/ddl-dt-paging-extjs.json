@@ -1,11 +1,8 @@
 {
-    "bundle" : "ddl-dt-paging-extjs",
     "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "paging-extjs",
-            "version": "1.0.0",
-            "type": "js",
             "locations": {
                 "jar": "dandelion/datatables/paging/extjs.js"
             }

@@ -7,7 +7,7 @@
 		    "version": "3.0.3",
 		    "type": "js",
 		    "locations": {
-		        "cdn": "//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.js"
+		        "remote": "//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.js"
 		    }
 		},       
         {
@@ -15,7 +15,7 @@
             "version": "3.0.3",
             "type": "css",
             "locations": {
-                "cdn": "//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.css"
+                "remote": "//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.css"
             }
         }
     ]

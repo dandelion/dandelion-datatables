@@ -47,20 +47,14 @@ public class ColReorderPlugin extends AbstractExtension {
 
 	public static final String COLREORDER_PLUGIN_NAME = "colReorder";
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getExtensionName() {
 		return COLREORDER_PLUGIN_NAME;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setup(HtmlTable table) {
-		addBundle(DatatableBundles.DDL_DT_PLUGIN_COLREORDER);
+		addBundle(DatatableBundles.DATATABLES_COLREORDER);
 		addParameter(DTConstants.DT_DOM, "R", Parameter.Mode.PREPEND);
 	}
 }

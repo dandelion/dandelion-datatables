@@ -1,0 +1,17 @@
+{
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "version": "1.2.2",
+            "locations": {
+                "remote": "//cdn.datatables.net/scroller/1.2.2/js/dataTables.scroller.js"
+            }
+        },
+        {
+            "version": "1.2.2",
+            "locations": {
+                "remote": "//cdn.datatables.net/scroller/1.2.2/css/dataTables.scroller.css"
+            }
+        }
+    ]
+}

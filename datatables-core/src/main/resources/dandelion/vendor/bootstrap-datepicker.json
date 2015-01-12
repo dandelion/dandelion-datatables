@@ -7,7 +7,7 @@
 		    "version": "1.3.0",
 		    "type": "js",
 		    "locations": {
-		        "cdn": "//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"
+		        "remote": "//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"
 		    }
 		},
 		{
@@ -15,7 +15,7 @@
 		    "version": "1.3.0",
 		    "type": "css",
 		    "locations": {
-		        "cdn": "//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css"
+		        "remote": "//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css"
 		    }
 		}
     ]

@@ -46,7 +46,7 @@ import org.thymeleaf.processor.ProcessorResult;
 
 import com.github.dandelion.core.asset.generator.js.jquery.JQueryContent;
 import com.github.dandelion.core.asset.generator.js.jquery.JQueryContentGenerator;
-import com.github.dandelion.core.asset.locator.impl.DelegateLocator;
+import com.github.dandelion.core.asset.locator.impl.ApiLocator;
 import com.github.dandelion.core.html.AbstractHtmlTag;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.web.AssetRequestContext;
@@ -288,7 +288,7 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 
 		// Get the existing JavaScript generator or create it if it doesn't exist
 		JQueryContentGenerator javascriptGenerator = AssetRequestContext.get(request).getParameterValue(
-				"dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM);
+				"dandelion-datatables", ApiLocator.API_CONTENT_PARAM);
 
 		if (javascriptGenerator == null) {
 			javascriptGenerator = new JQueryContentGenerator(datatableContent);
@@ -303,7 +303,7 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 			.get(request)
 			.addBundles(DatatableBundles.DDL_DT)
 			.addBundles(DatatableBundles.DATATABLES)
-			.addParameter("dandelion-datatables", DelegateLocator.DELEGATED_CONTENT_PARAM, javascriptGenerator,
+			.addParameter("dandelion-datatables", ApiLocator.API_CONTENT_PARAM, javascriptGenerator,
 					false);
 	}
 }

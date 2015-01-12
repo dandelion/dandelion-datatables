@@ -7,7 +7,7 @@
             "version": "2.3.2",
             "type": "js",
             "locations": {
-                "cdn": "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.js"
+                "remote": "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.js"
             }
         },
         {
@@ -15,7 +15,7 @@
             "version": "2.3.2",
             "type": "css",
             "locations": {
-                "cdn": "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap.css"
+                "remote": "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap.css"
             }
         }
     ]

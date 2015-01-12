@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.github.dandelion.core.asset.Asset;
 import com.github.dandelion.core.asset.AssetMapper;
 import com.github.dandelion.core.asset.AssetType;
-import com.github.dandelion.core.asset.locator.spi.AssetLocator;
+import com.github.dandelion.core.asset.locator.AssetLocator;
 import com.github.dandelion.core.storage.AssetStorageUnit;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlTable;

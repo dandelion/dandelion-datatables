@@ -1,11 +1,8 @@
 {
-    "bundle" : "ddl-dt-paging-bootstrap-four-button",
     "dependencies": [ "datatables" ],
     "assets": [
         {
             "name": "paging-bootstrap-four-button",
-            "version": "1.0.0",
-            "type": "js",
             "locations": {
                 "jar": "dandelion/datatables/paging/bootstrap_four_button.js"
             }

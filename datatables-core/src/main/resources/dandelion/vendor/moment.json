@@ -6,7 +6,7 @@
 		    "version": "2.4.0",
 		    "type": "js",
 		    "locations": {
-		        "cdn": "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/moment.js"
+		        "remote": "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/moment.js"
 		    }
 		}
     ]
