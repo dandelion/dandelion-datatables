@@ -46,7 +46,7 @@ public enum DatatableBundles {
 	DATATABLES_SCROLLER("datatables-scroller"),
 	BOOTSTRAP_DATEPICKER("bootstrap-datepicker"),
 	YADCF("yadcf"),
-	JQUERY_DOWNLOAD("jquery.download"),
+	JQUERY_DOWNLOAD("jquery-download"),
 	
 	// Dandelion
 	DDL_DT_ROOT("ddl-dt-root"),

@@ -83,7 +83,7 @@ public class ExportFeature extends AbstractExtension {
 		for (ExportConf exportConf : table.getTableConfiguration().getExportConfiguration().values()) {
 			if (exportConf.getMethod().equals(HttpMethod.POST) || exportConf.getMethod().equals(HttpMethod.PUT)
 					|| exportConf.getMethod().equals(HttpMethod.DELETE)) {
-				addBundle(DatatableBundles.DDL_DT_EXPORT);
+				addBundle(DatatableBundles.JQUERY_DOWNLOAD);
 			}
 		}
 

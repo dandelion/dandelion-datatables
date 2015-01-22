@@ -1,4 +1,5 @@
 {
+    "bundle": "jquery-download",
     "dependencies": [ "jquery" ],
     "assets": [
         {
