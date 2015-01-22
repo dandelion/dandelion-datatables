@@ -83,9 +83,6 @@ public class TableTag extends AbstractTableTag {
 		stagingConf = new HashMap<Option<?>, Object>();
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	public int doStartTag() throws JspException {
 		
 		iterationNumber = 1; // Just used to identify the first row (header)
@@ -98,7 +95,6 @@ public class TableTag extends AbstractTableTag {
 		if ("AJAX".equals(this.dataSourceType)) {
 
 			this.table.addHeaderRow();
-			this.table.addRow();
 
 			return EVAL_BODY_BUFFERED;
 		}
@@ -114,9 +110,6 @@ public class TableTag extends AbstractTableTag {
 		return SKIP_BODY;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public int doAfterBody() throws JspException {
 
 		iterationNumber++;
@@ -124,9 +117,6 @@ public class TableTag extends AbstractTableTag {
 		return processIteration();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public int doEndTag() throws JspException {
 
 		// At this point, all setters have been called and the staging
@@ -134,11 +124,9 @@ public class TableTag extends AbstractTableTag {
 		// The user configuration can now be applied to the default
 		// configuration
 		ConfigUtils.applyStagingOptions(stagingConf, table);
-//		TableConfig.applyConfiguration(stagingConf, table);
 		
 		// Once all configuration are merged, they can be processed
 		ConfigUtils.processOptions(table);
-//		TableConfig.processConfiguration(table);
 				
 		// The table is being exported
 		if (ExportUtils.isTableBeingExported(request, table)) {

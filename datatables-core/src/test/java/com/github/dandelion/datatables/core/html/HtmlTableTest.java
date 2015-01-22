@@ -71,21 +71,21 @@ public class HtmlTableTest {
 	@Test
 	public void should_generate_table_with_an_unallowed_character_in_the_id() {
 		table = new HtmlTable("table-id", request, response);
-		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableid\"><thead></thead><tbody></tbody></table>");
+		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableid\"><thead></thead></table>");
 		assertThat(table.getId()).isEqualTo("tableid");
 	}
 	
 	@Test
 	public void should_generate_table_with_id() {
 		table = new HtmlTable("tableId", request, response);
-		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\"><thead></thead><tbody></tbody></table>");
+		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\"><thead></thead></table>");
 	}
 
 	@Test
 	public void should_generate_table_with_one_class() {
 		table = new HtmlTable("tableId", request, response);
 		table.getTableConfiguration().addCssClass("aClass");
-		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" class=\"aClass\"><thead></thead><tbody></tbody></table>");
+		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" class=\"aClass\"><thead></thead></table>");
 	}
 
 	@Test
@@ -93,14 +93,14 @@ public class HtmlTableTest {
 		table = new HtmlTable("tableId", request, response);
 		table.getTableConfiguration().addCssClass("oneClass");
 		table.getTableConfiguration().addCssClass("twoClass");
-		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" class=\"oneClass twoClass\"><thead></thead><tbody></tbody></table>");
+		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" class=\"oneClass twoClass\"><thead></thead></table>");
 	}
 
 	@Test
 	public void should_generate_table_with_one_style() {
 		table = new HtmlTable("tableId", request, response);
 		table.getTableConfiguration().addCssStyle("border:1px");
-		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" style=\"border:1px\"><thead></thead><tbody></tbody></table>");
+		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" style=\"border:1px\"><thead></thead></table>");
 	}
 
 	@Test
@@ -108,7 +108,7 @@ public class HtmlTableTest {
 		table = new HtmlTable("tableId", request, response);
 		table.getTableConfiguration().addCssStyle("border:1px");
 		table.getTableConfiguration().addCssStyle("align:center");
-		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" style=\"border:1px;align:center\"><thead></thead><tbody></tbody></table>");
+		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\" style=\"border:1px;align:center\"><thead></thead></table>");
 	}
 
 	@Test
@@ -117,7 +117,7 @@ public class HtmlTableTest {
 		HtmlCaption caption = new HtmlCaption();
 		caption.setTitle("title");
 		table.setCaption(caption);
-		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\">" + caption.toHtml() + "<thead></thead><tbody></tbody></table>");
+		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\">" + caption.toHtml() + "<thead></thead></table>");
 	}
 
 	@Test
@@ -127,7 +127,7 @@ public class HtmlTableTest {
 		header1.setId("head1");
 		HtmlRow header2 = table.addHeaderRow();
 		header2.setId("head2");
-		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\"><thead>" + header1.toHtml() + header2.toHtml() + "</thead><tbody></tbody></table>");
+		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\"><thead>" + header1.toHtml() + header2.toHtml() + "</thead></table>");
 	}
 
 	@Test
@@ -155,7 +155,7 @@ public class HtmlTableTest {
 		foot1.setId("foot1");
 		HtmlRow foot2 = table.addFooterRow();
 		foot2.setId("foot2");
-		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\"><thead></thead><tbody></tbody><tfoot>" + foot1.toHtml() + foot2.toHtml() + "</tfoot></table>");
+		assertThat(table.toHtml().toString()).isEqualTo("<table id=\"tableId\"><thead></thead><tfoot>" + foot1.toHtml() + foot2.toHtml() + "</tfoot></table>");
 	}
 
 	@Test

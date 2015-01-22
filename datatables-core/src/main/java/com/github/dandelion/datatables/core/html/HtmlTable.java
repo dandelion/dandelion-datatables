@@ -108,11 +108,13 @@ public class HtmlTable extends AbstractHtmlTag {
 
 	private StringBuilder getHtmlBody() {
 		StringBuilder html = new StringBuilder();
-		html.append("<tbody>");
-		for (HtmlRow row : this.body) {
-			html.append(row.toHtml());
+		if(!this.body.isEmpty()) {
+			html.append("<tbody>");
+			for (HtmlRow row : this.body) {
+				html.append(row.toHtml());
+			}
+			html.append("</tbody>");
 		}
-		html.append("</tbody>");
 		return html;
 	}
 
