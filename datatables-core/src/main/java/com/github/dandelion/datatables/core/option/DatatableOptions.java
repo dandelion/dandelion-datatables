@@ -39,9 +39,9 @@ import java.util.regex.Pattern;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
-import com.github.dandelion.datatables.core.extension.feature.FilterType;
 import com.github.dandelion.datatables.core.extension.feature.PaginationType;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
+import com.github.dandelion.datatables.core.generator.YadcfConfigGenerator.FilterType;
 import com.github.dandelion.datatables.core.option.processor.BooleanProcessor;
 import com.github.dandelion.datatables.core.option.processor.EmptyStringProcessor;
 import com.github.dandelion.datatables.core.option.processor.IntegerProcessor;
@@ -251,14 +251,9 @@ public final class DatatableOptions {
 	public static final Option<Boolean> VISIBLE = new Option<Boolean>("visible", new BooleanProcessor(), 100);
 	public static final Option<FilterType> FILTERTYPE = new Option<FilterType>("filterType", new FilterTypeProcessor(),
 			100);
-	public static final Option<String> FILTERDATEFORMAT = new Option<String>("filterDateFormat", new StringProcessor(),
-			100);
 	public static final Option<String> FILTERVALUES = new Option<String>("filterValues", new StringProcessor(true), 100);
-	public static final Option<String> FILTERCSSCLASS = new Option<String>("filterCssClass", new StringProcessor(), 100);
 	public static final Option<String> FILTERPLACEHOLDER = new Option<String>("filterPlaceholder",
 			new StringProcessor(), 100);
-	public static final Option<Integer> FILTERMINLENGTH = new Option<Integer>("filterMinLength",
-			new IntegerProcessor(), 100);
 	public static final Option<String> RENDERFUNCTION = new Option<String>("renderFunction", new StringProcessor(true),
 			100);
 	public static final Option<String> SELECTOR = new Option<String>("selector", new StringProcessor(), 100);

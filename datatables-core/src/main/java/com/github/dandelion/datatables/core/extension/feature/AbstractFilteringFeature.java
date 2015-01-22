@@ -46,14 +46,13 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
- * Java implementation of the DataTables Column Filter Add-on written by Jovan
- * Popovic.
+ * Abstract base class of the filtering feature.
  * </p>
  * 
  * <p>
- * The add-on now lives in its own repository <a
- * href="https://github.com/tduchateau/jquery-datatables-column-filter"
- * >here</a>.
+ * Depending on the value of the
+ * {@link DatatableOptions#FEATURE_FILTER_PLACEHOLDER} option, the table may
+ * need slight adaptation, which depends on the template engine.
  * </p>
  * 
  * @author Thibault Duchateau
@@ -73,7 +72,7 @@ public abstract class AbstractFilteringFeature extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 
-		addBundle(DatatableBundles.DDL_DT_FILTERING);
+		addBundle(DatatableBundles.YADCF);
 
 		FilterPlaceholder filterPlaceHolder = DatatableOptions.FEATURE_FILTER_PLACEHOLDER.valueFrom(table
 				.getTableConfiguration());
@@ -83,7 +82,7 @@ public abstract class AbstractFilteringFeature extends AbstractExtension {
 				adaptFooter(table);
 				break;
 			case HEADER:
-				adaptHeader(table);
+				// Nothing to do
 				break;
 			case NONE:
 				break;
@@ -91,35 +90,34 @@ public abstract class AbstractFilteringFeature extends AbstractExtension {
 		}
 		// Default: footer
 		else {
+			filterPlaceHolder = FilterPlaceholder.FOOTER;
 			adaptFooter(table);
 		}
 
 		YadcfConfigGenerator configGenerator = new YadcfConfigGenerator();
 		List<Map<String, Object>> config = configGenerator.generateConfig(table);
-		
+
 		Writer writer = new StringWriter();
 		try {
-			JSONValue.writeJSONString(config , writer);
+			JSONValue.writeJSONString(config, writer);
 		}
 		catch (IOException e) {
 			throw new DandelionException("Unable to convert the configuration to JSON", e);
 		}
-		
+
 		StringBuilder yadcf = new StringBuilder("yadcf.init(oTable_");
 		yadcf.append(table.getId());
 		yadcf.append(",");
 		yadcf.append(writer.toString());
-		
-		if(filterPlaceHolder != null){
+
+		if (filterPlaceHolder != null) {
 			yadcf.append(", '");
-			yadcf.append(filterPlaceHolder.getExtensionName());
+			yadcf.append(filterPlaceHolder.getName());
 			yadcf.append("'");
 		}
-		
+
 		yadcf.append(");");
 		appendToBeforeEndDocumentReady(yadcf.toString());
-//		setFunction("columnFilter");
-//		setConfigGenerator(new ColumnFilteringConfigGenerator());
 	}
 
 	protected abstract void adaptHeader(HtmlTable table);

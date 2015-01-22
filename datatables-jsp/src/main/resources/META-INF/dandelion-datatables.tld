@@ -1433,24 +1433,6 @@
       <attribute>
          <description>
          <![CDATA[
-            <p>Number of characters to be entered in the filtering input field before filtering is triggered.</p>
-            <p>
-            <ul>
-            <li>Required: <b>no</b></li>
-            <li>Possible values: <b>Any number</b></li>
-            <li>Default: <b>0 (filtering is triggered on keyup)</b></li>
-            <li>Data source: <b>DOM / AJAX</b></li>
-            <li>Configuration property: <b>n/a</b></li>
-            </ul>
-            </p>
-         ]]>
-         </description>
-         <name>filterMinLength</name>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <description>
-         <![CDATA[
             <p>Date format to be applied to the datepicker when the filterType is set to "date_range".</p>
             <p>
             <ul>
@@ -1464,22 +1446,6 @@
          ]]>
          </description>
          <name>filterDateFormat</name>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <description>
-         <![CDATA[
-            <p>If the column is filterable, CSS class(s) to be applied on the filtering element (whose type depends on the filter type).</p>
-            <p>
-            <ul>
-            <li>Required: <b>no</b></li>
-            <li>Data source: <b>DOM / AJAX</b></li>
-            <li>Configuration property: <b>n/a</b></li>
-            </ul>
-            </p>
-         ]]>
-         </description>
-         <name>filterCssClass</name>
          <rtexprvalue>true</rtexprvalue>
       </attribute>
       <attribute>

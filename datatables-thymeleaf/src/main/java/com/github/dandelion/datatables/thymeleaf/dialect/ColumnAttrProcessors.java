@@ -37,9 +37,6 @@ import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThCssCellClassAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThDefaultAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterCssClassAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterDateFormatAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterMinLengthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterValuesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.ThFilterableAttrProcessor;
@@ -71,10 +68,7 @@ public enum ColumnAttrProcessors {
 	SEARCHABLE(ThSearchableAttrProcessor.class, "searchable", "th"), 
 	VISIBLE(ThVisibleAttrProcessor.class, "visible", "th"), 
 	FILTER_TYPE(ThFilterTypeAttrProcessor.class, "filterType", "th"), 
-	FILTER_CSSCLASS(ThFilterCssClassAttrProcessor.class, "filterCssClass", "th"), 
 	FILTER_VALUES(ThFilterValuesAttrProcessor.class, "filterValues", "th"), 
-	FILTER_LENGTH(ThFilterMinLengthAttrProcessor.class, "filterMinLength", "th"), 
-	FILTER_DATEFORMAT(ThFilterDateFormatAttrProcessor.class, "filterDateFormat", "th"), 
 	SORT_INITDIRECTION(ThSortInitDirectionAttrProcessor.class, "sortInitDirection", "th"),
 	SORT_INITORDER(ThSortInitOrderAttrProcessor.class, "sortInitOrder", "th"),
 	SORT_DIR(ThSortDirectionAttrProcessor.class, "sortDir", "th"), 

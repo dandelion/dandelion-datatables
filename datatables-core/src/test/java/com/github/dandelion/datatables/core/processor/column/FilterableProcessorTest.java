@@ -36,7 +36,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.core.extension.Extension;
-import com.github.dandelion.datatables.core.extension.feature.FilterType;
+import com.github.dandelion.datatables.core.generator.YadcfConfigGenerator.FilterType;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;

@@ -249,10 +249,6 @@ public class ColumnTag extends AbstractColumnTag {
 		stagingConf.put(DatatableOptions.FILTERVALUES, filterValues);
 	}
 
-	public void setFilterCssClass(String filterCssClass) {
-		stagingConf.put(DatatableOptions.FILTERCSSCLASS, filterCssClass);
-	}
-
 	public void setFilterPlaceholder(String filterPlaceholder) {
 		stagingConf.put(DatatableOptions.FILTERPLACEHOLDER, filterPlaceholder);
 	}
@@ -293,14 +289,6 @@ public class ColumnTag extends AbstractColumnTag {
 		stagingConf.put(DatatableOptions.SORTTYPE, sortType);
 	}
 
-	public void setFilterMinLength(Integer filterMinLength) {
-		stagingConf.put(DatatableOptions.FILTERMINLENGTH, filterMinLength);
-	}
-	
-	public void setFilterDateFormat(String filterDateFormat) {
-		stagingConf.put(DatatableOptions.FILTERDATEFORMAT, filterDateFormat);
-	}
-	
 	public void setId(String id) {
 		stagingConf.put(DatatableOptions.ID, id);
 	}
