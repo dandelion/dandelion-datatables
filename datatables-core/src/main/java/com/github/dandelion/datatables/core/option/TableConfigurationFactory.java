@@ -138,7 +138,7 @@ public class TableConfigurationFactory {
 		MessageResolver messageResolver = DatatableConfigurator.getMessageResolver(request);
 
 		TableConfiguration tc = new TableConfiguration(tableId, OPTIONS_BY_GROUP_BY_LOCALE.get(locale).get(group),
-				messageResolver, request);
+				messageResolver, request, group);
 
 		TableConfiguration clone = TableConfiguration.clone(tc);
 		return clone;

@@ -111,6 +111,7 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 			}
 			// The table must be displayed
 			else {
+				ConfigUtils.storeTableInRequest(request, htmlTable);
 				setupHtml(arguments, request, htmlTable);
 			}
 		}

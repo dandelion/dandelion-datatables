@@ -29,8 +29,12 @@
  */
 package com.github.dandelion.datatables.core.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +60,8 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
 public final class ConfigUtils {
 
 	protected static Logger logger = LoggerFactory.getLogger(ConfigUtils.class);
+
+	public static final String DDL_DT_REQUESTATTR_TABLES = "ddl-dt-tables";
 
 	/**
 	 * <p>
@@ -176,6 +182,30 @@ public final class ConfigUtils {
 			// Merging staging configuration into to the final configuration map
 			column.getColumnConfiguration().getConfigurations()
 					.putAll(column.getColumnConfiguration().getStagingConfigurations());
+		}
+	}
+
+	/**
+	 * <p>
+	 * Stores the provided {@link HtmlTable} in a particular request attribute
+	 * so that it can be used by the debugger.
+	 * </p>
+	 * 
+	 * @param request
+	 *            The request in which the provided table is stored.
+	 * @param table
+	 *            The table to store.
+	 */
+	@SuppressWarnings("unchecked")
+	public static void storeTableInRequest(HttpServletRequest request, HtmlTable table) {
+		if (request.getAttribute(DDL_DT_REQUESTATTR_TABLES) == null) {
+			List<HtmlTable> htmlTables = new ArrayList<HtmlTable>();
+			htmlTables.add(table);
+			request.setAttribute(DDL_DT_REQUESTATTR_TABLES, htmlTables);
+		}
+		else {
+			List<HtmlTable> htmlTables = (List<HtmlTable>) request.getAttribute(DDL_DT_REQUESTATTR_TABLES);
+			htmlTables.add(table);
 		}
 	}
 

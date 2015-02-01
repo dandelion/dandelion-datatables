@@ -34,7 +34,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import com.github.dandelion.core.utils.ResourceUtils;
-import com.github.dandelion.core.web.handler.RequestHandlerContext;
+import com.github.dandelion.core.web.handler.HandlerContext;
 import com.github.dandelion.core.web.handler.debug.AbstractDebugPage;
 
 /**
@@ -62,13 +62,13 @@ public class DatatableDebuggerDebugPage extends AbstractDebugPage {
 	}
 
 	@Override
-	public String getTemplate(RequestHandlerContext context) throws IOException {
+	public String getTemplate(HandlerContext context) throws IOException {
 		return ResourceUtils.getContentFromInputStream(Thread.currentThread().getContextClassLoader()
 				.getResourceAsStream(PAGE_LOCATION));
 	}
 
 	@Override
-	protected Map<String, String> getCustomParameters(RequestHandlerContext context) {
+	protected Map<String, String> getCustomParameters(HandlerContext context) {
 		// TODO Auto-generated method stub
 		return Collections.emptyMap();
 	}

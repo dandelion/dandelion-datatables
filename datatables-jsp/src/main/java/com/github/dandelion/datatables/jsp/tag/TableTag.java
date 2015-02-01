@@ -127,13 +127,14 @@ public class TableTag extends AbstractTableTag {
 		
 		// Once all configuration are merged, they can be processed
 		ConfigUtils.processOptions(table);
-				
+		
 		// The table is being exported
 		if (ExportUtils.isTableBeingExported(request, table)) {
 			return setupExport();
 		}
 		// The table must be generated and displayed
 		else {
+			ConfigUtils.storeTableInRequest(request, table);
 			return setupHtmlGeneration();
 		}
 	}

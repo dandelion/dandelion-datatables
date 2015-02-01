@@ -63,7 +63,8 @@ public class TableConfiguration {
 	private final Map<Option<?>, Object> configurations;
 	private final MessageResolver messageResolver;
 	private final HttpServletRequest request;
-
+	private final String optionGroupName;
+	
 	private Map<Option<?>, Object> stagingConfiguration;
 
 	// Dandelion-Datatables parameters
@@ -89,13 +90,14 @@ public class TableConfiguration {
 	 * @param userConf
 	 */
 	TableConfiguration(String tableId, Map<Option<?>, Object> userConf, MessageResolver messageResolver,
-			HttpServletRequest request) {
+			HttpServletRequest request, String optionGroupName) {
 		this.tableId = tableId;
 		this.configurations = userConf;
 		this.messageResolver = messageResolver;
 		this.request = request;
 		this.stagingConfiguration = new HashMap<Option<?>, Object>();
 		this.exportConfiguration = new LinkedHashMap<String, ExportConf>();
+		this.optionGroupName = optionGroupName;
 	}
 
 	/**
@@ -109,7 +111,7 @@ public class TableConfiguration {
 	 */
 	static TableConfiguration clone(TableConfiguration original) {
 		TableConfiguration clone = new TableConfiguration(original.getTableId(), original.getConfigurations(),
-				original.getMessageResolver(), original.getRequest());
+				original.getMessageResolver(), original.getRequest(), original.getOptionGroupName());
 		clone.setExtraJs(original.getExtraJs());
 		clone.setCallbacks(original.getCallbacks());
 		clone.setExtraHtmlSnippets(original.getExtraHtmlSnippets());
@@ -321,5 +323,9 @@ public class TableConfiguration {
 
 	public void addStagingConf(Option<?> configToken, Object value) {
 		this.stagingConfiguration.put(configToken, value);
+	}
+
+	public String getOptionGroupName() {
+		return optionGroupName;
 	}
 }
