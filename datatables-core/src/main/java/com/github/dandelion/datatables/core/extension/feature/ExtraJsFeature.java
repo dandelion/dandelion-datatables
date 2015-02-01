@@ -64,7 +64,7 @@ public class ExtraJsFeature extends AbstractExtension {
 	@Override
 	public void setup(HtmlTable table) {
 
-		AssetMapper assetMapper = new AssetMapper(table.getTableConfiguration().getRequest(), getContext());
+		AssetMapper assetMapper = new AssetMapper(getContext(), table.getTableConfiguration().getRequest());
 
 		HttpServletRequest request = table.getTableConfiguration().getRequest();
 		Set<AssetStorageUnit> assetsToInject = null;
