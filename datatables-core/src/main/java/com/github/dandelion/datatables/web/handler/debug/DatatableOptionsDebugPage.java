@@ -39,7 +39,6 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.dandelion.core.utils.ResourceUtils;
 import com.github.dandelion.core.web.handler.HandlerContext;
 import com.github.dandelion.core.web.handler.debug.AbstractDebugPage;
@@ -82,8 +81,7 @@ public class DatatableOptionsDebugPage extends AbstractDebugPage {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	protected Map<String, String> getCustomParameters(HandlerContext context) {
-
+	protected Map<String, Object> getPageContext() {
 		List<HtmlTable> htmlTables = (List<HtmlTable>) context.getRequest().getAttribute(
 				ConfigUtils.DDL_DT_REQUESTATTR_TABLES);
 
@@ -103,22 +101,13 @@ public class DatatableOptionsDebugPage extends AbstractDebugPage {
 			}
 		}
 
-		Map<String, Object> ctx = new HashMap<String, Object>();
+		Map<String, Object> pageContext = new HashMap<String, Object>();
 
-		Map<String, String> params = new HashMap<String, String>();
-
-		ctx.put("tables", tablesJson);
-		ctx.put("page-header", PAGE_NAME);
-
-		try {
-			params.put("%MUSTACHE_CTX%", mapper.writeValueAsString(ctx));
-		}
-		catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return params;
+		pageContext.put("tables", tablesJson);
+		pageContext.put("page-header", PAGE_NAME);
+		return pageContext;
 	}
-
+	
 	private List<Map<String, Object>> getTableOptions(HtmlTable htmlTable, HttpServletRequest request) {
 		Map<Locale, Map<String, Map<Option<?>, Object>>> store = TableConfigurationFactory.getConfigurationStore();
 		Locale locale = null;

@@ -37,7 +37,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.dandelion.core.utils.ResourceUtils;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.core.web.handler.HandlerContext;
@@ -78,8 +77,7 @@ public class DatatableOptionGroupsDebugPage extends AbstractDebugPage {
 	}
 
 	@Override
-	protected Map<String, String> getCustomParameters(HandlerContext context) {
-
+	protected Map<String, Object> getPageContext() {
 		Map<Locale, Map<String, Map<Option<?>, Object>>> store = TableConfigurationFactory.getConfigurationStore();
 		Locale currentLocale = DatatableConfigurator.getLocaleResolver().resolveLocale(context.getRequest());
 
@@ -94,22 +92,13 @@ public class DatatableOptionGroupsDebugPage extends AbstractDebugPage {
 			groupsJson.add(groupJson);
 		}
 
-		Map<String, Object> ctx = new HashMap<String, Object>();
+		Map<String, Object> pageContext = new HashMap<String, Object>();
 
-		Map<String, String> params = new HashMap<String, String>();
-
-		ctx.put("groups", groupsJson);
-		ctx.put("page-header", PAGE_NAME);
-
-		try {
-			params.put("%MUSTACHE_CTX%", mapper.writeValueAsString(ctx));
-		}
-		catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return params;
+		pageContext.put("groups", groupsJson);
+		pageContext.put("page-header", PAGE_NAME);
+		return pageContext;
 	}
-
+	
 	private List<Map<String, Object>> getGroupOptions(Map<Option<?>, Object> optionsMap) {
 
 		List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();

@@ -50,6 +50,9 @@ public class DatatableBundleLoader extends AbstractBundleLoader {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DatatableBundleLoader.class);
 
+	public static final String LOADER_NAME = "dandelion-datatables";
+	public static final String SCANNING_PATH = "dandelion/datatables";
+
 	@Override
 	protected Logger getLogger() {
 		return LOG;
@@ -57,16 +60,16 @@ public class DatatableBundleLoader extends AbstractBundleLoader {
 
 	@Override
 	public String getName() {
-		return "dandelion-datatables";
+		return LOADER_NAME;
 	}
 
 	@Override
 	public String getPath() {
-		return "dandelion/datatables";
+		return SCANNING_PATH;
 	}
 
 	@Override
 	protected void doCustomBundlePostProcessing(List<BundleStorageUnit> bundles) {
-		// Do nothing
+		// Nothing to do
 	}
 }

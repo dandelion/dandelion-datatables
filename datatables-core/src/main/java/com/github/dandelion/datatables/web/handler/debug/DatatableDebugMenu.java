@@ -58,7 +58,6 @@ public class DatatableDebugMenu implements DebugMenu {
 		List<DebugPage> debugPages = new ArrayList<DebugPage>();
 		debugPages.add(new DatatableOptionsDebugPage());
 		debugPages.add(new DatatableOptionGroupsDebugPage()); 
-//		debugPages.add(new DatatableDebuggerDebugPage());
 		return debugPages;
 	}
 }
