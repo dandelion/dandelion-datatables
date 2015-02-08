@@ -42,8 +42,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.core.utils.Validate;
+import com.github.dandelion.core.util.StringUtils;
+import com.github.dandelion.core.util.Validate;
 import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
 import com.github.dandelion.datatables.core.generator.DTConstants;
 

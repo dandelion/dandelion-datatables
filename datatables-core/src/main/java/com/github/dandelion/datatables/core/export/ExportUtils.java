@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.github.dandelion.core.DandelionException;
-import com.github.dandelion.core.utils.ClassUtils;
+import com.github.dandelion.core.util.ClassUtils;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
 /**

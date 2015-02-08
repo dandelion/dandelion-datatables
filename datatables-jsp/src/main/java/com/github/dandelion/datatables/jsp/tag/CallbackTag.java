@@ -33,8 +33,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import com.github.dandelion.core.utils.EnumUtils;
-import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.util.EnumUtils;
+import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.datatables.core.option.Callback;
 import com.github.dandelion.datatables.core.option.CallbackType;
 import com.github.dandelion.datatables.core.util.ProcessorUtils;

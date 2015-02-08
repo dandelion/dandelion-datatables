@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.i18n.AbstractMessageResolver;
 import com.github.dandelion.core.i18n.MessageResolver;
-import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.util.StringUtils;
 
 /**
  * <p>

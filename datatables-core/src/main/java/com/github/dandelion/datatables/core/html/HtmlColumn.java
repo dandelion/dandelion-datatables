@@ -33,7 +33,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.datatables.core.export.ReservedFormat;
 import com.github.dandelion.datatables.core.option.ColumnConfiguration;
 import com.github.dandelion.datatables.core.option.DatatableOptions;

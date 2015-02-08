@@ -31,7 +31,7 @@ package com.github.dandelion.datatables.core.option;
 
 import java.util.Map;
 
-import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.datatables.core.generator.DatatableConfigGenerator;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessor;

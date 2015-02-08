@@ -49,9 +49,9 @@ import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.generator.js.jquery.JQueryContentPlaceholder;
-import com.github.dandelion.core.utils.EnumUtils;
-import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.core.utils.UrlUtils;
+import com.github.dandelion.core.util.EnumUtils;
+import com.github.dandelion.core.util.StringUtils;
+import com.github.dandelion.core.util.UrlUtils;
 import com.github.dandelion.core.web.WebConstants;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportConf.Orientation;

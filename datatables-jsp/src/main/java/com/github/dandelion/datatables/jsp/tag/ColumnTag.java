@@ -34,7 +34,7 @@ import java.util.HashMap;
 import javax.servlet.jsp.JspException;
 
 import com.github.dandelion.core.i18n.MessageResolver;
-import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.datatables.core.config.ConfigLoader;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;

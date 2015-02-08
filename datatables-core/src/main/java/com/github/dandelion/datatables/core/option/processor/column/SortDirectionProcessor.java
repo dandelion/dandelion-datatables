@@ -33,8 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.dandelion.core.DandelionException;
-import com.github.dandelion.core.utils.EnumUtils;
-import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.util.EnumUtils;
+import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Direction;
 import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;

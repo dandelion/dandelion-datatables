@@ -35,8 +35,8 @@ import java.util.GregorianCalendar;
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.dandelion.core.DandelionException;
-import com.github.dandelion.core.utils.EnumUtils;
-import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.util.EnumUtils;
+import com.github.dandelion.core.util.StringUtils;
 
 /**
  * <p>

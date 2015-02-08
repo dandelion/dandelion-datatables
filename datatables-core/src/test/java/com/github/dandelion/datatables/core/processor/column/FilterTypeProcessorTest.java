@@ -34,7 +34,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.github.dandelion.core.DandelionException;
-import com.github.dandelion.core.utils.EnumUtils;
+import com.github.dandelion.core.util.EnumUtils;
 import com.github.dandelion.datatables.core.generator.YadcfConfigGenerator.FilterType;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;

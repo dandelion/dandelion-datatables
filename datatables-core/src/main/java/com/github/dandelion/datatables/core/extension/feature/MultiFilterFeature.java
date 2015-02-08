@@ -33,7 +33,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.github.dandelion.core.DandelionException;
-import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;

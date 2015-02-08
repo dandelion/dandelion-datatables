@@ -48,7 +48,7 @@ import com.github.dandelion.core.asset.generator.js.jquery.JQueryContent;
 import com.github.dandelion.core.asset.generator.js.jquery.JQueryContentGenerator;
 import com.github.dandelion.core.asset.locator.impl.ApiLocator;
 import com.github.dandelion.core.html.AbstractHtmlTag;
-import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.core.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.export.ExportConf;

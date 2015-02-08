@@ -38,7 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.DandelionException;
-import com.github.dandelion.core.utils.ClassUtils;
+import com.github.dandelion.core.util.ClassUtils;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.web.filter.DatatablesFilter;
 

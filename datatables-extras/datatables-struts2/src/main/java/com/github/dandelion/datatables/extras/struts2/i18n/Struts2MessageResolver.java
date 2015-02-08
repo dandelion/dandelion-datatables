@@ -36,7 +36,7 @@ import org.apache.struts2.views.jsp.TagUtils;
 
 import com.github.dandelion.core.i18n.AbstractMessageResolver;
 import com.github.dandelion.core.i18n.MessageResolver;
-import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.util.StringUtils;
 import com.opensymphony.xwork2.TextProvider;
 import com.opensymphony.xwork2.ognl.OgnlValueStack;
 

@@ -40,8 +40,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.DandelionException;
-import com.github.dandelion.core.utils.ServiceLoaderUtils;
-import com.github.dandelion.core.utils.Validate;
+import com.github.dandelion.core.util.ServiceLoaderUtils;
+import com.github.dandelion.core.util.Validate;
 import com.github.dandelion.datatables.core.generator.DatatableJQueryContent;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.option.DatatableOptions;

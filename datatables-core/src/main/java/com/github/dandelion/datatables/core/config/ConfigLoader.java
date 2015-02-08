@@ -56,10 +56,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.DandelionException;
-import com.github.dandelion.core.utils.LibraryDetector;
-import com.github.dandelion.core.utils.PropertiesUtils;
-import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.core.utils.UTF8Control;
+import com.github.dandelion.core.util.LibraryDetector;
+import com.github.dandelion.core.util.PropertiesUtils;
+import com.github.dandelion.core.util.StringUtils;
+import com.github.dandelion.core.util.UTF8Control;
 import com.github.dandelion.core.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;

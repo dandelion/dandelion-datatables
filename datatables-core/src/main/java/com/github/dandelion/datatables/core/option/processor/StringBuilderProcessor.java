@@ -29,7 +29,7 @@
  */
 package com.github.dandelion.datatables.core.option.processor;
 
-import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.util.StringUtils;
 
 /**
  * Processor used for all String parameters.

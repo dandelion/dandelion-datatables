@@ -29,7 +29,7 @@
  */
 package com.github.dandelion.datatables.core.option.processor.column;
 
-import com.github.dandelion.core.utils.StringUtils;
+import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.extension.feature.SortingFeature;
 import com.github.dandelion.datatables.core.option.DatatableOptions;

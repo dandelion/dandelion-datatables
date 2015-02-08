@@ -42,7 +42,7 @@ import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.i18n.LocaleResolver;
 import com.github.dandelion.core.i18n.MessageResolver;
 import com.github.dandelion.core.i18n.StandardLocaleResolver;
-import com.github.dandelion.core.utils.ClassUtils;
+import com.github.dandelion.core.util.ClassUtils;
 
 /**
  * <p>

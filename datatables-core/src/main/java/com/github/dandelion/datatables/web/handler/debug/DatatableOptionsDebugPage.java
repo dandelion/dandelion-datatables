@@ -39,7 +39,7 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.github.dandelion.core.utils.ResourceUtils;
+import com.github.dandelion.core.util.ResourceUtils;
 import com.github.dandelion.core.web.handler.HandlerContext;
 import com.github.dandelion.core.web.handler.debug.AbstractDebugPage;
 import com.github.dandelion.datatables.core.config.DatatableConfigurator;
