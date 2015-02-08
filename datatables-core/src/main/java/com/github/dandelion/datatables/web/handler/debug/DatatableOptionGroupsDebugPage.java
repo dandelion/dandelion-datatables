@@ -127,7 +127,7 @@ public class DatatableOptionGroupsDebugPage extends AbstractDebugPage {
 		options.add(option(DatatableOptions.FEATURE_LENGTHCHANGE, optionsMap));
 		options.add(option(DatatableOptions.FEATURE_LENGTHMENU, optionsMap));
 		options.add(option(DatatableOptions.FEATURE_PAGEABLE, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_PAGINATIONTYPE, optionsMap));
+		options.add(option(DatatableOptions.FEATURE_PAGINGTYPE, optionsMap));
 		options.add(option(DatatableOptions.FEATURE_PROCESSING, optionsMap));
 		options.add(option(DatatableOptions.FEATURE_SCROLLCOLLAPSE, optionsMap));
 		options.add(option(DatatableOptions.FEATURE_SCROLLX, optionsMap));

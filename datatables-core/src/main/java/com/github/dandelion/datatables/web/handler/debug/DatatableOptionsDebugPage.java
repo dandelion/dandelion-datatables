@@ -43,6 +43,7 @@ import com.github.dandelion.core.utils.ResourceUtils;
 import com.github.dandelion.core.web.handler.HandlerContext;
 import com.github.dandelion.core.web.handler.debug.AbstractDebugPage;
 import com.github.dandelion.datatables.core.config.DatatableConfigurator;
+import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.option.TableConfigurationFactory;
@@ -91,10 +92,22 @@ public class DatatableOptionsDebugPage extends AbstractDebugPage {
 			int index = 0;
 			for (HtmlTable htmlTable : htmlTables) {
 				Map<String, Object> tableJson = new HashMap<String, Object>();
-				tableJson.put("tableId", htmlTable.getId());
+				tableJson.put("tableId", "#" + htmlTable.getOriginalId());
 				tableJson.put("groupName", htmlTable.getTableConfiguration().getOptionGroupName());
 				tableJson.put("options", getTableOptions(htmlTable, context.getRequest()));
-				tableJson.put("extensions", htmlTable.getTableConfiguration().getInternalExtensions());
+				
+				List<Map<String, Object>> extensions = new ArrayList<Map<String, Object>>();
+
+				if(htmlTable.getTableConfiguration().getInternalExtensions() != null){
+				   for (Extension ext : htmlTable.getTableConfiguration().getInternalExtensions()) {
+				      extensions.add(new MapBuilder<String, Object>()
+				            .entry("name", ext.getExtensionName().toLowerCase())
+				            .entry("class", ext.getClass().getName())
+				            .create());
+				   }
+				   tableJson.put("extensions", extensions);
+				}
+		      
 				tableJson.put("active", index == 0 ? "active" : "");
 				tablesJson.add(tableJson);
 				index++;
@@ -102,9 +115,7 @@ public class DatatableOptionsDebugPage extends AbstractDebugPage {
 		}
 
 		Map<String, Object> pageContext = new HashMap<String, Object>();
-
 		pageContext.put("tables", tablesJson);
-		pageContext.put("page-header", PAGE_NAME);
 		return pageContext;
 	}
 	
@@ -122,15 +133,13 @@ public class DatatableOptionsDebugPage extends AbstractDebugPage {
 
 		for (Entry<Option<?>, Object> entry : store.get(locale)
 				.get(htmlTable.getTableConfiguration().getOptionGroupName()).entrySet()) {
-			tableOptions.add(option(entry.getKey().getName(), entry.getValue()));
+			
+			tableOptions.add(new MapBuilder<String, Object>()
+               .entry("name", entry.getKey().getName())
+               .entry("value", entry.getValue())
+               .entry("precedence", entry.getKey().getPrecedence())
+               .create());
 		}
 		return tableOptions;
-	}
-
-	private Map<String, Object> option(String name, Object value) {
-		Map<String, Object> option = new HashMap<String, Object>();
-		option.put("name", name);
-		option.put("value", value);
-		return option;
 	}
 }
