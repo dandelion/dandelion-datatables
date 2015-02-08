@@ -18,9 +18,9 @@ public class PaginationTypeInputFeatureTest  extends AbstractExtensionTest {
 	@Test
 	public void shoud_load_the_extension() {
 		
-		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new PaginationTypeInputFeature())));
+		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new PagingTypeInputFeature())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
-		assertThat(mainConfig).contains(entry(DTConstants.DT_PAGINATION_TYPE, "input"));
+		assertThat(mainConfig).contains(entry(DTConstants.DT_PAGINGTYPE, "input"));
 	}
 }

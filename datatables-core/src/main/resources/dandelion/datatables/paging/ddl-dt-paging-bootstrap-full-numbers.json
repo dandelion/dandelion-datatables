@@ -3,8 +3,9 @@
     "assets": [
         {
             "name": "paging-bootstrap-full-numbers",
+            "version" : "fixed",
             "locations": {
-                "jar": "dandelion/datatables/paging/bootstrap_full_numbers.js"
+                "jar": "dandelion/datatables/paging/bootstrap-full-numbers.js"
             }
         }
     ]

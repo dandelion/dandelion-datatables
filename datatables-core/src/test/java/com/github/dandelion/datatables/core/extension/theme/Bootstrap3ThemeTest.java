@@ -47,6 +47,6 @@ public class Bootstrap3ThemeTest extends AbstractExtensionTest {
 		assertThat(mainConfig).hasSize(2);
 		assertThat(mainConfig).contains(
 				entry(DTConstants.DT_AS_STRIPE_CLASSES, new JsSnippet("[]")),
-				entry(DTConstants.DT_PAGINATION_TYPE, "bootstrap"));
+				entry(DTConstants.DT_PAGINGTYPE, "bootstrap_simple"));
 	}
 }

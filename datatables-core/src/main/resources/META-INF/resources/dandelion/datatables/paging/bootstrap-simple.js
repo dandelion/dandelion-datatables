@@ -14,7 +14,7 @@ $.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
  
 /* Bootstrap style pagination control */
 $.extend( $.fn.dataTableExt.oPagination, {
-    "bootstrap": {
+    "bootstrap_simple": {
         "fnInit": function( oSettings, nPaging, fnDraw ) {
             var oLang = oSettings.oLanguage.oPaginate;
             var fnClickHandler = function ( e ) {

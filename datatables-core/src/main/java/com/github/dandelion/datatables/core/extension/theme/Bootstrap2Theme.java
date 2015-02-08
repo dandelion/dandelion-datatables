@@ -33,7 +33,7 @@ import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.generator.js.JsSnippet;
 import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
-import com.github.dandelion.datatables.core.extension.feature.PaginationType;
+import com.github.dandelion.datatables.core.extension.feature.PagingType;
 import com.github.dandelion.datatables.core.generator.DTConstants;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
@@ -65,9 +65,9 @@ public class Bootstrap2Theme extends AbstractExtension {
 
 		Boolean paging = DatatableOptions.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration());
 		if (paging != null && paging == true) {
-			addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP);
-			if (DatatableOptions.FEATURE_PAGINATIONTYPE.valueFrom(table.getTableConfiguration()) == null) {
-				addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP.toString());
+			addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP_SIMPLE);
+			if (DatatableOptions.FEATURE_PAGINGTYPE.valueFrom(table.getTableConfiguration()) == null) {
+				addParameter(DTConstants.DT_PAGINGTYPE, PagingType.BOOTSTRAP_SIMPLE.toString());
 			}
 		}
 

@@ -46,20 +46,20 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  * </ul>
  * 
  * @author Thibault Duchateau
- * @see DatatableOptions#FEATURE_PAGINATIONTYPE
+ * @see DatatableOptions#FEATURE_PAGINGTYPE
  */
-public class PaginationTypeScrollingFeature extends AbstractExtension {
+public class PagingTypeScrollingFeature extends AbstractExtension {
 
-	public static final String PAGINATION_TYPE_SCROLLING_FEATURE_NAME = "paginationTypeScrolling";
+	public static final String FEATURE_NAME = "pagingTypeScrolling";
 
 	@Override
 	public String getExtensionName() {
-		return PAGINATION_TYPE_SCROLLING_FEATURE_NAME;
+		return FEATURE_NAME;
 	}
 
 	@Override
 	public void setup(HtmlTable table) {
 		addBundle(DatatableBundles.DDL_DT_PAGING_SCROLLING);
-		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.SCROLLING.toString());
+		addParameter(DTConstants.DT_PAGINGTYPE, PagingType.SCROLLING.toString());
 	}
 }

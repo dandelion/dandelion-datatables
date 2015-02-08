@@ -51,7 +51,7 @@ import com.github.dandelion.core.asset.generator.js.JsFunction;
 import com.github.dandelion.core.asset.generator.js.JsSnippet;
 import com.github.dandelion.core.web.WebConstants;
 import com.github.dandelion.datatables.core.export.ReservedFormat;
-import com.github.dandelion.datatables.core.extension.feature.PaginationType;
+import com.github.dandelion.datatables.core.extension.feature.PagingType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
@@ -329,7 +329,7 @@ public class DatatablesGeneratorTest {
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(2);
-		assertThat(mainConf.get(DTConstants.DT_PAGINATE)).isEqualTo(true);
+		assertThat(mainConf.get(DTConstants.DT_PAGING)).isEqualTo(true);
 	}
 
 	@Test
@@ -354,12 +354,12 @@ public class DatatablesGeneratorTest {
 
 	@Test
 	public void should_set_pagination_type() {
-		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_PAGINATIONTYPE, PaginationType.INPUT);
+		table.getTableConfiguration().addOption(DatatableOptions.FEATURE_PAGINGTYPE, PagingType.INPUT);
 
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(2);
-		assertThat(mainConf.get(DTConstants.DT_PAGINATION_TYPE)).isEqualTo(PaginationType.INPUT.toString());
+		assertThat(mainConf.get(DTConstants.DT_PAGINGTYPE)).isEqualTo(PagingType.INPUT.toString());
 	}
 
 	@Test

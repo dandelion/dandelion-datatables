@@ -84,7 +84,7 @@ public class FeatureEnablementTest extends DomBaseTest {
 	@Test
 	public void should_enable_paginate(){
 		assertThat(DatatableOptions.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration())).isTrue();
-		assertThat(mainConf.containsKey(DTConstants.DT_PAGINATE)).isTrue();
-		assertThat(mainConf.get(DTConstants.DT_PAGINATE)).isEqualTo(true);
+		assertThat(mainConf.containsKey(DTConstants.DT_PAGING)).isTrue();
+		assertThat(mainConf.get(DTConstants.DT_PAGING)).isEqualTo(true);
 	}
 }

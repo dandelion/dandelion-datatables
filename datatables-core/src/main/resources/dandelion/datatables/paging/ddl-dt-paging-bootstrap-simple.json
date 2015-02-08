@@ -2,10 +2,10 @@
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "name": "paging-scrolling",
+            "name": "paging-bootstrap-simple",
             "version" : "fixed",
             "locations": {
-                "jar": "dandelion/datatables/paging/scrolling.js"
+                "jar": "dandelion/datatables/paging/bootstrap-simple.js"
             }
         }
     ]

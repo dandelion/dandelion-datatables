@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2012 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -27,45 +27,39 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.thymeleaf.processor.attr;
+package com.github.dandelion.datatables.core.extension.feature;
 
-import java.util.Map;
-
-import org.thymeleaf.Arguments;
-import org.thymeleaf.dom.Element;
-import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
-
+import com.github.dandelion.datatables.core.DatatableBundles;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.generator.DTConstants;
+import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
-import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
-import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
  * <p>
- * Attribute processor applied to the {@code table} and associated with the
- * {@link DatatableOptions#FEATURE_PAGINATIONTYPE} option.
+ * Activates the ListBox pagination by:
  * </p>
+ * <ul>
+ * <li>Updating the bundle graph with the bundle
+ * <code>paginationType-listbox</code></li>
+ * <li>Setting the pagination type to <code>listbox</code></li>
+ * </ul>
  * 
  * @author Thibault Duchateau
+ * @see DatatableOptions#FEATURE_PAGINGTYPE
  */
-public class TablePaginationTypeAttrProcessor extends AbstractTableAttrProcessor {
+public class PagingTypeListboxFeature extends AbstractExtension {
 
-	public TablePaginationTypeAttrProcessor(IAttributeNameProcessorMatcher matcher) {
-		super(matcher);
+	public static final String FEATURE_NAME = "pagingTypeListbox";
+
+	@Override
+	public String getExtensionName() {
+		return FEATURE_NAME;
 	}
 
 	@Override
-	public int getPrecedence() {
-		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
-	}
-
-	@Override
-	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-			Map<Option<?>, Object> stagingConf) {
-
-		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
-
-		stagingConf.put(DatatableOptions.FEATURE_PAGINATIONTYPE, attrValue);
+	public void setup(HtmlTable table) {
+		addBundle(DatatableBundles.DDL_DT_PAGING_LISTBOX);
+		addParameter(DTConstants.DT_PAGINGTYPE, PagingType.LISTBOX.toString());
 	}
 }

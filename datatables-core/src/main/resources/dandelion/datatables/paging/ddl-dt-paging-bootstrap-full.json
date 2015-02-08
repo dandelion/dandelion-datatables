@@ -1,0 +1,12 @@
+{
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "paging-bootstrap-full",
+            "version": "fixed",
+            "locations": {
+                "jar": "dandelion/datatables/paging/bootstrap-full.js"
+            }
+        }
+    ]
+}

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -27,39 +27,45 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.extension.feature;
+package com.github.dandelion.datatables.thymeleaf.processor.attr;
 
-import com.github.dandelion.datatables.core.DatatableBundles;
-import com.github.dandelion.datatables.core.extension.AbstractExtension;
-import com.github.dandelion.datatables.core.generator.DTConstants;
-import com.github.dandelion.datatables.core.html.HtmlTable;
+import java.util.Map;
+
+import org.thymeleaf.Arguments;
+import org.thymeleaf.dom.Element;
+import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
+
 import com.github.dandelion.datatables.core.option.DatatableOptions;
+import com.github.dandelion.datatables.core.option.Option;
+import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
+import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
 
 /**
  * <p>
- * Activates the FourButton pagination by:
+ * Attribute processor applied to the {@code table} and associated with the
+ * {@link DatatableOptions#FEATURE_PAGINGTYPE} option.
  * </p>
- * <ul>
- * <li>Updating the bundle graph with the bundle
- * <code>paginationType-fourbutton</code></li>
- * <li>Setting the pagination type to <code>four_button</code></li>
- * </ul>
  * 
  * @author Thibault Duchateau
- * @see DatatableOptions#FEATURE_PAGINATIONTYPE
  */
-public class PaginationTypeFourButtonFeature extends AbstractExtension {
+public class TablePagingTypeAttrProcessor extends AbstractTableAttrProcessor {
 
-	public static final String PAGINATION_TYPE_FOURBUTTON_FEATURE_NAME = "paginationTypeFourButton";
-	
-	@Override
-	public String getExtensionName() {
-		return PAGINATION_TYPE_FOURBUTTON_FEATURE_NAME;
+	public TablePagingTypeAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+		super(matcher);
 	}
 
 	@Override
-	public void setup(HtmlTable table) {
-		addBundle(DatatableBundles.DDL_DT_PAGING_FOURBUTTON);
-		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.FOUR_BUTTON.toString());
+	public int getPrecedence() {
+		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
+	}
+
+	@Override
+	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
+			Map<Option<?>, Object> stagingConf) {
+
+		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
+
+		stagingConf.put(DatatableOptions.FEATURE_PAGINGTYPE, attrValue);
 	}
 }

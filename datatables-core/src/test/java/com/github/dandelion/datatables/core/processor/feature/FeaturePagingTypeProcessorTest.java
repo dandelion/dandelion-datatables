@@ -31,53 +31,53 @@ package com.github.dandelion.datatables.core.processor.feature;
 
 import org.junit.Test;
 
-import com.github.dandelion.datatables.core.extension.feature.PaginationType;
-import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFeature;
-import com.github.dandelion.datatables.core.extension.feature.PaginationTypeInputFeature;
+import com.github.dandelion.datatables.core.extension.feature.PagingType;
+import com.github.dandelion.datatables.core.extension.feature.PagingTypeBootstrapSimpleFeature;
+import com.github.dandelion.datatables.core.extension.feature.PagingTypeInputFeature;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
-import com.github.dandelion.datatables.core.option.processor.feature.FeaturePaginationTypeProcessor;
+import com.github.dandelion.datatables.core.option.processor.feature.FeaturePagingTypeProcessor;
 import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FeaturePaginationTypeProcessorTest extends TableProcessorBaseTest {
+public class FeaturePagingTypeProcessorTest extends TableProcessorBaseTest {
 
 	@Override
 	public OptionProcessor getProcessor() {
-		return new FeaturePaginationTypeProcessor();
+		return new FeaturePagingTypeProcessor();
 	}
 
 	@Test
-	public void should_set_paginationtype() {
-		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_PAGINATIONTYPE, "bootstrap");
+	public void should_set_pagingType() {
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_PAGINGTYPE, "bootstrap_simple");
 		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
 		processor.process(pc);
 		
-		assertThat(entry.getValue()).isEqualTo(PaginationType.BOOTSTRAP);
-		assertThat(tableConfiguration.getInternalExtensions()).contains(new PaginationTypeBootstrapFeature());
+		assertThat(entry.getValue()).isEqualTo(PagingType.BOOTSTRAP_SIMPLE);
+		assertThat(tableConfiguration.getInternalExtensions()).contains(new PagingTypeBootstrapSimpleFeature());
 
-		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_PAGINATIONTYPE, "BOOTSTRAP");
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_PAGINGTYPE, "BOOTSTRAP_SIMPLE");
 		pc = new OptionProcessingContext(entry, tableConfiguration, null);
 		processor.process(pc);
 		
-		assertThat(entry.getValue()).isEqualTo(PaginationType.BOOTSTRAP);
-		assertThat(tableConfiguration.getInternalExtensions()).contains(new PaginationTypeBootstrapFeature());
+		assertThat(entry.getValue()).isEqualTo(PagingType.BOOTSTRAP_SIMPLE);
+		assertThat(tableConfiguration.getInternalExtensions()).contains(new PagingTypeBootstrapSimpleFeature());
 
-		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_PAGINATIONTYPE, "INPUT");
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_PAGINGTYPE, "INPUT");
 		pc = new OptionProcessingContext(entry, tableConfiguration, null);
 		processor.process(pc);
 		
-		assertThat(entry.getValue()).isEqualTo(PaginationType.INPUT);
-		assertThat(tableConfiguration.getInternalExtensions()).contains(new PaginationTypeInputFeature());
+		assertThat(entry.getValue()).isEqualTo(PagingType.INPUT);
+		assertThat(tableConfiguration.getInternalExtensions()).contains(new PagingTypeInputFeature());
 	}
 
 	@Test
 	public void should_set_a_custom_paginationType_ans_no_extension() {
-		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_PAGINATIONTYPE, "custom-pagination-type");
+		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_PAGINGTYPE, "custom-pagination-type");
 		assertThat(entry.getValue()).isEqualTo("custom-pagination-type");
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
 	}

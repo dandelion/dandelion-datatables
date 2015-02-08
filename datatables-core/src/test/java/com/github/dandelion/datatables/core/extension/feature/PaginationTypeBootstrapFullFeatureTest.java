@@ -13,14 +13,14 @@ import com.github.dandelion.datatables.core.generator.DTConstants;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 
-public class PaginationTypeFourButtonFeatureTest  extends AbstractExtensionTest {
+public class PaginationTypeBootstrapFullFeatureTest  extends AbstractExtensionTest {
 
 	@Test
 	public void shoud_load_the_extension() {
 		
-		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new PaginationTypeFourButtonFeature())));
+		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new PagingTypeBootstrapFullFeature())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
-		assertThat(mainConfig).contains(entry(DTConstants.DT_PAGINATION_TYPE, "four_button"));
+		assertThat(mainConfig).contains(entry(DTConstants.DT_PAGINGTYPE, "bootstrap_full"));
 	}
 }

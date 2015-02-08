@@ -3,6 +3,7 @@
     "assets": [
         {
             "name": "paging-input",
+            "version" : "fixed",
             "locations": {
                 "jar": "dandelion/datatables/paging/input.js"
             }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2012 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -37,26 +37,29 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
- * Alternative pagination style mixing {@link PaginationTypeBootstrapFeature}
- * and {@link PaginationTypeFourButtonFeature}.
+ * Activates the ExtJS pagination by:
  * </p>
+ * <ul>
+ * <li>Updating the bundle graph with the bundle
+ * <code>paginationType-extjs</code></li>
+ * <li>Setting the pagination type to <code>extStyle</code></li>
+ * </ul>
  * 
  * @author Thibault Duchateau
- * @author Serdyn du Toit
- * @see DatatableOptions#FEATURE_PAGINATIONTYPE
+ * @see DatatableOptions#FEATURE_PAGINGTYPE
  */
-public class PaginationTypeBootstrapFourButtonFeature extends AbstractExtension {
+public class PagingTypeExtJsFeature extends AbstractExtension {
 
-	public static final String PAGINATION_TYPE_BS_FOURBUTTON_FEATURE_NAME = "paginationTypeBootstrapFourButton";
+	public static final String FEATURE_NAME = "paginationTypeExtJS";
 
 	@Override
 	public String getExtensionName() {
-		return PAGINATION_TYPE_BS_FOURBUTTON_FEATURE_NAME;
+		return FEATURE_NAME;
 	}
 
 	@Override
 	public void setup(HtmlTable table) {
-		addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP_FOURBUTTON);
-		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.BOOTSTRAP_FOUR_BUTTON.toString());
+		addBundle(DatatableBundles.DDL_DT_PAGING_EXTJS);
+		addParameter(DTConstants.DT_PAGINGTYPE, PagingType.EXTSTYLE.toString());
 	}
 }

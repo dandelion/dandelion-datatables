@@ -103,13 +103,12 @@ public enum DatatableBundles {
 	DDL_DT_SORTING_SIGNED_NUM("ddl-dt-sorting-signed-num"),
 	DDL_DT_SORTING_TURKISH_STRING("ddl-dt-sorting-turkish-string"),
 	
-	DDL_DT_PAGING_BOOTSTRAP("ddl-dt-paging-bootstrap"),
 	DDL_DT_PAGING_INPUT("ddl-dt-paging-input"),
 	DDL_DT_PAGING_SCROLLING("ddl-dt-paging-scrolling"),
 	DDL_DT_PAGING_EXTJS("ddl-dt-paging-extjs"),
 	DDL_DT_PAGING_LISTBOX("ddl-dt-paging-listbox"),
-	DDL_DT_PAGING_FOURBUTTON("ddl-dt-paging-fourbutton"),
-	DDL_DT_PAGING_BOOTSTRAP_FOURBUTTON("ddl-dt-paging-bootstrap-four-button"),
+	DDL_DT_PAGING_BOOTSTRAP_SIMPLE("ddl-dt-paging-bootstrap-simple"),
+	DDL_DT_PAGING_BOOTSTRAP_FULL("ddl-dt-paging-bootstrap-full"),
 	DDL_DT_PAGING_BOOTSTRAP_FULLNUMBERS("ddl-dt-paging-bootstrap-full-numbers");
 	
 	private String bundleName;

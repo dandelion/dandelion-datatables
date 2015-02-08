@@ -33,33 +33,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.utils.StringUtils;
-import com.github.dandelion.datatables.core.extension.feature.PaginationType;
-import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFeature;
-import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFourButtonFeature;
-import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFullNumbersFeature;
-import com.github.dandelion.datatables.core.extension.feature.PaginationTypeFourButtonFeature;
-import com.github.dandelion.datatables.core.extension.feature.PaginationTypeInputFeature;
-import com.github.dandelion.datatables.core.extension.feature.PaginationTypeListboxFeature;
-import com.github.dandelion.datatables.core.extension.feature.PaginationTypeScrollingFeature;
+import com.github.dandelion.datatables.core.extension.feature.PagingType;
+import com.github.dandelion.datatables.core.extension.feature.PagingTypeBootstrapFullFeature;
+import com.github.dandelion.datatables.core.extension.feature.PagingTypeBootstrapFullNumbersFeature;
+import com.github.dandelion.datatables.core.extension.feature.PagingTypeBootstrapSimpleFeature;
+import com.github.dandelion.datatables.core.extension.feature.PagingTypeExtJsFeature;
+import com.github.dandelion.datatables.core.extension.feature.PagingTypeInputFeature;
+import com.github.dandelion.datatables.core.extension.feature.PagingTypeListboxFeature;
+import com.github.dandelion.datatables.core.extension.feature.PagingTypeScrollingFeature;
 import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 
-public class FeaturePaginationTypeProcessor extends AbstractOptionProcessor {
+public class FeaturePagingTypeProcessor extends AbstractOptionProcessor {
 
-	private static Logger logger = LoggerFactory.getLogger(FeaturePaginationTypeProcessor.class);
+	private static Logger logger = LoggerFactory.getLogger(FeaturePagingTypeProcessor.class);
 
 	@Override
 	protected Object getProcessedValue(OptionProcessingContext context) {
 
 		String valueAsString = context.getValueAsString();
-		PaginationType retval = null;
+		PagingType retval = null;
 
 		if (StringUtils.isNotBlank(valueAsString)) {
 
 			// Let first try to match the value against an existing pagination
 			// type
 			try {
-				retval = PaginationType.valueOf(valueAsString.toUpperCase());
+				retval = PagingType.valueOf(valueAsString.toUpperCase());
 			}
 			// If not, we assume that you have previously registered an
 			// extension using the Extension mechanism
@@ -73,34 +73,33 @@ public class FeaturePaginationTypeProcessor extends AbstractOptionProcessor {
 
 				switch (retval) {
 				case INPUT:
-					context.registerExtension(PaginationTypeInputFeature.PAGINATION_TYPE_INPUT_FEATURE_NAME);
+					context.registerExtension(PagingTypeInputFeature.FEATURE_NAME);
 					break;
 				case LISTBOX:
-					context.registerExtension(PaginationTypeListboxFeature.PAGINATION_TYPE_LISTBOX_FEATURE_NAME);
+					context.registerExtension(PagingTypeListboxFeature.FEATURE_NAME);
 					break;
 				case SCROLLING:
-					context.registerExtension(PaginationTypeScrollingFeature.PAGINATION_TYPE_SCROLLING_FEATURE_NAME);
+					context.registerExtension(PagingTypeScrollingFeature.FEATURE_NAME);
 					break;
-				case FOUR_BUTTON:
-					context.registerExtension(PaginationTypeFourButtonFeature.PAGINATION_TYPE_FOURBUTTON_FEATURE_NAME);
-					break;
-
+				case EXTSTYLE:
+               context.registerExtension(PagingTypeExtJsFeature.FEATURE_NAME);
+               break;
+               
 				// --- Bootstrap 2 styles ---
-				case BOOTSTRAP:
-					context.registerExtension(PaginationTypeBootstrapFeature.PAGINATION_TYPE_BS_FEATURE_NAME);
+				case BOOTSTRAP_SIMPLE:
+					context.registerExtension(PagingTypeBootstrapSimpleFeature.FEATURE_NAME);
 					break;
-				case BOOTSTRAP_FOUR_BUTTON:
-					context.registerExtension(PaginationTypeBootstrapFourButtonFeature.PAGINATION_TYPE_BS_FOURBUTTON_FEATURE_NAME);
+				case BOOTSTRAP_FULL:
+					context.registerExtension(PagingTypeBootstrapFullFeature.FEATURE_NAME);
 					break;
 				case BOOTSTRAP_FULL_NUMBERS:
-					context.registerExtension(PaginationTypeBootstrapFullNumbersFeature.PAGINATION_TYPE_BS_FULLNUMBERS_FEATURE_NAME);
+					context.registerExtension(PagingTypeBootstrapFullNumbersFeature.FEATURE_NAME);
 					break;
 
 				default:
 					break;
 				}
 			}
-
 		}
 
 		return retval;

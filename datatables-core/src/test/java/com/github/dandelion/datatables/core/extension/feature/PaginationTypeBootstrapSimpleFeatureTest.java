@@ -13,15 +13,15 @@ import com.github.dandelion.datatables.core.generator.DTConstants;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 
-public class PaginationTypeBootstrapFeatureTest  extends AbstractExtensionTest {
+public class PaginationTypeBootstrapSimpleFeatureTest  extends AbstractExtensionTest {
 
 
 	@Test
 	public void shoud_load_the_extension() {
 		
-		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new PaginationTypeBootstrapFeature())));
+		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new PagingTypeBootstrapSimpleFeature())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
-		assertThat(mainConfig).contains(entry(DTConstants.DT_PAGINATION_TYPE, "bootstrap"));
+		assertThat(mainConfig).contains(entry(DTConstants.DT_PAGINGTYPE, "bootstrap_simple"));
 	}
 }

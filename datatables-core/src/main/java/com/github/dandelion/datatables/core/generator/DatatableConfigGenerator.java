@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 import com.github.dandelion.core.asset.generator.js.JsSnippet;
 import com.github.dandelion.core.utils.StringUtils;
 import com.github.dandelion.datatables.core.export.ReservedFormat;
-import com.github.dandelion.datatables.core.extension.feature.PaginationType;
+import com.github.dandelion.datatables.core.extension.feature.PagingType;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.option.Callback;
@@ -131,7 +131,7 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 			mainConf.put(DTConstants.DT_INFO, featureInfo);
 		}
 		if (featurePaginate != null) {
-			mainConf.put(DTConstants.DT_PAGINATE, featurePaginate);
+			mainConf.put(DTConstants.DT_PAGING, featurePaginate);
 		}
 		if (featureSort != null) {
 			mainConf.put(DTConstants.DT_SORT, featureSort);
@@ -149,7 +149,7 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 		String cssStripeClasses = DatatableOptions.CSS_STRIPECLASSES.valueFrom(tableConfiguration);
 		Integer featureDisplayLength = DatatableOptions.FEATURE_DISPLAYLENGTH.valueFrom(tableConfiguration);
 		Boolean featureLengthChange = DatatableOptions.FEATURE_LENGTHCHANGE.valueFrom(tableConfiguration);
-		PaginationType featurePaginationType = DatatableOptions.FEATURE_PAGINATIONTYPE.valueFrom(tableConfiguration);
+		PagingType featurePaginationType = DatatableOptions.FEATURE_PAGINGTYPE.valueFrom(tableConfiguration);
 		Boolean featureStateSave = DatatableOptions.FEATURE_STATESAVE.valueFrom(tableConfiguration);
 		Boolean featureJqueryUi = DatatableOptions.FEATURE_JQUERYUI.valueFrom(tableConfiguration);
 
@@ -166,7 +166,7 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 			mainConf.put(DTConstants.DT_LENGTH_CHANGE, featureLengthChange);
 		}
 		if (featurePaginationType != null) {
-			mainConf.put(DTConstants.DT_PAGINATION_TYPE, featurePaginationType.toString());
+			mainConf.put(DTConstants.DT_PAGINGTYPE, featurePaginationType.toString());
 		}
 		if (featureStateSave != null) {
 			mainConf.put(DTConstants.DT_STATE_SAVE, featureStateSave);

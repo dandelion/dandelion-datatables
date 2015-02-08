@@ -32,7 +32,7 @@ package com.github.dandelion.datatables.core.extension;
 import java.util.List;
 
 import com.github.dandelion.datatables.core.extension.feature.AbstractFilteringFeature;
-import com.github.dandelion.datatables.core.extension.feature.PaginationTypeBootstrapFeature;
+import com.github.dandelion.datatables.core.extension.feature.PagingTypeBootstrapSimpleFeature;
 import com.github.dandelion.datatables.core.extension.plugin.ColReorderPlugin;
 import com.github.dandelion.datatables.core.extension.plugin.ScrollerPlugin;
 import com.github.dandelion.datatables.core.extension.theme.Bootstrap2Theme;
@@ -42,7 +42,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * <p>
  * Common interface for all extensions. An extension can be a plugin (e.g.
  * {@link ScrollerPlugin}, {@link ColReorderPlugin}), a feature (e.g.
- * {@link PaginationTypeBootstrapFeature}, {@link AbstractFilteringFeature}
+ * {@link PagingTypeBootstrapSimpleFeature}, {@link AbstractFilteringFeature}
  * add-on) or a theme (e.g. {@link Bootstrap2Theme}).
  * <p>
  * 

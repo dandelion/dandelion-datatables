@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
-import com.github.dandelion.datatables.core.extension.feature.PaginationType;
+import com.github.dandelion.datatables.core.extension.feature.PagingType;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
 import com.github.dandelion.datatables.core.generator.YadcfConfigGenerator.FilterType;
 import com.github.dandelion.datatables.core.option.processor.BooleanProcessor;
@@ -65,7 +65,7 @@ import com.github.dandelion.datatables.core.option.processor.feature.FeatureAppe
 import com.github.dandelion.datatables.core.option.processor.feature.FeatureFilterPlaceholderProcessor;
 import com.github.dandelion.datatables.core.option.processor.feature.FeatureFilterSelectorProcessor;
 import com.github.dandelion.datatables.core.option.processor.feature.FeatureLengthMenuProcessor;
-import com.github.dandelion.datatables.core.option.processor.feature.FeaturePaginationTypeProcessor;
+import com.github.dandelion.datatables.core.option.processor.feature.FeaturePagingTypeProcessor;
 import com.github.dandelion.datatables.core.option.processor.i18n.MessageProcessor;
 import com.github.dandelion.datatables.core.option.processor.main.MainExtensionNamesProcessor;
 
@@ -120,8 +120,8 @@ public final class DatatableOptions {
 			new StringProcessor(), 100);
 	public static final Option<Boolean> FEATURE_PAGEABLE = new Option<Boolean>("feature.pageable",
 			new BooleanProcessor(), 100);
-	public static final Option<PaginationType> FEATURE_PAGINATIONTYPE = new Option<PaginationType>(
-			"feature.paginationType", new FeaturePaginationTypeProcessor(), 100);
+	public static final Option<PagingType> FEATURE_PAGINGTYPE = new Option<PagingType>(
+			"feature.pagingType", new FeaturePagingTypeProcessor(), 100);
 	public static final Option<Boolean> FEATURE_LENGTHCHANGE = new Option<Boolean>("feature.lengthChange",
 			new BooleanProcessor(), 100);
 	public static final Option<Boolean> FEATURE_SORTABLE = new Option<Boolean>("feature.sortable",

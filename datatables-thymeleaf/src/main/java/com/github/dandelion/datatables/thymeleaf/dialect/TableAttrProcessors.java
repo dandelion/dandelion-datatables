@@ -55,7 +55,7 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TableInfoAttrPro
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableLengthChangeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableLengthMenuAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePageableAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePaginationTypeAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePagingTypeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxPipeSizeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxPipeliningAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableProcessingAttrProcessor;
@@ -89,7 +89,7 @@ public enum TableAttrProcessors {
     BASIC_AUTO_WIDTH(TableAutoWidthAttrProcessor.class, "autoWidth", "table"),
     BASIC_FILTERABLE(TableFilterableAttrProcessor.class, "filterable", "table"),
     BASIC_INFO(TableInfoAttrProcessor.class, "info", "table"),
-    BASIC_PAGINATE(TablePageableAttrProcessor.class, "pageable", "table"),
+    BASIC_PAGEABLE(TablePageableAttrProcessor.class, "pageable", "table"),
     BASIC_SORTABLE(TableSortableAttrProcessor.class, "sortable", "table"),
     BASIC_APPEAR(TableAppearAttrProcessor.class, "appear", "table"),
     BASIC_FILTER_PLACEHOLDER(TableFilterPlaceholderAttrProcessor.class, "filterPlaceholder", "table"),
@@ -97,7 +97,7 @@ public enum TableAttrProcessors {
     BASIC_FILTER_SELECTOR(TableFilterSelectorAttrProcessor.class, "filterSelector", "table"),
     BASIC_FILTER_CLEAR_SELECTOR(TableFilterClearSelectorAttrProcessor.class, "filterClearSelector", "table"),
     BASIC_FILTER_TRIGGER(TableFilterTriggerAttrProcessor.class, "filterTrigger", "table"),
-    BASIC_PAGINATION_TYPE(TablePaginationTypeAttrProcessor.class, "paginationType", "table"),
+    BASIC_PAGING_TYPE(TablePagingTypeAttrProcessor.class, "pagingType", "table"),
     BASIC_LENGTH_MENU(TableLengthMenuAttrProcessor.class, "lengthMenu", "table"),
     BASIC_LENGTH_CHANGE(TableLengthChangeAttrProcessor.class, "lengthChange", "table"),
     BASIC_STRIPE_CLASSES(TableStripeClassesAttrProcessor.class, "stripeClasses", "table"),

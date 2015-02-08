@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -37,29 +37,26 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
 
 /**
  * <p>
- * Activates the ExtJS pagination by:
+ * Alternative pagination style mixing the full numbers
+ * {@link PagingTypeBootstrapSimpleFeature} and full numbers.
  * </p>
- * <ul>
- * <li>Updating the bundle graph with the bundle
- * <code>paginationType-extjs</code></li>
- * <li>Setting the pagination type to <code>extStyle</code></li>
- * </ul>
  * 
  * @author Thibault Duchateau
- * @see DatatableOptions#FEATURE_PAGINATIONTYPE
+ * @author Serdyn du Toit
+ * @see DatatableOptions#FEATURE_PAGINGTYPE
  */
-public class PaginationTypeExtJsFeature extends AbstractExtension {
+public class PagingTypeBootstrapFullNumbersFeature extends AbstractExtension {
 
-	public static final String PAGINATION_TYPE_EXTJS_FEATURE_NAME = "paginationTypeExtJS";
+	public static final String FEATURE_NAME = "pagingTypeBootstrapFullNumbers";
 
 	@Override
 	public String getExtensionName() {
-		return PAGINATION_TYPE_EXTJS_FEATURE_NAME;
+		return FEATURE_NAME;
 	}
 
 	@Override
 	public void setup(HtmlTable table) {
-		addBundle(DatatableBundles.DDL_DT_PAGING_EXTJS);
-		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.EXTSTYLE.toString());
+		addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP_FULLNUMBERS);
+		addParameter(DTConstants.DT_PAGINGTYPE, PagingType.BOOTSTRAP_FULL_NUMBERS.toString());
 	}
 }

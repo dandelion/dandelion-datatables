@@ -225,8 +225,8 @@ public class TableTag extends AbstractTableTag {
 		stagingConf.put(DatatableOptions.AJAX_SERVERSIDE, serverSide);
 	}
 	
-	public void setPaginationType(String paginationType) {
-		stagingConf.put(DatatableOptions.FEATURE_PAGINATIONTYPE, paginationType);
+	public void setPagingType(String pagingType) {
+		stagingConf.put(DatatableOptions.FEATURE_PAGINGTYPE, pagingType);
 	}
 
 	public void setSortable(boolean sortable) {

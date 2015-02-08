@@ -18,9 +18,9 @@ public class PaginationTypeScrollingFeatureTest  extends AbstractExtensionTest {
 	@Test
 	public void shoud_load_the_extension() {
 		
-		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new PaginationTypeScrollingFeature())));
+		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new PagingTypeScrollingFeature())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
-		assertThat(mainConfig).contains(entry(DTConstants.DT_PAGINATION_TYPE, "scrolling"));
+		assertThat(mainConfig).contains(entry(DTConstants.DT_PAGINGTYPE, "scrolling"));
 	}
 }

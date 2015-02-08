@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2014 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,29 +29,34 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
+import com.github.dandelion.datatables.core.DatatableBundles;
+import com.github.dandelion.datatables.core.extension.AbstractExtension;
+import com.github.dandelion.datatables.core.generator.DTConstants;
+import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.DatatableOptions;
+
 /**
  * <p>
- * Enum containing all alternative pagination style.
+ * Alternative pagination style mixing {@link PagingTypeBootstrapSimpleFeature}
+ * and {@link PagingTypeFourButtonFeature}.
  * </p>
  * 
  * @author Thibault Duchateau
+ * @author Serdyn du Toit
+ * @see DatatableOptions#FEATURE_PAGINGTYPE
  */
-public enum PaginationType {
-	FOUR_BUTTON,
-	FULL_NUMBERS,
-	INPUT,
-	LISTBOX,
-	SCROLLING,
-	TWO_BUTTON,
-	EXTSTYLE,
-	
-	// --- Bootstrap 2 styles ---
-	BOOTSTRAP, // Previous, 1-5, Next
-	BOOTSTRAP_FOUR_BUTTON, // First, Previous, Next, Last
-	BOOTSTRAP_FULL_NUMBERS; // First, Previous, 1-5, Next, Last
-	
+public class PagingTypeBootstrapFullFeature extends AbstractExtension {
+
+	public static final String FEATURE_NAME = "pagingTypeBootstrapFull";
+
 	@Override
-	public String toString() {
-	    return this.name().toLowerCase();
+	public String getExtensionName() {
+		return FEATURE_NAME;
+	}
+
+	@Override
+	public void setup(HtmlTable table) {
+		addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP_FULL);
+		addParameter(DTConstants.DT_PAGINGTYPE, PagingType.BOOTSTRAP_FULL.toString());
 	}
 }

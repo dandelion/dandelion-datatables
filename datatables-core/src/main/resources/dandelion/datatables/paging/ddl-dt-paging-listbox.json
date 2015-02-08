@@ -3,6 +3,7 @@
     "assets": [
         {
             "name": "paging-listbox",
+            "version" : "fixed",
             "locations": {
                 "jar": "dandelion/datatables/paging/listbox.js"
             }

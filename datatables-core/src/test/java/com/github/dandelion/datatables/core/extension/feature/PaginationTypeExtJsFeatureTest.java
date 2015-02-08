@@ -18,9 +18,9 @@ public class PaginationTypeExtJsFeatureTest  extends AbstractExtensionTest {
 	@Test
 	public void shoud_load_the_extension() {
 		
-		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new PaginationTypeExtJsFeature())));
+		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new PagingTypeExtJsFeature())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
-		assertThat(mainConfig).contains(entry(DTConstants.DT_PAGINATION_TYPE, PaginationType.EXTSTYLE.toString()));
+		assertThat(mainConfig).contains(entry(DTConstants.DT_PAGINGTYPE, PagingType.EXTSTYLE.toString()));
 	}
 }

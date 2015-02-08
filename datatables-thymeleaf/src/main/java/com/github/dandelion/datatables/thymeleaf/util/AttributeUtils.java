@@ -41,7 +41,7 @@ import org.thymeleaf.standard.expression.StandardExpressions;
 import com.github.dandelion.datatables.core.ajax.ColumnDef.SortDirection;
 import com.github.dandelion.datatables.core.export.HttpMethod;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
-import com.github.dandelion.datatables.core.extension.feature.PaginationType;
+import com.github.dandelion.datatables.core.extension.feature.PagingType;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.extension.theme.Theme;
 import com.github.dandelion.datatables.core.extension.theme.ThemeOption;
@@ -68,7 +68,7 @@ public class AttributeUtils {
 				ThemeOption.class, 
 				FilterPlaceholder.class, 
 				FilterType.class, 
-				PaginationType.class, 
+				PagingType.class, 
 				SortType.class,
 				HttpMethod.class);
 	}

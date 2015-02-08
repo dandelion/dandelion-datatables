@@ -43,6 +43,7 @@ public final class DTConstants {
 	public static final String DT_SORT = "ordering";
 	public static final String DT_PAGINATE = "paging";
 	public static final String DT_LENGTH_CHANGE = "bLengthChange";
+	public static final String DT_PAGINGTYPE = "pagingType";
 	public static final String DT_STATE_SAVE = "bStateSave";
 	public static final String DT_A_LENGTH_MENU = "aLengthMenu";
 	public static final String DT_AS_STRIPE_CLASSES = "asStripeClasses";
@@ -76,7 +77,6 @@ public final class DTConstants {
 	public static final String DT_B_REGEX_COL = "bRegex_";
 
 	// Advanced configuration
-	public static final String DT_PAGINATION_TYPE = "sPaginationType";
 	public static final String DT_DS_DATA = "aaData";
 	public static final String DT_AOCOLUMNS = "columns";
 	public static final String DT_LANGUAGE = "oLanguage";

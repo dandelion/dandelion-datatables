@@ -133,8 +133,8 @@
       </documentation>
    </attribute-processor>
    
-   <attribute-processor name="paginationType"
-      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TablePaginationTypeAttrProcessor">
+   <attribute-processor name="pagingType"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TablePagingTypeAttrProcessor">
       <restrictions tags="table" attributes="dt:table=true"/>
       <documentation>
          <![CDATA[
@@ -144,9 +144,10 @@
             <li>Required: <b>no</b></li>
             <li>Possible values: 
                <b>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;two_button</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;simple</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;simple_numbers</p>
+               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;full</p>
                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;full_numbers</p>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;four_button</p>
                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scrolling</p>
                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input</p>
                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listbox</p>
@@ -156,9 +157,9 @@
                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bootstrap_four_button</p>
             </b>
             </li>
-            <li>Default: <b>two_button</b></li>
+            <li>Default: <b>simple</b></li>
             <li>Data source: <b>DOM / AJAX</b></li>
-            <li>Configuration property: <b>feature.paginationType</b></li>
+            <li>Configuration property: <b>feature.pagingType</b></li>
             </ul>
             </p>
          ]]>

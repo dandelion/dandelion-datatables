@@ -29,37 +29,33 @@
  */
 package com.github.dandelion.datatables.core.extension.feature;
 
-import com.github.dandelion.datatables.core.DatatableBundles;
-import com.github.dandelion.datatables.core.extension.AbstractExtension;
-import com.github.dandelion.datatables.core.generator.DTConstants;
-import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.option.DatatableOptions;
-
 /**
  * <p>
- * Activates the Input pagination by:
+ * Enum containing all alternative pagination style.
  * </p>
- * <ul>
- * <li>Updating the bundle graph with the bundle <code>paginationType-input</code>
- * </li>
- * <li>Setting the pagination type to <code>input</code></li>
- * </ul>
  * 
  * @author Thibault Duchateau
- * @see DatatableOptions#FEATURE_PAGINATIONTYPE
  */
-public class PaginationTypeInputFeature extends AbstractExtension {
+public enum PagingType {
 
-	public static final String PAGINATION_TYPE_INPUT_FEATURE_NAME = "paginationTypeInput";
+   // Built-in paging type
+   SIMPLE,
+   SIMPLE_NUMBERS,
+   FULL,
+   FULL_NUMBERS,
+   
+	INPUT,
+	LISTBOX,
+	SCROLLING,
+	EXTSTYLE,
+	
+	// --- Bootstrap 2 styles ---
+	BOOTSTRAP_SIMPLE, // Previous, 1-5, Next
+	BOOTSTRAP_FULL, // First, Previous, Next, Last
+	BOOTSTRAP_FULL_NUMBERS; // First, Previous, 1-5, Next, Last
 	
 	@Override
-	public String getExtensionName() {
-		return PAGINATION_TYPE_INPUT_FEATURE_NAME;
-	}
-
-	@Override
-	public void setup(HtmlTable table) {
-		addBundle(DatatableBundles.DDL_DT_PAGING_INPUT);
-		addParameter(DTConstants.DT_PAGINATION_TYPE, PaginationType.INPUT.toString());
+	public String toString() {
+	    return this.name().toLowerCase();
 	}
 }
