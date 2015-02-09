@@ -175,7 +175,7 @@ public class ExportFeature extends AbstractExtension {
 		else {
 			exportFunc.append("$.download('").append(exportConf.getUrl()).append("', decodeURIComponent($.param(")
 					.append(params.toString()).append(")).replace(/\\+/g,' '),'").append(exportConf.getMethod())
-					.append("'));");
+					.append("');");
 		}
 
 		exportFunc.append("}");

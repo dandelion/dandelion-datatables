@@ -81,6 +81,6 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).contains(DatatableBundles.JQUERY_DOWNLOAD.getBundleName());
-		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){$.download('/myExportUrl', decodeURIComponent($.param(oTable_fakeId.ajax.params())).replace(/\\+/g,' '),'POST'));}");
+		assertThat(exportFeature.getBeforeAll().toString()).isEqualTo("function ddl_dt_launch_export_fakeId_csv(){$.download('/myExportUrl', decodeURIComponent($.param(oTable_fakeId.ajax.params())).replace(/\\+/g,' '),'POST');}");
 	}
 }
