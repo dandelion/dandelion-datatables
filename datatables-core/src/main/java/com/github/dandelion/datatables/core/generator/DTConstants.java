@@ -41,13 +41,13 @@ public final class DTConstants {
 	public static final String DT_FILTER = "searching";
 	public static final String DT_INFO = "info";
 	public static final String DT_SORT = "ordering";
-	public static final String DT_PAGINATE = "paging";
-	public static final String DT_LENGTH_CHANGE = "bLengthChange";
+	public static final String DT_PAGING = "paging";
 	public static final String DT_PAGINGTYPE = "pagingType";
+	public static final String DT_LENGTH_CHANGE = "lengthChange";
 	public static final String DT_STATE_SAVE = "bStateSave";
-	public static final String DT_A_LENGTH_MENU = "aLengthMenu";
-	public static final String DT_AS_STRIPE_CLASSES = "asStripeClasses";
-	public static final String DT_S_CLASS = "sClass";
+	public static final String DT_A_LENGTH_MENU = "lengthMenu";
+	public static final String DT_AS_STRIPE_CLASSES = "stripeClasses";
+	public static final String DT_S_CLASS = "className";
 
 	// AJAX related constants
 	public static final String DT_DEFER_RENDER = "deferRender";
@@ -55,9 +55,6 @@ public final class DTConstants {
 	public static final String DT_B_SERVER_SIDE = "serverSide";
 	public static final String DT_S_AJAX_SOURCE = "ajax";
 	public static final String DT_S_AJAXDATAPROP = "dataSrc";
-	public static final String DT_FN_SERVERDATA = "fnServerData";
-	public static final String DT_S_SERVERMETHOD = "sServerMethod";
-	public static final String DT_FN_SERVERPARAMS = "fnServerParams";
 
 	// AJAX URL parameters
 	public static final String DT_I_DRAW = "draw";
@@ -77,31 +74,24 @@ public final class DTConstants {
 	public static final String DT_B_REGEX_COL = "bRegex_";
 
 	// Advanced configuration
-	public static final String DT_DS_DATA = "aaData";
+	public static final String DT_DS_DATA = "data";
 	public static final String DT_AOCOLUMNS = "columns";
-	public static final String DT_LANGUAGE = "oLanguage";
-	public static final String DT_URL = "sUrl";
-	public static final String DT_JQUERYUI = "bJQueryUI";
+	public static final String DT_LANGUAGE = "language";
+	public static final String DT_JQUERYUI = "jQueryUI";
 
 	// Extra features
-	public static final String DT_SCROLLY = "sScrollY";
-	public static final String DT_SCROLLX = "sScrollX";
-	public static final String DT_SCROLLXINNER = "sScrollXInner";
-	public static final String DT_SCROLLCOLLAPSE = "bScrollCollapse";
+	public static final String DT_SCROLLY = "scrollY";
+	public static final String DT_SCROLLX = "scrollX";
+	public static final String DT_SCROLLXINNER = "scrollXInner";
+	public static final String DT_SCROLLCOLLAPSE = "scrollCollapse";
 	public static final String DT_OFFSETTOP = "offsetTop";
 	public static final String DT_FILTER_TYPE = "type";
 	public static final String DT_FILTER_VALUES = "values";
-	public static final String DT_FILTER_CLASS = "sClass";
-	public static final String DT_S_PLACEHOLDER = "sPlaceHolder";
-	public static final String DT_S_FILTERING_TRIGGER = "sFilteringTrigger";
-	public static final String DT_I_FILTERING_DELAY = "iFilteringDelay";
 	public static final String DT_S_SELECTOR = "sSelector";
-	public static final String DT_FILTER_LENGTH = "iFilterLength";
 	public static final String DT_SORT_INIT = "order";
 
 	// Column configuration
 	public static final String DT_NAME = "name";
-	public static final String DT_S_DATEFORMAT = "sDateFormat";
 	public static final String DT_SORTABLE = "orderable";
 	public static final String DT_SEARCHABLE = "searchable";
 	public static final String DT_VISIBLE = "visible";
@@ -123,9 +113,11 @@ public final class DTConstants {
 	public static final String DT_FN_ROW_CBK = "rowCallback";
 
 	/**
-	 * Hidden construtor.
-	 */
-	private DTConstants() {
-
-	}
+    * <p>
+    * Suppress default constructor for noninstantiability.
+    * </p>
+    */
+   private DTConstants() {
+      throw new AssertionError();
+   }
 }
