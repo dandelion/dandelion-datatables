@@ -4,16 +4,16 @@
     "assets": [
         {
             "name": "datatables",
-            "version": "1.10.4",
+            "version": "1.10.5",
             "locations": {
-                "remote": "//cdn.datatables.net/1.10.4/js/jquery.dataTables.js"
+                "remote": "//cdn.datatables.net/1.10.5/js/jquery.dataTables.js"
             }
         },
         {
             "name": "datatables",
-            "version": "1.10.4",
+            "version": "1.10.5",
             "locations": {
-                "remote": "//cdn.datatables.net/1.10.4/css/jquery.dataTables.css"
+                "remote": "//cdn.datatables.net/1.10.5/css/jquery.dataTables.css"
             }
         }
     ]
