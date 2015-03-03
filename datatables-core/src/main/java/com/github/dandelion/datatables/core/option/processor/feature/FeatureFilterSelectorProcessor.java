@@ -1,7 +1,7 @@
 package com.github.dandelion.datatables.core.option.processor.feature;
 
 import com.github.dandelion.core.util.StringUtils;
-import com.github.dandelion.datatables.core.extension.feature.MultiFilterFeature;
+import com.github.dandelion.datatables.core.extension.feature.ExternalFilterFeature;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
@@ -9,7 +9,7 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
 /**
  * As soon as the {@code filterSelector} / {@code dt:filterSelector}
  * (JSP/Thymeleaf) table attribute is used, we assume the end-user wants to use
- * the {@link MultiFilterFeature}.
+ * the {@link ExternalFilterFeature}.
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
@@ -22,7 +22,7 @@ public class FeatureFilterSelectorProcessor extends AbstractOptionProcessor {
 		String valueAsString = context.getValueAsString();
 		
 		if (StringUtils.isNotBlank(valueAsString)) {
-			context.registerExtension(MultiFilterFeature.MULTI_FILTER_FEATURE_NAME);
+			context.registerExtension(ExternalFilterFeature.FEATURE_NAME);
 			context.addTableEntry(DatatableOptions.FEATURE_FILTER_TRIGGER, "click");
 		}
 		

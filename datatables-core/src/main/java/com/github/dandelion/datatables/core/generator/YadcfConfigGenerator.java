@@ -108,6 +108,11 @@ public class YadcfConfigGenerator {
 					columnConf.put("data", new JsSnippet(filterValues));
 				}
 
+				String filterSelector = DatatableOptions.FEATURE_FILTER_SELECTOR.valueFrom(table);
+				if(StringUtils.isNotBlank(filterSelector)) {
+				   columnConf.put("externally_triggered", true);
+				}
+				
 				// Filtering delay
 				Integer filterColumnDelay = DatatableOptions.FEATURE_FILTER_DELAY.valueFrom(table
 						.getTableConfiguration());

@@ -86,8 +86,6 @@ public enum DatatableBundles {
 	DDL_DT_THEME_JQUERYUI_UILIGHTNESS("ddl-dt-theme-jqueryui-uilightness"),
 	DDL_DT_THEME_JQUERYUI_VADER("ddl-dt-theme-jqueryui-vader"),
 	
-	DDL_DT_MULTIFILTER("ddl-dt-multifilter"),
-	
 	DDL_DT_SORTING_ALT_STRING("ddl-dt-sorting-alt-string"),
 	DDL_DT_SORTING_ANTI_THE("ddl-dt-sorting-anti-the"),
 	DDL_DT_SORTING_CHINESE_STRING("ddl-dt-sorting-chinese-string"),

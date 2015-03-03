@@ -5,7 +5,7 @@ com.github.dandelion.datatables.core.extension.feature.AppearFeature
 com.github.dandelion.datatables.core.extension.feature.ExportFeature
 com.github.dandelion.datatables.core.extension.feature.ExtraHtmlFeature
 com.github.dandelion.datatables.core.extension.feature.ExtraJsFeature
-com.github.dandelion.datatables.core.extension.feature.MultiFilterFeature
+com.github.dandelion.datatables.core.extension.feature.ExternalFilterFeature
 com.github.dandelion.datatables.core.extension.feature.PagingTypeBootstrapSimpleFeature
 com.github.dandelion.datatables.core.extension.feature.PagingTypeBootstrapFullFeature
 com.github.dandelion.datatables.core.extension.feature.PagingTypeBootstrapFullNumbersFeature

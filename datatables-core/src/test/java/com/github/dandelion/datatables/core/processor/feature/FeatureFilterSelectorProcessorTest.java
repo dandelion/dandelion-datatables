@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import com.github.dandelion.datatables.core.extension.Extension;
-import com.github.dandelion.datatables.core.extension.feature.MultiFilterFeature;
+import com.github.dandelion.datatables.core.extension.feature.ExternalFilterFeature;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
@@ -69,7 +69,7 @@ public class FeatureFilterSelectorProcessorTest extends TableProcessorBaseTest {
 		processor.process(pc);
 		
 		assertThat(entry.getValue()).isEqualTo("aCssSelector");
-		assertThat(new ArrayList<Extension>(tableConfiguration.getInternalExtensions())).contains(new MultiFilterFeature());
+		assertThat(new ArrayList<Extension>(tableConfiguration.getInternalExtensions())).contains(new ExternalFilterFeature());
 		assertThat(tableConfiguration.getStagingConfiguration().get(DatatableOptions.FEATURE_FILTER_TRIGGER)).isEqualTo("click");
 	}
 }
