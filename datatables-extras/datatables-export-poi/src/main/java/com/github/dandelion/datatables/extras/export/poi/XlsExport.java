@@ -103,8 +103,8 @@ public class XlsExport implements DatatablesExport {
 			}
 
 			// Column auto-sizing
-			for (columnIndex = 0; columnIndex < table.getLastHeaderRow().getColumns(ReservedFormat.ALL, ReservedFormat.XLS).size(); columnIndex++) {
-				if (exportConf.getAutoSize()) {
+			if (exportConf.getAutoSize()) {
+				for (columnIndex = 0; columnIndex < table.getLastHeaderRow().getColumns(ReservedFormat.ALL, ReservedFormat.XLS).size(); columnIndex++) {
 					sheet.autoSizeColumn(columnIndex);
 				}
 			}
