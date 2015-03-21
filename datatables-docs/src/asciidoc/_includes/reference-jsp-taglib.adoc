@@ -1,3 +1,5 @@
+== Appendix A: JSP taglib reference
+
 === A.1. `<datatables:table>` tag
 
 The `<datatables:table>` tag allows you to display a HTML table thanks to a set of attributes and nested `<datatables:column>` tags.

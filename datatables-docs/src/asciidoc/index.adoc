@@ -13,6 +13,8 @@ Thibault Duchateau <https://github.com/tduchateau[@tduchateau]>
 
 include::{include-dir}/introduction.adoc[]
 
+include::{include-dir}/requirements.adoc[]
+
 include::{include-dir}/installation.adoc[]
 
 include::{include-dir}/links-with-core.adoc[]
@@ -37,18 +39,10 @@ include::{include-dir}/debugger.adoc[]
 
 include::{include-dir}/extending.adoc[]
 
-== Appendix A: JSP taglib reference
-
 include::{include-dir}/reference-jsp-taglib.adoc[]
-
-== Appendix B: Thymeleaf dialect reference
 
 include::{include-dir}/reference-thymeleaf-dialect.adoc[]
 
-== Appendix C: Configuration options reference
-
 include::{include-dir}/reference-options.adoc[]
-
-== Appendix D: Vendor bundles reference
 
 include::{include-dir}/reference-bundle.adoc[]

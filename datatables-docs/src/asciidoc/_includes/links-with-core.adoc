@@ -1,12 +1,14 @@
-== 3. Links with Dandelion Core
+== 4. Links with Dandelion Core
 
-=== 3.1. Standalone mode
+TIP: Pending
+
+=== 4.1. Standalone mode
 
 Since the v0.10.0, Dandelion-Datatables uses {core-link}[Dandelion Core] to handle assets of your application. For some reasons, you may wish to disable the dependency mechanism and manage all client-side dependencies by yourself. Let's see how.
 
 Actually, it's as simple as setting the <<opt-main.standalone, `main.standalone`>> option to `true` in your <a href="/datatables/features/configuration/configuration-overloading.html">configuration file</a>.
 
-.datatables.properties	
+.dandelion/datatables.properties	
 [source, properties]
 ----
 main.standalone=true
@@ -16,15 +18,90 @@ As soon as the above option is declared in your configuration file, Dandelion-Da
 
 In this way, you can still use Dandelion-Datatables with your legacy assets.
 
-=== 3.2. Overriding asset bundles
+=== 4.2. Overriding asset bundles
 
-=== 3.3. Bundle special syntax
+Since the v0.10.0, Dandelion-Datatables uses Dandelion Core to handle assets in its core, in particular some vendor bundles that you may wish to adapt for your application, e.g. by changing a version or an asset locations. Let's see how.
+
+Example with the datatables bundle
+
+Internally, Dandelion-Datatables uses the following bundle for DataTables:
+
+[source, json]
+----
+{
+    "bundle" : "datatables",
+    "dependencies": [ "jquery" ],
+    "assets": [
+        {
+            "name": "datatables",
+            "version": "1.9.4",
+            "type": "js",
+            "locations": {
+                "cdn": "//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"
+            }
+        },
+        {
+            "name": "datatables",
+            "version": "1.9.4",
+            "type": "css",
+            "locations": {
+                "cdn": "//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css"
+            }
+        }
+    ]
+}
+----
+
+As you can see, assets are loaded from CDNs. Now assume we want to use our own assets for DataTables, stored inside our web application.
+
+Start by creating a new asset bundle (e.g. my-bundle.json) under the src/main/resources/dandelion folder.
+
+[source, xml]
+----
+Project root
+|__ src
+   |__ main
+      |__ resources
+         |__ dandelion
+            |__ my-bundle.json
+----
+
+Actually, you just need to declare two assets, with the same name (datatables) and type (js or css), as shown in the above bundle:
+
+[source, json]
+----
+{
+    "bundle" : "my-bundle",
+    "assets": [
+        {
+            "name": "datatables",
+            "version": "1.9.4",
+            "type": "js",
+            "locations": {
+                "webapp": "/assets/js/jquery.dataTables.js"
+            }
+        },
+        {
+            "name": "datatables",
+            "version": "1.9.4",
+            "type": "css",
+            "locations": {
+                "webapp": "/assets/css/jquery.dataTables.css"
+            }
+        }
+    ]
+}
+----
+
+As a consequence, Dandelion will now use assets that come from your web application instead of CDN.
+
+=== 4.3. Bundle special syntax
 
 Since the v0.10.0, some options allows you to directly interact with the
    <a href="/dandelion/features/asset-bundles/building-a-bundle-graph/">bundle
       graph</a>. Let's see how.
 
-==== 3.3.1. New bundle syntax
+==== 4.3.1. New bundle syntax
 
 Some features now accept the following syntax:
 
@@ -38,7 +115,7 @@ Where:
 * `bundleName` is the name of the <a href="/dandelion/features/asset-bundles/introducing-asset-bundles.html">asset bundle</a> to include in the current request
 * `jsObject` is a JavaScript object: a function, an array, or any other Javascript object depending on the attribute
 
-Of course you can also specify multiple bundles, comma-separated:
+Of course you can also specify multiple bundles, separated by a comma:
 
 [source, xml]
 ----
@@ -47,9 +124,9 @@ attribute="bundle1,bundle2#jsObject"
 
 TIP: Note that you could have achieved the same goal by using the Dandelion <a href="/dandelion/features/asset-bundles/interacting-with-the-asset-bundles/using-the-jsp-taglib.html">JSP taglib</a> or the <a href="/dandelion/features/asset-bundles/interacting-with-the-asset-bundles/using-the-thymeleaf-dialect.html">Thymeleaf dialect</a>. But this syntax is finally a convenient shortcut, preventing you from bringing another dependency and declaring another JSP taglib / Thymeleaf dialect.
 
-==== 3.3.2. Example
+==== 4.3.2. Example
 
-For example, you can use this new syntax in the {% refjsp dt table serverData %} / {% reftl dt table serverData %} table attribute, normally used to replace the default AJAX call by a <a href="/datatables/features/ajax/customizing-ajax-calls.html#fcac">totally customized one</a>.
+For example, you can use this new syntax in the <<jsp-table-ajaxParams, `ajaxParams`>> / <<tml-table-ajaxParams, `dt:ajaxParams`>> table attribute, normally used to replace the default AJAX call by a <a href="/datatables/features/ajax/customizing-ajax-calls.html#fcac">totally customized one</a>.
 
 Assuming that the following function, intended to make the AJAX call, is stored in a Javascript file, which is part of a bundle called <code>my-bundle</code>, you could automatically load this bundle in the current request by using:
 

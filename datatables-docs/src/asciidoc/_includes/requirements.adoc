@@ -1,0 +1,4 @@
+== 2. Requirements
+
+* Java Runtime Environment 6+
+* Servlet 3.0+ container such as Jetty 8.x, Tomcat 7.x, JBoss AS 6, Weblogic Server 12c...

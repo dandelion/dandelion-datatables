@@ -132,6 +132,7 @@ If you do need expression like the above, use the properties trick as follows:
 
 1. In your properties file associated with your template, add a new property for the `dom` value:
 
++
 [source, xml]
 ----
 myTableId.dom=<"myCSSClass"t>
@@ -139,6 +140,7 @@ myTableId.dom=<"myCSSClass"t>
 
 2. Then, usethe created property in your template (http://www.thymeleaf.org/doc/usingthymeleaf.html#using-thtext-and-externalizing-text[more info here]):
 
++
 [source, xml]
 ----
 <table id="myTableId" dt:table="true" dt:dom="#{myTableId.dom}">
@@ -728,6 +730,7 @@ To do this, you need:
 
 1. To create a Javascript array containing plain Strings. (Array of objects are not supported yet)
 
++
 [source, xml]
 ----
 <script>
@@ -739,6 +742,7 @@ To do this, you need:
 
 Use the {% refjsp dt column filterValues %} column attribute and references the previously created Javascript array as a value.
 
++
 [source, xml]
 ----
 <datatables:table id="myTableId" data="${persons}">

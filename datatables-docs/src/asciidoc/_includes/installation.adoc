@@ -1,15 +1,10 @@
-== 2. Installation
-
-=== 2.1. Requirements
-
-* Java 6+ Runtime Environment
-* Servlet 3.0+ container such as Jetty 8.x, Tomcat 7.x, JBoss AS 6, Weblogic Server 12c...
+== 3. Installation
 
 === 2.2. Known issues
 
 * You can't use the Dandelion-Datatables' dialect inside a Thymeleaf fragment (https://github.com/dandelion/dandelion/issues/28[#28])
 
-=== 2.3. Common installation steps
+=== 3.1. Common installation steps
 
 The list below covers the common steps across all supported template engines.
 
@@ -57,7 +52,6 @@ Add the following configuration to your `web.xml` file:
   <dispatcher>ERROR</dispatcher>
 </filter-mapping>
 ----
-
 <1> Note that all dispatcher types should be specified in order for the filter to work in any situation.
 
 * *Step 3: Configure the Dandelion servlet*
@@ -77,7 +71,7 @@ Add the following configuration to your `web.xml` file:
 </servlet-mapping>
 ----
 
-=== 2.4. JSP-based steps
+=== 3.2. JSP-based steps
 
 * *Declare the taglib definition*
 
@@ -85,7 +79,7 @@ Everywhere you want to display a table using Dandelion-DataTables, you need to a
 
  <%@ taglib prefix="datatables" uri="http://github.com/dandelion/datatables" %>
 
-=== 2.5. Thymeleaf-based steps
+=== 3.3. Thymeleaf-based steps
 
 * *Declare the Thymeleaf dialect*
 
@@ -127,7 +121,7 @@ This way you can benefit from some content assist in your favorite IDE:
 
 WARNING: Using a wrong namespace will prevent the content assist from working correctly
 
-=== 2.6. Client-side dependencies
+=== 3.4. Client-side dependencies
 
 Actually you won't need anything else to start working with Dandelion-Datatables since the component embeds a set of <<appendix-d-vendor-bundles-reference, vendor bundles>> that pull the required client-side dependencies, such as http://datatables.net[DataTables] and http://jquery.com[jQuery], from a CDN.
 

@@ -1,411 +1,769 @@
-The table below lists all the configurable properties that you can use in the
-   <a href="/datatables/features/configuration/configuration-loading.html">configuration files</a>.
+== Appendix C: Configuration options reference
 
-Note that except for the properties marked as "non groupable" (see
-   the "groupable" column in the table below), you need to apply either
-   the <a
-      href="/datatables/features/configuration/global-configuration.html">global
-      group</a> or a <a
-      href="/datatables/features/configuration/configuration-groups.html">configuration
-      group</a>.
+The table below lists all available options (TODO LINK vers option).
+
+Note that all options are presented in the following format:
+
+[cols="31,5,62"]
+|===
+.4+|*option.name*
+2+|Description of the option
+
+|Values
+|All possible values
+
+|Default
+|The default value
+
+|Groupable
+|Whether the option can be grouped or not
+|===
 
 [discrete]
 ==== Reference
 
 .Configuration options reference
-[cols="1,9,1,1,1"]
+[cols="31,5,62"]
 |===
-|Option name |Description |Possible value(s) |Default value |Groupable
 
-|[[opt-ajax.deferRender]]*ajax.deferRender*
-|Defer the creation of the table elements for each row until they are needed for a draw
+3+|*Main options*
+
+.4+|[[opt-main.standalone]]*main.standalone*
+2+|Flag allowing to use Dandelion-Datatables as a standalone library. Automatically excludes all vendor bundles. (TODO lien)
+
+|Values
 |true \| false
-|false
-|yes
 
-|[[opt-ajax.pipelining]]*ajax.pipelining*
-|Enable pipelining data for paging when server-side processing is enabled
+|Default
+|false
+
+|Groupable
+|No
+
+3+|*AJAX-related options*
+
+.4+|[[opt-ajax.deferRender]]*ajax.deferRender*
+2+|Defer the creation of the table elements for each row until they are needed for a draw
+
+|Values
 |true \| false
-|false
-|yes
 
-|[[opt-ajax.pipeSize]]*ajax.pipeSize*
-|Pipe size used when pipelining is enabled, i.e. times that the user can page before a request must be made of the server
+|Default
+|false
+
+|Groupable
+|Yes
+
+.4+|[[opt-ajax.pipelining]]*ajax.pipelining*
+2+|Enable pipelining data for paging when server-side processing is enabled
+
+|Values
+|true \| false
+
+|Default
+|false
+
+|Groupable
+|Yes
+
+.4+|[[opt-ajax.pipeSize]]*ajax.pipeSize*
+2+|Pipe size used when `ajax.pipelining` is enabled, i.e. times that the user can page before a request must be made of the server
+
+|Values
 |Any integer starting from 1
+
+|Default
 |5
-|yes
 
-|[[opt-ajax.serverData]]*ajax.serverData*
-|Allows you to override the default function which obtains the data from the server ($.getJSON) so something more suitable for your application
-|Any String representing the name of an accessible Javascript function. Bundle special syntax allowed.
-|
-|yes
+|Groupable
+|Yes
 
-|[[opt-ajax.serverMethod]]*ajax.serverMethod*
-|Allows you to change the HTTP method called to obtain data when using an AJAX source
-|Any valid HTTP method
-|GET
-|yes
+.4+|[[opt-ajax.serverSide]]*ajax.serverSide*
+2+|Configure DataTables to use server-side processing. Note that the url attribute must be given in order to give DataTables a source to obtain the required data for each draw
 
-|[[opt-ajax.serverParam]]*ajax.serverParam*
-|Allows you to send extra information to the server when using AJAX source
-|Any String representing the name of an accessible Javascript function. Bundle special syntax allowed
-|
-|yes
-
-|[[opt-ajax.serverSide]]*ajax.serverSide*
-|Configure DataTables to use server-side processing. Note that the url attribute must be given in order to give DataTables a source to obtain the required data for each draw
+|Values
 |true \| false
+
+|Default
 |false
-|yes
 
-|[[opt-css.class]]*css.class*
-|CSS class(es) to be applied on the `<table>` tag
-|
-|
-|yes
+|Groupable
+|Yes
 
-|[[opt-css.stripeClasses]]*css.stripeClasses*
-|Comma-separated list of CSS classes that should be applied to displayed rows. This sequence of CSS classes may be of any length, and DataTables will apply each class sequentially, looping when required.
-|
-|
-|yes
+3+|*CSS-related options*
 
-|[[opt-css.style]]*css.style*
-|CSS style to be applied on the `<table>` tag
-|
-|
-|yes
+.4+|[[opt-css.class]]*css.class*
+2+|CSS class(es) to be applied on the `<table>` tag
 
-|[[opt-css.theme]]*css.theme*
-|Name of a theme to activate for the current table
-|bootstrap2 \| bootstrap3 \| jqueryui
-|
-|yes
+ |Values
+|Any valid CSS class
 
-|[[opt-css.themeOption]]*css.themeOption*
+|Default
+|
+
+|Groupable
+|Yes
+
+.4+|[[opt-css.stripeClasses]]*css.stripeClasses*
+2+|Comma-separated list of CSS classes that should be applied to displayed rows. This sequence of CSS classes may be of any length, and DataTables will apply each class sequentially, looping when required
+
+|Values
+|
+
+|Default
+|
+
+|Groupable
+|Yes
+
+.4+|[[opt-css.style]]*css.style*
+2+|CSS style to be applied on the `<table>` tag
+
+|Values
+|Any valid CSS style
+
+|Default
+|
+
+|Groupable
+|Yes
+
+.4+|[[opt-css.theme]]*css.theme*
+2+|Name of a theme to activate for the current table
+
+|Values
+|Name of a theme to activate for the current table: bootstrap2 \| bootstrap3 \| jqueryui
+
+|Default
+|
+
+|Groupable
+|Yes
+
+.4+|[[opt-css.themeOption]]*css.themeOption*
+2+|Name of a theme to activate for the current table
+
+|Values
 |Name of an option to activate in relation to the current activated theme
-|See the full list TODO
+
+|Default
+|TODO list
+
+|Groupable
+|Yes
+
+3+|*Export-related options*
+
+.4+|[[opt-export.container.class]]*export.container.class*
+2+|CSS class(es) to be applied to the container used for export links
+
+|Values
 |
-|yes
 
-|[[opt-export.container.class]]*export.container.class*
-|CSS class(es) to be applied to the container used for export links
+|Default
 |
+
+|Groupable
+|Yes
+
+.4+|[[opt-export.container.style]]*export.container.style*
+2+|CSS style to be applied to the container used for export links
+
+|Values
 |
-|yes
 
-|[[opt-export.container.style]]*export.container.style*
-|CSS style to be applied to the container used for export links
+|Default
 |
+
+|Groupable
+|Yes
+
+.4+|[[opt-export.enabled.formats]]*export.enabled.formats*
+2+|Comma-separated list of enabled export formats. Some formats use reserved words, such as 'csv', 'xls', 'xlsx', 'pdf' and 'xml'
+
+|Values
 |
-|yes
 
-|[[opt-export.enabled.formats]]*export.enabled.formats*
-|Comma-separated list of enabled export formats. Some formats use reserved words, such as 'csv', 'xls', 'xlsx', 'pdf' and 'xml'
+|Default
 |
-|
-|yes
 
-|[[opt-export.csv.class]]*export.csv.class*
-|Java class name to use with filter-based exports in the CSV format
-|Any class that implements com. github. dandelion. datatables. core. export. DatatablesExport
-|com. github. dandelion. datatables. core. export. CsvExport
-|yes
+|Groupable
+|Yes
 
-|[[opt-export.pdf.class]]*export.pdf.class*
-|Java class name to use with filter-based exports in the PDF format
-|Any class that implements com. github. dandelion. datatables. core. export. DatatablesExport
-|com. github. dandelion. datatables. extras. export. itext. PdfExport
 
-*Warning* : dependency needed
-|yes
+.4+|[[opt-export.csv.class]]*export.csv.class*
+2+|Java class name to use with filter-based exports in the CSV format
 
-|[[opt-export.xls.class]]*export.xls.class*
-|Java class name to use with filter-based exports in the XLS format
-|Any class that implements com. github. dandelion. datatables. core. export. DatatablesExport
-|com. github. dandelion. datatables. extras. export. poi. XlsExport
+|Values
+|Any class that implements `com.github.dandelion.datatables.core.export.DatatablesExport`
 
-Warning : dependency needed
-|yes
+|Default
+|`com.github.dandelion.datatables.core.export.CsvExport`
 
-|[[opt-export.xlsx.class]]*export.xlsx.class*
-|Java class name to use with filter-based exports in the XLSX format
-|Any class that implements com. github. dandelion. datatables. core. export. DatatablesExport
-|com. github. dandelion. datatables. extras. export. poi. XlsxExport
+|Groupable
+|Yes
 
-Warning : dependency needed
-|yes
+.4+|[[opt-export.pdf.class]]*export.pdf.class*
+2+|Java class name to use with filter-based exports in the PDF format
 
-|[[opt-export.xml.class]]*export.xml.class*
-|Java class name to use with filter-based exports in the XML format
-|Any class that implements com. github. dandelion. datatables. core. export. DatatablesExport
-|com. github. dandelion. datatables. core. export. XmlExport
-|yes
+|Values
+|Any class that implements `com.github.dandelion.datatables.core.export.DatatablesExport`
 
-|[[opt-feature.appear]]*feature.appear*
-|Display mode used when the table has finished loading and must appear in the page. A duration can be set (in milliseconds) if the display mode is set to fadein
+|Default
+|`com.github.dandelion.datatables.extras.export.itext.PdfExport` 
+WARNING: dependency
+
+|Groupable
+|Yes
+
+.4+|[[opt-export.xls.class]]*export.xls.class*
+2+|Java class name to use with filter-based exports in the XLS format
+
+|Values
+|Any class that implements `com.github.dandelion.datatables.core.export.DatatablesExport`
+
+|Default
+|`com.github.dandelion.datatables.extras.export.poi.XlsExport` 
+WARNING: dependency
+
+|Groupable
+|Yes
+
+.4+|[[opt-export.xlsx.class]]*export.xlsx.class*
+2+|Java class name to use with filter-based exports in the XLSX format
+
+|Values
+|Any class that implements `com.github.dandelion.datatables.core.export.DatatablesExport`
+
+|Default
+|`com.github.dandelion.datatables.extras.export.poi.XlsxExport` 
+WARNING: dependency
+
+|Groupable
+|Yes
+
+.4+|[[opt-export.xml.class]]*export.xml.class*
+2+|Java class name to use with filter-based exports in the XML format
+
+|Values
+|Any class that implements `com.github.dandelion.datatables.core.export.DatatablesExport`
+
+|Default
+|`com.github.dandelion.datatablescore.export.XmlExport` 
+
+|Groupable
+|Yes
+
+3+|*Feature-related options*
+
+.4+|[[opt-feature.appear]]*feature.appear*
+2+|Display mode used when the table has finished loading and must appear in the page. A duration can be set (in milliseconds) if the display mode is set to fadein
+
+|Values
 |block \| fadein[,duration]
-|fadein
-|yes
 
-|[[opt-feature.autoWidth]]*feature.autoWidth*
-|Enable or disable automatic column width calculation
+|Default
+|fadein 
+
+|Groupable
+|Yes
+
+.4+|[[opt-feature.autoWidth]]*feature.autoWidth*
+2+|Enable or disable automatic column width calculation
+
+|Values
 |true \| false
-|true
-|yes
 
-|[[opt-feature.displayLength]]*feature.displayLength*
-|Number of rows to display on a single page when using pagination
-|
+|Default
+|true
+
+|Groupable
+|Yes
+
+.4+|[[opt-feature.displayLength]]*feature.displayLength*
+2+|Number of rows to display on a single page when using pagination
+
+|Values
+|Any integer
+
+|Default
 |10
-|yes
 
-|[[opt-feature.dom]]*feature.dom*
-|Allows you to specify exactly where in the DOM you want DataTables to inject the various controls it adds to the page (for example you might want the pagination controls at the top of the table)
+|Groupable
+|Yes
+
+.4+|[[opt-feature.dom]]*feature.dom*
+2+|Allows you to specify exactly where in the DOM you want DataTables to inject the various controls it adds to the page (for example you might want the pagination controls at the top of the table)
+
+|Values
 |
+
+|Default
 |lfrtip
-|yes
 
-|[[opt-feature.filterable]]*feature.filterable*
-|Enable or disable global filtering of data
+|Groupable
+|Yes
+
+.4+|[[opt-feature.filterable]]*feature.filterable*
+2+|Enable or disable global filtering of data
+
+|Values
 |true \| false
+
+|Default
 |true
-|yes
 
-|[[opt-feature.filterClearSelector]]*feature.filterClearSelector*
-|jQuery selector targeting the element on which a 'click' event will be bound to trigger the clearing of all filter elements
+|Groupable
+|Yes
+
+.4+|[[opt-feature.filterClearSelector]]*feature.filterClearSelector*
+2+|jQuery selector targeting the element on which a 'click' event will be bound to trigger the clearing of all filter elements
+
+|Values
 |Any jQuery selector
-|
-|yes
 
-|[[opt-feature.filterDelay]]*feature.filterDelay*
-|Delay (in milliseconds) to be used before the AJAX call is performed to obtain data
+|Default
 |
+
+|Groupable
+|Yes
+
+.4+|[[opt-feature.filterDelay]]*feature.filterDelay*
+2+|Delay (in milliseconds) to be used before the AJAX call is performed to obtain data
+
+|Values
+|Any jQuery selector
+
+|Default
 |500ms
-|yes
 
-|[[opt-feature.filterPlaceHolder]]*feature.filterPlaceHolder*
-|Placeholder used to hold the individual column filtering elements
-|head_before \| head_after \| foot \| none
+|Groupable
+|Yes
+
+.4+|[[opt-feature.filterPlaceHolder]]*feature.filterPlaceHolder*
+2+|Placeholder used to hold the individual column filtering elements
+
+|Values
+|head_before \| head_after \| foot \| none TODO
+
+|Default
 |foot
-|yes
 
-|[[opt-feature.filterSelector]]*feature.filterSelector*
-|jQuery selector targeting the element on which a 'click' event will be bound to trigger the filtering
+|Groupable
+|Yes
+
+.4+|[[opt-feature.filterSelector]]*feature.filterSelector*
+2+|jQuery selector targeting the element on which a 'click' event will be bound to trigger the filtering
+
+|Values
 |Any jQuery selector
-|
-|yes
 
-|[[opt-feature.info]]*feature.info*
-|Enable or disable the table information display. This shows information about the data that is currently visible on the page, including information about filtered data if that action is being performed
+|Default
+|
+
+|Groupable
+|Yes
+
+.4+|[[opt-feature.info]]*feature.info*
+2+|Enable or disable the table information display. This shows information about the data that is currently visible on the page, including information about filtered data if that action is being performed
+
+|Values
 |true \| false
+
+|Default
 |true
-|yes
 
-|[[opt-feature.jqueryUi]]*feature.jqueryUi*
-|Enable jQuery UI ThemeRoller support
+|Groupable
+|Yes
+
+.4+|[[opt-feature.jQueryUi]]*feature.jQueryUi*
+2+|Enable jQuery UI ThemeRoller support
+
+|Values
 |true \| false
-|false	
-|yes
 
-|[[opt-feature.lengthChange]]*feature.lengthChange*
-|If pageable is set to true, allows the end user to select the size of a formatted page from a select menu (sizes are 10, 25, 50 and 100)
-|true \| false
-|true	
-|yes
-
-|[[opt-feature.lengthMenu]]*feature.lengthMenu*
-|Specify the entries in the length drop down menu that DataTables show when pagination is enabled
-|
-|10,25,50,100	
-|yes
-
-|[[opt-feature.pageable]]*feature.pageable*
-|Enable or disable pagination
-|true \| false
-|true	
-|yes
-
-|[[opt-feature.paginationType]]*feature.paginationType*
-|Name of the pagination interaction methods which present different page controls to the end user
-|two_button \| full_numbers \| four_button \| bootstrap \| scrolling \| input \| listbox \| extJs \| bootstrap_full_numbers \| bootstrap_four_button
-|two_button	
-|yes
-
-|[[opt-feature.processing]]*feature.processing*
-|Enable or disable the display of a 'processing' indicator when the table is being processed (e.g. a sort). This is particularly useful for tables with large amounts of data where it can take a noticeable amount of time to sort the entries
-|true \| false
+|Default
 |false
-|yes
 
-|[[opt-feature.scrollCollapse]]*feature.scrollCollapse*
-|When vertical (y) scrolling is enabled, DataTables will force the height of the table's viewport to the given height at all times (useful for layout). However, this can look odd when filtering data down to a small data set, and the footer is left "floating" further down. This parameter (when enabled) will cause DataTables to collapse the table's viewport down when the result set will fit within the given Y height
+|Groupable
+|Yes
+
+.4+|[[opt-feature.lengthChange]]*feature.lengthChange*
+2+|If pageable is set to true, allows the end user to select the size of a formatted page from a select menu (sizes are 10, 25, 50 and 100)
+
+|Values
 |true \| false
-|false
-|yes
 
-|[[opt-feature.scrollX]]*feature.scrollX*
-|Enable horizontal scrolling. When a table is too wide to fit into a certain layout, or you have a large number of columns in the table, you can enable x-scrolling to show the table in a viewport, which can be scrolled
-|Any CSS unit, or a number (in which case it will be treated as a pixel measurement)
-|Empty string, i.e. disabled
-|yes
-
-|[[opt-feature.scrollXInner]]*feature.scrollXInner*
-|Use more width than it might otherwise do when x-scrolling is enabled
-|
-|
-|yes
-
-|[[opt-feature.scrollY]]*feature.scrollY*
-|Enable vertical scrolling. Vertical scrolling will constrain the DataTable to the given height, and enable scrolling for any data which overflows the current viewport. This can be used as an alternative to paging to display a lot of data in a small area (although paging and scrolling can both be enabled at the same time)
-|Any CSS unit, or a number (in which case it will be treated as a pixel measurement)
-|Empty string, i.e. disabled
-|yes
-
-|[[opt-feature.sortable]]*feature.sortable*
-|Enable or disable sorting of columns. Sorting of individual columns can be disabled by the "sortable" attribute of column tag
-|true \| false
+|Default
 |true
-|yes
 
-|[[opt-feature.stateSave]]*feature.stateSave*
-|When enabled a cookie will be used to save table display information such as pagination information, display length, filtering and sorting. As such when the end user reloads the page the display display will match what thy had previously set up
-|true \| false
-|false
-|yes
+|Groupable
+|Yes
 
-|[[opt-i18n.locale.resolver]]*i18n.locale.resolver*
+.4+|[[opt-feature.lengthMenu]]*feature.lengthMenu*
+2+|Specify the entries in the length drop down menu that DataTables show when pagination is enabled
+
+|Values
 |
-|Any class implementing com. github. dandelion. datatables. core. i18n. LocaleResolver
-|com. github. dandelion. datatables. core. i18n. StandardLocaleResolver
+
+|Default
+|10,25,50,100
+
+|Groupable
+|Yes
+
+.4+|[[opt-feature.pageable]]*feature.pageable*
+2+|Enable or disable pagination
+
+|Values
+|true \| false
+
+|Default
+|true
+
+|Groupable
+|Yes
+
+.4+|[[opt-feature.pagingType]]*feature.pagingType*
+2+|Name of the pagination interaction methods which present different page controls to the end user
+
+|Values
+|simple \| simple_numbers \| full \| full_numbers \| bootstrap \| scrolling \| input \| listbox \| extJs \| bootstrap_simple \| bootstrap_full_numbers
+
+|Default
+|simple
+
+|Groupable
+|Yes
+
+.4+|[[opt-feature.processing]]*feature.processing*
+2+|Enable or disable the display of a 'processing' indicator when the table is being processed (e.g. a sort). This is particularly useful for tables with large amounts of data where it can take a noticeable amount of time to sort the entries
+
+|Values
+|true \| false
+
+|Default
+|true
+
+|Groupable
+|Yes
+
+.4+|[[opt-feature.scrollCollapse]]*feature.scrollCollapse*
+2+|When vertical (y) scrolling is enabled, DataTables will force the height of the table's viewport to the given height at all times (useful for layout). However, this can look odd when filtering data down to a small data set, and the footer is left "floating" further down. This parameter (when enabled) will cause DataTables to collapse the table's viewport down when the result set will fit within the given Y height
+
+|Values
+|true \| false
+
+|Default
+|false
+
+|Groupable
+|Yes
+
+.4+|[[opt-feature.scrollX]]*feature.scrollX*
+2+|Enable horizontal scrolling. When a table is too wide to fit into a certain layout, or you have a large number of columns in the table, you can enable x-scrolling to show the table in a viewport, which can be scrolled
+
+|Values
+|Any CSS unit, or a number (in which case it will be treated as a pixel measurement)
+
+|Default
+|Empty string, i.e. disabled
+
+|Groupable
+|Yes
+
+.4+|[[opt-feature.scrollXInner]]*feature.scrollXInner*
+2+|Use more width than it might otherwise do when x-scrolling is enabled
+
+|Values
+|
+
+|Default
+|
+
+|Groupable
+|Yes
+
+.4+|[[opt-feature.scrollY]]*feature.scrollY*
+2+|Enable vertical scrolling. Vertical scrolling will constrain the DataTable to the given height, and enable scrolling for any data which overflows the current viewport. This can be used as an alternative to paging to display a lot of data in a small area (although paging and scrolling can both be enabled at the same time)
+
+|Values
+|Any CSS unit, or a number (in which case it will be treated as a pixel measurement)
+
+|Default
+|Empty string, i.e. disabled
+
+|Groupable
+|Yes
+
+.4+|[[opt-feature.sortable]]*feature.sortable*
+2+|Enable or disable sorting of columns. Sorting of individual columns can be disabled by the "sortable" attribute of column tag
+
+|Values
+|true \| false
+
+|Default
+|true
+
+|Groupable
+|Yes
+
+.4+|[[opt-feature.stateSave]]*feature.stateSave*
+2+|When enabled a cookie will be used to save table display information such as pagination information, display length, filtering and sorting. As such when the end user reloads the page the display display will match what thy had previously set up
+
+|Values
+|true \| false
+
+|Default
+|false
+
+|Groupable
+|Yes
+
+3+|*I18N-related options*
+
+.4+|[[opt-i18n.locale.resolver]]*i18n.locale.resolver*
+2+|TODO
+
+|Values
+|Any class implementing `com.github.dandelion.datatables.core.i18n.LocaleResolver`
+
+|Default
+|`com.github.dandelion.datatables.core.i18n.StandardLocaleResolver`
+
+|Groupable
 |No
 
-|[[opt-i18n.message.resolver]]*i18n.message.resolver*
-|
-|Any class implementing com. github. dandelion. datatables. core. i18n. MessageResolver
-|com. github. dandelion. datatables. jsp. i18n. JstlMessageResolver if the JSTL Jar is present in the classpath
+.4+|[[opt-i18n.message.resolver]]*i18n.message.resolver*
+2+|TODO
+
+|Values
+|Any class implementing `com.github.dandelion.datatables.core.i18n.MessageResolver`
+
+|Default
+|`com.github.dandelion.datatables.jsp.i18n.JstlMessageResolver` if the JSTL Jar is present in the classpath
+
+|Groupable
 |No
 
-|[[opt-i18n.msg.aria.sortasc]]*i18n.msg.aria.sortasc*
-|ARIA label that is added to the table headers when the column may be sorted ascending by activing the column (click or return when focused). Note that the column header is prefixed to this string
+.4+|[[opt-i18n.msg.aria.sortasc]]*i18n.msg.aria.sortasc*
+2+|ARIA label that is added to the table headers when the column may be sorted ascending by activing the column (click or return when focused). Note that the column header is prefixed to this string
+
+|Values
 |
+
+|Default
 |": activate to sort column ascending"
+
+|Groupable
 |Yes
 
-|[[opt-i18n.msg.aria.sortdesc]]*i18n.msg.aria.sortdesc*
-|ARIA label that is added to the table headers when the column may be sorted descending by activing the column (click or return when focused). Note that the column header is prefixed to this string
+.4+|[[opt-i18n.msg.aria.sortdesc]]*i18n.msg.aria.sortdesc*
+2+|ARIA label that is added to the table headers when the column may be sorted descending by activing the column (click or return when focused). Note that the column header is prefixed to this string
+
+|Values
 |
+
+|Default
 |": activate to sort column descending"
+
+|Groupable
 |Yes
 
-|[[opt-i18n.msg.emptytable]]*i18n.msg.emptytable*
-|This string is shown in preference to msg.zerorecords when the table is empty of data (regardless of filtering). Note that this is an optional parameter - if it is not given, the value of msg.zerorecords will be used instead (either the default or given value)
+.4+|[[opt-i18n.msg.emptytable]]*i18n.msg.emptytable*
+2+|This string is shown in preference to msg.zerorecords when the table is empty of data (regardless of filtering). Note that this is an optional parameter - if it is not given, the value of msg.zerorecords will be used instead (either the default or given value)
+
+|Values
 |
+
+|Default
 |"No data available in table"
+
+|Groupable
 |Yes
 
-|[[opt-i18n.msg.info]]*i18n.msg.info*
-|This string gives information to the end user about the information that is current on display on the page. The START, END and TOTAL variables are all dynamically replaced as the table display updates, and can be freely moved or removed as the language requirements change
-|
+.4+|[[opt-i18n.msg.info]]*i18n.msg.info*
+2+|This string gives information to the end user about the information that is current on display on the page. The START, END and TOTAL variables are all dynamically replaced as the table display updates, and can be freely moved or removed as the language requirements change
+
+|Values
+|Any string
+
+|Default
 |"Showing _START_ to _END_ of _TOTAL_ entries"
+
+|Groupable
 |Yes
 
-|[[opt-i18n.msg.info.empty]]*i18n.msg.info.empty*
-|Display information string for when the table is empty. Typically the format of this string should match sInfo
-|
+.4+|[[opt-i18n.msg.info.empty]]*i18n.msg.info.empty*
+2+|Display information string for when the table is empty. Typically the format of this string should match sInfo
+
+|Values
+|Any string
+
+|Default
 |"Showing 0 to 0 of 0 entries"
+
+|Groupable
 |Yes
 
-|[[opt-i18n.msg.info.filtered]]*i18n.msg.info.filtered*
-|When a user filters the information in a table, this string is appended to the information (sInfo) to give an idea of how strong the filtering is. The variable MAX is dynamically updated
-|
+.4+|[[opt-i18n.msg.info.filtered]]*i18n.msg.info.filtered*
+2+|When a user filters the information in a table, this string is appended to the information (sInfo) to give an idea of how strong the filtering is. The variable MAX is dynamically updated
+
+|Values
+|Any string
+
+|Default
 |"(filtered from _MAX_ total entries)"
+
+|Groupable
 |Yes
 
-|[[opt-i18n.msg.info.postfix]]*i18n.msg.info.postfix*
-|If can be useful to append extra information to the info string at times, and this variable does exactly that. This information will be appended to the sInfo (msg.info.empty and msg.info.filtered in whatever combination they are being used) at all times
-|
+.4+|[[opt-i18n.msg.info.postfix]]*i18n.msg.info.postfix*
+2+|If can be useful to append extra information to the info string at times, and this variable does exactly that. This information will be appended to the sInfo (msg.info.empty and msg.info.filtered in whatever combination they are being used) at all times
+
+|Values
+|Any string
+
+|Default
 |""
+
+|Groupable
 |Yes
 
-|[[opt-i18n.msg.lengthMenu]]*i18n.msg.lengthMenu*
-|Detail the action that will be taken when the drop down menu for the pagination length option is changed. The 'MENU' variable is replaced with a default select list of 10, 25, 50 and 100, and can be replaced with a custom select box if required
-|
+.4+|[[opt-i18n.msg.lengthMenu]]*i18n.msg.lengthMenu*
+2+|Detail the action that will be taken when the drop down menu for the pagination length option is changed. The 'MENU' variable is replaced with a default select list of 10, 25, 50 and 100, and can be replaced with a custom select box if required
+
+|Values
+|Any string
+
+|Default
 |"Show _MENU_ entries"
+
+|Groupable
 |Yes
 
-|[[opt-i18n.msg.loadingrecords]]*i18n.msg.loadingrecords*
-|When using Ajax sourced data and during the first draw when DataTables is gathering the data, this message is shown in an empty row in the table to indicate to the end user the data is being loaded. Note that this parameter is not used when loading data by server-side processing, just Ajax sourced data with client-side processing
-|
+.4+|[[opt-i18n.msg.loadingrecords]]*i18n.msg.loadingrecords*
+2+|When using Ajax sourced data and during the first draw when DataTables is gathering the data, this message is shown in an empty row in the table to indicate to the end user the data is being loaded. Note that this parameter is not used when loading data by server-side processing, just Ajax sourced data with client-side processing
+
+|Values
+|Any string
+
+|Default
 |"Loading..."
+
+|Groupable
 |Yes
 
-|[[opt-i18n.msg.paginate.first]]*i18n.msg.paginate.first*
-|Text to use when using the 'full_numbers' type of pagination for the button to take the user to the first page
-|
+.4+|[[opt-i18n.msg.paginate.first]]*i18n.msg.paginate.first*
+2+|Text to use when using the 'full_numbers' type of pagination for the button to take the user to the first page
+
+|Values
+|Any string
+
+|Default
 |"First"
+
+|Groupable
 |Yes
 
-|[[opt-i18n.msg.paginate.last]]*i18n.msg.paginate.last*
-|Text to use when using the 'full_numbers' type of pagination for the button to take the user to the last page
-|
+.4+|[[opt-i18n.msg.paginate.last]]*i18n.msg.paginate.last*
+2+|Text to use when using the 'full_numbers' type of pagination for the button to take the user to the last page
+
+|Values
+|Any string
+
+|Default
 |"Last"
+
+|Groupable
 |Yes
 
-|[[opt-i18n.msg.paginate.next]]*i18n.msg.paginate.next*
-|Text to use for the 'next' pagination button (to take the user to the next page)
-|
+.4+|[[opt-i18n.msg.paginate.next]]*i18n.msg.paginate.next*
+2+|Text to use for the 'next' pagination button (to take the user to the next page)
+
+|Values
+|Any string
+
+|Default
 |"Next"
+
+|Groupable
 |Yes
 
-|[[opt-i18n.msg.paginate.previous]]*i18n.msg.paginate.previous*
-|Text to use for the 'previous' pagination button (to take the user to the previous page)
-|
+.4+|[[opt-i18n.msg.paginate.previous]]*i18n.msg.paginate.previous*
+2+|Text to use for the 'previous' pagination button (to take the user to the previous page)
+
+|Values
+|Any string
+
+|Default
 |"Previous"
+
+|Groupable
 |Yes
 
-|[[opt-i18n.msg.processing]]*i18n.msg.processing*
-|Text which is displayed when the table is processing a user action (usually a sort command or similar)
-|
+.4+|[[opt-i18n.msg.processing]]*i18n.msg.processing*
+2+|Text which is displayed when the table is processing a user action (usually a sort command or similar)
+
+|Values
+|Any string
+
+|Default
 |"Processing..."
+
+|Groupable
 |Yes
 
-|[[opt-i18n.msg.search]]*i18n.msg.search*
-|Details the actions that will be taken when the user types into the filtering input text box. The variable "INPUT", if used in the string, is replaced with the HTML text box for the filtering input allowing control over where it appears in the string. If "INPUT" is not given then the input box is appended to the string automatically
-|
+.4+|[[opt-i18n.msg.search]]*i18n.msg.search*
+2+|Details the actions that will be taken when the user types into the filtering input text box. The variable "INPUT", if used in the string, is replaced with the HTML text box for the filtering input allowing control over where it appears in the string. If "INPUT" is not given then the input box is appended to the string automatically
+
+|Values
+|Any string
+
+|Default
 |"Search:"
+
+|Groupable
 |Yes
 
-|[[opt-i18n.msg.zerorecords]]*i18n.msg.zerorecords*
-|Text shown inside the table records when the is no information to be displayed after filtering. sEmptyTable is shown when there is simply no information in the table at all (regardless of filtering)
-|
+.4+|[[opt-i18n.msg.zerorecord]]*i18n.msg.zerorecord*
+2+|Text shown inside the table records when the is no information to be displayed after filtering. sEmptyTable is shown when there is simply no information in the table at all (regardless of filtering)
+
+|Values
+|Any string
+
+|Default
 |"No matching records found"
+
+|Groupable
 |Yes
 
-|[[opt-main.extension.names]]*main.extension.names*
-|Comma-separated names of extensions to register in all tables
+3+|*Plugin-related options*
+
+.4+|[[opt-plugin.fixedOffsetTop]]*plugin.fixedOffsetTop*
+2+|(fixedHeader) Offset applied on the top
+
+|Values
 |
+
+|Default
 |
+
+|Groupable
 |Yes
 
-|[[opt-main.standalone]]*main.standalone*
-|Flag allowing to use Dandelion-Datatables as a standalone library. Automatically excludes all vendor bundles. (lien)
-|true \| false
-|false
-|No
+.4+|[[opt-plugin.fixedPosition]]*plugin.fixedPosition*
+2+|(fixedHeader) Respectively fix the header, footer, left column, right column
 
-|[[opt-plugin.fixedOffsetTop]]*plugin.fixedOffsetTop*
-|(fixedHeader) Offset applied on the top
-|
-|
-|Yes
-
-|[[opt-plugin.fixedPosition]]*plugin.fixedPosition*
-|(fixedHeader) Respectively fix the header, footer, left column, right column
+|Values
 |top \| bottom \| left \| right
+
+|Default
 |top
+
+|Groupable
 |Yes
+
 |===
 
 
