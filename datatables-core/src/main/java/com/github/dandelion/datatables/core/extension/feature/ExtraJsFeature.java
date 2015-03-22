@@ -35,6 +35,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.Asset;
 import com.github.dandelion.core.asset.AssetMapper;
 import com.github.dandelion.core.asset.AssetType;
@@ -77,6 +78,9 @@ public class ExtraJsFeature extends AbstractExtension {
 			// AssetQuery(table.getTableConfiguration().getRequest(),
 			// getContext()).;
 			for (String bundleName : extraJs.getBundles()) {
+			   if(!getContext().getBundleStorage().getBundleDag().getVertexMap().containsKey(bundleName)) {
+			      throw new DandelionException("The requested bundle \"" + bundleName + "\" does not exist in the graph.");
+			   }
 				assetsToInject.addAll(getContext().getBundleStorage().getBundleDag().getVertex(bundleName)
 						.getAssetStorageUnits());
 			}
