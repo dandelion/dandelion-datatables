@@ -551,4 +551,29 @@ public class DatatablesGeneratorTest {
 		assertThat(mainConf).hasSize(2);
 		assertThat(mainConf.get(DTConstants.DT_LANGUAGE)).isEqualTo(ariaMap);
 	}
+
+   @Test
+   public void should_set_state_save_load_callbacks() {
+      List<Callback> callbacks = new ArrayList<Callback>();
+      Callback callback = new Callback(CallbackType.STATESAVE, "aJsFunction");
+      callbacks.add(callback);
+      Callback callback2 = new Callback(CallbackType.STATESAVEPARAMS, "aSecondJsFunction");
+      callbacks.add(callback2);
+      Callback callback3 = new Callback(CallbackType.STATELOAD, "aThirdJsFunction");
+      callbacks.add(callback3);
+      Callback callback4 = new Callback(CallbackType.STATELOADPARAMS, "aFourthJsFunction");
+      callbacks.add(callback4);
+      Callback callback5 = new Callback(CallbackType.STATELOADED, "aFifthJsFunction");
+      callbacks.add(callback5);
+      table.getTableConfiguration().setCallbacks(callbacks);
+
+      Map<String, Object> mainConf = generator.generateConfig(table);
+
+      assertThat(mainConf).hasSize(6);
+      assertThat(mainConf.get(CallbackType.STATESAVE.getName())).isEqualTo(new JsFunction(callback.getFunction().getCode(), CallbackType.STATESAVE.getArgs()));
+      assertThat(mainConf.get(CallbackType.STATESAVEPARAMS.getName())).isEqualTo(new JsFunction(callback2.getFunction().getCode(), CallbackType.STATESAVEPARAMS.getArgs()));
+      assertThat(mainConf.get(CallbackType.STATELOAD.getName())).isEqualTo(new JsFunction(callback3.getFunction().getCode(), CallbackType.STATELOAD.getArgs()));
+      assertThat(mainConf.get(CallbackType.STATELOADPARAMS.getName())).isEqualTo(new JsFunction(callback4.getFunction().getCode(), CallbackType.STATELOADPARAMS.getArgs()));
+      assertThat(mainConf.get(CallbackType.STATELOADED.getName())).isEqualTo(new JsFunction(callback5.getFunction().getCode(), CallbackType.STATELOADED.getArgs()));
+   }
 }
