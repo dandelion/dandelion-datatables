@@ -34,34 +34,44 @@ import com.github.dandelion.datatables.core.generator.DTConstants;
 /**
  * Enum containing the different type of callback and their respective input
  * parameter(s).
- * 
+ *
  * @author Thibault Duchateau
  * @since 0.8.9
  */
 public enum CallbackType {
 
 	CREATEDROW(DTConstants.DT_FN_CREATED_ROW, false, "nRow", "aData", "iDataIndex"),
-	
+
 	DRAW(DTConstants.DT_FN_DRAW_CBK, false, "oSettings"),
-	
+
 	FOOTER(DTConstants.DT_FN_FOOTER_CBK, false, "nFoot", "aData", "iStart", "iEnd", "aiDisplay"),
-	
+
 	FORMAT(DTConstants.DT_FN_FORMAT_NUMBER, true, "iIn"),
-	
+
 	HEADER(DTConstants.DT_FN_HEADER_CBK, false, "nHead", "aData", "iStart", "iEnd", "aiDisplay"),
-	
+
 	INFO(DTConstants.DT_FN_INFO_CBK, true, "oSettings", "iStart", "iEnd", "iMax", "iTotal", "sPre"),
-	
+
 	INIT(DTConstants.DT_FN_INIT_COMPLETE, false, "oSettings", "json"),
-	
+
 	PREDRAW(DTConstants.DT_FN_PRE_DRAW_CBK, true, "oSettings"),
-	
-	ROW(DTConstants.DT_FN_ROW_CBK, false, "nRow", "aData", "iDisplayIndex", "iDisplayIndexFull");
-	
+
+	ROW(DTConstants.DT_FN_ROW_CBK, false, "nRow", "aData", "iDisplayIndex", "iDisplayIndexFull"),
+
+   STATESAVE(DTConstants.DT_FN_STATESAVE_CBK, false, "oSettings", "oData"),
+
+   STATESAVEPARAMS(DTConstants.DT_FN_STATESAVE_PARAMS_CBK, true, "oSettings"),
+
+   STATELOAD(DTConstants.DT_FN_STATELOAD_CBK, false, "oSettings", "oData"),
+
+   STATELOADPARAMS(DTConstants.DT_FN_STATELOAD_PARAMS_CBK, true, "oSettings"),
+
+   STATELOADED(DTConstants.DT_FN_STATELOADED_CBK, false, "oSettings", "oData");
+
 	private String name;
 	private boolean hasReturn;
 	private String[] args;
-	
+
 	private CallbackType(String function, boolean hasReturn, String... args){
 		this.name = function;
 		this.setHasReturn(hasReturn);

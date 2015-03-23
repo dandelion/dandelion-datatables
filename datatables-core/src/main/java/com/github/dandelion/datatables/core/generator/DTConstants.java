@@ -111,6 +111,11 @@ public final class DTConstants {
 	public static final String DT_FN_INIT_COMPLETE = "initComplete";
 	public static final String DT_FN_PRE_DRAW_CBK = "preDrawCallback";
 	public static final String DT_FN_ROW_CBK = "rowCallback";
+   public static final String DT_FN_STATESAVE_CBK = "stateSaveCallback";
+   public static final String DT_FN_STATESAVE_PARAMS_CBK = "stateSaveParams";
+   public static final String DT_FN_STATELOAD_CBK = "stateLoadCallback";
+   public static final String DT_FN_STATELOAD_PARAMS_CBK = "stateLoadParams";
+   public static final String DT_FN_STATELOADED_CBK = "stateLoaded";
 
 	/**
     * <p>
