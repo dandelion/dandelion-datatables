@@ -1,0 +1,12 @@
+{
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "paging-input",
+            "version" : "fixed",
+            "locations": {
+                "jar": "dandelion/datatables/features/paging/input.js"
+            }
+        }
+    ]
+}

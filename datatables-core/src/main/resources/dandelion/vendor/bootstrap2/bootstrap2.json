@@ -1,0 +1,24 @@
+{
+    "bundle" : "bootstrap2",
+    "dependencies" : [ "jquery" ],
+    "assets": [
+        {
+            "name": "bootstrap2",
+            "version": "2.3.2",
+            "type": "js",
+            "locations": {
+            	"jar" : "dandelion/bootstrap2/js/bootstrap.js",
+                "remote": "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.js"
+            }
+        },
+        {
+            "name": "bootstrap2",
+            "version": "2.3.2",
+            "type": "css",
+            "locations": {
+            	"jar" : "dandelion/bootstrap2/css/bootstrap.css",
+                "remote": "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap.css"
+            }
+        }
+    ]
+}

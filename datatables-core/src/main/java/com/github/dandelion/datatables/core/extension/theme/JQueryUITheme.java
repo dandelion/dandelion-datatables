@@ -66,9 +66,6 @@ public class JQueryUITheme extends AbstractExtension {
 
 		if (themeOption != null) {
 			switch (themeOption) {
-			case BASE:
-				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_BASE);
-				break;
 			case BLACKTIE:
 				addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI_BLACKTIE);
 				break;

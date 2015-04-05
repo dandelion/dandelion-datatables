@@ -1,0 +1,15 @@
+{
+    "bundle" : "ddl-dt-theme-jqueryui-uilightness",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
+    "assets": [
+        {
+            "name": "jqueryui-uilightness-css",
+            "version": "1.11.4",
+            "type": "css",
+            "locations": {
+                "jar" : "dandelion/jqueryui/css/ui-lightness.css",
+                "remote" : "//code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css"
+            }
+        }
+    ]
+}

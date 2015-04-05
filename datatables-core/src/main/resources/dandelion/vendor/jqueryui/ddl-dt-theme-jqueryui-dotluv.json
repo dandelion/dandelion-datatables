@@ -1,0 +1,15 @@
+{
+    "bundle" : "ddl-dt-theme-jqueryui-dotluv",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
+    "assets": [
+        {
+            "name": "jqueryui-dotluv-css",
+            "version": "1.11.4",
+            "type": "css",
+            "locations": {
+                "jar" : "dandelion/jqueryui/css/dot-luv.css",
+                "remote" : "//code.jquery.com/ui/1.11.4/themes/dot-luv/jquery-ui.css"
+            }
+        }
+    ]
+}

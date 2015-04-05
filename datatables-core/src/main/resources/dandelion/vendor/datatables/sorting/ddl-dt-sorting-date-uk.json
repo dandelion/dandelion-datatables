@@ -1,0 +1,10 @@
+{
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "locations": {
+                "jar": "dandelion/datatables/features/sorting/date-uk.js"
+            }
+        }
+    ]
+}

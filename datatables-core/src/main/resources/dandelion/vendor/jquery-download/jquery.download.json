@@ -1,0 +1,12 @@
+{
+    "bundle": "jquery-download",
+    "dependencies": [ "jquery" ],
+    "assets": [
+        {
+            "version": "1.0.0",
+            "locations": {
+                "jar": "dandelion/datatables/features/export/download.js"
+            }
+        }
+    ]
+}

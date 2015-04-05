@@ -1,0 +1,15 @@
+{
+    "bundle" : "ddl-dt-theme-jqueryui-excitebike",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
+    "assets": [
+        {
+            "name": "jqueryui-excitebike-css",
+            "version": "1.11.4",
+            "type": "css",
+            "locations": {
+                "jar" : "dandelion/jqueryui/css/excite-bike.css",
+                "remote" : "//code.jquery.com/ui/1.11.4/themes/excite-bike/jquery-ui.css"
+            }
+        }
+    ]
+}

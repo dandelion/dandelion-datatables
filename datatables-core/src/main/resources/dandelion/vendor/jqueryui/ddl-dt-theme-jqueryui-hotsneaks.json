@@ -1,0 +1,15 @@
+{
+    "bundle" : "ddl-dt-theme-jqueryui-hotsneaks",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
+    "assets": [
+        {
+            "name": "jqueryui-hotsneaks-css",
+            "version": "1.11.4",
+            "type": "css",
+            "locations": {
+                "jar" : "dandelion/jqueryui/css/hot-sneaks.css",
+                "remote" : "//code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css"
+            }
+        }
+    ]
+}

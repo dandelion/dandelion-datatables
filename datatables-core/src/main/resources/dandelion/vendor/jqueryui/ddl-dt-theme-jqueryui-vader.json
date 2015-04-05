@@ -1,0 +1,15 @@
+{
+    "bundle" : "ddl-dt-theme-jqueryui-vader",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
+    "assets": [
+        {
+            "name": "jqueryui-vader-css",
+            "version": "1.11.4",
+            "type": "css",
+            "locations": {
+                "jar" : "dandelion/jqueryui/css/vader.css",
+                "remote" : "//code.jquery.com/ui/1.11.4/themes/vader/jquery-ui.css"
+            }
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "version": "0.8.8.beta.17",
+            "locations": {
+                "jar": "dandelion/datatables/features/filtering/jquery.dataTables.yadcf.js"
+            }
+        },
+        {
+            "version": "0.8.8.beta.10",
+            "locations": {
+                "jar": "dandelion/datatables/features/filtering/jquery.dataTables.yadcf.css"
+            }
+        }
+    ]
+}

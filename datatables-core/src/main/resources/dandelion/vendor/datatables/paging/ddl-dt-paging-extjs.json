@@ -1,0 +1,12 @@
+{
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "paging-extjs",
+            "version" : "fixed",
+            "locations": {
+                "jar": "dandelion/datatables/features/paging/extjs.js"
+            }
+        }
+    ]
+}

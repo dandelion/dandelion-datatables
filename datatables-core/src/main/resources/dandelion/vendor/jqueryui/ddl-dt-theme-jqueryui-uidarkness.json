@@ -1,0 +1,15 @@
+{
+    "bundle" : "ddl-dt-theme-jqueryui-uidarkness",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
+    "assets": [
+        {
+            "name": "jqueryui-uidarkness-css",
+            "version": "1.11.4",
+            "type": "css",
+            "locations": {
+                "jar" : "dandelion/jqueryui/css/ui-darkness.css",
+                "remote" : "//code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css"
+            }
+        }
+    ]
+}

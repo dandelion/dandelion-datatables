@@ -1,0 +1,24 @@
+{
+    "bundle" : "bootstrap3",
+    "dependencies" : [ "jquery" ],
+    "assets": [
+		{
+		    "name": "bootstrap3",
+		    "version": "3.3.4",
+		    "type": "js",
+		    "locations": {
+		    	"jar" : "dandelion/bootstrap3/js/bootstrap.js",
+		        "remote" : "//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"
+		    }
+		},       
+        {
+            "name": "bootstrap3",
+            "version": "3.3.4",
+            "type": "css",
+            "locations": {
+            	"jar" : "dandelion/bootstrap3/css/bootstrap.css",
+                "remote" : "//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.css"
+            }
+        }
+    ]
+}

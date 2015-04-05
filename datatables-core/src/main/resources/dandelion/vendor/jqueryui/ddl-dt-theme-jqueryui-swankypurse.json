@@ -1,0 +1,15 @@
+{
+    "bundle" : "ddl-dt-theme-jqueryui-swankypurse",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
+    "assets": [
+        {
+            "name": "jqueryui-swankypurse-css",
+            "version": "1.11.4",
+            "type": "css",
+            "locations": {
+                "jar" : "dandelion/jqueryui/css/swanky-purse.css",
+                "remote" : "//code.jquery.com/ui/1.11.4/themes/swanky-purse/jquery-ui.css"
+            }
+        }
+    ]
+}

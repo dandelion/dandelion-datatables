@@ -1,0 +1,12 @@
+{
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "paging-listbox",
+            "version" : "fixed",
+            "locations": {
+                "jar": "dandelion/datatables/features/paging/listbox.js"
+            }
+        }
+    ]
+}

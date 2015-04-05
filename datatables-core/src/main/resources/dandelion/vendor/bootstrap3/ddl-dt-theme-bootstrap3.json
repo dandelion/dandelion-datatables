@@ -1,0 +1,22 @@
+{
+    "bundle" : "ddl-dt-theme-bootstrap3",
+    "dependencies": [ "bootstrap3", "datatables" ],
+    "assets": [
+        {
+            "name": "bootstrap3-theme-js",
+            "version": "1.0.0",
+            "type": "js",
+            "locations": {
+                "jar": "dandelion/datatables/features/themes/bootstrap3/js/dataTables.bootstrap.js"
+            }
+        },
+        {
+            "name": "bootstrap3-theme-css",
+            "version": "1.0.0",
+            "type": "css",
+            "locations": {
+                "jar": "dandelion/datatables/features/themes/bootstrap3/css/dataTables.bootstrap.css"
+            }
+        }
+    ]
+}

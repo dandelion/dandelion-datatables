@@ -49,7 +49,6 @@ public enum DatatableBundles {
 	JQUERY_DOWNLOAD("jquery-download"),
 	
 	// Dandelion
-	DDL_DT_ROOT("ddl-dt-root"),
 	DDL_DT("ddl-dt"),
 	
 	DDL_DT_AJAX_PIPELINING("ddl-dt-ajax-pipelining"),
@@ -60,7 +59,6 @@ public enum DatatableBundles {
 	DDL_DT_THEME_BOOTSTRAP3("ddl-dt-theme-bootstrap3"),
 	DDL_DT_THEME_BOOTSTRAP3_RESPONSIVE("ddl-dt-theme-bootstrap3-responsive"),
 	DDL_DT_THEME_JQUERYUI("ddl-dt-theme-jqueryui"),
-	DDL_DT_THEME_JQUERYUI_BASE("ddl-dt-theme-jqueryui-base"),
 	DDL_DT_THEME_JQUERYUI_BLACKTIE("ddl-dt-theme-jqueryui-blacktie"),
 	DDL_DT_THEME_JQUERYUI_BLITZER("ddl-dt-theme-jqueryui-blitzer"),
 	DDL_DT_THEME_JQUERYUI_CUPERTINO("ddl-dt-theme-jqueryui-cupertino"),

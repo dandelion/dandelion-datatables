@@ -1,0 +1,13 @@
+{
+    "bundle" : "jquery",
+    "assets": [
+		{
+		    "name": "jquery",
+		    "version": "1.11.2",
+		    "locations": {
+		        "jar" : "dandelion/jquery/js/jquery.js",
+		    	"remote" : "//code.jquery.com/jquery-1.11.2.js"
+		    }
+		}
+    ]
+}

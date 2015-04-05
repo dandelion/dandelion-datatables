@@ -1,0 +1,15 @@
+{
+    "bundle" : "ddl-dt-theme-jqueryui-sunny",
+    "dependencies": [ "ddl-dt-theme-jqueryui" ],
+    "assets": [
+        {
+            "name": "jqueryui-sunny-css",
+            "version": "1.11.4",
+            "type": "css",
+            "locations": {
+                "jar" : "dandelion/jqueryui/css/sunny.css",
+                "remote" : "//code.jquery.com/ui/1.11.4/themes/sunny/jquery-ui.css"
+            }
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+{
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "name": "paging-scrolling",
+            "version" : "fixed",
+            "locations": {
+                "jar": "dandelion/datatables/features/paging/scrolling.js"
+            }
+        }
+    ]
+}
