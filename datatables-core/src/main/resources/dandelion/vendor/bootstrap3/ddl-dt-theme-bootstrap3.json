@@ -1,21 +1,22 @@
 {
-    "bundle" : "ddl-dt-theme-bootstrap3",
     "dependencies": [ "bootstrap3", "datatables" ],
     "assets": [
         {
             "name": "bootstrap3-theme-js",
-            "version": "1.0.0",
+            "version": "1.10.6",
             "type": "js",
             "locations": {
-                "jar": "dandelion/datatables/features/themes/bootstrap3/js/dataTables.bootstrap.js"
+                "jar": "dandelion/datatables/features/themes/bootstrap3/js/dataTables.bootstrap.js",
+                "remote" : "//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.js"
             }
         },
         {
             "name": "bootstrap3-theme-css",
-            "version": "1.0.0",
+            "version": "1.10.6",
             "type": "css",
             "locations": {
-                "jar": "dandelion/datatables/features/themes/bootstrap3/css/dataTables.bootstrap.css"
+                "jar": "dandelion/datatables/features/themes/bootstrap3/css/dataTables.bootstrap.css",
+                "remote" : "//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css"
             }
         }
     ]
