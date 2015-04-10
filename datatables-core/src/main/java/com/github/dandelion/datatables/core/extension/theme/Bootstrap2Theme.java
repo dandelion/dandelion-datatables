@@ -29,7 +29,6 @@
  */
 package com.github.dandelion.datatables.core.extension.theme;
 
-import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.generator.js.JsSnippet;
 import com.github.dandelion.datatables.core.DatatableBundles;
 import com.github.dandelion.datatables.core.extension.AbstractExtension;
@@ -68,18 +67,6 @@ public class Bootstrap2Theme extends AbstractExtension {
 			addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP_SIMPLE);
 			if (DatatableOptions.FEATURE_PAGINGTYPE.valueFrom(table.getTableConfiguration()) == null) {
 				addParameter(DTConstants.DT_PAGINGTYPE, PagingType.BOOTSTRAP_SIMPLE.toString());
-			}
-		}
-
-		ThemeOption themeOption = DatatableOptions.CSS_THEMEOPTION.valueFrom(table.getTableConfiguration());
-
-		if (themeOption != null) {
-			if (themeOption.equals(ThemeOption.TABLECLOTH)) {
-				addBundle(DatatableBundles.DDL_DT_THEME_BOOTSTRAP2_TABLECLOTH);
-			}
-			else {
-				throw new DandelionException(
-						"Only the 'tablecloth' theme option is compatible with the 'bootstrap2' theme");
 			}
 		}
 

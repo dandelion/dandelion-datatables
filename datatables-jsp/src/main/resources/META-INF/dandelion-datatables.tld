@@ -613,11 +613,6 @@
             <p>
             <ul>
             <li>Required: <b>no</b></li>
-            <li>Possible values for the 'bootstrap2' theme: 
-               <b>
-               <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tablecloth</p>
-               </b>
-            </li>
             <li>Possible values for the 'jqueryui' theme: 
                <b>
                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base</p>

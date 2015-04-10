@@ -57,7 +57,6 @@ public enum DatatableBundles {
 	DDL_DT_AJAX_PIPELINING("ddl-dt-ajax-pipelining"),
 	
 	DDL_DT_THEME_BOOTSTRAP2("ddl-dt-theme-bootstrap2"),
-	DDL_DT_THEME_BOOTSTRAP2_TABLECLOTH("ddl-dt-theme-bootstrap2-tablecloth"),
 	DDL_DT_THEME_BOOTSTRAP3("ddl-dt-theme-bootstrap3"),
 	DDL_DT_THEME_JQUERYUI("ddl-dt-theme-jqueryui"),
 	DDL_DT_THEME_JQUERYUI_BLACKTIE("ddl-dt-theme-jqueryui-blacktie"),

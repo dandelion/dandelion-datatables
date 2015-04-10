@@ -61,8 +61,5 @@ public enum ThemeOption {
 	TRONTASTIC,
 	UIDARKNESS,
 	UILIGHTNESS,
-	VADER,
-	
-	// Theme option available for the "bootstrap2" theme
-	TABLECLOTH;
+	VADER
 }
