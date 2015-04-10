@@ -1,0 +1,21 @@
+{
+    "dependencies": [ "datatables", "ddl-dt-theme-bootstrap3" ],
+    "assets": [
+        {
+            "name": "datatables-responsive-bs3",
+            "version": "1.0.5",
+            "locations": {
+            	"jar" : "dandelion/datatables/features/plugins/responsive/js/dataTables.responsive.js",
+                "remote": "//cdn.datatables.net/responsive/1.0.5/js/dataTables.responsive.js"
+            }
+        },
+        {
+        	"name": "datatables-responsive-bs3",
+            "version": "1.0.5",
+            "locations": {
+            	"jar" : "dandelion/datatables/features/plugins/responsive/css/dataTables.responsive.css",
+                "remote": "//cdn.datatables.net/responsive/1.0.5/css/dataTables.responsive.css"
+            }
+        }
+    ]
+}
