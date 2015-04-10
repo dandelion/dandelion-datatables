@@ -56,7 +56,7 @@ public class PagingTypeBootstrapFullNumbersFeature extends AbstractExtension {
 
 	@Override
 	public void setup(HtmlTable table) {
-		addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP_FULLNUMBERS);
+		addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP_FULL_NUMBERS);
 		addParameter(DTConstants.DT_PAGINGTYPE, PagingType.BOOTSTRAP_FULL_NUMBERS.toString());
 	}
 }

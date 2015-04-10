@@ -106,7 +106,7 @@ public enum DatatableBundles {
 	DDL_DT_PAGING_LISTBOX("ddl-dt-paging-listbox"),
 	DDL_DT_PAGING_BOOTSTRAP_SIMPLE("ddl-dt-paging-bootstrap-simple"),
 	DDL_DT_PAGING_BOOTSTRAP_FULL("ddl-dt-paging-bootstrap-full"),
-	DDL_DT_PAGING_BOOTSTRAP_FULLNUMBERS("ddl-dt-paging-bootstrap-full-numbers");
+	DDL_DT_PAGING_BOOTSTRAP_FULL_NUMBERS("ddl-dt-paging-bootstrap-full-numbers");
 	
 	private String bundleName;
 
