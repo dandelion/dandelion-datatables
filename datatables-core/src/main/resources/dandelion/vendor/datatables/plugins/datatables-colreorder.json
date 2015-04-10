@@ -4,14 +4,14 @@
         {
             "version": "1.1.2",
             "locations": {
-            	"jar" : "dandelion/datatables/features/plugins/js/dataTables.colReorder.js",
+            	"jar" : "dandelion/datatables/features/plugins/colreorder/js/dataTables.colReorder.js",
                 "remote" : "//cdn.datatables.net/colreorder/1.1.2/js/dataTables.colReorder.js"
             }
         },
         {
             "version": "1.1.2",
             "locations": {
-            	"jar" : "dandelion/datatables/features/plugins/css/dataTables.colReorder.css",
+            	"jar" : "dandelion/datatables/features/plugins/colreorder/css/dataTables.colReorder.css",
                 "remote": "//cdn.datatables.net/colreorder/1.1.2/css/dataTables.colReorder.css"
             }
         }

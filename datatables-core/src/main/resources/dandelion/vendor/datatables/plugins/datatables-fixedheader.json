@@ -4,14 +4,14 @@
         {
             "version": "2.1.2",
             "locations": {
-            	"jar" : "dandelion/datatables/features/plugins/js/dataTables.fixedHeader.js",
+            	"jar" : "dandelion/datatables/features/plugins/fixedheader/js/dataTables.fixedHeader.js",
                 "remote": "//cdn.datatables.net/fixedheader/2.1.2/js/dataTables.fixedHeader.js"
             }
         },
         {
             "version": "2.1.2",
             "locations": {
-            	"jar" : "dandelion/datatables/features/plugins/js/dataTables.fixedHeader.js",
+            	"jar" : "dandelion/datatables/features/plugins/fixedheader/js/dataTables.fixedHeader.js",
                 "remote": "//cdn.datatables.net/fixedheader/2.1.2/css/dataTables.fixedHeader.css"
             }
         }
