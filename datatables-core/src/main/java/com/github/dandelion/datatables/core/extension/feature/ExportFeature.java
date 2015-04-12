@@ -45,17 +45,18 @@ import com.github.dandelion.datatables.core.option.TableConfiguration;
  * <p>
  * Extension used to generate export links, depending on the export
  * configurations stored in the {@link TableConfiguration} instance.
- * 
+ * </p>
  * <p>
  * All export links are generated inside a dedicated {@link ExtraHtml} with the
  * uid {@code E}.
- * 
+ * </p>
  * <p>
  * If the {@link DatatableOptions#FEATURE_DOM} is not present in the
  * {@link TableConfiguration} instance, the export links container will be
  * inserted with the following configuration: {@code lEfrtip}. Otherwise, the
  * container must be added manually thanks to the
  * {@link DatatableOptions#FEATURE_DOM} feature.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.10.0
@@ -64,124 +65,133 @@ import com.github.dandelion.datatables.core.option.TableConfiguration;
  */
 public class ExportFeature extends AbstractExtension {
 
-	public static final String EXPORT_FEATURE_NAME = "export";
+   public static final String EXTENSION_NAME = "export";
+   private static final String TOOLBAR_PREXIX = "fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-";
+   
+   private HtmlTable table;
 
-	private HtmlTable table;
+   @Override
+   public String getExtensionName() {
+      return EXTENSION_NAME;
+   }
 
-	@Override
-	public String getExtensionName() {
-		return EXPORT_FEATURE_NAME;
-	}
+   @Override
+   public void setup(HtmlTable table) {
 
-	@Override
-	public void setup(HtmlTable table) {
+      this.table = table;
 
-		this.table = table;
+      // If the export has been configured to be triggered with a POST, PUT or
+      // DELETE HTTP method, a custom plugin must be added to the page
+      for (ExportConf exportConf : table.getTableConfiguration().getExportConfiguration().values()) {
+         if (exportConf.getMethod().equals(HttpMethod.POST) || exportConf.getMethod().equals(HttpMethod.PUT)
+               || exportConf.getMethod().equals(HttpMethod.DELETE)) {
+            addBundle(DatatableBundles.JQUERY_DOWNLOAD);
+         }
+      }
 
-		// If the export has been configured to be triggered with a POST, PUT or
-		// DELETE HTTP method, a custom plugin must be added to the page
-		for (ExportConf exportConf : table.getTableConfiguration().getExportConfiguration().values()) {
-			if (exportConf.getMethod().equals(HttpMethod.POST) || exportConf.getMethod().equals(HttpMethod.PUT)
-					|| exportConf.getMethod().equals(HttpMethod.DELETE)) {
-				addBundle(DatatableBundles.JQUERY_DOWNLOAD);
-			}
-		}
+      String exportContainerStyle = DatatableOptions.EXPORT_CONTAINER_STYLE.valueFrom(table.getTableConfiguration());
+      String exportContainerClass = DatatableOptions.EXPORT_CONTAINER_CLASS.valueFrom(table.getTableConfiguration());
 
-		String exportContainerStyle = DatatableOptions.EXPORT_CONTAINER_STYLE.valueFrom(table.getTableConfiguration());
-		String exportContainerClass = DatatableOptions.EXPORT_CONTAINER_CLASS.valueFrom(table.getTableConfiguration());
+      // In order to be easily positioned around the table, a DataTable
+      // feature is created
+      ExtraHtml extraHtml = new ExtraHtml();
+      extraHtml.setUid("E");
+      extraHtml.setContainer("div");
+      extraHtml.setCssClass("dataTables_export "
+            + (StringUtils.isNotBlank(exportContainerClass) ? exportContainerClass : ""));
+      extraHtml.setCssStyle(StringUtils.isNotBlank(exportContainerStyle) ? exportContainerStyle : "float: right;");
 
-		// In order to be easily positioned around the table, a DataTable
-		// feature is created
-		ExtraHtml extraHtml = new ExtraHtml();
-		extraHtml.setUid("E");
-		extraHtml.setContainer("div");
-		extraHtml.setCssClass("dataTables_export "
-				+ (StringUtils.isNotBlank(exportContainerClass) ? exportContainerClass : ""));
-		extraHtml.setCssStyle(StringUtils.isNotBlank(exportContainerStyle) ? exportContainerStyle : "float: right;");
+      String dom = DatatableOptions.FEATURE_DOM.valueFrom(table.getTableConfiguration());
+      if (table.getTableConfiguration().getConfigurations().containsKey(DatatableOptions.CSS_THEME)
+            && table.getTableConfiguration().getConfigurations().get(DatatableOptions.CSS_THEME).getClass()
+                  .getSimpleName().equals("JQueryUITheme")) {
+         addParameter(
+               DTConstants.DT_DOM,
+               "<'" + TOOLBAR_PREXIX + "-tr'lEfr>t<'" + TOOLBAR_PREXIX + "-br'ip>",
+               Mode.OVERRIDE);
+      }
+      else if (StringUtils.isBlank(dom)) {
+         addParameter(DTConstants.DT_DOM, "lEfrtip", Mode.OVERRIDE);
+      }
 
-		String dom = DatatableOptions.FEATURE_DOM.valueFrom(table.getTableConfiguration());
-		if (StringUtils.isBlank(dom)) {
-			addParameter(DTConstants.DT_DOM, "lEfrtip", Mode.OVERRIDE);
-		}
+      StringBuilder content = new StringBuilder();
+      HtmlHyperlink link = null;
 
-		StringBuilder content = new StringBuilder();
-		HtmlHyperlink link = null;
+      // A HTML link is generated for each ExportConf bean
+      for (ExportConf conf : table.getTableConfiguration().getExportConfiguration().values()) {
 
-		// A HTML link is generated for each ExportConf bean
-		for (ExportConf conf : table.getTableConfiguration().getExportConfiguration().values()) {
+         link = new HtmlHyperlink();
 
-			link = new HtmlHyperlink();
+         if (conf.getCssClass() != null) {
+            link.setCssClass(conf.getCssClass());
+         }
 
-			if (conf.getCssClass() != null) {
-				link.setCssClass(conf.getCssClass());
-			}
+         if (conf.getCssStyle() != null) {
+            link.setCssStyle(conf.getCssStyle());
+            link.addCssStyle(";margin-left:2px;");
+         }
+         else {
+            link.addCssStyle("margin-left:2px;");
+         }
 
-			if (conf.getCssStyle() != null) {
-				link.setCssStyle(conf.getCssStyle());
-				link.addCssStyle(";margin-left:2px;");
-			}
-			else {
-				link.addCssStyle("margin-left:2px;");
-			}
+         if (conf.hasCustomUrl()) {
+            link.setOnclick(getOnclick(conf));
+         }
+         else {
+            link.setHref(conf.getUrl());
+         }
+         link.addContent(conf.getLabel());
+         content.append(link.toHtml());
+      }
+      extraHtml.setContent(content.toString());
 
-			if (conf.hasCustomUrl()) {
-				link.setOnclick(getOnclick(conf));
-			}
-			else {
-				link.setHref(conf.getUrl());
-			}
-			link.addContent(conf.getLabel());
-			content.append(link.toHtml());
-		}
-		extraHtml.setContent(content.toString());
+      // Once created, the extraHtml is transformed into Javascript and
+      // appended in the DataTables configuration
+      appendToAfterStartDocumentReady(extraHtml.getJavascript().toString());
+   }
 
-		// Once created, the extraHtml is transformed into Javascript and
-		// appended in the DataTables configuration
-		appendToAfterStartDocumentReady(extraHtml.getJavascript().toString());
-	}
+   private String getOnclick(ExportConf exportConf) {
 
-	private String getOnclick(ExportConf exportConf) {
+      String oTableId = "oTable_" + table.getId();
+      StringBuilder params = new StringBuilder();
 
-		String oTableId = "oTable_" + table.getId();
-		StringBuilder params = new StringBuilder();
+      StringBuilder exportFuncName = new StringBuilder("ddl_dt_launch_export_");
+      exportFuncName.append(table.getId());
+      exportFuncName.append("_");
+      exportFuncName.append(exportConf.getFormat());
 
-		StringBuilder exportFuncName = new StringBuilder("ddl_dt_launch_export_");
-		exportFuncName.append(table.getId());
-		exportFuncName.append("_");
-		exportFuncName.append(exportConf.getFormat());
+      StringBuilder exportFunc = new StringBuilder("function ");
+      exportFunc.append(exportFuncName.toString());
+      exportFunc.append("(){");
 
-		StringBuilder exportFunc = new StringBuilder("function ");
-		exportFunc.append(exportFuncName.toString());
-		exportFunc.append("(){");
+      params.append(oTableId).append(".ajax.params()");
 
-		params.append(oTableId).append(".ajax.params()");
+      // HTTP GET
+      if (exportConf.getMethod().equals(HttpMethod.GET)) {
+         exportFunc.append("window.location=\"").append(exportConf.getUrl());
+         if (exportConf.getUrl().contains("?")) {
+            exportFunc.append("&");
+         }
+         else {
+            exportFunc.append("?");
+         }
 
-		// HTTP GET
-		if (exportConf.getMethod().equals(HttpMethod.GET)) {
-			exportFunc.append("window.location=\"").append(exportConf.getUrl());
-			if (exportConf.getUrl().contains("?")) {
-				exportFunc.append("&");
-			}
-			else {
-				exportFunc.append("?");
-			}
+         // Parameters should be decoded because jQuery.param() uses
+         // .serialize() which encodes the URL
+         exportFunc.append("\" + decodeURIComponent($.param(").append(params.toString())
+               .append(")).replace(/\\+/g,' ');");
+      }
+      // HTTP POST/PUT/DELETE
+      else {
+         exportFunc.append("$.download('").append(exportConf.getUrl()).append("', decodeURIComponent($.param(")
+               .append(params.toString()).append(")).replace(/\\+/g,' '),'").append(exportConf.getMethod())
+               .append("');");
+      }
 
-			// Parameters should be decoded because jQuery.param() uses
-			// .serialize() which encodes the URL
-			exportFunc.append("\" + decodeURIComponent($.param(").append(params.toString())
-					.append(")).replace(/\\+/g,' ');");
-		}
-		// HTTP POST/PUT/DELETE
-		else {
-			exportFunc.append("$.download('").append(exportConf.getUrl()).append("', decodeURIComponent($.param(")
-					.append(params.toString()).append(")).replace(/\\+/g,' '),'").append(exportConf.getMethod())
-					.append("');");
-		}
+      exportFunc.append("}");
 
-		exportFunc.append("}");
+      appendToBeforeAll(exportFunc.toString());
 
-		appendToBeforeAll(exportFunc.toString());
-
-		return exportFuncName.append("();").toString();
-	}
+      return exportFuncName.append("();").toString();
+   }
 }

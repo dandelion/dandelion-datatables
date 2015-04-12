@@ -87,7 +87,7 @@ public class ExportEnabledFormatProcessor extends AbstractOptionProcessor {
 				} 
 			}
 
-			context.registerExtension(ExportFeature.EXPORT_FEATURE_NAME);
+			context.registerExtension(ExportFeature.EXTENSION_NAME);
 		}
 		
 		// TODO bizarre
