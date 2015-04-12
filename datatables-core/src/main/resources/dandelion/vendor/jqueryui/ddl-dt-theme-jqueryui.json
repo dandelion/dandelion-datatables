@@ -1,0 +1,25 @@
+{
+    "dependencies": [ "datatables" ],
+    "assets": [
+        {
+            "version": "1.10.6",
+            "locations": {
+            	"jar": "dandelion/datatables/features/themes/jqueryui/css/dataTables.jqueryui.css",
+                "remote" : "//cdn.datatables.net/plug-ins/1.10.6/integration/jqueryui/dataTables.jqueryui.css"
+            }
+        },
+        {
+            "version": "1.10.6",
+            "locations": {
+            	"jar": "dandelion/datatables/features/themes/jqueryui/css/dandelion.dataTables.jqueryui.css"
+            }
+        },
+        {
+            "version": "1.10.6",
+            "locations": {
+            	"jar": "dandelion/datatables/features/themes/jqueryui/js/dataTables.jqueryui.js",
+                "remote" : "//cdn.datatables.net/plug-ins/1.10.6/integration/jqueryui/dataTables.jqueryui.js"
+            }
+        }
+    ]
+}

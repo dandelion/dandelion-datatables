@@ -1,5 +1,4 @@
 {
-    "bundle" : "ddl-dt-theme-jqueryui-flick",
     "dependencies": [ "ddl-dt-theme-jqueryui" ],
     "assets": [
         {

@@ -1,5 +1,4 @@
 {
-    "bundle" : "ddl-dt-theme-jqueryui-cupertino",
     "dependencies": [ "ddl-dt-theme-jqueryui" ],
     "assets": [
         {

@@ -1,5 +1,4 @@
 {
-    "bundle" : "ddl-dt-theme-jqueryui-sunny",
     "dependencies": [ "ddl-dt-theme-jqueryui" ],
     "assets": [
         {
