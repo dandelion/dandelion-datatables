@@ -5,7 +5,7 @@
    <parent>
       <groupId>com.github.dandelion</groupId>
       <artifactId>dandelion-datatables</artifactId>
-      <version>0.11.0-SNAPSHOT</version>
+      <version>1.0.0-SNAPSHOT</version>
    </parent>
 
    <artifactId>datatables-docs</artifactId>
@@ -19,7 +19,7 @@
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
       <!-- Dependencies -->
-      <dandelion.version>0.11.0-SNAPSHOT</dandelion.version>
+      <dandelion.version>1.0.0-SNAPSHOT</dandelion.version>
       <asciidoctor.version>1.5.0</asciidoctor.version>
       <asciidoctor-pdf.version>1.5.0.alpha.4</asciidoctor-pdf.version>
 
