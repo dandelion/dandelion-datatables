@@ -76,7 +76,7 @@ import com.github.dandelion.datatables.core.option.processor.main.MainExtensionN
  * </p>
  * 
  * @author Thibault Duchateau
- * @since 0.11.0
+ * @since 1.0.0
  */
 public final class DatatableOptions {
 

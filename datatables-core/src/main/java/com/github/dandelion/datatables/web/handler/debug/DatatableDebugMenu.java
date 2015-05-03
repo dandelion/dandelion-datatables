@@ -44,7 +44,7 @@ import com.github.dandelion.core.web.handler.debug.DebugPage;
  * </p>
  * 
  * @author Thibault Duchateau
- * @since 0.11.0
+ * @since 1.0.0
  */
 public class DatatableDebugMenu implements DebugMenu {
 

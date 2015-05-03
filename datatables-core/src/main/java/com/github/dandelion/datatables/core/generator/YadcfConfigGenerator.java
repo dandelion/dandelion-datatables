@@ -51,7 +51,7 @@ import com.github.dandelion.datatables.core.util.CollectionUtils;
  * TODO
  * 
  * @author Thibault Duchateau
- * @since 0.11.0
+ * @since 1.0.0
  */
 public class YadcfConfigGenerator {
 

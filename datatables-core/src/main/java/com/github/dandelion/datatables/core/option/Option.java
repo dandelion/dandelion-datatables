@@ -70,7 +70,7 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
  *            Type of the option, crucial for the JavaScript generation. See
  *            {@link DatatableConfigGenerator}.
  * @author Thibault Duchateau
- * @since 0.11.0
+ * @since 1.0.0
  * @see OptionProcessor
  */
 public class Option<T> implements Comparable<Option<T>> {

@@ -56,7 +56,7 @@ import com.github.dandelion.datatables.core.util.ConfigUtils;
  * </p>
  * 
  * @author Thibault Duchateau
- * @since 0.11.0
+ * @since 1.0.0
  */
 public class DatatableOptionsDebugPage extends AbstractDebugPage {
 
