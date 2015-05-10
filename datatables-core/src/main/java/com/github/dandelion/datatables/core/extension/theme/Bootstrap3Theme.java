@@ -76,9 +76,6 @@ public class Bootstrap3Theme extends AbstractExtension {
 		return "bootstrap3";
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setup(HtmlTable table) {
 

@@ -54,9 +54,6 @@ public class Bootstrap2Theme extends AbstractExtension {
 		return "bootstrap2";
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setup(HtmlTable table) {
 
