@@ -1,21 +1,21 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright
  * notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
- * 3. Neither the name of Dandelion nor the names of its contributors 
- * may be used to endorse or promote products derived from this software 
+ * 3. Neither the name of Dandelion nor the names of its contributors
+ * may be used to endorse or promote products derived from this software
  * without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -29,44 +29,41 @@
  */
 package com.github.dandelion.datatables.core;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.github.dandelion.core.Component;
 import com.github.dandelion.core.Context;
-import com.github.dandelion.core.bundle.loader.AbstractBundleLoader;
+import com.github.dandelion.core.bundle.loader.BundleLoader;
+import com.github.dandelion.core.web.handler.debug.DebugMenu;
+import com.github.dandelion.datatables.core.web.handler.debug.DatatableDebugMenu;
 
 /**
  * <p>
- * Bundle loader used to recursively load user-defined bundles inside the
- * {@code dandelion/datatables} folder of the classpath.
+ * Dandelion-Datatables component which registers features.
  * </p>
  * 
  * @author Thibault Duchateau
- * @since 0.10.0
+ * @since 1.0.0
  */
-public class DatatableBundleLoader extends AbstractBundleLoader {
+public class DatatableComponent implements Component {
 
-   private static final Logger LOG = LoggerFactory.getLogger(DatatableBundleLoader.class);
-
-   public static final String LOADER_NAME = "dandelion-datatables";
-   public static final String SCANNING_PATH = "dandelion/datatables";
-
-   public DatatableBundleLoader(Context context, boolean isStandalone) {
-      super(context, isStandalone);
-   }
+   public static final String COMPONENT_NAME = "ddl-dt";
 
    @Override
    public String getName() {
-      return LOADER_NAME;
+      return COMPONENT_NAME;
    }
 
    @Override
-   protected Logger getLogger() {
-      return LOG;
+   public BundleLoader getBundleLoader(Context context) {
+      if (context.getConfiguration().getComponentsStandalone().contains(COMPONENT_NAME)) {
+         return new DatatableBundleLoader(context, true);
+      }
+      else {
+         return new DatatableBundleLoader(context, false);
+      }
    }
 
    @Override
-   public String getScanningPath() {
-      return SCANNING_PATH;
+   public DebugMenu getDebugMenu() {
+      return new DatatableDebugMenu();
    }
 }
