@@ -2,8 +2,10 @@
 	"dependencies": [ "datatables" ], 
     "assets": [
         {
+        	"name" : "dandelion-datatables",
+        	"type" : "js",
         	"locations": {
-        		"api": "dandelion-datatables.js"
+        		"api": "ddl-dt"
         	}
         }
     ]

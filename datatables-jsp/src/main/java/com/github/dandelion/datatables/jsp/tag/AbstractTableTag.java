@@ -47,11 +47,11 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.generator.js.jquery.JQueryContent;
-import com.github.dandelion.core.asset.generator.js.jquery.JQueryContentGenerator;
-import com.github.dandelion.core.asset.locator.impl.ApiLocator;
+import com.github.dandelion.core.asset.generator.js.jquery.JQueryJsContentGenerator;
 import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.core.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.DatatableBundles;
+import com.github.dandelion.datatables.core.DatatableComponent;
 import com.github.dandelion.datatables.core.export.ExportDelegate;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.generator.DatatableJQueryContent;
@@ -76,285 +76,285 @@ import com.github.dandelion.datatables.core.option.Option;
  */
 public abstract class AbstractTableTag extends BodyTagSupport implements DynamicAttributes {
 
-	private static final long serialVersionUID = 4788079931487986884L;
+   private static final long serialVersionUID = 4788079931487986884L;
 
-	protected static Logger logger = LoggerFactory.getLogger(TableTag.class);
+   protected static Logger logger = LoggerFactory.getLogger(TableTag.class);
 
-	/**
-	 * Tag attributes
-	 */
-	// Table id
-	protected String id;
+   /**
+    * Tag attributes
+    */
+   // Table id
+   protected String id;
 
-	// First way to populate the table: using a Collection
-	protected Object data;
+   // First way to populate the table: using a Collection
+   protected Object data;
 
-	// Second way to populate the table: using the URL that returns data
-	protected String url;
+   // Second way to populate the table: using the URL that returns data
+   protected String url;
 
-	// Name that has been assigned for the iterated object set in the page
-	// context
-	protected String row;
+   // Name that has been assigned for the iterated object set in the page
+   // context
+   protected String row;
 
-	// Name of the configuration group to be applied to the table
-	protected String confGroup;
+   // Name of the configuration group to be applied to the table
+   protected String confGroup;
 
-	// Used when an id is to be assigned to each row
-	protected String rowIdBase;
-	protected String rowIdPrefix;
-	protected String rowIdSuffix;
+   // Used when an id is to be assigned to each row
+   protected String rowIdBase;
+   protected String rowIdPrefix;
+   protected String rowIdSuffix;
 
-	// Whether XML characters should be escaped
-	protected boolean escapeXml = true;
+   // Whether XML characters should be escaped
+   protected boolean escapeXml = true;
 
-	/**
-	 * Internal attributes
-	 */
-	// Map containing the staging configuration to be applied to the table at
-	// the end of the tag processing
-	protected Map<Option<?>, Object> stagingConf;
-	protected Integer iterationNumber;
-	protected HtmlTable table;
-	protected Iterator<Object> iterator;
-	protected Object currentObject;
-	protected String dataSourceType;
-	protected Map<String, String> dynamicAttributes;
-	protected HttpServletRequest request;
-	protected HttpServletResponse response;
+   /**
+    * Internal attributes
+    */
+   // Map containing the staging configuration to be applied to the table at
+   // the end of the tag processing
+   protected Map<Option<?>, Object> stagingConf;
+   protected Integer iterationNumber;
+   protected HtmlTable table;
+   protected Iterator<Object> iterator;
+   protected Object currentObject;
+   protected String dataSourceType;
+   protected Map<String, String> dynamicAttributes;
+   protected HttpServletRequest request;
+   protected HttpServletResponse response;
 
-	/**
-	 * <p>
-	 * Process the iteration over the collection of data.
-	 * 
-	 * <p>
-	 * Note that no iteration is required when using an AJAX source.
-	 * 
-	 * @return {@code EVAL_BODY_BUFFERED} if some data remain in the Java
-	 *         Collection, {@code SKIP_BODY} otherwise.
-	 * @throws JspException
-	 *             if something went wrong during the row id generation.
-	 */
-	protected int processIteration() throws JspException {
+   /**
+    * <p>
+    * Process the iteration over the collection of data.
+    * 
+    * <p>
+    * Note that no iteration is required when using an AJAX source.
+    * 
+    * @return {@code EVAL_BODY_BUFFERED} if some data remain in the Java
+    *         Collection, {@code SKIP_BODY} otherwise.
+    * @throws JspException
+    *            if something went wrong during the row id generation.
+    */
+   protected int processIteration() throws JspException {
 
-		if ("DOM".equals(this.dataSourceType)) {
-			Integer retval = null;
+      if ("DOM".equals(this.dataSourceType)) {
+         Integer retval = null;
 
-			if (iterator != null && iterator.hasNext()) {
-				Object object = iterator.next();
+         if (iterator != null && iterator.hasNext()) {
+            Object object = iterator.next();
 
-				this.setCurrentObject(object);
-				stagingConf.put(DatatableOptions.INTERNAL_OBJECTTYPE, object.getClass().getSimpleName());
+            this.setCurrentObject(object);
+            stagingConf.put(DatatableOptions.INTERNAL_OBJECTTYPE, object.getClass().getSimpleName());
 
-				if (row != null) {
-					pageContext.setAttribute(row, object);
-					pageContext.setAttribute(row + "_rowIndex", iterationNumber);
-				}
+            if (row != null) {
+               pageContext.setAttribute(row, object);
+               pageContext.setAttribute(row + "_rowIndex", iterationNumber);
+            }
 
-				String rowId = getRowId();
-				if (StringUtils.isNotBlank(rowId)) {
-					this.table.addRow(rowId);
-				}
-				else {
-					this.table.addRow();
-				}
-				retval = EVAL_BODY_BUFFERED;
-			}
-			else {
-				retval = SKIP_BODY;
-			}
+            String rowId = getRowId();
+            if (StringUtils.isNotBlank(rowId)) {
+               this.table.addRow(rowId);
+            }
+            else {
+               this.table.addRow();
+            }
+            retval = EVAL_BODY_BUFFERED;
+         }
+         else {
+            retval = SKIP_BODY;
+         }
 
-			if (isFirstIteration()) {
-				retval = EVAL_BODY_BUFFERED;
-			}
+         if (isFirstIteration()) {
+            retval = EVAL_BODY_BUFFERED;
+         }
 
-			return retval;
-		}
-		else {
-			return SKIP_BODY;
-		}
-	}
+         return retval;
+      }
+      else {
+         return SKIP_BODY;
+      }
+   }
 
-	/**
-	 * Return the row id using prefix, base and suffix. Prefix and sufix are
-	 * just prepended and appended strings. Base is extracted from the current
-	 * iterated object.
-	 * 
-	 * @return return the row id using prefix, base and suffix.
-	 * @throws JspException
-	 *             is the rowIdBase doesn't have a corresponding property
-	 *             accessor method.
-	 */
-	protected String getRowId() throws JspException {
+   /**
+    * Return the row id using prefix, base and suffix. Prefix and sufix are just
+    * prepended and appended strings. Base is extracted from the current
+    * iterated object.
+    * 
+    * @return return the row id using prefix, base and suffix.
+    * @throws JspException
+    *            is the rowIdBase doesn't have a corresponding property accessor
+    *            method.
+    */
+   protected String getRowId() throws JspException {
 
-		StringBuilder rowId = new StringBuilder();
+      StringBuilder rowId = new StringBuilder();
 
-		if (StringUtils.isNotBlank(this.rowIdPrefix)) {
-			rowId.append(StringUtils.escape(this.escapeXml, this.rowIdPrefix));
-		}
+      if (StringUtils.isNotBlank(this.rowIdPrefix)) {
+         rowId.append(StringUtils.escape(this.escapeXml, this.rowIdPrefix));
+      }
 
-		if (StringUtils.isNotBlank(this.rowIdBase)) {
-			try {
-				Object propertyValue = PropertyUtils.getNestedProperty(this.currentObject,
-						StringUtils.escape(this.escapeXml, this.rowIdBase));
-				rowId.append(propertyValue != null ? propertyValue : "");
-			}
-			catch (IllegalAccessException e) {
-				throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
-			}
-			catch (InvocationTargetException e) {
-				throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
-			}
-			catch (NoSuchMethodException e) {
-				throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
-			}
-		}
+      if (StringUtils.isNotBlank(this.rowIdBase)) {
+         try {
+            Object propertyValue = PropertyUtils.getNestedProperty(this.currentObject,
+                  StringUtils.escape(this.escapeXml, this.rowIdBase));
+            rowId.append(propertyValue != null ? propertyValue : "");
+         }
+         catch (IllegalAccessException e) {
+            throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
+         }
+         catch (InvocationTargetException e) {
+            throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
+         }
+         catch (NoSuchMethodException e) {
+            throw new JspException("Unable to get the value for the given rowIdBase " + this.rowIdBase, e);
+         }
+      }
 
-		if (StringUtils.isNotBlank(this.rowIdSuffix)) {
-			rowId.append(StringUtils.escape(this.escapeXml, this.rowIdSuffix));
-		}
+      if (StringUtils.isNotBlank(this.rowIdSuffix)) {
+         rowId.append(StringUtils.escape(this.escapeXml, this.rowIdSuffix));
+      }
 
-		return rowId.toString();
-	}
+      return rowId.toString();
+   }
 
-	/**
-	 * Set up the HTML table generation.
-	 * 
-	 * @return allways EVAL_PAGE to keep evaluating the page.
-	 * @throws JspException
-	 *             if something went wrong during the processing.
-	 */
-	protected int setupHtmlGeneration() throws JspException {
+   /**
+    * Set up the HTML table generation.
+    * 
+    * @return allways EVAL_PAGE to keep evaluating the page.
+    * @throws JspException
+    *            if something went wrong during the processing.
+    */
+   protected int setupHtmlGeneration() throws JspException {
 
-		this.table.getTableConfiguration().setExporting(false);
+      this.table.getTableConfiguration().setExporting(false);
 
-		// Generate the JavaScript code according to the table and its configuration
-		JQueryContent datatableContent = new DatatableJQueryContent(this.table);
+      // Generate the JavaScript code according to the table and its
+      // configuration
+      JQueryContent datatableContent = new DatatableJQueryContent(this.table);
 
-		// Get the existing JavaScript generator or create it if it doesn't exist
-		JQueryContentGenerator javascriptGenerator = AssetRequestContext.get(this.request).getParameterValue(
-				"dandelion-datatables", ApiLocator.API_CONTENT_PARAM);
+      // Get the existing JavaScript generator or create it if it doesn't exist
+      JQueryJsContentGenerator javascriptGenerator = (JQueryJsContentGenerator) AssetRequestContext
+            .get(this.request)
+            .getGenerator(DatatableComponent.COMPONENT_NAME);
+      
+      if (javascriptGenerator == null) {
+         javascriptGenerator = new JQueryJsContentGenerator(datatableContent);
+      }
+      else {
+         javascriptGenerator.appendContent(datatableContent);
+      }
 
-		if (javascriptGenerator == null) {
-			javascriptGenerator = new JQueryContentGenerator(datatableContent);
-		}
-		else {
-			javascriptGenerator.appendContent(datatableContent);
-		}
+      // Update the asset request context with the enabled bundles and
+      // Javascript generator
+      AssetRequestContext
+         .get(this.request)
+         .addBundles(DatatableBundles.DDL_DT)
+         .addGenerator(DatatableComponent.COMPONENT_NAME, javascriptGenerator);
 
-		// Update the asset request context with the enabled bundles and
-		// Javascript generator
-		AssetRequestContext
-			.get(this.request)
-			.addBundles(DatatableBundles.DDL_DT)
-			.addBundles(DatatableBundles.DATATABLES)
-			.addParameter("dandelion-datatables", ApiLocator.API_CONTENT_PARAM, javascriptGenerator,
-					false);
+      try {
+         this.pageContext.getOut().println(this.table.toHtml());
+      }
+      catch (IOException e) {
+         throw new JspException("Unable to generate the HTML markup for the table " + id, e);
+      }
 
-		try {
-			this.pageContext.getOut().println(this.table.toHtml());
-		}
-		catch (IOException e) {
-			throw new JspException("Unable to generate the HTML markup for the table " + id, e);
-		}
+      return EVAL_PAGE;
+   }
 
-		return EVAL_PAGE;
-	}
+   /**
+    * Set up the export properties, before the filter intercepts the response.
+    * 
+    * @return always {@code SKIP_PAGE}, because the export filter will override
+    *         the response with the exported data instead of displaying the
+    *         page.
+    * @throws JspException
+    *            if something went wrong during export.
+    */
+   protected int setupExport() throws JspException {
 
-	/**
-	 * Set up the export properties, before the filter intercepts the response.
-	 * 
-	 * @return always {@code SKIP_PAGE}, because the export filter will override
-	 *         the response with the exported data instead of displaying the
-	 *         page.
-	 * @throws JspException
-	 *             if something went wrong during export.
-	 */
-	protected int setupExport() throws JspException {
+      String currentExportType = ExportUtils.getCurrentExportType(request);
 
-		String currentExportType = ExportUtils.getCurrentExportType(request);
+      this.table.getTableConfiguration().setExporting(true);
+      this.table.getTableConfiguration().setCurrentExportFormat(currentExportType);
 
-		this.table.getTableConfiguration().setExporting(true);
-		this.table.getTableConfiguration().setCurrentExportFormat(currentExportType);
+      try {
+         // Call the export delegate
+         ExportDelegate exportDelegate = new ExportDelegate(table, request);
+         exportDelegate.prepareExport();
 
-		try {
-			// Call the export delegate
-			ExportDelegate exportDelegate = new ExportDelegate(table, request);
-			exportDelegate.prepareExport();
+      }
+      catch (DandelionException e) {
+         logger.error("Something went wront with the Dandelion export configuration.");
+         throw new JspException(e);
+      }
 
-		}
-		catch (DandelionException e) {
-			logger.error("Something went wront with the Dandelion export configuration.");
-			throw new JspException(e);
-		}
+      response.reset();
 
-		response.reset();
+      return SKIP_PAGE;
+   }
 
-		return SKIP_PAGE;
-	}
+   /**
+    * {@inheritDoc}
+    */
+   public void setDynamicAttribute(String uri, String localName, Object value) throws JspException {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setDynamicAttribute(String uri, String localName, Object value) throws JspException {
+      validateDynamicAttribute(localName, value);
 
-		validateDynamicAttribute(localName, value);
+      if (this.dynamicAttributes == null) {
+         this.dynamicAttributes = new HashMap<String, String>();
+      }
 
-		if (this.dynamicAttributes == null) {
-			this.dynamicAttributes = new HashMap<String, String>();
-		}
+      this.dynamicAttributes.put(localName, (String) value);
+   }
 
-		this.dynamicAttributes.put(localName, (String) value);
-	}
+   /**
+    * <p>
+    * Validates the passed dynamic attribute.
+    * 
+    * <p>
+    * The dynamic attribute must not conflict with other attributes and must
+    * have a valid type.
+    * 
+    * @param localName
+    *           Name of the dynamic attribute.
+    * @param value
+    *           Value of the dynamic attribute.
+    */
+   private void validateDynamicAttribute(String localName, Object value) {
+      if (localName.equals("class")) {
+         throw new IllegalArgumentException(
+               "The 'class' attribute is not allowed. Please use the 'cssClass' attribute instead.");
+      }
+      if (localName.equals("style")) {
+         throw new IllegalArgumentException(
+               "The 'style' attribute is not allowed. Please use the 'cssStyle' attribute instead.");
+      }
+      if (!(value instanceof String)) {
+         throw new IllegalArgumentException("The attribute " + localName
+               + " won't be added to the table. Only string values are accepted.");
+      }
+   }
 
-	/**
-	 * <p>
-	 * Validates the passed dynamic attribute.
-	 * 
-	 * <p>
-	 * The dynamic attribute must not conflict with other attributes and must
-	 * have a valid type.
-	 * 
-	 * @param localName
-	 *            Name of the dynamic attribute.
-	 * @param value
-	 *            Value of the dynamic attribute.
-	 */
-	private void validateDynamicAttribute(String localName, Object value) {
-		if (localName.equals("class")) {
-			throw new IllegalArgumentException(
-					"The 'class' attribute is not allowed. Please use the 'cssClass' attribute instead.");
-		}
-		if (localName.equals("style")) {
-			throw new IllegalArgumentException(
-					"The 'style' attribute is not allowed. Please use the 'cssStyle' attribute instead.");
-		}
-		if (!(value instanceof String)) {
-			throw new IllegalArgumentException("The attribute " + localName
-					+ " won't be added to the table. Only string values are accepted.");
-		}
-	}
+   public HtmlTable getTable() {
+      return this.table;
+   }
 
-	public HtmlTable getTable() {
-		return this.table;
-	}
+   public boolean isFirstIteration() {
+      return this.iterationNumber.equals(1);
+   }
 
-	public boolean isFirstIteration() {
-		return this.iterationNumber.equals(1);
-	}
+   public int getIterationNumber() {
+      return this.iterationNumber;
+   }
 
-	public int getIterationNumber() {
-		return this.iterationNumber;
-	}
+   public Object getCurrentObject() {
+      return this.currentObject;
+   }
 
-	public Object getCurrentObject() {
-		return this.currentObject;
-	}
+   public void setCurrentObject(Object currentObject) {
+      this.currentObject = currentObject;
+   }
 
-	public void setCurrentObject(Object currentObject) {
-		this.currentObject = currentObject;
-	}
-
-	public String getDataSourceType() {
-		return this.dataSourceType;
-	}
+   public String getDataSourceType() {
+      return this.dataSourceType;
+   }
 }
