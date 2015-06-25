@@ -36,6 +36,10 @@
       $.get('%CONTEXT%/ddl-dt-debugger/html/includes/ddl-dt-option-groups.mustache.html', function(template) {
         $('#contents').html(Mustache.render(template, context));
       });
+      $('#table-tab a').click(function (e) {
+      	e.preventDefault()	
+        $(this).tab('show')
+      });
     });
   </script>
 </body>

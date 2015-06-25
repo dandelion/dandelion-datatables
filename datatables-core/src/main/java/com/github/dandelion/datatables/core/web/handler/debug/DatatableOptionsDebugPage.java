@@ -136,7 +136,7 @@ public class DatatableOptionsDebugPage extends AbstractDebugPage {
 			
 			tableOptions.add(new MapBuilder<String, Object>()
                .entry("name", entry.getKey().getName())
-               .entry("value", entry.getValue())
+               .entry("value", entry.getValue() instanceof Extension ? entry.getValue().getClass().getCanonicalName() : entry.getValue())
                .entry("precedence", entry.getKey().getPrecedence())
                .create());
 		}

@@ -42,6 +42,7 @@ import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.core.web.handler.HandlerContext;
 import com.github.dandelion.core.web.handler.debug.AbstractDebugPage;
 import com.github.dandelion.datatables.core.config.DatatableConfigurator;
+import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.option.TableConfigurationFactory;
@@ -90,6 +91,7 @@ public class DatatableOptionGroupsDebugPage extends AbstractDebugPage {
 			groupJson.put("options", getGroupOptions(entry.getValue()));
 			groupJson.put("active", index == 0 ? "active" : "");
 			groupsJson.add(groupJson);
+			index++;
 		}
 
 		Map<String, Object> pageContext = new HashMap<String, Object>();
@@ -182,7 +184,17 @@ public class DatatableOptionGroupsDebugPage extends AbstractDebugPage {
 	private Map<String, Object> option(Option<?> option, Map<Option<?>, Object> optionsMap) {
 		Map<String, Object> optionMap = new HashMap<String, Object>();
 		optionMap.put("name", option.getName());
-		optionMap.put("value", optionsMap.containsKey(option) ? optionsMap.get(option) : "");
+		if(optionsMap.containsKey(option)) {
+		   if(optionsMap.get(option) instanceof Extension) {
+		      optionMap.put("value", optionsMap.get(option).getClass().getCanonicalName());
+		   }
+		   else {
+		      optionMap.put("value", optionsMap.get(option));
+		   }
+		}
+		else {
+		   optionMap.put("value", "");
+		}
 		return optionMap;
 	}
 }
