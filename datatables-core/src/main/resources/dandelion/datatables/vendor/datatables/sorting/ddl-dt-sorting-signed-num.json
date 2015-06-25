@@ -2,6 +2,7 @@
     "dependencies": [ "datatables" ],
     "assets": [
         {
+            "version" : "fixed",
             "locations": {
                 "jar": "dandelion/datatables/features/sorting/signed-num.js"
             }
