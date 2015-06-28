@@ -1429,24 +1429,6 @@
       <attribute>
          <description>
          <![CDATA[
-            <p>Date format to be applied to the datepicker when the filterType is set to "date_range".</p>
-            <p>
-            <ul>
-            <li>Required: <b>no</b></li>
-            <li>Possible values: <b>Any combination of 'dd', 'd', 'mm', 'm', 'yyyy', 'yy' with '-', '/' or '.' as separator</b></li>
-            <li>Default: <b>'mm/dd/yyyy'</b></li>
-            <li>Data source: <b>DOM / AJAX</b></li>
-            <li>Configuration property: <b>n/a</b></li>
-            </ul>
-            </p>
-         ]]>
-         </description>
-         <name>filterDateFormat</name>
-         <rtexprvalue>true</rtexprvalue>
-      </attribute>
-      <attribute>
-         <description>
-         <![CDATA[
             <p>CSS style to be applied on the header cell of the column (th element).</p>
             <p>
             <ul>
