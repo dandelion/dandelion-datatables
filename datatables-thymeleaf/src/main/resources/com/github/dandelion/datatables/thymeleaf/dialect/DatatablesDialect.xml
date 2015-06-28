@@ -865,7 +865,7 @@
    
    <attribute-processor name="confType"
       class="com.github.dandelion.datatables.thymeleaf.processor.config.DivConfTypeAttrProcessor">
-      <restrictions tags="div" values="callback export extrajs extrahtml property" />
+      <restrictions tags="div" values="callback export extrajs extrahtml option" />
       <documentation>
          <![CDATA[
             <p>Type of the configuration to specify.</p>
@@ -873,7 +873,7 @@
             <p>
             <ul>
             <li>Required: <b>no</b></li>
-            <li>Possible values: <b>export|callback|extrafile|property|extrahtml</b></li>
+            <li>Possible values: <b>export|callback|extrafile|option|extrahtml</b></li>
             <li>Data source: <b>DOM / AJAX</b></li>
             </ul>
             </p>

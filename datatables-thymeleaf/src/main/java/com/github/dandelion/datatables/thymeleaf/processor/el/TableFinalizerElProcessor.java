@@ -175,9 +175,9 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
                htmlTable.getTableConfiguration().registerExtension(new ExtraHtmlFeature());
             }
 
-            // Configuration properties
+            // Configuration options
             Map<Option<?>, Object> localConf = (Map<Option<?>, Object>) configs.get(htmlTable.getId()).get(
-                  ConfType.PROPERTY);
+                  ConfType.OPTION);
             if (localConf != null && !localConf.isEmpty()) {
                stagingConf.putAll(localConf);
             }

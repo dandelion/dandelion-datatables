@@ -83,7 +83,7 @@ import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
  * <li>An export configuration ({@link ExportConf}), using
  * {@code dt:confType="export"}</li>
  * <li>An {@link ExtraJs}, using {@code dt:confType="extrajs"}</li>
- * <li>A configuration property, using {@code dt:confType="property"}</li>
+ * <li>A configuration option, using {@code dt:confType="option"}</li>
  * <li>An extra HTML snippet, using {@code dt:confType="extrahtml"}</li>
  * </ul>
  * 
@@ -145,8 +145,8 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 		case EXTRAJS:
 			processExtraJsAttributes(arguments, element, configs, tableId);
 			break;
-		case PROPERTY:
-			processPropertyAttributes(element, configs, tableId);
+		case OPTION:
+			processOptionAttributes(element, configs, tableId);
 			break;
 		case EXTRAHTML:
 			processExtraHtmlAttributes(element, configs, tableId);
@@ -475,14 +475,16 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 	}
 
 	/**
+	 * <p>
 	 * Processes attributes in order to overload locally the properties
-	 * configured globally.build an instance of {@link Callback}.
+	 * configured globally.
+	 * </p>
 	 * 
 	 * @param element
 	 *            The {@code div} element which holds the attribute.
 	 */
 	@SuppressWarnings("unchecked")
-	private void processPropertyAttributes(Element element, Map<String, Map<ConfType, Object>> configs, String tableId) {
+	private void processOptionAttributes(Element element, Map<String, Map<ConfType, Object>> configs, String tableId) {
 
 		if (hasAttribute(element, "name")) {
 
@@ -492,21 +494,21 @@ public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 
 			if (configToken == null) {
 				throw new DandelionException("'" + name
-						+ "' is not a valid property. Please read the documentation.");
+						+ "' is not a valid option. Please read the documentation.");
 			} else {
 
-				if (configs.get(tableId).containsKey(ConfType.PROPERTY)) {
-					((Map<Option<?>, Object>) configs.get(tableId).get(ConfType.PROPERTY)).put(configToken,
+				if (configs.get(tableId).containsKey(ConfType.OPTION)) {
+					((Map<Option<?>, Object>) configs.get(tableId).get(ConfType.OPTION)).put(configToken,
 							value);
 				} else {
 					Map<Option<?>, Object> stagingConf = new HashMap<Option<?>, Object>();
 					stagingConf.put(configToken, value);
-					configs.get(tableId).put(ConfType.PROPERTY, stagingConf);
+					configs.get(tableId).put(ConfType.OPTION, stagingConf);
 				}
 			}
 		} else {
 			throw new DandelionException(
-					"The attribute 'dt:name' is required when overloading a configuration property.");
+					"The attribute 'dt:name' is required when overloading a configuration option.");
 		}
 	}
 

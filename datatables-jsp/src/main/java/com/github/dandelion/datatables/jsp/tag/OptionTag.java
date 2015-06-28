@@ -37,11 +37,11 @@ import com.github.dandelion.datatables.core.option.Option;
 
 /**
  * <p>
- * JSP tag used to overload locally a configuration property.
- *
+ * JSP tag used to overload locally a configuration option.
+ * </p>
  * <p>
  * Note that this tag will be processed only once, at the first iteration.
- * 
+ * </p>
  * <p>
  * Example usage:
  * 
@@ -52,23 +52,23 @@ import com.github.dandelion.datatables.core.option.Option;
  *    &lt;datatables:column title="LastName" property="lastName" />
  *    &lt;datatables:column title="City" property="address.town.name" />
  *    &lt;datatables:column title="Mail" property="mail" />
- *    &lt;datatables:prop name="main.extension.package" value="com.foo.bar" />
+ *    &lt;datatables:option name="feature.dom" value="t" />
  * &lt;/datatables:table>
  * </pre>
  * 
  * @author Thibault Duchateau
  */
-public class PropTag extends TagSupport {
+public class OptionTag extends TagSupport {
 	
 	private static final long serialVersionUID = -3453884184847355817L;
 
 	/**
 	 * Tag attributes
 	 */
-	// Name of the configuration property
+	// Name of the configuration option
 	private String name;
 	
-	// Value of the configuration property
+	// Value of the configuration option
 	private String value;
 	
 	/**
@@ -81,7 +81,7 @@ public class PropTag extends TagSupport {
 			return SKIP_BODY;
 		}
 
-		throw new JspException("The tag 'prop' must be inside the 'table' tag.");
+		throw new JspException("The tag 'option' must be inside the 'table' tag.");
 	}
 	
 	/**
@@ -97,7 +97,7 @@ public class PropTag extends TagSupport {
 			Option<?> option = DatatableOptions.findByName(name);
 			
 			if(option == null){
-				throw new JspException("'" + name + "' is not a valid property. Please read the documentation.");
+				throw new JspException("'" + name + "' is not a valid option. Please read the documentation.");
 			}
 			else{
 				parent.stagingConf.put(option, value);

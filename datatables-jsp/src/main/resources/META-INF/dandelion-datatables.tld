@@ -1698,16 +1698,16 @@
    <tag>
       <description>
       <![CDATA[
-         <p>The PropTag allows you to locally override a configuration property.</p>
+         <p>The OptionTag allows you to locally override a configuration option.</p>
       ]]>
       </description>
-      <name>prop</name>
-      <tag-class>com.github.dandelion.datatables.jsp.tag.PropTag</tag-class>
+      <name>option</name>
+      <tag-class>com.github.dandelion.datatables.jsp.tag.OptionTag</tag-class>
       <body-content>empty</body-content>
       <attribute>
          <description>
          <![CDATA[
-            <p>Name of the property to overload.</p>
+            <p>Name of the option to overload.</p>
             <p>
             <ul>
             <li>Required: <b>yes</b></li>
@@ -1723,7 +1723,7 @@
       <attribute>
          <description>
          <![CDATA[
-            <p>Value of the property to use.</p>
+            <p>Value of the option to use.</p>
             <p>
             <ul>
             <li>Required: <b>yes</b></li>
