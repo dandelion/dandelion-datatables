@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -40,47 +40,47 @@ package com.github.dandelion.datatables.core.export;
  */
 public class ColumnElement {
 
-	private String propertyName;
-	private String pattern;
-	private String content;
-	private String defaultValue;
+   private String propertyName;
+   private String pattern;
+   private String content;
+   private String defaultValue;
 
-	public String getPropertyName() {
-		return propertyName;
-	}
+   public String getPropertyName() {
+      return propertyName;
+   }
 
-	public void setPropertyName(String propertyName) {
-		this.propertyName = propertyName;
-	}
+   public void setPropertyName(String propertyName) {
+      this.propertyName = propertyName;
+   }
 
-	public String getPattern() {
-		return pattern;
-	}
+   public String getPattern() {
+      return pattern;
+   }
 
-	public void setPattern(String pattern) {
-		this.pattern = pattern;
-	}
+   public void setPattern(String pattern) {
+      this.pattern = pattern;
+   }
 
-	public String getDefaultValue() {
-		return defaultValue;
-	}
+   public String getDefaultValue() {
+      return defaultValue;
+   }
 
-	public void setDefaultValue(String defaultValue) {
-		this.defaultValue = defaultValue;
-	}
+   public void setDefaultValue(String defaultValue) {
+      this.defaultValue = defaultValue;
+   }
 
-	public String getContent() {
-		return content;
-	}
+   public String getContent() {
+      return content;
+   }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+   public void setContent(String content) {
+      this.content = content;
+   }
 
-	public ColumnElement(String propertyName, String pattern, String content, String defaultValue) {
-		this.propertyName = propertyName;
-		this.pattern = pattern;
-		this.content = content;
-		this.defaultValue = defaultValue;
-	}
+   public ColumnElement(String propertyName, String pattern, String content, String defaultValue) {
+      this.propertyName = propertyName;
+      this.pattern = pattern;
+      this.content = content;
+      this.defaultValue = defaultValue;
+   }
 }

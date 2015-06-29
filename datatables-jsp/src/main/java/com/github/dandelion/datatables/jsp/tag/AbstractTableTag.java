@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -232,10 +232,9 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
       JQueryContent datatableContent = new DatatableJQueryContent(this.table);
 
       // Get the existing JavaScript generator or create it if it doesn't exist
-      JQueryJsContentGenerator javascriptGenerator = (JQueryJsContentGenerator) AssetRequestContext
-            .get(this.request)
+      JQueryJsContentGenerator javascriptGenerator = (JQueryJsContentGenerator) AssetRequestContext.get(this.request)
             .getGenerator(DatatableComponent.COMPONENT_NAME);
-      
+
       if (javascriptGenerator == null) {
          javascriptGenerator = new JQueryJsContentGenerator(datatableContent);
       }
@@ -245,10 +244,8 @@ public abstract class AbstractTableTag extends BodyTagSupport implements Dynamic
 
       // Update the asset request context with the enabled bundles and
       // Javascript generator
-      AssetRequestContext
-         .get(this.request)
-         .addBundles(DatatableBundles.DDL_DT)
-         .addGenerator(DatatableComponent.COMPONENT_NAME, javascriptGenerator);
+      AssetRequestContext.get(this.request).addBundles(DatatableBundles.DDL_DT)
+            .addGenerator(DatatableComponent.COMPONENT_NAME, javascriptGenerator);
 
       try {
          this.pageContext.getOut().println(this.table.toHtml());

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -40,17 +40,17 @@ import com.github.dandelion.core.util.StringUtils;
  */
 public class IntegerProcessor extends AbstractOptionProcessor {
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
-		Integer result = null;
-		String valueAsString = context.getValueAsString();
-		try {
-			result = StringUtils.isNotBlank(valueAsString) ? Integer.parseInt(valueAsString) : null;
-		} catch (NumberFormatException e) {
-			throw new DandelionException("The value '" + valueAsString
-					+ "' cannot be parsed to Integer", e);
-		}
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
+      Integer result = null;
+      String valueAsString = context.getValueAsString();
+      try {
+         result = StringUtils.isNotBlank(valueAsString) ? Integer.parseInt(valueAsString) : null;
+      }
+      catch (NumberFormatException e) {
+         throw new DandelionException("The value '" + valueAsString + "' cannot be parsed to Integer", e);
+      }
 
-		return result;
-	}
+      return result;
+   }
 }

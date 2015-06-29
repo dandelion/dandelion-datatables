@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,48 +51,48 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
  */
 public abstract class AbstractColumnAttrProcessor extends AbstractAttrProcessor {
 
-	public AbstractColumnAttrProcessor(IAttributeNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public AbstractColumnAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
+   @Override
+   @SuppressWarnings("unchecked")
+   protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
 
-		Map<Option<?>, Object> stagingConf = (Map<Option<?>, Object>) arguments
-				.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF);
-		Map<Option<?>, Extension> stagingExt = (Map<Option<?>, Extension>) arguments
-				.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT);
+      Map<Option<?>, Object> stagingConf = (Map<Option<?>, Object>) arguments
+            .getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF);
+      Map<Option<?>, Extension> stagingExt = (Map<Option<?>, Extension>) arguments
+            .getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT);
 
-		// Perform the actual attribute processing
-		doProcessAttribute(arguments, element, attributeName, stagingConf, stagingExt);
+      // Perform the actual attribute processing
+      doProcessAttribute(arguments, element, attributeName, stagingConf, stagingExt);
 
-		// Housekeeping
-		element.removeAttribute(attributeName);
+      // Housekeeping
+      element.removeAttribute(attributeName);
 
-		return ProcessorResult.ok();
-	}
+      return ProcessorResult.ok();
+   }
 
-	/**
-	 * Returns the precedence of the column attribute processor.
-	 */
-	@Override
-	public abstract int getPrecedence();
+   /**
+    * Returns the precedence of the column attribute processor.
+    */
+   @Override
+   public abstract int getPrecedence();
 
-	/**
-	 * Actually performs the processing of the column attribute.
-	 * 
-	 * @param arguments
-	 *            Thymeleaf arguments.
-	 * @param element
-	 *            Element holding the attribute to process.
-	 * @param attributeName
-	 *            Name of the attribute to process.
-	 * @param stagingConf
-	 *            Map containing the column local configuration.
-	 * @param stagingExt
-	 *            Map containing the column local extension.
-	 */
-	protected abstract void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-			Map<Option<?>, Object> stagingConf, Map<Option<?>, Extension> stagingExt);
+   /**
+    * Actually performs the processing of the column attribute.
+    * 
+    * @param arguments
+    *           Thymeleaf arguments.
+    * @param element
+    *           Element holding the attribute to process.
+    * @param attributeName
+    *           Name of the attribute to process.
+    * @param stagingConf
+    *           Map containing the column local configuration.
+    * @param stagingExt
+    *           Map containing the column local extension.
+    */
+   protected abstract void doProcessAttribute(Arguments arguments, Element element, String attributeName,
+         Map<Option<?>, Object> stagingConf, Map<Option<?>, Extension> stagingExt);
 }

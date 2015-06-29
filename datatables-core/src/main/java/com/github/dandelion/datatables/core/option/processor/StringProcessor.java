@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -42,17 +42,17 @@ import com.github.dandelion.core.util.StringUtils;
  */
 public class StringProcessor extends AbstractOptionProcessor {
 
-	public StringProcessor() {
-		super();
-	}
+   public StringProcessor() {
+      super();
+   }
 
-	public StringProcessor(boolean bundleAware) {
-		super(bundleAware);
-	}
+   public StringProcessor(boolean bundleAware) {
+      super(bundleAware);
+   }
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
-		String valueAsString = context.getValueAsString();
-		return StringUtils.isNotBlank(valueAsString) ? valueAsString : null;
-	}
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
+      String valueAsString = context.getValueAsString();
+      return StringUtils.isNotBlank(valueAsString) ? valueAsString : null;
+   }
 }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -47,45 +47,45 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class CsvExport implements DatatablesExport {
 
-	private static final String SEPARATOR_CHAR = ";";
-	private HtmlTable table;
-	private ExportConf exportConf;
+   private static final String SEPARATOR_CHAR = ";";
+   private HtmlTable table;
+   private ExportConf exportConf;
 
-	@Override
-	public void initExport(HtmlTable table) {
-		this.table = table;
-		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.CSV);
-	}
+   @Override
+   public void initExport(HtmlTable table) {
+      this.table = table;
+      this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.CSV);
+   }
 
-	@Override
-	public void processExport(OutputStream output) {
-		StringBuilder buffer = new StringBuilder();
+   @Override
+   public void processExport(OutputStream output) {
+      StringBuilder buffer = new StringBuilder();
 
-		if (exportConf.getIncludeHeader()) {
-			for (HtmlRow row : table.getHeadRows()) {
-				for (HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.CSV)) {
-					buffer.append(column.getContent()).append(SEPARATOR_CHAR);
-				}
-				buffer.append("\n");
-			}
-		}
-		for (HtmlRow row : table.getBodyRows()) {
-			for (HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.CSV)) {
-				buffer.append(column.getContent()).append(SEPARATOR_CHAR);
-			}
+      if (exportConf.getIncludeHeader()) {
+         for (HtmlRow row : table.getHeadRows()) {
+            for (HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.CSV)) {
+               buffer.append(column.getContent()).append(SEPARATOR_CHAR);
+            }
+            buffer.append("\n");
+         }
+      }
+      for (HtmlRow row : table.getBodyRows()) {
+         for (HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.CSV)) {
+            buffer.append(column.getContent()).append(SEPARATOR_CHAR);
+         }
 
-			buffer.append("\n");
-		}
+         buffer.append("\n");
+      }
 
-		try {
-			output.write(buffer.toString().getBytes());
-		}
-		catch (IOException e) {
-			StringBuilder sb = new StringBuilder("Something went wrong during the CSV generation of the table '");
-			sb.append(table.getOriginalId());
-			sb.append("' and with the following export configuration: ");
-			sb.append(exportConf.toString());
-			throw new DandelionException(sb.toString(), e);
-		}
-	}
+      try {
+         output.write(buffer.toString().getBytes());
+      }
+      catch (IOException e) {
+         StringBuilder sb = new StringBuilder("Something went wrong during the CSV generation of the table '");
+         sb.append(table.getOriginalId());
+         sb.append("' and with the following export configuration: ");
+         sb.append(exportConf.toString());
+         throw new DandelionException(sb.toString(), e);
+      }
+   }
 }

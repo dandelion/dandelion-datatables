@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -47,18 +47,18 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class ExtraHtmlFeature extends AbstractExtension {
 
-	public static final String EXTRA_HTML_FEATURE_NAME = "extraHtml";
+   public static final String EXTRA_HTML_FEATURE_NAME = "extraHtml";
 
-	@Override
-	public String getExtensionName() {
-		return EXTRA_HTML_FEATURE_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return EXTRA_HTML_FEATURE_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
-		for (ExtraHtml group : table.getTableConfiguration().getExtraHtmlSnippets()) {
-			StringBuilder js = group.getJavascript();
-			appendToAfterStartDocumentReady(js.toString());
-		}
-	}
+   @Override
+   public void setup(HtmlTable table) {
+      for (ExtraHtml group : table.getTableConfiguration().getExtraHtmlSnippets()) {
+         StringBuilder js = group.getJavascript();
+         appendToAfterStartDocumentReady(js.toString());
+      }
+   }
 }

@@ -32,7 +32,6 @@ package com.github.dandelion.datatables.core.extension.feature;
 import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.datatables.core.DatatableBundles;
 
-
 /**
  * Enumeration containing different types of sort.
  *
@@ -41,46 +40,43 @@ import com.github.dandelion.datatables.core.DatatableBundles;
  */
 public enum SortType {
 
-	ALT_STRING("alt-string", DatatableBundles.DDL_DT_SORTING_ALT_STRING),
-	ANTI_THE("anti-the", DatatableBundles.DDL_DT_SORTING_ANTI_THE),
-	CHINESE_STRING("chinese_string", DatatableBundles.DDL_DT_SORTING_CHINESE_STRING),
-	DATE_DE("date-de", DatatableBundles.DDL_DT_SORTING_DATE_DE),
-	DATE_EU("date-eu", DatatableBundles.DDL_DT_SORTING_DATE_EU),
-	DATE_EURO("date-euro", DatatableBundles.DDL_DT_SORTING_DATE_EURO),
-	DATE_UK("date-uk", DatatableBundles.DDL_DT_SORTING_DATE_UK),
-	FILESIZE("file-size", DatatableBundles.DDL_DT_SORTING_FILESIZE),
-	IP_ADDRESS("ip-address", DatatableBundles.DDL_DT_SORTING_IP),
-	NATURAL("natural", DatatableBundles.DDL_DT_SORTING_NATURAL),
-	PERSIAN("persian", DatatableBundles.DDL_DT_SORTING_PERSIAN),
-	SCIENTIFIC("scientific", DatatableBundles.DDL_DT_SORTING_SCIENTIFIC),
-	SIGNED_NUM("signed-num", DatatableBundles.DDL_DT_SORTING_SIGNED_NUM),
-	TURKISH_STRING("turkish-string", DatatableBundles.DDL_DT_SORTING_TURKISH_STRING);
-	
-	private String name;
-	private DatatableBundles bundle;
-	
-	private SortType(String name, DatatableBundles bundle){
-		this.name = name;
-		this.bundle = bundle;
-	}
+   ALT_STRING("alt-string", DatatableBundles.DDL_DT_SORTING_ALT_STRING), ANTI_THE("anti-the",
+         DatatableBundles.DDL_DT_SORTING_ANTI_THE), CHINESE_STRING("chinese_string",
+         DatatableBundles.DDL_DT_SORTING_CHINESE_STRING), DATE_DE("date-de", DatatableBundles.DDL_DT_SORTING_DATE_DE), DATE_EU(
+         "date-eu", DatatableBundles.DDL_DT_SORTING_DATE_EU), DATE_EURO("date-euro",
+         DatatableBundles.DDL_DT_SORTING_DATE_EURO), DATE_UK("date-uk", DatatableBundles.DDL_DT_SORTING_DATE_UK), FILESIZE(
+         "file-size", DatatableBundles.DDL_DT_SORTING_FILESIZE), IP_ADDRESS("ip-address",
+         DatatableBundles.DDL_DT_SORTING_IP), NATURAL("natural", DatatableBundles.DDL_DT_SORTING_NATURAL), PERSIAN(
+         "persian", DatatableBundles.DDL_DT_SORTING_PERSIAN), SCIENTIFIC("scientific",
+         DatatableBundles.DDL_DT_SORTING_SCIENTIFIC), SIGNED_NUM("signed-num",
+         DatatableBundles.DDL_DT_SORTING_SIGNED_NUM), TURKISH_STRING("turkish-string",
+         DatatableBundles.DDL_DT_SORTING_TURKISH_STRING);
 
-	public String getName() {
-		return name;
-	}
-	
-	public DatatableBundles getBundle() {
-		return bundle;
-	}
+   private String name;
+   private DatatableBundles bundle;
 
-	public static SortType findByName(String name) {
-		if (StringUtils.isBlank(name)) {
-			return null;
-		}
-		for (SortType sortType : values()) {
-			if (name.trim().equalsIgnoreCase(sortType.getName())) {
-				return sortType;
-			}
-		}
-		return null;
-	}
+   private SortType(String name, DatatableBundles bundle) {
+      this.name = name;
+      this.bundle = bundle;
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public DatatableBundles getBundle() {
+      return bundle;
+   }
+
+   public static SortType findByName(String name) {
+      if (StringUtils.isBlank(name)) {
+         return null;
+      }
+      for (SortType sortType : values()) {
+         if (name.trim().equalsIgnoreCase(sortType.getName())) {
+            return sortType;
+         }
+      }
+      return null;
+   }
 }

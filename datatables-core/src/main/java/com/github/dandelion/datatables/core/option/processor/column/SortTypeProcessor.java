@@ -46,31 +46,31 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
  */
 public class SortTypeProcessor extends AbstractOptionProcessor {
 
-	public SortTypeProcessor() {
-		super();
-	}
+   public SortTypeProcessor() {
+      super();
+   }
 
-	public SortTypeProcessor(boolean bundleAware) {
-		super(bundleAware);
-	}
+   public SortTypeProcessor(boolean bundleAware) {
+      super(bundleAware);
+   }
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
 
-		String retval = null;
-		String valueAsString = context.getValueAsString();
-		if (StringUtils.isNotBlank(valueAsString)) {
+      String retval = null;
+      String valueAsString = context.getValueAsString();
+      if (StringUtils.isNotBlank(valueAsString)) {
 
-			SortType sortType = SortType.findByName(valueAsString);
-			if (sortType != null) {
-				context.registerExtension(SortingFeature.SORTING_FEATURE_NAME);
-				retval = sortType.getName();
-			}
-			else {
-				retval = valueAsString;
-			}
-		}
+         SortType sortType = SortType.findByName(valueAsString);
+         if (sortType != null) {
+            context.registerExtension(SortingFeature.SORTING_FEATURE_NAME);
+            retval = sortType.getName();
+         }
+         else {
+            retval = valueAsString;
+         }
+      }
 
-		return retval;
-	}
+      return retval;
+   }
 }

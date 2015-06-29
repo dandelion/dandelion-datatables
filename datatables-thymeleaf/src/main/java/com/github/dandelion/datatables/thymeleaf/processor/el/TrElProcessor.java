@@ -1,7 +1,6 @@
-
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -56,35 +55,35 @@ import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
  */
 public class TrElProcessor extends AbstractElProcessor {
 
-	public TrElProcessor(IElementNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public TrElProcessor(IElementNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getPrecedence() {
-		return 4001;
-	}
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public int getPrecedence() {
+      return 4001;
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
-			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable) {
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   protected ProcessorResult doProcessElement(Arguments arguments, Element element, HttpServletRequest request,
+         HttpServletResponse response, HtmlTable htmlTable) {
 
-		// The HtmlTable is updated with a new row
-		if (htmlTable != null) {
-			htmlTable.getBodyRows().add(new HtmlRow());
-		}
+      // The HtmlTable is updated with a new row
+      if (htmlTable != null) {
+         htmlTable.getBodyRows().add(new HtmlRow());
+      }
 
-		// Remove internal attribute
-		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":data")) {
-			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":data");
-		}
+      // Remove internal attribute
+      if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":data")) {
+         element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":data");
+      }
 
-		return ProcessorResult.OK;
-	}
+      return ProcessorResult.OK;
+   }
 }

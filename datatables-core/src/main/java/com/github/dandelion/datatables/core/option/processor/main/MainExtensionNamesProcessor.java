@@ -9,21 +9,21 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
 
 public class MainExtensionNamesProcessor extends AbstractOptionProcessor {
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
 
-		String valueAsString = context.getValueAsString();
-		Set<String> retval = null;
-		if (StringUtils.isNotBlank(valueAsString)) {
-			retval = new HashSet<String>();
+      String valueAsString = context.getValueAsString();
+      Set<String> retval = null;
+      if (StringUtils.isNotBlank(valueAsString)) {
+         retval = new HashSet<String>();
 
-			String[] customFeatures = valueAsString.split(",");
+         String[] customFeatures = valueAsString.split(",");
 
-			for (String feature : customFeatures) {
-				retval.add(feature.trim().toLowerCase());
-			}
-		}
+         for (String feature : customFeatures) {
+            retval.add(feature.trim().toLowerCase());
+         }
+      }
 
-		return retval;
-	}
+      return retval;
+   }
 }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -65,146 +65,146 @@ import com.github.dandelion.core.util.ClassUtils;
  */
 public class DatatableConfigurator {
 
-	private static Logger logger = LoggerFactory.getLogger(DatatableConfigurator.class);
+   private static Logger logger = LoggerFactory.getLogger(DatatableConfigurator.class);
 
-	private static LocaleResolver localeResolver;
-	private static MessageResolver messageResolver;
+   private static LocaleResolver localeResolver;
+   private static MessageResolver messageResolver;
 
-	/**
-	 * Return a uniq implementation of {@link LocaleResolver} using the
-	 * following strategy:
-	 * 
-	 * <ol>
-	 * <li>First, check if the <code>i18n.locale.resolver</code> has been
-	 * defined in any of the user properties files. If so, tries to instantiate
-	 * the class.</li>
-	 * <li>If no specific LocaleResolver is defined in user properties, the
-	 * default will be used</li>
-	 * </ol>
-	 * 
-	 * @return an implementation {@link LocaleResolver}.
-	 */
-	@SuppressWarnings("unchecked")
-	public static LocaleResolver getLocaleResolver() {
-		Properties userProperties = null;
-		String className = null;
-		ConfigLoader configurationLoader = getConfigLoader();
+   /**
+    * Return a uniq implementation of {@link LocaleResolver} using the following
+    * strategy:
+    * 
+    * <ol>
+    * <li>First, check if the <code>i18n.locale.resolver</code> has been defined
+    * in any of the user properties files. If so, tries to instantiate the
+    * class.</li>
+    * <li>If no specific LocaleResolver is defined in user properties, the
+    * default will be used</li>
+    * </ol>
+    * 
+    * @return an implementation {@link LocaleResolver}.
+    */
+   @SuppressWarnings("unchecked")
+   public static LocaleResolver getLocaleResolver() {
+      Properties userProperties = null;
+      String className = null;
+      ConfigLoader configurationLoader = getConfigLoader();
 
-		if (localeResolver == null) {
+      if (localeResolver == null) {
 
-			try {
-				userProperties = configurationLoader.loadUserConfiguration(Locale.getDefault());
+         try {
+            userProperties = configurationLoader.loadUserConfiguration(Locale.getDefault());
 
-				if (userProperties != null) {
-					try {
-						className = userProperties.getProperty(ConfigLoader.I18N_LOCALE_RESOLVER);
-					}
-					catch (MissingResourceException e) {
+            if (userProperties != null) {
+               try {
+                  className = userProperties.getProperty(ConfigLoader.I18N_LOCALE_RESOLVER);
+               }
+               catch (MissingResourceException e) {
 
-						logger.debug("No custom LocaleResolver has been configured. Using default one.");
-					}
-				}
+                  logger.debug("No custom LocaleResolver has been configured. Using default one.");
+               }
+            }
 
-				if (className == null) {
-					Properties defaultProperties = configurationLoader.loadDefaultConfiguration();
-					className = defaultProperties.getProperty(ConfigLoader.I18N_LOCALE_RESOLVER);
-				}
+            if (className == null) {
+               Properties defaultProperties = configurationLoader.loadDefaultConfiguration();
+               className = defaultProperties.getProperty(ConfigLoader.I18N_LOCALE_RESOLVER);
+            }
 
-				if (className != null) {
-					Class<LocaleResolver> classProperty;
-					try {
-						classProperty = (Class<LocaleResolver>) ClassUtils.getClass(className);
-						localeResolver = (LocaleResolver) ClassUtils.getNewInstance(classProperty);
-					}
-					catch (Exception e) {
-						throw new DandelionException(e);
-					}
-				}
-			}
-			catch (DandelionException e) {
-				throw new DandelionException("Unable to retrieve the LocaleResolver using the class '" + className
-						+ "'", e);
-			}
-		}
-		return localeResolver;
-	}
+            if (className != null) {
+               Class<LocaleResolver> classProperty;
+               try {
+                  classProperty = (Class<LocaleResolver>) ClassUtils.getClass(className);
+                  localeResolver = (LocaleResolver) ClassUtils.getNewInstance(classProperty);
+               }
+               catch (Exception e) {
+                  throw new DandelionException(e);
+               }
+            }
+         }
+         catch (DandelionException e) {
+            throw new DandelionException("Unable to retrieve the LocaleResolver using the class '" + className + "'", e);
+         }
+      }
+      return localeResolver;
+   }
 
-	@SuppressWarnings("unchecked")
-	public static MessageResolver getMessageResolver(HttpServletRequest request) {
-		Properties userProperties = null;
-		String className = null;
-		ConfigLoader configurationLoader = getConfigLoader();
+   @SuppressWarnings("unchecked")
+   public static MessageResolver getMessageResolver(HttpServletRequest request) {
+      Properties userProperties = null;
+      String className = null;
+      ConfigLoader configurationLoader = getConfigLoader();
 
-		if (messageResolver == null) {
+      if (messageResolver == null) {
 
-			try {
-				userProperties = configurationLoader.loadUserConfiguration(Locale.getDefault());
+         try {
+            userProperties = configurationLoader.loadUserConfiguration(Locale.getDefault());
 
-				if (userProperties != null) {
-					try {
-						className = userProperties.getProperty(ConfigLoader.I18N_MESSAGE_RESOLVER);
-					}
-					catch (MissingResourceException e) {
+            if (userProperties != null) {
+               try {
+                  className = userProperties.getProperty(ConfigLoader.I18N_MESSAGE_RESOLVER);
+               }
+               catch (MissingResourceException e) {
 
-						logger.debug("No custom MessageResolver has been configured. Using default one.");
-					}
-				}
+                  logger.debug("No custom MessageResolver has been configured. Using default one.");
+               }
+            }
 
-				if (className == null) {
-					Properties defaultProperties = configurationLoader.loadDefaultConfiguration();
-					className = defaultProperties.getProperty(ConfigLoader.I18N_MESSAGE_RESOLVER);
-				}
+            if (className == null) {
+               Properties defaultProperties = configurationLoader.loadDefaultConfiguration();
+               className = defaultProperties.getProperty(ConfigLoader.I18N_MESSAGE_RESOLVER);
+            }
 
-				if (className != null) {
-					Class<MessageResolver> classProperty;
-					try {
-						classProperty = (Class<MessageResolver>) ClassUtils.getClass(className);
-						messageResolver = classProperty
-								.getDeclaredConstructor(new Class[] { HttpServletRequest.class }).newInstance(request);
-					}
-					catch (Exception e) {
-						throw new DandelionException(e);
-					}
-				}
-			}
-			catch (DandelionException e) {
-				throw new DandelionException("Unable to retrieve the MessageResolver using the class '" + className
-						+ "'", e);
-			}
-		}
-		return messageResolver;
-	}
+            if (className != null) {
+               Class<MessageResolver> classProperty;
+               try {
+                  classProperty = (Class<MessageResolver>) ClassUtils.getClass(className);
+                  messageResolver = classProperty.getDeclaredConstructor(new Class[] { HttpServletRequest.class })
+                        .newInstance(request);
+               }
+               catch (Exception e) {
+                  throw new DandelionException(e);
+               }
+            }
+         }
+         catch (DandelionException e) {
+            throw new DandelionException("Unable to retrieve the MessageResolver using the class '" + className + "'",
+                  e);
+         }
+      }
+      return messageResolver;
+   }
 
-	/**
-	 * @return the uniq instance of {@link ConfigLoader}.
-	 */
-	public static ConfigLoader getConfigLoader() {
-		return ConfigLoaderHolder.INSTANCE;
-	}
+   /**
+    * @return the uniq instance of {@link ConfigLoader}.
+    */
+   public static ConfigLoader getConfigLoader() {
+      return ConfigLoaderHolder.INSTANCE;
+   }
 
-	/**
-	 * TODO
-	 * @author Thibault Duchateau
-	 *
-	 */
-	private static class ConfigLoaderHolder{
-		
-		private final static ConfigLoader INSTANCE = new ConfigLoader();
-	}
-	
-	/**
-	 * <b>FOR INTERNAL USE ONLY</b>
-	 */
-	public static void clear() {
-		localeResolver = null;
-	}
-	
-	/**
-	 * <p>
-	 * Suppress default constructor for noninstantiability.
-	 * </p>
-	 */
-	private DatatableConfigurator() {
-		throw new AssertionError();
-	}
+   /**
+    * TODO
+    * 
+    * @author Thibault Duchateau
+    *
+    */
+   private static class ConfigLoaderHolder {
+
+      private final static ConfigLoader INSTANCE = new ConfigLoader();
+   }
+
+   /**
+    * <b>FOR INTERNAL USE ONLY</b>
+    */
+   public static void clear() {
+      localeResolver = null;
+   }
+
+   /**
+    * <p>
+    * Suppress default constructor for noninstantiability.
+    * </p>
+    */
+   private DatatableConfigurator() {
+      throw new AssertionError();
+   }
 }

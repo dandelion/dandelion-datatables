@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -46,27 +46,27 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
  */
 public class FilterableProcessor extends AbstractOptionProcessor {
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
 
-		Boolean retval = null;
-		String valueAsString = context.getValueAsString();
-		if (StringUtils.isNotBlank(valueAsString)) {
-			if (valueAsString.equalsIgnoreCase("true")) {
-				context.registerExtension(context.getColumnConfiguration().getStagingExtension()
-						.get(DatatableOptions.FILTERABLE));
+      Boolean retval = null;
+      String valueAsString = context.getValueAsString();
+      if (StringUtils.isNotBlank(valueAsString)) {
+         if (valueAsString.equalsIgnoreCase("true")) {
+            context.registerExtension(context.getColumnConfiguration().getStagingExtension()
+                  .get(DatatableOptions.FILTERABLE));
 
-				if (!context.isOptionPresent(DatatableOptions.FILTERTYPE)) {
-					context.addColumnEntry(DatatableOptions.FILTERTYPE, FilterType.INPUT);
-				}
+            if (!context.isOptionPresent(DatatableOptions.FILTERTYPE)) {
+               context.addColumnEntry(DatatableOptions.FILTERTYPE, FilterType.INPUT);
+            }
 
-				retval = true;
-			}
-			else {
-				retval = false;
-			}
-		}
+            retval = true;
+         }
+         else {
+            retval = false;
+         }
+      }
 
-		return retval;
-	}
+      return retval;
+   }
 }

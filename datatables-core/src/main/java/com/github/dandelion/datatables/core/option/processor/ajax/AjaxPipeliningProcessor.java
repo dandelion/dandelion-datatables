@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -53,24 +53,24 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
  */
 public class AjaxPipeliningProcessor extends AbstractOptionProcessor {
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
 
-		Boolean retval = null;
-		if (StringUtils.isNotBlank(context.getValueAsString())) {
-			retval = Boolean.parseBoolean(context.getValueAsString());
+      Boolean retval = null;
+      if (StringUtils.isNotBlank(context.getValueAsString())) {
+         retval = Boolean.parseBoolean(context.getValueAsString());
 
-			if (retval != null && retval) {
-				context.registerExtension(PipeliningFeature.PIPELINING_FEATURE_NAME);
-			}
+         if (retval != null && retval) {
+            context.registerExtension(PipeliningFeature.PIPELINING_FEATURE_NAME);
+         }
 
-			if (!context.isOptionPresent(DatatableOptions.AJAX_PIPESIZE)) {
-				context.addTableEntry(DatatableOptions.AJAX_PIPESIZE, 5);
-			}
+         if (!context.isOptionPresent(DatatableOptions.AJAX_PIPESIZE)) {
+            context.addTableEntry(DatatableOptions.AJAX_PIPESIZE, 5);
+         }
 
-		}
+      }
 
-		return retval;
+      return retval;
 
-	}
+   }
 }

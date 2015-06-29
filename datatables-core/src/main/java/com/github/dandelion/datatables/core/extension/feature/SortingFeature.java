@@ -52,24 +52,24 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class SortingFeature extends AbstractExtension {
 
-	public static final String SORTING_FEATURE_NAME = "sorting";
+   public static final String SORTING_FEATURE_NAME = "sorting";
 
-	@Override
-	public String getExtensionName() {
-		return SORTING_FEATURE_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return SORTING_FEATURE_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
+   @Override
+   public void setup(HtmlTable table) {
 
-		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
-			String sortTypeString = DatatableOptions.SORTTYPE.valueFrom(column.getColumnConfiguration());
-			if (StringUtils.isNotBlank(sortTypeString)) {
-				SortType sortType = SortType.findByName(sortTypeString);
-				if (sortType != null) {
-					addBundle(sortType.getBundle());
-				}
-			}
-		}
-	}
+      for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
+         String sortTypeString = DatatableOptions.SORTTYPE.valueFrom(column.getColumnConfiguration());
+         if (StringUtils.isNotBlank(sortTypeString)) {
+            SortType sortType = SortType.findByName(sortTypeString);
+            if (sortType != null) {
+               addBundle(sortType.getBundle());
+            }
+         }
+      }
+   }
 }

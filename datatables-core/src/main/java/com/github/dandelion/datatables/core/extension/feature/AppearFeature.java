@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -46,30 +46,30 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class AppearFeature extends AbstractExtension {
 
-	public static final String APPEAR_FEATURE_NAME = "appear";
+   public static final String APPEAR_FEATURE_NAME = "appear";
 
-	@Override
-	public String getExtensionName() {
-		return APPEAR_FEATURE_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return APPEAR_FEATURE_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
+   @Override
+   public void setup(HtmlTable table) {
 
-		String appear = DatatableOptions.FEATURE_APPEAR.valueFrom(table.getTableConfiguration());
-		String appearDuration = DatatableOptions.FEATURE_APPEAR_DURATION.valueFrom(table.getTableConfiguration());
+      String appear = DatatableOptions.FEATURE_APPEAR.valueFrom(table.getTableConfiguration());
+      String appearDuration = DatatableOptions.FEATURE_APPEAR_DURATION.valueFrom(table.getTableConfiguration());
 
-		if ("block".equals(appear)) {
-			appendToBeforeEndDocumentReady("$('#" + table.getId() + "').show();");
-		}
-		else {
-			table.addCssStyle("display:none;");
-			if (StringUtils.isNotBlank(appearDuration)) {
-				appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn(" + appearDuration + ");");
-			}
-			else {
-				appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn();");
-			}
-		}
-	}
+      if ("block".equals(appear)) {
+         appendToBeforeEndDocumentReady("$('#" + table.getId() + "').show();");
+      }
+      else {
+         table.addCssStyle("display:none;");
+         if (StringUtils.isNotBlank(appearDuration)) {
+            appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn(" + appearDuration + ");");
+         }
+         else {
+            appendToBeforeEndDocumentReady("$('#" + table.getId() + "').fadeIn();");
+         }
+      }
+   }
 }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -49,49 +49,51 @@ import com.github.dandelion.datatables.thymeleaf.util.DomUtils;
  */
 public class FilteringFeature extends AbstractFilteringFeature {
 
-	private Arguments arguments;
-	
-	public FilteringFeature(Arguments argument){
-		this.arguments = argument;	
-	}
-	
-	@Override
-	protected void adaptHeader(HtmlTable table) {
-		
-		Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(DataTablesDialect.INTERNAL_NODE_TABLE);
-		Element thead = DomUtils.findElement((Element) tableNode, "thead");
-		
-		Element tr = new Element("tr");
-		for(HtmlColumn column : table.getLastHeaderRow().getColumns()){
-			Element th = new Element("th");
-			th.addChild(new Text(column.getContent().toString()));
-			tr.addChild(th);
-		}
+   private Arguments arguments;
 
-		if(thead != null){
-			thead.addChild(tr);
-		}
-		else{
-			thead = new Element("thead");
-			thead.addChild(tr);
-			((Element) tableNode).addChild(thead);
-		}
-		
-	}
+   public FilteringFeature(Arguments argument) {
+      this.arguments = argument;
+   }
 
-	@Override
-	protected void adaptFooter(HtmlTable table) {
-		
-		Element tfoot = new Element("tfoot");
+   @Override
+   protected void adaptHeader(HtmlTable table) {
 
-		Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(DataTablesDialect.INTERNAL_NODE_TABLE);
-		
-		for(HtmlColumn column : table.getLastHeaderRow().getColumns()){
-			Element th = new Element("th");
-			th.addChild(new Text(column.getContent().toString()));
-			tfoot.addChild(th);
-		}
+      Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(
+            DataTablesDialect.INTERNAL_NODE_TABLE);
+      Element thead = DomUtils.findElement((Element) tableNode, "thead");
 
-		((Element) tableNode).addChild(tfoot);
-	}
+      Element tr = new Element("tr");
+      for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
+         Element th = new Element("th");
+         th.addChild(new Text(column.getContent().toString()));
+         tr.addChild(th);
+      }
+
+      if (thead != null) {
+         thead.addChild(tr);
+      }
+      else {
+         thead = new Element("thead");
+         thead.addChild(tr);
+         ((Element) tableNode).addChild(thead);
+      }
+
+   }
+
+   @Override
+   protected void adaptFooter(HtmlTable table) {
+
+      Element tfoot = new Element("tfoot");
+
+      Node tableNode = (Node) ((IWebContext) arguments.getContext()).getHttpServletRequest().getAttribute(
+            DataTablesDialect.INTERNAL_NODE_TABLE);
+
+      for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
+         Element th = new Element("th");
+         th.addChild(new Text(column.getContent().toString()));
+         tfoot.addChild(th);
+      }
+
+      ((Element) tableNode).addChild(tfoot);
+   }
 }

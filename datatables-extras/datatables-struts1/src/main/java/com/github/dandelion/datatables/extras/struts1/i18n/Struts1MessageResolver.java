@@ -52,57 +52,57 @@ import com.github.dandelion.core.util.StringUtils;
  */
 public class Struts1MessageResolver extends AbstractMessageResolver {
 
-	private static Logger logger = LoggerFactory.getLogger(Struts1MessageResolver.class);
-		
-	public Struts1MessageResolver(HttpServletRequest request) {
-		super(request);
-	}
+   private static Logger logger = LoggerFactory.getLogger(Struts1MessageResolver.class);
 
-	@Override
-	public String getResource(String messageKey, String defaultValue, Object... params) {
+   public Struts1MessageResolver(HttpServletRequest request) {
+      super(request);
+   }
 
-		String message = null;
-		PageContext pageContext = null;
+   @Override
+   public String getResource(String messageKey, String defaultValue, Object... params) {
 
-		// I'm still so ashamed about that...
-		pageContext = (PageContext) params[0];
+      String message = null;
+      PageContext pageContext = null;
 
-		// Both title and titleKey attributes are not used
-		if (messageKey == null || StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
-			message = StringUtils.capitalize(defaultValue);
-		}
-		// The titleKey attribute is used
-		else {
-			MessageResources resources = (MessageResources) pageContext.getAttribute(Globals.MESSAGES_KEY,
-					PageContext.REQUEST_SCOPE);
+      // I'm still so ashamed about that...
+      pageContext = (PageContext) params[0];
 
-			if (resources == null) {
-				ModuleConfig moduleConfig = (ModuleConfig) pageContext.getRequest().getAttribute(Globals.MODULE_KEY);
+      // Both title and titleKey attributes are not used
+      if (messageKey == null || StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
+         message = StringUtils.capitalize(defaultValue);
+      }
+      // The titleKey attribute is used
+      else {
+         MessageResources resources = (MessageResources) pageContext.getAttribute(Globals.MESSAGES_KEY,
+               PageContext.REQUEST_SCOPE);
 
-				if (moduleConfig == null) {
-					moduleConfig = (ModuleConfig) pageContext.getServletContext().getAttribute(Globals.MODULE_KEY);
-					pageContext.getRequest().setAttribute(Globals.MODULE_KEY, moduleConfig);
-				}
+         if (resources == null) {
+            ModuleConfig moduleConfig = (ModuleConfig) pageContext.getRequest().getAttribute(Globals.MODULE_KEY);
 
-				resources = (MessageResources) pageContext.getAttribute(
-						Globals.MESSAGES_KEY + moduleConfig.getPrefix(), PageContext.APPLICATION_SCOPE);
-			}
+            if (moduleConfig == null) {
+               moduleConfig = (ModuleConfig) pageContext.getServletContext().getAttribute(Globals.MODULE_KEY);
+               pageContext.getRequest().setAttribute(Globals.MODULE_KEY, moduleConfig);
+            }
 
-			if (resources == null) {
-				resources = (MessageResources) pageContext.getAttribute(Globals.MESSAGES_KEY,
-						PageContext.APPLICATION_SCOPE);
-			}
+            resources = (MessageResources) pageContext.getAttribute(Globals.MESSAGES_KEY + moduleConfig.getPrefix(),
+                  PageContext.APPLICATION_SCOPE);
+         }
 
-			if (resources != null) {
-				message = resources.getMessage(messageKey);
-			}
+         if (resources == null) {
+            resources = (MessageResources) pageContext
+                  .getAttribute(Globals.MESSAGES_KEY, PageContext.APPLICATION_SCOPE);
+         }
 
-			if (StringUtils.isBlank(message)) {
-				logger.warn("The bundle hasn't been retrieved. Please check your i18n configuration.");
-				message = UNDEFINED_KEY + messageKey + UNDEFINED_KEY;
-			}
-		}
+         if (resources != null) {
+            message = resources.getMessage(messageKey);
+         }
 
-		return message;
-	}
+         if (StringUtils.isBlank(message)) {
+            logger.warn("The bundle hasn't been retrieved. Please check your i18n configuration.");
+            message = UNDEFINED_KEY + messageKey + UNDEFINED_KEY;
+         }
+      }
+
+      return message;
+   }
 }

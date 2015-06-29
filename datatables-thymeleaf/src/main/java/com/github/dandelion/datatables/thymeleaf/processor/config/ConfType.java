@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -39,20 +39,20 @@ package com.github.dandelion.datatables.thymeleaf.processor.config;
  * @since 0.10.0
  */
 public enum ConfType {
-	EXPORT, CALLBACK, EXTRAJS, EXTRAHTML, OPTION;
+   EXPORT, CALLBACK, EXTRAJS, EXTRAHTML, OPTION;
 
-	public static String possibleValues() {
-		StringBuilder possibleValues = new StringBuilder();
-		for (int i = 0; i < values().length; i++) {
-			possibleValues.append("'").append(values()[i].name().toLowerCase()).append("'");
-			if (i < values().length - 2) {
-				possibleValues.append(", ");
-			}
-			else if (i == (values().length - 2)) {
-				possibleValues.append(" and ");
-			}
-		}
-		possibleValues.append(".");
-		return possibleValues.toString();
-	}
+   public static String possibleValues() {
+      StringBuilder possibleValues = new StringBuilder();
+      for (int i = 0; i < values().length; i++) {
+         possibleValues.append("'").append(values()[i].name().toLowerCase()).append("'");
+         if (i < values().length - 2) {
+            possibleValues.append(", ");
+         }
+         else if (i == (values().length - 2)) {
+            possibleValues.append(" and ");
+         }
+      }
+      possibleValues.append(".");
+      return possibleValues.toString();
+   }
 }

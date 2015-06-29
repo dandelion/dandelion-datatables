@@ -40,8 +40,8 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  * Activates the Input pagination by:
  * </p>
  * <ul>
- * <li>Updating the bundle graph with the bundle <code>paginationType-input</code>
- * </li>
+ * <li>Updating the bundle graph with the bundle
+ * <code>paginationType-input</code></li>
  * <li>Setting the pagination type to <code>input</code></li>
  * </ul>
  * 
@@ -50,16 +50,16 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class PagingTypeInputFeature extends AbstractExtension {
 
-	public static final String FEATURE_NAME = "pagingTypeInput";
-	
-	@Override
-	public String getExtensionName() {
-		return FEATURE_NAME;
-	}
+   public static final String FEATURE_NAME = "pagingTypeInput";
 
-	@Override
-	public void setup(HtmlTable table) {
-		addBundle(DatatableBundles.DDL_DT_PAGING_INPUT);
-		addParameter(DTConstants.DT_PAGINGTYPE, PagingType.INPUT.toString());
-	}
+   @Override
+   public String getExtensionName() {
+      return FEATURE_NAME;
+   }
+
+   @Override
+   public void setup(HtmlTable table) {
+      addBundle(DatatableBundles.DDL_DT_PAGING_INPUT);
+      addParameter(DTConstants.DT_PAGINGTYPE, PagingType.INPUT.toString());
+   }
 }

@@ -45,15 +45,14 @@ import javax.servlet.jsp.tagext.VariableInfo;
  */
 public class TableTagExtraInfo extends TagExtraInfo {
 
-	public VariableInfo[] getVariableInfo(TagData data) {
+   public VariableInfo[] getVariableInfo(TagData data) {
 
-		List<VariableInfo> variables = new ArrayList<VariableInfo>();
+      List<VariableInfo> variables = new ArrayList<VariableInfo>();
 
-		if (data.getAttributeString("row") != null) {
-			variables.add(new VariableInfo(data.getAttributeString("row"), "java.lang.Object", true,
-					VariableInfo.NESTED));
-		}
+      if (data.getAttributeString("row") != null) {
+         variables.add(new VariableInfo(data.getAttributeString("row"), "java.lang.Object", true, VariableInfo.NESTED));
+      }
 
-		return (VariableInfo[]) variables.toArray(new VariableInfo[] {});
-	}
+      return (VariableInfo[]) variables.toArray(new VariableInfo[] {});
+   }
 }

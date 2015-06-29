@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -51,21 +51,21 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
  */
 public class TableAjaxPipeSizeAttrProcessor extends AbstractTableAttrProcessor {
 
-	public TableAjaxPipeSizeAttrProcessor(IAttributeNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public TableAjaxPipeSizeAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	@Override
-	public int getPrecedence() {
-		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
-	}
+   @Override
+   public int getPrecedence() {
+      return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
+   }
 
-	@Override
-	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-			Map<Option<?>, Object> stagingConf) {
+   @Override
+   protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
+         Map<Option<?>, Object> stagingConf) {
 
-		Integer attrValue = AttributeUtils.parseAttribute(arguments, element, attributeName, Integer.class);
+      Integer attrValue = AttributeUtils.parseAttribute(arguments, element, attributeName, Integer.class);
 
-		stagingConf.put(DatatableOptions.AJAX_PIPESIZE, Integer.valueOf(attrValue));
-	}
+      stagingConf.put(DatatableOptions.AJAX_PIPESIZE, Integer.valueOf(attrValue));
+   }
 }

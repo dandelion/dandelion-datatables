@@ -40,5 +40,5 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public abstract class AbstractConfigGenerator {
 
-	public abstract Map<String, Object> generateConfig(HtmlTable table);
+   public abstract Map<String, Object> generateConfig(HtmlTable table);
 }

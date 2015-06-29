@@ -48,21 +48,21 @@ import com.github.dandelion.core.i18n.LocaleResolver;
  */
 public class Struts1LocaleResolver implements LocaleResolver {
 
-	@Override
-	public Locale resolveLocale(HttpServletRequest request) {
+   @Override
+   public Locale resolveLocale(HttpServletRequest request) {
 
-		Locale locale = null;
-		HttpSession session = request.getSession(false);
+      Locale locale = null;
+      HttpSession session = request.getSession(false);
 
-		// Only check session if sessions are enabled
-		if (session != null) {
-			locale = (Locale) session.getAttribute(Globals.LOCALE_KEY);
-		}
+      // Only check session if sessions are enabled
+      if (session != null) {
+         locale = (Locale) session.getAttribute(Globals.LOCALE_KEY);
+      }
 
-		// Falling back to the request locale
-		if (locale == null) {
-			locale = request.getLocale();
-		}
-		return locale;
-	}
+      // Falling back to the request locale
+      if (locale == null) {
+         locale = request.getLocale();
+      }
+      return locale;
+   }
 }

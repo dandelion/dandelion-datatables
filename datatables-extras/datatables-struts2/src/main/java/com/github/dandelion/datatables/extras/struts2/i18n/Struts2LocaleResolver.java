@@ -48,25 +48,25 @@ import com.opensymphony.xwork2.ognl.OgnlValueStack;
  */
 public class Struts2LocaleResolver implements LocaleResolver {
 
-	@Override
-	public Locale resolveLocale(HttpServletRequest request) {
+   @Override
+   public Locale resolveLocale(HttpServletRequest request) {
 
-		Locale result = null;
-		OgnlValueStack stack = (OgnlValueStack) ActionContext.getContext().getValueStack();
+      Locale result = null;
+      OgnlValueStack stack = (OgnlValueStack) ActionContext.getContext().getValueStack();
 
-		for (Object o : stack.getRoot()) {
-			if (o instanceof LocaleProvider) {
-				LocaleProvider lp = (LocaleProvider) o;
-				result = lp.getLocale();
-				break;
-			}
-		}
+      for (Object o : stack.getRoot()) {
+         if (o instanceof LocaleProvider) {
+            LocaleProvider lp = (LocaleProvider) o;
+            result = lp.getLocale();
+            break;
+         }
+      }
 
-		// Falling back to the request locale
-		if (result == null) {
-			result = request.getLocale();
-		}
+      // Falling back to the request locale
+      if (result == null) {
+         result = request.getLocale();
+      }
 
-		return result;
-	}
+      return result;
+   }
 }

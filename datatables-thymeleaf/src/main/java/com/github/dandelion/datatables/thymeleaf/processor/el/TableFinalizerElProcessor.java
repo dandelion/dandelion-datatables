@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -291,8 +291,7 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
       JQueryContent datatableContent = new DatatableJQueryContent(htmlTable);
 
       // Get the existing JavaScript generator or create it if it doesn't exist
-      JQueryJsContentGenerator javascriptGenerator = (JQueryJsContentGenerator) AssetRequestContext
-            .get(request)
+      JQueryJsContentGenerator javascriptGenerator = (JQueryJsContentGenerator) AssetRequestContext.get(request)
             .getGenerator(DatatableComponent.COMPONENT_NAME);
 
       if (javascriptGenerator == null) {
@@ -304,10 +303,8 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 
       // Update the asset request context with the enabled bundles and
       // Javascript generator
-      AssetRequestContext
-         .get(request)
-         .addBundles(DatatableBundles.DDL_DT)
-         .addGenerator(DatatableComponent.COMPONENT_NAME, javascriptGenerator);
+      AssetRequestContext.get(request).addBundles(DatatableBundles.DDL_DT)
+            .addGenerator(DatatableComponent.COMPONENT_NAME, javascriptGenerator);
 
    }
 }

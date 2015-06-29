@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -70,47 +70,47 @@ import com.github.dandelion.datatables.core.option.TableConfiguration;
  */
 public abstract class AbstractOptionProcessor implements OptionProcessor {
 
-	private static Logger logger = LoggerFactory.getLogger(AbstractOptionProcessor.class);
+   private static Logger logger = LoggerFactory.getLogger(AbstractOptionProcessor.class);
 
-	private final boolean isBundleGraphUpdatable;
+   private final boolean isBundleGraphUpdatable;
 
-	public AbstractOptionProcessor() {
-		this.isBundleGraphUpdatable = false;
-	}
+   public AbstractOptionProcessor() {
+      this.isBundleGraphUpdatable = false;
+   }
 
-	public AbstractOptionProcessor(boolean bundleAware) {
-		this.isBundleGraphUpdatable = bundleAware;
-	}
+   public AbstractOptionProcessor(boolean bundleAware) {
+      this.isBundleGraphUpdatable = bundleAware;
+   }
 
-	public void process(OptionProcessingContext context) {
+   public void process(OptionProcessingContext context) {
 
-		Entry<Option<?>, Object> optionEntry = context.getOptionEntry();
-		logger.trace("Processing the option '{}' with the value {}", optionEntry.getKey(), optionEntry.getValue());
+      Entry<Option<?>, Object> optionEntry = context.getOptionEntry();
+      logger.trace("Processing the option '{}' with the value {}", optionEntry.getKey(), optionEntry.getValue());
 
-		// Update the entry with the processed value
-		optionEntry.setValue(getProcessedValue(context));
-	}
+      // Update the entry with the processed value
+      optionEntry.setValue(getProcessedValue(context));
+   }
 
-	/**
-	 * <p>
-	 * Processes the {@link Option} value from the provided
-	 * {@link OptionProcessingContext} and returns it.
-	 * </p>
-	 * 
-	 * @param context
-	 *            The context to be used during the processing.
-	 * @return the processed and typed value of the option.
-	 * @throws DandelionException
-	 *             if something goes wrong during the processing of the option
-	 *             value.
-	 */
-	protected abstract Object getProcessedValue(OptionProcessingContext context);
+   /**
+    * <p>
+    * Processes the {@link Option} value from the provided
+    * {@link OptionProcessingContext} and returns it.
+    * </p>
+    * 
+    * @param context
+    *           The context to be used during the processing.
+    * @return the processed and typed value of the option.
+    * @throws DandelionException
+    *            if something goes wrong during the processing of the option
+    *            value.
+    */
+   protected abstract Object getProcessedValue(OptionProcessingContext context);
 
-	/**
-	 * @return {@code true} if the option being processed can update the bundle
-	 *         graph, {@code false} otherwise.
-	 */
-	public boolean isBundleGraphUpdatable() {
-		return this.isBundleGraphUpdatable;
-	}
+   /**
+    * @return {@code true} if the option being processed can update the bundle
+    *         graph, {@code false} otherwise.
+    */
+   public boolean isBundleGraphUpdatable() {
+      return this.isBundleGraphUpdatable;
+   }
 }

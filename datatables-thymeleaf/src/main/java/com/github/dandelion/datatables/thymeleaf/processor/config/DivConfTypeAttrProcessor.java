@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -92,433 +92,445 @@ import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
  */
 public class DivConfTypeAttrProcessor extends AbstractAttrProcessor {
 
-	public DivConfTypeAttrProcessor(IAttributeNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public DivConfTypeAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getPrecedence() {
-		return DataTablesDialect.DT_HIGHEST_PRECEDENCE;
-	}
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public int getPrecedence() {
+      return DataTablesDialect.DT_HIGHEST_PRECEDENCE;
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   @SuppressWarnings("unchecked")
+   protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
 
-		checkMarkupUsage(element);
+      checkMarkupUsage(element);
 
-		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-		HttpServletResponse response = ((IWebContext) arguments.getContext()).getHttpServletResponse();
-		
-		// A Map<ConfType, Object> is associated with each table id
-		Map<String, Map<ConfType, Object>> configs = (Map<String, Map<ConfType, Object>>) RequestUtils.getFromRequest(
-				DataTablesDialect.INTERNAL_BEAN_CONFIGS, request);
+      HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
+      HttpServletResponse response = ((IWebContext) arguments.getContext()).getHttpServletResponse();
 
-		String tableId = ((Element) element.getParent()).getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":conf");
+      // A Map<ConfType, Object> is associated with each table id
+      Map<String, Map<ConfType, Object>> configs = (Map<String, Map<ConfType, Object>>) RequestUtils.getFromRequest(
+            DataTablesDialect.INTERNAL_BEAN_CONFIGS, request);
 
-		String confTypeStr = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
-		ConfType confType = null;
-		try {
-			confType = ConfType.valueOf(confTypeStr.trim().toUpperCase());
-		} catch (IllegalArgumentException e) {
-			StringBuilder sb = new StringBuilder();
-			sb.append("'");
-			sb.append(confTypeStr.trim());
-			sb.append("' is not a valid configuration type. Possible values are: ");
-			sb.append(EnumUtils.printPossibleValuesOf(ConfType.class));
-			throw new DandelionException(sb.toString());
-		}
+      String tableId = ((Element) element.getParent()).getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":conf");
 
-		switch (confType) {
-		case CALLBACK:
-			processCallbackAttributes(element, configs, request, tableId);
-			break;
-		case EXPORT:
-			processExportAttributes(arguments, element, configs, request, response, tableId);
-			break;
-		case EXTRAJS:
-			processExtraJsAttributes(arguments, element, configs, tableId);
-			break;
-		case OPTION:
-			processOptionAttributes(element, configs, tableId);
-			break;
-		case EXTRAHTML:
-			processExtraHtmlAttributes(element, configs, tableId);
-			break;
-		}
-		
-		return ProcessorResult.ok();
-	}
+      String confTypeStr = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
+      ConfType confType = null;
+      try {
+         confType = ConfType.valueOf(confTypeStr.trim().toUpperCase());
+      }
+      catch (IllegalArgumentException e) {
+         StringBuilder sb = new StringBuilder();
+         sb.append("'");
+         sb.append(confTypeStr.trim());
+         sb.append("' is not a valid configuration type. Possible values are: ");
+         sb.append(EnumUtils.printPossibleValuesOf(ConfType.class));
+         throw new DandelionException(sb.toString());
+      }
 
-	private void checkMarkupUsage(Element element) {
-		Element parent = (Element) element.getParent();
+      switch (confType) {
+      case CALLBACK:
+         processCallbackAttributes(element, configs, request, tableId);
+         break;
+      case EXPORT:
+         processExportAttributes(arguments, element, configs, request, response, tableId);
+         break;
+      case EXTRAJS:
+         processExtraJsAttributes(arguments, element, configs, tableId);
+         break;
+      case OPTION:
+         processOptionAttributes(element, configs, tableId);
+         break;
+      case EXTRAHTML:
+         processExtraHtmlAttributes(element, configs, tableId);
+         break;
+      }
 
-		if (parent == null || !"div".equals(parent.getNormalizedName())
-				|| !parent.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":conf")
-				|| StringUtils.isBlank(parent.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":conf"))) {
-			throw new DandelionException(
-					"The element 'div dt:confType=\"...\"' must be inside an element 'div dt:conf=\"tableId\"'.");
-		}
-	}
+      return ProcessorResult.ok();
+   }
 
-	/**
-	 * <p>
-	 * Processes ExtraHtml attributes in order to build an instance of
-	 * {@link ExtraHtml}.
-	 * 
-	 * <p>
-	 * As Thymeleaf runs a processor before the evaluation of its children, the
-	 * content of the HTML snippet is not set here but in a dedicated processor:
-	 * {@link DivExtraHtmlFinalizerElProcessor}. As such, a fake {@code div} tag
-	 * is added inside the main configuration {@code div} with the same
-	 * {@code uid} attribute.
-	 * 
-	 * @param element
-	 *            The {@code div} element which holds the attribute.
-	 * @see DivExtraHtmlFinalizerElProcessor
-	 */
-	@SuppressWarnings("unchecked")
-	private void processExtraHtmlAttributes(Element element, Map<String, Map<ConfType, Object>> configs, String tableId) {
-		
-		if (hasAttribute(element, "uid")) {
+   private void checkMarkupUsage(Element element) {
+      Element parent = (Element) element.getParent();
 
-			ExtraHtml extraHtml = new ExtraHtml();
-			extraHtml.setUid(getStringValue(element, "uid"));
+      if (parent == null || !"div".equals(parent.getNormalizedName())
+            || !parent.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":conf")
+            || StringUtils.isBlank(parent.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":conf"))) {
+         throw new DandelionException(
+               "The element 'div dt:confType=\"...\"' must be inside an element 'div dt:conf=\"tableId\"'.");
+      }
+   }
 
-			if (hasAttribute(element, "container")) {
-				extraHtml.setContainer(getStringValue(element, "container"));
-			} else {
-				extraHtml.setContainer("div");
-			}
+   /**
+    * <p>
+    * Processes ExtraHtml attributes in order to build an instance of
+    * {@link ExtraHtml}.
+    * 
+    * <p>
+    * As Thymeleaf runs a processor before the evaluation of its children, the
+    * content of the HTML snippet is not set here but in a dedicated processor:
+    * {@link DivExtraHtmlFinalizerElProcessor}. As such, a fake {@code div} tag
+    * is added inside the main configuration {@code div} with the same
+    * {@code uid} attribute.
+    * 
+    * @param element
+    *           The {@code div} element which holds the attribute.
+    * @see DivExtraHtmlFinalizerElProcessor
+    */
+   @SuppressWarnings("unchecked")
+   private void processExtraHtmlAttributes(Element element, Map<String, Map<ConfType, Object>> configs, String tableId) {
 
-			if (hasAttribute(element, "cssStyle")) {
-				extraHtml.setCssStyle(getStringValue(element, "cssStyle"));
-			}
-			if (hasAttribute(element, "cssClass")) {
-				extraHtml.setCssClass(getStringValue(element, "cssClass"));
-			}
+      if (hasAttribute(element, "uid")) {
 
-			if (configs.get(tableId).containsKey(ConfType.EXTRAHTML)) {
-				List<ExtraHtml> extraHtmls = (List<ExtraHtml>) configs.get(tableId).get(ConfType.EXTRAHTML);
+         ExtraHtml extraHtml = new ExtraHtml();
+         extraHtml.setUid(getStringValue(element, "uid"));
 
-				extraHtmls.add(extraHtml);
-			}
-			else {
-				List<ExtraHtml> extraHtmls = new ArrayList<ExtraHtml>();
-				extraHtmls.add(extraHtml);
+         if (hasAttribute(element, "container")) {
+            extraHtml.setContainer(getStringValue(element, "container"));
+         }
+         else {
+            extraHtml.setContainer("div");
+         }
 
-				configs.get(tableId).put(ConfType.EXTRAHTML, extraHtmls);
-			}
+         if (hasAttribute(element, "cssStyle")) {
+            extraHtml.setCssStyle(getStringValue(element, "cssStyle"));
+         }
+         if (hasAttribute(element, "cssClass")) {
+            extraHtml.setCssClass(getStringValue(element, "cssClass"));
+         }
 
-			// We add a fake div here, in order to be able to get the content
-			// processed
-			Element div = new Element("div");
-			div.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":tmp", "internalUseExtraHtml");
-			div.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":uid", extraHtml.getUid());
-			element.getParent().addChild(div);
-			
-		}
-		else {
-			throw new DandelionException(
-					"The attribute 'dt:uid' is required when defining an extra HTML snippet.");
-		}
-	}
+         if (configs.get(tableId).containsKey(ConfType.EXTRAHTML)) {
+            List<ExtraHtml> extraHtmls = (List<ExtraHtml>) configs.get(tableId).get(ConfType.EXTRAHTML);
 
-	/**
-	 * Processes export attributes in order to build an instance of
-	 * {@link ExportConf}.
-	 * 
-	 * @param element
-	 *            The {@code div} element which holds the attribute.
-	 */
-	@SuppressWarnings("unchecked")
-	private void processExportAttributes(Arguments arguments, Element element, Map<String, Map<ConfType, Object>> configs, HttpServletRequest request, HttpServletResponse response,
-			String tableId) {
+            extraHtmls.add(extraHtml);
+         }
+         else {
+            List<ExtraHtml> extraHtmls = new ArrayList<ExtraHtml>();
+            extraHtmls.add(extraHtml);
 
-		ExportConf conf = null;
-		String exportFormat = null;
+            configs.get(tableId).put(ConfType.EXTRAHTML, extraHtmls);
+         }
 
-		if (hasAttribute(element, "type")) {
-			exportFormat = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":type").trim().toLowerCase();
-			conf = new ExportConf(exportFormat);
-		} else {
-			throw new DandelionException(
-					"The attribute 'dt:type' is required when defining an export configuration.");
-		}
+         // We add a fake div here, in order to be able to get the content
+         // processed
+         Element div = new Element("div");
+         div.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":tmp", "internalUseExtraHtml");
+         div.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":uid", extraHtml.getUid());
+         element.getParent().addChild(div);
 
-		StringBuilder exportUrl = null;
-		// Custom mode (export using controller)
-		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":url")) {
-			exportUrl = new StringBuilder(AttributeUtils.parseStringAttribute(arguments, element,
-					DataTablesDialect.DIALECT_PREFIX + ":url").trim());
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "c");
-			conf.setHasCustomUrl(true);
-		}
-		// Default mode (export using filter)
-		else{
-			exportUrl = UrlUtils.getCurrentUri(request);
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "f");
-			conf.setHasCustomUrl(false);
-		}
-		
-		if (hasAttribute(element, "fileName")) {
-			String fileName = getStringValue(element, "fileName"); 
-			conf.setFileName(fileName);
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_NAME, fileName);
-		}
+      }
+      else {
+         throw new DandelionException("The attribute 'dt:uid' is required when defining an extra HTML snippet.");
+      }
+   }
 
-		if (hasAttribute(element, "mimeType")) {
-			String mimeType = getStringValue(element, "mimeType"); 
-			conf.setMimeType(mimeType);
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_MIME_TYPE, mimeType);
-		}
+   /**
+    * Processes export attributes in order to build an instance of
+    * {@link ExportConf}.
+    * 
+    * @param element
+    *           The {@code div} element which holds the attribute.
+    */
+   @SuppressWarnings("unchecked")
+   private void processExportAttributes(Arguments arguments, Element element,
+         Map<String, Map<ConfType, Object>> configs, HttpServletRequest request, HttpServletResponse response,
+         String tableId) {
 
-		if (hasAttribute(element, "label")) {
-			conf.setLabel(getStringValue(element, "label"));
-		}
+      ExportConf conf = null;
+      String exportFormat = null;
 
-		if (hasAttribute(element, "cssStyle")) {
-			conf.setCssStyle(new StringBuilder(getStringValue(element, "cssStyle")));
-		}
+      if (hasAttribute(element, "type")) {
+         exportFormat = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":type").trim().toLowerCase();
+         conf = new ExportConf(exportFormat);
+      }
+      else {
+         throw new DandelionException("The attribute 'dt:type' is required when defining an export configuration.");
+      }
 
-		if (hasAttribute(element, "cssClass")) {
-			conf.setCssClass(new StringBuilder(getStringValue(element, "cssClass")));
-		}
+      StringBuilder exportUrl = null;
+      // Custom mode (export using controller)
+      if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":url")) {
+         exportUrl = new StringBuilder(AttributeUtils.parseStringAttribute(arguments, element,
+               DataTablesDialect.DIALECT_PREFIX + ":url").trim());
+         UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "c");
+         conf.setHasCustomUrl(true);
+      }
+      // Default mode (export using filter)
+      else {
+         exportUrl = UrlUtils.getCurrentUri(request);
+         UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "f");
+         conf.setHasCustomUrl(false);
+      }
 
-		if (hasAttribute(element, "includeHeader")) {
-			String includeHeader = getStringValue(element, "includeHeader");
-			conf.setIncludeHeader(Boolean.parseBoolean(includeHeader));
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_HEADER, includeHeader);
-		}
-		
-		if (hasAttribute(element, "method")) {
-			String methodStr = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":method");
+      if (hasAttribute(element, "fileName")) {
+         String fileName = getStringValue(element, "fileName");
+         conf.setFileName(fileName);
+         UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_NAME, fileName);
+      }
 
-			HttpMethod methodEnum = null;
-			try {
-				methodEnum = HttpMethod.valueOf(methodStr.toUpperCase().trim());
-			} catch (IllegalArgumentException e) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("'");
-				sb.append(methodStr);
-				sb.append("' is not a valid HTTP method. Possible values are: ");
-				sb.append(EnumUtils.printPossibleValuesOf(HttpMethod.class));
-				throw new DandelionException(sb.toString());
-			}
+      if (hasAttribute(element, "mimeType")) {
+         String mimeType = getStringValue(element, "mimeType");
+         conf.setMimeType(mimeType);
+         UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_MIME_TYPE, mimeType);
+      }
 
-			conf.setMethod(methodEnum);
-		}
+      if (hasAttribute(element, "label")) {
+         conf.setLabel(getStringValue(element, "label"));
+      }
 
-		if (hasAttribute(element, "autoSize")) {
-			String autosize = getStringValue(element, "autoSize");
-			conf.setAutoSize(Boolean.parseBoolean(autosize));
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_AUTOSIZE, autosize);
-		}
+      if (hasAttribute(element, "cssStyle")) {
+         conf.setCssStyle(new StringBuilder(getStringValue(element, "cssStyle")));
+      }
 
-		if (hasAttribute(element, "exportClass")) {
-			conf.setExportClass(getStringValue(element, "exportClass"));
-		}
+      if (hasAttribute(element, "cssClass")) {
+         conf.setCssClass(new StringBuilder(getStringValue(element, "cssClass")));
+      }
 
-		if (hasAttribute(element, "fileExtension")) {
-			String fileExtension = getStringValue(element, "fileExtension");
-			conf.setFileExtension(fileExtension);
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_EXTENSION, fileExtension);
-		}
+      if (hasAttribute(element, "includeHeader")) {
+         String includeHeader = getStringValue(element, "includeHeader");
+         conf.setIncludeHeader(Boolean.parseBoolean(includeHeader));
+         UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_HEADER, includeHeader);
+      }
 
-		if (hasAttribute(element, "orientation")) {
-			String orientationStr = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":orientation");
+      if (hasAttribute(element, "method")) {
+         String methodStr = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":method");
 
-			Orientation orientationEnum = null;
-			try {
-				orientationEnum = Orientation.valueOf(orientationStr.toUpperCase().trim());
-			} catch (IllegalArgumentException e) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("'");
-				sb.append(orientationStr);
-				sb.append("' is not a valid orientation. Possible values are: ");
-				sb.append(EnumUtils.printPossibleValuesOf(Orientation.class));
-				throw new DandelionException(sb.toString());
-			}
+         HttpMethod methodEnum = null;
+         try {
+            methodEnum = HttpMethod.valueOf(methodStr.toUpperCase().trim());
+         }
+         catch (IllegalArgumentException e) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("'");
+            sb.append(methodStr);
+            sb.append("' is not a valid HTTP method. Possible values are: ");
+            sb.append(EnumUtils.printPossibleValuesOf(HttpMethod.class));
+            throw new DandelionException(sb.toString());
+         }
 
-			conf.setOrientation(orientationEnum);
-			UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ORIENTATION, orientationStr);
-		}
+         conf.setMethod(methodEnum);
+      }
 
-		// Finalizes export URL
-		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID, tableId);
-		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, exportFormat);
-		UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
-		UrlUtils.addParameter(exportUrl, WebConstants.DANDELION_ASSET_FILTER_STATE, false);
-		conf.setUrl(UrlUtils.getProcessedUrl(exportUrl, request, response));
-		
-		if (conf != null) {
+      if (hasAttribute(element, "autoSize")) {
+         String autosize = getStringValue(element, "autoSize");
+         conf.setAutoSize(Boolean.parseBoolean(autosize));
+         UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_AUTOSIZE, autosize);
+      }
 
-			if (configs.get(tableId).containsKey(ConfType.EXPORT)) {
-				((Map<String, ExportConf>) configs.get(tableId).get(ConfType.EXPORT)).put(exportFormat, conf);
-			} else {
-				Map<String, ExportConf> exportConfiguration = new HashMap<String, ExportConf>();
-				exportConfiguration.put(exportFormat, conf);
-				configs.get(tableId).put(ConfType.EXPORT, exportConfiguration);
-			}
-		}
-	}
+      if (hasAttribute(element, "exportClass")) {
+         conf.setExportClass(getStringValue(element, "exportClass"));
+      }
 
-	/**
-	 * Processes attributes in order to build an instance of {@link Callback}.
-	 * 
-	 * @param element
-	 *            The {@code div} element which holds the attribute.
-	 */
-	@SuppressWarnings("unchecked")
-	private void processCallbackAttributes(Element element, Map<String, Map<ConfType, Object>> configs, HttpServletRequest request, String tableId) {
+      if (hasAttribute(element, "fileExtension")) {
+         String fileExtension = getStringValue(element, "fileExtension");
+         conf.setFileExtension(fileExtension);
+         UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_EXTENSION, fileExtension);
+      }
 
-		if (hasAttribute(element, "type")) {
+      if (hasAttribute(element, "orientation")) {
+         String orientationStr = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":orientation");
 
-			String typeStr = getStringValue(element, "type");
+         Orientation orientationEnum = null;
+         try {
+            orientationEnum = Orientation.valueOf(orientationStr.toUpperCase().trim());
+         }
+         catch (IllegalArgumentException e) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("'");
+            sb.append(orientationStr);
+            sb.append("' is not a valid orientation. Possible values are: ");
+            sb.append(EnumUtils.printPossibleValuesOf(Orientation.class));
+            throw new DandelionException(sb.toString());
+         }
 
-			if (hasAttribute(element, "function")) {
+         conf.setOrientation(orientationEnum);
+         UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ORIENTATION, orientationStr);
+      }
 
-				String functionStr = getStringValue(element, "function");
-				functionStr = ProcessorUtils.getValueAfterProcessingBundles(functionStr, request);
-				CallbackType callbackType = null;
-				try {
-					callbackType = CallbackType.valueOf(typeStr.toUpperCase().trim());
-				} catch (IllegalArgumentException e) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("'");
-					sb.append(typeStr);
-					sb.append("' is not a valid callback type. Possible values are: ");
-					sb.append(EnumUtils.printPossibleValuesOf(CallbackType.class));
-					throw new DandelionException(sb.toString());
-				}
+      // Finalizes export URL
+      UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID, tableId);
+      UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, exportFormat);
+      UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
+      UrlUtils.addParameter(exportUrl, WebConstants.DANDELION_ASSET_FILTER_STATE, false);
+      conf.setUrl(UrlUtils.getProcessedUrl(exportUrl, request, response));
 
-				if (configs.get(tableId).containsKey(ConfType.CALLBACK)) {
-					List<Callback> callbacks = (List<Callback>) configs.get(tableId).get(ConfType.CALLBACK);
+      if (conf != null) {
 
-					if (Callback.hasCallback(callbackType, callbacks)) {
-						Callback.findByType(callbackType, callbacks).appendCode(
-								(callbackType.hasReturn() ? "return " : "") + functionStr + "("
-										+ StringUtils.join(callbackType.getArgs(), ",") + ");");
-					} else {
-						callbacks.add(new Callback(callbackType, (callbackType.hasReturn() ? "return " : "")
-								+ functionStr + "(" + StringUtils.join(callbackType.getArgs(), ",") + ");"));
-					}
-				} else {
-					List<Callback> callbacks = new ArrayList<Callback>();
-					callbacks.add(new Callback(callbackType, (callbackType.hasReturn() ? "return " : "") + functionStr
-							+ "(" + StringUtils.join(callbackType.getArgs(), ",") + ");"));
+         if (configs.get(tableId).containsKey(ConfType.EXPORT)) {
+            ((Map<String, ExportConf>) configs.get(tableId).get(ConfType.EXPORT)).put(exportFormat, conf);
+         }
+         else {
+            Map<String, ExportConf> exportConfiguration = new HashMap<String, ExportConf>();
+            exportConfiguration.put(exportFormat, conf);
+            configs.get(tableId).put(ConfType.EXPORT, exportConfiguration);
+         }
+      }
+   }
 
-					configs.get(tableId).put(ConfType.CALLBACK, callbacks);
-				}
-			} else {
-				throw new DandelionException("The attribute '" + DataTablesDialect.DIALECT_PREFIX
-						+ ":function' is required when defining a callback.");
-			}
-		} else {
-			throw new DandelionException("The attribute '" + DataTablesDialect.DIALECT_PREFIX
-					+ ":type' is required when defining a callback.");
-		}
-	}
+   /**
+    * Processes attributes in order to build an instance of {@link Callback}.
+    * 
+    * @param element
+    *           The {@code div} element which holds the attribute.
+    */
+   @SuppressWarnings("unchecked")
+   private void processCallbackAttributes(Element element, Map<String, Map<ConfType, Object>> configs,
+         HttpServletRequest request, String tableId) {
 
-	/**
-	 * Processes attributes in order to build an instance of {@link ExtraJs}.
-	 * 
-	 * @param element
-	 *            The {@code div} element which holds the attribute.
-	 */
-	@SuppressWarnings("unchecked")
-	private void processExtraJsAttributes(Arguments arguments, Element element, Map<String, Map<ConfType, Object>> configs, String tableId) {
+      if (hasAttribute(element, "type")) {
 
-		if (hasAttribute(element, "bundles")) {
+         String typeStr = getStringValue(element, "type");
 
-			String bundles = AttributeUtils.parseStringAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX
-					+ ":bundles");
-			JQueryContentPlaceholder placeholder = null;
+         if (hasAttribute(element, "function")) {
 
-			if (hasAttribute(element, "placeholder")) {
-				String insert = getStringValue(element, "placeholder");
-				try {
-					placeholder = JQueryContentPlaceholder.valueOf(insert.toUpperCase().trim());
-				} catch (IllegalArgumentException e) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("'");
-					sb.append(insert);
-					sb.append("' is not a valid placeholder. Possible values are: ");
-					sb.append(EnumUtils.printPossibleValuesOf(JQueryContentPlaceholder.class));
-					throw new DandelionException(sb.toString());
-				}
-			} else {
-				placeholder = JQueryContentPlaceholder.BEFORE_ALL;
-			}
+            String functionStr = getStringValue(element, "function");
+            functionStr = ProcessorUtils.getValueAfterProcessingBundles(functionStr, request);
+            CallbackType callbackType = null;
+            try {
+               callbackType = CallbackType.valueOf(typeStr.toUpperCase().trim());
+            }
+            catch (IllegalArgumentException e) {
+               StringBuilder sb = new StringBuilder();
+               sb.append("'");
+               sb.append(typeStr);
+               sb.append("' is not a valid callback type. Possible values are: ");
+               sb.append(EnumUtils.printPossibleValuesOf(CallbackType.class));
+               throw new DandelionException(sb.toString());
+            }
 
-			Set<String> bundleSet = new HashSet<String>(Arrays.asList(bundles.split(",")));
-			if (configs.get(tableId).containsKey(ConfType.EXTRAJS)) {
-				((Set<ExtraJs>) configs.get(tableId).get(ConfType.EXTRAJS)).add(new ExtraJs(bundleSet,
-						placeholder));
-			}
-			else {
-				Set<ExtraJs> extraFiles = new HashSet<ExtraJs>();
-				extraFiles.add(new ExtraJs(bundleSet, placeholder));
-				configs.get(tableId).put(ConfType.EXTRAJS, extraFiles);
+            if (configs.get(tableId).containsKey(ConfType.CALLBACK)) {
+               List<Callback> callbacks = (List<Callback>) configs.get(tableId).get(ConfType.CALLBACK);
 
-			}
-		} else {
-			throw new DandelionException(
-					"The attribute 'dt:bundles' is required when defining an extra JavaScript.");
-		}
-	}
+               if (Callback.hasCallback(callbackType, callbacks)) {
+                  Callback.findByType(callbackType, callbacks).appendCode(
+                        (callbackType.hasReturn() ? "return " : "") + functionStr + "("
+                              + StringUtils.join(callbackType.getArgs(), ",") + ");");
+               }
+               else {
+                  callbacks.add(new Callback(callbackType, (callbackType.hasReturn() ? "return " : "") + functionStr
+                        + "(" + StringUtils.join(callbackType.getArgs(), ",") + ");"));
+               }
+            }
+            else {
+               List<Callback> callbacks = new ArrayList<Callback>();
+               callbacks.add(new Callback(callbackType, (callbackType.hasReturn() ? "return " : "") + functionStr + "("
+                     + StringUtils.join(callbackType.getArgs(), ",") + ");"));
 
-	/**
-	 * <p>
-	 * Processes attributes in order to overload locally the properties
-	 * configured globally.
-	 * </p>
-	 * 
-	 * @param element
-	 *            The {@code div} element which holds the attribute.
-	 */
-	@SuppressWarnings("unchecked")
-	private void processOptionAttributes(Element element, Map<String, Map<ConfType, Object>> configs, String tableId) {
+               configs.get(tableId).put(ConfType.CALLBACK, callbacks);
+            }
+         }
+         else {
+            throw new DandelionException("The attribute '" + DataTablesDialect.DIALECT_PREFIX
+                  + ":function' is required when defining a callback.");
+         }
+      }
+      else {
+         throw new DandelionException("The attribute '" + DataTablesDialect.DIALECT_PREFIX
+               + ":type' is required when defining a callback.");
+      }
+   }
 
-		if (hasAttribute(element, "name")) {
+   /**
+    * Processes attributes in order to build an instance of {@link ExtraJs}.
+    * 
+    * @param element
+    *           The {@code div} element which holds the attribute.
+    */
+   @SuppressWarnings("unchecked")
+   private void processExtraJsAttributes(Arguments arguments, Element element,
+         Map<String, Map<ConfType, Object>> configs, String tableId) {
 
-			String name = getStringValue(element, "name");
-			Option<?> configToken = DatatableOptions.findByName(name);
-			String value = getStringValue(element, "value");
+      if (hasAttribute(element, "bundles")) {
 
-			if (configToken == null) {
-				throw new DandelionException("'" + name
-						+ "' is not a valid option. Please read the documentation.");
-			} else {
+         String bundles = AttributeUtils.parseStringAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX
+               + ":bundles");
+         JQueryContentPlaceholder placeholder = null;
 
-				if (configs.get(tableId).containsKey(ConfType.OPTION)) {
-					((Map<Option<?>, Object>) configs.get(tableId).get(ConfType.OPTION)).put(configToken,
-							value);
-				} else {
-					Map<Option<?>, Object> stagingConf = new HashMap<Option<?>, Object>();
-					stagingConf.put(configToken, value);
-					configs.get(tableId).put(ConfType.OPTION, stagingConf);
-				}
-			}
-		} else {
-			throw new DandelionException(
-					"The attribute 'dt:name' is required when overloading a configuration option.");
-		}
-	}
+         if (hasAttribute(element, "placeholder")) {
+            String insert = getStringValue(element, "placeholder");
+            try {
+               placeholder = JQueryContentPlaceholder.valueOf(insert.toUpperCase().trim());
+            }
+            catch (IllegalArgumentException e) {
+               StringBuilder sb = new StringBuilder();
+               sb.append("'");
+               sb.append(insert);
+               sb.append("' is not a valid placeholder. Possible values are: ");
+               sb.append(EnumUtils.printPossibleValuesOf(JQueryContentPlaceholder.class));
+               throw new DandelionException(sb.toString());
+            }
+         }
+         else {
+            placeholder = JQueryContentPlaceholder.BEFORE_ALL;
+         }
 
-	public boolean hasAttribute(Element element, String attribute) {
-		return element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":" + attribute)
-				&& StringUtils
-						.isNotBlank(element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":" + attribute));
-	}
+         Set<String> bundleSet = new HashSet<String>(Arrays.asList(bundles.split(",")));
+         if (configs.get(tableId).containsKey(ConfType.EXTRAJS)) {
+            ((Set<ExtraJs>) configs.get(tableId).get(ConfType.EXTRAJS)).add(new ExtraJs(bundleSet, placeholder));
+         }
+         else {
+            Set<ExtraJs> extraFiles = new HashSet<ExtraJs>();
+            extraFiles.add(new ExtraJs(bundleSet, placeholder));
+            configs.get(tableId).put(ConfType.EXTRAJS, extraFiles);
 
-	public String getStringValue(Element element, String attribute) {
-		return String.valueOf(element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":" + attribute));
-	}
+         }
+      }
+      else {
+         throw new DandelionException("The attribute 'dt:bundles' is required when defining an extra JavaScript.");
+      }
+   }
+
+   /**
+    * <p>
+    * Processes attributes in order to overload locally the properties
+    * configured globally.
+    * </p>
+    * 
+    * @param element
+    *           The {@code div} element which holds the attribute.
+    */
+   @SuppressWarnings("unchecked")
+   private void processOptionAttributes(Element element, Map<String, Map<ConfType, Object>> configs, String tableId) {
+
+      if (hasAttribute(element, "name")) {
+
+         String name = getStringValue(element, "name");
+         Option<?> configToken = DatatableOptions.findByName(name);
+         String value = getStringValue(element, "value");
+
+         if (configToken == null) {
+            throw new DandelionException("'" + name + "' is not a valid option. Please read the documentation.");
+         }
+         else {
+
+            if (configs.get(tableId).containsKey(ConfType.OPTION)) {
+               ((Map<Option<?>, Object>) configs.get(tableId).get(ConfType.OPTION)).put(configToken, value);
+            }
+            else {
+               Map<Option<?>, Object> stagingConf = new HashMap<Option<?>, Object>();
+               stagingConf.put(configToken, value);
+               configs.get(tableId).put(ConfType.OPTION, stagingConf);
+            }
+         }
+      }
+      else {
+         throw new DandelionException("The attribute 'dt:name' is required when overloading a configuration option.");
+      }
+   }
+
+   public boolean hasAttribute(Element element, String attribute) {
+      return element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":" + attribute)
+            && StringUtils.isNotBlank(element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":" + attribute));
+   }
+
+   public String getStringValue(Element element, String attribute) {
+      return String.valueOf(element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":" + attribute));
+   }
 }

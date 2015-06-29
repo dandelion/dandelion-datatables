@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,144 +57,144 @@ import com.github.dandelion.datatables.core.option.TableConfigurationFactory;
  */
 public class DatatableOptionGroupsDebugPage extends AbstractDebugPage {
 
-	private static final String PAGE_ID = "datatable-option-groups";
-	private static final String PAGE_NAME = "Option groups";
-	private static final String PAGE_LOCATION = "META-INF/resources/ddl-dt-debugger/html/datatable-option-groups.html";
+   private static final String PAGE_ID = "datatable-option-groups";
+   private static final String PAGE_NAME = "Option groups";
+   private static final String PAGE_LOCATION = "META-INF/resources/ddl-dt-debugger/html/datatable-option-groups.html";
 
-	@Override
-	public String getId() {
-		return PAGE_ID;
-	}
+   @Override
+   public String getId() {
+      return PAGE_ID;
+   }
 
-	@Override
-	public String getName() {
-		return PAGE_NAME;
-	}
+   @Override
+   public String getName() {
+      return PAGE_NAME;
+   }
 
-	@Override
-	public String getTemplate(HandlerContext context) throws IOException {
-		return ResourceUtils.getContentFromInputStream(Thread.currentThread().getContextClassLoader()
-				.getResourceAsStream(PAGE_LOCATION));
-	}
+   @Override
+   public String getTemplate(HandlerContext context) throws IOException {
+      return ResourceUtils.getContentFromInputStream(Thread.currentThread().getContextClassLoader()
+            .getResourceAsStream(PAGE_LOCATION));
+   }
 
-	@Override
-	protected Map<String, Object> getPageContext() {
-		Map<Locale, Map<String, Map<Option<?>, Object>>> store = TableConfigurationFactory.getConfigurationStore();
-		Locale currentLocale = DatatableConfigurator.getLocaleResolver().resolveLocale(context.getRequest());
+   @Override
+   protected Map<String, Object> getPageContext() {
+      Map<Locale, Map<String, Map<Option<?>, Object>>> store = TableConfigurationFactory.getConfigurationStore();
+      Locale currentLocale = DatatableConfigurator.getLocaleResolver().resolveLocale(context.getRequest());
 
-		List<Map<String, Object>> groupsJson = new ArrayList<Map<String, Object>>();
+      List<Map<String, Object>> groupsJson = new ArrayList<Map<String, Object>>();
 
-		int index = 0;
-		for (Entry<String, Map<Option<?>, Object>> entry : store.get(currentLocale).entrySet()) {
-			Map<String, Object> groupJson = new HashMap<String, Object>();
-			groupJson.put("groupName", StringUtils.capitalize(entry.getKey()));
-			groupJson.put("options", getGroupOptions(entry.getValue()));
-			groupJson.put("active", index == 0 ? "active" : "");
-			groupsJson.add(groupJson);
-			index++;
-		}
+      int index = 0;
+      for (Entry<String, Map<Option<?>, Object>> entry : store.get(currentLocale).entrySet()) {
+         Map<String, Object> groupJson = new HashMap<String, Object>();
+         groupJson.put("groupName", StringUtils.capitalize(entry.getKey()));
+         groupJson.put("options", getGroupOptions(entry.getValue()));
+         groupJson.put("active", index == 0 ? "active" : "");
+         groupsJson.add(groupJson);
+         index++;
+      }
 
-		Map<String, Object> pageContext = new HashMap<String, Object>();
+      Map<String, Object> pageContext = new HashMap<String, Object>();
 
-		pageContext.put("groups", groupsJson);
-		pageContext.put("page-header", PAGE_NAME);
-		return pageContext;
-	}
-	
-	private List<Map<String, Object>> getGroupOptions(Map<Option<?>, Object> optionsMap) {
+      pageContext.put("groups", groupsJson);
+      pageContext.put("page-header", PAGE_NAME);
+      return pageContext;
+   }
 
-		List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
+   private List<Map<String, Object>> getGroupOptions(Map<Option<?>, Object> optionsMap) {
 
-		// Style-related options
-		options.add(option(DatatableOptions.CSS_STYLE, optionsMap));
-		options.add(option(DatatableOptions.CSS_CLASS, optionsMap));
-		options.add(option(DatatableOptions.CSS_STRIPECLASSES, optionsMap));
-		options.add(option(DatatableOptions.CSS_THEME, optionsMap));
-		options.add(option(DatatableOptions.CSS_THEMEOPTION, optionsMap));
+      List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
 
-		// Feature-related options
-		options.add(option(DatatableOptions.FEATURE_APPEAR, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_APPEAR_DURATION, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_AUTOWIDTH, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_DISPLAYLENGTH, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_DOM, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_FILTERABLE, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_FILTER_CLEAR_SELECTOR, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_FILTER_DELAY, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_FILTER_SELECTOR, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_FILTER_TRIGGER, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_INFO, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_JQUERYUI, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_LENGTHCHANGE, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_LENGTHMENU, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_PAGEABLE, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_PAGINGTYPE, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_PROCESSING, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_SCROLLCOLLAPSE, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_SCROLLX, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_SCROLLXINNER, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_SCROLLY, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_SORTABLE, optionsMap));
-		options.add(option(DatatableOptions.FEATURE_STATESAVE, optionsMap));
+      // Style-related options
+      options.add(option(DatatableOptions.CSS_STYLE, optionsMap));
+      options.add(option(DatatableOptions.CSS_CLASS, optionsMap));
+      options.add(option(DatatableOptions.CSS_STRIPECLASSES, optionsMap));
+      options.add(option(DatatableOptions.CSS_THEME, optionsMap));
+      options.add(option(DatatableOptions.CSS_THEMEOPTION, optionsMap));
 
-		// AJAX-related options
-		options.add(option(DatatableOptions.AJAX_SOURCE, optionsMap));
-		options.add(option(DatatableOptions.AJAX_SERVERSIDE, optionsMap));
-		options.add(option(DatatableOptions.AJAX_DEFERRENDER, optionsMap));
-		options.add(option(DatatableOptions.AJAX_PIPELINING, optionsMap));
-		options.add(option(DatatableOptions.AJAX_PIPESIZE, optionsMap));
-		options.add(option(DatatableOptions.AJAX_RELOAD_FUNCTION, optionsMap));
-		options.add(option(DatatableOptions.AJAX_RELOAD_SELECTOR, optionsMap));
-		options.add(option(DatatableOptions.AJAX_PARAMS, optionsMap));
+      // Feature-related options
+      options.add(option(DatatableOptions.FEATURE_APPEAR, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_APPEAR_DURATION, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_AUTOWIDTH, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_DISPLAYLENGTH, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_DOM, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_FILTERABLE, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_FILTER_CLEAR_SELECTOR, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_FILTER_DELAY, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_FILTER_SELECTOR, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_FILTER_TRIGGER, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_INFO, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_JQUERYUI, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_LENGTHCHANGE, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_LENGTHMENU, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_PAGEABLE, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_PAGINGTYPE, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_PROCESSING, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_SCROLLCOLLAPSE, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_SCROLLX, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_SCROLLXINNER, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_SCROLLY, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_SORTABLE, optionsMap));
+      options.add(option(DatatableOptions.FEATURE_STATESAVE, optionsMap));
 
-		// Plugin-related options
-		options.add(option(DatatableOptions.PLUGIN_FIXEDPOSITION, optionsMap));
-		options.add(option(DatatableOptions.PLUGIN_FIXEDOFFSETTOP, optionsMap));
+      // AJAX-related options
+      options.add(option(DatatableOptions.AJAX_SOURCE, optionsMap));
+      options.add(option(DatatableOptions.AJAX_SERVERSIDE, optionsMap));
+      options.add(option(DatatableOptions.AJAX_DEFERRENDER, optionsMap));
+      options.add(option(DatatableOptions.AJAX_PIPELINING, optionsMap));
+      options.add(option(DatatableOptions.AJAX_PIPESIZE, optionsMap));
+      options.add(option(DatatableOptions.AJAX_RELOAD_FUNCTION, optionsMap));
+      options.add(option(DatatableOptions.AJAX_RELOAD_SELECTOR, optionsMap));
+      options.add(option(DatatableOptions.AJAX_PARAMS, optionsMap));
 
-		// Export-related options
-		options.add(option(DatatableOptions.EXPORT_ENABLED_FORMATS, optionsMap));
-		options.add(option(DatatableOptions.EXPORT_CLASS, optionsMap));
-		options.add(option(DatatableOptions.EXPORT_CONTAINER_CLASS, optionsMap));
-		options.add(option(DatatableOptions.EXPORT_CONTAINER_STYLE, optionsMap));
-		options.add(option(DatatableOptions.EXPORT_FILENAME, optionsMap));
-		options.add(option(DatatableOptions.EXPORT_LABEL, optionsMap));
-		options.add(option(DatatableOptions.EXPORT_MIMETYPE, optionsMap));
+      // Plugin-related options
+      options.add(option(DatatableOptions.PLUGIN_FIXEDPOSITION, optionsMap));
+      options.add(option(DatatableOptions.PLUGIN_FIXEDOFFSETTOP, optionsMap));
 
-		// I18n-related options
-		options.add(option(DatatableOptions.I18N_MSG_ARIA_SORTASC, optionsMap));
-		options.add(option(DatatableOptions.I18N_MSG_ARIA_SORTDESC, optionsMap));
-		options.add(option(DatatableOptions.I18N_MSG_EMPTYTABLE, optionsMap));
-		options.add(option(DatatableOptions.I18N_MSG_INFO, optionsMap));
-		options.add(option(DatatableOptions.I18N_MSG_INFOEMPTY, optionsMap));
-		options.add(option(DatatableOptions.I18N_MSG_INFOFILTERED, optionsMap));
-		options.add(option(DatatableOptions.I18N_MSG_INFOPOSTFIX, optionsMap));
-		options.add(option(DatatableOptions.I18N_MSG_LENGTHMENU, optionsMap));
-		options.add(option(DatatableOptions.I18N_MSG_LOADINGRECORDS, optionsMap));
-		options.add(option(DatatableOptions.I18N_MSG_PAGINATE_FIRST, optionsMap));
-		options.add(option(DatatableOptions.I18N_MSG_PAGINATE_LAST, optionsMap));
-		options.add(option(DatatableOptions.I18N_MSG_PAGINATE_NEXT, optionsMap));
-		options.add(option(DatatableOptions.I18N_MSG_PAGINATE_PREVIOUS, optionsMap));
-		options.add(option(DatatableOptions.I18N_MSG_PROCESSING, optionsMap));
-		options.add(option(DatatableOptions.I18N_MSG_SEARCH, optionsMap));
-		options.add(option(DatatableOptions.I18N_MSG_ZERORECORDS, optionsMap));
-		return options;
-	}
+      // Export-related options
+      options.add(option(DatatableOptions.EXPORT_ENABLED_FORMATS, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_CLASS, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_CONTAINER_CLASS, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_CONTAINER_STYLE, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_FILENAME, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_LABEL, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_MIMETYPE, optionsMap));
 
-	private Map<String, Object> option(Option<?> option, Map<Option<?>, Object> optionsMap) {
-		Map<String, Object> optionMap = new HashMap<String, Object>();
-		optionMap.put("name", option.getName());
-		if(optionsMap.containsKey(option)) {
-		   if(optionsMap.get(option) instanceof Extension) {
-		      optionMap.put("value", optionsMap.get(option).getClass().getCanonicalName());
-		   }
-		   else {
-		      optionMap.put("value", optionsMap.get(option));
-		   }
-		}
-		else {
-		   optionMap.put("value", "");
-		}
-		return optionMap;
-	}
+      // I18n-related options
+      options.add(option(DatatableOptions.I18N_MSG_ARIA_SORTASC, optionsMap));
+      options.add(option(DatatableOptions.I18N_MSG_ARIA_SORTDESC, optionsMap));
+      options.add(option(DatatableOptions.I18N_MSG_EMPTYTABLE, optionsMap));
+      options.add(option(DatatableOptions.I18N_MSG_INFO, optionsMap));
+      options.add(option(DatatableOptions.I18N_MSG_INFOEMPTY, optionsMap));
+      options.add(option(DatatableOptions.I18N_MSG_INFOFILTERED, optionsMap));
+      options.add(option(DatatableOptions.I18N_MSG_INFOPOSTFIX, optionsMap));
+      options.add(option(DatatableOptions.I18N_MSG_LENGTHMENU, optionsMap));
+      options.add(option(DatatableOptions.I18N_MSG_LOADINGRECORDS, optionsMap));
+      options.add(option(DatatableOptions.I18N_MSG_PAGINATE_FIRST, optionsMap));
+      options.add(option(DatatableOptions.I18N_MSG_PAGINATE_LAST, optionsMap));
+      options.add(option(DatatableOptions.I18N_MSG_PAGINATE_NEXT, optionsMap));
+      options.add(option(DatatableOptions.I18N_MSG_PAGINATE_PREVIOUS, optionsMap));
+      options.add(option(DatatableOptions.I18N_MSG_PROCESSING, optionsMap));
+      options.add(option(DatatableOptions.I18N_MSG_SEARCH, optionsMap));
+      options.add(option(DatatableOptions.I18N_MSG_ZERORECORDS, optionsMap));
+      return options;
+   }
+
+   private Map<String, Object> option(Option<?> option, Map<Option<?>, Object> optionsMap) {
+      Map<String, Object> optionMap = new HashMap<String, Object>();
+      optionMap.put("name", option.getName());
+      if (optionsMap.containsKey(option)) {
+         if (optionsMap.get(option) instanceof Extension) {
+            optionMap.put("value", optionsMap.get(option).getClass().getCanonicalName());
+         }
+         else {
+            optionMap.put("value", optionsMap.get(option));
+         }
+      }
+      else {
+         optionMap.put("value", "");
+      }
+      return optionMap;
+   }
 }

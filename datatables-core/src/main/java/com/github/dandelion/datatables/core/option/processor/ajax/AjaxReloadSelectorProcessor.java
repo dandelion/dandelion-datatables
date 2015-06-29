@@ -45,13 +45,13 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
  */
 public class AjaxReloadSelectorProcessor extends AbstractOptionProcessor {
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
 
-		if (StringUtils.isNotBlank(context.getValueAsString())) {
-			context.registerExtension(AjaxReloadFeature.AJAX_RELOAD_FEATURE_NAME);
-		}
+      if (StringUtils.isNotBlank(context.getValueAsString())) {
+         context.registerExtension(AjaxReloadFeature.AJAX_RELOAD_FEATURE_NAME);
+      }
 
-		return context.getValueAsString();
-	}
+      return context.getValueAsString();
+   }
 }

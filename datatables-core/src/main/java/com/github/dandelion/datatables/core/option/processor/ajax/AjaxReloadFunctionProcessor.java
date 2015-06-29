@@ -43,22 +43,22 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
  * @since 0.10.0
  */
 public class AjaxReloadFunctionProcessor extends AbstractOptionProcessor {
-	
-	public AjaxReloadFunctionProcessor() {
-		super();
-	}
 
-	public AjaxReloadFunctionProcessor(boolean bundleAware) {
-		super(bundleAware);
-	}
+   public AjaxReloadFunctionProcessor() {
+      super();
+   }
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
+   public AjaxReloadFunctionProcessor(boolean bundleAware) {
+      super(bundleAware);
+   }
 
-		if (StringUtils.isNotBlank(context.getValueAsString())) {
-			context.registerExtension(AjaxReloadFeature.AJAX_RELOAD_FEATURE_NAME);
-		}
-		
-		return context.getValueAsString();
-	}
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
+
+      if (StringUtils.isNotBlank(context.getValueAsString())) {
+         context.registerExtension(AjaxReloadFeature.AJAX_RELOAD_FEATURE_NAME);
+      }
+
+      return context.getValueAsString();
+   }
 }

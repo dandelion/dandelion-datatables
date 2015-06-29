@@ -46,162 +46,166 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class HtmlColumn extends HtmlTagWithContent {
 
-	private ColumnConfiguration columnConfiguration;
-	private Boolean isHeaderColumn;
-	protected StringBuilder cssCellStyle;
-	protected StringBuilder cssCellClass;
-	private Set<String> enabledDisplayTypes = new HashSet<String>();
-	
-	public HtmlColumn() {
-		setHeaderColumn(false);
-		enabledDisplayTypes.add(ReservedFormat.ALL);
-	};
+   private ColumnConfiguration columnConfiguration;
+   private Boolean isHeaderColumn;
+   protected StringBuilder cssCellStyle;
+   protected StringBuilder cssCellClass;
+   private Set<String> enabledDisplayTypes = new HashSet<String>();
 
-	public HtmlColumn(String displayFormat) {
-		setHeaderColumn(false);
-		enabledDisplayTypes.add(displayFormat);
-	};
+   public HtmlColumn() {
+      setHeaderColumn(false);
+      enabledDisplayTypes.add(ReservedFormat.ALL);
+   };
 
-	public HtmlColumn(Boolean isHeader) {
-		setHeaderColumn(isHeader);
-		enabledDisplayTypes.add(ReservedFormat.ALL);
-		if(isHeader){
-			this.columnConfiguration = new ColumnConfiguration();
-		}
-	};
+   public HtmlColumn(String displayFormat) {
+      setHeaderColumn(false);
+      enabledDisplayTypes.add(displayFormat);
+   };
 
-	public HtmlColumn(Boolean isHeader, String content) {
-		setHeaderColumn(isHeader);
-		enabledDisplayTypes.add(ReservedFormat.ALL);
-		if(isHeader){
-			this.columnConfiguration = new ColumnConfiguration();
-		}
-		if (content != null) {
-			setContent(new StringBuilder(content));
-		}
-	}
+   public HtmlColumn(Boolean isHeader) {
+      setHeaderColumn(isHeader);
+      enabledDisplayTypes.add(ReservedFormat.ALL);
+      if (isHeader) {
+         this.columnConfiguration = new ColumnConfiguration();
+      }
+   };
 
-	public HtmlColumn(Boolean isHeader, String content, Map<String, String> dynamicAttributes) {
-		setHeaderColumn(isHeader);
-		enabledDisplayTypes.add(ReservedFormat.ALL);
-		if(isHeader){
-			this.columnConfiguration = new ColumnConfiguration();
-		}
-		if (content != null) {
-			setContent(new StringBuilder(content));
-		}
-		this.dynamicAttributes = dynamicAttributes;
-	}
+   public HtmlColumn(Boolean isHeader, String content) {
+      setHeaderColumn(isHeader);
+      enabledDisplayTypes.add(ReservedFormat.ALL);
+      if (isHeader) {
+         this.columnConfiguration = new ColumnConfiguration();
+      }
+      if (content != null) {
+         setContent(new StringBuilder(content));
+      }
+   }
 
-	public HtmlColumn(Boolean isHeader, String content, Map<String, String> dynamicAttributes, String displayTypes) {
-		setHeaderColumn(isHeader);
-		if(isHeader){
-			this.columnConfiguration = new ColumnConfiguration();
-		}
-		if (content != null) {
-			setContent(new StringBuilder(content));
-		}
-		this.dynamicAttributes = dynamicAttributes;
-		if (StringUtils.isNotBlank(displayTypes)) {
-			String[] displayTypesTab = displayTypes.trim().split(",");
-			for (String displayType : displayTypesTab) {
-				this.enabledDisplayTypes.add(displayType.toLowerCase().trim());
-			}
-		}
-		else{
-			enabledDisplayTypes.add(ReservedFormat.ALL);
-		}
-	}
-	
-	@Override
-	protected StringBuilder getHtmlAttributes() {
-		StringBuilder html = new StringBuilder();
-		if (this.isHeaderColumn) {
-			html.append(writeAttribute("class", DatatableOptions.CSSCLASS.valueFrom(this.getColumnConfiguration())));
-			html.append(writeAttribute("style", DatatableOptions.CSSSTYLE.valueFrom(this.getColumnConfiguration())));
-			
-			String columnId = DatatableOptions.ID.valueFrom(this.getColumnConfiguration());
-			if (StringUtils.isNotBlank(columnId)) {
-				html.append(writeAttribute("id", columnId));
-			}
-		} else {
-			html.append(writeAttribute("class", this.cssCellClass));
-			html.append(writeAttribute("style", this.cssCellStyle));
-		}
-		return html;
-	}
+   public HtmlColumn(Boolean isHeader, String content, Map<String, String> dynamicAttributes) {
+      setHeaderColumn(isHeader);
+      enabledDisplayTypes.add(ReservedFormat.ALL);
+      if (isHeader) {
+         this.columnConfiguration = new ColumnConfiguration();
+      }
+      if (content != null) {
+         setContent(new StringBuilder(content));
+      }
+      this.dynamicAttributes = dynamicAttributes;
+   }
 
-	private void setHeaderColumn(Boolean isHeaderColumn) {
-		this.isHeaderColumn = isHeaderColumn;
-		if (this.isHeaderColumn) {
-			this.tag = "th";
-		} else {
-			this.tag = "td";
-		}
-	}
+   public HtmlColumn(Boolean isHeader, String content, Map<String, String> dynamicAttributes, String displayTypes) {
+      setHeaderColumn(isHeader);
+      if (isHeader) {
+         this.columnConfiguration = new ColumnConfiguration();
+      }
+      if (content != null) {
+         setContent(new StringBuilder(content));
+      }
+      this.dynamicAttributes = dynamicAttributes;
+      if (StringUtils.isNotBlank(displayTypes)) {
+         String[] displayTypesTab = displayTypes.trim().split(",");
+         for (String displayType : displayTypesTab) {
+            this.enabledDisplayTypes.add(displayType.toLowerCase().trim());
+         }
+      }
+      else {
+         enabledDisplayTypes.add(ReservedFormat.ALL);
+      }
+   }
 
-	public Boolean isHeaderColumn() {
-		return isHeaderColumn;
-	}
+   @Override
+   protected StringBuilder getHtmlAttributes() {
+      StringBuilder html = new StringBuilder();
+      if (this.isHeaderColumn) {
+         html.append(writeAttribute("class", DatatableOptions.CSSCLASS.valueFrom(this.getColumnConfiguration())));
+         html.append(writeAttribute("style", DatatableOptions.CSSSTYLE.valueFrom(this.getColumnConfiguration())));
 
-	public ColumnConfiguration getColumnConfiguration() {
-		return columnConfiguration;
-	}
+         String columnId = DatatableOptions.ID.valueFrom(this.getColumnConfiguration());
+         if (StringUtils.isNotBlank(columnId)) {
+            html.append(writeAttribute("id", columnId));
+         }
+      }
+      else {
+         html.append(writeAttribute("class", this.cssCellClass));
+         html.append(writeAttribute("style", this.cssCellStyle));
+      }
+      return html;
+   }
 
-	public void setColumnConfiguration(ColumnConfiguration columnConfiguration) {
-		this.columnConfiguration = columnConfiguration;
-	}
-	
-	public void addCssClass(String cssClass) {
-		if (this.isHeaderColumn) {
-			StringBuilder cssClassSb = DatatableOptions.CSSCLASS.valueFrom(this.columnConfiguration);
-			if (cssClassSb != null && cssClassSb.length() != 0) {
-				DatatableOptions.CSSCLASS.appendIn(this.columnConfiguration, CLASS_SEPARATOR);
-			}
-			DatatableOptions.CSSCLASS.appendIn(this.columnConfiguration, cssClass);
-		}
-		else {
-			if (this.cssClass == null) {
-				this.cssClass = new StringBuilder();
-			}
-			else {
-				this.cssClass.append(CLASS_SEPARATOR);
-			}
-			this.cssClass.append(cssClass);
-		}
-	}
-	
-	public void addCssCellClass(String cssCellClass) {
-		if(this.cssCellClass == null) {
-			this.cssCellClass = new StringBuilder();
-		} else {
-			this.cssCellClass.append(CLASS_SEPARATOR);
-		}
-		this.cssCellClass.append(cssCellClass);
-	}
+   private void setHeaderColumn(Boolean isHeaderColumn) {
+      this.isHeaderColumn = isHeaderColumn;
+      if (this.isHeaderColumn) {
+         this.tag = "th";
+      }
+      else {
+         this.tag = "td";
+      }
+   }
 
-	public void addCssCellStyle(String cssCellStyle) {
-		if(this.cssCellStyle == null) {
-			this.cssCellStyle = new StringBuilder();
-		} else {
-			this.cssCellStyle.append(STYLE_SEPARATOR);
-		}
-		this.cssCellStyle.append(cssCellStyle);
-	}
+   public Boolean isHeaderColumn() {
+      return isHeaderColumn;
+   }
 
-	public Set<String> getEnabledDisplayTypes() {
-		return enabledDisplayTypes;
-	}
+   public ColumnConfiguration getColumnConfiguration() {
+      return columnConfiguration;
+   }
 
-	public void setEnabledDisplayTypes(Set<String> enabledDisplayTypes) {
-		this.enabledDisplayTypes = enabledDisplayTypes;
-	}
+   public void setColumnConfiguration(ColumnConfiguration columnConfiguration) {
+      this.columnConfiguration = columnConfiguration;
+   }
 
-	public StringBuilder getCssCellStyle() {
-		return cssCellStyle;
-	}
+   public void addCssClass(String cssClass) {
+      if (this.isHeaderColumn) {
+         StringBuilder cssClassSb = DatatableOptions.CSSCLASS.valueFrom(this.columnConfiguration);
+         if (cssClassSb != null && cssClassSb.length() != 0) {
+            DatatableOptions.CSSCLASS.appendIn(this.columnConfiguration, CLASS_SEPARATOR);
+         }
+         DatatableOptions.CSSCLASS.appendIn(this.columnConfiguration, cssClass);
+      }
+      else {
+         if (this.cssClass == null) {
+            this.cssClass = new StringBuilder();
+         }
+         else {
+            this.cssClass.append(CLASS_SEPARATOR);
+         }
+         this.cssClass.append(cssClass);
+      }
+   }
 
-	public StringBuilder getCssCellClass() {
-		return cssCellClass;
-	}
+   public void addCssCellClass(String cssCellClass) {
+      if (this.cssCellClass == null) {
+         this.cssCellClass = new StringBuilder();
+      }
+      else {
+         this.cssCellClass.append(CLASS_SEPARATOR);
+      }
+      this.cssCellClass.append(cssCellClass);
+   }
+
+   public void addCssCellStyle(String cssCellStyle) {
+      if (this.cssCellStyle == null) {
+         this.cssCellStyle = new StringBuilder();
+      }
+      else {
+         this.cssCellStyle.append(STYLE_SEPARATOR);
+      }
+      this.cssCellStyle.append(cssCellStyle);
+   }
+
+   public Set<String> getEnabledDisplayTypes() {
+      return enabledDisplayTypes;
+   }
+
+   public void setEnabledDisplayTypes(Set<String> enabledDisplayTypes) {
+      this.enabledDisplayTypes = enabledDisplayTypes;
+   }
+
+   public StringBuilder getCssCellStyle() {
+      return cssCellStyle;
+   }
+
+   public StringBuilder getCssCellClass() {
+      return cssCellClass;
+   }
 }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -45,60 +45,60 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
  */
 public final class ProcessorUtils {
 
-	/**
-	 * <p>
-	 * Some processors accept a special syntax, allowing to load one or more
-	 * Dandelion bundles in the current {@link HttpServletRequest}.
-	 * </p>
-	 * <p>
-	 * The syntax is as follows:<br />
-	 * {@code bundleNameToAdd[,anotherBundleName]#javascriptObject}.
-	 * </p>
-	 * 
-	 * @throws DandelionException
-	 *             if the passed value contains an incorrect format.
-	 */
-	public static String getValueAfterProcessingBundles(String value, HttpServletRequest request) {
+   /**
+    * <p>
+    * Some processors accept a special syntax, allowing to load one or more
+    * Dandelion bundles in the current {@link HttpServletRequest}.
+    * </p>
+    * <p>
+    * The syntax is as follows:<br />
+    * {@code bundleNameToAdd[,anotherBundleName]#javascriptObject}.
+    * </p>
+    * 
+    * @throws DandelionException
+    *            if the passed value contains an incorrect format.
+    */
+   public static String getValueAfterProcessingBundles(String value, HttpServletRequest request) {
 
-		// The value may contain a hash, indicating that one or more bundles
-		// should be loaded in the current request
-		if (value.contains("#")) {
+      // The value may contain a hash, indicating that one or more bundles
+      // should be loaded in the current request
+      if (value.contains("#")) {
 
-			String[] splittedValue = value.split("#");
-			if (value.startsWith("#") || splittedValue.length != 2) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("Wrong format used in the option value. ");
-				sb.append("The right format is: 'bundleToAdd#javascriptObject'");
-				throw new DandelionException(sb.toString());
-			}
-			else {
-				if (splittedValue[0].contains(",")) {
-					String[] splittedBundles = splittedValue[0].trim().split(",");
-					for (String bundle : splittedBundles) {
-						AssetRequestContext.get(request).addBundles(bundle.trim());
-					}
-				}
-				else {
-					AssetRequestContext.get(request).addBundles(splittedValue[0].trim());
-				}
+         String[] splittedValue = value.split("#");
+         if (value.startsWith("#") || splittedValue.length != 2) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Wrong format used in the option value. ");
+            sb.append("The right format is: 'bundleToAdd#javascriptObject'");
+            throw new DandelionException(sb.toString());
+         }
+         else {
+            if (splittedValue[0].contains(",")) {
+               String[] splittedBundles = splittedValue[0].trim().split(",");
+               for (String bundle : splittedBundles) {
+                  AssetRequestContext.get(request).addBundles(bundle.trim());
+               }
+            }
+            else {
+               AssetRequestContext.get(request).addBundles(splittedValue[0].trim());
+            }
 
-				// Once the request updated with the bundle(s), both the
-				// value and the entry are cleaned
-				return value.substring(value.indexOf("#") + 1);
-			}
-		}
-		// Nothing to process
-		else {
-			return value;
-		}
-	}
+            // Once the request updated with the bundle(s), both the
+            // value and the entry are cleaned
+            return value.substring(value.indexOf("#") + 1);
+         }
+      }
+      // Nothing to process
+      else {
+         return value;
+      }
+   }
 
-	/**
-	 * <p>
-	 * Suppress default constructor for noninstantiability.
-	 * </p>
-	 */
-	private ProcessorUtils() {
-		throw new AssertionError();
-	}
+   /**
+    * <p>
+    * Suppress default constructor for noninstantiability.
+    * </p>
+    */
+   private ProcessorUtils() {
+      throw new AssertionError();
+   }
 }

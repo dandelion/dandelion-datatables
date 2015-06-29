@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -58,43 +58,46 @@ import com.github.dandelion.datatables.jsp.tag.ColumnTag;
  */
 public class JstlMessageResolver extends AbstractMessageResolver {
 
-	public JstlMessageResolver(HttpServletRequest request) {
-		super(request);
-	}
+   public JstlMessageResolver(HttpServletRequest request) {
+      super(request);
+   }
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(JstlMessageResolver.class);
+   // Logger
+   private static Logger logger = LoggerFactory.getLogger(JstlMessageResolver.class);
 
-	public String getResource(String messageKey, String defaultValue, Object... params) {
+   public String getResource(String messageKey, String defaultValue, Object... params) {
 
-		PageContext pageContext = (PageContext) params[0];
-		String message = null;
-		ResourceBundle bundle = null;
+      PageContext pageContext = (PageContext) params[0];
+      String message = null;
+      ResourceBundle bundle = null;
 
-		LocalizationContext localizationContext = BundleSupport.getLocalizationContext(pageContext);
+      LocalizationContext localizationContext = BundleSupport.getLocalizationContext(pageContext);
 
-		if (localizationContext != null) {
-			bundle = localizationContext.getResourceBundle();
-		}
+      if (localizationContext != null) {
+         bundle = localizationContext.getResourceBundle();
+      }
 
-		if (bundle != null) {
+      if (bundle != null) {
 
-			if (messageKey == null || StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
-				message = StringUtils.capitalize(defaultValue);
-			} else {
-				try {
-					message = bundle.getString(messageKey);
-				} catch (MissingResourceException e) {
-					logger.warn("No message found with the key The message key {} and locale {}.", messageKey,
-							localizationContext.getLocale());
-					message = UNDEFINED_KEY + messageKey + UNDEFINED_KEY;
-				}
-			}
-		} else {
-			logger.warn("The bundle hasn't been retrieved. Please check your i18n configuration.");
-			message = UNDEFINED_KEY + messageKey + UNDEFINED_KEY;
-		}
+         if (messageKey == null || StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
+            message = StringUtils.capitalize(defaultValue);
+         }
+         else {
+            try {
+               message = bundle.getString(messageKey);
+            }
+            catch (MissingResourceException e) {
+               logger.warn("No message found with the key The message key {} and locale {}.", messageKey,
+                     localizationContext.getLocale());
+               message = UNDEFINED_KEY + messageKey + UNDEFINED_KEY;
+            }
+         }
+      }
+      else {
+         logger.warn("The bundle hasn't been retrieved. Please check your i18n configuration.");
+         message = UNDEFINED_KEY + messageKey + UNDEFINED_KEY;
+      }
 
-		return message;
-	}
+      return message;
+   }
 }

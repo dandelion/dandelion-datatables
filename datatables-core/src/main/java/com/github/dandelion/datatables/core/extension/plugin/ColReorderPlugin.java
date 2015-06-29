@@ -45,16 +45,16 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class ColReorderPlugin extends AbstractExtension {
 
-	public static final String COLREORDER_PLUGIN_NAME = "colReorder";
+   public static final String COLREORDER_PLUGIN_NAME = "colReorder";
 
-	@Override
-	public String getExtensionName() {
-		return COLREORDER_PLUGIN_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return COLREORDER_PLUGIN_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
-		addBundle(DatatableBundles.DATATABLES_COLREORDER);
-		addParameter(DTConstants.DT_DOM, "R", Parameter.Mode.PREPEND);
-	}
+   @Override
+   public void setup(HtmlTable table) {
+      addBundle(DatatableBundles.DATATABLES_COLREORDER);
+      addParameter(DTConstants.DT_DOM, "R", Parameter.Mode.PREPEND);
+   }
 }

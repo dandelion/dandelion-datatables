@@ -51,46 +51,47 @@ import com.github.dandelion.core.util.StringUtils;
  */
 public class SpringMessageResolver extends AbstractMessageResolver {
 
-	// Logger
-	private static Logger logger = LoggerFactory.getLogger(SpringMessageResolver.class);
+   // Logger
+   private static Logger logger = LoggerFactory.getLogger(SpringMessageResolver.class);
 
-	private MessageSource messageSource;
+   private MessageSource messageSource;
 
-	public SpringMessageResolver() {
-	}
+   public SpringMessageResolver() {
+   }
 
-	public SpringMessageResolver(HttpServletRequest request) {
-		super(request);
+   public SpringMessageResolver(HttpServletRequest request) {
+      super(request);
 
-		// Retrieve the Spring messageSource bean
-		messageSource = RequestContextUtils.getWebApplicationContext(request);
-	}
+      // Retrieve the Spring messageSource bean
+      messageSource = RequestContextUtils.getWebApplicationContext(request);
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getResource(String messageKey, String defaultValue, Object... objects) {
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public String getResource(String messageKey, String defaultValue, Object... objects) {
 
-		Locale locale = RequestContextUtils.getLocale(request);
-		String message = null;
+      Locale locale = RequestContextUtils.getLocale(request);
+      String message = null;
 
-		// Both title and titleKey attributes are not used
-		if (messageKey == null || StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
-			message = StringUtils.capitalize(defaultValue);
-		} 
-		// the titleKey attribute is used
-		else {
-			try {
-				message = messageSource.getMessage(messageKey, null, locale);
-			} catch (NoSuchMessageException e) {
-				logger.warn("No message found with the key {} and locale {}.", messageKey, locale);
-				if (StringUtils.isBlank(message)) {
-					message = UNDEFINED_KEY + messageKey + UNDEFINED_KEY;
-				}
-			}
-		}
+      // Both title and titleKey attributes are not used
+      if (messageKey == null || StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
+         message = StringUtils.capitalize(defaultValue);
+      }
+      // the titleKey attribute is used
+      else {
+         try {
+            message = messageSource.getMessage(messageKey, null, locale);
+         }
+         catch (NoSuchMessageException e) {
+            logger.warn("No message found with the key {} and locale {}.", messageKey, locale);
+            if (StringUtils.isBlank(message)) {
+               message = UNDEFINED_KEY + messageKey + UNDEFINED_KEY;
+            }
+         }
+      }
 
-		return message;
-	}
+      return message;
+   }
 }

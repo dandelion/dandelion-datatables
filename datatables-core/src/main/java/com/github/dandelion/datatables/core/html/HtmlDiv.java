@@ -36,13 +36,13 @@ package com.github.dandelion.datatables.core.html;
  * @since 0.7.0
  */
 public class HtmlDiv extends HtmlTagWithContent {
-	
-	public HtmlDiv() {
-		this.tag = "div"; 
-	}
 
-	public HtmlDiv(String id) {
-		this.tag = "div";
-		this.id = id;
-	}
+   public HtmlDiv() {
+      this.tag = "div";
+   }
+
+   public HtmlDiv(String id) {
+      this.tag = "div";
+      this.id = id;
+   }
 }

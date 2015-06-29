@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -42,18 +42,18 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
  */
 public class AjaxServerSideProcessor extends AbstractOptionProcessor {
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
-		
-		Boolean retval = null;
-		if (StringUtils.isNotBlank(context.getValueAsString())) {
-			retval = Boolean.parseBoolean(context.getValueAsString());
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
 
-			if (retval) {
-				context.registerExtension(ServerSideFeature.SERVER_SIDE_FEATURE_NAME);
-			}
-		}
-		
-		return retval;
-	}
+      Boolean retval = null;
+      if (StringUtils.isNotBlank(context.getValueAsString())) {
+         retval = Boolean.parseBoolean(context.getValueAsString());
+
+         if (retval) {
+            context.registerExtension(ServerSideFeature.SERVER_SIDE_FEATURE_NAME);
+         }
+      }
+
+      return retval;
+   }
 }

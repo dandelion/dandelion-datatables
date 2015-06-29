@@ -16,16 +16,16 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
  */
 public class FeatureFilterSelectorProcessor extends AbstractOptionProcessor {
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
 
-		String valueAsString = context.getValueAsString();
-		
-		if (StringUtils.isNotBlank(valueAsString)) {
-			context.registerExtension(ExternalFilterFeature.FEATURE_NAME);
-			context.addTableEntry(DatatableOptions.FEATURE_FILTER_TRIGGER, "click");
-		}
-		
-		return valueAsString;
-	}
+      String valueAsString = context.getValueAsString();
+
+      if (StringUtils.isNotBlank(valueAsString)) {
+         context.registerExtension(ExternalFilterFeature.FEATURE_NAME);
+         context.addTableEntry(DatatableOptions.FEATURE_FILTER_TRIGGER, "click");
+      }
+
+      return valueAsString;
+   }
 }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -56,92 +56,90 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class ExtensionLoader {
 
-	private static Logger logger = LoggerFactory.getLogger(ExtensionLoader.class);
+   private static Logger logger = LoggerFactory.getLogger(ExtensionLoader.class);
 
-	private final HtmlTable table;
+   private final HtmlTable table;
 
-	/**
-	 * <p>
-	 * Constructor of the ExtensionLoader.
-	 * </p>
-	 * 
-	 * @param table
-	 *            The table containing module informations.
-	 */
-	public ExtensionLoader(HtmlTable table) {
-		this.table = table;
-	}
+   /**
+    * <p>
+    * Constructor of the ExtensionLoader.
+    * </p>
+    * 
+    * @param table
+    *           The table containing module informations.
+    */
+   public ExtensionLoader(HtmlTable table) {
+      this.table = table;
+   }
 
-	public void loadExtensions(DatatableJQueryContent datatableContent, Map<String, Object> mainConf) {
+   public void loadExtensions(DatatableJQueryContent datatableContent, Map<String, Object> mainConf) {
 
-		registerExtensions(table);
+      registerExtensions(table);
 
-		ExtensionProcessor extensionProcessor = new ExtensionProcessor(table, datatableContent, mainConf);
-		extensionProcessor.process(table.getTableConfiguration().getInternalExtensions());
+      ExtensionProcessor extensionProcessor = new ExtensionProcessor(table, datatableContent, mainConf);
+      extensionProcessor.process(table.getTableConfiguration().getInternalExtensions());
 
-		Extension theme = DatatableOptions.CSS_THEME.valueFrom(table.getTableConfiguration());
-		if (theme != null) {
-			extensionProcessor.process(new HashSet<Extension>(Arrays.asList(theme)));
-		}
-	}
+      Extension theme = DatatableOptions.CSS_THEME.valueFrom(table.getTableConfiguration());
+      if (theme != null) {
+         extensionProcessor.process(new HashSet<Extension>(Arrays.asList(theme)));
+      }
+   }
 
-	/**
-	 * <p>
-	 * Returns the {@link Extension} associated with the passed name or
-	 * {@code null} if the {@link Extension} doesn't exist among all scanned
-	 * extensions.
-	 * </p>
-	 * 
-	 * @param extensionName
-	 *            The name of the {@link Extension} to retrieve.
-	 * @return the corresponding {@link Extension}.
-	 */
-	public static Extension get(String extensionName) {
+   /**
+    * <p>
+    * Returns the {@link Extension} associated with the passed name or
+    * {@code null} if the {@link Extension} doesn't exist among all scanned
+    * extensions.
+    * </p>
+    * 
+    * @param extensionName
+    *           The name of the {@link Extension} to retrieve.
+    * @return the corresponding {@link Extension}.
+    */
+   public static Extension get(String extensionName) {
 
-		Validate.notBlank(extensionName, "The extension name can't be blank");
+      Validate.notBlank(extensionName, "The extension name can't be blank");
 
-		ServiceLoader<Extension> loadedExtensions = ServiceLoader.load(Extension.class);
+      ServiceLoader<Extension> loadedExtensions = ServiceLoader.load(Extension.class);
 
-		for (Extension ex : loadedExtensions) {
-			if (ex.getExtensionName().equalsIgnoreCase(extensionName)) {
-				return ex;
-			}
-		}
+      for (Extension ex : loadedExtensions) {
+         if (ex.getExtensionName().equalsIgnoreCase(extensionName)) {
+            return ex;
+         }
+      }
 
-		throw new DandelionException("The requested extension \"" + extensionName
-				+ "\" is not present in the classpath.");
-	}
+      throw new DandelionException("The requested extension \"" + extensionName + "\" is not present in the classpath.");
+   }
 
-	/**
-	 * <p>
-	 * Add custom extensions (for now features and plugins) to the current table
-	 * if they're activated.
-	 * </p>
-	 * 
-	 * @param table
-	 *            the HtmlTable to update with custom extensions.
-	 */
-	private void registerExtensions(HtmlTable table) {
+   /**
+    * <p>
+    * Add custom extensions (for now features and plugins) to the current table
+    * if they're activated.
+    * </p>
+    * 
+    * @param table
+    *           the HtmlTable to update with custom extensions.
+    */
+   private void registerExtensions(HtmlTable table) {
 
-		logger.debug("Scanning for extensions...");
+      logger.debug("Scanning for extensions...");
 
-		// Get all available extensions from the classpath
-		List<Extension> builtInExtensions = ServiceLoaderUtils.getProvidersAsList(Extension.class);
+      // Get all available extensions from the classpath
+      List<Extension> builtInExtensions = ServiceLoaderUtils.getProvidersAsList(Extension.class);
 
-		// Load built-in extension if some are enabled
-		Set<String> extensionNames = DatatableOptions.MAIN_EXTENSION_NAMES.valueFrom(table.getTableConfiguration());
-		if (builtInExtensions != null && !builtInExtensions.isEmpty() && extensionNames != null
-				&& !extensionNames.isEmpty()) {
-			for (String extensionToRegister : extensionNames) {
-				for (Extension extension : builtInExtensions) {
-					if (extensionToRegister.equalsIgnoreCase(extension.getExtensionName())) {
-						table.getTableConfiguration().registerExtension(extension);
-						logger.debug("Extension '{}' registered in table '{}'", extension.getExtensionName(),
-								table.getId());
-						continue;
-					}
-				}
-			}
-		}
-	}
+      // Load built-in extension if some are enabled
+      Set<String> extensionNames = DatatableOptions.MAIN_EXTENSION_NAMES.valueFrom(table.getTableConfiguration());
+      if (builtInExtensions != null && !builtInExtensions.isEmpty() && extensionNames != null
+            && !extensionNames.isEmpty()) {
+         for (String extensionToRegister : extensionNames) {
+            for (Extension extension : builtInExtensions) {
+               if (extensionToRegister.equalsIgnoreCase(extension.getExtensionName())) {
+                  table.getTableConfiguration().registerExtension(extension);
+                  logger.debug("Extension '{}' registered in table '{}'", extension.getExtensionName(), table.getId());
+                  continue;
+               }
+            }
+         }
+      }
+   }
 }

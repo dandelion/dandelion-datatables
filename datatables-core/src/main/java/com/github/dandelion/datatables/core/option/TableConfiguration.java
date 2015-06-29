@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -56,276 +56,275 @@ import com.github.dandelion.datatables.core.extension.feature.ExtraJs;
  */
 public class TableConfiguration {
 
-	/**
-	 * The table DOM id.
-	 */
-	private final String tableId;
-	private final Map<Option<?>, Object> configurations;
-	private final MessageResolver messageResolver;
-	private final HttpServletRequest request;
-	private final String optionGroupName;
-	
-	private Map<Option<?>, Object> stagingConfiguration;
+   /**
+    * The table DOM id.
+    */
+   private final String tableId;
+   private final Map<Option<?>, Object> configurations;
+   private final MessageResolver messageResolver;
+   private final HttpServletRequest request;
+   private final String optionGroupName;
 
-	// Dandelion-Datatables parameters
-	private Set<ExtraJs> extraJs;
-	private List<Callback> extraCallbacks;
-	private List<ExtraHtml> extraHtmls;
+   private Map<Option<?>, Object> stagingConfiguration;
 
-	// Export parameters
-	private Map<String, ExportConf> exportConfiguration;
-	private Boolean exporting;
-	private Boolean isExportable = false;
-	private String currentExportFormat;
+   // Dandelion-Datatables parameters
+   private Set<ExtraJs> extraJs;
+   private List<Callback> extraCallbacks;
+   private List<ExtraHtml> extraHtmls;
 
-	// I18n
-	private Properties messages = new Properties();
+   // Export parameters
+   private Map<String, ExportConf> exportConfiguration;
+   private Boolean exporting;
+   private Boolean isExportable = false;
+   private String currentExportFormat;
 
-	private Set<Extension> internalExtensions;
-	private HttpServletResponse response;
+   // I18n
+   private Properties messages = new Properties();
 
-	/**
-	 * <b>FOR INTERNAL USE ONLY</b>
-	 * 
-	 * @param userConf
-	 */
-	TableConfiguration(String tableId, Map<Option<?>, Object> userConf, MessageResolver messageResolver,
-			HttpServletRequest request, String optionGroupName) {
-		this.tableId = tableId;
-		this.configurations = userConf;
-		this.messageResolver = messageResolver;
-		this.request = request;
-		this.stagingConfiguration = new HashMap<Option<?>, Object>();
-		this.exportConfiguration = new LinkedHashMap<String, ExportConf>();
-		this.optionGroupName = optionGroupName;
-	}
+   private Set<Extension> internalExtensions;
+   private HttpServletResponse response;
 
-	/**
-	 * TODO
-	 * 
-	 * @param objectToClone
-	 *            Source object to clone.
-	 * @param request
-	 *            The request attached to the {@link TableConfiguration}
-	 *            instance.
-	 */
-	static TableConfiguration clone(TableConfiguration original) {
-		TableConfiguration clone = new TableConfiguration(original.getTableId(), original.getConfigurations(),
-				original.getMessageResolver(), original.getRequest(), original.getOptionGroupName());
-		clone.setExtraJs(original.getExtraJs());
-		clone.setCallbacks(original.getCallbacks());
-		clone.setExtraHtmlSnippets(original.getExtraHtmlSnippets());
-		clone.setExporting(original.getExporting());
-		clone.setMessages(original.getMessages());
-		return clone;
-	}
+   /**
+    * <b>FOR INTERNAL USE ONLY</b>
+    * 
+    * @param userConf
+    */
+   TableConfiguration(String tableId, Map<Option<?>, Object> userConf, MessageResolver messageResolver,
+         HttpServletRequest request, String optionGroupName) {
+      this.tableId = tableId;
+      this.configurations = userConf;
+      this.messageResolver = messageResolver;
+      this.request = request;
+      this.stagingConfiguration = new HashMap<Option<?>, Object>();
+      this.exportConfiguration = new LinkedHashMap<String, ExportConf>();
+      this.optionGroupName = optionGroupName;
+   }
 
-	public void set(String exportFormat, ExportConf exportConf) {
-		this.exportConfiguration.put(exportFormat, exportConf);
-	}
+   /**
+    * TODO
+    * 
+    * @param objectToClone
+    *           Source object to clone.
+    * @param request
+    *           The request attached to the {@link TableConfiguration} instance.
+    */
+   static TableConfiguration clone(TableConfiguration original) {
+      TableConfiguration clone = new TableConfiguration(original.getTableId(), original.getConfigurations(),
+            original.getMessageResolver(), original.getRequest(), original.getOptionGroupName());
+      clone.setExtraJs(original.getExtraJs());
+      clone.setCallbacks(original.getCallbacks());
+      clone.setExtraHtmlSnippets(original.getExtraHtmlSnippets());
+      clone.setExporting(original.getExporting());
+      clone.setMessages(original.getMessages());
+      return clone;
+   }
 
-	public Map<String, ExportConf> getExportConfiguration() {
-		return exportConfiguration;
-	}
+   public void set(String exportFormat, ExportConf exportConf) {
+      this.exportConfiguration.put(exportFormat, exportConf);
+   }
 
-	public void setExportConfiguration(Map<String, ExportConf> exports) {
-		this.exportConfiguration = exports;
-	}
+   public Map<String, ExportConf> getExportConfiguration() {
+      return exportConfiguration;
+   }
 
-	public Map<Option<?>, Object> getConfigurations() {
-		return configurations;
-	}
+   public void setExportConfiguration(Map<String, ExportConf> exports) {
+      this.exportConfiguration = exports;
+   }
 
-	/**
-	 * Register an extension in the TableConfiguration.
-	 * 
-	 * @param extension
-	 *            The extension to register.
-	 */
-	public TableConfiguration registerExtension(Extension extension) {
-		if (this.internalExtensions == null) {
-			this.internalExtensions = new HashSet<Extension>();
-		}
-		this.internalExtensions.add(extension);
-		return this;
-	}
+   public Map<Option<?>, Object> getConfigurations() {
+      return configurations;
+   }
 
-	public Set<ExtraJs> getExtraJs() {
-		return extraJs;
-	}
+   /**
+    * Register an extension in the TableConfiguration.
+    * 
+    * @param extension
+    *           The extension to register.
+    */
+   public TableConfiguration registerExtension(Extension extension) {
+      if (this.internalExtensions == null) {
+         this.internalExtensions = new HashSet<Extension>();
+      }
+      this.internalExtensions.add(extension);
+      return this;
+   }
 
-	public TableConfiguration addExtraJs(ExtraJs extraJs) {
-		if (this.extraJs == null) {
-			this.extraJs = new HashSet<ExtraJs>();
-		}
-		this.extraJs.add(extraJs);
-		return this;
-	}
+   public Set<ExtraJs> getExtraJs() {
+      return extraJs;
+   }
 
-	public void setExtraJs(Set<ExtraJs> extraJs) {
-		this.extraJs = extraJs;
-	}
+   public TableConfiguration addExtraJs(ExtraJs extraJs) {
+      if (this.extraJs == null) {
+         this.extraJs = new HashSet<ExtraJs>();
+      }
+      this.extraJs.add(extraJs);
+      return this;
+   }
 
-	public Set<Extension> getInternalExtensions() {
-		return internalExtensions;
-	}
+   public void setExtraJs(Set<ExtraJs> extraJs) {
+      this.extraJs = extraJs;
+   }
 
-	public TableConfiguration setInternalExtensions(Set<Extension> extensions) {
-		this.internalExtensions = extensions;
-		return this;
-	}
+   public Set<Extension> getInternalExtensions() {
+      return internalExtensions;
+   }
 
-	public List<Callback> getCallbacks() {
-		return extraCallbacks;
-	}
+   public TableConfiguration setInternalExtensions(Set<Extension> extensions) {
+      this.internalExtensions = extensions;
+      return this;
+   }
 
-	public void setCallbacks(List<Callback> callbacks) {
-		this.extraCallbacks = callbacks;
-	}
+   public List<Callback> getCallbacks() {
+      return extraCallbacks;
+   }
 
-	public TableConfiguration registerCallback(Callback callback) {
-		if (this.extraCallbacks == null) {
-			this.extraCallbacks = new ArrayList<Callback>();
-		}
-		this.extraCallbacks.add(callback);
-		return this;
-	}
+   public void setCallbacks(List<Callback> callbacks) {
+      this.extraCallbacks = callbacks;
+   }
 
-	public Boolean hasCallback(CallbackType callbackType) {
-		if (this.extraCallbacks != null) {
-			for (Callback callback : this.extraCallbacks) {
-				if (callback.getType().equals(callbackType)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+   public TableConfiguration registerCallback(Callback callback) {
+      if (this.extraCallbacks == null) {
+         this.extraCallbacks = new ArrayList<Callback>();
+      }
+      this.extraCallbacks.add(callback);
+      return this;
+   }
 
-	public Callback getCallback(CallbackType callbackType) {
-		for (Callback callback : this.extraCallbacks) {
-			if (callback.getType().equals(callbackType)) {
-				return callback;
-			}
-		}
-		return null;
-	}
+   public Boolean hasCallback(CallbackType callbackType) {
+      if (this.extraCallbacks != null) {
+         for (Callback callback : this.extraCallbacks) {
+            if (callback.getType().equals(callbackType)) {
+               return true;
+            }
+         }
+      }
+      return false;
+   }
 
-	public Boolean getExporting() {
-		return exporting;
-	}
+   public Callback getCallback(CallbackType callbackType) {
+      for (Callback callback : this.extraCallbacks) {
+         if (callback.getType().equals(callbackType)) {
+            return callback;
+         }
+      }
+      return null;
+   }
 
-	public void setExporting(Boolean exporting) {
-		this.exporting = exporting;
-	}
+   public Boolean getExporting() {
+      return exporting;
+   }
 
-	public Boolean isExportable() {
-		return isExportable;
-	}
+   public void setExporting(Boolean exporting) {
+      this.exporting = exporting;
+   }
 
-	public void setIsExportable(Boolean isExportable) {
-		this.isExportable = isExportable;
-	}
+   public Boolean isExportable() {
+      return isExportable;
+   }
 
-	public TableConfiguration setExportTypes(String exportTypes) {
-		return this;
-	}
+   public void setIsExportable(Boolean isExportable) {
+      this.isExportable = isExportable;
+   }
 
-	public String getTableId() {
-		return tableId;
-	}
+   public TableConfiguration setExportTypes(String exportTypes) {
+      return this;
+   }
 
-	public TableConfiguration addCssStyle(String cssStyle) {
+   public String getTableId() {
+      return tableId;
+   }
 
-		if (DatatableOptions.CSS_STYLE.valueFrom(this) == null) {
-			DatatableOptions.CSS_STYLE.setIn(this, new StringBuilder());
-		}
-		else {
-			DatatableOptions.CSS_STYLE.appendIn(this, AbstractHtmlTag.STYLE_SEPARATOR);
-		}
-		DatatableOptions.CSS_STYLE.appendIn(this, cssStyle);
-		return this;
-	}
+   public TableConfiguration addCssStyle(String cssStyle) {
 
-	public TableConfiguration addCssClass(String cssClass) {
-		if (DatatableOptions.CSS_CLASS.valueFrom(this) == null) {
-			DatatableOptions.CSS_CLASS.setIn(this, new StringBuilder());
-		}
-		else {
-			DatatableOptions.CSS_CLASS.appendIn(this, AbstractHtmlTag.CLASS_SEPARATOR);
-		}
-		DatatableOptions.CSS_CLASS.appendIn(this, cssClass);
-		return this;
-	}
+      if (DatatableOptions.CSS_STYLE.valueFrom(this) == null) {
+         DatatableOptions.CSS_STYLE.setIn(this, new StringBuilder());
+      }
+      else {
+         DatatableOptions.CSS_STYLE.appendIn(this, AbstractHtmlTag.STYLE_SEPARATOR);
+      }
+      DatatableOptions.CSS_STYLE.appendIn(this, cssStyle);
+      return this;
+   }
 
-	public HttpServletRequest getRequest() {
-		return request;
-	}
+   public TableConfiguration addCssClass(String cssClass) {
+      if (DatatableOptions.CSS_CLASS.valueFrom(this) == null) {
+         DatatableOptions.CSS_CLASS.setIn(this, new StringBuilder());
+      }
+      else {
+         DatatableOptions.CSS_CLASS.appendIn(this, AbstractHtmlTag.CLASS_SEPARATOR);
+      }
+      DatatableOptions.CSS_CLASS.appendIn(this, cssClass);
+      return this;
+   }
 
-	public HttpServletResponse getResponse() {
-		return response;
-	}
+   public HttpServletRequest getRequest() {
+      return request;
+   }
 
-	public ExportConf getExportConf(String format) {
-		return exportConfiguration.get(format);
-	}
+   public HttpServletResponse getResponse() {
+      return response;
+   }
 
-	public Properties getMessages() {
-		return messages;
-	}
+   public ExportConf getExportConf(String format) {
+      return exportConfiguration.get(format);
+   }
 
-	public MessageResolver getMessageResolver() {
-		return messageResolver;
-	}
+   public Properties getMessages() {
+      return messages;
+   }
 
-	public void setMessages(Properties messages) {
-		this.messages = messages;
-	}
+   public MessageResolver getMessageResolver() {
+      return messageResolver;
+   }
 
-	public String getMessage(String key) {
-		return this.messages.getProperty(key);
-	}
+   public void setMessages(Properties messages) {
+      this.messages = messages;
+   }
 
-	public List<ExtraHtml> getExtraHtmlSnippets() {
-		return extraHtmls;
-	}
+   public String getMessage(String key) {
+      return this.messages.getProperty(key);
+   }
 
-	public void setExtraHtmlSnippets(List<ExtraHtml> linkGroups) {
-		this.extraHtmls = linkGroups;
-	}
+   public List<ExtraHtml> getExtraHtmlSnippets() {
+      return extraHtmls;
+   }
 
-	public void addExtraHtmlSnippet(ExtraHtml extraHtml) {
-		if (extraHtmls == null) {
-			extraHtmls = new ArrayList<ExtraHtml>();
-		}
-		this.extraHtmls.add(extraHtml);
-	}
+   public void setExtraHtmlSnippets(List<ExtraHtml> linkGroups) {
+      this.extraHtmls = linkGroups;
+   }
 
-	public String getCurrentExportFormat() {
-		return currentExportFormat;
-	}
+   public void addExtraHtmlSnippet(ExtraHtml extraHtml) {
+      if (extraHtmls == null) {
+         extraHtmls = new ArrayList<ExtraHtml>();
+      }
+      this.extraHtmls.add(extraHtml);
+   }
 
-	public void setCurrentExportFormat(String currentExport) {
-		this.currentExportFormat = currentExport;
-	}
+   public String getCurrentExportFormat() {
+      return currentExportFormat;
+   }
 
-	public Map<Option<?>, Object> getStagingConfiguration() {
-		return stagingConfiguration;
-	}
+   public void setCurrentExportFormat(String currentExport) {
+      this.currentExportFormat = currentExport;
+   }
 
-	public void addOption(Option<?> option, Object value) {
-		this.configurations.put(option, value);
-	}
+   public Map<Option<?>, Object> getStagingConfiguration() {
+      return stagingConfiguration;
+   }
 
-	public void setStagingConfiguration(Map<Option<?>, Object> stagingConfiguration) {
-		this.stagingConfiguration = stagingConfiguration;
-	}
+   public void addOption(Option<?> option, Object value) {
+      this.configurations.put(option, value);
+   }
 
-	public void addStagingConf(Option<?> configToken, Object value) {
-		this.stagingConfiguration.put(configToken, value);
-	}
+   public void setStagingConfiguration(Map<Option<?>, Object> stagingConfiguration) {
+      this.stagingConfiguration = stagingConfiguration;
+   }
 
-	public String getOptionGroupName() {
-		return optionGroupName;
-	}
+   public void addStagingConf(Option<?> configToken, Object value) {
+      this.stagingConfiguration.put(configToken, value);
+   }
+
+   public String getOptionGroupName() {
+      return optionGroupName;
+   }
 }

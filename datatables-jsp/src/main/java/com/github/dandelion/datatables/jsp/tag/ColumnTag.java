@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -70,226 +70,226 @@ import com.github.dandelion.datatables.jsp.extension.feature.FilteringFeature;
  */
 public class ColumnTag extends AbstractColumnTag {
 
-	private static final long serialVersionUID = -8928415196287387948L;
+   private static final long serialVersionUID = -8928415196287387948L;
 
-	/**
-	 * Initializes a new staging configuration map and a new staging extension
-	 * map to be applied to the {@link ColumnConfiguration} instance.
-	 */
-	public ColumnTag(){
-		stagingConf = new HashMap<Option<?>, Object>();
-		stagingExtension = new HashMap<Option<?>, Extension>();
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public int doStartTag() throws JspException {
+   /**
+    * Initializes a new staging configuration map and a new staging extension
+    * map to be applied to the {@link ColumnConfiguration} instance.
+    */
+   public ColumnTag() {
+      stagingConf = new HashMap<Option<?>, Object>();
+      stagingExtension = new HashMap<Option<?>, Extension>();
+   }
 
-		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
-		if (parent != null) {
+   /**
+    * {@inheritDoc}
+    */
+   public int doStartTag() throws JspException {
 
-			// On the first iteration, a header cell must be added
-			if (parent.isFirstIteration()) {
-				headerColumn = new HtmlColumn(true, null, dynamicAttributes, display);
-			}
+      TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+      if (parent != null) {
 
-			// When using a DOM source, the 'property' attribute has precedence
-			// over the body, so we don't even evaluate it
-			if (StringUtils.isNotBlank(property)) {
-				return SKIP_BODY;
-			}
-			else {
-				return EVAL_BODY_BUFFERED;
-			}
-		}
+         // On the first iteration, a header cell must be added
+         if (parent.isFirstIteration()) {
+            headerColumn = new HtmlColumn(true, null, dynamicAttributes, display);
+         }
 
-		throw new JspException("The tag 'column' must be inside the 'table' tag.");
-	}
+         // When using a DOM source, the 'property' attribute has precedence
+         // over the body, so we don't even evaluate it
+         if (StringUtils.isNotBlank(property)) {
+            return SKIP_BODY;
+         }
+         else {
+            return EVAL_BODY_BUFFERED;
+         }
+      }
 
-	/**
-	 * <p>
-	 * Configure the current {@link HtmlColumn}.
-	 * 
-	 * <p>
-	 * Note that when using an AJAX source, since there is only one iteration,
-	 * it just adds a header column to the last added header {@link HtmlRow}.
-	 * When using a DOM source, a header {@link HtmlColumn} is added at the
-	 * first iteration and a {@link HtmlColumn} is added for each iteration.
-	 */
-	public int doEndTag() throws JspException {
-		
-		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+      throw new JspException("The tag 'column' must be inside the 'table' tag.");
+   }
 
-		// A header column must be added at the first iteration, regardless the
-		// data source type (DOM or AJAX)
-		if(parent.isFirstIteration()){
+   /**
+    * <p>
+    * Configure the current {@link HtmlColumn}.
+    * 
+    * <p>
+    * Note that when using an AJAX source, since there is only one iteration, it
+    * just adds a header column to the last added header {@link HtmlRow}. When
+    * using a DOM source, a header {@link HtmlColumn} is added at the first
+    * iteration and a {@link HtmlColumn} is added for each iteration.
+    */
+   public int doEndTag() throws JspException {
 
-			// The 'title' attribute has precedence over 'titleKey'
-			String columnTitle = StringUtils.escape(this.escapeXml, this.title);
-			
-			// If the 'titleKey' attribute is used, the column's title must be
-			// retrieved from the current ResourceBundle
-			if(columnTitle == null && titleKey != null){
-				if(parent.getTable().getTableConfiguration().getMessageResolver() != null){
-					columnTitle = parent.getTable().getTableConfiguration().getMessageResolver()
-							.getResource(titleKey, StringUtils.escape(this.escapeXml, this.property), pageContext);
-				}
-				else{
-					columnTitle = MessageResolver.UNDEFINED_KEY + titleKey + MessageResolver.UNDEFINED_KEY;
-					logger.warn(
-							"You cannot use the 'titleKey' attribute if no message resolver is configured. Please take a look at the {} property in the configuration reference.",
-							ConfigLoader.I18N_MESSAGE_RESOLVER);
-				}
-			}
-			
-			if ("DOM".equals(parent.getDataSourceType())) {
-				addDomHeaderColumn(columnTitle);
-			}
-			else if ("AJAX".equals(parent.getDataSourceType())) {
-				addAjaxHeaderColumn(true, columnTitle);
-				return EVAL_PAGE;
-			}
-		}
+      TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
-		// At this point, only DOM sources are concerned 
-		if(parent.getCurrentObject() != null){
+      // A header column must be added at the first iteration, regardless the
+      // data source type (DOM or AJAX)
+      if (parent.isFirstIteration()) {
 
-			String columnContent = null;
-			// The 'property' attribute has precedence over the body of the
-			// column tag
-			if (StringUtils.isNotBlank(property)) {
-				columnContent = getColumnContent();
-			}
-			// No 'property' attribute is used but a body is set instead
-			else if (getBodyContent() != null){
-				columnContent = getBodyContent().getString().trim().replaceAll("[\n\r]", "");
-			}
+         // The 'title' attribute has precedence over 'titleKey'
+         String columnTitle = StringUtils.escape(this.escapeXml, this.title);
 
-			addDomBodyColumn(columnContent);
-		}
+         // If the 'titleKey' attribute is used, the column's title must be
+         // retrieved from the current ResourceBundle
+         if (columnTitle == null && titleKey != null) {
+            if (parent.getTable().getTableConfiguration().getMessageResolver() != null) {
+               columnTitle = parent.getTable().getTableConfiguration().getMessageResolver()
+                     .getResource(titleKey, StringUtils.escape(this.escapeXml, this.property), pageContext);
+            }
+            else {
+               columnTitle = MessageResolver.UNDEFINED_KEY + titleKey + MessageResolver.UNDEFINED_KEY;
+               logger.warn(
+                     "You cannot use the 'titleKey' attribute if no message resolver is configured. Please take a look at the {} property in the configuration reference.",
+                     ConfigLoader.I18N_MESSAGE_RESOLVER);
+            }
+         }
 
-		return EVAL_PAGE;
-	}
-	
-	public void setTitle(String titleKey) {
-		this.title = titleKey;
-	}
-	
-	public void setTitleKey(String titleKey) {
-		this.titleKey = titleKey;
-	}
-	
-	public void setEscapeXml(boolean escapeXml) {
-		this.escapeXml = escapeXml;
-	}
-	
-	public void setName(String name) {
-		stagingConf.put(DatatableOptions.NAME, name);
-	}
-	
-	public void setProperty(String property) {
-		// For DOM sources
-		this.property = property;
-		
-		// For AJAX sources
-		stagingConf.put(DatatableOptions.PROPERTY, property);
-	}
+         if ("DOM".equals(parent.getDataSourceType())) {
+            addDomHeaderColumn(columnTitle);
+         }
+         else if ("AJAX".equals(parent.getDataSourceType())) {
+            addAjaxHeaderColumn(true, columnTitle);
+            return EVAL_PAGE;
+         }
+      }
 
-	public void setFormat(String format) {
-		this.format = format;
-	}
-	
-	public void setCssStyle(String cssStyle) {
-		stagingConf.put(DatatableOptions.CSSSTYLE, cssStyle);
-	}
+      // At this point, only DOM sources are concerned
+      if (parent.getCurrentObject() != null) {
 
-	public void setCssClass(String cssClass) {
-		stagingConf.put(DatatableOptions.CSSCLASS, cssClass);
-	}
+         String columnContent = null;
+         // The 'property' attribute has precedence over the body of the
+         // column tag
+         if (StringUtils.isNotBlank(property)) {
+            columnContent = getColumnContent();
+         }
+         // No 'property' attribute is used but a body is set instead
+         else if (getBodyContent() != null) {
+            columnContent = getBodyContent().getString().trim().replaceAll("[\n\r]", "");
+         }
 
-	public void setSortable(Boolean sortable) {
-		stagingConf.put(DatatableOptions.SORTABLE, sortable);
-	}
+         addDomBodyColumn(columnContent);
+      }
 
-	public void setCssCellStyle(String cssCellStyle) {
-		// For DOM sources
-		this.cssCellStyle = cssCellStyle;
-		
-		// For AJAX sources
-		stagingConf.put(DatatableOptions.CSSCELLSTYLE, cssCellStyle);
-	}
+      return EVAL_PAGE;
+   }
 
-	public void setCssCellClass(String cssCellClass) {
-		// For DOM sources
-		this.cssCellClass = cssCellClass;
-		
-		// For AJAX sources
-		stagingConf.put(DatatableOptions.CSSCELLCLASS, cssCellClass);
-	}
+   public void setTitle(String titleKey) {
+      this.title = titleKey;
+   }
 
-	public void setFilterable(Boolean filterable) {
-		stagingConf.put(DatatableOptions.FILTERABLE, filterable);
-		stagingExtension.put(DatatableOptions.FILTERABLE, new FilteringFeature());
-	}
+   public void setTitleKey(String titleKey) {
+      this.titleKey = titleKey;
+   }
 
-	public void setSearchable(Boolean searchable) {
-		stagingConf.put(DatatableOptions.SEARCHABLE, searchable);
-	}
+   public void setEscapeXml(boolean escapeXml) {
+      this.escapeXml = escapeXml;
+   }
 
-	public void setVisible(Boolean visible) {
-		stagingConf.put(DatatableOptions.VISIBLE, visible);
-	}
-	
-	public void setFilterType(String filterType) {
-		stagingConf.put(DatatableOptions.FILTERTYPE, filterType);
-	}
+   public void setName(String name) {
+      stagingConf.put(DatatableOptions.NAME, name);
+   }
 
-	public void setFilterValues(String filterValues) {
-		stagingConf.put(DatatableOptions.FILTERVALUES, filterValues);
-	}
+   public void setProperty(String property) {
+      // For DOM sources
+      this.property = property;
 
-	public void setFilterPlaceholder(String filterPlaceholder) {
-		stagingConf.put(DatatableOptions.FILTERPLACEHOLDER, filterPlaceholder);
-	}
+      // For AJAX sources
+      stagingConf.put(DatatableOptions.PROPERTY, property);
+   }
 
-	public void setSortDirection(String sortDirection) {
-		stagingConf.put(DatatableOptions.SORTDIRECTION, sortDirection);
-	}
+   public void setFormat(String format) {
+      this.format = format;
+   }
 
-	public void setSortInitDirection(String sortInitDirection) {
-		stagingConf.put(DatatableOptions.SORTINITDIRECTION, sortInitDirection);
-	}
+   public void setCssStyle(String cssStyle) {
+      stagingConf.put(DatatableOptions.CSSSTYLE, cssStyle);
+   }
 
-	public void setSortInitOrder(String sortInitOrder) {
-		stagingConf.put(DatatableOptions.SORTINITORDER, sortInitOrder);
-	}
-	
-	public void setDisplay(String display) {
-		this.display = display;
-	}
+   public void setCssClass(String cssClass) {
+      stagingConf.put(DatatableOptions.CSSCLASS, cssClass);
+   }
 
-	public void setDefault(String defaultValue) {
-		// For DOM sources
-		this.defaultValue = defaultValue;
-		
-		// For AJAX sources
-		stagingConf.put(DatatableOptions.DEFAULTVALUE, defaultValue);
-	}
-	
-	public void setRenderFunction(String renderFunction) {
-		stagingConf.put(DatatableOptions.RENDERFUNCTION, renderFunction);
-	}
+   public void setSortable(Boolean sortable) {
+      stagingConf.put(DatatableOptions.SORTABLE, sortable);
+   }
 
-	public void setSelector(String selector) {
-		stagingConf.put(DatatableOptions.SELECTOR, selector);
-	}
+   public void setCssCellStyle(String cssCellStyle) {
+      // For DOM sources
+      this.cssCellStyle = cssCellStyle;
 
-	public void setSortType(String sortType) {
-		stagingConf.put(DatatableOptions.SORTTYPE, sortType);
-	}
+      // For AJAX sources
+      stagingConf.put(DatatableOptions.CSSCELLSTYLE, cssCellStyle);
+   }
 
-	public void setId(String id) {
-		stagingConf.put(DatatableOptions.ID, id);
-	}
+   public void setCssCellClass(String cssCellClass) {
+      // For DOM sources
+      this.cssCellClass = cssCellClass;
+
+      // For AJAX sources
+      stagingConf.put(DatatableOptions.CSSCELLCLASS, cssCellClass);
+   }
+
+   public void setFilterable(Boolean filterable) {
+      stagingConf.put(DatatableOptions.FILTERABLE, filterable);
+      stagingExtension.put(DatatableOptions.FILTERABLE, new FilteringFeature());
+   }
+
+   public void setSearchable(Boolean searchable) {
+      stagingConf.put(DatatableOptions.SEARCHABLE, searchable);
+   }
+
+   public void setVisible(Boolean visible) {
+      stagingConf.put(DatatableOptions.VISIBLE, visible);
+   }
+
+   public void setFilterType(String filterType) {
+      stagingConf.put(DatatableOptions.FILTERTYPE, filterType);
+   }
+
+   public void setFilterValues(String filterValues) {
+      stagingConf.put(DatatableOptions.FILTERVALUES, filterValues);
+   }
+
+   public void setFilterPlaceholder(String filterPlaceholder) {
+      stagingConf.put(DatatableOptions.FILTERPLACEHOLDER, filterPlaceholder);
+   }
+
+   public void setSortDirection(String sortDirection) {
+      stagingConf.put(DatatableOptions.SORTDIRECTION, sortDirection);
+   }
+
+   public void setSortInitDirection(String sortInitDirection) {
+      stagingConf.put(DatatableOptions.SORTINITDIRECTION, sortInitDirection);
+   }
+
+   public void setSortInitOrder(String sortInitOrder) {
+      stagingConf.put(DatatableOptions.SORTINITORDER, sortInitOrder);
+   }
+
+   public void setDisplay(String display) {
+      this.display = display;
+   }
+
+   public void setDefault(String defaultValue) {
+      // For DOM sources
+      this.defaultValue = defaultValue;
+
+      // For AJAX sources
+      stagingConf.put(DatatableOptions.DEFAULTVALUE, defaultValue);
+   }
+
+   public void setRenderFunction(String renderFunction) {
+      stagingConf.put(DatatableOptions.RENDERFUNCTION, renderFunction);
+   }
+
+   public void setSelector(String selector) {
+      stagingConf.put(DatatableOptions.SELECTOR, selector);
+   }
+
+   public void setSortType(String sortType) {
+      stagingConf.put(DatatableOptions.SORTTYPE, sortType);
+   }
+
+   public void setId(String id) {
+      stagingConf.put(DatatableOptions.ID, id);
+   }
 }

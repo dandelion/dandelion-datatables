@@ -50,47 +50,49 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
  */
 public class ExportEnabledFormatProcessor extends AbstractOptionProcessor {
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
 
-		TableConfiguration tableConfiguration = context.getTableConfiguration();
-		String valueAsString = context.getValueAsString();
-		if (StringUtils.isNotBlank(valueAsString)) {
+      TableConfiguration tableConfiguration = context.getTableConfiguration();
+      String valueAsString = context.getValueAsString();
+      if (StringUtils.isNotBlank(valueAsString)) {
 
-			// Init the exportable flag in order to add export links
-			tableConfiguration.setIsExportable(true);
+         // Init the exportable flag in order to add export links
+         tableConfiguration.setIsExportable(true);
 
-			// Allowed export types
-			String[] enabledFormats = valueAsString.split(",");
-			
-			// An ExportConf will be initialized for each enable export format
-			for (String enabledFormat : enabledFormats) {
-				enabledFormat = enabledFormat.toLowerCase().trim();
+         // Allowed export types
+         String[] enabledFormats = valueAsString.split(",");
 
-				ExportConf exportConf = null;
+         // An ExportConf will be initialized for each enable export format
+         for (String enabledFormat : enabledFormats) {
+            enabledFormat = enabledFormat.toLowerCase().trim();
 
-				// The exportConf may already exist due to the ExportTag (JSP)
-				// or the DivConfTypeAttrProcessor (Thymeleaf)
-				if (!tableConfiguration.getExportConfiguration().containsKey(enabledFormat)) {
-					
-					// Default mode (export using filter)
-					StringBuilder exportUrl = UrlUtils.getCurrentUri(tableConfiguration.getRequest());
-					UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "f");
-					UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, enabledFormat);
-					UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID, tableConfiguration.getTableId());
-					UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
-					UrlUtils.addParameter(exportUrl, WebConstants.DANDELION_ASSET_FILTER_STATE, false);
-					
-					exportConf = new ExportConf(enabledFormat, UrlUtils.getProcessedUrl(exportUrl, tableConfiguration.getRequest(), tableConfiguration.getResponse()));
-					
-					tableConfiguration.getExportConfiguration().put(enabledFormat, exportConf);
-				} 
-			}
+            ExportConf exportConf = null;
 
-			context.registerExtension(ExportFeature.EXTENSION_NAME);
-		}
-		
-		// TODO bizarre
-		return null;
-	}
+            // The exportConf may already exist due to the ExportTag (JSP)
+            // or the DivConfTypeAttrProcessor (Thymeleaf)
+            if (!tableConfiguration.getExportConfiguration().containsKey(enabledFormat)) {
+
+               // Default mode (export using filter)
+               StringBuilder exportUrl = UrlUtils.getCurrentUri(tableConfiguration.getRequest());
+               UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_TYPE, "f");
+               UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_FORMAT, enabledFormat);
+               UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID,
+                     tableConfiguration.getTableId());
+               UrlUtils.addParameter(exportUrl, ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "y");
+               UrlUtils.addParameter(exportUrl, WebConstants.DANDELION_ASSET_FILTER_STATE, false);
+
+               exportConf = new ExportConf(enabledFormat, UrlUtils.getProcessedUrl(exportUrl,
+                     tableConfiguration.getRequest(), tableConfiguration.getResponse()));
+
+               tableConfiguration.getExportConfiguration().put(enabledFormat, exportConf);
+            }
+         }
+
+         context.registerExtension(ExportFeature.EXTENSION_NAME);
+      }
+
+      // TODO bizarre
+      return null;
+   }
 }

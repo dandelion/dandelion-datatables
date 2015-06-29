@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,16 +48,16 @@ import com.github.dandelion.core.web.handler.debug.DebugPage;
  */
 public class DatatableDebugMenu implements DebugMenu {
 
-	@Override
-	public String getDisplayName() {
-		return "Dandelion Datatables";
-	}
+   @Override
+   public String getDisplayName() {
+      return "Dandelion Datatables";
+   }
 
-	@Override
-	public List<DebugPage> getPages() {
-		List<DebugPage> debugPages = new ArrayList<DebugPage>();
-		debugPages.add(new DatatableOptionsDebugPage());
-		debugPages.add(new DatatableOptionGroupsDebugPage()); 
-		return debugPages;
-	}
+   @Override
+   public List<DebugPage> getPages() {
+      List<DebugPage> debugPages = new ArrayList<DebugPage>();
+      debugPages.add(new DatatableOptionsDebugPage());
+      debugPages.add(new DatatableOptionGroupsDebugPage());
+      return debugPages;
+   }
 }

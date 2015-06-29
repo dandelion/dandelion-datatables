@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -49,28 +49,28 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
  */
 public class FilterTypeProcessor extends AbstractOptionProcessor {
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
 
-		String valueAsString = context.getValueAsString();
-		if (StringUtils.isNotBlank(valueAsString)) {
+      String valueAsString = context.getValueAsString();
+      if (StringUtils.isNotBlank(valueAsString)) {
 
-			FilterType filterType = null;
+         FilterType filterType = null;
 
-			try {
-				filterType = FilterType.valueOf(valueAsString.toUpperCase());
-			}
-			catch (IllegalArgumentException e) {
-				StringBuilder sb = new StringBuilder("\"");
-				sb.append(valueAsString);
-				sb.append("\" is not a valid filter type. Possible values are: ");
-				sb.append(EnumUtils.printPossibleValuesOf(FilterType.class));
-				throw new DandelionException(sb.toString(), e);
-			}
+         try {
+            filterType = FilterType.valueOf(valueAsString.toUpperCase());
+         }
+         catch (IllegalArgumentException e) {
+            StringBuilder sb = new StringBuilder("\"");
+            sb.append(valueAsString);
+            sb.append("\" is not a valid filter type. Possible values are: ");
+            sb.append(EnumUtils.printPossibleValuesOf(FilterType.class));
+            throw new DandelionException(sb.toString(), e);
+         }
 
-			return filterType;
-		}
+         return filterType;
+      }
 
-		return null;
-	}
+      return null;
+   }
 }

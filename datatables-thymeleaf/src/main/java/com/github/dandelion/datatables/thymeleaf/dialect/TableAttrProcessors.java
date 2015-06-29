@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -81,78 +81,78 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TheadFixedPositi
  * @since 0.8.9
  */
 public enum TableAttrProcessors {
-	
-	// Configuration
-	CONF_GROUP(TableConfGroupAttrProcessor.class, "confGroup", "table"),
-	
-    // Basic processors
-    BASIC_AUTO_WIDTH(TableAutoWidthAttrProcessor.class, "autoWidth", "table"),
-    BASIC_FILTERABLE(TableFilterableAttrProcessor.class, "filterable", "table"),
-    BASIC_INFO(TableInfoAttrProcessor.class, "info", "table"),
-    BASIC_PAGEABLE(TablePageableAttrProcessor.class, "pageable", "table"),
-    BASIC_SORTABLE(TableSortableAttrProcessor.class, "sortable", "table"),
-    BASIC_APPEAR(TableAppearAttrProcessor.class, "appear", "table"),
-    BASIC_FILTER_PLACEHOLDER(TableFilterPlaceholderAttrProcessor.class, "filterPlaceholder", "table"),
-    BASIC_FILTER_DELAY(TableFilterDelayAttrProcessor.class, "filterDelay", "table"),
-    BASIC_FILTER_SELECTOR(TableFilterSelectorAttrProcessor.class, "filterSelector", "table"),
-    BASIC_FILTER_CLEAR_SELECTOR(TableFilterClearSelectorAttrProcessor.class, "filterClearSelector", "table"),
-    BASIC_FILTER_TRIGGER(TableFilterTriggerAttrProcessor.class, "filterTrigger", "table"),
-    BASIC_PAGING_TYPE(TablePagingTypeAttrProcessor.class, "pagingType", "table"),
-    BASIC_LENGTH_MENU(TableLengthMenuAttrProcessor.class, "lengthMenu", "table"),
-    BASIC_LENGTH_CHANGE(TableLengthChangeAttrProcessor.class, "lengthChange", "table"),
-    BASIC_STRIPE_CLASSES(TableStripeClassesAttrProcessor.class, "stripeClasses", "table"),
-    BASIC_DISPLAY_LENGTH(TableDisplayLengthAttrProcessor.class, "displayLength", "table"),
-    BASIC_SCROLL_Y(TableScrollYAttrProcessor.class, "scrollY", "table"),
-    BASIC_SCROLL_COLLAPSE(TableScrollCollapseAttrProcessor.class, "scrollCollapse", "table"),
-    BASIC_SCROLL_X(TableScrollXAttrProcessor.class, "scrollX", "table"),
-    BASIC_SCROLL_XINNER(TableScrollXInnerAttrProcessor.class, "scrollXInner", "table"),
-    BASIC_DOM(TableDomAttrProcessor.class, "dom", "table"),
-    BASIC_STATESAVE(TableStateSaveAttrProcessor.class, "stateSave", "table"),
-    
-    // Plugin processors
-    PLUGIN_OFFSETTOP(TheadFixedOffsetTopAttrProcessor.class, "fixedOffsetTop", "thead"),
-    PLUGIN_FIXEDPOSITION(TheadFixedPositionAttrProcessor.class, "fixedPosition", "thead"),
 
-    // Feature processors
-    FEATURE_CUSTOM_EXTENSIONS(TableCustomExtensionsProcessor.class, "ext", "table"),
-    FEATURE_EXPORT(TableExportAttrProcessor.class, "export", "table"),
-    FEATURE_EXPORT_CONTAINER_STYLE(TableExportContainerStyleAttrProcessor.class, "exportStyle", "table"),
-    FEATURE_EXPORT_CONTAINER_CLASS(TableExportContainerClassAttrProcessor.class, "exportClass", "table"),
+   // Configuration
+   CONF_GROUP(TableConfGroupAttrProcessor.class, "confGroup", "table"),
 
-    // AJAX processors
-    AJAX_URL(TableAjaxUrlAttrProcessor.class, "url", "table"),
-    AJAX_SERVER_SIDE(TableAjaxServerSideAttrProcessor.class, "serverSide", "table"),
-    AJAX_DEFER_RENDER(TableAjaxDeferRenderAttrProcessor.class, "deferRender", "table"),
-    AJAX_PIPELINING(TableAjaxPipeliningAttrProcessor.class, "pipelining", "table"),
-    AJAX_PIPESIZE(TableAjaxPipeSizeAttrProcessor.class, "pipeSize", "table"),
-    AJAX_PROCESSING(TableProcessingAttrProcessor.class, "processing", "table"),
-    AJAX_RELOAD_SELECTOR(TableReloadSelectorAttrProcessor.class, "reloadSelector", "table"),
-    AJAX_RELOAD_FUNCTION(TableReloadFunctionAttrProcessor.class, "reloadFunction", "table"),
-    AJAX_PARAMS(TableAjaxParamsAttrProcessor.class, "ajaxParams", "table"),
+   // Basic processors
+   BASIC_AUTO_WIDTH(TableAutoWidthAttrProcessor.class, "autoWidth", "table"),
+   BASIC_FILTERABLE(TableFilterableAttrProcessor.class, "filterable", "table"),
+   BASIC_INFO(TableInfoAttrProcessor.class, "info", "table"),
+   BASIC_PAGEABLE(TablePageableAttrProcessor.class, "pageable", "table"),
+   BASIC_SORTABLE(TableSortableAttrProcessor.class, "sortable", "table"),
+   BASIC_APPEAR(TableAppearAttrProcessor.class, "appear", "table"),
+   BASIC_FILTER_PLACEHOLDER(TableFilterPlaceholderAttrProcessor.class, "filterPlaceholder", "table"),
+   BASIC_FILTER_DELAY(TableFilterDelayAttrProcessor.class, "filterDelay", "table"),
+   BASIC_FILTER_SELECTOR(TableFilterSelectorAttrProcessor.class, "filterSelector", "table"),
+   BASIC_FILTER_CLEAR_SELECTOR(TableFilterClearSelectorAttrProcessor.class, "filterClearSelector", "table"),
+   BASIC_FILTER_TRIGGER(TableFilterTriggerAttrProcessor.class, "filterTrigger", "table"),
+   BASIC_PAGING_TYPE(TablePagingTypeAttrProcessor.class, "pagingType", "table"),
+   BASIC_LENGTH_MENU(TableLengthMenuAttrProcessor.class, "lengthMenu", "table"),
+   BASIC_LENGTH_CHANGE(TableLengthChangeAttrProcessor.class, "lengthChange", "table"),
+   BASIC_STRIPE_CLASSES(TableStripeClassesAttrProcessor.class, "stripeClasses", "table"),
+   BASIC_DISPLAY_LENGTH(TableDisplayLengthAttrProcessor.class, "displayLength", "table"), 
+   BASIC_SCROLL_Y(TableScrollYAttrProcessor.class, "scrollY", "table"),
+   BASIC_SCROLL_COLLAPSE(TableScrollCollapseAttrProcessor.class, "scrollCollapse", "table"),
+   BASIC_SCROLL_X(TableScrollXAttrProcessor.class, "scrollX", "table"),
+   BASIC_SCROLL_XINNER(TableScrollXInnerAttrProcessor.class, "scrollXInner", "table"),
+   BASIC_DOM(TableDomAttrProcessor.class, "dom", "table"),
+   BASIC_STATESAVE(TableStateSaveAttrProcessor.class, "stateSave", "table"),
 
-	// Theme processors
-	THEME(TableThemeAttrProcessor.class, "theme", "table"), 
-	THEME_OPTION(TableThemeOptionAttrProcessor.class, "themeOption", "table");
+   // Plugin processors
+   PLUGIN_OFFSETTOP(TheadFixedOffsetTopAttrProcessor.class, "fixedOffsetTop", "thead"),
+   PLUGIN_FIXEDPOSITION(TheadFixedPositionAttrProcessor.class, "fixedPosition", "thead"),
 
-	private Class<? extends AbstractTableAttrProcessor> processorClass;
-	private String attributeName;
-	private String elementNameFilter;
+   // Feature processors
+   FEATURE_CUSTOM_EXTENSIONS(TableCustomExtensionsProcessor.class, "ext", "table"),
+   FEATURE_EXPORT(TableExportAttrProcessor.class, "export", "table"),
+   FEATURE_EXPORT_CONTAINER_STYLE(TableExportContainerStyleAttrProcessor.class, "exportStyle", "table"),
+   FEATURE_EXPORT_CONTAINER_CLASS(TableExportContainerClassAttrProcessor.class, "exportClass", "table"),
 
-	private TableAttrProcessors(Class<? extends AbstractTableAttrProcessor> processorClass, String attributeName,
-			String elementNameFilter) {
-		this.processorClass = processorClass;
-		this.attributeName = attributeName;
-		this.elementNameFilter = elementNameFilter;
-	}
+   // AJAX processors
+   AJAX_URL(TableAjaxUrlAttrProcessor.class, "url", "table"),
+   AJAX_SERVER_SIDE(TableAjaxServerSideAttrProcessor.class, "serverSide", "table"),
+   AJAX_DEFER_RENDER(TableAjaxDeferRenderAttrProcessor.class, "deferRender", "table"),
+   AJAX_PIPELINING(TableAjaxPipeliningAttrProcessor.class, "pipelining", "table"),
+   AJAX_PIPESIZE(TableAjaxPipeSizeAttrProcessor.class, "pipeSize", "table"),
+   AJAX_PROCESSING(TableProcessingAttrProcessor.class, "processing", "table"),
+   AJAX_RELOAD_SELECTOR(TableReloadSelectorAttrProcessor.class, "reloadSelector", "table"),
+   AJAX_RELOAD_FUNCTION(TableReloadFunctionAttrProcessor.class, "reloadFunction", "table"),
+   AJAX_PARAMS(TableAjaxParamsAttrProcessor.class, "ajaxParams", "table"),
 
-	public AbstractTableAttrProcessor getProcessor() {
-		AttributeNameProcessorMatcher matcher = new AttributeNameProcessorMatcher(attributeName, elementNameFilter,
-				DataTablesDialect.DIALECT_PREFIX + ":table", "true");
-		try {
-			return processorClass.getDeclaredConstructor(IAttributeNameProcessorMatcher.class).newInstance(matcher);
-		}
-		catch (Exception e) {
-			throw new DandelionException(e);
-		}
-	}
+   // Theme processors
+   THEME(TableThemeAttrProcessor.class, "theme", "table"), 
+   THEME_OPTION(TableThemeOptionAttrProcessor.class, "themeOption", "table");
+
+   private Class<? extends AbstractTableAttrProcessor> processorClass;
+   private String attributeName;
+   private String elementNameFilter;
+
+   private TableAttrProcessors(Class<? extends AbstractTableAttrProcessor> processorClass, String attributeName,
+         String elementNameFilter) {
+      this.processorClass = processorClass;
+      this.attributeName = attributeName;
+      this.elementNameFilter = elementNameFilter;
+   }
+
+   public AbstractTableAttrProcessor getProcessor() {
+      AttributeNameProcessorMatcher matcher = new AttributeNameProcessorMatcher(attributeName, elementNameFilter,
+            DataTablesDialect.DIALECT_PREFIX + ":table", "true");
+      try {
+         return processorClass.getDeclaredConstructor(IAttributeNameProcessorMatcher.class).newInstance(matcher);
+      }
+      catch (Exception e) {
+         throw new DandelionException(e);
+      }
+   }
 }

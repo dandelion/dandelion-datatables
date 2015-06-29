@@ -36,17 +36,15 @@ package com.github.dandelion.datatables.core.extension.feature;
  * @author Thibault Duchateau
  */
 public enum FilterPlaceholder {
-	FOOTER("footer"),
-	HEADER("header"),
-	NONE("none");
-	
-	private String name;
-	
-	private FilterPlaceholder(String name){
-		this.name = name;
-	}
+   FOOTER("footer"), HEADER("header"), NONE("none");
 
-	public String getName() {
-		return name;
-	}
+   private String name;
+
+   private FilterPlaceholder(String name) {
+      this.name = name;
+   }
+
+   public String getName() {
+      return name;
+   }
 }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -39,61 +39,61 @@ import org.thymeleaf.dom.Element;
  */
 public class DomUtils {
 
-	/**
-	 * <p>
-	 * Recursive search for an element within the given node in the DOM tree.
-	 * <p>
-	 * Many thanks to Emanuel Rabina :-)
-	 * 
-	 * @param element
-	 *            Node to initiate the search from.
-	 * @param elementName
-	 *            Name of the element to look for.
-	 * @return Element with the given name, or <tt>null</tt> if the element
-	 *         could not be found.
-	 */
-	public static Element findElement(Element element, String elementName) {
+   /**
+    * <p>
+    * Recursive search for an element within the given node in the DOM tree.
+    * <p>
+    * Many thanks to Emanuel Rabina :-)
+    * 
+    * @param element
+    *           Node to initiate the search from.
+    * @param elementName
+    *           Name of the element to look for.
+    * @return Element with the given name, or <tt>null</tt> if the element could
+    *         not be found.
+    */
+   public static Element findElement(Element element, String elementName) {
 
-		if (element.getOriginalName().equals(elementName)) {
-			return element;
-		}
-		for (Element child : element.getElementChildren()) {
-			Element result = findElement(child, elementName);
-			if (result != null) {
-				return result;
-			}
-		}
-		return null;
-	}
+      if (element.getOriginalName().equals(elementName)) {
+         return element;
+      }
+      for (Element child : element.getElementChildren()) {
+         Element result = findElement(child, elementName);
+         if (result != null) {
+            return result;
+         }
+      }
+      return null;
+   }
 
-	/**
-	 * <p>
-	 * Recursive search for an element, with a particular attribute/value pair,
-	 * within the given node in the DOM tree.
-	 * 
-	 * @param element
-	 *            Node to initiate the search from.
-	 * @param elementName
-	 *            Name of the element to look for.
-	 * @param attributeName
-	 *            Attribute that the element must have.
-	 * @param attributeValue
-	 *            Value of the attribute that the element must have.
-	 * @return Element with the given name, or <tt>null</tt> if the element
-	 *         could not be found.
-	 */
-	public static Element findElement(Element element, String elementName, String attributeName, String attributeValue) {
+   /**
+    * <p>
+    * Recursive search for an element, with a particular attribute/value pair,
+    * within the given node in the DOM tree.
+    * 
+    * @param element
+    *           Node to initiate the search from.
+    * @param elementName
+    *           Name of the element to look for.
+    * @param attributeName
+    *           Attribute that the element must have.
+    * @param attributeValue
+    *           Value of the attribute that the element must have.
+    * @return Element with the given name, or <tt>null</tt> if the element could
+    *         not be found.
+    */
+   public static Element findElement(Element element, String elementName, String attributeName, String attributeValue) {
 
-		if (element.getOriginalName().equals(elementName) && element.hasAttribute(attributeName)
-				&& element.getAttributeValue(attributeName).equals(attributeValue)) {
-			return element;
-		}
-		for (Element child : element.getElementChildren()) {
-			Element result = findElement(child, elementName, attributeName, attributeValue);
-			if (result != null) {
-				return result;
-			}
-		}
-		return null;
-	}
+      if (element.getOriginalName().equals(elementName) && element.hasAttribute(attributeName)
+            && element.getAttributeValue(attributeName).equals(attributeValue)) {
+         return element;
+      }
+      for (Element child : element.getElementChildren()) {
+         Element result = findElement(child, elementName, attributeName, attributeValue);
+         if (result != null) {
+            return result;
+         }
+      }
+      return null;
+   }
 }

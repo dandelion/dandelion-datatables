@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,86 +60,85 @@ import com.github.dandelion.datatables.core.util.ConfigUtils;
  */
 public class DatatableOptionsDebugPage extends AbstractDebugPage {
 
-	private static final String PAGE_ID = "datatable-options";
-	private static final String PAGE_NAME = "Current options";
-	private static final String PAGE_LOCATION = "META-INF/resources/ddl-dt-debugger/html/datatable-options.html";
+   private static final String PAGE_ID = "datatable-options";
+   private static final String PAGE_NAME = "Current options";
+   private static final String PAGE_LOCATION = "META-INF/resources/ddl-dt-debugger/html/datatable-options.html";
 
-	@Override
-	public String getId() {
-		return PAGE_ID;
-	}
+   @Override
+   public String getId() {
+      return PAGE_ID;
+   }
 
-	@Override
-	public String getName() {
-		return PAGE_NAME;
-	}
+   @Override
+   public String getName() {
+      return PAGE_NAME;
+   }
 
-	@Override
-	public String getTemplate(HandlerContext context) throws IOException {
-		return ResourceUtils.getContentFromInputStream(Thread.currentThread().getContextClassLoader()
-				.getResourceAsStream(PAGE_LOCATION));
-	}
+   @Override
+   public String getTemplate(HandlerContext context) throws IOException {
+      return ResourceUtils.getContentFromInputStream(Thread.currentThread().getContextClassLoader()
+            .getResourceAsStream(PAGE_LOCATION));
+   }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	protected Map<String, Object> getPageContext() {
-		List<HtmlTable> htmlTables = (List<HtmlTable>) context.getRequest().getAttribute(
-				ConfigUtils.DDL_DT_REQUESTATTR_TABLES);
+   @Override
+   @SuppressWarnings("unchecked")
+   protected Map<String, Object> getPageContext() {
+      List<HtmlTable> htmlTables = (List<HtmlTable>) context.getRequest().getAttribute(
+            ConfigUtils.DDL_DT_REQUESTATTR_TABLES);
 
-		List<Map<String, Object>> tablesJson = new ArrayList<Map<String, Object>>();
-		if (!htmlTables.isEmpty()) {
+      List<Map<String, Object>> tablesJson = new ArrayList<Map<String, Object>>();
+      if (!htmlTables.isEmpty()) {
 
-			int index = 0;
-			for (HtmlTable htmlTable : htmlTables) {
-				Map<String, Object> tableJson = new HashMap<String, Object>();
-				tableJson.put("tableId", "#" + htmlTable.getOriginalId());
-				tableJson.put("groupName", htmlTable.getTableConfiguration().getOptionGroupName());
-				tableJson.put("options", getTableOptions(htmlTable, context.getRequest()));
-				
-				List<Map<String, Object>> extensions = new ArrayList<Map<String, Object>>();
+         int index = 0;
+         for (HtmlTable htmlTable : htmlTables) {
+            Map<String, Object> tableJson = new HashMap<String, Object>();
+            tableJson.put("tableId", "#" + htmlTable.getOriginalId());
+            tableJson.put("groupName", htmlTable.getTableConfiguration().getOptionGroupName());
+            tableJson.put("options", getTableOptions(htmlTable, context.getRequest()));
 
-				if(htmlTable.getTableConfiguration().getInternalExtensions() != null){
-				   for (Extension ext : htmlTable.getTableConfiguration().getInternalExtensions()) {
-				      extensions.add(new MapBuilder<String, Object>()
-				            .entry("name", ext.getExtensionName().toLowerCase())
-				            .entry("class", ext.getClass().getName())
-				            .create());
-				   }
-				   tableJson.put("extensions", extensions);
-				}
-		      
-				tableJson.put("active", index == 0 ? "active" : "");
-				tablesJson.add(tableJson);
-				index++;
-			}
-		}
+            List<Map<String, Object>> extensions = new ArrayList<Map<String, Object>>();
 
-		Map<String, Object> pageContext = new HashMap<String, Object>();
-		pageContext.put("tables", tablesJson);
-		return pageContext;
-	}
-	
-	private List<Map<String, Object>> getTableOptions(HtmlTable htmlTable, HttpServletRequest request) {
-		Map<Locale, Map<String, Map<Option<?>, Object>>> store = TableConfigurationFactory.getConfigurationStore();
-		Locale locale = null;
-		if (request != null) {
-			locale = DatatableConfigurator.getLocaleResolver().resolveLocale(request);
-		}
-		else {
-			locale = Locale.getDefault();
-		}
+            if (htmlTable.getTableConfiguration().getInternalExtensions() != null) {
+               for (Extension ext : htmlTable.getTableConfiguration().getInternalExtensions()) {
+                  extensions.add(new MapBuilder<String, Object>().entry("name", ext.getExtensionName().toLowerCase())
+                        .entry("class", ext.getClass().getName()).create());
+               }
+               tableJson.put("extensions", extensions);
+            }
 
-		List<Map<String, Object>> tableOptions = new ArrayList<Map<String, Object>>();
+            tableJson.put("active", index == 0 ? "active" : "");
+            tablesJson.add(tableJson);
+            index++;
+         }
+      }
 
-		for (Entry<Option<?>, Object> entry : store.get(locale)
-				.get(htmlTable.getTableConfiguration().getOptionGroupName()).entrySet()) {
-			
-			tableOptions.add(new MapBuilder<String, Object>()
+      Map<String, Object> pageContext = new HashMap<String, Object>();
+      pageContext.put("tables", tablesJson);
+      return pageContext;
+   }
+
+   private List<Map<String, Object>> getTableOptions(HtmlTable htmlTable, HttpServletRequest request) {
+      Map<Locale, Map<String, Map<Option<?>, Object>>> store = TableConfigurationFactory.getConfigurationStore();
+      Locale locale = null;
+      if (request != null) {
+         locale = DatatableConfigurator.getLocaleResolver().resolveLocale(request);
+      }
+      else {
+         locale = Locale.getDefault();
+      }
+
+      List<Map<String, Object>> tableOptions = new ArrayList<Map<String, Object>>();
+
+      for (Entry<Option<?>, Object> entry : store.get(locale)
+            .get(htmlTable.getTableConfiguration().getOptionGroupName()).entrySet()) {
+
+         tableOptions.add(new MapBuilder<String, Object>()
                .entry("name", entry.getKey().getName())
-               .entry("value", entry.getValue() instanceof Extension ? entry.getValue().getClass().getCanonicalName() : entry.getValue())
-               .entry("precedence", entry.getKey().getPrecedence())
-               .create());
-		}
-		return tableOptions;
-	}
+               .entry(
+                     "value",
+                     entry.getValue() instanceof Extension ? entry.getValue().getClass().getCanonicalName() : entry
+                           .getValue()).entry("precedence", entry.getKey().getPrecedence()).create());
+      }
+      return tableOptions;
+   }
 }

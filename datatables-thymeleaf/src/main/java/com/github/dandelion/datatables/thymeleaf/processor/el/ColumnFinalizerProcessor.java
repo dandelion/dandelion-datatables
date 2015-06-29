@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -50,56 +50,58 @@ import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 
 public class ColumnFinalizerProcessor extends AbstractElProcessor {
 
-	public ColumnFinalizerProcessor(IElementNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public ColumnFinalizerProcessor(IElementNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getPrecedence() {
-		return 8005;
-	}
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public int getPrecedence() {
+      return 8005;
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
-			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable){
-		
-		Map<Option<?>, Object> stagingConf = (Map<Option<?>, Object>) arguments
-				.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF);
-		Map<Option<?>, Extension> stagingExt = (Map<Option<?>, Extension>) arguments
-				.getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT);
-		
-		// Get the TH content
-		String content = null;
-		if (element.getFirstChild() instanceof Text) {
-			content = ((Text) element.getFirstChild()).getContent().trim();
-		} else {
-			content = element.getChildren().toString();
-		}
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   @SuppressWarnings("unchecked")
+   protected ProcessorResult doProcessElement(Arguments arguments, Element element, HttpServletRequest request,
+         HttpServletResponse response, HtmlTable htmlTable) {
 
-		// Init a new header column
-		HtmlColumn htmlColumn = new HtmlColumn(true, content);
+      Map<Option<?>, Object> stagingConf = (Map<Option<?>, Object>) arguments
+            .getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF);
+      Map<Option<?>, Extension> stagingExt = (Map<Option<?>, Extension>) arguments
+            .getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT);
 
-		// Applies the staging configuration against the current column configuration
-		ConfigUtils.applyStagingOptionsAndExtensions(stagingConf, stagingExt, htmlColumn);
-		ConfigUtils.processOptions(htmlColumn, htmlTable);
-		
-		// Add it to the table
-		if (htmlTable != null) {
-			htmlTable.getLastHeaderRow().addHeaderColumn(htmlColumn);
-		}
+      // Get the TH content
+      String content = null;
+      if (element.getFirstChild() instanceof Text) {
+         content = ((Text) element.getFirstChild()).getContent().trim();
+      }
+      else {
+         content = element.getChildren().toString();
+      }
 
-		// Let's clean the TR attributes
-		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":data")) {
-			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":data");
-		}
+      // Init a new header column
+      HtmlColumn htmlColumn = new HtmlColumn(true, content);
 
-		return ProcessorResult.ok();
-	}
+      // Applies the staging configuration against the current column
+      // configuration
+      ConfigUtils.applyStagingOptionsAndExtensions(stagingConf, stagingExt, htmlColumn);
+      ConfigUtils.processOptions(htmlColumn, htmlTable);
+
+      // Add it to the table
+      if (htmlTable != null) {
+         htmlTable.getLastHeaderRow().addHeaderColumn(htmlColumn);
+      }
+
+      // Let's clean the TR attributes
+      if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":data")) {
+         element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":data");
+      }
+
+      return ProcessorResult.ok();
+   }
 }

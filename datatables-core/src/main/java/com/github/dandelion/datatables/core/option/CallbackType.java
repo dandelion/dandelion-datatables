@@ -40,23 +40,23 @@ import com.github.dandelion.datatables.core.generator.DTConstants;
  */
 public enum CallbackType {
 
-	CREATEDROW(DTConstants.DT_FN_CREATED_ROW, false, "nRow", "aData", "iDataIndex"),
+   CREATEDROW(DTConstants.DT_FN_CREATED_ROW, false, "nRow", "aData", "iDataIndex"),
 
-	DRAW(DTConstants.DT_FN_DRAW_CBK, false, "oSettings"),
+   DRAW(DTConstants.DT_FN_DRAW_CBK, false, "oSettings"),
 
-	FOOTER(DTConstants.DT_FN_FOOTER_CBK, false, "nFoot", "aData", "iStart", "iEnd", "aiDisplay"),
+   FOOTER(DTConstants.DT_FN_FOOTER_CBK, false, "nFoot", "aData", "iStart", "iEnd", "aiDisplay"),
 
-	FORMAT(DTConstants.DT_FN_FORMAT_NUMBER, true, "iIn"),
+   FORMAT(DTConstants.DT_FN_FORMAT_NUMBER, true, "iIn"),
 
-	HEADER(DTConstants.DT_FN_HEADER_CBK, false, "nHead", "aData", "iStart", "iEnd", "aiDisplay"),
+   HEADER(DTConstants.DT_FN_HEADER_CBK, false, "nHead", "aData", "iStart", "iEnd", "aiDisplay"),
 
-	INFO(DTConstants.DT_FN_INFO_CBK, true, "oSettings", "iStart", "iEnd", "iMax", "iTotal", "sPre"),
+   INFO(DTConstants.DT_FN_INFO_CBK, true, "oSettings", "iStart", "iEnd", "iMax", "iTotal", "sPre"),
 
-	INIT(DTConstants.DT_FN_INIT_COMPLETE, false, "oSettings", "json"),
+   INIT(DTConstants.DT_FN_INIT_COMPLETE, false, "oSettings", "json"),
 
-	PREDRAW(DTConstants.DT_FN_PRE_DRAW_CBK, true, "oSettings"),
+   PREDRAW(DTConstants.DT_FN_PRE_DRAW_CBK, true, "oSettings"),
 
-	ROW(DTConstants.DT_FN_ROW_CBK, false, "nRow", "aData", "iDisplayIndex", "iDisplayIndexFull"),
+   ROW(DTConstants.DT_FN_ROW_CBK, false, "nRow", "aData", "iDisplayIndex", "iDisplayIndexFull"),
 
    STATESAVE(DTConstants.DT_FN_STATESAVE_CBK, false, "oSettings", "oData"),
 
@@ -68,37 +68,37 @@ public enum CallbackType {
 
    STATELOADED(DTConstants.DT_FN_STATELOADED_CBK, false, "oSettings", "oData");
 
-	private String name;
-	private boolean hasReturn;
-	private String[] args;
+   private String name;
+   private boolean hasReturn;
+   private String[] args;
 
-	private CallbackType(String function, boolean hasReturn, String... args){
-		this.name = function;
-		this.setHasReturn(hasReturn);
-		this.args = args;
-	}
+   private CallbackType(String function, boolean hasReturn, String... args) {
+      this.name = function;
+      this.setHasReturn(hasReturn);
+      this.args = args;
+   }
 
-	public String getName() {
-		return name;
-	}
+   public String getName() {
+      return name;
+   }
 
-	public void setFunction(String function) {
-		this.name = function;
-	}
+   public void setFunction(String function) {
+      this.name = function;
+   }
 
-	public String[] getArgs() {
-		return args;
-	}
+   public String[] getArgs() {
+      return args;
+   }
 
-	public void setArgs(String[] args) {
-		this.args = args;
-	}
+   public void setArgs(String[] args) {
+      this.args = args;
+   }
 
-	public boolean hasReturn() {
-		return hasReturn;
-	}
+   public boolean hasReturn() {
+      return hasReturn;
+   }
 
-	public void setHasReturn(boolean hasReturn) {
-		this.hasReturn = hasReturn;
-	}
+   public void setHasReturn(boolean hasReturn) {
+      this.hasReturn = hasReturn;
+   }
 }

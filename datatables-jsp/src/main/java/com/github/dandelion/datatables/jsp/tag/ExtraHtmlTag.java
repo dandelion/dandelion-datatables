@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -67,75 +67,76 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class ExtraHtmlTag extends BodyTagSupport {
 
-	private static final long serialVersionUID = -3060955123376442925L;
+   private static final long serialVersionUID = -3060955123376442925L;
 
-	/**
-	 * Tag attributes
-	 */
-	private String uid;
-	private String container;
-	private String cssStyle;
-	private String cssClass;
-	private boolean escapeXml = true; // Whether XML characters should be
-										// escaped
+   /**
+    * Tag attributes
+    */
+   private String uid;
+   private String container;
+   private String cssStyle;
+   private String cssClass;
+   private boolean escapeXml = true; // Whether XML characters should be
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int doStartTag() throws JspException {
+   // escaped
 
-		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
-		if (parent != null) {
-			return EVAL_BODY_BUFFERED;
-		}
+   /**
+    * {@inheritDoc}
+    */
+   public int doStartTag() throws JspException {
 
-		throw new JspException("The tag 'extraHtml' must be inside the 'table' tag.");
-	}
+      TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+      if (parent != null) {
+         return EVAL_BODY_BUFFERED;
+      }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int doEndTag() throws JspException {
+      throw new JspException("The tag 'extraHtml' must be inside the 'table' tag.");
+   }
 
-		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+   /**
+    * {@inheritDoc}
+    */
+   public int doEndTag() throws JspException {
 
-		// The tag is evaluated only once, at the first iteration
-		if (parent.isFirstIteration()) {
+      TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
-			ExtraHtml extraHtml = new ExtraHtml();
-			extraHtml.setUid(uid);
-			extraHtml.setContainer(StringUtils.isNotBlank(container) ? StringUtils.escape(this.escapeXml,
-					this.container) : "div");
-			extraHtml.setCssStyle(cssStyle);
-			extraHtml.setCssClass(cssClass);
-			if (getBodyContent() != null) {
-				extraHtml.setContent(getBodyContent().getString().replaceAll("[\n\r]", "").trim());
-			}
+      // The tag is evaluated only once, at the first iteration
+      if (parent.isFirstIteration()) {
 
-			parent.getTable().getTableConfiguration().addExtraHtmlSnippet(extraHtml);
-			parent.getTable().getTableConfiguration().registerExtension(new ExtraHtmlFeature());
-		}
+         ExtraHtml extraHtml = new ExtraHtml();
+         extraHtml.setUid(uid);
+         extraHtml.setContainer(StringUtils.isNotBlank(container) ? StringUtils.escape(this.escapeXml, this.container)
+               : "div");
+         extraHtml.setCssStyle(cssStyle);
+         extraHtml.setCssClass(cssClass);
+         if (getBodyContent() != null) {
+            extraHtml.setContent(getBodyContent().getString().replaceAll("[\n\r]", "").trim());
+         }
 
-		return EVAL_PAGE;
-	}
+         parent.getTable().getTableConfiguration().addExtraHtmlSnippet(extraHtml);
+         parent.getTable().getTableConfiguration().registerExtension(new ExtraHtmlFeature());
+      }
 
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
+      return EVAL_PAGE;
+   }
 
-	public void setContainer(String container) {
-		this.container = container;
-	}
+   public void setUid(String uid) {
+      this.uid = uid;
+   }
 
-	public void setCssStyle(String cssStyle) {
-		this.cssStyle = cssStyle;
-	}
+   public void setContainer(String container) {
+      this.container = container;
+   }
 
-	public void setCssClass(String cssClass) {
-		this.cssClass = cssClass;
-	}
+   public void setCssStyle(String cssStyle) {
+      this.cssStyle = cssStyle;
+   }
 
-	public void setEscapeXml(boolean escapeXml) {
-		this.escapeXml = escapeXml;
-	}
+   public void setCssClass(String cssClass) {
+      this.cssClass = cssClass;
+   }
+
+   public void setEscapeXml(boolean escapeXml) {
+      this.escapeXml = escapeXml;
+   }
 }

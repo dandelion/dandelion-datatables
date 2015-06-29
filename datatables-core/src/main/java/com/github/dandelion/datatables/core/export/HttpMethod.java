@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -35,5 +35,5 @@ package com.github.dandelion.datatables.core.export;
  * @author Thibault Duchateau
  */
 public enum HttpMethod {
-	GET, POST, PUT, DELETE;
+   GET, POST, PUT, DELETE;
 }

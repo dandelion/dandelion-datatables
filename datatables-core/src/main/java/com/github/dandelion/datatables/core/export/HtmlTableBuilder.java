@@ -95,218 +95,218 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class HtmlTableBuilder<T> {
 
-	private static Logger logger = LoggerFactory.getLogger(HtmlTableBuilder.class);
+   private static Logger logger = LoggerFactory.getLogger(HtmlTableBuilder.class);
 
-	public ColumnStep newBuilder(String id, List<T> data, HttpServletRequest request) {
-		return new Steps<T>(id, data, request);
-	}
+   public ColumnStep newBuilder(String id, List<T> data, HttpServletRequest request) {
+      return new Steps<T>(id, data, request);
+   }
 
-	public ColumnStep newBuilder(String id, List<T> data, HttpServletRequest request, ExportConf exportConf) {
-		return new Steps<T>(id, data, request, exportConf);
-	}
+   public ColumnStep newBuilder(String id, List<T> data, HttpServletRequest request, ExportConf exportConf) {
+      return new Steps<T>(id, data, request, exportConf);
+   }
 
-	public static interface ColumnStep {
-		FirstContentStep column();
-	}
+   public static interface ColumnStep {
+      FirstContentStep column();
+   }
 
-	public static interface FirstContentStep {
-		SecondContentStep fillWithProperty(String propertyName);
+   public static interface FirstContentStep {
+      SecondContentStep fillWithProperty(String propertyName);
 
-		SecondContentStep fillWithProperty(String propertyName, String pattern);
+      SecondContentStep fillWithProperty(String propertyName, String pattern);
 
-		SecondContentStep fillWithProperty(String propertyName, String pattern, String defaultContent);
+      SecondContentStep fillWithProperty(String propertyName, String pattern, String defaultContent);
 
-		SecondContentStep fillWith(String content);
-	}
+      SecondContentStep fillWith(String content);
+   }
 
-	public static interface SecondContentStep {
-		SecondContentStep andProperty(String propertyName);
+   public static interface SecondContentStep {
+      SecondContentStep andProperty(String propertyName);
 
-		SecondContentStep andProperty(String propertyName, String pattern);
+      SecondContentStep andProperty(String propertyName, String pattern);
 
-		SecondContentStep andProperty(String propertyName, String pattern, String defaultContent);
+      SecondContentStep andProperty(String propertyName, String pattern, String defaultContent);
 
-		SecondContentStep and(String content);
+      SecondContentStep and(String content);
 
-		BuildStep title(String title);
-	}
+      BuildStep title(String title);
+   }
 
-	public static interface TitleStep extends ColumnStep {
-		ColumnStep title(String title);
-	}
+   public static interface TitleStep extends ColumnStep {
+      ColumnStep title(String title);
+   }
 
-	public static interface BuildStep {
-		HtmlTable build();
+   public static interface BuildStep {
+      HtmlTable build();
 
-		FirstContentStep column();
-	}
+      FirstContentStep column();
+   }
 
-	private static class Steps<T> implements ColumnStep, FirstContentStep, SecondContentStep, BuildStep {
+   private static class Steps<T> implements ColumnStep, FirstContentStep, SecondContentStep, BuildStep {
 
-		private String id;
-		private List<T> data;
-		private LinkedList<HtmlColumn> headerColumns = new LinkedList<HtmlColumn>();
-		private HttpServletRequest request;
-		private HttpServletResponse response;
-		private ExportConf exportConf;
+      private String id;
+      private List<T> data;
+      private LinkedList<HtmlColumn> headerColumns = new LinkedList<HtmlColumn>();
+      private HttpServletRequest request;
+      private HttpServletResponse response;
+      private ExportConf exportConf;
 
-		public Steps(String id, List<T> data, HttpServletRequest request) {
-			this(id, data, request, null);
-		}
+      public Steps(String id, List<T> data, HttpServletRequest request) {
+         this(id, data, request, null);
+      }
 
-		public Steps(String id, List<T> data, HttpServletRequest request, ExportConf exportConf) {
-			this.id = id;
-			this.data = data;
-			this.request = request;
-			this.exportConf = new ExportConf(request);
-			if (exportConf != null) {
-				this.exportConf.mergeWith(exportConf);
-			}
-		}
+      public Steps(String id, List<T> data, HttpServletRequest request, ExportConf exportConf) {
+         this.id = id;
+         this.data = data;
+         this.request = request;
+         this.exportConf = new ExportConf(request);
+         if (exportConf != null) {
+            this.exportConf.mergeWith(exportConf);
+         }
+      }
 
-		// Table configuration
+      // Table configuration
 
-		public Steps<T> column() {
-			HtmlColumn column = new HtmlColumn(true, "");
-			headerColumns.add(column);
-			return this;
-		}
+      public Steps<T> column() {
+         HtmlColumn column = new HtmlColumn(true, "");
+         headerColumns.add(column);
+         return this;
+      }
 
-		public Steps<T> title(String title) {
-			headerColumns.getLast().getColumnConfiguration().getConfigurations().put(DatatableOptions.TITLE, title);
-			return this;
-		}
+      public Steps<T> title(String title) {
+         headerColumns.getLast().getColumnConfiguration().getConfigurations().put(DatatableOptions.TITLE, title);
+         return this;
+      }
 
-		/**
-		 * Add a new column to the table and complete it using the passed
-		 * property. Convenient if you need to display a single property in the
-		 * column.
-		 * 
-		 * @param property
-		 *            name of the (possibly nested) property of the bean which
-		 *            is part of the collection being iterated on.
-		 */
-		public Steps<T> fillWithProperty(String property) {
-			return fillWithProperty(property, null, "");
-		}
+      /**
+       * Add a new column to the table and complete it using the passed
+       * property. Convenient if you need to display a single property in the
+       * column.
+       * 
+       * @param property
+       *           name of the (possibly nested) property of the bean which is
+       *           part of the collection being iterated on.
+       */
+      public Steps<T> fillWithProperty(String property) {
+         return fillWithProperty(property, null, "");
+      }
 
-		public Steps<T> fillWithProperty(String property, String pattern) {
-			return fillWithProperty(property, pattern, "");
-		}
+      public Steps<T> fillWithProperty(String property, String pattern) {
+         return fillWithProperty(property, pattern, "");
+      }
 
-		public Steps<T> fillWithProperty(String property, String pattern, String defaultContent) {
-			if (headerColumns.getLast().getColumnConfiguration().getColumnElements() == null) {
-				headerColumns.getLast().getColumnConfiguration().setColumnElements(new ArrayList<ColumnElement>());
-			}
-			headerColumns.getLast().getColumnConfiguration().getColumnElements()
-					.add(new ColumnElement(property, pattern, "", defaultContent));
-			return this;
-		}
+      public Steps<T> fillWithProperty(String property, String pattern, String defaultContent) {
+         if (headerColumns.getLast().getColumnConfiguration().getColumnElements() == null) {
+            headerColumns.getLast().getColumnConfiguration().setColumnElements(new ArrayList<ColumnElement>());
+         }
+         headerColumns.getLast().getColumnConfiguration().getColumnElements()
+               .add(new ColumnElement(property, pattern, "", defaultContent));
+         return this;
+      }
 
-		public Steps<T> fillWith(String content) {
-			if (headerColumns.getLast().getColumnConfiguration().getColumnElements() == null) {
-				headerColumns.getLast().getColumnConfiguration().setColumnElements(new ArrayList<ColumnElement>());
-			}
-			headerColumns.getLast().getColumnConfiguration().getColumnElements()
-					.add(new ColumnElement(null, null, content, null));
-			return this;
-		}
+      public Steps<T> fillWith(String content) {
+         if (headerColumns.getLast().getColumnConfiguration().getColumnElements() == null) {
+            headerColumns.getLast().getColumnConfiguration().setColumnElements(new ArrayList<ColumnElement>());
+         }
+         headerColumns.getLast().getColumnConfiguration().getColumnElements()
+               .add(new ColumnElement(null, null, content, null));
+         return this;
+      }
 
-		public Steps<T> andProperty(String property) {
-			return andProperty(property, null, "");
-		}
+      public Steps<T> andProperty(String property) {
+         return andProperty(property, null, "");
+      }
 
-		public Steps<T> andProperty(String property, String pattern) {
-			return andProperty(property, pattern, "");
-		}
+      public Steps<T> andProperty(String property, String pattern) {
+         return andProperty(property, pattern, "");
+      }
 
-		public Steps<T> andProperty(String property, String pattern, String defaultContent) {
-			if (headerColumns.getLast().getColumnConfiguration().getColumnElements() == null) {
-				headerColumns.getLast().getColumnConfiguration().setColumnElements(new ArrayList<ColumnElement>());
-			}
-			headerColumns.getLast().getColumnConfiguration().getColumnElements()
-					.add(new ColumnElement(property, pattern, null, defaultContent));
+      public Steps<T> andProperty(String property, String pattern, String defaultContent) {
+         if (headerColumns.getLast().getColumnConfiguration().getColumnElements() == null) {
+            headerColumns.getLast().getColumnConfiguration().setColumnElements(new ArrayList<ColumnElement>());
+         }
+         headerColumns.getLast().getColumnConfiguration().getColumnElements()
+               .add(new ColumnElement(property, pattern, null, defaultContent));
 
-			return this;
-		}
+         return this;
+      }
 
-		public Steps<T> and(String content) {
-			if (headerColumns.getLast().getColumnConfiguration().getColumnElements() == null) {
-				headerColumns.getLast().getColumnConfiguration().setColumnElements(new ArrayList<ColumnElement>());
-			}
-			headerColumns.getLast().getColumnConfiguration().getColumnElements()
-					.add(new ColumnElement(null, null, content, null));
-			return this;
-		}
+      public Steps<T> and(String content) {
+         if (headerColumns.getLast().getColumnConfiguration().getColumnElements() == null) {
+            headerColumns.getLast().getColumnConfiguration().setColumnElements(new ArrayList<ColumnElement>());
+         }
+         headerColumns.getLast().getColumnConfiguration().getColumnElements()
+               .add(new ColumnElement(null, null, content, null));
+         return this;
+      }
 
-		public HtmlTable build() {
-			HtmlTable table = new HtmlTable(id, request, response);
+      public HtmlTable build() {
+         HtmlTable table = new HtmlTable(id, request, response);
 
-			table.getTableConfiguration().getExportConfiguration().put(exportConf.getFormat(), exportConf);
+         table.getTableConfiguration().getExportConfiguration().put(exportConf.getFormat(), exportConf);
 
-			if (data != null && data.size() > 0) {
-				DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), data.get(0).getClass()
-						.getSimpleName());
-			}
-			else {
-				DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), "???");
-			}
+         if (data != null && data.size() > 0) {
+            DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), data.get(0).getClass()
+                  .getSimpleName());
+         }
+         else {
+            DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), "???");
+         }
 
-			table.addHeaderRow();
+         table.addHeaderRow();
 
-			for (HtmlColumn column : headerColumns) {
-				String title = DatatableOptions.TITLE.valueFrom(column.getColumnConfiguration());
-				if (StringUtils.isNotBlank(title)) {
-					column.setContent(new StringBuilder(title));
-				}
-				else {
-					column.setContent(new StringBuilder(""));
-				}
-				table.getLastHeaderRow().addColumn(column);
-			}
+         for (HtmlColumn column : headerColumns) {
+            String title = DatatableOptions.TITLE.valueFrom(column.getColumnConfiguration());
+            if (StringUtils.isNotBlank(title)) {
+               column.setContent(new StringBuilder(title));
+            }
+            else {
+               column.setContent(new StringBuilder(""));
+            }
+            table.getLastHeaderRow().addColumn(column);
+         }
 
-			if (data != null) {
+         if (data != null) {
 
-				for (T o : data) {
+            for (T o : data) {
 
-					table.addRow();
-					for (HtmlColumn column : headerColumns) {
+               table.addRow();
+               for (HtmlColumn column : headerColumns) {
 
-						String content = "";
-						for (ColumnElement columnElement : column.getColumnConfiguration().getColumnElements()) {
+                  String content = "";
+                  for (ColumnElement columnElement : column.getColumnConfiguration().getColumnElements()) {
 
-							if (StringUtils.isNotBlank(columnElement.getPropertyName())) {
-								try {
-									Object tmpObject = PropertyUtils.getNestedProperty(o, columnElement
-											.getPropertyName().trim());
+                     if (StringUtils.isNotBlank(columnElement.getPropertyName())) {
+                        try {
+                           Object tmpObject = PropertyUtils
+                                 .getNestedProperty(o, columnElement.getPropertyName().trim());
 
-									if (StringUtils.isNotBlank(columnElement.getPattern())) {
-										MessageFormat messageFormat = new MessageFormat(columnElement.getPattern());
-										content += messageFormat.format(new Object[] { tmpObject });
-									}
-									else {
-										content += String.valueOf(tmpObject);
-									}
-								}
-								catch (Exception e) {
-									logger.warn("Something went wrong with the property {}. Check that an accessor method for this property exists in the bean.");
-									content += columnElement.getDefaultValue();
-								}
-							}
-							else if (columnElement.getContent() != null) {
-								content += columnElement.getContent();
-							}
-							else {
-								content += columnElement.getDefaultValue();
-							}
-						}
+                           if (StringUtils.isNotBlank(columnElement.getPattern())) {
+                              MessageFormat messageFormat = new MessageFormat(columnElement.getPattern());
+                              content += messageFormat.format(new Object[] { tmpObject });
+                           }
+                           else {
+                              content += String.valueOf(tmpObject);
+                           }
+                        }
+                        catch (Exception e) {
+                           logger.warn("Something went wrong with the property {}. Check that an accessor method for this property exists in the bean.");
+                           content += columnElement.getDefaultValue();
+                        }
+                     }
+                     else if (columnElement.getContent() != null) {
+                        content += columnElement.getContent();
+                     }
+                     else {
+                        content += columnElement.getDefaultValue();
+                     }
+                  }
 
-						table.getLastBodyRow().addColumn(String.valueOf(content));
-					}
-				}
-			}
+                  table.getLastBodyRow().addColumn(String.valueOf(content));
+               }
+            }
+         }
 
-			return table;
-		}
-	}
+         return table;
+      }
+   }
 }

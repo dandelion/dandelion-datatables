@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -54,71 +54,73 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class XmlExport implements DatatablesExport {
 
-	private HtmlTable table;
-	private ExportConf exportConf;
-	
-	@Override
-	public void initExport(HtmlTable table) {
-		this.table = table;
-		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.XML);
-	}
+   private HtmlTable table;
+   private ExportConf exportConf;
 
-	@Override
-	public void processExport(OutputStream output) {
+   @Override
+   public void initExport(HtmlTable table) {
+      this.table = table;
+      this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.XML);
+   }
 
-		// Build headers list for attributes name
-		List<String> headers = new ArrayList<String>();
-		
-		for(HtmlRow row : table.getHeadRows()){
-			for(HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.XML)){
-				headers.add(StringUtils.uncapitalize(column.getContent().toString()));
-			}
-		}
+   @Override
+   public void processExport(OutputStream output) {
 
-		XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
-		XMLStreamWriter writer = null;
-		String objectType = DatatableOptions.INTERNAL_OBJECTTYPE.valueFrom(table.getTableConfiguration());
-		String normalizedObjectType = objectType.toLowerCase();
-		
-		try {
-			writer = outputFactory.createXMLStreamWriter(output);
-			writer.writeStartDocument("1.0");
-			
-			writer.writeStartElement(normalizedObjectType + "s");
+      // Build headers list for attributes name
+      List<String> headers = new ArrayList<String>();
 
-			for (HtmlRow row : table.getBodyRows()) {
-				writer.writeStartElement(normalizedObjectType);
+      for (HtmlRow row : table.getHeadRows()) {
+         for (HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.XML)) {
+            headers.add(StringUtils.uncapitalize(column.getContent().toString()));
+         }
+      }
 
-				int i = 0;
-				for (HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.XML)) {
-					writer.writeAttribute(headers.get(i), column.getContent().toString());
-					i++;
-				}
+      XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
+      XMLStreamWriter writer = null;
+      String objectType = DatatableOptions.INTERNAL_OBJECTTYPE.valueFrom(table.getTableConfiguration());
+      String normalizedObjectType = objectType.toLowerCase();
 
-				writer.writeEndElement();
-			}
+      try {
+         writer = outputFactory.createXMLStreamWriter(output);
+         writer.writeStartDocument("1.0");
 
-			writer.writeEndElement();
-			writer.writeEndDocument();
-			writer.flush();
+         writer.writeStartElement(normalizedObjectType + "s");
 
-		} catch (XMLStreamException e) {
-			StringBuilder sb = new StringBuilder("Something went wrong during the XML generation of the table '");
-			sb.append(table.getOriginalId());
-			sb.append("' and with the following export configuration: ");
-			sb.append(exportConf.toString());
-			throw new DandelionException(sb.toString(), e);
-		} 
-		finally {
-			try {
-				writer.close();
-			} catch (XMLStreamException e) {
-				StringBuilder sb = new StringBuilder("Something went wrong during the XML generation of the table '");
-				sb.append(table.getOriginalId());
-				sb.append("' and with the following export configuration: ");
-				sb.append(exportConf.toString());
-				throw new DandelionException(sb.toString(), e);
-			}
-		}
-	}
+         for (HtmlRow row : table.getBodyRows()) {
+            writer.writeStartElement(normalizedObjectType);
+
+            int i = 0;
+            for (HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.XML)) {
+               writer.writeAttribute(headers.get(i), column.getContent().toString());
+               i++;
+            }
+
+            writer.writeEndElement();
+         }
+
+         writer.writeEndElement();
+         writer.writeEndDocument();
+         writer.flush();
+
+      }
+      catch (XMLStreamException e) {
+         StringBuilder sb = new StringBuilder("Something went wrong during the XML generation of the table '");
+         sb.append(table.getOriginalId());
+         sb.append("' and with the following export configuration: ");
+         sb.append(exportConf.toString());
+         throw new DandelionException(sb.toString(), e);
+      }
+      finally {
+         try {
+            writer.close();
+         }
+         catch (XMLStreamException e) {
+            StringBuilder sb = new StringBuilder("Something went wrong during the XML generation of the table '");
+            sb.append(table.getOriginalId());
+            sb.append("' and with the following export configuration: ");
+            sb.append(exportConf.toString());
+            throw new DandelionException(sb.toString(), e);
+         }
+      }
+   }
 }

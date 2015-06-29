@@ -71,21 +71,21 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class Bootstrap3Theme extends AbstractExtension {
 
-	@Override
-	public String getExtensionName() {
-		return "bootstrap3";
-	}
+   @Override
+   public String getExtensionName() {
+      return "bootstrap3";
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
+   @Override
+   public void setup(HtmlTable table) {
 
-		addBundle(DatatableBundles.DDL_DT_THEME_BOOTSTRAP3);
+      addBundle(DatatableBundles.DDL_DT_THEME_BOOTSTRAP3);
 
-		Boolean pageable = DatatableOptions.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration());
-		if (pageable != null && pageable) {
-			addParameter(DTConstants.DT_PAGINGTYPE, PagingType.BOOTSTRAP_SIMPLE.toString());
-		}
+      Boolean pageable = DatatableOptions.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration());
+      if (pageable != null && pageable) {
+         addParameter(DTConstants.DT_PAGINGTYPE, PagingType.BOOTSTRAP_SIMPLE.toString());
+      }
 
-		addParameter(DTConstants.DT_AS_STRIPE_CLASSES, new JsSnippet("[]"));
-	}
+      addParameter(DTConstants.DT_AS_STRIPE_CLASSES, new JsSnippet("[]"));
+   }
 }

@@ -8,28 +8,29 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
 
 public class FeatureAppearProcessor extends AbstractOptionProcessor {
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
 
-		String retval = null;
-		String valueAsString = context.getValueAsString();
-		
-		if (StringUtils.isNotBlank(valueAsString)) {
+      String retval = null;
+      String valueAsString = context.getValueAsString();
 
-			if (valueAsString.contains(",") || "fadein".equals(valueAsString.toLowerCase())) {
-				String[] tmp = valueAsString.toLowerCase().split(",");
+      if (StringUtils.isNotBlank(valueAsString)) {
 
-				retval = "fadein";
-				if (tmp.length > 1) {
-					context.addTableEntry(DatatableOptions.FEATURE_APPEAR_DURATION, tmp[1]);
-				}
-			} else {
-				retval = "block";
-			}
-		}
+         if (valueAsString.contains(",") || "fadein".equals(valueAsString.toLowerCase())) {
+            String[] tmp = valueAsString.toLowerCase().split(",");
 
-		context.registerExtension(AppearFeature.APPEAR_FEATURE_NAME);
-		
-		return retval;
-	}
+            retval = "fadein";
+            if (tmp.length > 1) {
+               context.addTableEntry(DatatableOptions.FEATURE_APPEAR_DURATION, tmp[1]);
+            }
+         }
+         else {
+            retval = "block";
+         }
+      }
+
+      context.registerExtension(AppearFeature.APPEAR_FEATURE_NAME);
+
+      return retval;
+   }
 }

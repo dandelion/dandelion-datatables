@@ -47,135 +47,134 @@ import com.github.dandelion.datatables.core.util.CollectionUtils;
  */
 public class HtmlRow extends AbstractHtmlTag {
 
-	/**
-	 * List of columns (<code>td</code> tag) inside the row (<code>tr</code>
-	 * tag)
-	 */
-	private List<HtmlColumn> columns = new LinkedList<HtmlColumn>();
+   /**
+    * List of columns (<code>td</code> tag) inside the row (<code>tr</code> tag)
+    */
+   private List<HtmlColumn> columns = new LinkedList<HtmlColumn>();
 
-	public HtmlRow() {
-		this.tag = "tr";
-	}
+   public HtmlRow() {
+      this.tag = "tr";
+   }
 
-	public HtmlRow(String id) {
-		this.tag = "tr";
-		this.id = id;
-	}
+   public HtmlRow(String id) {
+      this.tag = "tr";
+      this.id = id;
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public StringBuilder toHtml() {
-		StringBuilder html = new StringBuilder();
-		html.append(getHtmlOpeningTag());
-		html.append(getHtmlColumns());
-		html.append(getHtmlClosingTag());
-		return html;
-	}
-	
-	private StringBuilder getHtmlColumns() {
-		StringBuilder html = new StringBuilder();
-		for (HtmlColumn column : this.columns) {
-			if (CollectionUtils.containsAny(column.getEnabledDisplayTypes(), ReservedFormat.ALL, ReservedFormat.HTML)) {
-				html.append(column.toHtml());
-			}
-		}
-		return html;
-	}
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public StringBuilder toHtml() {
+      StringBuilder html = new StringBuilder();
+      html.append(getHtmlOpeningTag());
+      html.append(getHtmlColumns());
+      html.append(getHtmlClosingTag());
+      return html;
+   }
 
-	/**
-	 * <p>
-	 * Returns a filtered list of {@link HtmlColumn} for this current
-	 * {@link HtmlRow}.
-	 * <p>
-	 * The columns are filtering using the enabled format.
-	 * 
-	 * @param enabledFormats
-	 *            The enabled formats used to filter the columns.
-	 * @return a filtered list of {@link HtmlColumn}.
-	 */
-	public List<HtmlColumn> getColumns(String... enabledFormats) {
-		List<HtmlColumn> result = new ArrayList<HtmlColumn>();
-		for(HtmlColumn column : this.columns){
-			for(String enabledFormat : enabledFormats){
-				if(column.getEnabledDisplayTypes().contains(enabledFormat)){
-					result.add(column);
-				}
-			}
-		}
-		return result;
-	}
-	
-	public List<HtmlColumn> getColumns() {
-		return this.columns;
-	}
+   private StringBuilder getHtmlColumns() {
+      StringBuilder html = new StringBuilder();
+      for (HtmlColumn column : this.columns) {
+         if (CollectionUtils.containsAny(column.getEnabledDisplayTypes(), ReservedFormat.ALL, ReservedFormat.HTML)) {
+            html.append(column.toHtml());
+         }
+      }
+      return html;
+   }
 
-	public void setColumns(List<HtmlColumn> columns) {
-		this.columns = columns;
-	}
+   /**
+    * <p>
+    * Returns a filtered list of {@link HtmlColumn} for this current
+    * {@link HtmlRow}.
+    * <p>
+    * The columns are filtering using the enabled format.
+    * 
+    * @param enabledFormats
+    *           The enabled formats used to filter the columns.
+    * @return a filtered list of {@link HtmlColumn}.
+    */
+   public List<HtmlColumn> getColumns(String... enabledFormats) {
+      List<HtmlColumn> result = new ArrayList<HtmlColumn>();
+      for (HtmlColumn column : this.columns) {
+         for (String enabledFormat : enabledFormats) {
+            if (column.getEnabledDisplayTypes().contains(enabledFormat)) {
+               result.add(column);
+            }
+         }
+      }
+      return result;
+   }
 
-	public HtmlColumn addHeaderColumn(HtmlColumn headerColumn){
-		this.columns.add(headerColumn);
-		return headerColumn;
-	}
-	
-	public HtmlColumn addHeaderColumn(String columnContent) {
-		HtmlColumn newColumn = new HtmlColumn(true, columnContent);
-		this.columns.add(newColumn);
-		return newColumn;
-	}
+   public List<HtmlColumn> getColumns() {
+      return this.columns;
+   }
 
-	public HtmlColumn addColumn(HtmlColumn column) {
-		this.columns.add(column);
-		return column;
-	}
+   public void setColumns(List<HtmlColumn> columns) {
+      this.columns = columns;
+   }
 
-	public HtmlColumn addColumn(String columnContent) {
-		HtmlColumn newColumn = new HtmlColumn(false, columnContent);
-		this.columns.add(newColumn);
-		return newColumn;
-	}
+   public HtmlColumn addHeaderColumn(HtmlColumn headerColumn) {
+      this.columns.add(headerColumn);
+      return headerColumn;
+   }
 
-	public HtmlColumn addColumn(String columnContent, String displayFormat) {
-		HtmlColumn newColumn = new HtmlColumn(false, columnContent);
-		Set<String> enabledDisplayTypes = new HashSet<String>();
-		enabledDisplayTypes.add(displayFormat.trim().toLowerCase());
-		newColumn.setEnabledDisplayTypes(enabledDisplayTypes);
-		this.columns.add(newColumn);
-		return newColumn;
-	}
-	
-	public HtmlRow addHeaderColumns(String... columns) {
-		for (String columnContent : columns) {
-			addHeaderColumn(columnContent);
-		}
-		return this;
-	}
+   public HtmlColumn addHeaderColumn(String columnContent) {
+      HtmlColumn newColumn = new HtmlColumn(true, columnContent);
+      this.columns.add(newColumn);
+      return newColumn;
+   }
 
-	public List<HtmlColumn> getHeaderColumns() {
-		List<HtmlColumn> retval = new ArrayList<HtmlColumn>();
-		for (HtmlColumn column : columns) {
-		        if (column.isHeaderColumn()) {
-		                retval.add(column);
-		        }
-		}
-		return retval;
-	}
+   public HtmlColumn addColumn(HtmlColumn column) {
+      this.columns.add(column);
+      return column;
+   }
 
-	public HtmlRow addColumns(String... columns) {
-		for (String columnContent : columns) {
-			addColumn(columnContent);
-		}
-		return this;
-	}
-	
-	public HtmlColumn getLastColumn() {
-		return ((LinkedList<HtmlColumn>) this.columns).getLast();
-	}
+   public HtmlColumn addColumn(String columnContent) {
+      HtmlColumn newColumn = new HtmlColumn(false, columnContent);
+      this.columns.add(newColumn);
+      return newColumn;
+   }
 
-	@Override
-	public String toString() {
-		return "HtmlRow [columns=" + columns + "]";
-	}
+   public HtmlColumn addColumn(String columnContent, String displayFormat) {
+      HtmlColumn newColumn = new HtmlColumn(false, columnContent);
+      Set<String> enabledDisplayTypes = new HashSet<String>();
+      enabledDisplayTypes.add(displayFormat.trim().toLowerCase());
+      newColumn.setEnabledDisplayTypes(enabledDisplayTypes);
+      this.columns.add(newColumn);
+      return newColumn;
+   }
+
+   public HtmlRow addHeaderColumns(String... columns) {
+      for (String columnContent : columns) {
+         addHeaderColumn(columnContent);
+      }
+      return this;
+   }
+
+   public List<HtmlColumn> getHeaderColumns() {
+      List<HtmlColumn> retval = new ArrayList<HtmlColumn>();
+      for (HtmlColumn column : columns) {
+         if (column.isHeaderColumn()) {
+            retval.add(column);
+         }
+      }
+      return retval;
+   }
+
+   public HtmlRow addColumns(String... columns) {
+      for (String columnContent : columns) {
+         addColumn(columnContent);
+      }
+      return this;
+   }
+
+   public HtmlColumn getLastColumn() {
+      return ((LinkedList<HtmlColumn>) this.columns).getLast();
+   }
+
+   @Override
+   public String toString() {
+      return "HtmlRow [columns=" + columns + "]";
+   }
 }

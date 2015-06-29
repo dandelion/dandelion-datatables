@@ -46,62 +46,62 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
 
 public class FeaturePagingTypeProcessor extends AbstractOptionProcessor {
 
-	private static Logger logger = LoggerFactory.getLogger(FeaturePagingTypeProcessor.class);
+   private static Logger logger = LoggerFactory.getLogger(FeaturePagingTypeProcessor.class);
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
 
-		String valueAsString = context.getValueAsString();
-		PagingType retval = null;
+      String valueAsString = context.getValueAsString();
+      PagingType retval = null;
 
-		if (StringUtils.isNotBlank(valueAsString)) {
+      if (StringUtils.isNotBlank(valueAsString)) {
 
-			// Let first try to match the value against an existing pagination
-			// type
-			try {
-				retval = PagingType.valueOf(valueAsString.toUpperCase());
-			}
-			// If not, we assume that you have previously registered an
-			// extension using the Extension mechanism
-			catch (IllegalArgumentException e) {
-				logger.info(
-						"The pagination type '{}' doesn't match any of the predefined pagination types. Make sure an extension is registered for this pagination type.",
-						valueAsString);
-			}
+         // Let first try to match the value against an existing pagination
+         // type
+         try {
+            retval = PagingType.valueOf(valueAsString.toUpperCase());
+         }
+         // If not, we assume that you have previously registered an
+         // extension using the Extension mechanism
+         catch (IllegalArgumentException e) {
+            logger.info(
+                  "The pagination type '{}' doesn't match any of the predefined pagination types. Make sure an extension is registered for this pagination type.",
+                  valueAsString);
+         }
 
-			if (retval != null) {
+         if (retval != null) {
 
-				switch (retval) {
-				case INPUT:
-					context.registerExtension(PagingTypeInputFeature.FEATURE_NAME);
-					break;
-				case LISTBOX:
-					context.registerExtension(PagingTypeListboxFeature.FEATURE_NAME);
-					break;
-				case SCROLLING:
-					context.registerExtension(PagingTypeScrollingFeature.FEATURE_NAME);
-					break;
-				case EXTSTYLE:
+            switch (retval) {
+            case INPUT:
+               context.registerExtension(PagingTypeInputFeature.FEATURE_NAME);
+               break;
+            case LISTBOX:
+               context.registerExtension(PagingTypeListboxFeature.FEATURE_NAME);
+               break;
+            case SCROLLING:
+               context.registerExtension(PagingTypeScrollingFeature.FEATURE_NAME);
+               break;
+            case EXTSTYLE:
                context.registerExtension(PagingTypeExtJsFeature.FEATURE_NAME);
                break;
-               
-				// --- Bootstrap 2 styles ---
-				case BOOTSTRAP_SIMPLE:
-					context.registerExtension(PagingTypeBootstrapSimpleFeature.FEATURE_NAME);
-					break;
-				case BOOTSTRAP_FULL:
-					context.registerExtension(PagingTypeBootstrapFullFeature.FEATURE_NAME);
-					break;
-				case BOOTSTRAP_FULL_NUMBERS:
-					context.registerExtension(PagingTypeBootstrapFullNumbersFeature.FEATURE_NAME);
-					break;
 
-				default:
-					break;
-				}
-			}
-		}
+            // --- Bootstrap 2 styles ---
+            case BOOTSTRAP_SIMPLE:
+               context.registerExtension(PagingTypeBootstrapSimpleFeature.FEATURE_NAME);
+               break;
+            case BOOTSTRAP_FULL:
+               context.registerExtension(PagingTypeBootstrapFullFeature.FEATURE_NAME);
+               break;
+            case BOOTSTRAP_FULL_NUMBERS:
+               context.registerExtension(PagingTypeBootstrapFullNumbersFeature.FEATURE_NAME);
+               break;
 
-		return retval;
-	}
+            default:
+               break;
+            }
+         }
+      }
+
+      return retval;
+   }
 }

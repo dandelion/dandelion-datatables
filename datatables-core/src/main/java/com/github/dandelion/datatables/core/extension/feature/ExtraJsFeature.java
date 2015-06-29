@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -55,75 +55,75 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class ExtraJsFeature extends AbstractExtension {
 
-	public static final String EXTRA_JS_FEATURE_NAME = "extraJs";
+   public static final String EXTRA_JS_FEATURE_NAME = "extraJs";
 
-	@Override
-	public String getExtensionName() {
-		return EXTRA_JS_FEATURE_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return EXTRA_JS_FEATURE_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
+   @Override
+   public void setup(HtmlTable table) {
 
-		AssetMapper assetMapper = new AssetMapper(getContext(), table.getTableConfiguration().getRequest());
+      AssetMapper assetMapper = new AssetMapper(getContext(), table.getTableConfiguration().getRequest());
 
-		HttpServletRequest request = table.getTableConfiguration().getRequest();
-		Set<AssetStorageUnit> assetsToInject = null;
+      HttpServletRequest request = table.getTableConfiguration().getRequest();
+      Set<AssetStorageUnit> assetsToInject = null;
 
-		for (ExtraJs extraJs : table.getTableConfiguration().getExtraJs()) {
+      for (ExtraJs extraJs : table.getTableConfiguration().getExtraJs()) {
 
-			assetsToInject = new LinkedHashSet<AssetStorageUnit>();
+         assetsToInject = new LinkedHashSet<AssetStorageUnit>();
 
-			// AssetQuery aq = new
-			// AssetQuery(table.getTableConfiguration().getRequest(),
-			// getContext()).;
-			for (String bundleName : extraJs.getBundles()) {
-			   if(!getContext().getBundleStorage().getBundleDag().getVertexMap().containsKey(bundleName)) {
-			      throw new DandelionException("The requested bundle \"" + bundleName + "\" does not exist in the graph.");
-			   }
-				assetsToInject.addAll(getContext().getBundleStorage().getBundleDag().getVertex(bundleName)
-						.getAssetStorageUnits());
-			}
+         // AssetQuery aq = new
+         // AssetQuery(table.getTableConfiguration().getRequest(),
+         // getContext()).;
+         for (String bundleName : extraJs.getBundles()) {
+            if (!getContext().getBundleStorage().getBundleDag().getVertexMap().containsKey(bundleName)) {
+               throw new DandelionException("The requested bundle \"" + bundleName + "\" does not exist in the graph.");
+            }
+            assetsToInject.addAll(getContext().getBundleStorage().getBundleDag().getVertex(bundleName)
+                  .getAssetStorageUnits());
+         }
 
-			Set<AssetStorageUnit> filteredAsus = new LinkedHashSet<AssetStorageUnit>();
-			for (AssetStorageUnit asu : assetsToInject) {
-				if (asu.getType().equals(AssetType.js)) {
-					filteredAsus.add(asu);
-				}
-			}
+         Set<AssetStorageUnit> filteredAsus = new LinkedHashSet<AssetStorageUnit>();
+         for (AssetStorageUnit asu : assetsToInject) {
+            if (asu.getType().equals(AssetType.js)) {
+               filteredAsus.add(asu);
+            }
+         }
 
-			Set<Asset> processedAssets = assetMapper.mapToAssets(filteredAsus);
+         Set<Asset> processedAssets = assetMapper.mapToAssets(filteredAsus);
 
-			Map<String, AssetLocator> locators = getContext().getAssetLocatorsMap();
+         Map<String, AssetLocator> locators = getContext().getAssetLocatorsMap();
 
-			for (Asset asset : processedAssets) {
-				AssetLocator locator = locators.get(asset.getConfigLocationKey());
-				String content = locator.getContent(asset, request);
+         for (Asset asset : processedAssets) {
+            AssetLocator locator = locators.get(asset.getConfigLocationKey());
+            String content = locator.getContent(asset, request);
 
-				switch (extraJs.getPlaceholder()) {
-				case BEFORE_ALL:
-					appendToBeforeAll(content);
-					break;
-				case BEFORE_START_DOCUMENT_READY:
-					appendToBeforeStartDocumentReady(content);
-					break;
-				case AFTER_START_DOCUMENT_READY:
-					appendToAfterStartDocumentReady(content);
-					break;
-				case COMPONENT_CONFIGURATION:
-					appendToComponentConfiguration(content);
-					break;
-				case BEFORE_END_DOCUMENT_READY:
-					appendToBeforeEndDocumentReady(content);
-					break;
-				case AFTER_END_DOCUMENT_READY:
-					appendToAfterEndDocumentReady(content);
-					break;
-				case AFTER_ALL:
-					appendToAfterAll(content);
-					break;
-				}
-			}
-		}
-	}
+            switch (extraJs.getPlaceholder()) {
+            case BEFORE_ALL:
+               appendToBeforeAll(content);
+               break;
+            case BEFORE_START_DOCUMENT_READY:
+               appendToBeforeStartDocumentReady(content);
+               break;
+            case AFTER_START_DOCUMENT_READY:
+               appendToAfterStartDocumentReady(content);
+               break;
+            case COMPONENT_CONFIGURATION:
+               appendToComponentConfiguration(content);
+               break;
+            case BEFORE_END_DOCUMENT_READY:
+               appendToBeforeEndDocumentReady(content);
+               break;
+            case AFTER_END_DOCUMENT_READY:
+               appendToAfterEndDocumentReady(content);
+               break;
+            case AFTER_ALL:
+               appendToAfterAll(content);
+               break;
+            }
+         }
+      }
+   }
 }

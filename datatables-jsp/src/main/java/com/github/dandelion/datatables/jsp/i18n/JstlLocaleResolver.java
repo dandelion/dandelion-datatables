@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -52,17 +52,17 @@ import com.github.dandelion.core.i18n.LocaleResolver;
  */
 public class JstlLocaleResolver implements LocaleResolver {
 
-	@Override
-	public Locale resolveLocale(HttpServletRequest request) {
+   @Override
+   public Locale resolveLocale(HttpServletRequest request) {
 
-		Object locale = Config.get(request, Config.FMT_LOCALE);
-		if (locale == null) {
-			HttpSession session = request.getSession(false);
-			if (session != null) {
-				locale = Config.get(session, Config.FMT_LOCALE);
-			}
-		}
+      Object locale = Config.get(request, Config.FMT_LOCALE);
+      if (locale == null) {
+         HttpSession session = request.getSession(false);
+         if (session != null) {
+            locale = Config.get(session, Config.FMT_LOCALE);
+         }
+      }
 
-		return (locale instanceof Locale ? (Locale) locale : null);
-	}
+      return (locale instanceof Locale ? (Locale) locale : null);
+   }
 }

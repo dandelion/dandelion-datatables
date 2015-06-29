@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -47,222 +47,222 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class ExtensionProcessor {
 
-	/**
-	 * The table instance where extensions must be loaded.
-	 */
-	private final HtmlTable table;
+   /**
+    * The table instance where extensions must be loaded.
+    */
+   private final HtmlTable table;
 
-	/**
-	 * The buffer used for the DataTables initialization code.
-	 */
-	private final DatatableJQueryContent datatableContent;
+   /**
+    * The buffer used for the DataTables initialization code.
+    */
+   private final DatatableJQueryContent datatableContent;
 
-	/**
-	 * The map containing the DataTables parameters.
-	 */
-	private final Map<String, Object> mainConfig;
+   /**
+    * The map containing the DataTables parameters.
+    */
+   private final Map<String, Object> mainConfig;
 
-	public ExtensionProcessor(HtmlTable table, DatatableJQueryContent datatableContent, Map<String, Object> mainConfig) {
-		this.table = table;
-		this.datatableContent = datatableContent;
-		this.mainConfig = mainConfig;
-	}
+   public ExtensionProcessor(HtmlTable table, DatatableJQueryContent datatableContent, Map<String, Object> mainConfig) {
+      this.table = table;
+      this.datatableContent = datatableContent;
+      this.mainConfig = mainConfig;
+   }
 
-	public void process(Collection<Extension> extensions) {
-		if (extensions != null && !extensions.isEmpty()) {
-			for (Extension extension : extensions) {
-				process(extension);
-			}
-		}
-	}
+   public void process(Collection<Extension> extensions) {
+      if (extensions != null && !extensions.isEmpty()) {
+         for (Extension extension : extensions) {
+            process(extension);
+         }
+      }
+   }
 
-	public void process(Extension extension) {
+   public void process(Extension extension) {
 
-		if (extension != null) {
+      if (extension != null) {
 
-			extension.setupWrapper(table);
-			injectIntoMainJsFile(extension);
-			injectIntoMainConfiguration(extension);
-		}
-	}
+         extension.setupWrapper(table);
+         injectIntoMainJsFile(extension);
+         injectIntoMainConfiguration(extension);
+      }
+   }
 
-	/**
-	 * 
-	 * @param extension
-	 */
-	private void injectIntoMainJsFile(Extension extension) {
+   /**
+    * 
+    * @param extension
+    */
+   private void injectIntoMainJsFile(Extension extension) {
 
-		// Extension configuration loading
-		if (extension.getBeforeAll() != null) {
-			datatableContent.appendToBeforeAll(extension.getBeforeAll().toString());
-		}
-		if (extension.getBeforeStartDocumentReady() != null) {
-			datatableContent.appendToBeforeStartDocumentReady(extension.getBeforeStartDocumentReady().toString());
-		}
-		if (extension.getAfterStartDocumentReady() != null) {
-			datatableContent.appendToAfterStartDocumentReady(extension.getAfterStartDocumentReady().toString());
-		}
-		if (extension.getBeforeEndDocumentReady() != null) {
-			datatableContent.appendToBeforeEndDocumentReady(extension.getBeforeEndDocumentReady().toString());
-		}
-		if (extension.getAfterAll() != null) {
-			datatableContent.appendToAfterAll(extension.getAfterAll().toString());
-		}
-	}
+      // Extension configuration loading
+      if (extension.getBeforeAll() != null) {
+         datatableContent.appendToBeforeAll(extension.getBeforeAll().toString());
+      }
+      if (extension.getBeforeStartDocumentReady() != null) {
+         datatableContent.appendToBeforeStartDocumentReady(extension.getBeforeStartDocumentReady().toString());
+      }
+      if (extension.getAfterStartDocumentReady() != null) {
+         datatableContent.appendToAfterStartDocumentReady(extension.getAfterStartDocumentReady().toString());
+      }
+      if (extension.getBeforeEndDocumentReady() != null) {
+         datatableContent.appendToBeforeEndDocumentReady(extension.getBeforeEndDocumentReady().toString());
+      }
+      if (extension.getAfterAll() != null) {
+         datatableContent.appendToAfterAll(extension.getAfterAll().toString());
+      }
+   }
 
-	/**
-	 * 
-	 * @param extension
-	 */
-	private void injectIntoMainConfiguration(Extension extension) {
+   /**
+    * 
+    * @param extension
+    */
+   private void injectIntoMainConfiguration(Extension extension) {
 
-		// Extra configuration setting
-		if (extension.getParameters() != null) {
+      // Extra configuration setting
+      if (extension.getParameters() != null) {
 
-			for (Parameter param : extension.getParameters()) {
+         for (Parameter param : extension.getParameters()) {
 
-				// The module configuration already exists in the main
-				// configuration
-				if (mainConfig.containsKey(param.getName())) {
+            // The module configuration already exists in the main
+            // configuration
+            if (mainConfig.containsKey(param.getName())) {
 
-					if (mainConfig.get(param.getName()) instanceof JsFunction) {
-						processJsFunction(param);
-					}
-					else if (mainConfig.get(param.getName()) instanceof JsSnippet) {
-						processJavascriptSnippet(param);
-					}
-					else {
-						processString(param);
-					}
-				}
-				// No existing configuration in the main configuration, so we
-				// just add it
-				else {
-					mainConfig.put(param.getName(), param.getValue());
-				}
-			}
-		}
-	}
+               if (mainConfig.get(param.getName()) instanceof JsFunction) {
+                  processJsFunction(param);
+               }
+               else if (mainConfig.get(param.getName()) instanceof JsSnippet) {
+                  processJavascriptSnippet(param);
+               }
+               else {
+                  processString(param);
+               }
+            }
+            // No existing configuration in the main configuration, so we
+            // just add it
+            else {
+               mainConfig.put(param.getName(), param.getValue());
+            }
+         }
+      }
+   }
 
-	private void processJsFunction(Parameter conf) {
+   private void processJsFunction(Parameter conf) {
 
-		JsFunction jsFunction = (JsFunction) mainConfig.get(conf.getName());
-		StringBuilder newValue = null;
+      JsFunction jsFunction = (JsFunction) mainConfig.get(conf.getName());
+      StringBuilder newValue = null;
 
-		switch (conf.getMode()) {
-		case OVERRIDE:
-			mainConfig.put(conf.getName(), conf.getValue());
-			break;
+      switch (conf.getMode()) {
+      case OVERRIDE:
+         mainConfig.put(conf.getName(), conf.getValue());
+         break;
 
-		case APPEND:
-			newValue = new StringBuilder(((JsFunction) conf.getValue()).getCode());
-			newValue.append(jsFunction.getCode());
-			jsFunction.setCode(newValue.toString());
-			mainConfig.put(conf.getName(), jsFunction);
-			break;
+      case APPEND:
+         newValue = new StringBuilder(((JsFunction) conf.getValue()).getCode());
+         newValue.append(jsFunction.getCode());
+         jsFunction.setCode(newValue.toString());
+         mainConfig.put(conf.getName(), jsFunction);
+         break;
 
-		case PREPEND:
-			newValue = new StringBuilder(jsFunction.getCode());
-			newValue.append(((JsFunction) conf.getValue()).getCode());
-			jsFunction.setCode(newValue.toString());
-			mainConfig.put(conf.getName(), jsFunction);
-			break;
+      case PREPEND:
+         newValue = new StringBuilder(jsFunction.getCode());
+         newValue.append(((JsFunction) conf.getValue()).getCode());
+         jsFunction.setCode(newValue.toString());
+         mainConfig.put(conf.getName(), jsFunction);
+         break;
 
-		case APPEND_WITH_SPACE:
-			newValue = new StringBuilder(((JsFunction) conf.getValue()).getCode());
-			newValue.append(" ");
-			newValue.append(jsFunction.getCode());
-			jsFunction.setCode(newValue.toString());
-			mainConfig.put(conf.getName(), jsFunction);
-			break;
+      case APPEND_WITH_SPACE:
+         newValue = new StringBuilder(((JsFunction) conf.getValue()).getCode());
+         newValue.append(" ");
+         newValue.append(jsFunction.getCode());
+         jsFunction.setCode(newValue.toString());
+         mainConfig.put(conf.getName(), jsFunction);
+         break;
 
-		case PREPEND_WITH_SPACE:
-			newValue = new StringBuilder(jsFunction.getCode());
-			newValue.append(" ");
-			newValue.append(((JsFunction) conf.getValue()).getCode());
-			jsFunction.setCode(newValue.toString());
-			mainConfig.put(conf.getName(), jsFunction);
-			break;
+      case PREPEND_WITH_SPACE:
+         newValue = new StringBuilder(jsFunction.getCode());
+         newValue.append(" ");
+         newValue.append(((JsFunction) conf.getValue()).getCode());
+         jsFunction.setCode(newValue.toString());
+         mainConfig.put(conf.getName(), jsFunction);
+         break;
 
-		default:
-			break;
-		}
-	}
+      default:
+         break;
+      }
+   }
 
-	private void processJavascriptSnippet(Parameter conf) {
+   private void processJavascriptSnippet(Parameter conf) {
 
-		JsSnippet jsSnippet = (JsSnippet) mainConfig.get(conf.getName());
-		String newValue = null;
+      JsSnippet jsSnippet = (JsSnippet) mainConfig.get(conf.getName());
+      String newValue = null;
 
-		switch (conf.getMode()) {
-		case OVERRIDE:
-			mainConfig.put(conf.getName(), conf.getValue());
-			break;
+      switch (conf.getMode()) {
+      case OVERRIDE:
+         mainConfig.put(conf.getName(), conf.getValue());
+         break;
 
-		case APPEND:
-			newValue = ((JsSnippet) conf.getValue()).getJavascript() + jsSnippet.getJavascript();
-			jsSnippet.setJavascript(newValue);
-			mainConfig.put(conf.getName(), jsSnippet);
-			break;
+      case APPEND:
+         newValue = ((JsSnippet) conf.getValue()).getJavascript() + jsSnippet.getJavascript();
+         jsSnippet.setJavascript(newValue);
+         mainConfig.put(conf.getName(), jsSnippet);
+         break;
 
-		case PREPEND:
-			newValue = jsSnippet.getJavascript() + ((JsSnippet) conf.getValue()).getJavascript();
-			jsSnippet.setJavascript(newValue);
-			mainConfig.put(conf.getName(), jsSnippet);
-			break;
+      case PREPEND:
+         newValue = jsSnippet.getJavascript() + ((JsSnippet) conf.getValue()).getJavascript();
+         jsSnippet.setJavascript(newValue);
+         mainConfig.put(conf.getName(), jsSnippet);
+         break;
 
-		case APPEND_WITH_SPACE:
-			newValue = ((JsSnippet) conf.getValue()).getJavascript() + " " + jsSnippet.getJavascript();
-			jsSnippet.setJavascript(newValue);
-			mainConfig.put(conf.getName(), jsSnippet);
-			break;
+      case APPEND_WITH_SPACE:
+         newValue = ((JsSnippet) conf.getValue()).getJavascript() + " " + jsSnippet.getJavascript();
+         jsSnippet.setJavascript(newValue);
+         mainConfig.put(conf.getName(), jsSnippet);
+         break;
 
-		case PREPEND_WITH_SPACE:
-			newValue = jsSnippet.getJavascript() + " " + ((JsSnippet) conf.getValue()).getJavascript();
-			jsSnippet.setJavascript(newValue);
-			mainConfig.put(conf.getName(), jsSnippet);
-			break;
+      case PREPEND_WITH_SPACE:
+         newValue = jsSnippet.getJavascript() + " " + ((JsSnippet) conf.getValue()).getJavascript();
+         jsSnippet.setJavascript(newValue);
+         mainConfig.put(conf.getName(), jsSnippet);
+         break;
 
-		default:
-			break;
-		}
+      default:
+         break;
+      }
 
-	}
+   }
 
-	private void processString(Parameter conf) {
-		String value = null;
+   private void processString(Parameter conf) {
+      String value = null;
 
-		switch (conf.getMode()) {
-		case OVERRIDE:
-			mainConfig.put(conf.getName(), conf.getValue());
-			break;
+      switch (conf.getMode()) {
+      case OVERRIDE:
+         mainConfig.put(conf.getName(), conf.getValue());
+         break;
 
-		case APPEND:
-			value = (String) mainConfig.get(conf.getName());
-			value = value + conf.getValue();
-			mainConfig.put(conf.getName(), value);
-			break;
+      case APPEND:
+         value = (String) mainConfig.get(conf.getName());
+         value = value + conf.getValue();
+         mainConfig.put(conf.getName(), value);
+         break;
 
-		case PREPEND:
-			value = (String) mainConfig.get(conf.getName());
-			value = conf.getValue() + value;
-			mainConfig.put(conf.getName(), value);
-			break;
+      case PREPEND:
+         value = (String) mainConfig.get(conf.getName());
+         value = conf.getValue() + value;
+         mainConfig.put(conf.getName(), value);
+         break;
 
-		case APPEND_WITH_SPACE:
-			value = (String) mainConfig.get(conf.getName());
-			value = value + " " + conf.getValue();
-			mainConfig.put(conf.getName(), value);
-			break;
+      case APPEND_WITH_SPACE:
+         value = (String) mainConfig.get(conf.getName());
+         value = value + " " + conf.getValue();
+         mainConfig.put(conf.getName(), value);
+         break;
 
-		case PREPEND_WITH_SPACE:
-			value = (String) mainConfig.get(conf.getName());
-			value = conf.getValue() + " " + value;
-			mainConfig.put(conf.getName(), value);
-			break;
+      case PREPEND_WITH_SPACE:
+         value = (String) mainConfig.get(conf.getName());
+         value = conf.getValue() + " " + value;
+         mainConfig.put(conf.getName(), value);
+         break;
 
-		default:
-			break;
-		}
-	}
+      default:
+         break;
+      }
+   }
 }

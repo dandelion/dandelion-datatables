@@ -50,16 +50,16 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class PagingTypeExtJsFeature extends AbstractExtension {
 
-	public static final String FEATURE_NAME = "paginationTypeExtJS";
+   public static final String FEATURE_NAME = "paginationTypeExtJS";
 
-	@Override
-	public String getExtensionName() {
-		return FEATURE_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return FEATURE_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
-		addBundle(DatatableBundles.DDL_DT_PAGING_EXTJS);
-		addParameter(DTConstants.DT_PAGINGTYPE, PagingType.EXTSTYLE.toString());
-	}
+   @Override
+   public void setup(HtmlTable table) {
+      addBundle(DatatableBundles.DDL_DT_PAGING_EXTJS);
+      addParameter(DTConstants.DT_PAGINGTYPE, PagingType.EXTSTYLE.toString());
+   }
 }

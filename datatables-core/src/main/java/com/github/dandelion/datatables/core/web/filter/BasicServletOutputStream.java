@@ -41,10 +41,10 @@ import javax.servlet.ServletOutputStream;
  */
 public class BasicServletOutputStream extends ServletOutputStream {
 
-	ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-	
-	@Override
-	public void write(int b) throws IOException {
-		this.outputStream.write(b);
-	}
+   ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+   @Override
+   public void write(int b) throws IOException {
+      this.outputStream.write(b);
+   }
 }

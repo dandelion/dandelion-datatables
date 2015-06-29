@@ -50,16 +50,16 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class PagingTypeListboxFeature extends AbstractExtension {
 
-	public static final String FEATURE_NAME = "pagingTypeListbox";
+   public static final String FEATURE_NAME = "pagingTypeListbox";
 
-	@Override
-	public String getExtensionName() {
-		return FEATURE_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return FEATURE_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
-		addBundle(DatatableBundles.DDL_DT_PAGING_LISTBOX);
-		addParameter(DTConstants.DT_PAGINGTYPE, PagingType.LISTBOX.toString());
-	}
+   @Override
+   public void setup(HtmlTable table) {
+      addBundle(DatatableBundles.DDL_DT_PAGING_LISTBOX);
+      addParameter(DTConstants.DT_PAGINGTYPE, PagingType.LISTBOX.toString());
+   }
 }

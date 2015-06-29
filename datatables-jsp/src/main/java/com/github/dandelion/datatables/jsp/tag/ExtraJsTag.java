@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -66,68 +66,68 @@ import com.github.dandelion.datatables.core.extension.feature.ExtraJsFeature;
  */
 public class ExtraJsTag extends TagSupport {
 
-	private static final long serialVersionUID = -287813095911386884L;
+   private static final long serialVersionUID = -287813095911386884L;
 
-	/**
-	 * Tag attributes
-	 */
-	private String bundles;
-	private String placeholder;
+   /**
+    * Tag attributes
+    */
+   private String bundles;
+   private String placeholder;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int doStartTag() throws JspException {
+   /**
+    * {@inheritDoc}
+    */
+   public int doStartTag() throws JspException {
 
-		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
-		if (parent != null) {
-			return SKIP_BODY;
-		}
+      TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+      if (parent != null) {
+         return SKIP_BODY;
+      }
 
-		throw new JspException("The tag 'extraJs' must be inside the 'table' tag.");
-	}
+      throw new JspException("The tag 'extraJs' must be inside the 'table' tag.");
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int doEndTag() throws JspException {
+   /**
+    * {@inheritDoc}
+    */
+   public int doEndTag() throws JspException {
 
-		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
+      AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-		// The tag is evaluated only once, at the first iteration
-		if (parent.isFirstIteration()) {
+      // The tag is evaluated only once, at the first iteration
+      if (parent.isFirstIteration()) {
 
-			JQueryContentPlaceholder placeholder = null;
+         JQueryContentPlaceholder placeholder = null;
 
-			if (StringUtils.isNotBlank(this.placeholder)) {
-				try {
-					placeholder = JQueryContentPlaceholder.valueOf(this.placeholder.toUpperCase().trim());
-				}
-				catch (IllegalArgumentException e) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("'");
-					sb.append(this.placeholder);
-					sb.append("' is not a valid insert mode. Possible values are: ");
-					sb.append(EnumUtils.printPossibleValuesOf(JQueryContentPlaceholder.class));
-					throw new JspException(sb.toString());
-				}
-			}
-			else {
-				placeholder = JQueryContentPlaceholder.BEFORE_ALL;
-			}
+         if (StringUtils.isNotBlank(this.placeholder)) {
+            try {
+               placeholder = JQueryContentPlaceholder.valueOf(this.placeholder.toUpperCase().trim());
+            }
+            catch (IllegalArgumentException e) {
+               StringBuilder sb = new StringBuilder();
+               sb.append("'");
+               sb.append(this.placeholder);
+               sb.append("' is not a valid insert mode. Possible values are: ");
+               sb.append(EnumUtils.printPossibleValuesOf(JQueryContentPlaceholder.class));
+               throw new JspException(sb.toString());
+            }
+         }
+         else {
+            placeholder = JQueryContentPlaceholder.BEFORE_ALL;
+         }
 
-			parent.getTable().getTableConfiguration()
-					.addExtraJs(new ExtraJs(new HashSet<String>(Arrays.asList(this.bundles.split(","))), placeholder));
-			parent.getTable().getTableConfiguration().registerExtension(new ExtraJsFeature());
-		}
-		return EVAL_PAGE;
-	}
+         parent.getTable().getTableConfiguration()
+               .addExtraJs(new ExtraJs(new HashSet<String>(Arrays.asList(this.bundles.split(","))), placeholder));
+         parent.getTable().getTableConfiguration().registerExtension(new ExtraJsFeature());
+      }
+      return EVAL_PAGE;
+   }
 
-	public void setBundles(String bundles) {
-		this.bundles = bundles;
-	}
+   public void setBundles(String bundles) {
+      this.bundles = bundles;
+   }
 
-	public void setPlaceholder(String placeholder) {
-		this.placeholder = placeholder;
-	}
+   public void setPlaceholder(String placeholder) {
+      this.placeholder = placeholder;
+   }
 }

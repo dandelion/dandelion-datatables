@@ -49,21 +49,21 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class AjaxFeature extends AbstractExtension {
 
-	public static final String AJAX_FEATURE_NAME = "ajax";
+   public static final String AJAX_FEATURE_NAME = "ajax";
 
-	@Override
-	public String getExtensionName() {
-		return AJAX_FEATURE_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return AJAX_FEATURE_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
-		addParameter(DTConstants.DT_DEFER_RENDER, true);
+   @Override
+   public void setup(HtmlTable table) {
+      addParameter(DTConstants.DT_DEFER_RENDER, true);
 
-		Map<String, String> ajaxParams = new HashMap<String, String>();
-		ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
-		ajaxParams.put(DTConstants.DT_S_AJAXDATAPROP, "");
-		addParameter(DTConstants.DT_S_AJAX_SOURCE, ajaxParams);
-		addCallback(CallbackType.INIT, "oTable_" + table.getId() + ".columns.adjust().draw();");
-	}
+      Map<String, String> ajaxParams = new HashMap<String, String>();
+      ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
+      ajaxParams.put(DTConstants.DT_S_AJAXDATAPROP, "");
+      addParameter(DTConstants.DT_S_AJAX_SOURCE, ajaxParams);
+      addCallback(CallbackType.INIT, "oTable_" + table.getId() + ".columns.adjust().draw();");
+   }
 }

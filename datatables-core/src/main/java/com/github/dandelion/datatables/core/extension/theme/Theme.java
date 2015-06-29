@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -37,25 +37,25 @@ import com.github.dandelion.datatables.core.extension.AbstractExtension;
  * @author Thibault Duchateau
  */
 public enum Theme {
-	
-	BOOTSTRAP2(Bootstrap2Theme.class),
-	BOOTSTRAP3(Bootstrap3Theme.class),
-	JQUERYUI(JQueryUITheme.class);
-	
-	private Class<? extends AbstractExtension> clazz;
 
-	Theme(Class<? extends AbstractExtension> clazz) {
-		this.clazz = clazz;
-	}
+   BOOTSTRAP2(Bootstrap2Theme.class), BOOTSTRAP3(Bootstrap3Theme.class), JQUERYUI(JQueryUITheme.class);
 
-	public AbstractExtension getInstance() {
-		try {
-			return clazz.newInstance();
-		} catch(InstantiationException e) {
-			e.printStackTrace();
-		} catch(IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+   private Class<? extends AbstractExtension> clazz;
+
+   Theme(Class<? extends AbstractExtension> clazz) {
+      this.clazz = clazz;
+   }
+
+   public AbstractExtension getInstance() {
+      try {
+         return clazz.newInstance();
+      }
+      catch (InstantiationException e) {
+         e.printStackTrace();
+      }
+      catch (IllegalAccessException e) {
+         e.printStackTrace();
+      }
+      return null;
+   }
 }

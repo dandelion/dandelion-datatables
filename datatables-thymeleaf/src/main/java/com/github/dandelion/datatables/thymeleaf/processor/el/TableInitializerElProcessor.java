@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -55,102 +55,103 @@ import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
  */
 public class TableInitializerElProcessor extends AbstractElProcessor {
 
-	public TableInitializerElProcessor(IElementNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public TableInitializerElProcessor(IElementNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getPrecedence() {
-		return DataTablesDialect.DT_HIGHEST_PRECEDENCE;
-	}
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public int getPrecedence() {
+      return DataTablesDialect.DT_HIGHEST_PRECEDENCE;
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
-			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable) {
-		
-		String tableId = element.getAttributeValue("id");
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   protected ProcessorResult doProcessElement(Arguments arguments, Element element, HttpServletRequest request,
+         HttpServletResponse response, HtmlTable htmlTable) {
 
-		if (tableId != null) {
-			
-			String confGroup = (String) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_CONF_GROUP, request);
-			
-			HtmlTable newHtmlTable = new HtmlTable(tableId, request, response, confGroup);
+      String tableId = element.getAttributeValue("id");
 
-			// Add a default header row
-			newHtmlTable.addHeaderRow();
+      if (tableId != null) {
 
-			// Store the htmlTable POJO as a request attribute, so that all the
-			// others following HTML tags can access it and particularly the
-			// "finalizing div"
-			RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_BEAN_TABLE, newHtmlTable, request);
+         String confGroup = (String) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_CONF_GROUP, request);
 
-			// The table node is also saved in the request, to be easily accessed later
-			RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_NODE_TABLE, element, request);
-			
-			// Map used to store the table local configuration
-			RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF,
-					new HashMap<Option<?>, Object>(), request);
+         HtmlTable newHtmlTable = new HtmlTable(tableId, request, response, confGroup);
 
-			// The HTML needs to be updated
-			processMarkup(element);
-			
-			return ProcessorResult.OK;
-		}
-		else{
-			throw new DandelionException("The 'id' attribute is required by Dandelion-Datatables.");
-		}
-	}
-	
-	/**
-	 * <p>
-	 * The HTML markup needs to be updated for several reasons:
-	 * <ul>
-	 * <li>First for housekeeping: all Dandelion-Datatables attributes must be
-	 * removed before the table is displayed</li>
-	 * <li>Markers are applied on {@code thead} and {@code tbody} elements in
-	 * order to limit the scope of application of the processors, thus avoiding
-	 * any conflict with native HTML tables</li>
-	 * <li>A "finalizing {@code div}" must be added after the HTML {@code table}
-	 * tag in order to finalize the Dandelion-Datatables configuration. The
-	 * {@code div} will be removed in its corresponding processor, i.e.
-	 * {@link TableFinalizerElProcessor}</li>
-	 * </ul>
-	 * <p>
-	 * 
-	 * @param element
-	 *            The {@code table} tag.
-	 */
-	private void processMarkup(Element element) {
-		
-		// Housekeeping
-		element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":table");
-		
-		// Markers on THEAD and TBODY tags
-		for (Node child : element.getChildren()) {
+         // Add a default header row
+         newHtmlTable.addHeaderRow();
 
-			if (child != null && child instanceof Element) {
+         // Store the htmlTable POJO as a request attribute, so that all the
+         // others following HTML tags can access it and particularly the
+         // "finalizing div"
+         RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_BEAN_TABLE, newHtmlTable, request);
 
-				Element childTag = (Element) child;
-				String childTagName = childTag.getNormalizedName();
+         // The table node is also saved in the request, to be easily accessed
+         // later
+         RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_NODE_TABLE, element, request);
 
-				if (childTagName.equals("thead") || childTagName.equals("tbody")) {
-					childTag.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse");
-				}
-				
-				childTag.setProcessable(true);
-			}
-		}
-		
-		// "Finalizing div"
-		Element div = new Element("div");
-		div.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":tmp", "internalUse");
-		div.setRecomputeProcessorsImmediately(true);
-		element.getParent().insertAfter(element, div);
-	}
+         // Map used to store the table local configuration
+         RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF,
+               new HashMap<Option<?>, Object>(), request);
+
+         // The HTML needs to be updated
+         processMarkup(element);
+
+         return ProcessorResult.OK;
+      }
+      else {
+         throw new DandelionException("The 'id' attribute is required by Dandelion-Datatables.");
+      }
+   }
+
+   /**
+    * <p>
+    * The HTML markup needs to be updated for several reasons:
+    * <ul>
+    * <li>First for housekeeping: all Dandelion-Datatables attributes must be
+    * removed before the table is displayed</li>
+    * <li>Markers are applied on {@code thead} and {@code tbody} elements in
+    * order to limit the scope of application of the processors, thus avoiding
+    * any conflict with native HTML tables</li>
+    * <li>A "finalizing {@code div}" must be added after the HTML {@code table}
+    * tag in order to finalize the Dandelion-Datatables configuration. The
+    * {@code div} will be removed in its corresponding processor, i.e.
+    * {@link TableFinalizerElProcessor}</li>
+    * </ul>
+    * <p>
+    * 
+    * @param element
+    *           The {@code table} tag.
+    */
+   private void processMarkup(Element element) {
+
+      // Housekeeping
+      element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":table");
+
+      // Markers on THEAD and TBODY tags
+      for (Node child : element.getChildren()) {
+
+         if (child != null && child instanceof Element) {
+
+            Element childTag = (Element) child;
+            String childTagName = childTag.getNormalizedName();
+
+            if (childTagName.equals("thead") || childTagName.equals("tbody")) {
+               childTag.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse");
+            }
+
+            childTag.setProcessable(true);
+         }
+      }
+
+      // "Finalizing div"
+      Element div = new Element("div");
+      div.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":tmp", "internalUse");
+      div.setRecomputeProcessorsImmediately(true);
+      element.getParent().insertAfter(element, div);
+   }
 }

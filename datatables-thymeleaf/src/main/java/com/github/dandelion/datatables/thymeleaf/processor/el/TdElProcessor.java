@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -61,91 +61,96 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
  */
 public class TdElProcessor extends AbstractElProcessor {
 
-	private static Logger logger = LoggerFactory.getLogger(TdElProcessor.class);
-	
-	public TdElProcessor(IElementNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   private static Logger logger = LoggerFactory.getLogger(TdElProcessor.class);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getPrecedence() {
-		return 4002;
-	}
+   public TdElProcessor(IElementNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
-			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable) {
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public int getPrecedence() {
+      return 4002;
+   }
 
-		if (htmlTable != null) {
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   protected ProcessorResult doProcessElement(Arguments arguments, Element element, HttpServletRequest request,
+         HttpServletResponse response, HtmlTable htmlTable) {
 
-			HtmlColumn column = null;
-			String content = null;
-			
-			if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":csv") 
-					|| element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xml") 
-					|| element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":pdf") 
-					|| element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xls")
-					|| element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xlsx")){
-				
-				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":csv")) {
-					content = AttributeUtils.parseAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":csv", String.class);
-					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":csv");
-					column = new HtmlColumn(ReservedFormat.CSV);
-					column.setContent(new StringBuilder(content));
-					htmlTable.getLastBodyRow().addColumn(column);
-				}
-				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xml")) {
-					content = AttributeUtils.parseAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":xml", String.class);
-					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xml");
-					column = new HtmlColumn(ReservedFormat.XML);
-					column.setContent(new StringBuilder(content));
-					htmlTable.getLastBodyRow().addColumn(column);
-				}
-				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":pdf")) {
-					content = AttributeUtils.parseAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":pdf", String.class);
-					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":pdf");
-					column = new HtmlColumn(ReservedFormat.PDF);
-					column.setContent(new StringBuilder(content));
-					htmlTable.getLastBodyRow().addColumn(column);
-				}
-				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xls")) {
-					content = AttributeUtils.parseAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":xls", String.class);
-					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xls");
-					column = new HtmlColumn(ReservedFormat.XLS);
-					column.setContent(new StringBuilder(content));
-					htmlTable.getLastBodyRow().addColumn(column);
-				}
-				if(element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xlsx")) {
-					content = AttributeUtils.parseAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":xlsx", String.class);
-					element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xlsx");
-					column = new HtmlColumn(ReservedFormat.XLSX);
-					column.setContent(new StringBuilder(content));
-					htmlTable.getLastBodyRow().addColumn(column);
-				}
-			}
-			// If the element contains a Text node, the content of the text node
-			// will be displayed in all formats
-			else if (element.getFirstChild() instanceof Text) {
-				htmlTable.getLastBodyRow().addColumn(((Text) element.getFirstChild()).getContent().trim());
-			}
-			// Otherwise, an empty cell will be displayed
-			else{
-				logger.warn("Only cells containing plain text are supported, those containing HTML code are still not!");
-				htmlTable.getLastBodyRow().addColumn("");
-			}
-		}
+      if (htmlTable != null) {
 
-		// Remove internal attribute
-		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":data")) {
-			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":data");
-		}
+         HtmlColumn column = null;
+         String content = null;
 
-		return ProcessorResult.OK;
-	}
+         if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":csv")
+               || element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xml")
+               || element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":pdf")
+               || element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xls")
+               || element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xlsx")) {
+
+            if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":csv")) {
+               content = AttributeUtils.parseAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":csv",
+                     String.class);
+               element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":csv");
+               column = new HtmlColumn(ReservedFormat.CSV);
+               column.setContent(new StringBuilder(content));
+               htmlTable.getLastBodyRow().addColumn(column);
+            }
+            if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xml")) {
+               content = AttributeUtils.parseAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":xml",
+                     String.class);
+               element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xml");
+               column = new HtmlColumn(ReservedFormat.XML);
+               column.setContent(new StringBuilder(content));
+               htmlTable.getLastBodyRow().addColumn(column);
+            }
+            if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":pdf")) {
+               content = AttributeUtils.parseAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":pdf",
+                     String.class);
+               element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":pdf");
+               column = new HtmlColumn(ReservedFormat.PDF);
+               column.setContent(new StringBuilder(content));
+               htmlTable.getLastBodyRow().addColumn(column);
+            }
+            if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xls")) {
+               content = AttributeUtils.parseAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":xls",
+                     String.class);
+               element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xls");
+               column = new HtmlColumn(ReservedFormat.XLS);
+               column.setContent(new StringBuilder(content));
+               htmlTable.getLastBodyRow().addColumn(column);
+            }
+            if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":xlsx")) {
+               content = AttributeUtils.parseAttribute(arguments, element, DataTablesDialect.DIALECT_PREFIX + ":xlsx",
+                     String.class);
+               element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":xlsx");
+               column = new HtmlColumn(ReservedFormat.XLSX);
+               column.setContent(new StringBuilder(content));
+               htmlTable.getLastBodyRow().addColumn(column);
+            }
+         }
+         // If the element contains a Text node, the content of the text node
+         // will be displayed in all formats
+         else if (element.getFirstChild() instanceof Text) {
+            htmlTable.getLastBodyRow().addColumn(((Text) element.getFirstChild()).getContent().trim());
+         }
+         // Otherwise, an empty cell will be displayed
+         else {
+            logger.warn("Only cells containing plain text are supported, those containing HTML code are still not!");
+            htmlTable.getLastBodyRow().addColumn("");
+         }
+      }
+
+      // Remove internal attribute
+      if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":data")) {
+         element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":data");
+      }
+
+      return ProcessorResult.OK;
+   }
 }

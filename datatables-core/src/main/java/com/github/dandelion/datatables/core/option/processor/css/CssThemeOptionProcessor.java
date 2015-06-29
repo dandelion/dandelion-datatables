@@ -9,26 +9,27 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
 
 public class CssThemeOptionProcessor extends AbstractOptionProcessor {
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
 
-		ThemeOption retval = null;
-		String valueAsString = context.getValueAsString();
-		if (StringUtils.isNotBlank(valueAsString)) {
+      ThemeOption retval = null;
+      String valueAsString = context.getValueAsString();
+      if (StringUtils.isNotBlank(valueAsString)) {
 
-			try {
-				retval = ThemeOption.valueOf(valueAsString.toUpperCase());
-			} catch (IllegalArgumentException e) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("'");
-				sb.append(valueAsString);
-				sb.append("' is not a valid theme option. Possible values are: ");
-				sb.append(EnumUtils.printPossibleValuesOf(ThemeOption.class));
-				throw new DandelionException(sb.toString(), e);
-			}
+         try {
+            retval = ThemeOption.valueOf(valueAsString.toUpperCase());
+         }
+         catch (IllegalArgumentException e) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("'");
+            sb.append(valueAsString);
+            sb.append("' is not a valid theme option. Possible values are: ");
+            sb.append(EnumUtils.printPossibleValuesOf(ThemeOption.class));
+            throw new DandelionException(sb.toString(), e);
+         }
 
-		}
-		
-		return retval;
-	}
+      }
+
+      return retval;
+   }
 }

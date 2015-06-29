@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,45 +50,45 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
  */
 public abstract class AbstractTableAttrProcessor extends AbstractAttrProcessor {
 
-	public AbstractTableAttrProcessor(IAttributeNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public AbstractTableAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
+   @Override
+   @SuppressWarnings("unchecked")
+   protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
 
-		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-		Map<Option<?>, Object> stagingConf = (Map<Option<?>, Object>) request
-				.getAttribute(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF);
+      HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
+      Map<Option<?>, Object> stagingConf = (Map<Option<?>, Object>) request
+            .getAttribute(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF);
 
-		// Make the actual attribute processing
-		doProcessAttribute(arguments, element, attributeName, stagingConf);
+      // Make the actual attribute processing
+      doProcessAttribute(arguments, element, attributeName, stagingConf);
 
-		// Housekeeping
-		element.removeAttribute(attributeName);
+      // Housekeeping
+      element.removeAttribute(attributeName);
 
-		return ProcessorResult.ok();
-	}
+      return ProcessorResult.ok();
+   }
 
-	/**
-	 * Returns the precedence of the table attribute processor.
-	 */
-	@Override
-	public abstract int getPrecedence();
+   /**
+    * Returns the precedence of the table attribute processor.
+    */
+   @Override
+   public abstract int getPrecedence();
 
-	/**
-	 * Actually performs the processing of the table attribute.
-	 * 
-	 * @param arguments
-	 *            Thymeleaf arguments.
-	 * @param element
-	 *            Element holding the attribute to process.
-	 * @param attributeName
-	 *            Name of the attribute to process.
-	 * @param stagingConf
-	 *            Map containing the table local configuration.
-	 */
-	protected abstract void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-			Map<Option<?>, Object> stagingConf);
+   /**
+    * Actually performs the processing of the table attribute.
+    * 
+    * @param arguments
+    *           Thymeleaf arguments.
+    * @param element
+    *           Element holding the attribute to process.
+    * @param attributeName
+    *           Name of the attribute to process.
+    * @param stagingConf
+    *           Map containing the table local configuration.
+    */
+   protected abstract void doProcessAttribute(Arguments arguments, Element element, String attributeName,
+         Map<Option<?>, Object> stagingConf);
 }

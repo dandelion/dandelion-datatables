@@ -10,13 +10,16 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
  */
 public class MessageProcessor extends AbstractOptionProcessor {
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
-		
-		context.getTableConfiguration().getMessages().setProperty(context.getOptionEntry().getKey().getName(),
-				String.valueOf(context.getOptionEntry().getValue()));
-		
-		// TODO bizarre
-		return null;
-	}
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
+
+      context
+            .getTableConfiguration()
+            .getMessages()
+            .setProperty(context.getOptionEntry().getKey().getName(),
+                  String.valueOf(context.getOptionEntry().getValue()));
+
+      // TODO bizarre
+      return null;
+   }
 }

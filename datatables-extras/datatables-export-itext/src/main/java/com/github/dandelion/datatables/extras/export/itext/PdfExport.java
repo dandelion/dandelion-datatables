@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -59,92 +59,92 @@ import com.itextpdf.text.pdf.PdfWriter;
  */
 public class PdfExport implements DatatablesExport {
 
-	private HtmlTable table;
-	private ExportConf exportConf;
+   private HtmlTable table;
+   private ExportConf exportConf;
 
-	@Override
-	public void initExport(HtmlTable table) {
-		this.table = table;
-		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.PDF);
-	}
+   @Override
+   public void initExport(HtmlTable table) {
+      this.table = table;
+      this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.PDF);
+   }
 
-	@Override
-	public void processExport(OutputStream output) {
+   @Override
+   public void processExport(OutputStream output) {
 
-		Document document = null;
-		if (exportConf.getOrientation() != null && exportConf.getOrientation().equals(Orientation.LANDSCAPE)) {
-			document = new Document(PageSize.LETTER.rotate());
-		}
-		else {
-			document = new Document();
-		}
+      Document document = null;
+      if (exportConf.getOrientation() != null && exportConf.getOrientation().equals(Orientation.LANDSCAPE)) {
+         document = new Document(PageSize.LETTER.rotate());
+      }
+      else {
+         document = new Document();
+      }
 
-		PdfWriter pdfWriter;
-		try {
-			pdfWriter = PdfWriter.getInstance(document, output);
-			pdfWriter.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
+      PdfWriter pdfWriter;
+      try {
+         pdfWriter = PdfWriter.getInstance(document, output);
+         pdfWriter.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
 
-			document.open();
-			addTitle(document);
-			addTable(document);
+         document.open();
+         addTitle(document);
+         addTable(document);
 
-		}
-		catch (DocumentException e) {
-			StringBuilder sb = new StringBuilder("Something went wrong during the PDF generation of the table '");
-			sb.append(table.getOriginalId());
-			sb.append("' and with the following export configuration: ");
-			sb.append(exportConf.toString());
-			throw new DandelionException(sb.toString(), e);
-		}
-		finally {
-			document.close();
-		}
-	}
+      }
+      catch (DocumentException e) {
+         StringBuilder sb = new StringBuilder("Something went wrong during the PDF generation of the table '");
+         sb.append(table.getOriginalId());
+         sb.append("' and with the following export configuration: ");
+         sb.append(exportConf.toString());
+         throw new DandelionException(sb.toString(), e);
+      }
+      finally {
+         document.close();
+      }
+   }
 
-	private void addTitle(Document document) throws DocumentException {
-		Paragraph title = new Paragraph(exportConf.getFileName());
-		title.add(new Paragraph(" ")); // empty line
-		title.setAlignment(Element.ALIGN_CENTER);
-		document.add(title);
-	}
+   private void addTitle(Document document) throws DocumentException {
+      Paragraph title = new Paragraph(exportConf.getFileName());
+      title.add(new Paragraph(" ")); // empty line
+      title.setAlignment(Element.ALIGN_CENTER);
+      document.add(title);
+   }
 
-	private void addTable(Document document) throws DocumentException {
+   private void addTable(Document document) throws DocumentException {
 
-		PdfPCell cell = null;
+      PdfPCell cell = null;
 
-		// Compute the column count in order to initialize the iText table
-		int columnCount = table.getLastHeaderRow().getColumns(ReservedFormat.ALL, ReservedFormat.PDF).size();
+      // Compute the column count in order to initialize the iText table
+      int columnCount = table.getLastHeaderRow().getColumns(ReservedFormat.ALL, ReservedFormat.PDF).size();
 
-		if (columnCount != 0) {
+      if (columnCount != 0) {
 
-			PdfPTable pdfTable = new PdfPTable(columnCount);
-			pdfTable.setWidthPercentage(100f);
+         PdfPTable pdfTable = new PdfPTable(columnCount);
+         pdfTable.setWidthPercentage(100f);
 
-			// Header
-			if (exportConf != null && exportConf.getIncludeHeader()) {
+         // Header
+         if (exportConf != null && exportConf.getIncludeHeader()) {
 
-				for (HtmlRow htmlRow : table.getHeadRows()) {
+            for (HtmlRow htmlRow : table.getHeadRows()) {
 
-					for (HtmlColumn column : htmlRow.getColumns(ReservedFormat.ALL, ReservedFormat.PDF)) {
+               for (HtmlColumn column : htmlRow.getColumns(ReservedFormat.ALL, ReservedFormat.PDF)) {
 
-						cell = new PdfPCell();
-						cell.setPhrase(new Phrase(column.getContent().toString()));
-						pdfTable.addCell(cell);
-					}
-				}
-			}
+                  cell = new PdfPCell();
+                  cell.setPhrase(new Phrase(column.getContent().toString()));
+                  pdfTable.addCell(cell);
+               }
+            }
+         }
 
-			for (HtmlRow htmlRow : table.getBodyRows()) {
+         for (HtmlRow htmlRow : table.getBodyRows()) {
 
-				for (HtmlColumn column : htmlRow.getColumns(ReservedFormat.ALL, ReservedFormat.PDF)) {
+            for (HtmlColumn column : htmlRow.getColumns(ReservedFormat.ALL, ReservedFormat.PDF)) {
 
-					cell = new PdfPCell();
-					cell.setPhrase(new Phrase(column.getContent().toString()));
-					pdfTable.addCell(cell);
-				}
-			}
+               cell = new PdfPCell();
+               cell.setPhrase(new Phrase(column.getContent().toString()));
+               pdfTable.addCell(cell);
+            }
+         }
 
-			document.add(pdfTable);
-		}
-	}
+         document.add(pdfTable);
+      }
+   }
 }

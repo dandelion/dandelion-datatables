@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -42,25 +42,24 @@ import com.github.dandelion.datatables.core.option.Option;
  */
 public interface OptionProcessor {
 
-	/**
-	 * <p>
-	 * Processes the {@code Entry<Option<?>, Object>} contained in the passed
-	 * {@link OptionProcessingContext}, using the processor associated with the
-	 * {@link Option}.
-	 * </p>
-	 * 
-	 * @param processingContext
-	 *            Holder for all information needed during the option
-	 *            processing.
-	 * @throws DandelionException
-	 *             if something goes wrong during the processing of the option
-	 *             value.
-	 */
-	public void process(OptionProcessingContext processingContext);
+   /**
+    * <p>
+    * Processes the {@code Entry<Option<?>, Object>} contained in the passed
+    * {@link OptionProcessingContext}, using the processor associated with the
+    * {@link Option}.
+    * </p>
+    * 
+    * @param processingContext
+    *           Holder for all information needed during the option processing.
+    * @throws DandelionException
+    *            if something goes wrong during the processing of the option
+    *            value.
+    */
+   public void process(OptionProcessingContext processingContext);
 
-	/**
-	 * @return {@code true} if the option being processed can update the bundle
-	 *         graph, {@code false} otherwise.
-	 */
-	public boolean isBundleGraphUpdatable();
+   /**
+    * @return {@code true} if the option being processed can update the bundle
+    *         graph, {@code false} otherwise.
+    */
+   public boolean isBundleGraphUpdatable();
 }

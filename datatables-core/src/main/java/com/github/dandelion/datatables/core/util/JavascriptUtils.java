@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -34,42 +34,42 @@ import java.util.Iterator;
 
 public final class JavascriptUtils {
 
-	/**
-	 * <p>
-	 * Converts a collection of Strings into a Javascript array.
-	 * 
-	 * <p>
-	 * For example, the following collection:
-	 * {@code ("strint1", "string2", "string3")} will be converted to:
-	 * {@code ['strint1', 'string2', 'string3']}
-	 * 
-	 * @param collection
-	 *            The collection of Strings to convert into a Javascript array.
-	 * @return a String representing a Javascript array.
-	 */
-	public static String toArray(Collection<String> collection) {
-		StringBuilder sb = new StringBuilder("[");
+   /**
+    * <p>
+    * Converts a collection of Strings into a Javascript array.
+    * 
+    * <p>
+    * For example, the following collection:
+    * {@code ("strint1", "string2", "string3")} will be converted to:
+    * {@code ['strint1', 'string2', 'string3']}
+    * 
+    * @param collection
+    *           The collection of Strings to convert into a Javascript array.
+    * @return a String representing a Javascript array.
+    */
+   public static String toArray(Collection<String> collection) {
+      StringBuilder sb = new StringBuilder("[");
 
-		Iterator<String> it = collection.iterator();
-		while (it.hasNext()) {
-			sb.append("'");
-			sb.append(it.next());
-			sb.append("'");
-			if (it.hasNext()) {
-				sb.append(",");
-			}
-		}
-		sb.append("]");
+      Iterator<String> it = collection.iterator();
+      while (it.hasNext()) {
+         sb.append("'");
+         sb.append(it.next());
+         sb.append("'");
+         if (it.hasNext()) {
+            sb.append(",");
+         }
+      }
+      sb.append("]");
 
-		return sb.toString();
-	}
+      return sb.toString();
+   }
 
-	/**
-	 * <p>
-	 * Suppress default constructor for noninstantiability.
-	 * </p>
-	 */
-	private JavascriptUtils() {
-		throw new AssertionError();
-	}
+   /**
+    * <p>
+    * Suppress default constructor for noninstantiability.
+    * </p>
+    */
+   private JavascriptUtils() {
+      throw new AssertionError();
+   }
 }

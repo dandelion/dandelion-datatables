@@ -52,62 +52,62 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class FixedHeaderPlugin extends AbstractExtension {
 
-	public static final String FIXEDHEADER_PLUGIN_NAME = "fixedHeader";
+   public static final String FIXEDHEADER_PLUGIN_NAME = "fixedHeader";
 
-	@Override
-	public String getExtensionName() {
-		return FIXEDHEADER_PLUGIN_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return FIXEDHEADER_PLUGIN_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
+   @Override
+   public void setup(HtmlTable table) {
 
-		addBundle(DatatableBundles.DATATABLES_FIXEDHEADER);
+      addBundle(DatatableBundles.DATATABLES_FIXEDHEADER);
 
-		Map<String, Object> specificConfObj = getSpecificCongiguration(table);
-		String specificConfStr = JSONValue.toJSONString(specificConfObj);
-		appendToBeforeEndDocumentReady("new FixedHeader(oTable_" + table.getId() + "," + specificConfStr + ");");
-	}
+      Map<String, Object> specificConfObj = getSpecificCongiguration(table);
+      String specificConfStr = JSONValue.toJSONString(specificConfObj);
+      appendToBeforeEndDocumentReady("new FixedHeader(oTable_" + table.getId() + "," + specificConfStr + ");");
+   }
 
-	/**
-	 * Depending on the attributes, the FixedHeader object may need a JSON
-	 * object as configuration.
-	 * 
-	 * @param table
-	 *            The HTML table.
-	 * @return Map<String, Object> Map of property used by the FixedHeader
-	 *         plugin.
-	 */
-	private Map<String, Object> getSpecificCongiguration(HtmlTable table) {
-		Map<String, Object> conf = new HashMap<String, Object>();
+   /**
+    * Depending on the attributes, the FixedHeader object may need a JSON object
+    * as configuration.
+    * 
+    * @param table
+    *           The HTML table.
+    * @return Map<String, Object> Map of property used by the FixedHeader
+    *         plugin.
+    */
+   private Map<String, Object> getSpecificCongiguration(HtmlTable table) {
+      Map<String, Object> conf = new HashMap<String, Object>();
 
-		String fixedPosition = DatatableOptions.PLUGIN_FIXEDPOSITION.valueFrom(table.getTableConfiguration());
-		Integer fixedOffset = DatatableOptions.PLUGIN_FIXEDOFFSETTOP.valueFrom(table.getTableConfiguration());
+      String fixedPosition = DatatableOptions.PLUGIN_FIXEDPOSITION.valueFrom(table.getTableConfiguration());
+      Integer fixedOffset = DatatableOptions.PLUGIN_FIXEDOFFSETTOP.valueFrom(table.getTableConfiguration());
 
-		// fixedPosition attribute (default "top")
-		if (StringUtils.isNotBlank(fixedPosition)) {
-			if (fixedPosition.toLowerCase().equals("bottom")) {
-				conf.put("bottom", true);
-			}
-			else if (fixedPosition.toLowerCase().equals("right")) {
-				conf.put("right", true);
-			}
-			else if (fixedPosition.toLowerCase().equals("left")) {
-				conf.put("left", true);
-			}
-			else {
-				conf.put("top", true);
-			}
-		}
-		else {
-			conf.put("top", true);
-		}
+      // fixedPosition attribute (default "top")
+      if (StringUtils.isNotBlank(fixedPosition)) {
+         if (fixedPosition.toLowerCase().equals("bottom")) {
+            conf.put("bottom", true);
+         }
+         else if (fixedPosition.toLowerCase().equals("right")) {
+            conf.put("right", true);
+         }
+         else if (fixedPosition.toLowerCase().equals("left")) {
+            conf.put("left", true);
+         }
+         else {
+            conf.put("top", true);
+         }
+      }
+      else {
+         conf.put("top", true);
+      }
 
-		// offsetTop attribute
-		if (fixedOffset != null) {
-			conf.put(DTConstants.DT_OFFSETTOP, fixedOffset);
-		}
+      // offsetTop attribute
+      if (fixedOffset != null) {
+         conf.put(DTConstants.DT_OFFSETTOP, fixedOffset);
+      }
 
-		return conf;
-	}
+      return conf;
+   }
 }

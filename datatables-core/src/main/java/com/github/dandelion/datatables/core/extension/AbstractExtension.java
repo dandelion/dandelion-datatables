@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -119,244 +119,244 @@ import com.github.dandelion.datatables.core.option.CallbackType;
  */
 public abstract class AbstractExtension implements Extension {
 
-	private final String extensionName;
-	private StringBuilder beforeAll;
-	private StringBuilder beforeStartDocumentReady;
-	private StringBuilder afterStartDocumentReady;
-	private StringBuilder componentConfiguration;
-	private StringBuilder beforeEndDocumentReady;
-	private StringBuilder afterEndDocumentReady;
-	private StringBuilder afterAll;
-	private List<Parameter> confs;
-	private HtmlTable table;
+   private final String extensionName;
+   private StringBuilder beforeAll;
+   private StringBuilder beforeStartDocumentReady;
+   private StringBuilder afterStartDocumentReady;
+   private StringBuilder componentConfiguration;
+   private StringBuilder beforeEndDocumentReady;
+   private StringBuilder afterEndDocumentReady;
+   private StringBuilder afterAll;
+   private List<Parameter> confs;
+   private HtmlTable table;
 
-	public AbstractExtension() {
-		this.extensionName = getExtensionName();
-	}
+   public AbstractExtension() {
+      this.extensionName = getExtensionName();
+   }
 
-	public void setupWrapper(HtmlTable table) {
-		this.table = table;
-		setup(table);
-	}
+   public void setupWrapper(HtmlTable table) {
+      this.table = table;
+      setup(table);
+   }
 
-	public abstract void setup(HtmlTable table);
+   public abstract void setup(HtmlTable table);
 
-	public StringBuilder getBeforeAll() {
-		return beforeAll;
-	}
+   public StringBuilder getBeforeAll() {
+      return beforeAll;
+   }
 
-	public StringBuilder getAfterAll() {
-		return afterAll;
-	}
+   public StringBuilder getAfterAll() {
+      return afterAll;
+   }
 
-	public StringBuilder getBeforeStartDocumentReady() {
-		return beforeStartDocumentReady;
-	}
+   public StringBuilder getBeforeStartDocumentReady() {
+      return beforeStartDocumentReady;
+   }
 
-	public StringBuilder getAfterStartDocumentReady() {
-		return afterStartDocumentReady;
-	}
+   public StringBuilder getAfterStartDocumentReady() {
+      return afterStartDocumentReady;
+   }
 
-	public StringBuilder getBeforeEndDocumentReady() {
-		return beforeEndDocumentReady;
-	}
+   public StringBuilder getBeforeEndDocumentReady() {
+      return beforeEndDocumentReady;
+   }
 
-	public List<Parameter> getParameters() {
-		return confs;
-	}
+   public List<Parameter> getParameters() {
+      return confs;
+   }
 
-	/**
-	 * <p>
-	 * Adds the passed {@link Parameter} to a temporary list.
-	 * 
-	 * <p>
-	 * Later this list is processed and all {@link Parameter}s are added to the
-	 * DataTables generated configuration.
-	 * 
-	 * @param parameter
-	 *            The param to add.
-	 */
-	public void addParameter(Parameter parameter) {
-		if (this.confs == null) {
-			this.confs = new ArrayList<Parameter>();
-		}
-		this.confs.add(parameter);
-	}
+   /**
+    * <p>
+    * Adds the passed {@link Parameter} to a temporary list.
+    * 
+    * <p>
+    * Later this list is processed and all {@link Parameter}s are added to the
+    * DataTables generated configuration.
+    * 
+    * @param parameter
+    *           The param to add.
+    */
+   public void addParameter(Parameter parameter) {
+      if (this.confs == null) {
+         this.confs = new ArrayList<Parameter>();
+      }
+      this.confs.add(parameter);
+   }
 
-	/**
-	 * <p>
-	 * Adds a new DataTables parameter to the generated configuration.
-	 * <p>
-	 * If the parameter already exists, it will be overriden.
-	 * 
-	 * @param parameterName
-	 *            Name of the parameter.
-	 * @param parameterValue
-	 *            Value of the parameter.
-	 */
-	public void addParameter(String parameterName, Object parameterValue) {
-		addParameter(new Parameter(parameterName, parameterValue));
-	}
+   /**
+    * <p>
+    * Adds a new DataTables parameter to the generated configuration.
+    * <p>
+    * If the parameter already exists, it will be overriden.
+    * 
+    * @param parameterName
+    *           Name of the parameter.
+    * @param parameterValue
+    *           Value of the parameter.
+    */
+   public void addParameter(String parameterName, Object parameterValue) {
+      addParameter(new Parameter(parameterName, parameterValue));
+   }
 
-	/**
-	 * <p>
-	 * Adds a new DataTables parameter to the generated configuration, using a
-	 * custom method of updating.
-	 * 
-	 * @param parameterName
-	 *            Name of the parameter.
-	 * @param parameterValue
-	 *            Value of the parameter.
-	 * @param mode
-	 *            Method of updating used for this parameter.
-	 */
-	public void addParameter(String parameterName, Object parameterValue, Parameter.Mode mode) {
-		addParameter(new Parameter(parameterName, parameterValue, mode));
-	}
+   /**
+    * <p>
+    * Adds a new DataTables parameter to the generated configuration, using a
+    * custom method of updating.
+    * 
+    * @param parameterName
+    *           Name of the parameter.
+    * @param parameterValue
+    *           Value of the parameter.
+    * @param mode
+    *           Method of updating used for this parameter.
+    */
+   public void addParameter(String parameterName, Object parameterValue, Parameter.Mode mode) {
+      addParameter(new Parameter(parameterName, parameterValue, mode));
+   }
 
-	/**
-	 * Updates the current {@link HttpServletRequest} with the passed
-	 * {@link DatatableBundles}.
-	 * 
-	 * @param bundle
-	 *            The {@link DatatableBundles} to add.
-	 */
-	public void addBundle(DatatableBundles bundle) {
-		AssetRequestContext.get(table.getTableConfiguration().getRequest()).addBundles(bundle);
-	}
+   /**
+    * Updates the current {@link HttpServletRequest} with the passed
+    * {@link DatatableBundles}.
+    * 
+    * @param bundle
+    *           The {@link DatatableBundles} to add.
+    */
+   public void addBundle(DatatableBundles bundle) {
+      AssetRequestContext.get(table.getTableConfiguration().getRequest()).addBundles(bundle);
+   }
 
-	public void addBundleParameter(String assetName, String paramName, Object paramValue) {
-		AssetRequestContext.get(table.getTableConfiguration().getRequest()).addParameter(assetName, paramName,
-				paramValue);
-	}
+   public void addBundleParameter(String assetName, String paramName, Object paramValue) {
+      AssetRequestContext.get(table.getTableConfiguration().getRequest())
+            .addParameter(assetName, paramName, paramValue);
+   }
 
-	/**
-	 * <p>
-	 * Adds a {@link Callback} to the DataTables generated configuration.
-	 * 
-	 * <p>
-	 * By default, if the {@link CallbackType} already exists in the
-	 * configuration, the code will be appended to the existing code.
-	 * 
-	 * @param callbackType
-	 *            The type of the callback.
-	 * @param javascript
-	 *            The Javascript code to execute in the callback.
-	 */
-	public void addCallback(CallbackType callbackType, String javascript) {
-		addParameter(new Parameter(callbackType.getName(), new JsFunction(javascript, callbackType.getArgs()),
-				Mode.APPEND));
-	}
+   /**
+    * <p>
+    * Adds a {@link Callback} to the DataTables generated configuration.
+    * 
+    * <p>
+    * By default, if the {@link CallbackType} already exists in the
+    * configuration, the code will be appended to the existing code.
+    * 
+    * @param callbackType
+    *           The type of the callback.
+    * @param javascript
+    *           The Javascript code to execute in the callback.
+    */
+   public void addCallback(CallbackType callbackType, String javascript) {
+      addParameter(new Parameter(callbackType.getName(), new JsFunction(javascript, callbackType.getArgs()),
+            Mode.APPEND));
+   }
 
-	/**
-	 * <p>
-	 * Adds a {@link Callback} to the DataTables generated configuration,
-	 * specifying a method of updating if the {@link CallbackType} already
-	 * exists in the configuration.
-	 * 
-	 * @param callbackType
-	 *            The type of the callback.
-	 * @param javascript
-	 *            The Javascript code to execute in the callback.
-	 * @param mode
-	 *            Method of updating used for this parameter.
-	 */
-	public void addCallback(CallbackType callbackType, String javascript, Mode mode) {
-		addParameter(new Parameter(callbackType.getName(), new JsFunction(javascript, callbackType.getArgs()), mode));
-	}
+   /**
+    * <p>
+    * Adds a {@link Callback} to the DataTables generated configuration,
+    * specifying a method of updating if the {@link CallbackType} already exists
+    * in the configuration.
+    * 
+    * @param callbackType
+    *           The type of the callback.
+    * @param javascript
+    *           The Javascript code to execute in the callback.
+    * @param mode
+    *           Method of updating used for this parameter.
+    */
+   public void addCallback(CallbackType callbackType, String javascript, Mode mode) {
+      addParameter(new Parameter(callbackType.getName(), new JsFunction(javascript, callbackType.getArgs()), mode));
+   }
 
-	public void appendToBeforeAll(String beforeAll) {
-		if (this.beforeAll == null) {
-			this.beforeAll = new StringBuilder();
-		}
-		this.beforeAll.append(beforeAll);
-	}
+   public void appendToBeforeAll(String beforeAll) {
+      if (this.beforeAll == null) {
+         this.beforeAll = new StringBuilder();
+      }
+      this.beforeAll.append(beforeAll);
+   }
 
-	public void appendToBeforeStartDocumentReady(String beforeStartDocumentReady) {
-		if (this.beforeStartDocumentReady == null) {
-			this.beforeStartDocumentReady = new StringBuilder();
-		}
-		this.beforeStartDocumentReady.append(beforeStartDocumentReady);
-	}
+   public void appendToBeforeStartDocumentReady(String beforeStartDocumentReady) {
+      if (this.beforeStartDocumentReady == null) {
+         this.beforeStartDocumentReady = new StringBuilder();
+      }
+      this.beforeStartDocumentReady.append(beforeStartDocumentReady);
+   }
 
-	public void appendToAfterStartDocumentReady(String afterStartDocumentReady) {
-		if (this.afterStartDocumentReady == null) {
-			this.afterStartDocumentReady = new StringBuilder();
-		}
-		this.afterStartDocumentReady.append(afterStartDocumentReady);
-	}
+   public void appendToAfterStartDocumentReady(String afterStartDocumentReady) {
+      if (this.afterStartDocumentReady == null) {
+         this.afterStartDocumentReady = new StringBuilder();
+      }
+      this.afterStartDocumentReady.append(afterStartDocumentReady);
+   }
 
-	public void appendToBeforeEndDocumentReady(String beforeEndDocumentReady) {
-		if (this.beforeEndDocumentReady == null) {
-			this.beforeEndDocumentReady = new StringBuilder();
-		}
-		this.beforeEndDocumentReady.append(beforeEndDocumentReady);
-	}
+   public void appendToBeforeEndDocumentReady(String beforeEndDocumentReady) {
+      if (this.beforeEndDocumentReady == null) {
+         this.beforeEndDocumentReady = new StringBuilder();
+      }
+      this.beforeEndDocumentReady.append(beforeEndDocumentReady);
+   }
 
-	public void appendToAfterEndDocumentReady(String afterEndDocumentReady) {
-		if (this.afterEndDocumentReady == null) {
-			this.afterEndDocumentReady = new StringBuilder();
-		}
-		this.afterEndDocumentReady.append(afterEndDocumentReady);
-	}
+   public void appendToAfterEndDocumentReady(String afterEndDocumentReady) {
+      if (this.afterEndDocumentReady == null) {
+         this.afterEndDocumentReady = new StringBuilder();
+      }
+      this.afterEndDocumentReady.append(afterEndDocumentReady);
+   }
 
-	public void appendToComponentConfiguration(String componentConfiguration) {
-		if (this.componentConfiguration == null) {
-			this.componentConfiguration = new StringBuilder();
-		}
-		this.componentConfiguration.append(componentConfiguration);
-	}
+   public void appendToComponentConfiguration(String componentConfiguration) {
+      if (this.componentConfiguration == null) {
+         this.componentConfiguration = new StringBuilder();
+      }
+      this.componentConfiguration.append(componentConfiguration);
+   }
 
-	public void appendToAfterAll(String afterAll) {
-		if (this.afterAll == null) {
-			this.afterAll = new StringBuilder();
-		}
-		this.afterAll.append(afterAll);
-	}
+   public void appendToAfterAll(String afterAll) {
+      if (this.afterAll == null) {
+         this.afterAll = new StringBuilder();
+      }
+      this.afterAll.append(afterAll);
+   }
 
-	public Map<String, String> getDynamicAttributes() {
-		return this.table.getDynamicAttributes();
-	}
+   public Map<String, String> getDynamicAttributes() {
+      return this.table.getDynamicAttributes();
+   }
 
-	/**
-	 * @return the Dandelion {@link Context}.
-	 */
-	public Context getContext() {
-		Context context = (Context) table.getTableConfiguration().getRequest()
-				.getAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE);
-		return context;
-	}
+   /**
+    * @return the Dandelion {@link Context}.
+    */
+   public Context getContext() {
+      Context context = (Context) table.getTableConfiguration().getRequest()
+            .getAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE);
+      return context;
+   }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((extensionName == null) ? 0 : extensionName.hashCode());
-		result = prime * result + ((table == null) ? 0 : table.hashCode());
-		return result;
-	}
+   @Override
+   public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + ((extensionName == null) ? 0 : extensionName.hashCode());
+      result = prime * result + ((table == null) ? 0 : table.hashCode());
+      return result;
+   }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AbstractExtension other = (AbstractExtension) obj;
-		if (extensionName == null) {
-			if (other.extensionName != null)
-				return false;
-		}
-		else if (!extensionName.equals(other.extensionName))
-			return false;
-		if (table == null) {
-			if (other.table != null)
-				return false;
-		}
-		else if (!table.equals(other.table))
-			return false;
-		return true;
-	}
+   @Override
+   public boolean equals(Object obj) {
+      if (this == obj)
+         return true;
+      if (obj == null)
+         return false;
+      if (getClass() != obj.getClass())
+         return false;
+      AbstractExtension other = (AbstractExtension) obj;
+      if (extensionName == null) {
+         if (other.extensionName != null)
+            return false;
+      }
+      else if (!extensionName.equals(other.extensionName))
+         return false;
+      if (table == null) {
+         if (other.table != null)
+            return false;
+      }
+      else if (!table.equals(other.table))
+         return false;
+      return true;
+   }
 }

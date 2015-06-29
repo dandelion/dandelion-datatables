@@ -62,65 +62,65 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public abstract class AbstractFilteringFeature extends AbstractExtension {
 
-	public static final String FILTERING_FEATURE_NAME = "filtering";
+   public static final String FILTERING_FEATURE_NAME = "filtering";
 
-	@Override
-	public String getExtensionName() {
-		return FILTERING_FEATURE_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return FILTERING_FEATURE_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
+   @Override
+   public void setup(HtmlTable table) {
 
-		addBundle(DatatableBundles.YADCF);
+      addBundle(DatatableBundles.YADCF);
 
-		FilterPlaceholder filterPlaceHolder = DatatableOptions.FEATURE_FILTER_PLACEHOLDER.valueFrom(table
-				.getTableConfiguration());
-		if (filterPlaceHolder != null) {
-			switch (filterPlaceHolder) {
-			case FOOTER:
-				adaptFooter(table);
-				break;
-			case HEADER:
-				// Nothing to do
-				break;
-			case NONE:
-				break;
-			}
-		}
-		// Default: footer
-		else {
-			filterPlaceHolder = FilterPlaceholder.FOOTER;
-			adaptFooter(table);
-		}
+      FilterPlaceholder filterPlaceHolder = DatatableOptions.FEATURE_FILTER_PLACEHOLDER.valueFrom(table
+            .getTableConfiguration());
+      if (filterPlaceHolder != null) {
+         switch (filterPlaceHolder) {
+         case FOOTER:
+            adaptFooter(table);
+            break;
+         case HEADER:
+            // Nothing to do
+            break;
+         case NONE:
+            break;
+         }
+      }
+      // Default: footer
+      else {
+         filterPlaceHolder = FilterPlaceholder.FOOTER;
+         adaptFooter(table);
+      }
 
-		YadcfConfigGenerator configGenerator = new YadcfConfigGenerator();
-		List<Map<String, Object>> config = configGenerator.generateConfig(table);
+      YadcfConfigGenerator configGenerator = new YadcfConfigGenerator();
+      List<Map<String, Object>> config = configGenerator.generateConfig(table);
 
-		Writer writer = new StringWriter();
-		try {
-			JSONValue.writeJSONString(config, writer);
-		}
-		catch (IOException e) {
-			throw new DandelionException("Unable to convert the configuration to JSON", e);
-		}
+      Writer writer = new StringWriter();
+      try {
+         JSONValue.writeJSONString(config, writer);
+      }
+      catch (IOException e) {
+         throw new DandelionException("Unable to convert the configuration to JSON", e);
+      }
 
-		StringBuilder yadcf = new StringBuilder("yadcf.init(oTable_");
-		yadcf.append(table.getId());
-		yadcf.append(",");
-		yadcf.append(writer.toString());
+      StringBuilder yadcf = new StringBuilder("yadcf.init(oTable_");
+      yadcf.append(table.getId());
+      yadcf.append(",");
+      yadcf.append(writer.toString());
 
-		if (filterPlaceHolder != null) {
-			yadcf.append(", '");
-			yadcf.append(filterPlaceHolder.getName());
-			yadcf.append("'");
-		}
+      if (filterPlaceHolder != null) {
+         yadcf.append(", '");
+         yadcf.append(filterPlaceHolder.getName());
+         yadcf.append("'");
+      }
 
-		yadcf.append(");");
-		appendToBeforeEndDocumentReady(yadcf.toString());
-	}
+      yadcf.append(");");
+      appendToBeforeEndDocumentReady(yadcf.toString());
+   }
 
-	protected abstract void adaptHeader(HtmlTable table);
+   protected abstract void adaptHeader(HtmlTable table);
 
-	protected abstract void adaptFooter(HtmlTable table);
+   protected abstract void adaptFooter(HtmlTable table);
 }

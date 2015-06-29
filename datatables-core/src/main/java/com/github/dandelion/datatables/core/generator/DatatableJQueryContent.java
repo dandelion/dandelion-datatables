@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,85 +54,85 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class DatatableJQueryContent extends JQueryContent {
 
-	protected static Logger logger = LoggerFactory.getLogger(DatatableJQueryContent.class);
+   protected static Logger logger = LoggerFactory.getLogger(DatatableJQueryContent.class);
 
-	/**
-	 * Processed DOM id of the table. This id is processed because JavaScript
-	 * variables are created from it and not all characters are allowed.
-	 */
-	private final String processedId;
+   /**
+    * Processed DOM id of the table. This id is processed because JavaScript
+    * variables are created from it and not all characters are allowed.
+    */
+   private final String processedId;
 
-	/**
-	 * Original DOM id of the table.
-	 */
-	private final String originalId;
+   /**
+    * Original DOM id of the table.
+    */
+   private final String originalId;
 
-	/**
-	 * <p>
-	 * Build and fill a new instance of {@link DatatableJQueryContent} from the
-	 * provided {@link HtmlTable}.
-	 * </p>
-	 * 
-	 * @param htmlTable
-	 *            The table and its configuration.
-	 */
-	public DatatableJQueryContent(HtmlTable htmlTable) {
+   /**
+    * <p>
+    * Build and fill a new instance of {@link DatatableJQueryContent} from the
+    * provided {@link HtmlTable}.
+    * </p>
+    * 
+    * @param htmlTable
+    *           The table and its configuration.
+    */
+   public DatatableJQueryContent(HtmlTable htmlTable) {
 
-		this.processedId = htmlTable.getId();
-		this.originalId = htmlTable.getOriginalId();
+      this.processedId = htmlTable.getId();
+      this.originalId = htmlTable.getOriginalId();
 
-		/**
-		 * Main configuration file building
-		 */
-		logger.debug("Generating the main configuration for the table with id: {}", this.originalId);
-		DatatableConfigGenerator configGenerator = new DatatableConfigGenerator();
-		Map<String, Object> mainConf = configGenerator.generateConfig(htmlTable);
+      /**
+       * Main configuration file building
+       */
+      logger.debug("Generating the main configuration for the table with id: {}", this.originalId);
+      DatatableConfigGenerator configGenerator = new DatatableConfigGenerator();
+      Map<String, Object> mainConf = configGenerator.generateConfig(htmlTable);
 
-		/**
-		 * Extension loading
-		 */
-		logger.debug("Loading extensions for the table with id: {}", this.originalId);
-		ExtensionLoader extensionLoader = new ExtensionLoader(htmlTable);
-		extensionLoader.loadExtensions(this, mainConf);
+      /**
+       * Extension loading
+       */
+      logger.debug("Loading extensions for the table with id: {}", this.originalId);
+      ExtensionLoader extensionLoader = new ExtensionLoader(htmlTable);
+      extensionLoader.loadExtensions(this, mainConf);
 
-		/**
-		 * Main configuration generation
-		 */
-		logger.debug("Transforming configuration to JSON...");
-		Writer writer = null;
-		try {
-			writer = new StringWriter();
-			JSONValue.writeJSONString(mainConf, writer);
-		}
-		catch (IOException e) {
-			throw new DandelionException("Unable to generate the JSON configuration", e);
-		}
+      /**
+       * Main configuration generation
+       */
+      logger.debug("Transforming configuration to JSON...");
+      Writer writer = null;
+      try {
+         writer = new StringWriter();
+         JSONValue.writeJSONString(mainConf, writer);
+      }
+      catch (IOException e) {
+         throw new DandelionException("Unable to generate the JSON configuration", e);
+      }
 
-		/**
-		 * Finalization
-		 */
-		appendToBeforeAll(getJavaScriptVariables(this, writer.toString()).toString());
-		appendToComponentConfiguration(getComponentConf(this).toString());
-	}
+      /**
+       * Finalization
+       */
+      appendToBeforeAll(getJavaScriptVariables(this, writer.toString()).toString());
+      appendToComponentConfiguration(getComponentConf(this).toString());
+   }
 
-	private StringBuilder getComponentConf(DatatableJQueryContent datatableContent) {
+   private StringBuilder getComponentConf(DatatableJQueryContent datatableContent) {
 
-		StringBuilder datatablesConfiguration = new StringBuilder();
+      StringBuilder datatablesConfiguration = new StringBuilder();
 
-		datatablesConfiguration.append("oTable_").append(this.processedId).append("=$('#").append(this.originalId).append("').DataTable(oTable_")
-				.append(this.processedId).append("_params)");
+      datatablesConfiguration.append("oTable_").append(this.processedId).append("=$('#").append(this.originalId)
+            .append("').DataTable(oTable_").append(this.processedId).append("_params)");
 
-		datatablesConfiguration.append(";");
+      datatablesConfiguration.append(";");
 
-		return datatablesConfiguration;
-	}
+      return datatablesConfiguration;
+   }
 
-	private StringBuilder getJavaScriptVariables(DatatableJQueryContent datatableAssetBuffer, String datatableConfig) {
+   private StringBuilder getJavaScriptVariables(DatatableJQueryContent datatableAssetBuffer, String datatableConfig) {
 
-		StringBuilder variables = new StringBuilder();
-		variables.append("var oTable_").append(this.processedId).append(";");
-		variables.append("var oTable_").append(this.processedId).append("_params=").append(datatableConfig).append(";");
+      StringBuilder variables = new StringBuilder();
+      variables.append("var oTable_").append(this.processedId).append(";");
+      variables.append("var oTable_").append(this.processedId).append("_params=").append(datatableConfig).append(";");
 
-		return variables;
-	}
+      return variables;
+   }
 }

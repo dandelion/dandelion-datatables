@@ -57,90 +57,91 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
  */
 public class ExportFormatProcessor extends AbstractOptionProcessor {
 
-	private static Logger logger = LoggerFactory.getLogger(ExportFormatProcessor.class);
+   private static Logger logger = LoggerFactory.getLogger(ExportFormatProcessor.class);
 
-	public static final String REGEX_EXPORT_CLASS = "export\\.(.*?)\\.class";
-	public static final String REGEX_EXPORT_LABEL = "export\\.(.*?)\\.label";
-	public static final String REGEX_EXPORT_FILENAME = "export\\.(.*?)\\.fileName";
-	public static final String REGEX_EXPORT_MIMETYPE = "export\\.(.*?)\\.mimeType";
+   public static final String REGEX_EXPORT_CLASS = "export\\.(.*?)\\.class";
+   public static final String REGEX_EXPORT_LABEL = "export\\.(.*?)\\.label";
+   public static final String REGEX_EXPORT_FILENAME = "export\\.(.*?)\\.fileName";
+   public static final String REGEX_EXPORT_MIMETYPE = "export\\.(.*?)\\.mimeType";
 
-	private static final Pattern PATTERN_EXPORT_CLASS = Pattern.compile(REGEX_EXPORT_CLASS, Pattern.CASE_INSENSITIVE);
-	private static final Pattern PATTERN_EXPORT_LABEL = Pattern.compile(REGEX_EXPORT_LABEL, Pattern.CASE_INSENSITIVE);
-	private static final Pattern PATTERN_EXPORT_FILENAME = Pattern.compile(REGEX_EXPORT_FILENAME,
-			Pattern.CASE_INSENSITIVE);
-	private static final Pattern PATTERN_EXPORT_MIMETYPE = Pattern.compile(REGEX_EXPORT_MIMETYPE,
-			Pattern.CASE_INSENSITIVE);
+   private static final Pattern PATTERN_EXPORT_CLASS = Pattern.compile(REGEX_EXPORT_CLASS, Pattern.CASE_INSENSITIVE);
+   private static final Pattern PATTERN_EXPORT_LABEL = Pattern.compile(REGEX_EXPORT_LABEL, Pattern.CASE_INSENSITIVE);
+   private static final Pattern PATTERN_EXPORT_FILENAME = Pattern.compile(REGEX_EXPORT_FILENAME,
+         Pattern.CASE_INSENSITIVE);
+   private static final Pattern PATTERN_EXPORT_MIMETYPE = Pattern.compile(REGEX_EXPORT_MIMETYPE,
+         Pattern.CASE_INSENSITIVE);
 
-	private enum ExportConfToken {
-		CLASS, LABEL, FILENAME, MIMETYPE;
-	}
+   private enum ExportConfToken {
+      CLASS, LABEL, FILENAME, MIMETYPE;
+   }
 
-	private static Map<ExportConfToken, Pattern> patterns;
+   private static Map<ExportConfToken, Pattern> patterns;
 
-	static {
-		patterns = new HashMap<ExportConfToken, Pattern>();
-		patterns.put(ExportConfToken.CLASS, PATTERN_EXPORT_CLASS);
-		patterns.put(ExportConfToken.LABEL, PATTERN_EXPORT_LABEL);
-		patterns.put(ExportConfToken.FILENAME, PATTERN_EXPORT_FILENAME);
-		patterns.put(ExportConfToken.MIMETYPE, PATTERN_EXPORT_MIMETYPE);
-	}
+   static {
+      patterns = new HashMap<ExportConfToken, Pattern>();
+      patterns.put(ExportConfToken.CLASS, PATTERN_EXPORT_CLASS);
+      patterns.put(ExportConfToken.LABEL, PATTERN_EXPORT_LABEL);
+      patterns.put(ExportConfToken.FILENAME, PATTERN_EXPORT_FILENAME);
+      patterns.put(ExportConfToken.MIMETYPE, PATTERN_EXPORT_MIMETYPE);
+   }
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
 
-		String valueAsString = context.getValueAsString();
-		TableConfiguration tableConfiguration = context.getTableConfiguration();
-		
-		if (StringUtils.isNotBlank(valueAsString)) {
+      String valueAsString = context.getValueAsString();
+      TableConfiguration tableConfiguration = context.getTableConfiguration();
 
-			// Extract the export format
-			String format = null;
-			ExportConfToken currentExportConfToken = null;
-			for (Entry<ExportConfToken, Pattern> entry : patterns.entrySet()) {
-				Matcher m = entry.getValue().matcher(context.getOptionEntry().getKey().getUserName());
-				if (m.find()) {
-					format = m.group(1);
-					currentExportConfToken = entry.getKey();
-					break;
-				}
-			}
+      if (StringUtils.isNotBlank(valueAsString)) {
 
-			if (StringUtils.isNotBlank(format)) {
-				logger.debug("Export format {} found", format);
+         // Extract the export format
+         String format = null;
+         ExportConfToken currentExportConfToken = null;
+         for (Entry<ExportConfToken, Pattern> entry : patterns.entrySet()) {
+            Matcher m = entry.getValue().matcher(context.getOptionEntry().getKey().getUserName());
+            if (m.find()) {
+               format = m.group(1);
+               currentExportConfToken = entry.getKey();
+               break;
+            }
+         }
 
-				ExportConf exportConf = null;
-				// The export configuration already exists for this export
-				// format
-				if (tableConfiguration.getExportConfiguration().containsKey(format)) {
+         if (StringUtils.isNotBlank(format)) {
+            logger.debug("Export format {} found", format);
 
-					exportConf = tableConfiguration.getExportConfiguration().get(format);
-				}
-				// The export configuration must be initialized
-				else {
-					exportConf = new ExportConf(format);
-					tableConfiguration.getExportConfiguration().put(format, exportConf);
-				}
+            ExportConf exportConf = null;
+            // The export configuration already exists for this export
+            // format
+            if (tableConfiguration.getExportConfiguration().containsKey(format)) {
 
-				switch (currentExportConfToken) {
-				case CLASS:
-					exportConf.setExportClass(valueAsString);
-					break;
-				case FILENAME:
-					exportConf.setFileName(valueAsString);
-					break;
-				case LABEL:
-					exportConf.setLabel(valueAsString);
-					break;
-				case MIMETYPE:
-					exportConf.setMimeType(valueAsString);
-					break;
-				}
-			} else {
-				throw new DandelionException("Format " + format + " unknown");
-			}
-		}
-		
-		// TODO bizarre
-		return null;
-	}
+               exportConf = tableConfiguration.getExportConfiguration().get(format);
+            }
+            // The export configuration must be initialized
+            else {
+               exportConf = new ExportConf(format);
+               tableConfiguration.getExportConfiguration().put(format, exportConf);
+            }
+
+            switch (currentExportConfToken) {
+            case CLASS:
+               exportConf.setExportClass(valueAsString);
+               break;
+            case FILENAME:
+               exportConf.setFileName(valueAsString);
+               break;
+            case LABEL:
+               exportConf.setLabel(valueAsString);
+               break;
+            case MIMETYPE:
+               exportConf.setMimeType(valueAsString);
+               break;
+            }
+         }
+         else {
+            throw new DandelionException("Format " + format + " unknown");
+         }
+      }
+
+      // TODO bizarre
+      return null;
+   }
 }

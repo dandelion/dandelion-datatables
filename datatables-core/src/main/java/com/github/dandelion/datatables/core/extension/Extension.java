@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -54,8 +54,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * that will be used during the DataTables initialization</li>
  * <li>afterAll</li>
  * </ul>
- * TODO
- * These attributes can be visualized in the following Javascript snippet :
+ * TODO These attributes can be visualized in the following Javascript snippet :
  * <blockquote>
  * 
  * <pre>
@@ -71,8 +70,7 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * => <b>AFTERALL</b>
  * </pre>
  * 
- * </blockquote></li>
- * </ul>
+ * </blockquote></li> </ul>
  * 
  * @author Thibault Duchateau
  * @since 0.7.1
@@ -81,65 +79,64 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public interface Extension {
 
-	/**
-	 * <p>
-	 * Returns the extension's name.
-	 */
-	public String getExtensionName();
+   /**
+    * <p>
+    * Returns the extension's name.
+    */
+   public String getExtensionName();
 
-	/**
-	 * <p>
-	 * Sets up the extension.
-	 * <p>
-	 * The HtmlTable object is available if a particular configuration is
-	 * needed.
-	 * 
-	 * @param table
-	 *            The HTML table.
-	 */
-	public void setupWrapper(HtmlTable table);
+   /**
+    * <p>
+    * Sets up the extension.
+    * <p>
+    * The HtmlTable object is available if a particular configuration is needed.
+    * 
+    * @param table
+    *           The HTML table.
+    */
+   public void setupWrapper(HtmlTable table);
 
-	/**
-	 * @return the Javascript code to be inserted at the
-	 *         {@link InsertMode#BEFOREALL} placeholder.
-	 */
-	public StringBuilder getBeforeAll();
+   /**
+    * @return the Javascript code to be inserted at the
+    *         {@link InsertMode#BEFOREALL} placeholder.
+    */
+   public StringBuilder getBeforeAll();
 
-	/**
-	 * @return the Javascript code to be inserted at the
-	 *         {@link InsertMode#AFTERALL} placeholder.
-	 */
-	public StringBuilder getAfterAll();
+   /**
+    * @return the Javascript code to be inserted at the
+    *         {@link InsertMode#AFTERALL} placeholder.
+    */
+   public StringBuilder getAfterAll();
 
-	/**
-	 * @return the Javascript code to be inserted at the
-	 *         {@link InsertMode#BEFORESTARTDOCUMENTREADY} placeholder.
-	 */
-	public StringBuilder getBeforeStartDocumentReady();
+   /**
+    * @return the Javascript code to be inserted at the
+    *         {@link InsertMode#BEFORESTARTDOCUMENTREADY} placeholder.
+    */
+   public StringBuilder getBeforeStartDocumentReady();
 
-	/**
-	 * @return the Javascript code to be inserted at the
-	 *         {@link InsertMode#AFTERSTARTDOCUMENTREADY} placeholder.
-	 */
-	public StringBuilder getAfterStartDocumentReady();
+   /**
+    * @return the Javascript code to be inserted at the
+    *         {@link InsertMode#AFTERSTARTDOCUMENTREADY} placeholder.
+    */
+   public StringBuilder getAfterStartDocumentReady();
 
-	/**
-	 * @return the Javascript code to be inserted at the
-	 *         {@link InsertMode#BEFOREENDDOCUMENTREADY} placeholder.
-	 */
-	public StringBuilder getBeforeEndDocumentReady();
+   /**
+    * @return the Javascript code to be inserted at the
+    *         {@link InsertMode#BEFOREENDDOCUMENTREADY} placeholder.
+    */
+   public StringBuilder getBeforeEndDocumentReady();
 
-	public List<Parameter> getParameters();
+   public List<Parameter> getParameters();
 
-	public void addParameter(Parameter conf);
+   public void addParameter(Parameter conf);
 
-	public void appendToBeforeAll(String beforeAll);
+   public void appendToBeforeAll(String beforeAll);
 
-	public void appendToBeforeStartDocumentReady(String beforeStartDocumentReady);
+   public void appendToBeforeStartDocumentReady(String beforeStartDocumentReady);
 
-	public void appendToAfterStartDocumentReady(String afterStartDocumentReady);
+   public void appendToAfterStartDocumentReady(String afterStartDocumentReady);
 
-	public void appendToBeforeEndDocumentReady(String beforeEndDocumentReady);
+   public void appendToBeforeEndDocumentReady(String beforeEndDocumentReady);
 
-	public void appendToAfterAll(String afterAll);
+   public void appendToAfterAll(String afterAll);
 }

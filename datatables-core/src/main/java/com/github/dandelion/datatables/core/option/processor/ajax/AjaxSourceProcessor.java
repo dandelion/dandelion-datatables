@@ -50,18 +50,18 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
  */
 public class AjaxSourceProcessor extends AbstractOptionProcessor {
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
-		
-		if (StringUtils.isNotBlank(context.getValueAsString())) {
-			Boolean serverSide = DatatableOptions.AJAX_SERVERSIDE.valueFrom(context.getTableConfiguration());
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
 
-			Boolean serverSideEnabled = serverSide != null && serverSide;
-			if (!serverSideEnabled) {
-				context.registerExtension(AjaxFeature.AJAX_FEATURE_NAME);
-			}
-		}
-		
-		return context.getValueAsString();
-	}
+      if (StringUtils.isNotBlank(context.getValueAsString())) {
+         Boolean serverSide = DatatableOptions.AJAX_SERVERSIDE.valueFrom(context.getTableConfiguration());
+
+         Boolean serverSideEnabled = serverSide != null && serverSide;
+         if (!serverSideEnabled) {
+            context.registerExtension(AjaxFeature.AJAX_FEATURE_NAME);
+         }
+      }
+
+      return context.getValueAsString();
+   }
 }

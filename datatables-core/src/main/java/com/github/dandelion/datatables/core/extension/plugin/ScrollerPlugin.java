@@ -46,31 +46,31 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class ScrollerPlugin extends AbstractExtension {
 
-	public static final String SCROLLER_PLUGIN_NAME = "scroller";
+   public static final String SCROLLER_PLUGIN_NAME = "scroller";
 
-	@Override
-	public String getExtensionName() {
-		return SCROLLER_PLUGIN_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return SCROLLER_PLUGIN_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
+   @Override
+   public void setup(HtmlTable table) {
 
-		addBundle(DatatableBundles.DATATABLES_SCROLLER);
+      addBundle(DatatableBundles.DATATABLES_SCROLLER);
 
-		String dom = DatatableOptions.FEATURE_DOM.valueFrom(table.getTableConfiguration());
-		Boolean jqueryUiEnabled = DatatableOptions.FEATURE_JQUERYUI.valueFrom(table.getTableConfiguration());
+      String dom = DatatableOptions.FEATURE_DOM.valueFrom(table.getTableConfiguration());
+      Boolean jqueryUiEnabled = DatatableOptions.FEATURE_JQUERYUI.valueFrom(table.getTableConfiguration());
 
-		if (StringUtils.isNotBlank(dom)) {
-			addParameter(DTConstants.DT_DOM, "S", Parameter.Mode.APPEND);
-		}
-		else {
-			if (jqueryUiEnabled != null && jqueryUiEnabled) {
-				addParameter(DTConstants.DT_DOM, "<\"H\"lfr>t<\"F\"ip>S");
-			}
-			else {
-				addParameter(DTConstants.DT_DOM, "frtiS");
-			}
-		}
-	}
+      if (StringUtils.isNotBlank(dom)) {
+         addParameter(DTConstants.DT_DOM, "S", Parameter.Mode.APPEND);
+      }
+      else {
+         if (jqueryUiEnabled != null && jqueryUiEnabled) {
+            addParameter(DTConstants.DT_DOM, "<\"H\"lfr>t<\"F\"ip>S");
+         }
+         else {
+            addParameter(DTConstants.DT_DOM, "frtiS");
+         }
+      }
+   }
 }

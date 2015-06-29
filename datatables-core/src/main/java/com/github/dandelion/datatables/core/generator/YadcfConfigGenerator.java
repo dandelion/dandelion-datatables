@@ -55,88 +55,88 @@ import com.github.dandelion.datatables.core.util.CollectionUtils;
  */
 public class YadcfConfigGenerator {
 
-	private static Logger logger = LoggerFactory.getLogger(YadcfConfigGenerator.class);
+   private static Logger logger = LoggerFactory.getLogger(YadcfConfigGenerator.class);
 
-	public List<Map<String, Object>> generateConfig(HtmlTable table) {
+   public List<Map<String, Object>> generateConfig(HtmlTable table) {
 
-		logger.debug("Generating YADCF Filtering configuration...");
+      logger.debug("Generating YADCF Filtering configuration...");
 
-		List<Map<String, Object>> retval = new ArrayList<Map<String, Object>>();
+      List<Map<String, Object>> retval = new ArrayList<Map<String, Object>>();
 
-		// Columns configuration
-		int columnIndex = 0;
-		for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
+      // Columns configuration
+      int columnIndex = 0;
+      for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
 
-			Set<String> enabledDisplayTypes = column.getEnabledDisplayTypes();
-			if (CollectionUtils.containsAny(enabledDisplayTypes, ReservedFormat.ALL, ReservedFormat.HTML)) {
+         Set<String> enabledDisplayTypes = column.getEnabledDisplayTypes();
+         if (CollectionUtils.containsAny(enabledDisplayTypes, ReservedFormat.ALL, ReservedFormat.HTML)) {
 
-				// Filtering configuration object
-				Map<String, Object> columnConf = new HashMap<String, Object>();
+            // Filtering configuration object
+            Map<String, Object> columnConf = new HashMap<String, Object>();
 
-				ColumnConfiguration columnConfiguration = column.getColumnConfiguration();
+            ColumnConfiguration columnConfiguration = column.getColumnConfiguration();
 
-				Boolean filterable = DatatableOptions.FILTERABLE.valueFrom(columnConfiguration);
-				if (filterable != null && filterable) {
+            Boolean filterable = DatatableOptions.FILTERABLE.valueFrom(columnConfiguration);
+            if (filterable != null && filterable) {
 
-					columnConf.put("column_number", columnIndex);
-					FilterType filterType = DatatableOptions.FILTERTYPE.valueFrom(columnConfiguration);
-					
-					if (filterType != null) {
+               columnConf.put("column_number", columnIndex);
+               FilterType filterType = DatatableOptions.FILTERTYPE.valueFrom(columnConfiguration);
 
-						switch (filterType) {
-						case INPUT:
-							columnConf.put("filter_type", "text");
-							break;
-						case SELECT:
-							columnConf.put("filter_type", "select");
-							break;
-						}
-					}
-					else {
-						columnConf.put("filter_type", "text");
-					}
-					retval.add(columnConf);
-				}
+               if (filterType != null) {
 
-				String selector = DatatableOptions.SELECTOR.valueFrom(columnConfiguration);
-				if (StringUtils.isNotBlank(selector)) {
-					columnConf.put("filter_container_id", selector);
-				}
+                  switch (filterType) {
+                  case INPUT:
+                     columnConf.put("filter_type", "text");
+                     break;
+                  case SELECT:
+                     columnConf.put("filter_type", "select");
+                     break;
+                  }
+               }
+               else {
+                  columnConf.put("filter_type", "text");
+               }
+               retval.add(columnConf);
+            }
 
-				String filterValues = DatatableOptions.FILTERVALUES.valueFrom(columnConfiguration);
-				if (StringUtils.isNotBlank(filterValues)) {
-					columnConf.put("data", new JsSnippet(filterValues));
-				}
+            String selector = DatatableOptions.SELECTOR.valueFrom(columnConfiguration);
+            if (StringUtils.isNotBlank(selector)) {
+               columnConf.put("filter_container_id", selector);
+            }
 
-				String filterSelector = DatatableOptions.FEATURE_FILTER_SELECTOR.valueFrom(table);
-				if(StringUtils.isNotBlank(filterSelector)) {
-				   columnConf.put("externally_triggered", true);
-				}
-				
-				// Filtering delay
-				Integer filterColumnDelay = DatatableOptions.FEATURE_FILTER_DELAY.valueFrom(table
-						.getTableConfiguration());
-				if (filterColumnDelay != null) {
-					columnConf.put("filter_delay", filterColumnDelay);
-				}
-			}
+            String filterValues = DatatableOptions.FILTERVALUES.valueFrom(columnConfiguration);
+            if (StringUtils.isNotBlank(filterValues)) {
+               columnConf.put("data", new JsSnippet(filterValues));
+            }
 
-			columnIndex++;
-		}
+            String filterSelector = DatatableOptions.FEATURE_FILTER_SELECTOR.valueFrom(table);
+            if (StringUtils.isNotBlank(filterSelector)) {
+               columnConf.put("externally_triggered", true);
+            }
 
-		logger.debug("Column filtering configuration generated");
+            // Filtering delay
+            Integer filterColumnDelay = DatatableOptions.FEATURE_FILTER_DELAY.valueFrom(table.getTableConfiguration());
+            if (filterColumnDelay != null) {
+               columnConf.put("filter_delay", filterColumnDelay);
+            }
+         }
 
-		return retval;
-	}
-	
-	/**
-	 * <p>
-	 * Type of filter that can be used when individual column filtering is enabled.
-	 * </p>
-	 * 
-	 * @author Thibault Duchateau
-	 */
-	public enum FilterType {
-		SELECT, INPUT;
-	}
+         columnIndex++;
+      }
+
+      logger.debug("Column filtering configuration generated");
+
+      return retval;
+   }
+
+   /**
+    * <p>
+    * Type of filter that can be used when individual column filtering is
+    * enabled.
+    * </p>
+    * 
+    * @author Thibault Duchateau
+    */
+   public enum FilterType {
+      SELECT, INPUT;
+   }
 }

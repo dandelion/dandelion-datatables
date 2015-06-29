@@ -45,117 +45,117 @@ import com.github.dandelion.datatables.core.html.HtmlCaption;
  */
 public class CaptionTag extends BodyTagSupport implements DynamicAttributes {
 
-	private static final long serialVersionUID = 273025310498552490L;
-	
-	/**
-	 * Tag attributes
-	 */
-	private String id;
-	private String cssClass;
-	private String cssStyle;
-	private String title;
-	private boolean escapeXml = true; // Whether XML characters should be escaped
-		
-	/**
-	 * Internal attributes
-	 */
-	protected Map<String, String> dynamicAttributes;
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public int doStartTag() throws JspException{
+   private static final long serialVersionUID = 273025310498552490L;
 
-		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
-		if(parent != null){
-			return EVAL_BODY_BUFFERED;
-		}
-		
-		throw new JspException("The tag 'caption' must be inside the 'table' tag.");
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public int doEndTag() throws JspException {
-		
-		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+   /**
+    * Tag attributes
+    */
+   private String id;
+   private String cssClass;
+   private String cssStyle;
+   private String title;
+   private boolean escapeXml = true; // Whether XML characters should be escaped
 
-		// The tag is evaluated only once, at the first iteration
-		if (parent.isFirstIteration()) {
-			
-			HtmlCaption caption = new HtmlCaption();
-			caption.setId(id);
-			caption.addCssClass(cssClass);
-			caption.addCssStyle(cssStyle);
-			caption.setTitle(StringUtils.escape(this.escapeXml, this.title));
-			caption.addContent(getBodyContent().getString());
-			
-			parent.getTable().setCaption(caption);
-		}
+   /**
+    * Internal attributes
+    */
+   protected Map<String, String> dynamicAttributes;
 
-		return EVAL_PAGE;
-	}
+   /**
+    * {@inheritDoc}
+    */
+   public int doStartTag() throws JspException {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setDynamicAttribute(String uri, String localName, Object value) throws JspException {
+      TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+      if (parent != null) {
+         return EVAL_BODY_BUFFERED;
+      }
 
-		validateDynamicAttribute(localName, value);
+      throw new JspException("The tag 'caption' must be inside the 'table' tag.");
+   }
 
-		if (this.dynamicAttributes == null) {
-			this.dynamicAttributes = new HashMap<String, String>();
-		}
+   /**
+    * {@inheritDoc}
+    */
+   public int doEndTag() throws JspException {
 
-		dynamicAttributes.put(localName, (String) value);
-	}
-	
-	/**
-	 * <p>
-	 * Validates the passed dynamic attribute.
-	 * 
-	 * <p>
-	 * The dynamic attribute must not conflict with other attributes and must
-	 * have a valid type.
-	 * 
-	 * @param localName
-	 *            Name of the dynamic attribute.
-	 * @param value
-	 *            Value of the dynamic attribute.
-	 */
-	private void validateDynamicAttribute(String localName, Object value) {
-		if (localName.equals("class")) {
-			throw new IllegalArgumentException(
-					"The 'class' attribute is not allowed. Please use the 'cssClass' attribute instead.");
-		}
-		if (localName.equals("style")) {
-			throw new IllegalArgumentException(
-					"The 'style' attribute is not allowed. Please use the 'cssStyle' attribute instead.");
-		}
-		if (!(value instanceof String)) {
-			throw new IllegalArgumentException("The attribute " + localName
-					+ " won't be added to the table. Only string values are accepted.");
-		}
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
+      TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
-	public void setCssClass(String cssClass) {
-		this.cssClass = cssClass;
-	}
+      // The tag is evaluated only once, at the first iteration
+      if (parent.isFirstIteration()) {
 
-	public void setCssStyle(String cssStyle) {
-		this.cssStyle = cssStyle;
-	}
+         HtmlCaption caption = new HtmlCaption();
+         caption.setId(id);
+         caption.addCssClass(cssClass);
+         caption.addCssStyle(cssStyle);
+         caption.setTitle(StringUtils.escape(this.escapeXml, this.title));
+         caption.addContent(getBodyContent().getString());
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+         parent.getTable().setCaption(caption);
+      }
 
-	public void setEscapeXml(boolean escapeXml) {
-		this.escapeXml = escapeXml;
-	}
+      return EVAL_PAGE;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public void setDynamicAttribute(String uri, String localName, Object value) throws JspException {
+
+      validateDynamicAttribute(localName, value);
+
+      if (this.dynamicAttributes == null) {
+         this.dynamicAttributes = new HashMap<String, String>();
+      }
+
+      dynamicAttributes.put(localName, (String) value);
+   }
+
+   /**
+    * <p>
+    * Validates the passed dynamic attribute.
+    * 
+    * <p>
+    * The dynamic attribute must not conflict with other attributes and must
+    * have a valid type.
+    * 
+    * @param localName
+    *           Name of the dynamic attribute.
+    * @param value
+    *           Value of the dynamic attribute.
+    */
+   private void validateDynamicAttribute(String localName, Object value) {
+      if (localName.equals("class")) {
+         throw new IllegalArgumentException(
+               "The 'class' attribute is not allowed. Please use the 'cssClass' attribute instead.");
+      }
+      if (localName.equals("style")) {
+         throw new IllegalArgumentException(
+               "The 'style' attribute is not allowed. Please use the 'cssStyle' attribute instead.");
+      }
+      if (!(value instanceof String)) {
+         throw new IllegalArgumentException("The attribute " + localName
+               + " won't be added to the table. Only string values are accepted.");
+      }
+   }
+
+   public void setId(String id) {
+      this.id = id;
+   }
+
+   public void setCssClass(String cssClass) {
+      this.cssClass = cssClass;
+   }
+
+   public void setCssStyle(String cssStyle) {
+      this.cssStyle = cssStyle;
+   }
+
+   public void setTitle(String title) {
+      this.title = title;
+   }
+
+   public void setEscapeXml(boolean escapeXml) {
+      this.escapeXml = escapeXml;
+   }
 }

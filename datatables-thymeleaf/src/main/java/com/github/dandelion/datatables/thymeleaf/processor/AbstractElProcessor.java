@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,43 +51,43 @@ import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
  */
 public abstract class AbstractElProcessor extends AbstractElementProcessor {
 
-	public AbstractElProcessor(IElementNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public AbstractElProcessor(IElementNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	@Override
-	protected ProcessorResult processElement(Arguments arguments, Element element) {
+   @Override
+   protected ProcessorResult processElement(Arguments arguments, Element element) {
 
-		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-		HttpServletResponse response = ((IWebContext) arguments.getContext()).getHttpServletResponse();
-		HtmlTable htmlTable = (HtmlTable) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_BEAN_TABLE, request);
+      HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
+      HttpServletResponse response = ((IWebContext) arguments.getContext()).getHttpServletResponse();
+      HtmlTable htmlTable = (HtmlTable) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_BEAN_TABLE, request);
 
-		ProcessorResult processorResult = doProcessElement(arguments, element, request, response, htmlTable);
-		return processorResult;
-	}
+      ProcessorResult processorResult = doProcessElement(arguments, element, request, response, htmlTable);
+      return processorResult;
+   }
 
-	/**
-	 * Returns the precedence of the element processor.
-	 */
-	@Override
-	public abstract int getPrecedence();
+   /**
+    * Returns the precedence of the element processor.
+    */
+   @Override
+   public abstract int getPrecedence();
 
-	/**
-	 * Actually performs the processing of the element..
-	 * 
-	 * @param arguments
-	 *            Thymeleaf arguments.
-	 * @param element
-	 *            Element to process.
-	 * @param request
-	 *            The current {@link HttpServletRequest}.
-	 * @param response
-	 *            The current {@link HttpServletResponse}.
-	 * @param htmlTable
-	 *            The {@link HtmlTable} which the configuration will be applied
-	 *            on.
-	 * @return result of process
-	 */
-	protected abstract ProcessorResult doProcessElement(Arguments arguments, Element element,
-			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable);
+   /**
+    * Actually performs the processing of the element..
+    * 
+    * @param arguments
+    *           Thymeleaf arguments.
+    * @param element
+    *           Element to process.
+    * @param request
+    *           The current {@link HttpServletRequest}.
+    * @param response
+    *           The current {@link HttpServletResponse}.
+    * @param htmlTable
+    *           The {@link HtmlTable} which the configuration will be applied
+    *           on.
+    * @return result of process
+    */
+   protected abstract ProcessorResult doProcessElement(Arguments arguments, Element element,
+         HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable);
 }

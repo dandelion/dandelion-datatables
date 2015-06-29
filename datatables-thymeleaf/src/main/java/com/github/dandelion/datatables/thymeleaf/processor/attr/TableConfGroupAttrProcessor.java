@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -54,23 +54,23 @@ import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
  */
 public class TableConfGroupAttrProcessor extends AbstractTableAttrProcessor {
 
-	public TableConfGroupAttrProcessor(IAttributeNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public TableConfGroupAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	@Override
-	public int getPrecedence() {
-		return DataTablesDialect.DT_HIGHEST_PRECEDENCE - 1;
-	}
+   @Override
+   public int getPrecedence() {
+      return DataTablesDialect.DT_HIGHEST_PRECEDENCE - 1;
+   }
 
-	@Override
-	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-			Map<Option<?>, Object> stagingConf) {
+   @Override
+   protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
+         Map<Option<?>, Object> stagingConf) {
 
-		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
+      HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 
-		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
+      String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-		RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_CONF_GROUP, attrValue, request);
-	}
+      RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_CONF_GROUP, attrValue, request);
+   }
 }

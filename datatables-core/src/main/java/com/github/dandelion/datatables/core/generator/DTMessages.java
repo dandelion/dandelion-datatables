@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -39,39 +39,39 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public enum DTMessages {
 
-	PROCESSING("sProcessing", DatatableOptions.I18N_MSG_PROCESSING.getName()),
-	SEARC("sSearch", DatatableOptions.I18N_MSG_SEARCH.getName()),
-	LENGTHMENU("sLengthMenu", DatatableOptions.I18N_MSG_LENGTHMENU.getName()),
-	INFO("sInfo", DatatableOptions.I18N_MSG_INFO.getName()),
-	INFOEMPTY("sInfoEmpty", DatatableOptions.I18N_MSG_INFOEMPTY.getName()),
-	INFOFILTERED("sInfoFiltered", DatatableOptions.I18N_MSG_INFOFILTERED.getName()),
-	INFOPOSTFIX("sInfoPostFix", DatatableOptions.I18N_MSG_INFOPOSTFIX.getName()),
-	LOADINGRECORDS("sLoadingRecords", DatatableOptions.I18N_MSG_LOADINGRECORDS.getName()),
-	ZERORECORDS("sZeroRecords", DatatableOptions.I18N_MSG_ZERORECORDS.getName()),
-	EMPTYTABLE("sEmptyTable", DatatableOptions.I18N_MSG_EMPTYTABLE.getName()),
-	PAGINATE("oPaginate", ""),
-	PAGINATE_FIRST("sFirst", DatatableOptions.I18N_MSG_PAGINATE_FIRST.getName()),
-	PAGINATE_PREVIOUS("sPrevious", DatatableOptions.I18N_MSG_PAGINATE_PREVIOUS.getName()),
-	PAGINATE_NEXT("sNext", DatatableOptions.I18N_MSG_PAGINATE_NEXT.getName()),
-	PAGINATE_LAST("sLast", DatatableOptions.I18N_MSG_PAGINATE_LAST.getName()),
-	ARIA("oAria", ""),
-	ARIA_SORT_ASC("sSortAscending", DatatableOptions.I18N_MSG_ARIA_SORTASC.getName()),
-	ARIA_SORT_DESC("sSortDescending", DatatableOptions.I18N_MSG_ARIA_SORTDESC.getName());
-	
-	private String realName;
-	
-	private String propertyName;
-	
-	private DTMessages(String realName, String propertyName){
-		this.realName = realName;
-		this.propertyName = propertyName;
-	}
+   PROCESSING("sProcessing", DatatableOptions.I18N_MSG_PROCESSING.getName()), 
+   SEARC("sSearch", DatatableOptions.I18N_MSG_SEARCH.getName()), 
+   LENGTHMENU("sLengthMenu", DatatableOptions.I18N_MSG_LENGTHMENU.getName()), 
+   INFO("sInfo", DatatableOptions.I18N_MSG_INFO.getName()), 
+   INFOEMPTY("sInfoEmpty", DatatableOptions.I18N_MSG_INFOEMPTY.getName()),
+   INFOFILTERED("sInfoFiltered", DatatableOptions.I18N_MSG_INFOFILTERED.getName()),
+   INFOPOSTFIX("sInfoPostFix", DatatableOptions.I18N_MSG_INFOPOSTFIX.getName()),
+   LOADINGRECORDS("sLoadingRecords", DatatableOptions.I18N_MSG_LOADINGRECORDS.getName()),
+   ZERORECORDS("sZeroRecords", DatatableOptions.I18N_MSG_ZERORECORDS.getName()),
+   EMPTYTABLE("sEmptyTable", DatatableOptions.I18N_MSG_EMPTYTABLE.getName()),
+   PAGINATE("oPaginate", ""),
+   PAGINATE_FIRST("sFirst", DatatableOptions.I18N_MSG_PAGINATE_FIRST.getName()),
+   PAGINATE_PREVIOUS("sPrevious", DatatableOptions.I18N_MSG_PAGINATE_PREVIOUS.getName()),
+   PAGINATE_NEXT("sNext", DatatableOptions.I18N_MSG_PAGINATE_NEXT.getName()), 
+   PAGINATE_LAST("sLast", DatatableOptions.I18N_MSG_PAGINATE_LAST.getName()),
+   ARIA("oAria", ""),
+   ARIA_SORT_ASC("sSortAscending", DatatableOptions.I18N_MSG_ARIA_SORTASC.getName()), 
+   ARIA_SORT_DESC("sSortDescending", DatatableOptions.I18N_MSG_ARIA_SORTDESC.getName());
 
-	public String getRealName() {
-		return realName;
-	}
+   private String realName;
 
-	public String getPropertyName() {
-		return propertyName;
-	}
+   private String propertyName;
+
+   private DTMessages(String realName, String propertyName) {
+      this.realName = realName;
+      this.propertyName = propertyName;
+   }
+
+   public String getRealName() {
+      return realName;
+   }
+
+   public String getPropertyName() {
+      return propertyName;
+   }
 }

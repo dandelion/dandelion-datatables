@@ -38,38 +38,38 @@ import com.github.dandelion.core.html.AbstractHtmlTag;
  */
 public abstract class HtmlTagWithContent extends AbstractHtmlTag {
 
-	/**
-	 * Content of the tag.
-	 */
-	protected StringBuilder content = new StringBuilder();
+   /**
+    * Content of the tag.
+    */
+   protected StringBuilder content = new StringBuilder();
 
-	/**
-	 * Render the tag in HTML code.
-	 * 
-	 * @return the HTML code corresponding to the tag.
-	 */
-	@Override
-	public StringBuilder toHtml() {
-		StringBuilder html = new StringBuilder();
-		html.append(getHtmlOpeningTag());
-		html.append(this.content);
-		html.append(getHtmlClosingTag());
-		return html;
-	}
+   /**
+    * Render the tag in HTML code.
+    * 
+    * @return the HTML code corresponding to the tag.
+    */
+   @Override
+   public StringBuilder toHtml() {
+      StringBuilder html = new StringBuilder();
+      html.append(getHtmlOpeningTag());
+      html.append(this.content);
+      html.append(getHtmlClosingTag());
+      return html;
+   }
 
-	public StringBuilder getContent() {
-		return content;
-	}
+   public StringBuilder getContent() {
+      return content;
+   }
 
-	public void setContent(StringBuilder content) {
-		this.content = content;
-	}
+   public void setContent(StringBuilder content) {
+      this.content = content;
+   }
 
-	public void addContent(StringBuilder contentToAdd) {
-		this.content.append(contentToAdd);
-	}
+   public void addContent(StringBuilder contentToAdd) {
+      this.content.append(contentToAdd);
+   }
 
-	public void addContent(String contentToAdd) {
-		this.content.append(contentToAdd);
-	}
+   public void addContent(String contentToAdd) {
+      this.content.append(contentToAdd);
+   }
 }

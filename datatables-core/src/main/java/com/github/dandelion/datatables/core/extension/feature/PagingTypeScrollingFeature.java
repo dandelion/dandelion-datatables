@@ -50,16 +50,16 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class PagingTypeScrollingFeature extends AbstractExtension {
 
-	public static final String FEATURE_NAME = "pagingTypeScrolling";
+   public static final String FEATURE_NAME = "pagingTypeScrolling";
 
-	@Override
-	public String getExtensionName() {
-		return FEATURE_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return FEATURE_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
-		addBundle(DatatableBundles.DDL_DT_PAGING_SCROLLING);
-		addParameter(DTConstants.DT_PAGINGTYPE, PagingType.SCROLLING.toString());
-	}
+   @Override
+   public void setup(HtmlTable table) {
+      addBundle(DatatableBundles.DDL_DT_PAGING_SCROLLING);
+      addParameter(DTConstants.DT_PAGINGTYPE, PagingType.SCROLLING.toString());
+   }
 }

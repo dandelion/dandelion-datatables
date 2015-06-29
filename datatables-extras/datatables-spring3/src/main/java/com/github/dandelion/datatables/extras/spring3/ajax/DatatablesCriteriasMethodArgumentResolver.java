@@ -63,10 +63,10 @@ import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
  * &#064;Configuration
  * &#064;EnableWebMvc
  * public class MyWebConfig extends WebMvcConfigurerAdapter {
- * 	&#064;Override
- * 	public void addArgumentResolvers(List&lt;HandlerMethodArgumentResolver&gt; argumentResolvers) {
- * 		argumentResolvers.add(new DatatablesCriteriasMethodArgumentResolver());
- * 	}
+ *    &#064;Override
+ *    public void addArgumentResolvers(List&lt;HandlerMethodArgumentResolver&gt; argumentResolvers) {
+ *       argumentResolvers.add(new DatatablesCriteriasMethodArgumentResolver());
+ *    }
  * }
  * </pre>
  * 
@@ -78,21 +78,21 @@ import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
  */
 public class DatatablesCriteriasMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
-	@Override
-	public boolean supportsParameter(MethodParameter parameter) {
-		DatatablesParams parameterAnnotation = parameter.getParameterAnnotation(DatatablesParams.class);
-		if (parameterAnnotation != null) {
-			if (DatatablesCriterias.class.isAssignableFrom(parameter.getParameterType())) {
-				return true;
-			}
-		}
-		return false;
-	}
+   @Override
+   public boolean supportsParameter(MethodParameter parameter) {
+      DatatablesParams parameterAnnotation = parameter.getParameterAnnotation(DatatablesParams.class);
+      if (parameterAnnotation != null) {
+         if (DatatablesCriterias.class.isAssignableFrom(parameter.getParameterType())) {
+            return true;
+         }
+      }
+      return false;
+   }
 
-	@Override
-	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-		HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-		return DatatablesCriterias.getFromRequest(request);
-	}
+   @Override
+   public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+      HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
+      return DatatablesCriterias.getFromRequest(request);
+   }
 }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -55,67 +55,69 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  */
 public class XlsxExport implements DatatablesExport {
 
-	private HtmlTable table;
-	private ExportConf exportConf;
+   private HtmlTable table;
+   private ExportConf exportConf;
 
-	@Override
-	public void initExport(HtmlTable table) {
-		this.table = table;
-		this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.XLSX);
-	}
+   @Override
+   public void initExport(HtmlTable table) {
+      this.table = table;
+      this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.XLSX);
+   }
 
-	@Override
-	public void processExport(OutputStream output) {
+   @Override
+   public void processExport(OutputStream output) {
 
-		try {
-			XSSFWorkbook workbook = new XSSFWorkbook();
-			XSSFSheet sheet = workbook.createSheet(exportConf.getFileName());
-			Row row = null;
-			Cell cell = null;
-			int rowIndex = 0;
-			int columnIndex;
+      try {
+         XSSFWorkbook workbook = new XSSFWorkbook();
+         XSSFSheet sheet = workbook.createSheet(exportConf.getFileName());
+         Row row = null;
+         Cell cell = null;
+         int rowIndex = 0;
+         int columnIndex;
 
-			// Header
-			if (exportConf.getIncludeHeader()) {
+         // Header
+         if (exportConf.getIncludeHeader()) {
 
-				for (HtmlRow htmlRow : table.getHeadRows()) {
+            for (HtmlRow htmlRow : table.getHeadRows()) {
 
-					row = sheet.createRow(rowIndex++);
-					columnIndex = 0;
+               row = sheet.createRow(rowIndex++);
+               columnIndex = 0;
 
-					for (HtmlColumn column : htmlRow.getColumns(ReservedFormat.ALL, ReservedFormat.XLSX)) {
-						cell = row.createCell(columnIndex++);
-						cell.setCellValue(column.getContent().toString());
-					}
-				}
-			}
+               for (HtmlColumn column : htmlRow.getColumns(ReservedFormat.ALL, ReservedFormat.XLSX)) {
+                  cell = row.createCell(columnIndex++);
+                  cell.setCellValue(column.getContent().toString());
+               }
+            }
+         }
 
-			// Body
-			for (HtmlRow htmlRow : table.getBodyRows()) {
+         // Body
+         for (HtmlRow htmlRow : table.getBodyRows()) {
 
-				row = sheet.createRow(rowIndex++);
-				columnIndex = 0;
+            row = sheet.createRow(rowIndex++);
+            columnIndex = 0;
 
-				for (HtmlColumn column : htmlRow.getColumns(ReservedFormat.ALL, ReservedFormat.XLSX)) {
-					cell = row.createCell(columnIndex++);
-					cell.setCellValue(column.getContent().toString());
-				}
-			}
+            for (HtmlColumn column : htmlRow.getColumns(ReservedFormat.ALL, ReservedFormat.XLSX)) {
+               cell = row.createCell(columnIndex++);
+               cell.setCellValue(column.getContent().toString());
+            }
+         }
 
-			// Column auto-sizing
-			if (exportConf.getAutoSize()) {
-				for (columnIndex = 0; columnIndex < table.getLastHeaderRow().getColumns(ReservedFormat.ALL, ReservedFormat.XLSX).size(); columnIndex++) {
-					sheet.autoSizeColumn(columnIndex);
-				}
-			}
+         // Column auto-sizing
+         if (exportConf.getAutoSize()) {
+            for (columnIndex = 0; columnIndex < table.getLastHeaderRow()
+                  .getColumns(ReservedFormat.ALL, ReservedFormat.XLSX).size(); columnIndex++) {
+               sheet.autoSizeColumn(columnIndex);
+            }
+         }
 
-			workbook.write(output);
-		} catch (IOException e) {
-			StringBuilder sb = new StringBuilder("Something went wrong during the XLSX generation of the table '");
-			sb.append(table.getOriginalId());
-			sb.append("' and with the following export configuration: ");
-			sb.append(exportConf.toString());
-			throw new DandelionException(sb.toString(), e);
-		}
-	}
+         workbook.write(output);
+      }
+      catch (IOException e) {
+         StringBuilder sb = new StringBuilder("Something went wrong during the XLSX generation of the table '");
+         sb.append(table.getOriginalId());
+         sb.append("' and with the following export configuration: ");
+         sb.append(exportConf.toString());
+         throw new DandelionException(sb.toString(), e);
+      }
+   }
 }

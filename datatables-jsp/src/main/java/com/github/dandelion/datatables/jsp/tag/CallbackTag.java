@@ -70,88 +70,88 @@ import com.github.dandelion.datatables.core.util.ProcessorUtils;
  */
 public class CallbackTag extends TagSupport {
 
-	private static final long serialVersionUID = -3453884184847355817L;
+   private static final long serialVersionUID = -3453884184847355817L;
 
-	/**
-	 * Tag attributes
-	 */
-	// Type of the callback
-	private String type;
+   /**
+    * Tag attributes
+    */
+   // Type of the callback
+   private String type;
 
-	// Name of the function
-	private String function;
+   // Name of the function
+   private String function;
 
-	/**
-	 * Internal attributes
-	 */
-	private HttpServletRequest request;
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public int doStartTag() throws JspException {
+   /**
+    * Internal attributes
+    */
+   private HttpServletRequest request;
 
-		request = (HttpServletRequest) pageContext.getRequest();
-		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
-		if (parent != null) {
-			return SKIP_BODY;
-		}
+   /**
+    * {@inheritDoc}
+    */
+   public int doStartTag() throws JspException {
 
-		throw new JspException("The tag 'callback' must be inside the 'table' tag.");
-	}
+      request = (HttpServletRequest) pageContext.getRequest();
+      TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+      if (parent != null) {
+         return SKIP_BODY;
+      }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int doEndTag() throws JspException {
+      throw new JspException("The tag 'callback' must be inside the 'table' tag.");
+   }
 
-		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
+   /**
+    * {@inheritDoc}
+    */
+   public int doEndTag() throws JspException {
 
-		// The tag is evaluated only once, at the first iteration
-		if (parent.isFirstIteration()) {
+      AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-			CallbackType callbackType = null;
-			try {
-				callbackType = CallbackType.valueOf(this.type.toUpperCase().trim());
-			}
-			catch (IllegalArgumentException e) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("'");
-				sb.append(this.type);
-				sb.append("' is not a valid callback type. Possible values are: ");
-				sb.append(EnumUtils.printPossibleValuesOf(CallbackType.class));
-				throw new JspException(sb.toString());
-			}
+      // The tag is evaluated only once, at the first iteration
+      if (parent.isFirstIteration()) {
 
-			function = ProcessorUtils.getValueAfterProcessingBundles(function, request);
-			
-			// The callback has already been registered
-			if (parent.getTable().getTableConfiguration().hasCallback(callbackType)) {
-				parent.getTable()
-						.getTableConfiguration()
-						.getCallback(callbackType)
-						.appendCode(
-								(callbackType.hasReturn() ? "return " : "") + function + "("
-										+ StringUtils.join(callbackType.getArgs(), ",") + ");");
-			}
-			// The callback hasn't been registered yet
-			else {
-				parent.getTable()
-						.getTableConfiguration()
-						.registerCallback(
-								new Callback(callbackType, (callbackType.hasReturn() ? "return " : "") + function + "("
-										+ StringUtils.join(callbackType.getArgs(), ",") + ");"));
-			}
-		}
+         CallbackType callbackType = null;
+         try {
+            callbackType = CallbackType.valueOf(this.type.toUpperCase().trim());
+         }
+         catch (IllegalArgumentException e) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("'");
+            sb.append(this.type);
+            sb.append("' is not a valid callback type. Possible values are: ");
+            sb.append(EnumUtils.printPossibleValuesOf(CallbackType.class));
+            throw new JspException(sb.toString());
+         }
 
-		return EVAL_PAGE;
-	}
+         function = ProcessorUtils.getValueAfterProcessingBundles(function, request);
 
-	public void setType(String type) {
-		this.type = type;
-	}
+         // The callback has already been registered
+         if (parent.getTable().getTableConfiguration().hasCallback(callbackType)) {
+            parent.getTable()
+                  .getTableConfiguration()
+                  .getCallback(callbackType)
+                  .appendCode(
+                        (callbackType.hasReturn() ? "return " : "") + function + "("
+                              + StringUtils.join(callbackType.getArgs(), ",") + ");");
+         }
+         // The callback hasn't been registered yet
+         else {
+            parent.getTable()
+                  .getTableConfiguration()
+                  .registerCallback(
+                        new Callback(callbackType, (callbackType.hasReturn() ? "return " : "") + function + "("
+                              + StringUtils.join(callbackType.getArgs(), ",") + ");"));
+         }
+      }
 
-	public void setFunction(String function) {
-		this.function = function;
-	}
+      return EVAL_PAGE;
+   }
+
+   public void setType(String type) {
+      this.type = type;
+   }
+
+   public void setFunction(String function) {
+      this.function = function;
+   }
 }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -53,22 +53,22 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
  */
 public class ThFilterableAttrProcessor extends AbstractColumnAttrProcessor {
 
-	public ThFilterableAttrProcessor(IAttributeNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public ThFilterableAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	@Override
-	public int getPrecedence() {
-		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
-	}
+   @Override
+   public int getPrecedence() {
+      return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
+   }
 
-	@Override
-	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-			Map<Option<?>, Object> stagingConf, Map<Option<?>, Extension> stagingExt) {
+   @Override
+   protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
+         Map<Option<?>, Object> stagingConf, Map<Option<?>, Extension> stagingExt) {
 
-		Boolean attrValue = AttributeUtils.parseBooleanAttribute(arguments, element, attributeName);
+      Boolean attrValue = AttributeUtils.parseBooleanAttribute(arguments, element, attributeName);
 
-		stagingConf.put(DatatableOptions.FILTERABLE, attrValue);
-		stagingExt.put(DatatableOptions.FILTERABLE, new FilteringFeature(arguments));
-	}
+      stagingConf.put(DatatableOptions.FILTERABLE, attrValue);
+      stagingExt.put(DatatableOptions.FILTERABLE, new FilteringFeature(arguments));
+   }
 }

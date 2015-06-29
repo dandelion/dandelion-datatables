@@ -58,31 +58,31 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class PipeliningFeature extends AbstractExtension {
 
-	public static final String PIPELINING_FEATURE_NAME = "pipelining";
+   public static final String PIPELINING_FEATURE_NAME = "pipelining";
 
-	@Override
-	public String getExtensionName() {
-		return PIPELINING_FEATURE_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return PIPELINING_FEATURE_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
+   @Override
+   public void setup(HtmlTable table) {
 
-		addBundle(DatatableBundles.DDL_DT_AJAX_PIPELINING);
-		Integer pipeSize = DatatableOptions.AJAX_PIPESIZE.valueFrom(table.getTableConfiguration());
+      addBundle(DatatableBundles.DDL_DT_AJAX_PIPELINING);
+      Integer pipeSize = DatatableOptions.AJAX_PIPESIZE.valueFrom(table.getTableConfiguration());
 
-		Map<String, Object> ajaxParams = new HashMap<String, Object>();
-		ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
-		if (pipeSize != null && pipeSize != 5) {
-			ajaxParams.put("pages", pipeSize);
-		}
-		Writer writer = new StringWriter();
-		try {
-			JSONValue.writeJSONString(ajaxParams, writer);
-		}
-		catch (IOException e) {
-			throw new DandelionException("Unable to convert the configuration to JSON", e);
-		}
-		addParameter(DTConstants.DT_S_AJAX_SOURCE, new JsSnippet("$.fn.dataTable.pipeline( " + writer.toString() + ")"));
-	}
+      Map<String, Object> ajaxParams = new HashMap<String, Object>();
+      ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
+      if (pipeSize != null && pipeSize != 5) {
+         ajaxParams.put("pages", pipeSize);
+      }
+      Writer writer = new StringWriter();
+      try {
+         JSONValue.writeJSONString(ajaxParams, writer);
+      }
+      catch (IOException e) {
+         throw new DandelionException("Unable to convert the configuration to JSON", e);
+      }
+      addParameter(DTConstants.DT_S_AJAX_SOURCE, new JsSnippet("$.fn.dataTable.pipeline( " + writer.toString() + ")"));
+   }
 }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -62,47 +62,46 @@ import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
  */
 public class DivConfAttrProcessor extends AbstractAttrProcessor {
 
-	public DivConfAttrProcessor(IAttributeNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public DivConfAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getPrecedence() {
-		return DataTablesDialect.DT_HIGHEST_PRECEDENCE;
-	}
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public int getPrecedence() {
+      return DataTablesDialect.DT_HIGHEST_PRECEDENCE;
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
-		
-		HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   @SuppressWarnings("unchecked")
+   protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
 
-		// A Map<ConfType, Object> is associated with each table id
-		Map<String, Map<ConfType, Object>> configs = (Map<String, Map<ConfType, Object>>) RequestUtils.getFromRequest(
-				DataTablesDialect.INTERNAL_BEAN_CONFIGS, request);
+      HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 
-		String tableId = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
+      // A Map<ConfType, Object> is associated with each table id
+      Map<String, Map<ConfType, Object>> configs = (Map<String, Map<ConfType, Object>>) RequestUtils.getFromRequest(
+            DataTablesDialect.INTERNAL_BEAN_CONFIGS, request);
 
-		if (configs != null && configs.containsKey(tableId)) {
-			throw new DandelionException("A div with id '" + tableId
-					+ "' is already present in the current template.");
-		}
-		else {
-			configs = new HashMap<String, Map<ConfType, Object>>();
-		}
+      String tableId = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-		configs.put(tableId, new HashMap<ConfType, Object>());
-		RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_BEAN_CONFIGS, configs, request);
+      if (configs != null && configs.containsKey(tableId)) {
+         throw new DandelionException("A div with id '" + tableId + "' is already present in the current template.");
+      }
+      else {
+         configs = new HashMap<String, Map<ConfType, Object>>();
+      }
 
-		// The node is stored to be easily accessed later during the processing
-		RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_NODE_CONFIG, element, request);
+      configs.put(tableId, new HashMap<ConfType, Object>());
+      RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_BEAN_CONFIGS, configs, request);
 
-		return ProcessorResult.ok();
-	}
+      // The node is stored to be easily accessed later during the processing
+      RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_NODE_CONFIG, element, request);
+
+      return ProcessorResult.ok();
+   }
 }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -44,50 +44,50 @@ import com.github.dandelion.datatables.core.extension.Extension;
  */
 public class ColumnConfiguration {
 
-	private Map<Option<?>, Object> configurations;
-	private Map<Option<?>, Object> stagingConfigurations;
-	private Map<Option<?>, Extension> stagingExtension;
-	private List<ColumnElement> columnElements;
+   private Map<Option<?>, Object> configurations;
+   private Map<Option<?>, Object> stagingConfigurations;
+   private Map<Option<?>, Extension> stagingExtension;
+   private List<ColumnElement> columnElements;
 
-	public ColumnConfiguration() {
-		this.configurations = new HashMap<Option<?>, Object>();
-		this.stagingConfigurations = new HashMap<Option<?>, Object>();
-		this.setStagingExtension(new HashMap<Option<?>, Extension>());
-	}
+   public ColumnConfiguration() {
+      this.configurations = new HashMap<Option<?>, Object>();
+      this.stagingConfigurations = new HashMap<Option<?>, Object>();
+      this.setStagingExtension(new HashMap<Option<?>, Extension>());
+   }
 
-	public Map<Option<?>, Object> getConfigurations() {
-		return configurations;
-	}
+   public Map<Option<?>, Object> getConfigurations() {
+      return configurations;
+   }
 
-	public List<ColumnElement> getColumnElements() {
-		return columnElements;
-	}
+   public List<ColumnElement> getColumnElements() {
+      return columnElements;
+   }
 
-	public void setColumnElements(List<ColumnElement> columnElements) {
-		this.columnElements = columnElements;
-	}
+   public void setColumnElements(List<ColumnElement> columnElements) {
+      this.columnElements = columnElements;
+   }
 
-	public Map<Option<?>, Object> getStagingConfigurations() {
-		return stagingConfigurations;
-	}
+   public Map<Option<?>, Object> getStagingConfigurations() {
+      return stagingConfigurations;
+   }
 
-	public void setStagingConfigurations(Map<Option<?>, Object> stagingConfigurations) {
-		this.stagingConfigurations = stagingConfigurations;
-	}
+   public void setStagingConfigurations(Map<Option<?>, Object> stagingConfigurations) {
+      this.stagingConfigurations = stagingConfigurations;
+   }
 
-	public void setConfigurations(Map<Option<?>, Object> configurations) {
-		this.configurations = configurations;
-	}
+   public void setConfigurations(Map<Option<?>, Object> configurations) {
+      this.configurations = configurations;
+   }
 
-	public Map<Option<?>, Extension> getStagingExtension() {
-		return stagingExtension;
-	}
+   public Map<Option<?>, Extension> getStagingExtension() {
+      return stagingExtension;
+   }
 
-	public void setStagingExtension(Map<Option<?>, Extension> stagingExtension) {
-		this.stagingExtension = stagingExtension;
-	}
-	
-	public void addOption(Option<?> option, Object value){
-		this.configurations.put(option, value);
-	}
+   public void setStagingExtension(Map<Option<?>, Extension> stagingExtension) {
+      this.stagingExtension = stagingExtension;
+   }
+
+   public void addOption(Option<?> option, Object value) {
+      this.configurations.put(option, value);
+   }
 }

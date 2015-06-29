@@ -51,64 +51,64 @@ import com.github.dandelion.datatables.core.export.ExportUtils;
  * @author Thibault Duchateau
  * @since 0.7.0
  */
-//@WebFilter(filterName = "DataTablesFilter", value = { "/*" })
 public class DatatablesFilter implements Filter {
 
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-		// Nothing to do
-	}
-	
-	@Override
-	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
-			FilterChain chain) throws IOException, ServletException {
+   @Override
+   public void init(FilterConfig filterConfig) throws ServletException {
+      // Nothing to do
+   }
 
-		if (servletRequest instanceof HttpServletRequest) {
+   @Override
+   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
+         throws IOException, ServletException {
 
-			HttpServletRequest request = (HttpServletRequest) servletRequest;
-			String exportInProgress = request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS);
-			String exportType = request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_TYPE);
-			
-			// Don't filter anything
-			if (StringUtils.isBlank(exportInProgress) || StringUtils.isBlank(exportType) || !exportType.equals("f")) {
+      if (servletRequest instanceof HttpServletRequest) {
 
-				chain.doFilter(servletRequest, servletResponse);
+         HttpServletRequest request = (HttpServletRequest) servletRequest;
+         String exportInProgress = request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS);
+         String exportType = request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_TYPE);
 
-			} else {
+         // Don't filter anything
+         if (StringUtils.isBlank(exportInProgress) || StringUtils.isBlank(exportType) || !exportType.equals("f")) {
 
-				// Flag set in request to tell the taglib to export the table
-				// instead of displaying it
-				request.setAttribute(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "true");
-				request.setAttribute(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID,
-						request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID));
+            chain.doFilter(servletRequest, servletResponse);
 
-				HttpServletResponse response = (HttpServletResponse) servletResponse;
-				DatatablesResponseWrapper resWrapper = new DatatablesResponseWrapper(response);
+         }
+         else {
 
-				chain.doFilter(request, resWrapper);
+            // Flag set in request to tell the taglib to export the table
+            // instead of displaying it
+            request.setAttribute(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_IN_PROGRESS, "true");
+            request.setAttribute(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID,
+                  request.getParameter(ExportUtils.DDL_DT_REQUESTPARAM_EXPORT_ID));
 
-				ExportConf exportConf = (ExportConf) request
-						.getAttribute(ExportUtils.DDL_DT_REQUESTATTR_EXPORT_CONF);
+            HttpServletResponse response = (HttpServletResponse) servletResponse;
+            DatatablesResponseWrapper resWrapper = new DatatablesResponseWrapper(response);
 
-				String finalFileName = exportConf.getFileName() + "." + exportConf.getFileExtension();
-				response.setHeader("Content-Disposition", "attachment; filename=\"" + finalFileName + "\"");
-				response.setContentType(exportConf.getMimeType());
+            chain.doFilter(request, resWrapper);
 
-				byte[] content = (byte[]) servletRequest.getAttribute(ExportUtils.DDL_DT_REQUESTATTR_EXPORT_CONTENT);
+            ExportConf exportConf = (ExportConf) request.getAttribute(ExportUtils.DDL_DT_REQUESTATTR_EXPORT_CONF);
 
-				response.setContentLength(content.length);
-	            OutputStream out = response.getOutputStream();
-	            out.write(content);
-	            out.close();
-			}
+            String finalFileName = exportConf.getFileName() + "." + exportConf.getFileExtension();
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + finalFileName + "\"");
+            response.setContentType(exportConf.getMimeType());
 
-		} else {
-			chain.doFilter(servletRequest, servletResponse);
-		}
-	}
+            byte[] content = (byte[]) servletRequest.getAttribute(ExportUtils.DDL_DT_REQUESTATTR_EXPORT_CONTENT);
 
-	@Override
-	public void destroy() {
-		// Nothing to do
-	}
+            response.setContentLength(content.length);
+            OutputStream out = response.getOutputStream();
+            out.write(content);
+            out.close();
+         }
+
+      }
+      else {
+         chain.doFilter(servletRequest, servletResponse);
+      }
+   }
+
+   @Override
+   public void destroy() {
+      // Nothing to do
+   }
 }

@@ -50,16 +50,16 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class PagingTypeBootstrapSimpleFeature extends AbstractExtension {
 
-	public static final String FEATURE_NAME = "pagingTypeBootstrap";
+   public static final String FEATURE_NAME = "pagingTypeBootstrap";
 
-	@Override
-	public String getExtensionName() {
-		return FEATURE_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return FEATURE_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
-		addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP_SIMPLE);
-		addParameter(DTConstants.DT_PAGINGTYPE, PagingType.BOOTSTRAP_SIMPLE.toString());
-	}
+   @Override
+   public void setup(HtmlTable table) {
+      addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP_SIMPLE);
+      addParameter(DTConstants.DT_PAGINGTYPE, PagingType.BOOTSTRAP_SIMPLE.toString());
+   }
 }

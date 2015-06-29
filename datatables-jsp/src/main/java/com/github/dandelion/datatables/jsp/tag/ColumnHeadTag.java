@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -62,55 +62,55 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class ColumnHeadTag extends BodyTagSupport {
 
-	private static final long serialVersionUID = -8928415196287387948L;
+   private static final long serialVersionUID = -8928415196287387948L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int doStartTag() throws JspException {
+   /**
+    * {@inheritDoc}
+    */
+   public int doStartTag() throws JspException {
 
-		ColumnTag parent = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
-		if (parent != null) {
-			return EVAL_BODY_BUFFERED;
-		}
+      ColumnTag parent = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
+      if (parent != null) {
+         return EVAL_BODY_BUFFERED;
+      }
 
-		throw new JspException("The 'columnHead' tag must be inside the 'column' tag.");
-	}
+      throw new JspException("The 'columnHead' tag must be inside the 'column' tag.");
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int doAfterBody() throws JspException {
-		return EVAL_PAGE;
-	}
+   /**
+    * {@inheritDoc}
+    */
+   public int doAfterBody() throws JspException {
+      return EVAL_PAGE;
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int doEndTag() throws JspException {
+   /**
+    * {@inheritDoc}
+    */
+   public int doEndTag() throws JspException {
 
-		TableTag tableTag = (TableTag) findAncestorWithClass(this, TableTag.class);
+      TableTag tableTag = (TableTag) findAncestorWithClass(this, TableTag.class);
 
-		// The tag is evaluated only once, at the first iteration
-		if (tableTag.isFirstIteration()) {
+      // The tag is evaluated only once, at the first iteration
+      if (tableTag.isFirstIteration()) {
 
-			ColumnTag parentColumnTag = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
+         ColumnTag parentColumnTag = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
 
-			// The content of the header column is overriden with the content of
-			// the columnHeader tag
-			parentColumnTag.getHeaderColumn().setContent(new StringBuilder(getBodyContent().getString()));
-		}
+         // The content of the header column is overriden with the content of
+         // the columnHeader tag
+         parentColumnTag.getHeaderColumn().setContent(new StringBuilder(getBodyContent().getString()));
+      }
 
-		return EVAL_PAGE;
-	}
+      return EVAL_PAGE;
+   }
 
-	public void setCssStyle(String cssStyle) {
-		ColumnTag parent = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
-		parent.getStagingConf().put(DatatableOptions.CSSSTYLE, cssStyle);
-	}
+   public void setCssStyle(String cssStyle) {
+      ColumnTag parent = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
+      parent.getStagingConf().put(DatatableOptions.CSSSTYLE, cssStyle);
+   }
 
-	public void setCssClass(String cssClass) {
-		ColumnTag parent = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
-		parent.getStagingConf().put(DatatableOptions.CSSCLASS, cssClass);
-	}
+   public void setCssClass(String cssClass) {
+      ColumnTag parent = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
+      parent.getStagingConf().put(DatatableOptions.CSSCLASS, cssClass);
+   }
 }

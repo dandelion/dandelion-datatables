@@ -38,18 +38,19 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import com.github.dandelion.core.i18n.LocaleResolver;
 
 /**
- * <p>Spring implementation of the {@link LocaleResolver}.
+ * <p>
+ * Spring implementation of the {@link LocaleResolver}.
  *
  * @author Thibault Duchateau
  * @since 0.9.0
  */
 public class SpringLocaleResolver implements LocaleResolver {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Locale resolveLocale(HttpServletRequest request) {
-		return RequestContextUtils.getLocale(request);
-	}
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public Locale resolveLocale(HttpServletRequest request) {
+      return RequestContextUtils.getLocale(request);
+   }
 }

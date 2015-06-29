@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -53,33 +53,33 @@ import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
  */
 public class ColumnInitializerElProcessor extends AbstractElProcessor {
 
-	public ColumnInitializerElProcessor(IElementNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public ColumnInitializerElProcessor(IElementNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getPrecedence() {
-		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
-	}
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public int getPrecedence() {
+      return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
-			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable) {
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   protected ProcessorResult doProcessElement(Arguments arguments, Element element, HttpServletRequest request,
+         HttpServletResponse response, HtmlTable htmlTable) {
 
-		Map<Option<?>, Object> stagingConf = new HashMap<Option<?>, Object>();
-		Map<Option<?>, Extension> stagingExtension = new HashMap<Option<?>, Extension>();
+      Map<Option<?>, Object> stagingConf = new HashMap<Option<?>, Object>();
+      Map<Option<?>, Extension> stagingExtension = new HashMap<Option<?>, Extension>();
 
-		// The staging configuration is stored as a local variable. It must be
-		// accessible in all column head processors.
-		Map<String, Object> newVariable = new HashMap<String, Object>();
-		newVariable.put(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF, stagingConf);
-		newVariable.put(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT, stagingExtension);
-		return ProcessorResult.setLocalVariables(newVariable);
-	}
+      // The staging configuration is stored as a local variable. It must be
+      // accessible in all column head processors.
+      Map<String, Object> newVariable = new HashMap<String, Object>();
+      newVariable.put(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF, stagingConf);
+      newVariable.put(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT, stagingExtension);
+      return ProcessorResult.setLocalVariables(newVariable);
+   }
 }

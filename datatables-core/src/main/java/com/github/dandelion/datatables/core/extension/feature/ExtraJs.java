@@ -44,19 +44,19 @@ import com.github.dandelion.core.asset.generator.js.jquery.JQueryContentPlacehol
  */
 public class ExtraJs {
 
-	private final Set<String> bundles;
-	private final JQueryContentPlaceholder placeholder;
+   private final Set<String> bundles;
+   private final JQueryContentPlaceholder placeholder;
 
-	public ExtraJs(Set<String> bundles, JQueryContentPlaceholder placeholder) {
-		this.bundles = bundles;
-		this.placeholder = placeholder;
-	}
+   public ExtraJs(Set<String> bundles, JQueryContentPlaceholder placeholder) {
+      this.bundles = bundles;
+      this.placeholder = placeholder;
+   }
 
-	public Set<String> getBundles() {
-		return bundles;
-	}
+   public Set<String> getBundles() {
+      return bundles;
+   }
 
-	public JQueryContentPlaceholder getPlaceholder() {
-		return placeholder;
-	}
+   public JQueryContentPlaceholder getPlaceholder() {
+      return placeholder;
+   }
 }

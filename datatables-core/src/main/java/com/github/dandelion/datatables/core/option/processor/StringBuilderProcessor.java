@@ -39,9 +39,9 @@ import com.github.dandelion.core.util.StringUtils;
  */
 public class StringBuilderProcessor extends AbstractOptionProcessor {
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
-		String valueAsString = context.getValueAsString();
-		return StringUtils.isNotBlank(valueAsString) ? new StringBuilder(valueAsString) : null;
-	}
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
+      String valueAsString = context.getValueAsString();
+      return StringUtils.isNotBlank(valueAsString) ? new StringBuilder(valueAsString) : null;
+   }
 }

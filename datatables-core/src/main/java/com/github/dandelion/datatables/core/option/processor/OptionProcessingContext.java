@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,201 +55,201 @@ import com.github.dandelion.datatables.core.util.ProcessorUtils;
  */
 public class OptionProcessingContext {
 
-	/**
-	 * The Option/value pair to be processed.
-	 */
-	private final Entry<Option<?>, Object> optionEntry;
+   /**
+    * The Option/value pair to be processed.
+    */
+   private final Entry<Option<?>, Object> optionEntry;
 
-	/**
-	 * The current TableConfiguration in which the Option/value pair is
-	 * processed.
-	 */
-	private final TableConfiguration tableConfiguration;
+   /**
+    * The current TableConfiguration in which the Option/value pair is
+    * processed.
+    */
+   private final TableConfiguration tableConfiguration;
 
-	/**
-	 * The current ColumnConfiguration in which the Option/value pair is
-	 * processed.
-	 */
-	private final ColumnConfiguration columnConfiguration;
+   /**
+    * The current ColumnConfiguration in which the Option/value pair is
+    * processed.
+    */
+   private final ColumnConfiguration columnConfiguration;
 
-	/**
-	 * The current request.
-	 */
-	private final HttpServletRequest request;
+   /**
+    * The current request.
+    */
+   private final HttpServletRequest request;
 
-	/**
-	 * The option value as a String.
-	 */
-	private final String valueAsString;
+   /**
+    * The option value as a String.
+    */
+   private final String valueAsString;
 
-	/**
-	 * Whether the OptionProcess can update the bundle graph or not.
-	 */
-	private final boolean isBundleGraphUpdatable;
+   /**
+    * Whether the OptionProcess can update the bundle graph or not.
+    */
+   private final boolean isBundleGraphUpdatable;
 
-	public OptionProcessingContext(Entry<Option<?>, Object> optionEntry, TableConfiguration tableConfiguration) {
-		this(optionEntry, tableConfiguration, null, false);
-	}
+   public OptionProcessingContext(Entry<Option<?>, Object> optionEntry, TableConfiguration tableConfiguration) {
+      this(optionEntry, tableConfiguration, null, false);
+   }
 
-	public OptionProcessingContext(Entry<Option<?>, Object> optionEntry, TableConfiguration tableConfiguration,
-			boolean isBundleGraphUpdatable) {
-		this(optionEntry, tableConfiguration, null, isBundleGraphUpdatable);
-	}
+   public OptionProcessingContext(Entry<Option<?>, Object> optionEntry, TableConfiguration tableConfiguration,
+         boolean isBundleGraphUpdatable) {
+      this(optionEntry, tableConfiguration, null, isBundleGraphUpdatable);
+   }
 
-	public OptionProcessingContext(Entry<Option<?>, Object> optionEntry, TableConfiguration tableConfiguration,
-			ColumnConfiguration columnConfiguration) {
-		this(optionEntry, tableConfiguration, columnConfiguration, false);
-	}
+   public OptionProcessingContext(Entry<Option<?>, Object> optionEntry, TableConfiguration tableConfiguration,
+         ColumnConfiguration columnConfiguration) {
+      this(optionEntry, tableConfiguration, columnConfiguration, false);
+   }
 
-	public OptionProcessingContext(Entry<Option<?>, Object> optionEntry, TableConfiguration tableConfiguration,
-			ColumnConfiguration columnConfiguration, boolean isBundleGraphUpdatable) {
-		this.optionEntry = optionEntry;
-		this.tableConfiguration = tableConfiguration;
-		this.columnConfiguration = columnConfiguration;
-		this.request = tableConfiguration.getRequest();
-		this.isBundleGraphUpdatable = isBundleGraphUpdatable;
+   public OptionProcessingContext(Entry<Option<?>, Object> optionEntry, TableConfiguration tableConfiguration,
+         ColumnConfiguration columnConfiguration, boolean isBundleGraphUpdatable) {
+      this.optionEntry = optionEntry;
+      this.tableConfiguration = tableConfiguration;
+      this.columnConfiguration = columnConfiguration;
+      this.request = tableConfiguration.getRequest();
+      this.isBundleGraphUpdatable = isBundleGraphUpdatable;
 
-		if (!this.isBundleGraphUpdatable) {
-			this.valueAsString = optionEntry.getValue() != null ? String.valueOf(optionEntry.getValue()).trim() : null;
-		}
-		else {
-			if (optionEntry.getValue() != null) {
-				this.valueAsString = ProcessorUtils.getValueAfterProcessingBundles(
-						String.valueOf(optionEntry.getValue()).trim(), this.request);
-			}
-			else {
-				this.valueAsString = null;
-			}
-		}
-	}
+      if (!this.isBundleGraphUpdatable) {
+         this.valueAsString = optionEntry.getValue() != null ? String.valueOf(optionEntry.getValue()).trim() : null;
+      }
+      else {
+         if (optionEntry.getValue() != null) {
+            this.valueAsString = ProcessorUtils.getValueAfterProcessingBundles(String.valueOf(optionEntry.getValue())
+                  .trim(), this.request);
+         }
+         else {
+            this.valueAsString = null;
+         }
+      }
+   }
 
-	/**
-	 * @return the {@link Option}/value pair to be processed.
-	 */
-	public Entry<Option<?>, Object> getOptionEntry() {
-		return this.optionEntry;
-	}
+   /**
+    * @return the {@link Option}/value pair to be processed.
+    */
+   public Entry<Option<?>, Object> getOptionEntry() {
+      return this.optionEntry;
+   }
 
-	/**
-	 * @return the {@link TableConfiguration} in which the {@link Option}/value
-	 *         pair is processed.
-	 */
-	public TableConfiguration getTableConfiguration() {
-		return this.tableConfiguration;
-	}
+   /**
+    * @return the {@link TableConfiguration} in which the {@link Option}/value
+    *         pair is processed.
+    */
+   public TableConfiguration getTableConfiguration() {
+      return this.tableConfiguration;
+   }
 
-	/**
-	 * @return the {@link ColumnConfiguration} in which the {@link Option}/value
-	 *         pair is processed.
-	 */
-	public ColumnConfiguration getColumnConfiguration() {
-		return this.columnConfiguration;
-	}
+   /**
+    * @return the {@link ColumnConfiguration} in which the {@link Option}/value
+    *         pair is processed.
+    */
+   public ColumnConfiguration getColumnConfiguration() {
+      return this.columnConfiguration;
+   }
 
-	/**
-	 * @return the option value as a {@link String} which may have been
-	 *         pre-processed depending on the {@link #isBundleGraphUpdatable}
-	 *         value.
-	 */
-	public String getValueAsString() {
-		return this.valueAsString;
-	}
+   /**
+    * @return the option value as a {@link String} which may have been
+    *         pre-processed depending on the {@link #isBundleGraphUpdatable}
+    *         value.
+    */
+   public String getValueAsString() {
+      return this.valueAsString;
+   }
 
-	/**
-	 * @return the current request.
-	 */
-	public HttpServletRequest getRequest() {
-		return this.request;
-	}
+   /**
+    * @return the current request.
+    */
+   public HttpServletRequest getRequest() {
+      return this.request;
+   }
 
-	/**
-	 * <p>
-	 * Utility method used to register an {@link Extension} in the current
-	 * {@link TableConfiguration} instance.
-	 * 
-	 * @param extension
-	 *            The {@link Extension} to register.
-	 */
-	public void registerExtension(Extension extension) {
-		this.tableConfiguration.registerExtension(extension);
-	}
+   /**
+    * <p>
+    * Utility method used to register an {@link Extension} in the current
+    * {@link TableConfiguration} instance.
+    * 
+    * @param extension
+    *           The {@link Extension} to register.
+    */
+   public void registerExtension(Extension extension) {
+      this.tableConfiguration.registerExtension(extension);
+   }
 
-	/**
-	 * <p>
-	 * Utility method used to register an {@link Extension} in the current
-	 * {@link TableConfiguration} instance.
-	 * 
-	 * @param extensionName
-	 *            The name of the {@link Extension} to register.
-	 */
-	public void registerExtension(String extensionName) {
-		this.tableConfiguration.registerExtension(ExtensionLoader.get(extensionName));
-	}
+   /**
+    * <p>
+    * Utility method used to register an {@link Extension} in the current
+    * {@link TableConfiguration} instance.
+    * 
+    * @param extensionName
+    *           The name of the {@link Extension} to register.
+    */
+   public void registerExtension(String extensionName) {
+      this.tableConfiguration.registerExtension(ExtensionLoader.get(extensionName));
+   }
 
-	/**
-	 * <p>
-	 * Test whether the passed {@link Option} is already present in the
-	 * configuration map.
-	 * </p>
-	 * <p>
-	 * In most of the cases, this is useful to initialize a entry with a default
-	 * value.
-	 * </p>
-	 * 
-	 * @param option
-	 *            The option to test.
-	 * @return {@code true} if present, otherwise {@code false}.
-	 */
-	public boolean isOptionPresent(Option<?> option) {
-		return this.tableConfiguration.getConfigurations().containsKey(option) || this.columnConfiguration != null
-				&& this.columnConfiguration.getConfigurations().containsKey(option);
-	}
+   /**
+    * <p>
+    * Test whether the passed {@link Option} is already present in the
+    * configuration map.
+    * </p>
+    * <p>
+    * In most of the cases, this is useful to initialize a entry with a default
+    * value.
+    * </p>
+    * 
+    * @param option
+    *           The option to test.
+    * @return {@code true} if present, otherwise {@code false}.
+    */
+   public boolean isOptionPresent(Option<?> option) {
+      return this.tableConfiguration.getConfigurations().containsKey(option) || this.columnConfiguration != null
+            && this.columnConfiguration.getConfigurations().containsKey(option);
+   }
 
-	/**
-	 * <p>
-	 * Add a new entry to the staging configuration map of the current
-	 * {@link TableConfiguration} instance.
-	 * 
-	 * <p>
-	 * The new entry cannot be directly added to the configuration map because
-	 * this map is being iterated on (ConcurrentModificationException).
-	 * 
-	 * <p>
-	 * The staging configuration map will be merged in the final map just after
-	 * the end of the loop. See the
-	 * {@link ConfigUtils#processOptions(com.github.dandelion.datatables.core.html.HtmlTable)}
-	 * method.
-	 * 
-	 * @param option
-	 *            The new {@link Option} to add.
-	 * @param value
-	 *            The value associated with the {@link Option}.
-	 */
-	public void addTableEntry(Option<?> option, Object value) {
-		this.tableConfiguration.getStagingConfiguration().put(option, value);
-	}
+   /**
+    * <p>
+    * Add a new entry to the staging configuration map of the current
+    * {@link TableConfiguration} instance.
+    * 
+    * <p>
+    * The new entry cannot be directly added to the configuration map because
+    * this map is being iterated on (ConcurrentModificationException).
+    * 
+    * <p>
+    * The staging configuration map will be merged in the final map just after
+    * the end of the loop. See the
+    * {@link ConfigUtils#processOptions(com.github.dandelion.datatables.core.html.HtmlTable)}
+    * method.
+    * 
+    * @param option
+    *           The new {@link Option} to add.
+    * @param value
+    *           The value associated with the {@link Option}.
+    */
+   public void addTableEntry(Option<?> option, Object value) {
+      this.tableConfiguration.getStagingConfiguration().put(option, value);
+   }
 
-	/**
-	 * <p>
-	 * Add a new entry to the staging configuration map of the current
-	 * {@link ColumnConfiguration} instance.
-	 * 
-	 * <p>
-	 * The new entry cannot be directly added to the configuration map because
-	 * this map is being iterated on (ConcurrentModificationException).
-	 * 
-	 * <p>
-	 * The staging configuration map will be merged in the final map just after
-	 * the end of the loop. See the
-	 * {@link ConfigUtils#processOptions(com.github.dandelion.datatables.core.html.HtmlColumn, com.github.dandelion.datatables.core.html.HtmlTable)}
-	 * method.
-	 * 
-	 * @param option
-	 *            The new {@link Option} to add.
-	 * @param value
-	 *            The value associated with the {@link Option}.
-	 */
-	public void addColumnEntry(Option<?> option, Object value) {
-		this.columnConfiguration.getStagingConfigurations().put(option, value);
-	}
+   /**
+    * <p>
+    * Add a new entry to the staging configuration map of the current
+    * {@link ColumnConfiguration} instance.
+    * 
+    * <p>
+    * The new entry cannot be directly added to the configuration map because
+    * this map is being iterated on (ConcurrentModificationException).
+    * 
+    * <p>
+    * The staging configuration map will be merged in the final map just after
+    * the end of the loop. See the
+    * {@link ConfigUtils#processOptions(com.github.dandelion.datatables.core.html.HtmlColumn, com.github.dandelion.datatables.core.html.HtmlTable)}
+    * method.
+    * 
+    * @param option
+    *           The new {@link Option} to add.
+    * @param value
+    *           The value associated with the {@link Option}.
+    */
+   public void addColumnEntry(Option<?> option, Object value) {
+      this.columnConfiguration.getStagingConfigurations().put(option, value);
+   }
 }

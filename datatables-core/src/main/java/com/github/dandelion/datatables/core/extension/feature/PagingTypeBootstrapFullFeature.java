@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -47,16 +47,16 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class PagingTypeBootstrapFullFeature extends AbstractExtension {
 
-	public static final String FEATURE_NAME = "pagingTypeBootstrapFull";
+   public static final String FEATURE_NAME = "pagingTypeBootstrapFull";
 
-	@Override
-	public String getExtensionName() {
-		return FEATURE_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return FEATURE_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
-		addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP_FULL);
-		addParameter(DTConstants.DT_PAGINGTYPE, PagingType.BOOTSTRAP_FULL.toString());
-	}
+   @Override
+   public void setup(HtmlTable table) {
+      addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP_FULL);
+      addParameter(DTConstants.DT_PAGINGTYPE, PagingType.BOOTSTRAP_FULL.toString());
+   }
 }

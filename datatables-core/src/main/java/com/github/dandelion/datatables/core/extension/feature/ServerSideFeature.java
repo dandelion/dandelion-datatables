@@ -57,37 +57,37 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class ServerSideFeature extends AbstractExtension {
 
-	public static final String SERVER_SIDE_FEATURE_NAME = "serverSide";
+   public static final String SERVER_SIDE_FEATURE_NAME = "serverSide";
 
-	@Override
-	public String getExtensionName() {
-		return SERVER_SIDE_FEATURE_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return SERVER_SIDE_FEATURE_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
-		Map<String, String> ajaxParams = new HashMap<String, String>();
-		ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
-		ajaxParams.put(DTConstants.DT_S_AJAXDATAPROP, "data");
+   @Override
+   public void setup(HtmlTable table) {
+      Map<String, String> ajaxParams = new HashMap<String, String>();
+      ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
+      ajaxParams.put(DTConstants.DT_S_AJAXDATAPROP, "data");
 
-		String extraParams = DatatableOptions.AJAX_PARAMS.valueFrom(table.getTableConfiguration());
-		if (StringUtils.isNotBlank(extraParams)) {
-			StringBuilder paramObject = new StringBuilder("oTable_").append(table.getId()).append("_params");
-			StringBuilder js = new StringBuilder();
-			js.append(paramObject).append(".ajax = ");
-			js.append(extraParams);
-			js.append("();\n");
-			for (Entry<String, String> ajaxParam : ajaxParams.entrySet()) {
-				js.append(paramObject).append(".ajax.").append(ajaxParam.getKey()).append(" = '")
-						.append(ajaxParam.getValue());
-				js.append("';\n");
-			}
-			appendToAfterStartDocumentReady(js.toString());
-		}
-		else {
-			addParameter(DTConstants.DT_S_AJAX_SOURCE, ajaxParams);
-		}
+      String extraParams = DatatableOptions.AJAX_PARAMS.valueFrom(table.getTableConfiguration());
+      if (StringUtils.isNotBlank(extraParams)) {
+         StringBuilder paramObject = new StringBuilder("oTable_").append(table.getId()).append("_params");
+         StringBuilder js = new StringBuilder();
+         js.append(paramObject).append(".ajax = ");
+         js.append(extraParams);
+         js.append("();\n");
+         for (Entry<String, String> ajaxParam : ajaxParams.entrySet()) {
+            js.append(paramObject).append(".ajax.").append(ajaxParam.getKey()).append(" = '")
+                  .append(ajaxParam.getValue());
+            js.append("';\n");
+         }
+         appendToAfterStartDocumentReady(js.toString());
+      }
+      else {
+         addParameter(DTConstants.DT_S_AJAX_SOURCE, ajaxParams);
+      }
 
-		addCallback(CallbackType.INIT, "oTable_" + table.getId() + ".columns.adjust().draw();");
-	}
+      addCallback(CallbackType.INIT, "oTable_" + table.getId() + ".columns.adjust().draw();");
+   }
 }

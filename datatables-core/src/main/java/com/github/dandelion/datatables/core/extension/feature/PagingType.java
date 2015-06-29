@@ -39,23 +39,17 @@ package com.github.dandelion.datatables.core.extension.feature;
 public enum PagingType {
 
    // Built-in paging type
-   SIMPLE,
-   SIMPLE_NUMBERS,
-   FULL,
-   FULL_NUMBERS,
-   
-	INPUT,
-	LISTBOX,
-	SCROLLING,
-	EXTSTYLE,
-	
-	// --- Bootstrap 2 styles ---
-	BOOTSTRAP_SIMPLE, // Previous, 1-5, Next
-	BOOTSTRAP_FULL, // First, Previous, Next, Last
-	BOOTSTRAP_FULL_NUMBERS; // First, Previous, 1-5, Next, Last
-	
-	@Override
-	public String toString() {
-	    return this.name().toLowerCase();
-	}
+   SIMPLE, SIMPLE_NUMBERS, FULL, FULL_NUMBERS,
+
+   INPUT, LISTBOX, SCROLLING, EXTSTYLE,
+
+   // --- Bootstrap 2 styles ---
+   BOOTSTRAP_SIMPLE, // Previous, 1-5, Next
+   BOOTSTRAP_FULL, // First, Previous, Next, Last
+   BOOTSTRAP_FULL_NUMBERS; // First, Previous, 1-5, Next, Last
+
+   @Override
+   public String toString() {
+      return this.name().toLowerCase();
+   }
 }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -52,21 +52,21 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
  */
 public class TableCustomExtensionsProcessor extends AbstractTableAttrProcessor {
 
-	public TableCustomExtensionsProcessor(IAttributeNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public TableCustomExtensionsProcessor(IAttributeNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	@Override
-	public int getPrecedence() {
-		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
-	}
+   @Override
+   public int getPrecedence() {
+      return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
+   }
 
-	@Override
-	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-			Map<Option<?>, Object> stagingConf) {
+   @Override
+   protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
+         Map<Option<?>, Object> stagingConf) {
 
-		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
+      String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-		stagingConf.put(DatatableOptions.MAIN_EXTENSION_NAMES, attrValue);
-	}
+      stagingConf.put(DatatableOptions.MAIN_EXTENSION_NAMES, attrValue);
+   }
 }

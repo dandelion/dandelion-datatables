@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -36,30 +36,6 @@ package com.github.dandelion.datatables.core.extension.theme;
  */
 public enum ThemeOption {
 
-	// Theme options available for the "jqueryui" theme (Theme Roller)
-	BASE,
-	BLACKTIE,
-	BLITZER,
-	CUPERTINO,
-	DARKHIVE,
-	DOTLUV,
-	EGGPLANT,
-	EXCITEBIKE,
-	FLICK,
-	HOTSNEAKS,
-	HUMANITY,
-	LEFROG,
-	MINTCHOC,
-	OVERCAST,
-	PEPPERGRINDER,
-	REDMOND,
-	SMOOTHNESS,
-	SOUTHSTREET,
-	START,
-	SUNNY,
-	SWANKYPURSE,
-	TRONTASTIC,
-	UIDARKNESS,
-	UILIGHTNESS,
-	VADER
+   // Theme options available for the "jqueryui" theme (Theme Roller)
+   BASE, BLACKTIE, BLITZER, CUPERTINO, DARKHIVE, DOTLUV, EGGPLANT, EXCITEBIKE, FLICK, HOTSNEAKS, HUMANITY, LEFROG, MINTCHOC, OVERCAST, PEPPERGRINDER, REDMOND, SMOOTHNESS, SOUTHSTREET, START, SUNNY, SWANKYPURSE, TRONTASTIC, UIDARKNESS, UILIGHTNESS, VADER
 }

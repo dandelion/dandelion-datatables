@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -40,11 +40,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class RequestUtils {
 
-	public static void storeInRequest(String referenceName, Object value, HttpServletRequest request) {
-		request.setAttribute(referenceName, value);
-	}
+   public static void storeInRequest(String referenceName, Object value, HttpServletRequest request) {
+      request.setAttribute(referenceName, value);
+   }
 
-	public static Object getFromRequest(String referenceName, HttpServletRequest request) {
-		return request.getAttribute(referenceName);
-	}
+   public static Object getFromRequest(String referenceName, HttpServletRequest request) {
+      return request.getAttribute(referenceName);
+   }
 }

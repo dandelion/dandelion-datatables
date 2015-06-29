@@ -48,31 +48,31 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  */
 public class AjaxReloadFeature extends AbstractExtension {
 
-	public static final String AJAX_RELOAD_FEATURE_NAME = "ajaxReload";
+   public static final String AJAX_RELOAD_FEATURE_NAME = "ajaxReload";
 
-	@Override
-	public String getExtensionName() {
-		return AJAX_RELOAD_FEATURE_NAME;
-	}
+   @Override
+   public String getExtensionName() {
+      return AJAX_RELOAD_FEATURE_NAME;
+   }
 
-	@Override
-	public void setup(HtmlTable table) {
+   @Override
+   public void setup(HtmlTable table) {
 
-		String reloadSelector = DatatableOptions.AJAX_RELOAD_SELECTOR.valueFrom(table.getTableConfiguration());
-		String reloadFunction = DatatableOptions.AJAX_RELOAD_FUNCTION.valueFrom(table.getTableConfiguration());
+      String reloadSelector = DatatableOptions.AJAX_RELOAD_SELECTOR.valueFrom(table.getTableConfiguration());
+      String reloadFunction = DatatableOptions.AJAX_RELOAD_FUNCTION.valueFrom(table.getTableConfiguration());
 
-		StringBuilder js = new StringBuilder();
+      StringBuilder js = new StringBuilder();
 
-		if (StringUtils.isNotBlank(reloadFunction)) {
-			js.append("$('").append(reloadSelector).append("').bind('click', function() {");
-			js.append(reloadFunction).append("();");
-			js.append("});");
-		}
-		else {
-			js.append("$('").append(reloadSelector).append("').bind('click', function() {");
-			js.append("oTable_").append(table.getId()).append(".ajax.reload();");
-			js.append("});");
-		}
-		appendToBeforeEndDocumentReady(js.toString());
-	}
+      if (StringUtils.isNotBlank(reloadFunction)) {
+         js.append("$('").append(reloadSelector).append("').bind('click', function() {");
+         js.append(reloadFunction).append("();");
+         js.append("});");
+      }
+      else {
+         js.append("$('").append(reloadSelector).append("').bind('click', function() {");
+         js.append("oTable_").append(table.getId()).append(".ajax.reload();");
+         js.append("});");
+      }
+      appendToBeforeEndDocumentReady(js.toString());
+   }
 }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -50,21 +50,21 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
  */
 public class TableAppearAttrProcessor extends AbstractTableAttrProcessor {
 
-	public TableAppearAttrProcessor(IAttributeNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public TableAppearAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	@Override
-	public int getPrecedence() {
-		return 8000;
-	}
+   @Override
+   public int getPrecedence() {
+      return 8000;
+   }
 
-	@Override
-	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-			Map<Option<?>, Object> stagingConf) {
+   @Override
+   protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
+         Map<Option<?>, Object> stagingConf) {
 
-		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
+      String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-		stagingConf.put(DatatableOptions.FEATURE_APPEAR, attrValue);
-	}
+      stagingConf.put(DatatableOptions.FEATURE_APPEAR, attrValue);
+   }
 }

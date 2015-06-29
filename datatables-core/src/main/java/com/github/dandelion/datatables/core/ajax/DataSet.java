@@ -40,26 +40,26 @@ import java.util.List;
  * @since 0.8.2
  */
 public final class DataSet<T> {
-	
-	private final List<T> rows;
-	private final Long totalDisplayRecords;
-	private final Long totalRecords;
 
-	public DataSet(List<T> rows, Long totalRecords, Long totalDisplayRecords) {
-		this.rows = rows;
-		this.totalRecords = totalRecords;
-		this.totalDisplayRecords = totalDisplayRecords;
-	}
+   private final List<T> rows;
+   private final Long totalDisplayRecords;
+   private final Long totalRecords;
 
-	public List<T> getRows() {
-		return rows;
-	}
+   public DataSet(List<T> rows, Long totalRecords, Long totalDisplayRecords) {
+      this.rows = rows;
+      this.totalRecords = totalRecords;
+      this.totalDisplayRecords = totalDisplayRecords;
+   }
 
-	public Long getTotalDisplayRecords() {
-		return totalDisplayRecords;
-	}
+   public List<T> getRows() {
+      return rows;
+   }
 
-	public Long getTotalRecords() {
-		return totalRecords;
-	}
+   public Long getTotalDisplayRecords() {
+      return totalDisplayRecords;
+   }
+
+   public Long getTotalRecords() {
+      return totalRecords;
+   }
 }

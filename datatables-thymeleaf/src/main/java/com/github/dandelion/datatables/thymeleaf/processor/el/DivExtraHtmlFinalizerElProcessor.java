@@ -34,61 +34,61 @@ import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
  */
 public class DivExtraHtmlFinalizerElProcessor extends AbstractElProcessor {
 
-	private static Logger logger = LoggerFactory.getLogger(DivExtraHtmlFinalizerElProcessor.class);
+   private static Logger logger = LoggerFactory.getLogger(DivExtraHtmlFinalizerElProcessor.class);
 
-	public DivExtraHtmlFinalizerElProcessor(IElementNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public DivExtraHtmlFinalizerElProcessor(IElementNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getPrecedence() {
-		return 8005;
-	}
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public int getPrecedence() {
+      return 8005;
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("unchecked")
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element, HttpServletRequest request,
-			HttpServletResponse response, HtmlTable htmlTable) {
+   /**
+    * {@inheritDoc}
+    */
+   @SuppressWarnings("unchecked")
+   protected ProcessorResult doProcessElement(Arguments arguments, Element element, HttpServletRequest request,
+         HttpServletResponse response, HtmlTable htmlTable) {
 
-		Map<String, Map<ConfType, Object>> configs = (Map<String, Map<ConfType, Object>>) RequestUtils.getFromRequest(
-				DataTablesDialect.INTERNAL_BEAN_CONFIGS, request);
+      Map<String, Map<ConfType, Object>> configs = (Map<String, Map<ConfType, Object>>) RequestUtils.getFromRequest(
+            DataTablesDialect.INTERNAL_BEAN_CONFIGS, request);
 
-		String tableId = ((Element) element.getParent()).getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":conf");
-		String uid = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":uid");
+      String tableId = ((Element) element.getParent()).getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":conf");
+      String uid = element.getAttributeValue(DataTablesDialect.DIALECT_PREFIX + ":uid");
 
-		if (configs != null) {
-			if (configs.containsKey(tableId)) {
+      if (configs != null) {
+         if (configs.containsKey(tableId)) {
 
-				List<ExtraHtml> extraHtmls = (List<ExtraHtml>) configs.get(tableId).get(ConfType.EXTRAHTML);
-				if (extraHtmls != null && !extraHtmls.isEmpty()) {
+            List<ExtraHtml> extraHtmls = (List<ExtraHtml>) configs.get(tableId).get(ConfType.EXTRAHTML);
+            if (extraHtmls != null && !extraHtmls.isEmpty()) {
 
-					for (ExtraHtml extraHtml : extraHtmls) {
-						if (extraHtml.getUid().equals(uid)) {
+               for (ExtraHtml extraHtml : extraHtmls) {
+                  if (extraHtml.getUid().equals(uid)) {
 
-							Element e = DomUtils.findElement((Element) element.getParent(), "div",
-									DataTablesDialect.DIALECT_PREFIX + ":uid", uid);
+                     Element e = DomUtils.findElement((Element) element.getParent(), "div",
+                           DataTablesDialect.DIALECT_PREFIX + ":uid", uid);
 
-							StringBuilder sb = new StringBuilder();
-							for (Node child : e.getChildren()) {
-								sb.append(DOMUtils.getHtml5For(child).replaceAll("[\n\r]", "").trim());
-							}
+                     StringBuilder sb = new StringBuilder();
+                     for (Node child : e.getChildren()) {
+                        sb.append(DOMUtils.getHtml5For(child).replaceAll("[\n\r]", "").trim());
+                     }
 
-							extraHtml.setContent(sb.toString());
-						}
-					}
-				}
-			}
-			else {
-				logger.warn("No configuration was found for the table with id '{}'", tableId);
-			}
-		}
+                     extraHtml.setContent(sb.toString());
+                  }
+               }
+            }
+         }
+         else {
+            logger.warn("No configuration was found for the table with id '{}'", tableId);
+         }
+      }
 
-		return ProcessorResult.ok();
-	}
+      return ProcessorResult.ok();
+   }
 
 }

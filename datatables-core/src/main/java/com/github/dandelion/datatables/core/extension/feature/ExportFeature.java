@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -67,7 +67,7 @@ public class ExportFeature extends AbstractExtension {
 
    public static final String EXTENSION_NAME = "export";
    private static final String TOOLBAR_PREXIX = "fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-";
-   
+
    private HtmlTable table;
 
    @Override
@@ -105,9 +105,7 @@ public class ExportFeature extends AbstractExtension {
       if (table.getTableConfiguration().getConfigurations().containsKey(DatatableOptions.CSS_THEME)
             && table.getTableConfiguration().getConfigurations().get(DatatableOptions.CSS_THEME).getClass()
                   .getSimpleName().equals("JQueryUITheme")) {
-         addParameter(
-               DTConstants.DT_DOM,
-               "<'" + TOOLBAR_PREXIX + "-tr'lEfr>t<'" + TOOLBAR_PREXIX + "-br'ip>",
+         addParameter(DTConstants.DT_DOM, "<'" + TOOLBAR_PREXIX + "-tr'lEfr>t<'" + TOOLBAR_PREXIX + "-br'ip>",
                Mode.OVERRIDE);
       }
       else if (StringUtils.isBlank(dom)) {

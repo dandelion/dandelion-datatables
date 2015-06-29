@@ -69,14 +69,14 @@ import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
  */
 public class DatatablesCriteriasResolver implements WebArgumentResolver {
 
-	public Object resolveArgument(MethodParameter methodParam, NativeWebRequest nativeWebRequest) throws Exception {
-		DatatablesParams parameterAnnotation = methodParam.getParameterAnnotation(DatatablesParams.class);
+   public Object resolveArgument(MethodParameter methodParam, NativeWebRequest nativeWebRequest) throws Exception {
+      DatatablesParams parameterAnnotation = methodParam.getParameterAnnotation(DatatablesParams.class);
 
-		if (parameterAnnotation != null) {
-			HttpServletRequest request = (HttpServletRequest) nativeWebRequest.getNativeRequest();
-			return DatatablesCriterias.getFromRequest(request);
-		}
+      if (parameterAnnotation != null) {
+         HttpServletRequest request = (HttpServletRequest) nativeWebRequest.getNativeRequest();
+         return DatatablesCriterias.getFromRequest(request);
+      }
 
-		return WebArgumentResolver.UNRESOLVED;
-	}
+      return WebArgumentResolver.UNRESOLVED;
+   }
 }

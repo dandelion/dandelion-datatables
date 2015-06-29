@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -48,17 +48,17 @@ package com.github.dandelion.datatables.core.export;
  */
 public final class ReservedFormat {
 
-	public static final String ALL = "all";
-	public static final String HTML = "html";
-	public static final String CSV = "csv";
-	public static final String XML = "xml";
-	public static final String PDF = "pdf";
-	public static final String XLS = "xls";
-	public static final String XLSX = "xlsx";
+   public static final String ALL = "all";
+   public static final String HTML = "html";
+   public static final String CSV = "csv";
+   public static final String XML = "xml";
+   public static final String PDF = "pdf";
+   public static final String XLS = "xls";
+   public static final String XLSX = "xlsx";
 
-	/**
-	 * Prevent instantiation.
-	 */
-	private ReservedFormat() {
-	}
+   /**
+    * Prevent instantiation.
+    */
+   private ReservedFormat() {
+   }
 }

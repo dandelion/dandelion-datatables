@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -59,59 +59,59 @@ import com.github.dandelion.datatables.core.option.Option;
  * @author Thibault Duchateau
  */
 public class OptionTag extends TagSupport {
-	
-	private static final long serialVersionUID = -3453884184847355817L;
 
-	/**
-	 * Tag attributes
-	 */
-	// Name of the configuration option
-	private String name;
-	
-	// Value of the configuration option
-	private String value;
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public int doStartTag() throws JspException {
+   private static final long serialVersionUID = -3453884184847355817L;
 
-		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
-		if(parent != null){
-			return SKIP_BODY;
-		}
+   /**
+    * Tag attributes
+    */
+   // Name of the configuration option
+   private String name;
 
-		throw new JspException("The tag 'option' must be inside the 'table' tag.");
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public int doEndTag() throws JspException {
-		
-		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
+   // Value of the configuration option
+   private String value;
 
-		// The tag is evaluated only once, at the first iteration
-		if(parent.isFirstIteration()){
-			
-			Option<?> option = DatatableOptions.findByName(name);
-			
-			if(option == null){
-				throw new JspException("'" + name + "' is not a valid option. Please read the documentation.");
-			}
-			else{
-				parent.stagingConf.put(option, value);
-			}
-		}
-		
-		return EVAL_PAGE;
-	}
+   /**
+    * {@inheritDoc}
+    */
+   public int doStartTag() throws JspException {
 
-	public void setName(String name) {
-		this.name = name;
-	}
+      TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+      if (parent != null) {
+         return SKIP_BODY;
+      }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+      throw new JspException("The tag 'option' must be inside the 'table' tag.");
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public int doEndTag() throws JspException {
+
+      AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
+
+      // The tag is evaluated only once, at the first iteration
+      if (parent.isFirstIteration()) {
+
+         Option<?> option = DatatableOptions.findByName(name);
+
+         if (option == null) {
+            throw new JspException("'" + name + "' is not a valid option. Please read the documentation.");
+         }
+         else {
+            parent.stagingConf.put(option, value);
+         }
+      }
+
+      return EVAL_PAGE;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public void setValue(String value) {
+      this.value = value;
+   }
 }

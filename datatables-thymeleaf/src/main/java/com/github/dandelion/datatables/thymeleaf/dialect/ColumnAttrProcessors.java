@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,40 +59,42 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.ThVisibleAttrPro
  */
 public enum ColumnAttrProcessors {
 
-	PROPERTY(ThPropertyAttrProcessor.class, "property", "th"), 
-	DEFAULT(ThDefaultAttrProcessor.class, "default", "th"), 
-	NAME(ThNameAttrProcessor.class, "name", "th"), 
-	RENDER_FUNCTION(ThRenderFunctionAttrProcessor.class, "renderFunction", "th"), 
-	SORTABLE(ThSortableAttrProcessor.class, "sortable", "th"), 
-	FILTERABLE(ThFilterableAttrProcessor.class, "filterable", "th"), 
-	SEARCHABLE(ThSearchableAttrProcessor.class, "searchable", "th"), 
-	VISIBLE(ThVisibleAttrProcessor.class, "visible", "th"), 
-	FILTER_TYPE(ThFilterTypeAttrProcessor.class, "filterType", "th"), 
-	FILTER_VALUES(ThFilterValuesAttrProcessor.class, "filterValues", "th"), 
-	SORT_INITDIRECTION(ThSortInitDirectionAttrProcessor.class, "sortInitDirection", "th"),
-	SORT_INITORDER(ThSortInitOrderAttrProcessor.class, "sortInitOrder", "th"),
-	SORT_DIR(ThSortDirectionAttrProcessor.class, "sortDir", "th"), 
-	SORT_TYPE(ThSortTypeAttrProcessor.class, "sortType", "th"), 
-	SELECTOR(ThSelectorAttrProcessor.class, "selector", "th"), 
-	CSS_CELLCLASS(ThCssCellClassAttrProcessor.class, "cssCellClass", "th");
+   PROPERTY(ThPropertyAttrProcessor.class, "property", "th"),
+   DEFAULT(ThDefaultAttrProcessor.class, "default", "th"),
+   NAME(ThNameAttrProcessor.class, "name", "th"),
+   RENDER_FUNCTION(ThRenderFunctionAttrProcessor.class, "renderFunction", "th"),
+   SORTABLE(ThSortableAttrProcessor.class, "sortable", "th"),
+   FILTERABLE(ThFilterableAttrProcessor.class, "filterable", "th"),
+   SEARCHABLE(ThSearchableAttrProcessor.class, "searchable", "th"),
+   VISIBLE(ThVisibleAttrProcessor.class, "visible", "th"),
+   FILTER_TYPE(ThFilterTypeAttrProcessor.class, "filterType", "th"),
+   FILTER_VALUES(ThFilterValuesAttrProcessor.class, "filterValues", "th"),
+   SORT_INITDIRECTION(ThSortInitDirectionAttrProcessor.class, "sortInitDirection", "th"),
+   SORT_INITORDER(ThSortInitOrderAttrProcessor.class, "sortInitOrder", "th"),
+   SORT_DIR(ThSortDirectionAttrProcessor.class, "sortDir", "th"),
+   SORT_TYPE(ThSortTypeAttrProcessor.class, "sortType", "th"), 
+   SELECTOR(ThSelectorAttrProcessor.class, "selector", "th"),
+   CSS_CELLCLASS(ThCssCellClassAttrProcessor.class, "cssCellClass", "th");
 
-	private Class<? extends AbstractColumnAttrProcessor> processorClass;
-	private String attributeName;
-	private String elementNameFilter;
+   private Class<? extends AbstractColumnAttrProcessor> processorClass;
+   private String attributeName;
+   private String elementNameFilter;
 
-	private ColumnAttrProcessors(Class<? extends AbstractColumnAttrProcessor> processorClass, String attributeName,
-			String elementNameFilter) {
-		this.processorClass = processorClass;
-		this.attributeName = attributeName;
-		this.elementNameFilter = elementNameFilter;
-	}
+   private ColumnAttrProcessors(Class<? extends AbstractColumnAttrProcessor> processorClass, String attributeName,
+         String elementNameFilter) {
+      this.processorClass = processorClass;
+      this.attributeName = attributeName;
+      this.elementNameFilter = elementNameFilter;
+   }
 
-	public AbstractColumnAttrProcessor getProcessor() {
-		AttributeNameProcessorMatcher matcher = new AttributeNameProcessorMatcher(attributeName, elementNameFilter, DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse");
-		try {
-			return processorClass.getDeclaredConstructor(IAttributeNameProcessorMatcher.class).newInstance(matcher);
-		} catch (Exception e) {
-			throw new DandelionException(e);
-		} 
-	}
+   public AbstractColumnAttrProcessor getProcessor() {
+      AttributeNameProcessorMatcher matcher = new AttributeNameProcessorMatcher(attributeName, elementNameFilter,
+            DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse");
+      try {
+         return processorClass.getDeclaredConstructor(IAttributeNameProcessorMatcher.class).newInstance(matcher);
+      }
+      catch (Exception e) {
+         throw new DandelionException(e);
+      }
+   }
 }

@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -48,59 +48,59 @@ import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
  */
 public class TheadElProcessor extends AbstractElProcessor {
 
-	public TheadElProcessor(IElementNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public TheadElProcessor(IElementNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getPrecedence() {
-		return 4000;
-	}
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public int getPrecedence() {
+      return 4000;
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected ProcessorResult doProcessElement(Arguments arguments, Element element,
-			HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable) {
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   protected ProcessorResult doProcessElement(Arguments arguments, Element element, HttpServletRequest request,
+         HttpServletResponse response, HtmlTable htmlTable) {
 
-		// All the tbody tag are iterated over
-		for (Node child : element.getChildren()) {
+      // All the tbody tag are iterated over
+      for (Node child : element.getChildren()) {
 
-			if (child != null && child instanceof Element) {
+         if (child != null && child instanceof Element) {
 
-				Element trChildTag = (Element) child;
-				String trChildTagName = trChildTag.getNormalizedName();
+            Element trChildTag = (Element) child;
+            String trChildTagName = trChildTag.getNormalizedName();
 
-				// The tr nodes must be processed (for HtmlRow creation)
-				trChildTag.setProcessable(true);
+            // The tr nodes must be processed (for HtmlRow creation)
+            trChildTag.setProcessable(true);
 
-				if (trChildTagName != null && trChildTagName.equals("tr")) {
+            if (trChildTagName != null && trChildTagName.equals("tr")) {
 
-					for (Node grandchild : trChildTag.getChildren()) {
+               for (Node grandchild : trChildTag.getChildren()) {
 
-						if (grandchild != null && grandchild instanceof Element) {
+                  if (grandchild != null && grandchild instanceof Element) {
 
-							Element thChildTag = (Element) grandchild;
-							thChildTag.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse");
+                     Element thChildTag = (Element) grandchild;
+                     thChildTag.setAttribute(DataTablesDialect.DIALECT_PREFIX + ":data", "internalUse");
 
-							// The td nodes must be processed too (for
-							// HtmlColumn creation)
-							thChildTag.setProcessable(true);
-						}
-					}
-				}
-			}
-		}
+                     // The td nodes must be processed too (for
+                     // HtmlColumn creation)
+                     thChildTag.setProcessable(true);
+                  }
+               }
+            }
+         }
+      }
 
-		// Housekeeping
-		if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":data")) {
-			element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":data");
-		}
-				
-		return ProcessorResult.ok();
-	}
+      // Housekeeping
+      if (element.hasAttribute(DataTablesDialect.DIALECT_PREFIX + ":data")) {
+         element.removeAttribute(DataTablesDialect.DIALECT_PREFIX + ":data");
+      }
+
+      return ProcessorResult.ok();
+   }
 }

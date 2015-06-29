@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -52,21 +52,21 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
  */
 public class TableAjaxDeferRenderAttrProcessor extends AbstractTableAttrProcessor {
 
-	public TableAjaxDeferRenderAttrProcessor(IAttributeNameProcessorMatcher matcher) {
-		super(matcher);
-	}
+   public TableAjaxDeferRenderAttrProcessor(IAttributeNameProcessorMatcher matcher) {
+      super(matcher);
+   }
 
-	@Override
-	public int getPrecedence() {
-		return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
-	}
+   @Override
+   public int getPrecedence() {
+      return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
+   }
 
-	@Override
-	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-			Map<Option<?>, Object> stagingConf) {
+   @Override
+   protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
+         Map<Option<?>, Object> stagingConf) {
 
-		Boolean attrValue = AttributeUtils.parseBooleanAttribute(arguments, element, attributeName);
+      Boolean attrValue = AttributeUtils.parseBooleanAttribute(arguments, element, attributeName);
 
-		stagingConf.put(DatatableOptions.AJAX_DEFERRENDER, attrValue);
-	}
+      stagingConf.put(DatatableOptions.AJAX_DEFERRENDER, attrValue);
+   }
 }

@@ -50,36 +50,36 @@ import com.opensymphony.xwork2.ognl.OgnlValueStack;
  */
 public class Struts2MessageResolver extends AbstractMessageResolver {
 
-	public Struts2MessageResolver(HttpServletRequest request) {
-		super(request);
-	}
+   public Struts2MessageResolver(HttpServletRequest request) {
+      super(request);
+   }
 
-	@Override
-	public String getResource(String messageKey, String defaultValue, Object... params) {
+   @Override
+   public String getResource(String messageKey, String defaultValue, Object... params) {
 
-		String message = null;
-		PageContext pageContext = null;
+      String message = null;
+      PageContext pageContext = null;
 
-		// I'm so ashamed about that...
-		pageContext = (PageContext) params[0];
+      // I'm so ashamed about that...
+      pageContext = (PageContext) params[0];
 
-		// Both title and titleKey attributes are not used
-		if (messageKey == null || StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
-			message = StringUtils.capitalize(defaultValue);
-		}
-		// the titleKey attribute is used
-		else {
-			OgnlValueStack stack = (OgnlValueStack) TagUtils.getStack(pageContext);
+      // Both title and titleKey attributes are not used
+      if (messageKey == null || StringUtils.isBlank(messageKey) && StringUtils.isNotBlank(defaultValue)) {
+         message = StringUtils.capitalize(defaultValue);
+      }
+      // the titleKey attribute is used
+      else {
+         OgnlValueStack stack = (OgnlValueStack) TagUtils.getStack(pageContext);
 
-			for (Object o : stack.getRoot()) {
-				if (o instanceof TextProvider) {
-					TextProvider tp = (TextProvider) o;
-					message = tp.getText(messageKey, UNDEFINED_KEY + messageKey + UNDEFINED_KEY);
-					break;
-				}
-			}
-		}
+         for (Object o : stack.getRoot()) {
+            if (o instanceof TextProvider) {
+               TextProvider tp = (TextProvider) o;
+               message = tp.getText(messageKey, UNDEFINED_KEY + messageKey + UNDEFINED_KEY);
+               break;
+            }
+         }
+      }
 
-		return message;
-	}
+      return message;
+   }
 }

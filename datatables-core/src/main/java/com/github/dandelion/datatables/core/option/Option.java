@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -67,230 +67,231 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
  * </p>
  * 
  * @param <T>
- *            Type of the option, crucial for the JavaScript generation. See
- *            {@link DatatableConfigGenerator}.
+ *           Type of the option, crucial for the JavaScript generation. See
+ *           {@link DatatableConfigGenerator}.
  * @author Thibault Duchateau
  * @since 1.0.0
  * @see OptionProcessor
  */
 public class Option<T> implements Comparable<Option<T>> {
 
-	/**
-	 * Name of the option.
-	 */
-	private final String name;
+   /**
+    * Name of the option.
+    */
+   private final String name;
 
-	/**
-	 * Associated option processor.
-	 */
-	private final OptionProcessor processor;
+   /**
+    * Associated option processor.
+    */
+   private final OptionProcessor processor;
 
-	/**
-	 * Precedence of the option.
-	 */
-	private final int precedence;
+   /**
+    * Precedence of the option.
+    */
+   private final int precedence;
 
-	/**
-	 * Optional user-defined name of the option.
-	 */
-	private String userName;
+   /**
+    * Optional user-defined name of the option.
+    */
+   private String userName;
 
-	/**
-	 * 
-	 * @param name
-	 * @param processor
-	 * @param precedence
-	 */
-	public Option(String name, OptionProcessor processor, int precedence) {
-		this.name = name;
-		this.processor = processor;
-		this.precedence = precedence;
-	}
+   /**
+    * 
+    * @param name
+    * @param processor
+    * @param precedence
+    */
+   public Option(String name, OptionProcessor processor, int precedence) {
+      this.name = name;
+      this.processor = processor;
+      this.precedence = precedence;
+   }
 
-	/**
-	 * @return the name of the option.
-	 */
-	public String getName() {
-		return name;
-	}
+   /**
+    * @return the name of the option.
+    */
+   public String getName() {
+      return name;
+   }
 
-	/**
-	 * @return the optional user-defined name of the option.
-	 */
-	public String getUserName() {
-		return userName;
-	}
+   /**
+    * @return the optional user-defined name of the option.
+    */
+   public String getUserName() {
+      return userName;
+   }
 
-	/**
-	 * TODO
-	 * @param userName
-	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+   /**
+    * TODO
+    * 
+    * @param userName
+    */
+   public void setUserName(String userName) {
+      this.userName = userName;
+   }
 
-	/**
-	 * @return the {@link OptionProcessor} to be applied on the value associated
-	 *         with the option.
-	 */
-	public OptionProcessor getProcessor() {
-		return processor;
-	}
+   /**
+    * @return the {@link OptionProcessor} to be applied on the value associated
+    *         with the option.
+    */
+   public OptionProcessor getProcessor() {
+      return processor;
+   }
 
-	/**
-	 * @return the precedence of the option.
-	 */
-	public int getPrecedence() {
-		return this.precedence;
-	}
+   /**
+    * @return the precedence of the option.
+    */
+   public int getPrecedence() {
+      return this.precedence;
+   }
 
-	@SuppressWarnings("unchecked")
-	public T valueFrom(Map<Option<?>, Object> configurations) {
-		return (T) configurations.get(this);
-	}
+   @SuppressWarnings("unchecked")
+   public T valueFrom(Map<Option<?>, Object> configurations) {
+      return (T) configurations.get(this);
+   }
 
-	@SuppressWarnings("unchecked")
-	public T valueFrom(TableConfiguration tableConfiguration) {
-		if (tableConfiguration.getConfigurations() != null && tableConfiguration.getConfigurations().containsKey(this)) {
-			return (T) tableConfiguration.getConfigurations().get(this);
-		}
-		else {
-			return null;
-		}
-	}
+   @SuppressWarnings("unchecked")
+   public T valueFrom(TableConfiguration tableConfiguration) {
+      if (tableConfiguration.getConfigurations() != null && tableConfiguration.getConfigurations().containsKey(this)) {
+         return (T) tableConfiguration.getConfigurations().get(this);
+      }
+      else {
+         return null;
+      }
+   }
 
-	@SuppressWarnings("unchecked")
-	public T valueFrom(ColumnConfiguration columnConfiguration) {
-		if (columnConfiguration.getConfigurations() != null) {
-			return (T) columnConfiguration.getConfigurations().get(this);
-		}
-		else {
-			return null;
-		}
-	}
+   @SuppressWarnings("unchecked")
+   public T valueFrom(ColumnConfiguration columnConfiguration) {
+      if (columnConfiguration.getConfigurations() != null) {
+         return (T) columnConfiguration.getConfigurations().get(this);
+      }
+      else {
+         return null;
+      }
+   }
 
-	@SuppressWarnings("unchecked")
-	public T valueFrom(HtmlTable table) {
-		if (table.getTableConfiguration().getConfigurations() != null) {
-			return (T) table.getTableConfiguration().getConfigurations().get(this);
-		}
-		else {
-			return null;
-		}
-	}
+   @SuppressWarnings("unchecked")
+   public T valueFrom(HtmlTable table) {
+      if (table.getTableConfiguration().getConfigurations() != null) {
+         return (T) table.getTableConfiguration().getConfigurations().get(this);
+      }
+      else {
+         return null;
+      }
+   }
 
-	public void setIn(ColumnConfiguration columnConfiguration, T value) {
-		columnConfiguration.getConfigurations().put(this, (T) value);
-	}
+   public void setIn(ColumnConfiguration columnConfiguration, T value) {
+      columnConfiguration.getConfigurations().put(this, (T) value);
+   }
 
-	public void setIn(TableConfiguration tableConfiguration, T value) {
-		tableConfiguration.getConfigurations().put(this, (T) value);
-	}
+   public void setIn(TableConfiguration tableConfiguration, T value) {
+      tableConfiguration.getConfigurations().put(this, (T) value);
+   }
 
-	public void appendIn(TableConfiguration tableConfiguration, String value) {
+   public void appendIn(TableConfiguration tableConfiguration, String value) {
 
-		Object existingValue = tableConfiguration.getConfigurations().get(this);
-		if (existingValue != null) {
-			((StringBuilder) existingValue).append(value);
-		}
-		else {
-			tableConfiguration.getConfigurations().put(this, new StringBuilder(value));
-		}
-	}
+      Object existingValue = tableConfiguration.getConfigurations().get(this);
+      if (existingValue != null) {
+         ((StringBuilder) existingValue).append(value);
+      }
+      else {
+         tableConfiguration.getConfigurations().put(this, new StringBuilder(value));
+      }
+   }
 
-	public void appendIn(TableConfiguration tableConfiguration, char value) {
-		tableConfiguration.getConfigurations().put(this,
-				((StringBuilder) tableConfiguration.getConfigurations().get(this)).append(value));
-	}
+   public void appendIn(TableConfiguration tableConfiguration, char value) {
+      tableConfiguration.getConfigurations().put(this,
+            ((StringBuilder) tableConfiguration.getConfigurations().get(this)).append(value));
+   }
 
-	public void appendIn(ColumnConfiguration columnConfiguration, String value) {
-		doAppendIn(columnConfiguration, value);
-	}
+   public void appendIn(ColumnConfiguration columnConfiguration, String value) {
+      doAppendIn(columnConfiguration, value);
+   }
 
-	public void appendIn(ColumnConfiguration columnConfiguration, char value) {
-		doAppendIn(columnConfiguration, String.valueOf(value));
-	}
+   public void appendIn(ColumnConfiguration columnConfiguration, char value) {
+      doAppendIn(columnConfiguration, String.valueOf(value));
+   }
 
-	private void doAppendIn(ColumnConfiguration columnConfiguration, String value) {
-		Object existingValue = columnConfiguration.getConfigurations().get(this);
-		if (StringUtils.isNotBlank(value)) {
-			if (existingValue != null) {
-				((StringBuilder) existingValue).append(value);
-			}
-			else {
-				columnConfiguration.getConfigurations().put(this, new StringBuilder(value));
-			}
-		}
-	}
+   private void doAppendIn(ColumnConfiguration columnConfiguration, String value) {
+      Object existingValue = columnConfiguration.getConfigurations().get(this);
+      if (StringUtils.isNotBlank(value)) {
+         if (existingValue != null) {
+            ((StringBuilder) existingValue).append(value);
+         }
+         else {
+            columnConfiguration.getConfigurations().put(this, new StringBuilder(value));
+         }
+      }
+   }
 
-	public void setIn(T value, HtmlTable table) {
-		table.getTableConfiguration().getConfigurations().put(this, value);
-	}
+   public void setIn(T value, HtmlTable table) {
+      table.getTableConfiguration().getConfigurations().put(this, value);
+   }
 
-	@Override
-	public String toString() {
-		return "[" + this.name + "|" + this.processor.getClass().getSimpleName() + "|" + this.precedence + "]";
-	}
+   @Override
+   public String toString() {
+      return "[" + this.name + "|" + this.processor.getClass().getSimpleName() + "|" + this.precedence + "]";
+   }
 
-	/**
-	 * <p>
-	 * Compare options according to their precedence.
-	 * </p>
-	 * 
-	 * <p>
-	 * Be careful: This implementation of compareTo breaks
-	 * <tt>(o1.compareTo(o2) == 0) == (o1.equals(o2))</tt>, as two different
-	 * options can have the same precedence.
-	 * </p>
-	 * 
-	 * @param o
-	 *            the object to compare to
-	 * @return the comparison result.
-	 */
-	@Override
-	public int compareTo(Option<T> o) {
-		if (o == null) {
-			return 1;
-		}
-		if (!(o instanceof Option)) {
-			// final int result = o.compareTo(this);
-			// return (-1) * result;
-			return -1;
-		}
-		int thisPrecedence = this.getPrecedence();
-		int otherPrecedence = o.getPrecedence();
-		if (thisPrecedence < otherPrecedence) {
-			return -1;
-		}
-		if (thisPrecedence > otherPrecedence) {
-			return 1;
-		}
-		return 0;
-	}
+   /**
+    * <p>
+    * Compare options according to their precedence.
+    * </p>
+    * 
+    * <p>
+    * Be careful: This implementation of compareTo breaks
+    * <tt>(o1.compareTo(o2) == 0) == (o1.equals(o2))</tt>, as two different
+    * options can have the same precedence.
+    * </p>
+    * 
+    * @param o
+    *           the object to compare to
+    * @return the comparison result.
+    */
+   @Override
+   public int compareTo(Option<T> o) {
+      if (o == null) {
+         return 1;
+      }
+      if (!(o instanceof Option)) {
+         // final int result = o.compareTo(this);
+         // return (-1) * result;
+         return -1;
+      }
+      int thisPrecedence = this.getPrecedence();
+      int otherPrecedence = o.getPrecedence();
+      if (thisPrecedence < otherPrecedence) {
+         return -1;
+      }
+      if (thisPrecedence > otherPrecedence) {
+         return 1;
+      }
+      return 0;
+   }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
+   @Override
+   public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + ((name == null) ? 0 : name.hashCode());
+      return result;
+   }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof Option))
-			return false;
-		Option<?> other = (Option<?>) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		}
-		else if (!name.equals(other.name))
-			return false;
-		return true;
-	}
+   @Override
+   public boolean equals(Object obj) {
+      if (this == obj)
+         return true;
+      if (obj == null)
+         return false;
+      if (!(obj instanceof Option))
+         return false;
+      Option<?> other = (Option<?>) obj;
+      if (name == null) {
+         if (other.name != null)
+            return false;
+      }
+      else if (!name.equals(other.name))
+         return false;
+      return true;
+   }
 }

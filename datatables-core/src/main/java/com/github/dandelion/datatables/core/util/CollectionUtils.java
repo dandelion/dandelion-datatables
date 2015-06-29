@@ -32,26 +32,26 @@ package com.github.dandelion.datatables.core.util;
 import java.util.Collection;
 
 public class CollectionUtils {
-	
-	/**
-	 * Return {@code true} if any element in '{@code candidates}' is contained
-	 * in '{@code source}', otherwise returns {@code false}.
-	 * 
-	 * @param source
-	 *            the source Collection.
-	 * @param candidates
-	 *            the candidates to search for.
-	 * @return whether any of the candidates has been found.
-	 */
-	public static boolean containsAny(Collection<?> source, Object... candidates) {
-		if (source == null || source.isEmpty() || candidates == null || candidates.length == 0) {
-			return false;
-		}
-		for (Object candidate : candidates) {
-			if (source.contains(candidate)) {
-				return true;
-			}
-		}
-		return false;
-	}
+
+   /**
+    * Return {@code true} if any element in '{@code candidates}' is contained in
+    * '{@code source}', otherwise returns {@code false}.
+    * 
+    * @param source
+    *           the source Collection.
+    * @param candidates
+    *           the candidates to search for.
+    * @return whether any of the candidates has been found.
+    */
+   public static boolean containsAny(Collection<?> source, Object... candidates) {
+      if (source == null || source.isEmpty() || candidates == null || candidates.length == 0) {
+         return false;
+      }
+      for (Object candidate : candidates) {
+         if (source.contains(candidate)) {
+            return true;
+         }
+      }
+      return false;
+   }
 }

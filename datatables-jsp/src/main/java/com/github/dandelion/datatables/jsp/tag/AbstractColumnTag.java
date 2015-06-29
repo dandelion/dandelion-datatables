@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -69,257 +69,267 @@ import com.github.dandelion.datatables.core.util.ConfigUtils;
  */
 public abstract class AbstractColumnTag extends BodyTagSupport implements DynamicAttributes {
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	// Logger
-	protected static Logger logger = LoggerFactory.getLogger(ColumnTag.class);
+   // Logger
+   protected static Logger logger = LoggerFactory.getLogger(ColumnTag.class);
 
-	/**
-	 * Map holding the staging configuration to apply to the column.
-	 */
-	protected Map<Option<?>, Object> stagingConf;
-	protected Map<Option<?>, Extension> stagingExtension;
+   /**
+    * Map holding the staging configuration to apply to the column.
+    */
+   protected Map<Option<?>, Object> stagingConf;
+   protected Map<Option<?>, Extension> stagingExtension;
 
-	/**
-	 * Tag attributes
-	 */
-	// Title of the column
-	protected String title;
+   /**
+    * Tag attributes
+    */
+   // Title of the column
+   protected String title;
 
-	// Title key of the column (used in combination with a configured message
-	// resolver)
-	protected String titleKey;
+   // Title key of the column (used in combination with a configured message
+   // resolver)
+   protected String titleKey;
 
-	// Name of the property to be extracted from data source
-	protected String property;
+   // Name of the property to be extracted from data source
+   protected String property;
 
-	// Value to be displayed when the data source is null
-	protected String defaultValue;
+   // Value to be displayed when the data source is null
+   protected String defaultValue;
 
-	// CSS style to be applied on each cell
-	protected String cssCellStyle;
-	
-	// CSS class(es) to be applied on each cell
-	protected String cssCellClass;
-	
-	// MessageFormat to be applied to the property (DOM source only)
-	protected String format;
+   // CSS style to be applied on each cell
+   protected String cssCellStyle;
 
-	// List of format where the column's content must be displayed
-	protected String display;
+   // CSS class(es) to be applied on each cell
+   protected String cssCellClass;
 
-	// Whether XML characters should be escaped
-	protected boolean escapeXml = true;
+   // MessageFormat to be applied to the property (DOM source only)
+   protected String format;
 
-	/**
-	 * Internal attributes
-	 */
-	protected Map<String, String> dynamicAttributes;
-	protected HtmlColumn headerColumn;
+   // List of format where the column's content must be displayed
+   protected String display;
 
-	/**
-	 * <p>
-	 * Adds a header column to the last head row when using a DOM source.
-	 * 
-	 * @param content
-	 *            Content of the <code>th</code> cell.
-	 * @throws JspException
-	 */
-	protected void addDomHeaderColumn(String content) throws JspException {
+   // Whether XML characters should be escaped
+   protected boolean escapeXml = true;
 
-		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
+   /**
+    * Internal attributes
+    */
+   protected Map<String, String> dynamicAttributes;
+   protected HtmlColumn headerColumn;
 
-		if(content != null){
-			headerColumn.setContent(new StringBuilder(content));
-		}
+   /**
+    * <p>
+    * Adds a header column to the last head row when using a DOM source.
+    * 
+    * @param content
+    *           Content of the <code>th</code> cell.
+    * @throws JspException
+    */
+   protected void addDomHeaderColumn(String content) throws JspException {
 
-		// At this point, all setters have been called and both the staging
-		// configuration map and staging extension map should have been filled
-		// with user configuration
-		// The user configuration can now be applied to the default
-		// configuration
-		ConfigUtils.applyStagingOptionsAndExtensions(stagingConf, stagingExtension, headerColumn);
-//		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headerColumn);
-		
-		// Once all configuration are merged, they can be processed
-		ConfigUtils.processOptions(headerColumn, parent.getTable());
-//		ColumnConfig.processConfiguration(headerColumn, parent.getTable());
+      AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-		parent.getTable().getLastHeaderRow().addColumn(headerColumn);
-	}
+      if (content != null) {
+         headerColumn.setContent(new StringBuilder(content));
+      }
 
-	/**
-	 * <p>
-	 * Adds a body column to the last body row when using a DOM source.
-	 * </p>
-	 * 
-	 * @param content
-	 *            Content of the <code>td</code> cell.
-	 * @throws JspException
-	 */
-	protected void addDomBodyColumn(String content) throws JspException {
+      // At this point, all setters have been called and both the staging
+      // configuration map and staging extension map should have been filled
+      // with user configuration
+      // The user configuration can now be applied to the default
+      // configuration
+      ConfigUtils.applyStagingOptionsAndExtensions(stagingConf, stagingExtension, headerColumn);
+      // ColumnConfig.applyConfiguration(stagingConf, stagingExtension,
+      // headerColumn);
 
-		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
+      // Once all configuration are merged, they can be processed
+      ConfigUtils.processOptions(headerColumn, parent.getTable());
+      // ColumnConfig.processConfiguration(headerColumn, parent.getTable());
 
-		HtmlColumn bodyColumn = new HtmlColumn(false, content, dynamicAttributes, display);
+      parent.getTable().getLastHeaderRow().addColumn(headerColumn);
+   }
 
-		// Note that these attributes are not handled via the ColumnConfig
-		// object because a ColumnConfiguration is only attached to header
-		// columns
-		if (StringUtils.isNotBlank(this.cssCellClass)) {
-			bodyColumn.addCssCellClass(this.cssCellClass);
-		}
-		if (StringUtils.isNotBlank(this.cssCellStyle)) {
-			bodyColumn.addCssCellStyle(this.cssCellStyle);
-		}
+   /**
+    * <p>
+    * Adds a body column to the last body row when using a DOM source.
+    * </p>
+    * 
+    * @param content
+    *           Content of the <code>td</code> cell.
+    * @throws JspException
+    */
+   protected void addDomBodyColumn(String content) throws JspException {
 
-		parent.getTable().getLastBodyRow().addColumn(bodyColumn);
-	}
+      AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-	/**
-	 * <p>
-	 * Adds a header column to the table when using AJAX source.
-	 * <p>
-	 * Column are always marked as "header" using an AJAX source.
-	 * 
-	 * @param isHeader
-	 * @param content
-	 */
-	protected void addAjaxHeaderColumn(Boolean isHeader, String content) throws JspException {
+      HtmlColumn bodyColumn = new HtmlColumn(false, content, dynamicAttributes, display);
 
-		AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
+      // Note that these attributes are not handled via the ColumnConfig
+      // object because a ColumnConfiguration is only attached to header
+      // columns
+      if (StringUtils.isNotBlank(this.cssCellClass)) {
+         bodyColumn.addCssCellClass(this.cssCellClass);
+      }
+      if (StringUtils.isNotBlank(this.cssCellStyle)) {
+         bodyColumn.addCssCellStyle(this.cssCellStyle);
+      }
 
-		if(content != null){
-			headerColumn.setContent(new StringBuilder(content));
-		}
+      parent.getTable().getLastBodyRow().addColumn(bodyColumn);
+   }
 
-		if(StringUtils.isNotBlank(this.defaultValue)){
-			headerColumn.getColumnConfiguration().getConfigurations().put(DatatableOptions.DEFAULTVALUE, defaultValue);
-		}
-		else {
-			headerColumn.getColumnConfiguration().getConfigurations().put(DatatableOptions.DEFAULTVALUE, "");
-		}
-//		ColumnConfig.DEFAULTVALUE.setIn(headerColumn.getColumnConfiguration(),
-//				StringUtils.isNotBlank(defaultValue) ? defaultValue : "");
+   /**
+    * <p>
+    * Adds a header column to the table when using AJAX source.
+    * <p>
+    * Column are always marked as "header" using an AJAX source.
+    * 
+    * @param isHeader
+    * @param content
+    */
+   protected void addAjaxHeaderColumn(Boolean isHeader, String content) throws JspException {
 
-		// At this point, all setters have been called and both the staging
-		// configuration map and staging extension map should have been filled
-		// with user configuration
-		// The user configuration can now be applied to the default
-		// configuration
-		ConfigUtils.applyStagingOptionsAndExtensions(stagingConf, stagingExtension, headerColumn);
-//		ColumnConfig.applyConfiguration(stagingConf, stagingExtension, headerColumn);
-		
-		// Once all configuration are merged, they can be processed
-		ConfigUtils.processOptions(headerColumn, parent.getTable());
-//		ColumnConfig.processConfiguration(headerColumn, parent.getTable());
+      AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
 
-		parent.getTable().getLastHeaderRow().addColumn(headerColumn);
-	}
+      if (content != null) {
+         headerColumn.setContent(new StringBuilder(content));
+      }
 
-	/**
-	 * <p>
-	 * Returns the column content when using a DOM source.
-	 * 
-	 * @return the content to be displayed in the column.
-	 * @throws JspException
-	 *             if something went wrong during the access to the bean's
-	 *             property or during the message formatting.
-	 */
-	protected String getColumnContent() throws JspException {
+      if (StringUtils.isNotBlank(this.defaultValue)) {
+         headerColumn.getColumnConfiguration().getConfigurations().put(DatatableOptions.DEFAULTVALUE, defaultValue);
+      }
+      else {
+         headerColumn.getColumnConfiguration().getConfigurations().put(DatatableOptions.DEFAULTVALUE, "");
+      }
+      // ColumnConfig.DEFAULTVALUE.setIn(headerColumn.getColumnConfiguration(),
+      // StringUtils.isNotBlank(defaultValue) ? defaultValue : "");
 
-		TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
+      // At this point, all setters have been called and both the staging
+      // configuration map and staging extension map should have been filled
+      // with user configuration
+      // The user configuration can now be applied to the default
+      // configuration
+      ConfigUtils.applyStagingOptionsAndExtensions(stagingConf, stagingExtension, headerColumn);
+      // ColumnConfig.applyConfiguration(stagingConf, stagingExtension,
+      // headerColumn);
 
-		if (StringUtils.isNotBlank(property) && parent.getCurrentObject() != null) {
+      // Once all configuration are merged, they can be processed
+      ConfigUtils.processOptions(headerColumn, parent.getTable());
+      // ColumnConfig.processConfiguration(headerColumn, parent.getTable());
 
-			Object propertyValue = null;
-			try {
-				propertyValue = PropertyUtils.getNestedProperty(parent.getCurrentObject(), this.property.trim());
+      parent.getTable().getLastHeaderRow().addColumn(headerColumn);
+   }
 
-				// If a MessageFormat exists, we use it to format the property
-				if (StringUtils.isNotBlank(format) && propertyValue != null) {
+   /**
+    * <p>
+    * Returns the column content when using a DOM source.
+    * 
+    * @return the content to be displayed in the column.
+    * @throws JspException
+    *            if something went wrong during the access to the bean's
+    *            property or during the message formatting.
+    */
+   protected String getColumnContent() throws JspException {
 
-					MessageFormat messageFormat = new MessageFormat(format);
-					return messageFormat.format(new Object[] { propertyValue });
-				} else if (StringUtils.isBlank(format) && propertyValue != null) {
-					return propertyValue.toString();
-				} else {
-					if (StringUtils.isNotBlank(defaultValue)) {
-						return defaultValue.trim();
+      TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
-					}
-				}
-			} catch (NestedNullException e) {
-				if (StringUtils.isNotBlank(defaultValue)) {
-					return defaultValue.trim();
-				}
-			} catch (IllegalAccessException e) {
-				logger.error("Unable to get the value for the given property {}", this.property);
-				throw new JspException(e);
-			} catch (InvocationTargetException e) {
-				logger.error("Unable to get the value for the given property {}", this.property);
-				throw new JspException(e);
-			} catch (NoSuchMethodException e) {
-				logger.error("Unable to get the value for the given property {}", this.property);
-				throw new JspException(e);
-			} catch (IllegalArgumentException e) {
-				logger.error("Wrong MessageFormat pattern : {}", format);
-				return propertyValue.toString();
-			}
-		} else {
-			return "";
-		}
+      if (StringUtils.isNotBlank(property) && parent.getCurrentObject() != null) {
 
-		return "";
-	}
+         Object propertyValue = null;
+         try {
+            propertyValue = PropertyUtils.getNestedProperty(parent.getCurrentObject(), this.property.trim());
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setDynamicAttribute(String uri, String localName, Object value) throws JspException {
-		
-		validateDynamicAttribute(localName, value);
+            // If a MessageFormat exists, we use it to format the property
+            if (StringUtils.isNotBlank(format) && propertyValue != null) {
 
-		if (this.dynamicAttributes == null) {
-			this.dynamicAttributes = new HashMap<String, String>();
-		}
+               MessageFormat messageFormat = new MessageFormat(format);
+               return messageFormat.format(new Object[] { propertyValue });
+            }
+            else if (StringUtils.isBlank(format) && propertyValue != null) {
+               return propertyValue.toString();
+            }
+            else {
+               if (StringUtils.isNotBlank(defaultValue)) {
+                  return defaultValue.trim();
 
-		this.dynamicAttributes.put(localName, (String) value);
-	}
+               }
+            }
+         }
+         catch (NestedNullException e) {
+            if (StringUtils.isNotBlank(defaultValue)) {
+               return defaultValue.trim();
+            }
+         }
+         catch (IllegalAccessException e) {
+            logger.error("Unable to get the value for the given property {}", this.property);
+            throw new JspException(e);
+         }
+         catch (InvocationTargetException e) {
+            logger.error("Unable to get the value for the given property {}", this.property);
+            throw new JspException(e);
+         }
+         catch (NoSuchMethodException e) {
+            logger.error("Unable to get the value for the given property {}", this.property);
+            throw new JspException(e);
+         }
+         catch (IllegalArgumentException e) {
+            logger.error("Wrong MessageFormat pattern : {}", format);
+            return propertyValue.toString();
+         }
+      }
+      else {
+         return "";
+      }
 
-	/**
-	 * <p>
-	 * Validates the passed dynamic attribute.
-	 * 
-	 * <p>
-	 * The dynamic attribute must not conflict with other attributes and must
-	 * have a valid type.
-	 * 
-	 * @param localName
-	 *            Name of the dynamic attribute.
-	 * @param value
-	 *            Value of the dynamic attribute.
-	 */
-	private void validateDynamicAttribute(String localName, Object value) {
-		if (localName.equals("class")) {
-			throw new IllegalArgumentException(
-					"The 'class' attribute is not allowed. Please use the 'cssClass' or the 'cssCellClass' attribute instead.");
-		}
-		if (localName.equals("style")) {
-			throw new IllegalArgumentException(
-					"The 'style' attribute is not allowed. Please use the 'cssStyle' or the 'cssCellStyle' attribute instead.");
-		}
-		if (!(value instanceof String)) {
-			throw new IllegalArgumentException("The attribute " + localName
-					+ " won't be added to the table. Only string values are accepted.");
-		}
-	}
-	
-	protected HtmlColumn getHeaderColumn(){
-		return this.headerColumn;
-	}
-	
-	protected Map<Option<?>, Object> getStagingConf(){
-		return stagingConf;
-	}
+      return "";
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public void setDynamicAttribute(String uri, String localName, Object value) throws JspException {
+
+      validateDynamicAttribute(localName, value);
+
+      if (this.dynamicAttributes == null) {
+         this.dynamicAttributes = new HashMap<String, String>();
+      }
+
+      this.dynamicAttributes.put(localName, (String) value);
+   }
+
+   /**
+    * <p>
+    * Validates the passed dynamic attribute.
+    * 
+    * <p>
+    * The dynamic attribute must not conflict with other attributes and must
+    * have a valid type.
+    * 
+    * @param localName
+    *           Name of the dynamic attribute.
+    * @param value
+    *           Value of the dynamic attribute.
+    */
+   private void validateDynamicAttribute(String localName, Object value) {
+      if (localName.equals("class")) {
+         throw new IllegalArgumentException(
+               "The 'class' attribute is not allowed. Please use the 'cssClass' or the 'cssCellClass' attribute instead.");
+      }
+      if (localName.equals("style")) {
+         throw new IllegalArgumentException(
+               "The 'style' attribute is not allowed. Please use the 'cssStyle' or the 'cssCellStyle' attribute instead.");
+      }
+      if (!(value instanceof String)) {
+         throw new IllegalArgumentException("The attribute " + localName
+               + " won't be added to the table. Only string values are accepted.");
+      }
+   }
+
+   protected HtmlColumn getHeaderColumn() {
+      return this.headerColumn;
+   }
+
+   protected Map<Option<?>, Object> getStagingConf() {
+      return stagingConf;
+   }
 }

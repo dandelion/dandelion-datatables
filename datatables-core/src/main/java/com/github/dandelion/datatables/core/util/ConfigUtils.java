@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,162 +59,162 @@ import com.github.dandelion.datatables.core.option.processor.OptionProcessingCon
  */
 public final class ConfigUtils {
 
-	protected static Logger logger = LoggerFactory.getLogger(ConfigUtils.class);
+   protected static Logger logger = LoggerFactory.getLogger(ConfigUtils.class);
 
-	public static final String DDL_DT_REQUESTATTR_TABLES = "ddl-dt-tables";
+   public static final String DDL_DT_REQUESTATTR_TABLES = "ddl-dt-tables";
 
-	/**
-	 * <p>
-	 * Overloads the configurations stored in the {@link TableConfiguration}
-	 * instance with the one passed as parameter.
-	 * </p>
-	 * 
-	 * @param stagingConf
-	 *            The staging configurations filled either with the JSP taglib
-	 *            or with the Thymeleaf dialect.
-	 * @param table
-	 *            The table which holds the {@link TableConfiguration} to
-	 *            overload.
-	 */
-	public static void applyStagingOptions(Map<Option<?>, Object> stagingConf, HtmlTable table) {
+   /**
+    * <p>
+    * Overloads the configurations stored in the {@link TableConfiguration}
+    * instance with the one passed as parameter.
+    * </p>
+    * 
+    * @param stagingConf
+    *           The staging configurations filled either with the JSP taglib or
+    *           with the Thymeleaf dialect.
+    * @param table
+    *           The table which holds the {@link TableConfiguration} to
+    *           overload.
+    */
+   public static void applyStagingOptions(Map<Option<?>, Object> stagingConf, HtmlTable table) {
 
-		for (Entry<Option<?>, Object> stagingEntry : stagingConf.entrySet()) {
-			table.getTableConfiguration().getConfigurations().put(stagingEntry.getKey(), stagingEntry.getValue());
-		}
-	}
+      for (Entry<Option<?>, Object> stagingEntry : stagingConf.entrySet()) {
+         table.getTableConfiguration().getConfigurations().put(stagingEntry.getKey(), stagingEntry.getValue());
+      }
+   }
 
-	/**
-	 * <p>
-	 * At this point, the configuration stored inside the
-	 * {@link TableConfiguration} contains only Strings. All these strings will
-	 * be processed in this method, depending on the {@link DatatableOptions}
-	 * they are bound to.
-	 * </p>
-	 * <p>
-	 * Once processed, all strings will be replaced by the typed value.
-	 * </p>
-	 * <p>
-	 * Only configuration token with not blank values will be merged into the
-	 * {@link TableConfiguration} instance.
-	 * </p>
-	 * 
-	 * @param table
-	 *            The table which holds the configuration to process.
-	 */
-	public static void processOptions(HtmlTable table) {
+   /**
+    * <p>
+    * At this point, the configuration stored inside the
+    * {@link TableConfiguration} contains only Strings. All these strings will
+    * be processed in this method, depending on the {@link DatatableOptions}
+    * they are bound to.
+    * </p>
+    * <p>
+    * Once processed, all strings will be replaced by the typed value.
+    * </p>
+    * <p>
+    * Only configuration token with not blank values will be merged into the
+    * {@link TableConfiguration} instance.
+    * </p>
+    * 
+    * @param table
+    *           The table which holds the configuration to process.
+    */
+   public static void processOptions(HtmlTable table) {
 
-		Map<Option<?>, Object> configurations = table.getTableConfiguration().getConfigurations();
+      Map<Option<?>, Object> configurations = table.getTableConfiguration().getConfigurations();
 
-		if (configurations != null) {
+      if (configurations != null) {
 
-			for (Entry<Option<?>, Object> entry : configurations.entrySet()) {
-				logger.debug("Processing configuration \"{}\" with the value \"{}\"({})", entry.getKey(),
-						entry.getValue(), entry.getValue().getClass().getSimpleName());
-				OptionProcessor optionProcessor = entry.getKey().getProcessor();
-				OptionProcessingContext pc = new OptionProcessingContext(entry, table.getTableConfiguration(), null,
-						optionProcessor.isBundleGraphUpdatable());
-				optionProcessor.process(pc);
-			}
+         for (Entry<Option<?>, Object> entry : configurations.entrySet()) {
+            logger.debug("Processing configuration \"{}\" with the value \"{}\"({})", entry.getKey(), entry.getValue(),
+                  entry.getValue().getClass().getSimpleName());
+            OptionProcessor optionProcessor = entry.getKey().getProcessor();
+            OptionProcessingContext pc = new OptionProcessingContext(entry, table.getTableConfiguration(), null,
+                  optionProcessor.isBundleGraphUpdatable());
+            optionProcessor.process(pc);
+         }
 
-			// Merging staging configuration into to the final configuration map
-			configurations.putAll(table.getTableConfiguration().getStagingConfiguration());
-		}
-	}
+         // Merging staging configuration into to the final configuration map
+         configurations.putAll(table.getTableConfiguration().getStagingConfiguration());
+      }
+   }
 
-	/**
-	 * <p>
-	 * Overloads the configurations stored in the {@link ColumnConfiguration}
-	 * instance with the one passed as parameter.
-	 * </p>
-	 * <p>
-	 * Only configuration token with not blank values will be merged into the
-	 * {@link ColumnConfiguration} instance.
-	 * </p>
-	 * 
-	 * @param stagingConf
-	 *            The staging configurations filled either with the JSP taglib
-	 *            or with the Thymeleaf dialect.
-	 * @param stagingExtensions
-	 *            The staging extensions filled either with the JSP taglib or
-	 *            with the Thymeleaf dialect.
-	 * @param column
-	 *            The column which holds the {@link ColumnConfiguration} to
-	 *            overload.
-	 */
-	public static void applyStagingOptionsAndExtensions(Map<Option<?>, Object> stagingConf,
-			Map<Option<?>, Extension> stagingExtensions, HtmlColumn column) {
+   /**
+    * <p>
+    * Overloads the configurations stored in the {@link ColumnConfiguration}
+    * instance with the one passed as parameter.
+    * </p>
+    * <p>
+    * Only configuration token with not blank values will be merged into the
+    * {@link ColumnConfiguration} instance.
+    * </p>
+    * 
+    * @param stagingConf
+    *           The staging configurations filled either with the JSP taglib or
+    *           with the Thymeleaf dialect.
+    * @param stagingExtensions
+    *           The staging extensions filled either with the JSP taglib or with
+    *           the Thymeleaf dialect.
+    * @param column
+    *           The column which holds the {@link ColumnConfiguration} to
+    *           overload.
+    */
+   public static void applyStagingOptionsAndExtensions(Map<Option<?>, Object> stagingConf,
+         Map<Option<?>, Extension> stagingExtensions, HtmlColumn column) {
 
-		for (Entry<Option<?>, Object> stagingEntry : stagingConf.entrySet()) {
-			column.getColumnConfiguration().getConfigurations().put(stagingEntry.getKey(), stagingEntry.getValue());
-		}
+      for (Entry<Option<?>, Object> stagingEntry : stagingConf.entrySet()) {
+         column.getColumnConfiguration().getConfigurations().put(stagingEntry.getKey(), stagingEntry.getValue());
+      }
 
-		column.getColumnConfiguration().getStagingExtension().putAll(stagingExtensions);
-	}
+      column.getColumnConfiguration().getStagingExtension().putAll(stagingExtensions);
+   }
 
-	/**
-	 * <p>
-	 * At this point, the configuration stored inside the
-	 * {@link ColumnConfiguration} contains only Strings. All these strings will
-	 * be processed in this method, depending on the {@link DatatableOptions}
-	 * they are bound to.
-	 * </p>
-	 * <p>
-	 * Once processed, all strings will be replaced by the typed value.
-	 * </p>
-	 * 
-	 * @param column
-	 *            The column which contains the configurations to process.
-	 * @param table
-	 *            The table may be used by processor to register extensions.
-	 */
-	public static void processOptions(HtmlColumn column, HtmlTable table) {
+   /**
+    * <p>
+    * At this point, the configuration stored inside the
+    * {@link ColumnConfiguration} contains only Strings. All these strings will
+    * be processed in this method, depending on the {@link DatatableOptions}
+    * they are bound to.
+    * </p>
+    * <p>
+    * Once processed, all strings will be replaced by the typed value.
+    * </p>
+    * 
+    * @param column
+    *           The column which contains the configurations to process.
+    * @param table
+    *           The table may be used by processor to register extensions.
+    */
+   public static void processOptions(HtmlColumn column, HtmlTable table) {
 
-		if (column.getColumnConfiguration().getConfigurations() != null) {
-			for (Entry<Option<?>, Object> entry : column.getColumnConfiguration().getConfigurations().entrySet()) {
+      if (column.getColumnConfiguration().getConfigurations() != null) {
+         for (Entry<Option<?>, Object> entry : column.getColumnConfiguration().getConfigurations().entrySet()) {
 
-				OptionProcessor optionProcessor = entry.getKey().getProcessor();
-				OptionProcessingContext pc = new OptionProcessingContext(entry, table.getTableConfiguration(),
-						column.getColumnConfiguration(), optionProcessor.isBundleGraphUpdatable());
-				optionProcessor.process(pc);
+            OptionProcessor optionProcessor = entry.getKey().getProcessor();
+            OptionProcessingContext pc = new OptionProcessingContext(entry, table.getTableConfiguration(),
+                  column.getColumnConfiguration(), optionProcessor.isBundleGraphUpdatable());
+            optionProcessor.process(pc);
 
-			}
+         }
 
-			// Merging staging configuration into to the final configuration map
-			column.getColumnConfiguration().getConfigurations()
-					.putAll(column.getColumnConfiguration().getStagingConfigurations());
-		}
-	}
+         // Merging staging configuration into to the final configuration map
+         column.getColumnConfiguration().getConfigurations()
+               .putAll(column.getColumnConfiguration().getStagingConfigurations());
+      }
+   }
 
-	/**
-	 * <p>
-	 * Stores the provided {@link HtmlTable} in a particular request attribute
-	 * so that it can be used by the debugger.
-	 * </p>
-	 * 
-	 * @param request
-	 *            The request in which the provided table is stored.
-	 * @param table
-	 *            The table to store.
-	 */
-	@SuppressWarnings("unchecked")
-	public static void storeTableInRequest(HttpServletRequest request, HtmlTable table) {
-		if (request.getAttribute(DDL_DT_REQUESTATTR_TABLES) == null) {
-			List<HtmlTable> htmlTables = new ArrayList<HtmlTable>();
-			htmlTables.add(table);
-			request.setAttribute(DDL_DT_REQUESTATTR_TABLES, htmlTables);
-		}
-		else {
-			List<HtmlTable> htmlTables = (List<HtmlTable>) request.getAttribute(DDL_DT_REQUESTATTR_TABLES);
-			htmlTables.add(table);
-		}
-	}
+   /**
+    * <p>
+    * Stores the provided {@link HtmlTable} in a particular request attribute so
+    * that it can be used by the debugger.
+    * </p>
+    * 
+    * @param request
+    *           The request in which the provided table is stored.
+    * @param table
+    *           The table to store.
+    */
+   @SuppressWarnings("unchecked")
+   public static void storeTableInRequest(HttpServletRequest request, HtmlTable table) {
+      if (request.getAttribute(DDL_DT_REQUESTATTR_TABLES) == null) {
+         List<HtmlTable> htmlTables = new ArrayList<HtmlTable>();
+         htmlTables.add(table);
+         request.setAttribute(DDL_DT_REQUESTATTR_TABLES, htmlTables);
+      }
+      else {
+         List<HtmlTable> htmlTables = (List<HtmlTable>) request.getAttribute(DDL_DT_REQUESTATTR_TABLES);
+         htmlTables.add(table);
+      }
+   }
 
-	/**
-	 * <p>
-	 * Suppress default constructor for noninstantiability.
-	 * </p>
-	 */
-	private ConfigUtils() {
-		throw new AssertionError();
-	}
+   /**
+    * <p>
+    * Suppress default constructor for noninstantiability.
+    * </p>
+    */
+   private ConfigUtils() {
+      throw new AssertionError();
+   }
 }

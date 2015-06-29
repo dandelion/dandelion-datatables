@@ -31,8 +31,6 @@ package com.github.dandelion.datatables.core.html;
 
 import com.github.dandelion.core.util.StringUtils;
 
-
-
 /**
  * Plain old HTML <code>a</code> tag (link).
  * 
@@ -41,51 +39,51 @@ import com.github.dandelion.core.util.StringUtils;
  */
 public class HtmlHyperlink extends HtmlTagWithContent {
 
-	/**
-	 * Plain old HTML <code>href</code> attribute.
-	 */
-	private String href;
+   /**
+    * Plain old HTML <code>href</code> attribute.
+    */
+   private String href;
 
-	/**
-	 * Plain old HTML <code>onclick</code> attribute.
-	 */
-	private String onclick;
+   /**
+    * Plain old HTML <code>onclick</code> attribute.
+    */
+   private String onclick;
 
-	public HtmlHyperlink() {
-		this.tag = "a";
-	}
+   public HtmlHyperlink() {
+      this.tag = "a";
+   }
 
-	public HtmlHyperlink(String href, String label) {
-		this.tag = "a";
-		this.href = href;
-		addContent(label);
-	}
+   public HtmlHyperlink(String href, String label) {
+      this.tag = "a";
+      this.href = href;
+      addContent(label);
+   }
 
-	@Override
-	protected StringBuilder getHtmlAttributes() {
-		StringBuilder html = super.getHtmlAttributes();
-		if(StringUtils.isNotBlank(this.href)){
-			html.append(writeAttribute("href", this.href));
-		}
-		if(StringUtils.isNotBlank(this.onclick)){
-			html.append(writeAttribute("onclick", this.onclick));
-		}
-		return html;
-	}
+   @Override
+   protected StringBuilder getHtmlAttributes() {
+      StringBuilder html = super.getHtmlAttributes();
+      if (StringUtils.isNotBlank(this.href)) {
+         html.append(writeAttribute("href", this.href));
+      }
+      if (StringUtils.isNotBlank(this.onclick)) {
+         html.append(writeAttribute("onclick", this.onclick));
+      }
+      return html;
+   }
 
-	public String getHref() {
-		return href;
-	}
+   public String getHref() {
+      return href;
+   }
 
-	public void setHref(String href) {
-		this.href = href;
-	}
+   public void setHref(String href) {
+      this.href = href;
+   }
 
-	public String getOnclick() {
-		return onclick;
-	}
+   public String getOnclick() {
+      return onclick;
+   }
 
-	public void setOnclick(String onclick) {
-		this.onclick = onclick;
-	}
+   public void setOnclick(String onclick) {
+      this.onclick = onclick;
+   }
 }

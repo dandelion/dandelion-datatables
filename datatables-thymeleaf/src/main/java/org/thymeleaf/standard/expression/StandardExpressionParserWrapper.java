@@ -244,17 +244,8 @@ public class StandardExpressionParserWrapper implements IStandardExpressionParse
 
       final Expression expression = Expression.parse(preprocessedInput.trim());
 
-      
-      // if (expression == null) {
-      // throw new
-      // TemplateProcessingException("Could not parse as expression: \"" + input
-      // + "\"");
-      // }
-
-      // if (configuration != null) {
-      // ExpressionCache.putExpressionIntoCache(configuration,
-      // preprocessedInput, expression);
-      // }
+      // No exception is thrown if the expression is null because we need to
+      // catch it elsewhere
 
       return expression;
 
@@ -264,5 +255,4 @@ public class StandardExpressionParserWrapper implements IStandardExpressionParse
    public String toString() {
       return "Standard Expression Parser";
    }
-
 }

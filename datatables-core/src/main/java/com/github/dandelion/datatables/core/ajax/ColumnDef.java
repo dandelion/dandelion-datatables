@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2013-2014 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -33,114 +33,114 @@ import java.io.Serializable;
 
 /**
  * <p>
- * A column definition, containing the different information used when server-side
- * processing is enabled.
+ * A column definition, containing the different information used when
+ * server-side processing is enabled.
  * 
  * @author Thibault Duchateau
  * @since 0.8.2
  */
 public class ColumnDef implements Serializable {
 
-	private static final long serialVersionUID = 6349611254914115218L;
-	private String name;
-	private boolean sortable;
-	private boolean sorted;
-	private boolean filterable;
-	private boolean filtered;
-	private String regex;
-	private String search;
-	private String searchFrom;
-	private String searchTo;
-	private SortDirection sortDirection;
+   private static final long serialVersionUID = 6349611254914115218L;
+   private String name;
+   private boolean sortable;
+   private boolean sorted;
+   private boolean filterable;
+   private boolean filtered;
+   private String regex;
+   private String search;
+   private String searchFrom;
+   private String searchTo;
+   private SortDirection sortDirection;
 
-	public enum SortDirection {
-		ASC, DESC;
-	}
+   public enum SortDirection {
+      ASC, DESC;
+   }
 
-	public SortDirection getSortDirection() {
-		return sortDirection;
-	}
+   public SortDirection getSortDirection() {
+      return sortDirection;
+   }
 
-	public void setSortDirection(SortDirection sortDirection) {
-		this.sortDirection = sortDirection;
-	}
+   public void setSortDirection(SortDirection sortDirection) {
+      this.sortDirection = sortDirection;
+   }
 
-	public String getName() {
-		return name;
-	}
+   public String getName() {
+      return name;
+   }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+   public void setName(String name) {
+      this.name = name;
+   }
 
-	public boolean isSortable() {
-		return sortable;
-	}
+   public boolean isSortable() {
+      return sortable;
+   }
 
-	public void setSortable(boolean sortable) {
-		this.sortable = sortable;
-	}
+   public void setSortable(boolean sortable) {
+      this.sortable = sortable;
+   }
 
-	public boolean isFilterable() {
-		return filterable;
-	}
+   public boolean isFilterable() {
+      return filterable;
+   }
 
-	public void setFilterable(boolean filterable) {
-		this.filterable = filterable;
-	}
+   public void setFilterable(boolean filterable) {
+      this.filterable = filterable;
+   }
 
-	public String getRegex() {
-		return regex;
-	}
+   public String getRegex() {
+      return regex;
+   }
 
-	public void setRegex(String regex) {
-		this.regex = regex;
-	}
+   public void setRegex(String regex) {
+      this.regex = regex;
+   }
 
-	public String getSearch() {
-		return search;
-	}
+   public String getSearch() {
+      return search;
+   }
 
-	public void setSearch(String search) {
-		this.search = search;
-	}
-	
-	public String getSearchFrom() {
-		return searchFrom;
-	}
+   public void setSearch(String search) {
+      this.search = search;
+   }
 
-	public void setSearchFrom(String searchFrom) {
-		this.searchFrom = searchFrom;
-	}
+   public String getSearchFrom() {
+      return searchFrom;
+   }
 
-	public String getSearchTo() {
-		return searchTo;
-	}
+   public void setSearchFrom(String searchFrom) {
+      this.searchFrom = searchFrom;
+   }
 
-	public void setSearchTo(String searchTo) {
-		this.searchTo = searchTo;
-	}
+   public String getSearchTo() {
+      return searchTo;
+   }
 
-	public boolean isSorted() {
-		return sorted;
-	}
+   public void setSearchTo(String searchTo) {
+      this.searchTo = searchTo;
+   }
 
-	public void setSorted(boolean sorted) {
-		this.sorted = sorted;
-	}
+   public boolean isSorted() {
+      return sorted;
+   }
 
-	public boolean isFiltered() {
-		return filtered;
-	}
+   public void setSorted(boolean sorted) {
+      this.sorted = sorted;
+   }
 
-	public void setFiltered(boolean filtered) {
-		this.filtered = filtered;
-	}
+   public boolean isFiltered() {
+      return filtered;
+   }
 
-	@Override
-	public String toString() {
-		return "ColumnDef [name=" + name + ", sortable=" + sortable + ", sorted=" + sorted + ", filterable="
-				+ filterable + ", filtered=" + filtered + ", regex=" + regex + ", search=" + search + ", searchFrom="
-				+ searchFrom + ", searchTo=" + searchTo + ", sortDirection=" + sortDirection + "]";
-	}
+   public void setFiltered(boolean filtered) {
+      this.filtered = filtered;
+   }
+
+   @Override
+   public String toString() {
+      return "ColumnDef [name=" + name + ", sortable=" + sortable + ", sorted=" + sorted + ", filterable=" + filterable
+            + ", filtered=" + filtered + ", regex=" + regex + ", search=" + search + ", searchFrom=" + searchFrom
+            + ", searchTo=" + searchTo + ", sortDirection=" + sortDirection + "]";
+   }
 }

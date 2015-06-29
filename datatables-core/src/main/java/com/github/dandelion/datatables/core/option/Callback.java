@@ -51,61 +51,61 @@ import com.github.dandelion.core.asset.generator.js.JsFunction;
  */
 public class Callback {
 
-	private CallbackType type;
-	private JsFunction function;
+   private CallbackType type;
+   private JsFunction function;
 
-	public Callback(CallbackType type, String functionContent) {
-		this.type = type;
-		this.function = new JsFunction(functionContent, this.type.getArgs());
-	}
+   public Callback(CallbackType type, String functionContent) {
+      this.type = type;
+      this.function = new JsFunction(functionContent, this.type.getArgs());
+   }
 
-	public Callback(CallbackType type, JsFunction function) {
-		this.type = type;
-		this.function = function;
-	}
+   public Callback(CallbackType type, JsFunction function) {
+      this.type = type;
+      this.function = function;
+   }
 
-	public CallbackType getType() {
-		return type;
-	}
+   public CallbackType getType() {
+      return type;
+   }
 
-	public void setType(CallbackType type) {
-		this.type = type;
-	}
+   public void setType(CallbackType type) {
+      this.type = type;
+   }
 
-	public JsFunction getFunction() {
-		return function;
-	}
+   public JsFunction getFunction() {
+      return function;
+   }
 
-	public void setFunction(JsFunction function) {
-		this.function = function;
-	}
+   public void setFunction(JsFunction function) {
+      this.function = function;
+   }
 
-	public void appendCode(String code) {
-		this.function.appendCode(code);
-	}
+   public void appendCode(String code) {
+      this.function.appendCode(code);
+   }
 
-	public static boolean hasCallback(CallbackType callbackType, List<Callback> callbacks) {
-		if (callbacks != null) {
-			for (Callback callback : callbacks) {
-				if (callback.getType().equals(callbackType)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+   public static boolean hasCallback(CallbackType callbackType, List<Callback> callbacks) {
+      if (callbacks != null) {
+         for (Callback callback : callbacks) {
+            if (callback.getType().equals(callbackType)) {
+               return true;
+            }
+         }
+      }
+      return false;
+   }
 
-	public static Callback findByType(CallbackType type, List<Callback> callbacks) {
-		for (Callback callback : callbacks) {
-			if (callback.getType().equals(type)) {
-				return callback;
-			}
-		}
-		return null;
-	}
+   public static Callback findByType(CallbackType type, List<Callback> callbacks) {
+      for (Callback callback : callbacks) {
+         if (callback.getType().equals(type)) {
+            return callback;
+         }
+      }
+      return null;
+   }
 
-	@Override
-	public String toString() {
-		return "Callback [type=" + type + ", function=" + function + "]";
-	}
+   @Override
+   public String toString() {
+      return "Callback [type=" + type + ", function=" + function + "]";
+   }
 }

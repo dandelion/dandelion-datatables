@@ -41,15 +41,15 @@ import com.github.dandelion.core.util.StringUtils;
  */
 public class BooleanProcessor extends AbstractOptionProcessor {
 
-	@Override
-	protected Object getProcessedValue(OptionProcessingContext context) {
+   @Override
+   protected Object getProcessedValue(OptionProcessingContext context) {
 
-		String optionValueAsString = context.getValueAsString();
-		Boolean retval = null;
-		if (StringUtils.isNotBlank(optionValueAsString)) {
-			retval = Boolean.parseBoolean(optionValueAsString);
-		}
+      String optionValueAsString = context.getValueAsString();
+      Boolean retval = null;
+      if (StringUtils.isNotBlank(optionValueAsString)) {
+         retval = Boolean.parseBoolean(optionValueAsString);
+      }
 
-		return retval;
-	}
+      return retval;
+   }
 }
