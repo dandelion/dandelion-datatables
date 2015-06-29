@@ -245,31 +245,15 @@ TIP: When specifying the callback function, note that you can use the <<3-3-bund
 All callbacks don't have the same parameters. Take care to use the right ones!
 
 [discrete]
-===== Cookie callback 
-
-This callback allows you to customise the cookie and / or the parameters being stored when using DataTables with state saving enabled. This function is called whenever the cookie is modified, and it expects a fully formed cookie string to be returned. Note that the data object passed in is a Javascript object which must be converted to a string (JSON.stringify for example).
-
-[source, javascript]
-----
-function cookieCallback(sName, oData, sExpires, sPath) {
-  // Customise oData or sName or whatever else here
-  return sName + "=" + JSON.stringify(oData) + "; expires=" + sExpires +"; path=" + sPath;
-}
-----
-
-* JSP usage: `<datatables:callback type="cookie" function="cookieCallback" />`
-* Thymeleaf usage: `<div dt:confType="callback" dt:type="cookie" dt:function="cookieCallback">`
-
-[discrete]
 ===== CreatedRow callback
 
 This callback is called when a TR element is created (and all TD child elements have been inserted), or registered if using a DOM source, allowing manipulation of the TR element (adding classes etc).
 
 [source, javascript]
 ----
-function createdRowCallback(nRow, aData, iDataIndex){
+function createdRowCallback(row, data, dataIndex){
   // Make the fifth column bold
-  $('td:eq(4)', nRow).css({ 'font-weight': 'bold' });
+  $('td:eq(4)', row).css({ 'font-weight': 'bold' });
 }
 ----
 
@@ -283,7 +267,7 @@ This callback is called on every 'draw' event, and allows you to dynamically mod
 
 [source, javascript]
 ----
-function drawCallback(nRow, aData, iDataIndex){
+function drawCallback(settings){
   alert( 'DataTables has redrawn the table' );
 }
 ----
@@ -298,8 +282,8 @@ This function is called on every 'draw' event, and allows you to dynamically mod
 
 [source, javascript]
 ----
-function footerCallback(nFoot, aData, iStart, iEnd, aiDisplay) {
-  nFoot.getElementsByTagName('th')[0].innerHTML = "Starting index is "+iStart;
+function footerCallback(toot, data, start, end, display) {
+  toot.getElementsByTagName('th')[0].innerHTML = "Starting index is " + start;
 }
 ----
 
@@ -313,24 +297,9 @@ When rendering large numbers in the information element for the table (i.e. "Sho
 
 [source, javascript]
 ----
-function formatNumberCallback(iIn) {
-  if ( iIn < 1000 ) {
-    return iIn;
-  } 
-  else {
-    var
-    s=(iIn+""),
-    a=s.split(""), out="",
-    iLen=s.length;
-   
-    for ( var i=0 ; i<iLen ; i++ ) 
-      if ( i%3 === 0 && i !== 0 ) {
-        out = "'"+out;
-      }
-      out = a[iLen-i-1]+out;
-    }
-  }
-  return out;
+// Show large numbers with a ' separator
+function formatNumberCallback(toFormat) {
+  return toFormat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
 };
 ----
 
@@ -344,8 +313,8 @@ This function is called on every 'draw' event, and allows you to dynamically mod
 
 [source, javascript]
 ----
-function headerCallback(nHead, aData, iStart, iEnd, aiDisplay) {
-  nHead.getElementsByTagName('th')[0].innerHTML = "Displaying " + (iEnd-iStart) + " records";
+function headerCallback(thead, data, start, end, display) {
+  thead.getElementsByTagName('th')[0].innerHTML = "Displaying " + (end - start) + " records";
 }
 ----
 
@@ -359,8 +328,8 @@ The information element can be used to convey information about the current stat
 
 [source, javascript]
 ----
-function infoCallback (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
-  return iStart + " to " + iEnd;
+function infoCallback (settings, start, end, max, total, pre) {
+  return start + " to " + end;
 }
 ----
 
@@ -374,7 +343,7 @@ Called when the table has been initialised. Normally DataTables will initialise 
 
 [source, javascript]
 ----
-function initCompleteCallback(oSettings, json) {
+function initCompleteCallback(settings, json) {
   alert( 'DataTables has finished its initialisation.' );
 }
 ----
@@ -389,7 +358,8 @@ Called at the very start of each table draw and can be used to cancel the draw b
 
 [source, javascript]
 ----
-function preDrawCallback( oSettings ) {
+// Cancel the table draw if #test has a value of 1
+function preDrawCallback( settings ) {
   if ( $('#test').val() == 1 ) {
     return false;
   }
@@ -406,16 +376,116 @@ This function allows you to 'post process' each row after it have been generated
 
 [source, javascript]
 ----
-function rowCallback( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+function rowCallback( row, data, index ) {
   // Bold the grade for all 'A' grade browsers
-  if ( aData[4] == "A" ) {
-    $('td:eq(4)', nRow).html( '<b>A</b>' );
+  if ( data[4] == "A" ) {
+    $('td:eq(4)', row).html( '<b>A</b>' );
   }
 }
 ----
 
 * JSP usage: `<datatables:callback type="row" function="rowCallback" />`
 * Thymeleaf usage: `<div dt:confType="callback" dt:type="row" dt:function="rowCallback">`
+
+[discrete]
+===== StateSave callback
+
+Callback that defines how the table state is stored and where.
+
+[source, javascript]
+----
+function stateSaveCallback( settings, data ) {
+  // Send an Ajax request to the server with the state object
+  $.ajax( {
+    "url": "/state_save",
+    "data": data,
+    "dataType": "json",
+    "type": "POST",
+    "success": function () {}
+  });
+}
+----
+
+* JSP usage: `<datatables:callback type="statesave" function="stateSaveCallback" />`
+* Thymeleaf usage: `<div dt:confType="callback" dt:type="statesave" dt:function="stateSaveCallback">`
+
+[discrete]
+===== StateSaveParams callback
+
+Callback which allows modification of the parameters to be saved for the DataTables state saving (<<jsp-table-stateSave, `stateSave`>>/<<tml-table-stateSave, `dt:stateSave`>>), prior to the data actually being saved. This callback is called every time DataTables requests that the state be saved. For the format of the data that is stored, please refer to the https://datatables.net/reference/option/stateSaveCallback[stateSaveCallback] documentation.
+
+[source, javascript]
+----
+function stateSaveParamsCallback( settings, data ) {
+  data.search.search = "";
+}
+----
+
+* JSP usage: `<datatables:callback type="statesaveparams" function="stateSaveParamsCallback" />`
+* Thymeleaf usage: `<div dt:confType="callback" dt:type="statesaveparams" dt:function="stateSaveParamsCallback">`
+
+[discrete]
+===== StateLoad callback
+
+With this callback you can define where, and how, the state of a table is loaded from. By default DataTables will load from localStorage but you might wish to use a server-side database or cookies as your implementation requirements demand. For the format of the data that is stored, please refer to the https://datatables.net/reference/option/stateSaveCallback[stateSaveCallback] documentation.
+
+[source, javascript]
+----
+function stateLoadCallback( settings ) {
+  var o;
+  
+  // Send an Ajax request to the server to get the data. Note that
+  // this is a synchronous request since the data is expected back from the
+  // function
+  $.ajax( {
+    "url": "/state_load",
+    "async": false,
+    "dataType": "json",
+    "success": function (json) {
+      o = json;
+    }
+  });
+  
+  return o;
+}
+----
+
+* JSP usage: `<datatables:callback type="stateload" function="stateLoadCallback" />`
+* Thymeleaf usage: `<div dt:confType="callback" dt:type="stateload" dt:function="stateLoadCallback">`
+
+[discrete]
+===== StateLoadParams callback
+
+Callback which allows modification of the saved state prior to loading that state. This callback is called when the table is loading state from the stored data, but prior to the settings object being modified by the saved state.
+
+[source, javascript]
+----
+// Remove a saved filter, so saved filtering is never loaded
+function stateLoadParamsCallback( settings, data ) {
+  data.search.search = "";
+}
+----
+
+* JSP usage: `<datatables:callback type="stateloadparams" function="stateLoadParamsCallback" />`
+* Thymeleaf usage: `<div dt:confType="callback" dt:type="stateloadparams" dt:function="stateLoadParamsCallback">`
+
+[discrete]
+===== StateLoaded callback
+
+Callback that is fired once the state has been loaded (https://datatables.net/reference/option/stateLoadCallback[stateLoadCallback]) and the saved data manipulated (if required - https://datatables.net/reference/option/stateLoadParams[stateLoadParams]).
+
+This callback is useful if you simply wish to know information from the saved state, without getting into the inner workings of where and how the state information has been saved. For example it can be useful for populating custom filter inputs.
+
+[source, javascript]
+----
+// Remove a saved filter, so saved filtering is never loaded
+function stateLoadedCallback( settings, data ) {
+  alert( 'Saved filter was: ' + data.search.search );
+}
+----
+
+* JSP usage: `<datatables:callback type="stateloaded" function="stateLoadedCallback" />`
+* Thymeleaf usage: `<div dt:confType="callback" dt:type="stateloaded" dt:function="stateLoadedCallback">`
 
 === 7.4. Generating row IDs
 
