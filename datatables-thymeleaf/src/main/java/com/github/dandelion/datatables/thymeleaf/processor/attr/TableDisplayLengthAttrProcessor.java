@@ -64,8 +64,8 @@ public class TableDisplayLengthAttrProcessor extends AbstractTableAttrProcessor 
 	protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
 			Map<Option<?>, Object> stagingConf) {
 
-		String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
+		Integer attrValue = AttributeUtils.parseAttribute(arguments, element, attributeName, Integer.class);
 
-		stagingConf.put(DatatableOptions.FEATURE_DISPLAYLENGTH, Integer.valueOf(attrValue));
+		stagingConf.put(DatatableOptions.FEATURE_DISPLAYLENGTH, attrValue);
 	}
 }
