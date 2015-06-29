@@ -1,10 +1,10 @@
 == 3. Installation
 
-=== 2.2. Known issues
+=== 3.1. Known issues
 
 * You can't use the Dandelion-Datatables' dialect inside a Thymeleaf fragment (https://github.com/dandelion/dandelion/issues/28[#28])
 
-=== 3.1. Common installation steps
+=== 3.2. Common installation steps
 
 The list below covers the common steps across all supported template engines.
 
@@ -18,7 +18,7 @@ Depending on the template engine you wish to use in your web application, add ei
 <dependency>
   <groupId>com.github.dandelion</groupId>
   <artifactId>datatables-jsp</artifactId>
-  <version>{ddl-version}</version>
+  <version>{project-version}</version>
 </dependency>
 ----
 
@@ -28,7 +28,7 @@ Depending on the template engine you wish to use in your web application, add ei
 <dependency>
   <groupId>com.github.dandelion</groupId>
   <artifactId>datatables-thymeleaf</artifactId>
-  <version>{ddl-version}</version>
+  <version>{project-version}</version>
 </dependency>
 ----
 
@@ -67,11 +67,12 @@ Add the following configuration to your `web.xml` file:
 </servlet>
 <servlet-mapping>
   <servlet-name>dandelionServlet</servlet-name>
-  <url-pattern>/dandelion-assets/*</url-pattern>
+  <url-pattern>/dandelion-assets/*</url-pattern> <1>
 </servlet-mapping>
 ----
+<1> Note that the URL pattern can be customized thanks to the <<opt-asset.url.pattern, `asset.url.pattern`>> config option
 
-=== 3.2. JSP-based steps
+=== 3.3. JSP-based steps
 
 * *Declare the taglib definition*
 
@@ -79,7 +80,7 @@ Everywhere you want to display a table using Dandelion-DataTables, you need to a
 
  <%@ taglib prefix="datatables" uri="http://github.com/dandelion/datatables" %>
 
-=== 3.3. Thymeleaf-based steps
+=== 3.4. Thymeleaf-based steps
 
 * *Declare the Thymeleaf dialect*
 
@@ -117,18 +118,17 @@ templateEngine.addDialect(new DataTablesDialect());
 This way you can benefit from some content assist in your favorite IDE:
 
 * Eclipse: see the http://www.thymeleaf.org/ecosystem.html#thymeleaf-extras-eclipse-plugin[Thymeleaf Eclipse plugin]
-* IntelliJ IDEA (upcoming): see this http://blog.jetbrains.com/idea/2014/09/intellij-idea-14-ships-advanced-coding-assistance-for-thymeleaf/[blog post]
+* IntelliJ IDEA: see this http://forum.thymeleaf.org/IntelliJ-IDEA-14-includes-Thymeleaf-support-td4028544.html[topic]
 
 WARNING: Using a wrong namespace will prevent the content assist from working correctly
 
-=== 3.4. Client-side dependencies
+=== 3.5. Client-side dependencies
 
-Actually you won't need anything else to start working with Dandelion-Datatables since the component embeds a set of <<appendix-d-vendor-bundles-reference, vendor bundles>> that pull the required client-side dependencies, such as http://datatables.net[DataTables] and http://jquery.com[jQuery], from a CDN.
+Actually you won't need anything else to start working with Dandelion-Datatables since the component embeds a set of vendor bundles that pull the required client-side dependencies, such as http://datatables.net[DataTables] and http://jquery.com[jQuery], from a CDN.
 
 This simply means that once the above installation steps performed, it just works.
 
 Of course, you may wish to use your own assets instead. In this situation, you have several options:
 
-* You may want to use Dandelion-Datatables as a standalone library, i.e. without the asset management provided by Dandelion Core. See the <<3-1-standalone-mode, standalone mode section>> for more information.
-* Or you may need to make a more fine-tuned configuration of the assets. See the <<3-2-overriding-asset-bundles, overriding asset bundles section>> for more information.
-
+* You may want to use Dandelion-Datatables as a standalone library, i.e. without all vendor bundles. See the <<14-1-standalone-mode, standalone mode section>> for more information.
+* Or you may need to make a more fine-tuned configuration of the vendor assets. See the <<14-2-adapting-vendor-bundles, adapting vendor assets section>> for more information.

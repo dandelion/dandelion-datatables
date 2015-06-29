@@ -97,6 +97,7 @@
                   <idseparator>-</idseparator>
                   <docinfo1>true</docinfo1>
                   <project-version>${project.version}</project-version>
+                  <ga-key>UA-33818546-8</ga-key>
                </attributes>
             </configuration>
             <dependencies>

@@ -1,0 +1,87 @@
+== 14. Connections with Dandelion-Core
+
+=== 14.1. Standalone mode
+
+Dandelion-Datatables has been designed to work together with Dandelion-Core, in particular its bundle mechanism. As soon as a feature is enabled (e.g. server-side processing or even a theme), all required bundles are included in the request to make this feature work.
+
+For some reasons, you may wish to use your own vendor libraries. In this case, you can use Dandelion-Datatables in _standalone mode_. In standalone mode, all vendor bundles of the component are not scanned, freeing you use your own ones.
+
+In order to use a component in a standalone mode, you need to inform Dandelion by using the `components.standalone` option of Dandelion-Core. Just specify in this option all components you wish to use standalone, by using their _component identifier_.
+
+.dandelion/dandelion.properties	
+[source, properties]
+----
+components.standalone = ddl-dt <1>
+----
+<1> `ddl-dt` is the _component identifier_ of Dandelion-Datatables
+
+Of course, you may need some features that pull in asset bundles. In such a case, Dandelion-Core will inform you that one (or more) bundle(s) are required via the alert reporting tool.
+
+=== 14.2. Adapting vendor bundles
+
+In case you wish to use most of the vendor bundles but just change a few of them, it would be too cumbersome to use the component <<14-1-standalone-mode, standalone>>. Dandelion-Core ships other mechanisms that may fit your needs.
+
+==== 14.2.1. Adapting asset locations
+
+In case you need to change location, you can adapt the internal _asset locations resolution strategy_ by using the corresponding configuration option:
+
+.dandelion/dandelion.properties
+[source, properties]
+----
+asset.locations.resolution.strategy = webapp,webjar,classpath,jar,remote
+----
+
+Note that almost all vendor bundles are configured with two kind of locations: an internal one (either via the `webapp`, `webjar`, `classpath` or `jar` location keys) and an external one (via the `remote` location key).
+
+For example, if you wish to prioritize external locations, just change the above option as follows:
+
+.dandelion/dandelion.properties
+[source, properties]
+----
+asset.locations.resolution.strategy = remote,webapp,webjar,classpath,jar
+----
+
+==== 14.2.2. Adapting asset versions
+
+If you need to use particular version for a vendor asset, you will have to override the asset definition. In order to override an asset, you need to declare another bundle, and use the exact same *asset name* and *type*. This way, the asset previously stored in the bundle storage will be replaced by yours.
+
+For example, if you need an ealier version of https://github.com/vedmack/yadcf[yadcf] than the one packaged in the *datatables-core* JAR, write the following bundle:
+
+.dandelion/my-custom-yadcf-bundle.json
+[source, json]
+----
+{
+   "assets" : [
+      {
+         "name" : "jquery.datatables.yadcf", <1>
+         "locations" : {
+            "webapp" : "/assets/js/vendor/yadcf.js" <2> <3>
+         }
+      }
+   ]
+}
+----
+<1> The asset name here must be the same than the one computed by Dandelion. Basically, Dandelion just extracts the characters before the file extension but this can be verified using the live debugger
+<2> The asset type is not explicitely declared but deducted from the file name declared in the first location found
+<3> The location refers here to a custom asset called `yadcf.js`, stored in the webapp
+
+=== 14.3. Bundle special syntax
+
+Some attributes from the JSP taglib or the Thymeleaf dialect accept a _bundle special syntax_. This syntax allow to include one or more bundles in the request, easing interactions with the existing bundles.
+
+[source]
+----
+attribute="bundleName#javaScriptObject"
+----
+
+* `bundleName` is the name of the asset bundle to include in the current request
+* `javaScriptObject` is a JavaScript object: a function, an array, or any other Javascript object depending on the attribute
+
+You can also specify multiple bundles, separated by a comma:
+
+[source]
+----
+attribute="bundle1,bundle2#javaScriptObject"
+----
+
+NOTE: Actually you could have achieved the same goal by using the Dandelion-Core JSP taglib or Thymeleaf dialect. But this syntax is finally a convenient shortcut, preventing you from declaring another JSP taglib / Thymeleaf dialect.

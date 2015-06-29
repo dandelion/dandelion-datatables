@@ -1,145 +1,119 @@
 == 10. Plugins
 
+DataTables provides lots of awesome built-in http://datatables.net/extensions/index[plugins]. Dandelion-Datatables only support some of them but the scope will be extended in future versions.
+
 === 10.1. Scroller
 
-<p>
-   This plugin allows you to scroll inside the table data.
-</p>
+Scroller is a virtual rendering plug-in for DataTables which allows large datasets to be drawn on screen every quickly. What the virtual rendering means is that only the visible portion of the table (and a bit to either side to make the scrolling smooth) is drawn, while the scrolling container gives the visual impression that the whole table is visible. This is done by making use of the pagination abilities of DataTables and moving the table around in the scrolling container DataTables adds to the page. The scrolling container is forced to the height it would be for the full table display using an extra element.
 
-<h3 class="section-title">Using JSP</h3>
-<p>
-   You just need to enable the extension by adding <code>scroller</code> to the {% refjsp dt table ext %} table attribute.
-</p>
-<p>
-   By default, the height is <code>300px</code> but you can configure it with the {% refjsp dt table scrollY %} table attribute.
-</p>
-<pre class="prettyprint">
-&lt;datatables:table id="myTableId" data="${persons}" ext="scroller" scrollY="400px">
-   &lt;datatables:column title="Id" property="id" />
-   &lt;datatables:column title="FirstName" property="firstName" />
-   &lt;datatables:column title="LastName" property="lastName" />
-   &lt;datatables:column title="City" property="address.town.name" />
-   &lt;datatables:column title="Mail" property="mail" />
-&lt;/datatables:table>
-</pre>
+[discrete]
+==== Using JSP
 
-<h3 class="section-title">Using Thymeleaf</h3>
-<p>
-   Just enable the extension by adding <code>scroller</code> to the {% reftl dt table ext %} table attribute.
-</p>
-<pre class="prettyprint">
-&lt;table id="myTable" dt:table="true" dt:ext="scroller" dt:scrollY="400px">
-   &lt;thead dt:scroller="true">
-      &lt;tr>
-         &lt;th>Id&lt;/th>
-         &lt;th>Firstname&lt;/th>
-         &lt;th>Lastname&lt;/th>
-         &lt;th>City&lt;/th>
-         &lt;th>Mail&lt;/th>
-      &lt;/tr>
-   &lt;/thead>
-   &lt;tbody>
-      &lt;tr th:each="person : ${persons}">
-         &lt;td th:text="${person?.id}">1&lt;/td>
-         &lt;td th:text="${person?.firstName}">John&lt;/td>
-         &lt;td th:text="${person?.lastName}">Doe&lt;/td>
-         &lt;td th:text="${person?.address?.town?.name}">Nobody knows!&lt;/td>
-         &lt;td th:text="${person?.mail}">john@doe.com&lt;/td>
-      &lt;/tr>
-   &lt;/tbody>
-&lt;/table>
-</pre>
+Enable the extension by adding `scroller` to the <<jsp-table-ext, `ext`>> table attribute.
+
+By default, the height is `300px` but you can configure it with the <<jsp-table-scrollY, `scrollY`>> table attribute.
+
+[source, xml]
+----
+<datatables:table id="myTableId" ... ext="scroller" scrollY="400px">
+  ...
+</datatables:table>
+----
+
+[discrete]
+==== Using Thymeleaf
+
+Enable the extension by adding `scroller` to the <<tml-table-ext, `dt:ext`>> table attribute. You can configure the height thanks to the <<tml-table-scrollY, `dt:scrollY`>> table attribute.
+
+[source, html]
+----
+<table id="myTable" dt:table="true" dt:ext="scroller" dt:scrollY="400px">
+  ...
+</table>
+----
 
 === 10.2. ColReorder
 
-<p>
-   This plugin allows you to reorder columns using drag'n'drop.
-</p>
+ColReorder adds the ability for the end user to click and drag column headers to reorder a table as they see fit, to DataTables. 
 
-<h3 class="section-title">Using JSP</h3>
-<p>
-   Just enable the extension by adding <code>colreorder</code> to the {% refjsp dt table ext %} table attribute.
-</p>
-<pre class="prettyprint">
-&lt;datatables:table id="myTableId" data="${persons}" ext="colreorder">
-   &lt;datatables:column title="Id" property="id" />
-   &lt;datatables:column title="FirstName" property="firstName" />
-   &lt;datatables:column title="LastName" property="lastName" />
-   &lt;datatables:column title="City" property="address.town.name" />
-   &lt;datatables:column title="Mail" property="mail" />
-&lt;/datatables:table>
-</pre>
+[discrete]
+==== Using JSP
 
-<h3 class="section-title">Using Thymeleaf</h3>
-<p>
-   Just enable the extension by adding <code>scroller</code> to the {% reftl dt table ext %} table attribute.
-</p>
-<pre class="prettyprint">
-&lt;table id="myTable" dt:table="true" dt:ext="colreorder">
-   &lt;thead>
-      &lt;tr>
-         &lt;th>Id&lt;/th>
-         &lt;th>Firstname&lt;/th>
-         &lt;th>Lastname&lt;/th>
-         &lt;th>City&lt;/th>
-         &lt;th>Mail&lt;/th>
-      &lt;/tr>
-   &lt;/thead>
-   &lt;tbody>
-      &lt;tr th:each="person : ${persons}">
-         &lt;td th:text="${person?.id}">1&lt;/td>
-         &lt;td th:text="${person?.firstName}">John&lt;/td>
-         &lt;td th:text="${person?.lastName}">Doe&lt;/td>
-         &lt;td th:text="${person?.address?.town?.name}">Nobody knows!&lt;/td>
-         &lt;td>&lt;a th:href="${'mailto:' + person?.mail}" th:text="${person?.mail}">john@doe.com&lt;/a>&lt;/td>
-      &lt;/tr>
-   &lt;/tbody>
-&lt;/table>
-</pre>
+Enable the extension by adding `colreorder` to the <<jsp-table-ext, `ext`>> table attribute.
+
+[source, xml]
+----
+<datatables:table id="myTableId" ... ext="colreorder">
+  ...
+</datatables:table>
+----
+
+[discrete]
+==== Using Thymeleaf
+
+Enable the extension by adding `scroller` to the <<tml-table-ext, `dt:ext`>> table attribute.
+
+[source, html]
+----
+<table id="myTable" dt:table="true" ... dt:ext="colreorder">
+  ...
+</table>
+----
 
 === 10.3. FixedHeader
 
-<p>
-   This plugin allows you to fixed the table header by scrolling.
-</p>
+At times it can be useful to ensure that column titles will remain always visible on a table, even when a user scrolls down a table. The FixedHeader plug-in for DataTables will float the 'thead' element above the table at all times to help address this issue. The column titles also remain click-able to perform sorting.
 
-<h3 class="section-title">Using JSP</h3>
-<p>
-   Just enable the extension by adding <code>fixedheader</code> to the {% refjsp dt table ext %} table attribute.
-</p>
-<pre class="prettyprint">
-&lt;datatables:table id="myTableId" data="${persons}" fixedHeader="true" offsetTop="40">
-   &lt;datatables:column title="Id" property="id" />
-   &lt;datatables:column title="FirstName" property="firstName" />
-   &lt;datatables:column title="LastName" property="lastName" />
-   &lt;datatables:column title="City" property="address.town.name" />
-   &lt;datatables:column title="Mail" property="mail" />
-&lt;/datatables:table>
-</pre>
+[discrete]
+==== Using JSP
 
-<h3 class="section-title">Using Thymeleaf</h3>
-<p>
-   Just enable the extension by adding <code>fixedheader</code> to the {% reftl dt table ext %} table attribute.
-</p>
-<pre class="prettyprint">
-&lt;table id="myTable" dt:table="true" dt:ext="fixedheader">
-   &lt;thead>
-      &lt;tr>
-         &lt;th>Id&lt;/th>
-         &lt;th>Firstname&lt;/th>
-         &lt;th>Lastname&lt;/th>
-         &lt;th>City&lt;/th>
-         &lt;th>Mail&lt;/th>
-      &lt;/tr>
-   &lt;/thead>
-   &lt;tbody>
-      &lt;tr th:each="person : ${persons}">
-         &lt;td th:text="${person?.id}">1&lt;/td>
-         &lt;td th:text="${person?.firstName}">John&lt;/td>
-         &lt;td th:text="${person?.lastName}">Doe&lt;/td>
-         &lt;td th:text="${person?.address?.town?.name}">Nobody knows !&lt;/td>
-         &lt;td>&lt;a th:href="${'mailto:' + person?.mail}" th:text="${person?.mail}">john@doe.com&lt;/a>&lt;/td>
-      &lt;/tr>
-   &lt;/tbody>
-&lt;/table>
-</pre>
+Enable the extension by adding `fixedheader` to the <<jsp-table-ext, `ext`>> table attribute.
+
+[source, xml]
+----
+<datatables:table id="myTableId" ... fixedHeader="true">
+  ...
+</datatables:table>
+----
+
+[discrete]
+==== Using Thymeleaf
+
+Enable the extension by adding `fixedheader` to the <<tml-table-ext, `dt:ext`>> table attribute.
+
+[source, xml]
+----
+<table id="myTable" dt:table="true" ... dt:ext="fixedheader">
+  ...
+</table>
+----
+
+=== 10.4. Responsive
+
+In the modern world of responsive web design tables can often cause a particular problem for designers due to their row based layout. Responsive is an extension for DataTables that resolves that problem by optimising the table's layout for different screen sizes through the dynamic insertion and removal of columns from the table.
+
+[discrete]
+==== Using JSP
+
+Enable the extension by adding `responsive` to the <<jsp-table-ext, `ext`>> table attribute.
+
+[source, xml]
+----
+<datatables:table id="myTableId" ... ext="responsive">
+  ...
+</datatables:table>
+----
+
+[discrete]
+==== Using Thymeleaf
+
+Enable the extension by adding `responsive` to the <<tml-table-ext, `dt:ext`>> table attribute.
+
+[source, xml]
+----
+<table id="myTable" dt:table="true" ... dt:ext="responsive">
+  ...
+</table>
+----
+
+Note that the plugin automatically adapts if a theme, such as Bootstrap2 or Bootstrap3, is being used.

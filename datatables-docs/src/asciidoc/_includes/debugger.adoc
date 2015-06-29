@@ -1,6 +1,21 @@
-== 12. Debugger
+== 12. Debugging tools
 
-=== 12.1. Debugger
+Dandelion-Core provides some debugging tools that can be extended by components. In particular, Dandelion-Datatables extends the existing live debugger by adding a new menu in the sidebar, composed of new debug pages.
 
-Since the earliest version of Dandelion-Datatables, we've been trying to develop the component in a modular manner. That's why if you dig into the source code, you'll see lots of already existing extensions as the {% javadoc dt datatables-core AjaxFeature %}, the {% javadoc dt datatables-core ServerSideFeature %}, or the {% javadoc dt datatables-core Bootstrap2Theme %}, ...
+=== 12.1. Current options
 
+This debug page allows you list all <<11-configuration-options, options>> currently activated in all tables present in the current page.
+
+In particularly, you can see for each table:
+
+* the activated option group
+* the current extensions
+* the list of all activated options
+
+image::debugger-options.png[]
+
+=== 12.2. Option groups
+
+In this page, you can view all <<11-4-using-option-groups, options groups>> computed by Dandelion-Datatables. All these group are computed from the <<11-configuration-options, configuration file>>.
+
+image::debugger-option-groups.png[]

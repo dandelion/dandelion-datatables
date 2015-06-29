@@ -2,7 +2,7 @@
 
 === 7.1. Using extra JavaScript
 
-There are so many possibilities with http://datatables.net/[DataTables] it would be too bad to limit its configuration with the JSP taglib/Thymeleaf dialect attributes.
+There are so many possibilities with http://datatables.net/[DataTables] it would be too bad to limit its configuration because of a missing tag or attribute in the JSP taglib / Thymeleaf dialect.
 
 To prevent this, Dandelion-Datatables provides a mechanism that allows you to insert your own JavaScript snippets in the generated code.
 
@@ -15,166 +15,125 @@ Prior to the v0.10.0, you was already able to inject some code but with two rest
 
 Starting from the v0.10.0, the above restrictions have disappeared!
 
-The code injection is now based on
-   <a
-      href="/dandelion/features/asset-bundles/introducing-asset-bundles.html">asset
-      bundles</a> (LIEN). This means that you can now inject one (or more) bundles
-   inside the generated configuration. Dandelion-Datatables will then
-   filter the JavaScript assets contained in the supplied bundle(s).
+The code injection is now based on asset bundles. This means that you can now inject one (or more) bundles inside the generated configuration. Dandelion-Datatables will then filter the JavaScript assets contained in the supplied bundle(s).
 
-Once the assets filtered, their content will be retrieved, depending on the location you configured in the asset bundle and injected into the specified location aka the _insert mode_.
+Once the assets filtered, their content will be retrieved, depending on the location configured in the bundle and injected into the specified _placeholder_.
 
-==== 7.1.2. Insert mode
+==== 7.1.2. Available placeholders
 
-The _insert mode_ is used to determine where the content of the external Javascript file will be inserted in the main generated Javascript file.
+Placeholders are used to determine where the contents of the external JavaScript file will be inserted in relation to what Dandelion-Datatables already generates as initialization code.
 
 [.float-group]
 --
 [.left]
-image::insert-mode.png[float="left"]
+image::filter-placeholder.png[float="left"]
 
-It can take 5 different values:
+It can take 6 different values:
 
- * `BEFOREALL`: the JavaScript code will be inserted before all existing generated code 
- * `BEFORESTARTDOCUMENTREADY`: the JavaScript code will be inserted just before the start of the jQuery `ready()` method
- * `AFTERSTARTDOCUMENTREADY`: the JavaScript code will be inserted just after the start of the jQuery `ready()` method
- * `BEFOREENDDOCUMENTREADY`: the JavaScript code will be inserted just before the end of the jQuery `ready()` method
- * `AFTERALL`: the JavaScript code will be inserted after all existing generated code
+ * `BEFORE_ALL`: the JavaScript code will be inserted before all existing generated code  (default value)
+ * `BEFORE_START_DOCUMENT_READY`: the JavaScript code will be inserted just before the start of the jQuery https://api.jquery.com/ready/[`ready()`] method
+ * `AFTER_START_DOCUMENT_READY`: the JavaScript code will be inserted just after the start of the jQuery https://api.jquery.com/ready/[`ready()`] method
+ * `BEFORE_END_DOCUMENT_READY`: the JavaScript code will be inserted just before the end of the jQuery https://api.jquery.com/ready/[`ready()`] method
+ * `AFTER_END_DOCUMENT_READY`: the JavaScript code will be inserted just after the end of the jQuery https://api.jquery.com/ready/[`ready()`] method
+ * `AFTER_ALL`: the JavaScript code will be inserted after all existing generated code
 --
 
-==== 7.1.3. Example
+==== 7.1.3. Example: extending DataTables' options
 
-TIP: Pending. See https://github.com/dandelion/dandelion.github.io/issues/12
+Let's assume you absolutely need to set a DataTables' option that is unfortunately not supported (yet) by Dandelion-Datatables, e.g. https://datatables.net/reference/option/displayStart[displayStart].
 
-Let's assume you want to filter data with an external drop down list. For that, you've written some JavaScript code in a file called <i>custom-filter.js</i> located under you `src/main/webapp/assets/js` folder.
+Actually you can take advantage of the extra JavaScript feature by modifying the generated JavaScript object (that contains all parameters) before it is consumed by DataTables during its initialization.
 
-Here is the custom dropdown list you wish to add in your page:
+First, write a bundle which declares a single asset.
 
-[source, html]
-----
-<select class="input-medium" id="lastNameChoice">
-   <option value="All">All</option>
-   <option value="Carpenter">Carpenter</option>
-   <option value="Holloway">Holloway</option>
-   <option value="Peck">Peck</option>
-   <option value="Pena">Pena</option>
-   <option value="Wilder">Wilder</option>
-</select>
-----
-
-Here is the content of the <i>custom-filter.js</i> file:
-
-[source, javascript]
-----
-$.fn.dataTableExt.afnFiltering.push(
-   function( oSettings, aData, iDataIndex ) {
-      var chosenName = $("#lastNameChoice").val(); // Grab selected item in the dropdown list
-      var nameInColumn = aData[2]; // 2 is the index (begins from 0) of the column I want to sort
-       
-      // If nothing or "All" is selected, don't filter
-      if ( chosenName == "" || chosenName == "All")
-      {
-         return true;
-      }
-      // Filtering on the city name
-      else if ( chosenName == nameInColumn)
-      {
-         return true;
-      }
-      return false;
-   }
-);
- 
-// Redraw the table as soon as the selected item changes
-// Important : the DataTable is accessible through the taglib with the name : oTable_[HTML table id]
-$("#lastNameChoice").change( function() { oTable_myTableId.fnDraw(); });
-----
-
-To let Dandelion handle your assets, you have written the
-   corresponding
-   <a
-      href="/dandelion/features/asset-bundles/introducing-asset-bundles.html">bundle</a>:
-
-[source, javascript]
+.dandelion/custom.json
+[source, json]
 ----
 {
-   "bundle" : "custom-filter",
    "assets": [{
-      "name": "filter",
-      "version": "1.0.0",
-      "type": "js",
       "locations": {
-         "webapp": "/assets/js/custom-filter.js"
+         "webapp": "/assets/js/custom.js"
       }
    }]
 }
 ----
 
+In order to extend the generated "param" object, you can for example use the http://api.jquery.com/jquery.extend/[`jQuery.extend()`] method.
+
+.assets/js/custom.js
+[source, javascript]
+----
+// Merge the desired option into the original object, recursively
+$.extend( true, oTable_[tableId]_params, { "displayStart" : 50 } );
+----
+
+Of course, the `oTable\_[tableId]_params` object must exist before extending it. For that purpose, you just need to choose the right placeholder: `before_start_document_ready`.
+
 [discrete]
 ===== Using JSP
 
-It's as simple as using the {% refjsp dt extraJs %} tag as follows:
+Use the <<a-7-code-datatables-extrajs-code-tag, `<datatables:extraJs>`>> tag as follows:
 
 [source, xml]
 ----
-<datatables:table id="myTableId" data="${persons}">
-  <datatables:column title="Id" property="id" />
-  <datatables:column title="Firstname" property="firstName" />
-  <datatables:column title="LastName" property="lastName" />
-  <datatables:column title="City" property="address.town.name" />
-  <datatables:column title="Mail" property="mail" />
-  <datatables:extraJs bundles="custom-filter" />
+<datatables:table id="myTableId" ...>
+  ...
+  <datatables:extraJs bundles="custom" placeholder="before_start_document_ready" /> <1> <2>
 </datatables:table>
 ----
+<1> The `custom` bundle is included in the request. Remember the name of the bundle is deducted from the file name
+<2> The placeholder is forced here to `before_start_document_ready`
 
 [discrete]
 ===== Using Thymeleaf
 
-Use the <a href="/datatables/features/advanced/configuration-div.html">configuration div</a> introduced in the v0.10.0.
+Use the <<7-6-configuration-div-thymeleaf-only, configuration div>> as follows:
 
-[source, xml]
+[source, html]
 ----
 <div dt:conf="myTableId">
-  <div dt:confType="extrajs" dt:bundles="custom-filter" />
+  <div dt:confType="extrajs" dt:bundles="custom" placeholder="before_start_document_ready" /> <1> <2>
 </div>
 
-<table id="myTableId" dt:table="true">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Firstname</th>
-      <th>Lastname</th>
-      <th>City</th>
-      <th>Mail</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr th:each="person : ${persons}">
-      <td th:text="${person?.id}">1</td>
-      <td th:text="${person?.firstName}">John</td>
-      <td th:text="${person?.lastName}">Doe</td>
-      <td th:text="${person?.address?.town?.name}">Nobody knows!</td>
-      <td th:text="${person?.mail}">john@doe.com</td>
-    </tr>
-  </tbody>
+<table id="myTableId" dt:table="true" ...>
+  ...
 </table>
+----
+<1> The `custom` bundle is included in the request. Remember the name of the bundle is deducted from the file name
+<2> The placeholder is forced here to `before_start_document_ready`
+
+As a consequence, Dandelion-Datatables will fetch all JavaScript assets declared in the specified bundle (called `custom` here) and inject their contents at the specified placeholder (`before_start_document_ready` here).
+
+The final code will look like:
+
+[source, javascript]
+----
+var oTable_myTableId;
+var oTable_myTableId_params = {
+  // all explicitely declared parameters and column definitions
+};
+// Merge the desired option into the original object, recursively
+$.extend( true, oTable_myTableId_params, { "displayStart" : 50 } );
+$(document).ready(function() {
+  oTable_myTableId = $('#myTableId').DataTable(oTable_myTableId_params);
+});
 ----
 
 === 7.2. Using extra HTML snippets
 
-Starting from the v0.10.0, Dandelion-Datatables makes use of the
-   <a href="http://legacy.datatables.net/development/features">DataTables feature plug-ins</a> to easily
-   create custom controls that can be positioned around the table as any other built-in control. It
-   can be handy for example to add custom links.
-
+Starting from the v0.10.0, Dandelion-Datatables makes use of the http://www.datatables.net/manual/plug-ins/features[DataTables feature plug-ins] to easily create custom controls that can be positioned around the table as any other built-in control. It can be handy for example to decorate the table with custom links.
 
 ==== 7.2.1. How it works?
 
-Whether you use the JSP or the Thymeleaf syntax, Dandelion-Datatables will automatically create a feature plug-in (lien) with the following configuration:
+Whether you use JSP or Thymeleaf, Dandelion-Datatables will automatically create a http://www.datatables.net/manual/plug-ins/features[feature plug-in] with the following configuration:
 
-* `cFeature`: the character that will be used to locate this plug-in with the <<4-2-dom-positioning, DOM positioning>> feature
+* `cFeature`: the character that will be used to locate this plug-in with the <<4-3-dom-positioning, DOM positioning>> feature
 
-WARNING: Some characters are reserved by DataTables for internal features and possibly by DataTables' plugins. To avoid any conflict, it is recommended to use a figure (between 0 and 9) instead of a letter. If you use a letter, please make sure at least that it is lower cased to avoid conflict with plugins.
+[WARNING]
+====
+Some characters are reserved by DataTables for internal features and possibly by DataTables' plugins. To avoid any conflict, it is recommended to use a figure (between 0 and 9) instead of a letter. If you use a letter, please make sure at least that it is lower cased to avoid conflict with plugins.
+====
+
 * `fnInit`: function that will create a new container wrapping your custom HTML code
 * `sFeature`: internal name of the feature
 
@@ -188,24 +147,20 @@ Use the <<a-8-code-datatables-extrahtml-code-tag, `<datatables:extraHtml>`>> tag
 [source, xml]
 ----
 <datatables:table id="myTableId" data="${persons}" dom="l0frtip"> <3>
-  <datatables:column title="Id" property="id" />
-  <datatables:column title="LastName" property="lastName" />
-  <datatables:column title="FirstName" property="firstName" />
-  <datatables:column title="City" property="address.town.name" />
-  <datatables:column title="Mail" property="mail" />
+  ...
   <datatables:extraHtml uid="0" cssStyle="float:right; margin-left: 5px;"> <1>
     <a class="btn" onclick="alert('Click!');">My custom link</a> <2>
   </datatables:extraHtml>
 </datatables:table>
 ----
 <1> The feature is identified by the <<jsp-extraHtml-uid, `uid`>> attribute
-<2> This HTML markup will be used inside the container that Dandelion-Datatables will create
+<2> This HTML markup will be used inside the container that Dandelion-Datatables will create. You can of course nest any other JSP tags here
 <3> The feature is activated thanks to <<jsp-table-dom, `dom`>> table attribute: `l0frtip`
 
 [discrete]
 ==== Using Thymeleaf
 
-You will need to use the <<7-6-configuration-div-thymeleaf-only, configuration div>> introduced in the v0.10.0.
+Use the <<7-6-configuration-div-thymeleaf-only, configuration div>>, with the dedicated <<tml-div-confType, `dt:confType`>> attribute: 
 
 [source, xml]
 ----
@@ -216,36 +171,18 @@ You will need to use the <<7-6-configuration-div-thymeleaf-only, configuration d
 </div>
 
 <table id="myTableId" dt:table="true" dt:dom="l0frtip"> <5>
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Firstname</th>
-      <th>Lastname</th>
-      <th>City</th>
-      <th>Mail</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr th:each="person : ${persons}">
-      <td th:text="${person.id}">1</td>
-      <td th:text="${person.firstName}">John</td>
-      <td th:text="${person.lastName}">Doe</td>
-      <td th:text="${person.address.town.name}">Nobody knows!</td>
-      <td th:text="${person.mail}">john@doe.com</td>
-    </tr>
-  </tbody>
+  ...
 </table>
 ----
 <1> To link the _configuration div_ to the table, you must specify in the <<tml-div-conf, `dt:conf`>> attribute the id of the table on which the configuration should apply
 <2> Since the _configuration div_ is used for several feature, you must specify which type of feature is being configured using the <<tml-div-confType, `dt:confType`>> attribute
-<3> The feature is identified by the <<tml-div-uid, `dt:uid`>> attribute
+<3> The feature is identified by the <<tml-div-extrahtml-uid, `dt:uid`>> attribute
 <4> This HTML markup will be used inside the container that Dandelion-Datatables will create
 <5> The feature is activated thanks to <<tml-table-dom, `dt:dom`>> table attribute: `l0frtip`
 
-[discrete]
-==== A note about the scope
+NOTE: It is worth noting that all DataTables features created inside a table are actually available in the whole page, so it can possibly be used somewhere else in the same page, inside another table.
 
-It is worth noting that all DataTables features created inside a table are actually available in the whole page, so it can possibly be used somewhere else in the same page, inside another table.
+WARNING: Some other Dandelion-Datatables features already impact the <<jsp-table-dom, `dom`>> / <<tml-table-dom, `dt:dom`>> attribute. In case of conflict, ensure to explicitely set the value with all desired options combined
 
 === 7.3. Using callbacks
 
@@ -266,11 +203,7 @@ You need to declare:
 [source, xml]
 ----
 <datatables:table id="myTableId" data="${persons}">
-  <datatables:column title="Id" property="id" />
-  <datatables:column title="Firstname" property="firstName" />
-  <datatables:column title="LastName" property="lastName" />
-  <datatables:column title="City" property="address.town.name" />
-  <datatables:column title="Mail" property="mail" />
+  ...
   <datatables:callback type="createdrow" function="callbackCreatedRow" />
 </datatables:table>
 ----
@@ -282,10 +215,6 @@ function callbackCreatedRow(nRow, aData, iDataIndex) {
   $('td:eq(4)', nRow).css({ 'font-weight': 'bold' });
 }
 ----
-TODO
-<p>
-   Ensure to declare the Javascript function before the {% refjsp dt table %} tag.
-</p>
 
 [discrete]
 ==== Using Thymeleaf
@@ -295,20 +224,23 @@ All callbacks are declared using the <<7-6-configuration-div-thymeleaf-only, con
 [source, xml]
 ----
 <div dt:conf="myTableId"> <1>
-  <div confType="callback" dt:type="createdrow" dt:function="callbackCreateRow" /> <2> <3> 
+  <div dt:confType="callback" <2> 
+       dt:type="createdrow" <3>
+       dt:function="callbackCreateRow" /> <4> 
 </div>
 
-<table id="myTableId" dt:table="true">
+<table id="myTableId" dt:table="true"> <1>
   ...
 </table>
 ----
-<1> To link the _configuration div_ to the table, you must specify in the <<tml-div-conf, `dt:conf`>> attribute the id of the table on which the configuration should apply
-<2> Set the <<tml-div-confType, `dt:confType`>> attribute to `callback`
-<3> Set the type of the callback using the <<tml-div-type, `dt:type`>> attribute and the function name to execute using the <<tml-div-function, `dt:function`>> attribute. See the section below for a complete list of available callbacks.
+<1> To link the _configuration div_ to the table, you must specify in the <<tml-div-conf, `dt:conf`>> attribute the id of the table on which the configuration should apply. They absolutely must match.
+<2> Set the <<tml-div-confType, `dt:confType`>> attribute to `callback` to specialize the _configuration div_
+<3> Set the type of the callback using the <<tml-div-callback-type, `dt:type`>> attribute. See the section below for a complete list of available callbacks.
+<4> Set the function name to execute using the <<tml-div-callback-function, `dt:function`>> attribute. 
 
 TIP: When specifying the callback function, note that you can use the <<3-3-bundle-special-syntax, bundle special syntax>>.
 
-==== 7.3.1. List of available callbacks
+==== 7.3.1. Available callbacks
 
 All callbacks don't have the same parameters. Take care to use the right ones!
 
@@ -326,7 +258,7 @@ function cookieCallback(sName, oData, sExpires, sPath) {
 ----
 
 * JSP usage: `<datatables:callback type="cookie" function="cookieCallback" />`
-* Thymeleaf usage: `<div confType="callback" type="cookie" dt:function="cookieCallback">`
+* Thymeleaf usage: `<div dt:confType="callback" dt:type="cookie" dt:function="cookieCallback">`
 
 [discrete]
 ===== CreatedRow callback
@@ -342,7 +274,7 @@ function createdRowCallback(nRow, aData, iDataIndex){
 ----
 
 * JSP usage: `<datatables:callback type="createdRow" function="createdRowCallback" />`
-* Thymeleaf usage: `<div confType="callback" type="createdRow" dt:function="createdRowCallback">`
+* Thymeleaf usage: `<div dt:confType="callback" dt:type="createdRow" dt:function="createdRowCallback">`
 
 [discrete]
 ===== Draw callback
@@ -357,7 +289,7 @@ function drawCallback(nRow, aData, iDataIndex){
 ----
 
 * JSP usage: `<datatables:callback type="draw" function="drawCallback" />`
-* Thymeleaf usage: `<div confType="callback" type="draw" dt:function="drawCallback">`
+* Thymeleaf usage: `<div dt:confType="callback" dt:type="draw" dt:function="drawCallback">`
 
 [discrete]
 ===== Footer callback
@@ -372,7 +304,7 @@ function footerCallback(nFoot, aData, iStart, iEnd, aiDisplay) {
 ----
 
 * JSP usage: `<datatables:callback type="footer" function="footerCallback" />`
-* Thymeleaf usage: `<div confType="callback" type="footer" dt:function="footerCallback">`
+* Thymeleaf usage: `<div dt:confType="callback" dt:type="footer" dt:function="footerCallback">`
 
 [discrete]
 ===== FormatNumber callback
@@ -403,7 +335,7 @@ function formatNumberCallback(iIn) {
 ----
 
 * JSP usage: `<datatables:callback type="format" function="formatNumberCallback" />`
-* Thymeleaf usage: `<div confType="callback" type="format" dt:function="formatNumberCallback">`
+* Thymeleaf usage: `<div dt:confType="callback" dt:type="format" dt:function="formatNumberCallback">`
 
 [discrete]
 ===== Header callback
@@ -418,7 +350,7 @@ function headerCallback(nHead, aData, iStart, iEnd, aiDisplay) {
 ----
 
 * JSP usage: `<datatables:callback type="header" function="headerCallback" />`
-* Thymeleaf usage: `<div confType="callback" type="header" dt:function="headerCallback">`
+* Thymeleaf usage: `<div dt:confType="callback" dt:type="header" dt:function="headerCallback">`
 
 [discrete]
 ===== Info callback
@@ -433,7 +365,7 @@ function infoCallback (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
 ----
 
 * JSP usage: `<datatables:callback type="info" function="infoCallback" />`
-* Thymeleaf usage: `<div confType="callback" type="info" dt:function="infoCallback">`
+* Thymeleaf usage: `<div dt:confType="callback" dt:type="info" dt:function="infoCallback">`
 
 [discrete]
 ===== InitComplete callback
@@ -448,7 +380,7 @@ function initCompleteCallback(oSettings, json) {
 ----
 
 * JSP usage: `<datatables:callback type="init" function="initCompleteCallback" />`
-* Thymeleaf usage: `<div confType="callback" type="init" dt:function="initCompleteCallback">`
+* Thymeleaf usage: `<div dt:confType="callback" dt:type="init" dt:function="initCompleteCallback">`
 
 [discrete]
 ===== PreDraw callback
@@ -465,7 +397,7 @@ function preDrawCallback( oSettings ) {
 ----
 
 * JSP usage: `<datatables:callback type="predraw" function="preDrawCallback" />`
-* Thymeleaf usage: `<div confType="callback" type="preDraw" dt:function="preDrawCallback">`
+* Thymeleaf usage: `<div dt:confType="callback" dt:type="preDraw" dt:function="preDrawCallback">`
 
 [discrete]
 ===== Row callback
@@ -483,33 +415,29 @@ function rowCallback( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
 ----
 
 * JSP usage: `<datatables:callback type="row" function="rowCallback" />`
-* Thymeleaf usage: `<div confType="callback" type="row" dt:function="rowCallback">`
+* Thymeleaf usage: `<div dt:confType="callback" dt:type="row" dt:function="rowCallback">`
 
 === 7.4. Generating row IDs
 
-Sometimes, it can be useful to add an HTML id to each row (<code><tr&gt;</code> tags). Sometimes too, the row id cannot just be an incremented id but a dynamically builded string, for instance, from a bean's attribute. Let's see here how to do that.
+Sometimes, it can be useful to add an HTML id to each row (`<tr>` tags). Sometimes too, the row id cannot just be an incremented id but a dynamically builded string, for instance, from a bean's attribute. Let's see here how to do that.
 
 [discrete]
 ==== Using JSP
 
-You have 3 table attributes available: <<jsp-table-rowIdBase, `rowIdBase`>>, <<jsp-table-rowIdPrefix, `rowIdPrefix`>> and <<jsp-table-rowIdSufix, `rowIdSufix`>>.
+You have 3 table attributes available: <<jsp-table-rowIdBase, `rowIdBase`>>, <<jsp-table-rowIdPrefix, `rowIdPrefix`>> and <<jsp-table-rowIdSuffix, `rowIdSuffix`>>.
 
 * <<jsp-table-rowIdBase, `rowIdBase`>>: This attribute is evaluated as a property of the bean present in the collection being iterated on</li>
 * <<jsp-table-rowIdPrefix, `rowIdPrefix`>>: String prepended to the <<jsp-table-rowIdBase, `rowIdBase`>> attribute</li>
-* <<jsp-table-rowIdSufix, `rowIdSufix`>>: String appended to the<<jsp-table-rowIdBase, `rowIdBase`>> attribute</li>
+* <<jsp-table-rowIdSuffix, `rowIdSuffix`>>: String appended to the<<jsp-table-rowIdBase, `rowIdBase`>> attribute</li>
 
 WARNING: Those table attributes are not compatible with AJAX sources!
 
-In the following example, Dandelion-Datatables will build rows (`<tr&gt;` tags inside the `<body&gt;` tag) with the following ids: person_1, person_2, ...
+In the following example, Dandelion-Datatables will build rows (`<tr>` tags inside the `<body>` tag) with the following ids: person_1, person_2, ...
    
 [source, xml]
 ----
 <datatables:table id="myTableId" data="${persons}" rowIdBase="id" rowIdPrefix="person_">
-  <datatables:column title="Id" property="id" />
-  <datatables:column title="FirstName" property="firstName" />
-  <datatables:column title="LastName" property="lastName" />
-  <datatables:column title="City" property="address.town.name" />
-  <datatables:column title="Mail" property="mail" />
+  ...
 </datatables:table>
 ----
 
@@ -524,11 +452,7 @@ Nothing's specific to Dandelion-Datatables is needed, just the native Thymeleaf 
   ...
   <tbody>
     <tr th:each="person : ${persons}" th:attr="id=${'person_' + person.id}">
-      <td th:text="${person?.id}">1</td>
-      <td th:text="${person?.firstName}">John</td>
-      <td th:text="${person?.lastName}">Doe</td>
-      <td th:text="${person?.address?.town?.name}">Nobody knows!</td>
-      <td th:text="${person?.mail}">john@doe.com</td>
+      ...
     </tr>
   </tbody>
 </table>
@@ -539,7 +463,8 @@ Nothing's specific to Dandelion-Datatables is needed, just the native Thymeleaf 
 Since the v0.9.0, you can nest Dandelion-Datatables and any other tags. It allows you for example to display column depending on any condition, or you can even display multiple columns in a JSTL `<c:forEach>` loop.
 </p>
 
-==== 7.5.1. Example
+[discrete]
+==== Example
 
 In the following example, you can see the usage of the `<c:choose>`, `<c:when>` and `<c:out>` JSTL tags. 
 
@@ -567,61 +492,61 @@ In the following example, you can see the usage of the `<c:choose>`, `<c:when>` 
 
 === 7.6. Configuration div (Thymeleaf only)
 
-Since the v0.10.0, a set of new Thymeleaf processors have been added to the <a href="/docs/ref/thymeleaf/">DataTables dialect</a>, all focused on advanced configuration such as callbacks, extra HTML snipptes, extra JS, etc...
+The _configuration div_ is used to configure several features of a particular table, such as callbacks, extra HTML snipptes, extra JS, etc...
 
 ==== 7.6.1. How to use it?
 
 First note that there are some requirements when using a _configuration div_:
 
 * A _configuration div_ must locate just above the `<table>` tag it is supposed to configure
-* In order to link a _configuration div_ to a table, the <<tml-div-conf, `dt:conf`>> div attribute and the `id` table attribute must match.
+* In order to link a _configuration div_ to a table, the <<tml-div-conf, `dt:conf`>> div attribute and the `id` of the table must match
 
 Then, inside the main _configuration div_, you have to write a div per configuration type using the <<tml-div-confType, `dt:confType`>> attribute.
 
 The following configuration types are allowed:
 
-* `callback` which allows you to configure one or more <<#7-3-using-callbacks, callbacks>>:
+* `dt:confType="callback"`, which allows you to configure one or more <<7-3-using-callbacks, callbacks>>:
 
-[source, xml]
+[source, html]
 ----
 <div dt:conf="your-table-id">
-  <div confType="callback" ... />
+  <div dt:confType="callback" ... />
 </div>
 ----
 
-* `export` which allows you to configure one or more exports:
+* `dt:confType="export"`, which allows you to configure one or more exports:
 
-[source, xml]
+[source, html]
 ----
 <div dt:conf="your-table-id">
-  <div confType="export" ... /> 
+  <div dt:confType="export" ... /> 
 </div>
 ----
 
-* `property` which allows you to locally overload a <a href="/datatables/features/configuration/configuration-overloading.html">configuration property</a>:
+* `dt:confType="property"`, which allows you to locally <<11-2-overriding-default-options, override configuration options</a>:
 
-[source, xml]
+[source, html]
 ----
 <div dt:conf="your-table-id">
-  <div confType="property" ... /> 
+  <div dt:confType="property" ... /> 
 </div>
 ----
 
-* `extrajs` which allows you to inject <<7-1-using-extra-javascript, extra JavaScript>> code into the generated DataTable configuration:
+* `dt:confType="extrajs"`, which allows you to inject <<7-1-using-extra-javascript, extra JavaScript>> code into the generated DataTable configuration:
 
-[source, xml]
+[source, html]
 ----
 <div dt:conf="your-table-id">
-  <div confType="extrajs" ... /> 
+  <div dt:confType="extrajs" ... /> 
 </div>
 ----
 
-* `extrahtml` which allows you to add <<7-2-using-extra-html-snippets, custom controls>> around the table:
+* `dt:confType="extrahtml"`, which allows you to add <<7-2-using-extra-html-snippets, custom controls>> around the table:
 
-[source, xml]
+[source, html]
 ----
 <div dt:conf="your-table-id">
-  <div confType="extrahtml" ... /> 
+  <div dt:confType="extrahtml" ... /> 
 </div>
 ----
 
@@ -634,39 +559,22 @@ Assuming that the `callbackCreateRow` JavaScript function is already loaded in y
 [source, xml]
 ----
 <div dt:conf="myTableId">
-   <div confType="callback" dt:type="createdrow" dt:function="callbackCreateRow" /> 
+   <div dt:confType="callback" dt:type="createdrow" dt:function="callbackCreateRow" /> 
 </div>
 
 <table id="myTableId" dt:table="true">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Firstname</th>
-      <th>Lastname</th>
-      <th>City</th>
-      <th>Mail</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr th:each="person : ${persons}">
-      <td th:text="${person.id}">1</td>
-      <td th:text="${person.firstName}">John</td>
-      <td th:text="${person.lastName}">Doe</td>
-      <td th:text="${person.address.town.name}">Nobody knows!</td>
-      <td th:text="${person.mail}">john@doe.com</td>
-    </tr>
-  </tbody>
+  ...
 </table>
 ----
 
-Note that since the v0.10.0, you can use the <a href="/datatables/features/dandelion/bundle-special-syntax.html">bundle special syntax</a> inside some attributes.
+Note that since the v0.10.0, you can use the <<14-3-bundle-special-syntax, bundle special syntax>> inside some attributes.
 
-Assuming the above `callbackCreateRow` function is present in an asset `asset1.js` which is bundled in a bundle <code>my-bundle</code>, you could automatically load the bundle with the following syntax:
+Assuming the above `callbackCreateRow` function is present in an asset `asset1.js` which is bundled in a bundle `my-bundle`, you could automatically load the bundle with the following syntax:
 
 [source, xml]
 ----
 <div dt:conf="myTableId">
-  <div confType="callback" dt:type="createdrow" dt:function="bundleName#callbackCreateRow" /> 
+  <div dt:confType="callback" dt:type="createdrow" dt:function="my-bundle#callbackCreateRow" /> 
 </div>
 ----
 	

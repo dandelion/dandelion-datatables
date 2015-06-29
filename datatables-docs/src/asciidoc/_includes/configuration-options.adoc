@@ -1,40 +1,39 @@
 == 11. Configuration options
 
-NOTE: Pending
-
 One of the key features of Dandelion-Datatables is that it is highly configurable. Plenty of options are at your disposal to configure the component through several levels of granularity.
 
-You will find an exhaustive list of all availables options in the <<_appendix_c_configuration_options_reference, configuration options reference>>.
+You will find an exhaustive list of all availables options in the <<appendix-c-configuration-options-reference, configuration options reference>>.
 
 === 11.1. Configuration loading
 
-All configuration options are defined through properties. So you just need to create a file called `datatables.properties` under the `classpath_root/dandelion` folder and make it available in your classpath.
+All configuration options are defined through properties files. So you just need to create a file called `datatables.properties` under the `dandelion/datatables` folder and make it available in your classpath.
 
 .Example with a Maven project
 [source]
 ----
-classpath root
-|__ dandelion
-   |__ datatables.properties
+src
+|__ main
+   |__ resources
+      |__ dandelion
+         |__ datatables
+            |__ datatables.properties
 ----
-
-Also note that Dandelion-Datatables will load the configuration file using the 
 
 ==== 11.1.1. Loading strategy
 
-Any configuration option must be set in a file called <code>datatables.properties</code>. Dandelion-Datatables will load it thanks to the http://docs.oracle.com/javase/6/docs/api/java/util/ResourceBundle.html[ResourceBundle mechanism] and using the following strategy:
+Any configuration option must be set in a file called _datatables.properties_. Dandelion-Datatables will load it thanks to the http://docs.oracle.com/javase/6/docs/api/java/util/ResourceBundle.html[ResourceBundle mechanism] and using the following strategy:
 
-* First, check if the `dandelion.datatables.configuration` system property is defined.
+* First, check if the `dandelion.datatables.configuration` system property is defined
 
 If it exists, Dandelion-Datatables attempts to convert the value to a URL and use it to load a resource bundle called `datatables.properties`
 
-* Then, if no system property is defined, Dandelion-Datatables tries to load the same resource bundle (called `datatables.properties`) from the `dandelion/datatables/` folder within the classpath.
+* Then, if no system property is defined, Dandelion-Datatables tries to load the same resource bundle from the `dandelion/datatables/` folder within the classpath
 
-* If no `datatables.properties` file is found, the default configuration will be used
+* If no _datatables.properties_ file is found, the default configuration will be used
 
 ==== 11.1.2. Example using classpath configuration
 
-Let's say you use Maven as a build tool. When reading configuration from classpath, you should strictly follow the convention, i.e. place the properties files under the <code>classpath_root/dandelion/datatables/</code> folder.
+Let's say you use Maven as a build tool. When reading configuration from classpath, you should strictly follow the convention, i.e. place the properties files under the `classpath_root/dandelion/datatables/` folder.
 
 .Example with a Maven project
 [source, xml]
@@ -43,12 +42,12 @@ project-root
 |__ src
    |__ main
       |__ java
-      |__ resources
-         |__ dandelion
-            |__ datatables 
-               |__ datatables.properties
-               |__ datatables_FR.properties
-               |__ datatables_ES.properties
+         |__ resources
+            |__ dandelion
+               |__ datatables 
+                  |__ datatables.properties
+                  |__ datatables_FR.properties
+                  |__ datatables_ES.properties
 ----
 
 ==== 11.1.3. Example using externalized configuration
@@ -75,7 +74,7 @@ Dandelion-Datatables internally uses a properties file that contains some defaul
 
 But you can of course override it in multiple ways:
    
-* First using a `datatables.properties` file as mentioned above. Using this approach, the configured options will impact the whole web application, i.e. all tables where the <<_appendix_a_jsp_taglib_reference, JSP taglib>> or the <<_appendix_b_thymeleaf_dialect_reference, Thymeleaf dialect>> is used. See the <<_11_3_using_global_options, global options section>> below for more information.
+* First using a _datatables.properties_ file as mentioned above. Using this approach, the configured options will impact the whole web application, i.e. all tables where the <<_appendix_a_jsp_taglib_reference, JSP taglib>> or the <<_appendix_b_thymeleaf_dialect_reference, Thymeleaf dialect>> is used. See the <<_11_3_using_global_options, global options section>> below for more information.
 
 +
 .Example using the `global` group
@@ -83,7 +82,7 @@ But you can of course override it in multiple ways:
 ----
 global.css.class=awesome-class <1>
 ----
-<1> By setting the <<opt-css.class, `css.class` >> option in the `global` group, the `awesome-class` CSS class will be applied on all tables of the web application.
+<1> By setting the <<opt-css.class, `css.class` >> option in the `global` group, `awesome-class` will be applied on all tables of the application
 
 * Then using one or more option groups. See the <<_11_4_using_option_groups, option groups section>> below for more information.
 
@@ -94,13 +93,10 @@ global.css.class=awesome-class <1>
 group1.css.class=red <1>
 group2.css.class=black <2>
 ----
-<1> By setting the <<opt-css.class, `css.class` >> option in the `group1` group, the `red` CSS class will be applied only if the `group1` is activated locally in a table.
-<2> By setting the <<opt-css.class, `css.class` >> option in the `group2` group, the `black` CSS class will be applied only if the `group2` is activated locally in a table.
+<1> By setting the <<opt-css.class, `css.class` >> option in the `group1` group, `red` will be applied only if the `group1` is activated locally in a table
+<2> By setting the <<opt-css.class, `css.class` >> option in the `group2` group, `black` will be applied only if the `group2` is activated locally in a table
 
 * Then you can override some options locally, i.e. in a single page, using the <<_a_4_code_datatables_option_code_tag, `<datatables:option>`>> tag (JSP) or the <<_7_6_configuration_div_thymeleaf_only, configuration div>> (Thymeleaf).
-
-+
-WARNING: ajouter une issue pour ça dans la 0.11.0
 
 +
 .Example using the `<datatables:option>` JSP tag
@@ -112,9 +108,6 @@ WARNING: ajouter une issue pour ça dans la 0.11.0
   ...
 </datatables:table>
 ----
-
-+
-WARNING: ajouter une issue pour ça aussi dans la 0.11.0
 
 +
 .Example using the Thymeleaf configuration div
@@ -151,7 +144,7 @@ WARNING: ajouter une issue pour ça aussi dans la 0.11.0
 
 === 11.3. Using global options
 
-With all possible configuration options and the ton of available JSP/Thymeleaf tags/attributes, your pages can become messy. Fortunately, all attributes available in the <<_a_1_code_datatables_table_code_tag, `<datatables:table>`>> tag (JSP) and in the <<__code_table_code_attributes, `<table>`>> tag (Thymeleaf) can be configured through options in the `datatables.properties` file.
+With all possible configuration options and the ton of available JSP/Thymeleaf tags/attributes, your pages can become messy. Fortunately, all attributes available in the <<_a_1_code_datatables_table_code_tag, `<datatables:table>`>> tag (JSP) and in the <<__code_table_code_attributes, `<table>`>> tag (Thymeleaf) can be configured through options in the _datatables.properties_ file.
 
 But it is worth noting that all options defined in the configuration file will impact the whole web application, i.e. all tables where the <<_appendix_a_jsp_taglib_reference, JSP taglib>> or the <<_appendix_b_thymeleaf_dialect_reference, Thymeleaf dialect>> is used.
 
@@ -160,7 +153,7 @@ See the <<appendix-c-configuration-options-reference,configuration options refer
 [discrete]
 ==== Example: applying a theme globally
 
-Assume you would like to apply the Bootstrap2 (LIEN SECTION STYLING) theme everywhere in your application, i.e. in all tables of the application.
+Assume you would like to apply the <<5-3-1-bootstrap-2, Bootstrap2 theme>> in all tables of the application.
 
 In a single table, you would have done as follows:
 
@@ -180,35 +173,60 @@ In a single table, you would have done as follows:
 </table>
 ----
 
-To apply it globally, just fill the _datatables.properties_ file with the following configuration:
+To apply it globally, just complete the _datatables.properties_ file with the following options:
 
  global.css.class=table table-striped table-bordered table-condensed
  global.css.theme=bootstrap2
 
-And that's all! This way, the Bootstrap 2 (LIEN STYLING) theme will be applied on all tables in your application.
+And that's all! This way, the <<5-3-1-bootstrap-2, Bootstrap2 theme>> will be applied on all tables of the application.
 
 === 11.4. Using option groups
 
 TIP: Pending. Parler du fait que "global" est un groupe qui existe par defaut et avec un nom réservé.
 
-You may have noticed in the previous section that all configuration options were prefixed with `global.`. 
+You may have noticed in the previous section that all configuration options were prefixed with `global`. 
 
-`global` is actually a reserved group name, i.e. a group that It actually means that all configurations belong to the <code>global</code> group. This group contain the configurations that will be applied on all tables in your application.
+`global` is actually a reserved group name that means "in the whole application". Indeed, all tables will inherit from this particular option group.
 
 ==== 11.4.1. Creating option groups
 
 The option groups have been introduced in the v0.9.0. It allows you to create groups of configuration that you can apply locally, i.e. on a particular table.
 
-Note that any group you create will extend the <code>global</code> one, which himself extends the global group declared in the <i>datatables-default.properties</i> file, which is included in the JAR.
+Note that any group you create will extend the `global` one, which himself extends the global group.
 
-Once again, nothing beats a nice drawing...
+Consider for example the following configuration:
 
-image::configuration-groups.png[]
+.dandelion/datatables/datatables.properties
+[source, properties]
+----
+# Global group
+global.css.class = class1
+global.feature.pageable = false
 
-In the above example, the configuration set up in the <i>datatables.properties</i> file will result in 3 groups:
+group1.css.class = class2
+group1.feature.sortable = false
+----
 
-* *global*: this one is used everywhere in your application, if no specific group is explicitely activated
-* *group1* and *group2*: those ones won't be used unless one of them is activated locally. Read the next section to see how.
+From the above configuration, Dandelion-Datatables will compute the following option groups:
+
+* **global**: these options will be applied in all tables
+
++
+[source, properties]
+----
+css.class = class1
+feature.pageable = false
+----
+
+* **group1**: these options will be applied if the `group1` is activated locally
+
++
+[source, properties]
+----
+css.class = class2 # overriden in `group1`
+feature.pageable = false # from `global`
+feature.sortable = false # from `group1`
+----
 
 ==== 11.4.2. Activating an option group
 

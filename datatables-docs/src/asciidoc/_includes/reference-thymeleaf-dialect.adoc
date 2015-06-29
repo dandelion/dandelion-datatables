@@ -1,12 +1,1333 @@
 == Appendix B: Thymeleaf dialect reference
 
-=== `<table>` attributes
+=== B.1. `<table>` attributes
 
-=== `<thead>` attributes
+[discrete]
+==== Usage
 
-=== `<th>` attributes
+You can either use a "DOM" source, i.e. any Object with an iterator() method or an "AJAX" source, i.e. using a web service that returns data formatted in JSON.
 
-=== `<td>` attributes
+.Example with a DOM source
+[source,html]
+----
+<table id="myTableId" dt:table="true"> <1>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>LastName</th>
+      <th>FirstName</th>
+      <th>City</th>
+      <th>Mail</th>
+    </tr>
+  </thead>
+    <tbody>
+    <tr th:each="person : ${persons}">
+      <td th:text="${person?.id}">1</td>
+      <td th:text="${person?.lastName}">Doe</td>
+      <td th:text="${person?.firstName}">John</td>
+      <td th:text="${person?.address?.town?.name}">Nobody knows!</td>
+      <td th:text="${person?.mail}">john@doe.com</td>
+    </tr>
+  </tbody>
+</table>
+----
+<1> Both `id` and <<tml-table-table, `dt:table`>> attributes are required
 
-=== `<div>` attributes
+.Example with an AJAX source
+[source,html]
+----
+<table id="myTableId" dt:table="true" dt:url="@{/persons}">
+  <thead>
+    <tr>
+      <th dt:property="id">Id</th>
+      <th dt:property="firstName">Firstname</th>
+      <th dt:property="lastName">Lastname</th>
+      <th dt:property="address.town.name">City</th>
+      <th dt:property="mail">Mail</th>
+    </tr>
+  </thead>
+</table>
+----
 
+[discrete]
+==== Reference
+
+Note that all options are presented in the following format:
+
+.`<table>` attributes reference
+[cols="29,12,58"]
+|===
+.5+|[[tml-table-table]]*dt:table*
+2+|Enable or disable the Dandelion-Datatables dialect (*_Required_*)
+
+|Values
+|true \| false
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+|Option
+|n/a
+
+.5+|[[tml-table-ajaxParams]]*dt:ajaxParams*
+2+|Allows you pass extra AJAX params to the request made agains the server
+
+|Values
+|Any String representing the name of an accessible Javascript function. <<14-3-bundle-special-syntax, Bundle special syntax>> allowed.
+
+|Default
+|
+
+|Data source
+|AJAX
+
+|Option
+|n/a
+
+.5+|[[tml-table-appear]]*dt:appear*
+2+|Display mode used when the table has finished loading and must appear in the page. A duration can be set (in milliseconds) if the display mode is set to `fadein`
+
+|Values
+|block \| fadein[,duration]
+
+|Default	
+|fadein
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.appear,feature.appear>>
+
+.5+|[[tml-table-autoWidth]]*dt:autoWidth*
+2+|Enable or disable automatic column width calculation
+
+|Values
+|true \| false
+
+|Default	
+|true
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.autoWidth,feature.autoWidth>>
+
+.5+|[[tml-table-confGroup]]*dt:confGroup*
+2+|Name of the configuration group to activate for the current table
+
+|Values
+|
+
+|Default	
+|
+
+|Data source
+|DOM/AJAX
+
+|Option
+|n/a
+
+.5+|[[tml-table-deferRender]]*dt:deferRender*
+2+|Defer the creation of the table elements for each row until they are needed for a draw
+
+|Values
+|true \| false
+
+|Default	
+|false
+
+|Data source
+|AJAX
+
+|Option
+|<<opt-ajax.deferRender,ajax.deferRender>>
+
+.5+|[[tml-table-displayLength]]*dt:displayLength*
+2+|Number of rows to display on a single page when using pagination
+
+|Values
+|
+
+|Default	
+|10
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.displayLength,feature.displayLength>>
+
+.5+|[[tml-table-dom]]*dt:dom*
+2+|Allows you to specify exactly where in the DOM you want DataTables to inject the various controls it adds to the page
+
+|Values
+|See <<4-2-dom-positioning, DOM positioning>>
+
+|Default	
+|lfrtip
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.dom,feature.dom>>
+
+.5+|[[tml-table-export]]*dt:export*
+2+|Comma-separated list of enabled export formats. Some formats use reserved words, such as `csv`, `xls`, `xlsx`, `pdf` and `xml`
+
+|Values
+|
+
+|Default	
+|
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-export.enabled.formats,export.enabled.formats>>
+
+.5+|[[tml-table-exportStyle]]*exportStyle*
+2+|CSS style to be applied to the container used for export links
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+|Option 
+|<<opt-export.container.style,export.container.style>>
+
+.5+|[[tml-table-exportClass]]*exportClass*
+2+|CSS class(es) to be applied to the container used for export links
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-export.container.class,export.container.class>>
+
+.5+|[[tml-table-ext]]*dt:ext*
+2+|Comma-separated names of extensions to register in the current table
+
+|Values
+|
+
+|Default	
+|
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-main.extension.names,main.extension.names>>
+
+.5+|[[tml-table-filterable]]*dt:filterable*
+2+|Enable or disable global filtering of data
+
+|Values
+|true \| false
+
+|Default
+|true
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.filterable,feature.filterable>>
+
+.5+|[[tml-table-filterClearSelector]]*dt:filterClearSelector*
+2+|https://api.jquery.com/category/selectors/[jQuery selector] targeting the element on which a 'click' event will be bound to trigger the clearing of all filter elements
+
+|Values
+|Any https://api.jquery.com/category/selectors/[jQuery selector]
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.filterClearSelector,feature.filterClearSelector>>
+
+.5+|[[tml-table-filterDelay]]*dt:filterDelay*
+2+|Delay (in milliseconds) to be used before the AJAX call is performed to obtain data
+
+|Values
+|An integer
+
+|Default
+|500ms
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.filterDelay,feature.filterDelay>>
+
+.5+|[[tml-table-filterPlaceholder]]*dt:filterPlaceholder*
+2+|Placeholder used to hold the individual column filtering elements
+
+|Values
+|header \| footer \| none
+
+|Default
+|footer
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.filterPlaceholder,feature.filterPlaceholder>>
+
+.5+|[[tml-table-filterSelector]]*dt:filterSelector*
+2+|https://api.jquery.com/category/selectors/[jQuery selector] targeting the element on which a 'click' event will be bound to trigger the filtering
+
+|Values
+|ny https://api.jquery.com/category/selectors/[jQuery selector]
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.filterSelector,feature.filterSelector>>
+
+.5+|[[tml-table-info]]*dt:info*
+2+|Enable or disable the table information display. This shows information about the data that is currently visible on the page, including information about filtered data if that action is being performed
+
+|Values
+|true \| false
+
+|Default
+|true
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.info,feature.info>>
+
+.5+|[[tml-table-jqueryUI]]*dt:jqueryUI*
+2+|Enable jQuery UI ThemeRoller support
+
+|Values
+|true \| false
+
+|Default
+|false
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.jqueryUi,feature.jqueryUi>>
+
+.5+|[[tml-table-lengthChange]]*dt:lengthChange*
+2+|If <<tml-table-pageable, `dt:pageable`>> is set to true, allows the end user to select the size of a formatted page from a select menu (sizes are 10, 25, 50 and 100)
+
+|Values
+|true \| false
+
+|Default
+|true
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.lengthChange,feature.lengthChange>>
+
+.5+|[[tml-table-lengthMenu]]*dt:lengthMenu*
+2+|Specify the entries in the length drop down menu that DataTables show when pagination is enabled
+
+|Values
+|
+
+|Default
+|10,25,50,100
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.lengthMenu,feature.lengthMenu>>
+
+.5+|[[tml-table-pageable]]*dt:pageable*
+2+|Enable or disable pagination
+
+|Values
+|true \| false
+
+|Default
+|true
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.pageable,feature.pageable>>
+
+.5+|[[tml-table-pagingType]]*dt:pagingType*
+2+|Name of the pagination interaction methods which present different page controls to the end user
+
+|Values
+|simple \| simple_numbers \| full \| full_numbers \| input \| listbox \| scrolling \| extStyle \| bootstrap_simple \| bootstrap_full \| bootstrap_full_numbers
+
+|Default
+|simple
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.pagingType,feature.pagingType>>
+
+.5+|[[tml-table-pipelining]]*dt:pipelining*
+2+|Enable pipelining data for paging when server-side processing is enabled
+
+|Values
+|true \| false
+
+|Default
+|false
+
+|Data source
+|AJAX
+
+|Option
+|<<opt-ajax.pipelining,ajax.pipelining>>
+
+.5+|[[tml-table-pipeSize]]*dt:pipeSize*
+2+|Pipe size used when pipelining is enabled, i.e. times that the user can page before a request must be made of the server
+
+|Values
+|Any integer starting from 1
+
+|Default
+|5
+
+|Data source
+|AJAX
+
+|Option
+|<<opt-ajax.pipeSize,ajax.pipeSize>>
+
+.5+|[[tml-table-processing]]*dt:processing*
+2+|Enable or disable the display of a 'processing' indicator when the table is being processed (e.g. a sort). This is particularly useful for tables with large amounts of data where it can take a noticeable amount of time to sort the entries
+
+|Values
+|true \| false
+
+|Default
+|true
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.processing,feature.processing>>
+
+.5+|[[tml-table-reloadFunction]]*dt:reloadFunction*
+2+|Name of a Javascript function that will be called in the 'click' event bound by the reloadSelector attribute. Note that when using this attribute, you will have to call manually the `fnReloadAjax()` function
+
+|Values
+|Any String representing the name of an accessible Javascript function. <<14-3-bundle-special-syntax, Bundle special syntax>> allowed.
+
+|Default
+|Empty string
+
+|Data source
+|AJAX
+
+|Option
+|<<opt-ajax.reloadFunction,ajax.reloadFunction>>
+
+.5+|[[tml-table-reloadSelector]]*dt:reloadSelector*
+2+|https://api.jquery.com/category/selectors/[jQuery selector] targeting the element on which a 'click' event will be bound to trigger the table reloading
+
+|Values
+|Any https://api.jquery.com/category/selectors/[jQuery selector]
+
+|Default
+|Empty string
+
+|Data source
+|AJAX
+
+|Option
+|<<opt-ajax.reloadSelector,ajax.reloadSelector>>
+
+.5+|[[tml-table-scrollCollapse]]*dt:scrollCollapse*
+2+|When vertical (y) scrolling is enabled, DataTables will force the height of the table's viewport to the given height at all times (useful for layout). However, this can look odd when filtering data down to a small data set, and the footer is left "floating" further down. This parameter (when enabled) will cause DataTables to collapse the table's viewport down when the result set will fit within the given Y height
+
+|Values
+|true \| false
+
+|Default
+|false
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.scrollCollapse,feature.scrollCollapse>>
+
+.5+|[[tml-table-scrollX]]*dt:scrollX*
+2+|Enable horizontal scrolling. When a table is too wide to fit into a certain layout, or you have a large number of columns in the table, you can enable x-scrolling to show the table in a viewport, which can be scrolled
+
+|Values
+|Any CSS unit, or a number (in which case it will be treated as a pixel measurement)
+
+|Default
+|Empty string, i.e. disabled
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.scrollX,feature.scrollX>>
+
+.5+|[[tml-table-scrollXInner]]*dt:scrollXInner*
+2+|Use more width than it might otherwise do when x-scrolling is enabled
+
+|Values
+|Any CSS unit, or a number (in which case it will be treated as a pixel measurement)
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.scrollXInner,feature.scrollXInner>>
+
+.5+|[[tml-table-scrollY]]*dt:scrollY*
+2+|Enable vertical scrolling. Vertical scrolling will constrain the DataTable to the given height, and enable scrolling for any data which overflows the current viewport. This can be used as an alternative to paging to display a lot of data in a small area (although paging and scrolling can both be enabled at the same time)
+
+|Values
+|Any CSS unit, or a number (in which case it will be treated as a pixel measurement)
+
+|Default
+|Empty string, i.e. disabled
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.scrollY,feature.scrollY>>
+
+.5+|[[tml-table-serverSide]]*dt:serverSide*
+2+|Configure DataTables to use server-side processing. Note that the <<tml-table-url, `dt:url`>> attribute must be set in order to give DataTables a source to obtain the required data for each draw
+
+|Values
+|true \| false
+
+|Default
+|false
+
+|Data source
+|AJAX
+
+|Option
+|<<opt-ajax.serverSide,ajax.serverSide>>
+
+.5+|[[tml-table-sortable]]*dt:sortable*
+2+|Enable or disable sorting of columns. Sorting of individual columns can be disabled by the <<tml-th-sortable, `sortable`>> attribute of the `th` tag
+
+|Values
+|true \| false
+
+|Default
+|true
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-feature.sortable,feature.sortable>>
+
+.5+|[[tml-table-stateSave]]*dt:stateSave*
+2+|When enabled a cookie will be used to save table display information such as pagination information, display length, filtering and sorting. As such when the end user reloads the page the display display will match what thy had previously set up
+
+|Values
+|true \| false
+
+|Default
+|false
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-ajax.stateSave,ajax.stateSave>>
+
+.5+|[[tml-table-stripeClasses]]*dt:stripeClasses*
+2+|Comma-separated list of CSS classes that should be applied to displayed rows. This sequence of CSS classes may be of any length, and DataTables will apply each class sequentially, looping when required
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-css.cssStripes,css.cssStripes>>
+
+.5+|[[tml-table-theme]]*dt:theme*
+2+|Name of a theme to activate for the current table
+
+|Values
+|bootstrap2 \| bootstrap3 \| jqueryui
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-css.theme,css.theme>>
+
+.5+|[[tml-table-themeOption]]*dt:themeOption*
+2+|Name of an option to activate in relation to the current activated theme
+
+|Values
+|See the <<5-3-3-2-available-theme-options, full list of available theme options>>
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+|Option
+|<<opt-css.themeOption,css.themeOption>>
+
+.5+|[[tml-table-url]]*dt:url*
+2+|URL called by DataTables to populate the table. Data returned must be in the JSON format
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|AJAX
+
+|Option
+|n/a
+|===
+
+=== B.2. `<thead>` attributes
+
+[discrete]
+==== Usage
+
+All `thead` attributes are mainly used to configure <<10-plugins, plugins>>.
+
+.Example with a DOM source
+[source,html]
+----
+<table id="myTableId" dt:table="true" dt:ext="fixedheader">
+  <thead dt:fixedOffsetTop="40">
+    <tr>
+      <th>Id</th>
+      <th>LastName</th>
+      <th>FirstName</th>
+      <th>City</th>
+      <th>Mail</th>
+    </tr>
+  </thead>
+    <tbody>
+    <tr th:each="person : ${persons}">
+      <td th:text="${person?.id}">1</td>
+      <td th:text="${person?.lastName}">Doe</td>
+      <td th:text="${person?.firstName}">John</td>
+      <td th:text="${person?.address?.town?.name}">Nobody knows!</td>
+      <td th:text="${person?.mail}">john@doe.com</td>
+    </tr>
+  </tbody>
+</table>
+----
+
+[discrete]
+==== Reference
+
+Note that all options are presented in the following format:
+
+.`<table>` attributes reference
+[cols="29,12,58"]
+|===
+
+.4+|[[tml-table-fixedOffsetTop]]*dt:fixedOffsetTop*
+2+|Offset applied on the top
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-table-fixedPosition]]*dt:fixedPosition*
+2+|Respectively fix the header, footer, left column, right column
+
+|Values
+|top \| bottom \| left \| right
+
+|Default
+|top
+
+|Data source
+|DOM/AJAX
+|===
+
+=== B.3. `<th>` attributes
+
+[discrete]
+==== Usage
+
+All `<th>` attributes allow to configure a column.
+
+[source, html]
+----
+<table dt:table="true" ...>
+  <thead ...>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <th dt:filterable="true">...</th>
+      <th>...</th>
+      <th>...</th>
+    <tr>
+  </thead>
+  ...
+</table>
+----
+
+[discrete]
+==== Reference
+
+Note that all options are presented in the following format:
+
+.`<table>` attributes reference
+[cols="29,12,58"]
+|===
+
+.4+|[[tml-th-default]]*dt:default*
+2+|Default string to be used if the value returned from the <<tml-th-property, `dt:property`>> attribute is empty or null
+
+|Values
+|
+
+|Default
+|Empty string
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-th-filterable]]*dt:filterable*
+2+|Enable or disable filtering in the column. By default, an input field will be created in the tfoot section of the table
+
+|Values
+|true \| false
+
+|Default
+|false
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-th-filterType]]*dt:filterType*
+2+|If the column is filterable, configures the filter type
+
+|Values
+|select \| input
+
+|Default
+|input
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-th-filterValues]]*dt:filterValues*
+2+|Name of a Javascript variable containing data used to populate the filtering select	
+
+|Values
+|Either an array of values or an array of objects
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-th-property]]*dt:property*
+2+|When using a DOM source, this is the name of the object's attribute of the collection being iterated on. When using an AJAX source, this is the name of the JSON property to be read from the data obtained by the AJAX call
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-th-renderFunction]]*dt:renderFunction*
+2+|Name of a JavasScript function that will be called to render the column when using an AJAX source
+
+|Values
+|Any String representing the name of an accessible Javascript function. <<14-3-bundle-special-syntax, Bundle special syntax>> allowed
+
+|Default
+|
+
+|Data source
+|AJAX
+
+.4+|[[tml-th-searchable]]*dt:searchable*
+2+|Enable or disable searching in the column. If false, the column won't be filtered by the global search field
+
+|Values
+|true \| false
+
+|Default
+|true
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-th-selector]]*dt:selector*
+2+|https://api.jquery.com/category/selectors/[jQuery selector] targeting any element that will be populated with a filtering element (depending on the <<tml-th-filterType, `dt:filterType`>> attribute). This attribute only makes sense when the <<tml-table-filterPlaceholder, `dt:filterPlaceholder`>> attribute is set to `none` (i.e. for external filtering form)
+
+|Values
+|Any https://api.jquery.com/category/selectors/[jQuery selector]
+
+|Default
+|Empty string
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-th-sortable]]*dt:sortable*
+2+|Enable or disable sorting on column
+
+|Values
+|true \| false
+
+|Default
+|true
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-th-sortDirection]]*dt:sortDirection*
+2+|Comma-separated list of directions to be used to control the sorting sequence
+
+|Values
+|Comma-separated list of `asc` or `desc` strings
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-th-sortInitDirection]]*dt:sortInitDirection*
+2+|If the column is sortable, sets the default sorting direction
+
+|Values
+|asc \| desc
+
+|Default
+|asc
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-th-sortInitOrder]]*dt:sortInitOrder*
+2+|If the column is sortable, sets the order in which the sort should be initialized
+
+|Values
+|Any column index (starting from 0)
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-th-sortType]]*dt:sortType*
+2+|If the column is sortable, configures the type of sort to apply to the column
+
+|Values
+|alt_string \| anti_the \| chinese_string \| date_de \| date_eu \| date_euro \| date_uk \| filesize \| ip_address \| natural \| persian \| scientific \| signed_num \| turkish_string
+
+|Default
+|Type-based, internally guessed by DataTables
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-th-visible]]*dt:visible*
+2+|Enable or disable the display of the column. Note that even if the column is not visible, it is searchable
+
+|Values
+|true \| false
+
+|Default
+|true
+
+|Data source
+|DOM/AJAX
+|===
+
+=== B.4. `<td>` attributes
+
+All `<td>` attributes allow to configure the exported columns.
+
+[discrete]
+==== Usage
+
+.Example with a DOM source
+[source,html]
+----
+<table dt:table="true" ...>
+  ...
+  <tbody>
+    <tr>
+      ...
+      <td dt:csv="${bean.mail}">
+        <a th:href="${'mailto:' + bean.mail}" th:text="${bean.mail}">john@doe.com</a>
+      </td>
+      ...
+    </tr>
+  </tbody>
+</table>
+----
+
+[discrete]
+==== Reference
+
+.`<td>` attributes reference
+[cols="29,12,58"]
+|===
+.4+|[[tml-td-csv]]*dt:csv*
+2+|Processed Thymeleaf expression that will appear in the CSV export only
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM
+
+.4+|[[tml-td-pdf]]*dt:pdf*
+2+|Processed Thymeleaf expression that will appear in the PDF export only
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM
+
+.4+|[[tml-td-xls]]*dt:xls*
+2+|Processed Thymeleaf expression that will appear in the XLS export only
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM
+
+.4+|[[tml-td-xlsx]]*dt:xlsx*
+2+|Processed Thymeleaf expression that will appear in the XLSX export only
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM
+
+.4+|[[tml-td-pdf]]*dt:pdf*
+2+|Processed Thymeleaf expression that will appear in the PDF export only
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM
+
+|===
+
+=== B.5. `<div>` attributes
+
+The `<div>` attributes allow to configure several features such as export or callbacks in a particular table. See the <<7-6-configuration-div-thymeleaf-only, configuration div>> for more information.
+
+[discrete]
+==== Usage
+
+Note that there are some requirements when using a configuration div:
+
+* A configuration div must locate just above the `<table>` tag it is supposed to configure
+* In order to link a configuration div to a table, the `dt:conf` div attribute and the `id` table attribute must match
+
+[source, html]
+----
+<div dt:conf="myTableId">
+  <div dt:confType="callback" dt:type="info" dt:function="callbacks#infoCallback" /> <1>
+</div>
+
+<table id="myTableId" dt:table="true">
+  ...
+</table>
+----
+<1> A callback of type `info` is registered. The function `infoCallback` will be used as callback, coming from the bundle called `callbacks`. This bundle is included in the request thanks to the <<14-3-bundle-special-syntax, bundle syntax>>
+
+[discrete]
+==== Reference
+
+.`<td>` attributes reference
+[cols="29,12,58"]
+|===
+.4+|[[tml-div-conf]]*dt:conf*
+2+|Turns a simple `div` into a <<7-6-configuration-div-thymeleaf-only, configuration div>>
+
+|Values
+|The value must match the id of an existing table in the same page
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-confType]]*dt:confType*
+2+|Type of feature to configure
+
+|Values
+|callback \| export \| option \| extrajs \| extrahtml
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+3+|*Attributes for the `callback` configuration type*
+
+.4+|[[tml-div-callback-type]]*dt:type*
+2+|Type of the callback (*_required_*)
+
+|Values
+|createdrow \| draw \| footer \| format \| header \| info \| init \| predraw \| row \| statesave \| statesaveparams \| stateload \| stateloadparams \| stateloaded
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-callback-function]]*dt:function*
+2+|Name of a Javascript function that will be called inside the configured callback (*_required_*)
+
+|Values
+|Any String representing the name of an accessible Javascript function. Bundle special syntax allowed.
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+3+|*Attributes for the `export` configuration type*
+
+.4+|[[tml-div-export-type]]*dt:type*
+2+|Type of export to configure (*_required_*)
+
+|Values
+|The value must match one of the export format configured in the <<tml-table-export, `dt:export`>> table attribute
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-export-url]]*dt:url*
+2+|Type of export to configure
+
+|Values
+|URL to be used for exporting. Handy if you want to customize exports using controllers. When no `url` attribute is used, Dandelion-Datatables generates an internal URL for export processing. Note that the URL is internally processed by prepending the request context path and appending all current URL parameters
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-export-label]]*dt:label*
+2+|Label applied to the export link
+
+|Values
+|
+
+|Default
+|The upper-cased value of the <<tml-div-export-type, `dt:type`>> attribute
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-export-cssStyle]]*dt:cssStyle*
+2+|CSS style to be applied to the export link
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-export-cssClass]]*dt:cssClass*
+2+|CSS class(es) to be applied to the export link
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-export-includeHeader]]*dt:includeHeader*
+2+|Whether header cells (`th`) should appear in the export file or not
+
+|Values
+|true\|false
+
+|Default
+|true
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-export-fileName]]*dt:fileName*
+2+|Name to be given to the export file (without extension)
+
+|Values
+|
+
+|Default
+|[exportType-upperCased]-[yyyymmDD]
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-export-fileExtension]]*dt:fileExtension*
+2+|File extension of the export file. Note that if reserved words are used, the file extension will be automatically set
+
+|Values
+|
+
+|Default
+|The lower-cased value of the <<tml-div-export-type, `dt:type`>> attribute
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-export-autoSize]]*dt:autoSize*
+2+|Whether columns should be autosized in the export file
+
+|Values
+|true \| false
+
+|Default
+|true
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-export-method]]*dt:method*
+2+|HTTP method to be used when performing the export call when the <<tml-div-export-url, `dt:url`>> export attribute is used.
+
+|Values
+|Any valid HTTP method
+
+|Default
+|GET
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-export-orientation]]*dt:orientation*
+2+|Orientation of the export file (PDF only)
+
+|Values
+|landscape \| portrait
+
+|Default
+|landscape
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-export-mimeType]]*dt:mimeType*
+2+|Mime type applied to the response when downloading the export file. Note that if one of the reserved words is used, the mime type will be automatically set
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+3+|*Attributes for the `option` configuration type*
+
+.4+|[[tml-div-option-name]]*dt:name*
+2+|Name of the property to override (*_Required_*)
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-option-value]]*dt:value*
+2+|Value of the property to override (*_Required_*)
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+3+|*Attributes for the `extrajs` configuration type*
+
+.4+|[[tml-div-extrajs-bundles]]*dt:bundles*
+2+|Comma-separated list of bundle to include in the current request (*_Required_*)
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-extrajs-insert]]*dt:insert*
+2+|Location where extra file content will be inserted into the generated configuration (*_Required_*)
+
+|Values
+|See the extra JavaScript section for all possible values
+
+|Default
+|beforeall
+
+|Data source
+|DOM/AJAX
+
+3+|*Attributes for the `extrahtml` configuration type*
+
+.4+|[[tml-div-extrahtml-uid]]*dt:uid*
+2+|The identifying character to be assigned to the HTML snippet. Once the HTML snippet created, it must be activated thanks to the <<tml-table-dom, `dt:dom`>> table attribute. See the <<7-2-using-extra-html-snippets, extra HTML snippets section>> (*_Required_*)
+
+|Values
+|Any figure between 0 and 9 is recommended
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-extrahtml-cssStyle]]*dt:cssStyle*
+2+|CSS style to be applied to the container of the extra HTML snippet
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-extrahtml-cssClass]]*dt:cssClass*
+2+|CSS class(es) to be applied to the container of the extra HTML snippet
+
+|Values
+|
+
+|Default
+|
+
+|Data source
+|DOM/AJAX
+
+.4+|[[tml-div-extrahtml-container]]*dt:container*
+2+|Container used to wrap the extra HTML snippet
+
+|Values
+|Any valid HTML element
+
+|Default
+|div
+
+|Data source
+|DOM/AJAX
+
+|===

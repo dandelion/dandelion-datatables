@@ -2,327 +2,351 @@
 
 === 9.1. Introducing the i18n mechanism
 
-<p>
-   Since the v0.9.0, Dandelion-Datatables has now full support for internationalization of column titles and surrounding information. Note that a support is also provided with
-   <a href="integration-with-other-projects.html">other projects</a>.
-</p>
+Since the v0.9.0, Dandelion-Datatables has now full support for internationalization of column titles and surrounding information. Note that a support is also provided with <<9-2-integration-with-other-projects, other projects>>.
 
-<h3 class="section-title">Translating DataTables' information</h3>
-<p>
-   All the i18n configuration takes place in the <i>datatables.properties</i> file. Lots of keys exist and allow you to configure the language information displayed by DataTables. You can see the <a href="/datatables/docs/ref/configuration/#i18nconfiguration">full reference here</a>.
-</p>
-<p>
-   In order to support other languages, you can add any number of additional files named <i>datatables_LANGUAGE.properties</i> in the same place as the main <i>datatables.properties</i> file. For
-   example, if your application needs to support both English and French, you could have the following files:
-   <ul>
-      <li>
-         <i>datatables.properties</i>: the main configuration file, containing non-translatable properties
-<pre class="prettyprint">
+==== 9.1.1. Translating DataTables' information
+
+All the i18n configuration takes place in the _dandelion/datatables/datatables.properties_ file. Lots of keys exist and allow you to configure the language information displayed by DataTables. You can see the <<opt-i18n.locale.resolver, full reference here>>.
+
+In order to support other languages, you can add any number of additional files named _dandelion/datatables/datatables_LANGUAGE.properties_ in the same place as _dandelion/datatables/datatables.properties_. 
+
+For example, if your application needs to support both English and French, you could have the following files:
+
+* _dandelion/datatables/datatables.properties_: the main configuration file, containing non-translatable properties
+
++
+[source, properties]
+----
 global.css.class=table table-striped table-bordered table-condensed
 global.extra.theme=bootstrap2
-</pre>      
-      </li>
-      <li>
-         <i>datatables_EN.properties</i>: the file containing all english translations 
-<pre class="prettyprint">
+----
+
+* _dandelion/datatables/datatables_EN.properties_: the file containing all english translations 
+
++
+[source, properties]
+----
 global.i18n.msg.processing=Processing...
 global.i18n.msg.search=Search :
 global.i18n.msg.info=Showing _START_ to _END_ of _TOTAL_ entries
-</pre>
-         </li>
-      <li>
-         <i>datatables_FR.properties</i>: the file containing all french translations 
-<pre class="prettyprint">
+----
+
+* _dandelion/datatables/datatables_FR.properties_: the file containing all french translations
+
++
+[source, properties]
+----
 global.i18n.msg.processing=Traitement en cours...
 global.i18n.msg.search=Rechercher :
 global.i18n.msg.info=Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments
-</pre>
-      </li>
-   </ul>
-</p>
-<p>
-   Keep in mind you don't need to copy all the properties in all internationalized files because lots of them are also just "configuration properties"
-   which don't need to be translated at all.
-</p>
+---- 
 
-<div class="alert alert-info">
-   <strong><i class="fa fa-info-circle fa-2x"></i></strong>&nbsp;
-   Note that:
-   <ul>
-      <li>all properties can contain HTML tags</li>
-      <li>The <code>_START_</code>, <code>_END_</code> and <code>_TOTAL_</code> variables are all dynamically replaced as the table display updates, and can be freely moved or removed as the language requirements change</li>
-   </ul>
-</div>
+Keep in mind you don't need to copy all the properties in all internationalized files because lots of them are also just "configuration properties" which don't need to be translated at all.
 
-<h3 class="section-title" id="tch">Translating column headers</h3>
-<p>
-   It behaves in different ways depending on the template engine used in your application.
-</p>
+[TIP]
+====
+Note that:
 
-<h4>Using JSP</h4>
-<p>
-   Dandelion-Datatables uses the following algorithm to define the content of a column header:
-   <ol>
-      <li>The {% refjsp dt column title %} column attribute has precedence over any other attribute. The content of this attribute will be always used in the column header, wether it's empty or not.</li>
-      <li>If the {% refjsp dt column title %} column attribute is not used and if the {% refjsp dt column titleKey %} column attribute is used and not empty, the content of the {% refjsp dt column titleKey %} attribute will be used to lookup a resource in the resource bundle. If the key cannot be found in the bundle, the <strong>???key???</strong>
-         message will be displayed in the column header.
-      </li>
-      <li>
-         At this point, if no message is found, the {% refjsp dt column property %} column attribute will be used (as text) and capitalized to fill in the column header.
-      </li>
-      <li>
-         Finally, in no {% refjsp dt column property %} column attribute is used (which can happen if you use the {% refjsp dt table row %} table attribute to define the table's columns), the column header will remain empty.
-      </li>
-</ol>
-</p>
-<br />
-<p>
-   Here is an usage example of the {% refjsp dt column titleKey %} column attribute:
-</p>
-<pre class="prettyprint">
-&lt;datatables:table id="myTableId" data="${persons}">
-   &lt;datatables:column titleKey="table.header.id" property="id" />
-   &lt;datatables:column titleKey="table.header.firstname" property="firstName" />
-   &lt;datatables:column titleKey="table.header.lastname" property="lastName" />
-   &lt;datatables:column titleKey="table.header.city" property="address.town.name" />
-   &lt;datatables:column titleKey="table.header.mail" property="mail" />
-&lt;/datatables:table>
-</pre>
+* all properties can contain HTML tags
+* `\_START_`, `\_END_` and `\_TOTAL_` variables are all dynamically replaced as the table display updates, and can be freely moved or removed as the language requirements change
+====
 
-<h4>Using Thymeleaf</h4>
-<p>
-   Just use the Thymeleaf i18n internal mechanism, with the <code>#{...}</code> syntax:
-</p>
-<pre class="prettyprint">
-&lt;table id="myTableId" dt:table="true">
-   &lt;thead>
-      &lt;tr>
-         &lt;th th:text="#{table.header.id}">Id&lt;/th>
-         &lt;th th:text="#{table.header.firstname}">Firstname&lt;/th>
-         &lt;th th:text="#{table.header.lastname}">Lastname&lt;/th>
-         &lt;th th:text="#{table.header.city}">City&lt;/th>
-         &lt;th th:text="#{table.header.mail}">Mail&lt;/th>
-      &lt;/tr>
-   &lt;/thead>
-   ...
-&lt;/table>
-</pre>
+==== 9.1.2. Translating column headers
 
-<h3 class="section-title" id="lamdr">Locale and message default resolution</h3>
-<p>
-   By default, Dandelion-Datatables uses the {% javadoc dt datatables-core StandardLocaleResolver %} to resolve the locale from the
-   <code>HttpServletRequest</code>
-   , i.e. from your browser. But if you need to override this behaviour, you can in two ways:
-   <ul>
-      <li>
-         using one of the ready-to-use implementations of the {% javadoc dt datatables-core LocaleResolver %} interface: <a href="integration-with-other-projects.html">see this section for more
-            details</a>
-      </li>
-      <li>
-         pluging a custom implementation of the {% javadoc dt datatables-core LocaleResolver %} interface: <a href="pluging-a-custom-localeresolver.html">see here for more details</a>
-      </li>
-   </ul>
-</p>
-<p>
-   Regarding the message resolution, note that the {% javadoc dt datatables-jsp JstlMessageResolver %} will be automatically enabled if the JSTL JAR is detected in the classpath and if no
-   <code>i18n.message.resolver</code>
-   property is used in your custom configuration file. This means that content of {% refjsp dt column titleKey %} attributes will be evaluated in the same way as for the
-   <code>&lt;fmt:message&gt;</code> JSTL tag. You can override this in two ways as well:
-   <ul>
-      <li>using one of the ready-to-use implementations of the {% javadoc dt datatables-core MessageResolver %} interface: <a href="integration-with-other-projects.html">see this section for more
-            details</a>
-      </li>
-      <li>
-         pluging your own implementation of the {% javadoc dt datatables-core MessageResolver %} interface: <a href="pluging-a-custom-messageresolver.html">see this section for more details</a>
-      </li>
-   </ul>
-</p>
+It behaves in different ways depending on the template engine used in your application.
 
-<h3 class="section-title" id="pwcg">Playing with configuration groups</h3>
-<p>
-   Since i18n properties are located in the configuration file and since those properties are groupable, you can well imagine making several
-   <a href="/datatables/features/configuration/configuration-groups.html">configuration groups</a>.
-</p>
-<p>For example, let's say your site can display different types of table in multiple languages. You could have the following configuration files:
-   <ul>
-      <li>
-         <i>datatables.properties</i>: the main configuration file, containing non-translatable properties
-<pre class="prettyprint">
-global.css.class=table table-striped table-bordered table-condensed
-global.extra.theme=bootstrap2
-</pre>      
-      </li>
-      <li>
-         <i>datatables_EN.properties</i>: 
-<pre class="prettyprint">
-global.i18n.msg.processing=Processing...
-global.i18n.msg.search=Search :
-global.i18n.msg.info=Showing _START_ to _END_ of _TOTAL_ entries
+[discrete]
+===== Using JSP
 
-group1.i18n.msg.processing=Processing...
-group1.i18n.msg.search=Search for the dogs:
-group1.i18n.msg.info=Showing _START_ to _END_ of _TOTAL_ dogs
+Dandelion-Datatables uses the following algorithm to define the content of a column header:
 
-group2.i18n.msg.processing=Processing...
-group2.i18n.msg.search=Search for the cats:
-group2.i18n.msg.info=Showing _START_ to _END_ of _TOTAL_ cats
-</pre>
-         </li>
-      <li>
-         <i>datatables_FR.properties</i>: 
-<pre class="prettyprint">
-global.i18n.msg.processing=Traitement en cours...
-global.i18n.msg.search=Rechercher :
-global.i18n.msg.info=Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments
+. The <<jsp-column-title, `title`>> column attribute has precedence over any other attribute. The content of this attribute will be always used in the column header, wether it's empty or not
+. If the <<jsp-column-title, `title`>> column attribute is not used and if the <<jsp-column-titleKey, `titleKey`>> column attribute is used and not empty, the <<jsp-column-titleKey, `titleKey`>> attribute will be used to lookup a resource in the resource bundle. If the key cannot be found in the bundle, the **???key???** message will be used
+. At this point, if no message is found, the <<jsp-column-property, `property`>> column attribute will be used (as text) and capitalized to fill in the column header
+. Finally, in no <<jsp-column-property, `property`>> column attribute is used (which can happen when using the <<jsp-column-row, `row`>> table attribute), the column header will remain empty
 
-group1.i18n.msg.processing=Processing...
-group1.i18n.msg.search=Rechercher des chiens:
-group1.i18n.msg.info=Affichage du chien _START_ à _END_ sur _TOTAL_ chiens
+Here is an usage example of the <<jsp-column-titleKey, `titleKey`>> column attribute:
 
-group2.i18n.msg.processing=Processing...
-group2.i18n.msg.search=Rechercher des chats:
-group2.i18n.msg.info=Affichage du chat _START_ à _END_ of _TOTAL_ chats
-</pre>
-      </li>
-   </ul>
-</p>
+[source, xml]
+----
+<datatables:table id="myTableId" data="${persons}">
+  <datatables:column titleKey="table.header.id" property="id" />
+  <datatables:column titleKey="table.header.firstname" property="firstName" />
+  <datatables:column titleKey="table.header.lastname" property="lastName" />
+  <datatables:column titleKey="table.header.city" property="address.town.name" />
+  <datatables:column titleKey="table.header.mail" property="mail" />
+</datatables:table>
+----
+
+[discrete]
+===== Using Thymeleaf
+
+You can use the `#{...}` syntax of the Thymeleaf standard dialect:
+
+[source, html]
+----
+<table id="myTableId" dt:table="true">
+  <thead>
+    <tr>
+      <th th:text="#{table.header.id}">Id</th>
+      <th th:text="#{table.header.firstname}">Firstname</th>
+      <th th:text="#{table.header.lastname}">Lastname</th>
+      <th th:text="#{table.header.city}">City</th>
+      <th th:text="#{table.header.mail}">Mail</th>
+    </tr>
+  </thead>
+  ...
+</table>
+----
+
+==== 9.1.3. Locale and message default resolution
+
+By default, Dandelion-Datatables uses the `StandardLocaleResolver` to resolve the locale from the `HttpServletRequest`, i.e. from your browser. But if you need to override this behaviour, you can in two ways:
+
+* by using one of the ready-to-use implementations of the `LocaleResolver` interface: see the <<9-2-integration-with-other-projects, integration with other projects>> for more details
+
+* by plugging-in a custom implementation of the `LocaleResolver` interface: see the <<9-3-plugging-in-your-own-locale-resolver, plugging-in you own locale resolver section>> for more details
+
+Regarding the message resolution, note that the `JstlMessageResolver` will be automatically enabled if the JSTL JAR is detected in the classpath and if no `i18n.message.resolver` option is used in your custom configuration file. This means that the <<jsp-column-titleKey, `titleKey`>> attributes will be evaluated in the same way as for the `<fmt:message>` JSTL tag. You can override this in two ways as well:
+
+* by using one of the ready-to-use implementations of the `MessageResolver` interface: see the <<9-2-integration-with-other-projects, integration with other projects>> for more details
+
+* by plugging-in your own implementation of the `MessageResolver` interface: see the <<9-4-plugging-in-your-own-message-resolver, plugging-in your own message resolver section>> for more details
 
 === 9.2. Integration with other projects
 
-<p>
-   Dandelion will probably be used in an application where content is already internationalized using a specific framework, which should provide a way to resolve the current locale and to lookup properties in a resource bundle.
-</p>
-<p>
-   This section lists all ready-to-use adapters that allows you to use the same i18n support you are using in your application.
-</p>
+Dandelion will probably be used in an application where content is already internationalized using a specific framework, which should provide a way to resolve the current locale and to lookup properties in a resource bundle.
 
-<h3 class="section-title" id="lr">Locale resolution</h3>
-<p>
-   Listed below are the ready-to-use implementations of the {% javadoc dt datatables-core LocaleResolver %} interface:
-</p>
-<ul>
-   <li>
-      for <strong>Spring</strong> with the {% javadoc dt datatables-extras/datatables-spring3 SpringLocaleResolver %} class
-      <p>
-         The resolver will use the <code>RequestContextUtils.getLocale()</code> method for locale resolution (which will in turn delegate to the Spring locale resolver)
-      </p>
-      <p>
-         To use it globally in your application, just add the following line in your <i>datatables.properties</i> file:
-<pre class="prettyprint">
+This section lists all ready-to-use adapters that allows you to use the same i18n support you are using in your application.
+
+==== 9.2.1. Locale resolution
+
+Listed below are the ready-to-use implementations of the `LocaleResolver` interface:
+
+* for **Spring 3+** with the `SpringLocaleResolver` class
+
++
+The resolver will use the `RequestContextUtils.getLocale()` method for locale resolution (which will in turn delegate to the Spring locale resolver)
+
++
+To use it globally in your application, just add the following line in your <<11-1-configuration-loading, configuration file>>:
+
++
+[source, properties]
+----
 i18n.locale.resolver=com.github.dandelion.datatables.extras.spring3.i18n.SpringLocaleResolver
-</pre>
-      </p>
-   </li>
-   <li>
-      for <strong>JSTL</strong> with the {% javadoc dt datatables-jsp JstlLocaleResolver %} class
-      <p>
-         The resolver will first try to get the locale from the <code>Config.FMT_LOCALE</code> key first from the request and then from the session.
-      </p>
-      <p>
-         To use it globally in your application, just add the following line in your <i>datatables.properties</i> file:
-<pre class="prettyprint">
+----
+
++
+The `SpringLocaleResolver` class lives in the **datatables-spring3** artifact, that should add to your classpath:
+
++
+.Example with Apache Maven
+[source,xml,subs="+attributes"]
+----
+<dependency>
+  <groupId>com.github.dandelion</groupId>
+  <artifactId>datatables-spring3</artifactId>
+  <version>{project-version}</version>
+</dependency>
+----
+
+* for **JSTL** with the `JstlLocaleResolver` class
+
++
+The resolver will first try to get the locale from the `Config.FMT_LOCALE` key first from the request and then from the session.
+
++
+To use it globally in your application, just add the following line in your <<11-1-configuration-loading, configuration file>>:
+
++
+[source, properties]
+----
 i18n.locale.resolver=com.github.dandelion.datatables.jsp.i18n.JstlLocaleResolver
-</pre>
-      </p>
-   </li>
-   <li>
-      for <strong>Struts 1</strong> with the {% javadoc dt datatables-extras/datatables-struts1 Struts1LocaleResolver %} class
-      <p>
-         The resolver will first try to get the locale from the <code>Globals.LOCALE_KEY</code> key and will fall back to request locale.
-      </p>
-      <p>
-         To use it globally in your application, just add the following line in your <i>datatables.properties</i> file:
-<pre class="prettyprint">
+----
+
++
+[NOTE]
+====
+Note that if the JSTL is detected in the classpath and if no `i18n.message.resolver` option is used in your configuration file, the `JstlLocaleResolver` is auto-configured
+====
+
+* for **Struts 1** with the `Struts1LocaleResolver` class
+
++
+The resolver will first try to get the locale from the `Globals.LOCALE_KEY` key and will fall back to request locale.
+
++
+To use it globally in your application, just add the following line in your <<11-1-configuration-loading, configuration file>>:
+
++
+[source, properties]
+----
 i18n.locale.resolver=com.github.dandelion.datatables.extras.struts1.i18n.Struts1LocaleResolver
-</pre>
-      </p>
-   </li>
-   <li>
-      for <strong>Struts 2</strong> with the {% javadoc dt datatables-extras/datatables-struts2 Struts2LocaleResolver %} class
-      <p>
-         The resolver will look for the first <code>LocaleProvider</code> action in the stack.
-      </p>
-      <p>
-         To use it globally in your application, just add the following line in your <i>datatables.properties</i> file:
-<pre class="prettyprint">
+----
+
++
+The `Struts1LocaleResolver` class lives in the **datatables-struts1** artifact, that should add to your classpath:
+
++
+.Example with Apache Maven
+[source,xml,subs="+attributes"]
+----
+<dependency>
+  <groupId>com.github.dandelion</groupId>
+  <artifactId>datatables-struts1</artifactId>
+  <version>{project-version}</version>
+</dependency>
+----
+
+* for **Struts 2** with the `Struts2LocaleResolver`class
+
++
+The resolver will look for the first `LocaleProvider` action in the stack.
+
++
+To use it globally in your application, just add the following line in your <<11-1-configuration-loading, configuration file>>:
+
++
+[source, properties]
+----
 i18n.locale.resolver=com.github.dandelion.datatables.extras.struts2.i18n.Struts2LocaleResolver
-</pre>
-      </p>
-   </li>
-</ul>
+----
 
-<h3 class="section-title" id="mr">Message resolution</h3>
-<p>
-   Other than resolving the currently used locale, your framework will probably provide a standard way to store i18n resources. Just like for the locale resolution, Dandelion will allow you to plug in different implementations.
-</p>
-<p>
-   You will find below the existing ready-to-use implementations of the {% javadoc dt datatables-core MessageResolver %} interface:
-</p>
-<ul>
-   <li>
-      for <strong>Spring</strong> with the {% javadoc dt datatables-extras/datatables-spring3 SpringMessageResolver %} class
-      <p>
-         The resolver will look for the message inside the configured MessageSource bean
-      </p>
-      <p>
-         To use it globally in your application, just add the following line in the <i>datatables.properties</i> file:
-<pre class="prettyprint">
++
+The `Struts2LocaleResolver` class lives in the **datatables-struts2** artifact, that should add to your classpath:
+
++
+.Example with Apache Maven
+[source,xml,subs="+attributes"]
+----
+<dependency>
+  <groupId>com.github.dandelion</groupId>
+  <artifactId>datatables-struts2</artifactId>
+  <version>{project-version}</version>
+</dependency>
+----
+
+==== 9.2.2. Message resolution
+
+Other than resolving the currently used locale, your framework will probably provide a standard way to store i18n resources. Just like for the locale resolution, Dandelion-Datatables will allow you to plug in different implementations.
+
+You will find below the existing ready-to-use implementations of the `MessageResolver` interface:
+
+* for **Spring 3+** with the `SpringMessageResolver` class
+
++
+The resolver will look for the message inside the configured `MessageSource` bean
+
++
+To use it globally in your application, just add the following line in the <<11-1-configuration-loading, configuration file>>:
+
++
+[source, properties]
+----
 global.i18n.message.resolver=com.github.dandelion.datatables.extras.spring3.i18n.SpringMessageResolver
-</pre>
-      </p>
-   </li>
-   <li>
-      for <strong>JSTL</strong> with the {% javadoc dt datatables-jsp JstlMessageResolver %} class
-      <p>
-         The resolver will look for the message as the <code>&lt;fmt:message&gt;</code> does.
-      </p>
-      <p>
-         To use it globally in your application, just add the following line in your <i>datatables.properties</i> file:
-<pre class="prettyprint">
+----
+
++
+The `SpringMessageResolver` class lives in the **datatables-spring3** artifact, that should add to your classpath:
+
++
+.Example with Apache Maven
+[source,xml,subs="+attributes"]
+----
+<dependency>
+  <groupId>com.github.dandelion</groupId>
+  <artifactId>datatables-spring3</artifactId>
+  <version>{project-version}</version>
+</dependency>
+----
+
+* for **JSTL** with the `JstlMessageResolver`
+
++
+The resolver will look for the message as the `<fmt:message>` does.
+
++
+To use it globally in your application, just add the following line in your <<11-1-configuration-loading, configuration file>>:
+
++
+[source, properties]
+----
 global.i18n.message.resolver=com.github.dandelion.datatables.jsp.i18n.JstlMessageResolver
-</pre>
-      </p>
-   </li>
-   <li>
-      for <strong>Struts1</strong> with the {% javadoc dt datatables-extras/datatables-struts1 Struts1MessageResolver %} class
-      <p>
-         The resolver will look for the message using the <code>Globals.MESSAGES_KEY</code>.
-      </p>
-      <p>
-         To use it globally in your application, just add the following line in your <i>datatables.properties</i> file:
-<pre class="prettyprint">
+----
+
++
+[NOTE]
+====
+Note that if the JSTL is detected in the classpath, the `JstlMessageResolver` is auto-configured
+====
+
+* for **Struts1** with the `Struts1MessageResolver` class
+
++
+The resolver will look for the message using the `Globals.MESSAGES_KEY`.
+
++
+To use it globally in your application, just add the following line in your <<11-1-configuration-loading, configuration file>>:
+
++
+[source, properties]
+----
 global.i18n.message.resolver=com.github.dandelion.datatables.extras.struts1.i18n.Struts1MessageResolver
-</pre>
-      </p>
-   </li>
-   <li>
-      for <strong>Struts2</strong> with the {% javadoc dt datatables-extras/datatables-struts2 Struts2MessageResolver %} class
-      <p>
-         The resolver will look for the first <code>TextProvider</code> action in the stack.
-      </p>
-      <p>
-         To use it globally in your application, just add the following line in your <i>datatables.properties</i> file:
-<pre class="prettyprint">
+----
+
++
+The `Struts1MessageResolver` class lives in the **datatables-struts1** artifact, that should add to your classpath:
+
++
+.Example with Apache Maven
+[source,xml,subs="+attributes"]
+----
+<dependency>
+  <groupId>com.github.dandelion</groupId>
+  <artifactId>datatables-struts1</artifactId>
+  <version>{project-version}</version>
+</dependency>
+----
+
+* for **Struts2** with the `Struts2MessageResolver` class
+
++
+The resolver will look for the first `TextProvider` action in the stack.
+
++
+To use it globally in your application, just add the following line in your <<11-1-configuration-loading, configuration file>>:
+
++
+[source, properties]
+----
 global.i18n.message.resolver=com.github.dandelion.datatables.extras.struts2.i18n.Struts2MessageResolver
-</pre>
-      </p>
-   </li>
-</ul>
+----
 
-<p class="alert alert-warn">
-   <strong><i class="fa fa-warning fa-2x"></i></strong>&nbsp;
-   By default, no message resolver is configured.
-</p>
++
+The `Struts2MessageResolver` class lives in the **datatables-struts2** artifact, that should add to your classpath:
 
++
+.Example with Apache Maven
+[source,xml,subs="+attributes"]
+----
+<dependency>
+  <groupId>com.github.dandelion</groupId>
+  <artifactId>datatables-struts2</artifactId>
+  <version>{project-version}</version>
+</dependency>
+----
+
+WARNING: By default, no message resolver is configured
 
 === 9.3. Plugging-in your own locale resolver
 
-<p>
-   Begin creating a class that implements the {% javadoc dt datatables-core LocaleResolver %} interface.
-</p>
-<p>
-   All you have to do is to implement the <code>resolveLocale(HttpServletRequest request)</code> method.
-<pre class="prettyprint">
+Begin creating a class that implements the `LocaleResolver` interface.
+
+All you have to do is to implement the `resolveLocale(HttpServletRequest request)` method.
+
+[source, java]
+----
 package com.company.project;
 
 public class MyLocaleResolver implements LocaleResolver {
@@ -331,25 +355,23 @@ public class MyLocaleResolver implements LocaleResolver {
       // some stuff... 
    }
 }
-</pre>  
-</p>
+----
 
-<h3 class="section-title">Plugging-in your locale resolver</h3>
-<p>
-   To use it globally in your application, just add the following line in your <i>datatables.properties</i> file:
-<pre class="prettyprint">
+Then, to use it globally in your application, just add the following line to your <<11-1-configuration-loading, configuration file>>:
+
+[source, properties]
+----
 i18n.locale.resolver.resolver=com.company.project.MyLocaleResolver
-</pre>
-</p>
+----
 
 === 9.4. Plugging-in your own message resolver
 
-<p>
-   Begin creating a class that implements the {% javadoc dt datatables-core MessageResolver %} interface.
-</p>
-<p>
-   All you have to do is to implement the <code>getResource(String messageKey, String defaultValue, Object... params)</code> method.
-<pre class="prettyprint">
+Create a class that implements the `MessageResolver` interface.
+
+All you have to do is to implement the `getResource(String messageKey, String defaultValue, Object... params)` method.
+
+[source, java]
+----
 package com.company.project;
 
 public class MyMessageResolver extends AbstractMessageResolver {
@@ -362,18 +384,13 @@ public class MyMessageResolver extends AbstractMessageResolver {
       // some stuff...
    }
 }
-</pre>  
-</p>
+----
 
-<h3 class="section-title">Plugging-in your message resolver</h3>
-<p>
-   To use it globally in your application, just add the following line in your <i>datatables.properties</i> file:
-<pre class="prettyprint">
+Then, to use it globally in your application, just add the following line to your <<11-1-configuration-loading, configuration file>>:
+
+[source, properties]
+----
 global.i18n.message.resolver=com.company.project.MyMessageResolver
-</pre>
-</p>
+----
 
-<p class="alert alert-info">
-      <strong><i class="fa fa-info fa-2x"></i></strong> 
-      Note that contrary to the <code>i18n.locale.resolver.resolver</code> property, the <code>i18n.message.resolver</code> one can be grouped in <a href="/datatables/features/configuration/configuration-groups.html">configuration groups</a>.
-   </p>
+NOTE: Note that contrary to `i18n.locale.resolver`, `i18n.message.resolver` can be grouped in an <<11-4-using-option-groups, option group>>

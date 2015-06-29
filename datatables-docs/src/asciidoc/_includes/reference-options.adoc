@@ -1,6 +1,6 @@
 == Appendix C: Configuration options reference
 
-The table below lists all available options (TODO LINK vers option).
+The table below lists all available <<11-configuration-options, configuration options>>.
 
 Note that all options are presented in the following format:
 
@@ -28,17 +28,17 @@ Note that all options are presented in the following format:
 
 3+|*Main options*
 
-.4+|[[opt-main.standalone]]*main.standalone*
-2+|Flag allowing to use Dandelion-Datatables as a standalone library. Automatically excludes all vendor bundles. (TODO lien)
+.4+|[[opt-main.extension.names]]*main.extension.names*
+2+|Name of extensions you wish to activate globally. See <<13-3-activating-your-own-extension, this section>> for more information.
 
 |Values
-|true \| false
+|Comma-separated list of extension names
 
 |Default
-|false
+|
 
 |Groupable
-|No
+|Yes
 
 3+|*AJAX-related options*
 
@@ -67,7 +67,7 @@ Note that all options are presented in the following format:
 |Yes
 
 .4+|[[opt-ajax.pipeSize]]*ajax.pipeSize*
-2+|Pipe size used when `ajax.pipelining` is enabled, i.e. times that the user can page before a request must be made of the server
+2+|Pipe size used when <<opt-ajax.pipelining, `ajax.pipelining`>> is enabled, i.e. times that the user can page before a request must be made of the server
 
 |Values
 |Any integer starting from 1
@@ -144,10 +144,10 @@ Note that all options are presented in the following format:
 2+|Name of a theme to activate for the current table
 
 |Values
-|Name of an option to activate in relation to the current activated theme
+|See the <<5-3-3-2-available-theme-options, full list of available theme options>>
 
 |Default
-|TODO list
+|
 
 |Groupable
 |Yes
@@ -179,7 +179,7 @@ Note that all options are presented in the following format:
 |Yes
 
 .4+|[[opt-export.enabled.formats]]*export.enabled.formats*
-2+|Comma-separated list of enabled export formats. Some formats use reserved words, such as 'csv', 'xls', 'xlsx', 'pdf' and 'xml'
+2+|Comma-separated list of enabled export formats. Some formats use reserved words, such as `csv`, `xls`, `xlsx`, `pdf` and `xml`
 
 |Values
 |
@@ -211,7 +211,7 @@ Note that all options are presented in the following format:
 
 |Default
 |`com.github.dandelion.datatables.extras.export.itext.PdfExport` 
-WARNING: dependency
+*_Dependency required_*: *datatables-export-itext* 
 
 |Groupable
 |Yes
@@ -224,7 +224,7 @@ WARNING: dependency
 
 |Default
 |`com.github.dandelion.datatables.extras.export.poi.XlsExport` 
-WARNING: dependency
+*_Dependency required_*: *datatables-export-poi* 
 
 |Groupable
 |Yes
@@ -237,7 +237,7 @@ WARNING: dependency
 
 |Default
 |`com.github.dandelion.datatables.extras.export.poi.XlsxExport` 
-WARNING: dependency
+*_Dependency required_*: *datatables-export-poi-ooxml* 
 
 |Groupable
 |Yes
@@ -317,10 +317,10 @@ WARNING: dependency
 |Yes
 
 .4+|[[opt-feature.filterClearSelector]]*feature.filterClearSelector*
-2+|jQuery selector targeting the element on which a 'click' event will be bound to trigger the clearing of all filter elements
+2+|https://api.jquery.com/category/selectors/[jQuery selector] targeting the element on which a 'click' event will be bound to trigger the clearing of all filter elements
 
 |Values
-|Any jQuery selector
+|Any https://api.jquery.com/category/selectors/[jQuery selector]
 
 |Default
 |
@@ -332,7 +332,7 @@ WARNING: dependency
 2+|Delay (in milliseconds) to be used before the AJAX call is performed to obtain data
 
 |Values
-|Any jQuery selector
+|Any integer (ms)
 
 |Default
 |500ms
@@ -344,19 +344,19 @@ WARNING: dependency
 2+|Placeholder used to hold the individual column filtering elements
 
 |Values
-|head_before \| head_after \| foot \| none TODO
+|header \| footer \| none
 
 |Default
-|foot
+|footer
 
 |Groupable
 |Yes
 
 .4+|[[opt-feature.filterSelector]]*feature.filterSelector*
-2+|jQuery selector targeting the element on which a 'click' event will be bound to trigger the filtering
+2+|https://api.jquery.com/category/selectors/[jQuery selector] targeting the element on which a 'click' event will be bound to trigger the filtering
 
 |Values
-|Any jQuery selector
+|Any https://api.jquery.com/category/selectors/[jQuery selector]
 
 |Default
 |
@@ -497,7 +497,7 @@ WARNING: dependency
 |Yes
 
 .4+|[[opt-feature.sortable]]*feature.sortable*
-2+|Enable or disable sorting of columns. Sorting of individual columns can be disabled by the "sortable" attribute of column tag
+2+|Enable or disable sorting of columns
 
 |Values
 |true \| false
@@ -523,7 +523,7 @@ WARNING: dependency
 3+|*I18N-related options*
 
 .4+|[[opt-i18n.locale.resolver]]*i18n.locale.resolver*
-2+|TODO
+2+|Class in charge of resolving locale
 
 |Values
 |Any class implementing `com.github.dandelion.datatables.core.i18n.LocaleResolver`
@@ -535,7 +535,7 @@ WARNING: dependency
 |No
 
 .4+|[[opt-i18n.message.resolver]]*i18n.message.resolver*
-2+|TODO
+2+|Class in charge of looking up properties in a resource bundle
 
 |Values
 |Any class implementing `com.github.dandelion.datatables.core.i18n.MessageResolver`
@@ -763,63 +763,4 @@ WARNING: dependency
 
 |Groupable
 |Yes
-
 |===
-
-
-<div id="themeoptions">
-   <p>
-      Available theme options for the <code>jqueryui</code> theme:
-   <code>blacktie</code>
-   ,
-   <code>blitzer</code>
-   ,
-   <code>cupertino</code>
-   ,
-   <code>darkhive</code>
-   ,
-   <code>dotluv</code>
-   ,
-   <code>eggplant</code>
-   ,
-   <code>excitebike</code>
-   ,
-   <code>flick</code>
-   ,
-   <code>hotsneaks</code>
-   ,
-   <code>humanity</code>
-   ,
-   <code>lefrog</code>
-   ,
-   <code>mintchoc</code>
-   ,
-   <code>overcast</code>
-   ,
-   <code>peppergrinder</code>
-   ,
-   <code>redmond</code>
-   ,
-   <code>smoothness</code>
-   ,
-   <code>southstreet</code>
-   ,
-   <code>start</code>
-   ,
-   <code>sunny</code>
-   ,
-   <code>swankypurse</code>
-   ,
-   <code>trontastic</code>
-   ,
-   <code>uidarkness</code>
-   ,
-   <code>uilightness</code>
-   , and
-   <code>vader</code>
-   .
-   </p>
-   <p>
-      Available theme options for the <code>bootstrap2</code> theme: <code>tablecloth</code>.
-   </p>
-</div>      

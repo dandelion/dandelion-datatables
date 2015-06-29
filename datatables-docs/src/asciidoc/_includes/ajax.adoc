@@ -1,40 +1,34 @@
 == 8. AJAX
 
-TIP: Pending
-
 === 8.1. Using AJAX sources
 
 DataTables has the ability to read data from virtually any JSON data source that can be obtained by AJAX.
 
 It can be useful to populate a table using an AJAX source, e.g. using a web service that returns a list of objects.
 
-Since v0.8.2, <strong>Dandelion-datatables</strong> support AJAX sources. But be aware, even if the data is obtained from the server via an AJAX call, DataTables will process it client-side, as for classic DOM sources. So this may be not suitable for large data sets. In this latter case, you should consider using the <a href="/datatables/features/ajax/server-side/">server-side processing</a> instead.
+Since v0.8.2, Dandelion-Datatables support AJAX sources. But be aware, even if the data is obtained from the server via an AJAX call, DataTables will process it client-side, as for classic DOM sources. So this may be not suitable for large data sets. In this latter case, you should consider using the <<8-4-server-side-processing, server-side processing>> instead.
 
 WARNING: Note that depending on the data source type (DOM, AJAX), some attributes of the JSP taglib or the Thymeleaf dialect may be available or not. That's why you can see a particular column called "Data source compatibility" in all tag references.
-
-<p class="alert alert-info">
-   <strong><i class="fa fa-info-circle fa-2x"></i></strong>&nbsp;
-   At the moment, DataTables only consumes JSON format so take care to convert data in this format.
-</p>
 
 ==== 8.1.1. How to use an AJAX source
 
 [discrete]
 ===== Using JSP
 
-Instead of using the {% refjsp dt table data %} table attribute (used for DOM sources), use the {% refjsp dt table url %} table attribute instead. 
+Instead of using the <<jsp-table-data, `data`>> table attribute (used for DOM sources), use the <<jsp-table-data, `url`>> table attribute instead. 
 
 [source, xml]
 ----
-<datatables:table id="myTableId" url="/persons" row="person"> <1>
-  <datatables:column title="Id" property="id" />
-  <datatables:column title="FirstName" property="firstName" />
-  <datatables:column title="LastName" property="lastName" />
-  <datatables:column title="City" property="address.town.name" />
-  <datatables:column title="Mail" property="mail" />
+<datatables:table id="myTableId" url="/persons"> <1>
+  <datatables:column title="Id" property="id" /> <2>
+  <datatables:column title="FirstName" property="firstName" /> <2>
+  <datatables:column title="LastName" property="lastName" /> <2>
+  <datatables:column title="City" property="address.town.name" /> <2>
+  <datatables:column title="Mail" property="mail" /> <2>
 </datatables:table>
 ----
-<1> TODO
+<1> Dandelion-Datatables will automatically modify the provided URL by prepending the context path
+<2> The <<jsp-column-property, `property`>> column attribute is used for both DOM and AJAX sources
 
 [discrete]
 ===== Using Thymeleaf
@@ -45,7 +39,504 @@ Moreover, you have to tell Dandelion-datatables which property must be read from
 
 [source, xml]
 ----
+<table id="myTableId" dt:table="true" dt:url="@{/persons}"> <1>
+  <thead>
+    <tr>
+      <th dt:property="id">Id</th> <2>
+      <th dt:property="firstName">Firstname</th> <2>
+      <th dt:property="lastName">Lastname</th> <2>
+      <th dt:property="address.town.name">City</th> <2>
+      <th dt:property="mail">Mail</th> <2>
+    </tr>
+  </thead>
+</table>
+----
+<1> Don't forget to use the Thymeleaf "at" syntax: `@{/some-url}`
+<2> You need to specify each property to display using the <<tml-th-property, `dt:property`>> th attribute
+
+WARNING: Cross-domain requests are not supported yet.
+
+==== 8.1.2. Example using Spring
+
+The Spring @Controller bellow contains a RESTful method `findAll` that returns a list of `Person` as raw data using the `@ResponseBody` annotation.
+
+[source, java]
+----
+@Controller
+@RequestMapping(method = RequestMethod.GET)
+public class SpringMvcAjaxController {
+
+  @Autowired
+  private PersonService personService;
+
+  @RequestMapping(value = "/persons")
+  public @ResponseBody List<Person> findAll(HttpServletRequest request) {
+    return personService.fin8.3.dAll();
+  }
+}
+----
+
+NOTE: Note that since Spring defaultly performs the JSON serialization using the Jackson JSON processor, make sure to have the http://search.maven.org/#search%7Cga%7C1%7Cjackson-mapper-asl[Jackson JARs] in your classpath to make it work.
+
+=== 8.2. Customizing AJAX calls
+
+You may need some additional request parameters to call your AJAX source or even a fully customized call. Well, whether or not you use server-side processing, you can completely override the default AJAX request which obtains the data from the server to something more suitable for your application.
+  
+In order to be fully customizable, Dandelion-Datatables wraps the http://datatables.net/reference/option/ajax[object mode of operation]. This means you need to provide the `jQuery.ajax` syntax. For example, assuming the following bundle:
+
+.dandelion/ajax.json
+[source, json]
+----
+{
+  "assets": [
+    {
+      "locations": {
+        "webapp": "/assets/js/ajax.js"
+      }
+    }
+  ]
+}
+----
+
+Which contains the following JavaScript file:
+
+.assets/js/ajax.js
+[source, javascript]
+----
+function customAjaxParams(){
+  return {
+    "type" : "POST",
+    "data" : { name: "John", location: "Boston" }
+  };
+}
+----  
+
+[discrete]
+==== Using JSP   
+
+Use the <<jsp-table-ajaxParam, `ajaxParam` >> table attribute as follows:
+
+[source, xml]
+----
+<datatables:table id="myTableId" url="/ajax/persons-via-post" serverSide="true" ajaxParams="ajax#customAjaxParams"> <1>
+  ...
+</datatables:table>
+----
+<1> You can use the <<14-3-bundle-special-syntax, bundle special syntax>> to automatically include one (ore more) bundle(s)
+
+[discrete]
+==== Using Thymeleaf
+
+Use the <<tml-table-ajaxParams, `dt:ajaxParams`>> table attribute as follows:
+
+[source, html]
+----
+<table id="myTableId" dt:table="true" dt:url="@{/ajax/persons-via-post}" dt:serverside="true" dt:ajaxParams="app-ajax#customAjaxParams">
+  ...
+</table>
+----
+
+=== 8.3. Customizing column contents
+
+Since the v0.8.7, you can add customized column content using AJAX sources. It can be very useful for instance to display an "actions" column or if you need to display a bit more than just the raw data (e.g. a mailto link).
+
+Using DOM sources, you can use the <<jsp-table-row, `row`>> table attribute but using AJAX source, the table's build if fully delegated to DataTables. So the only way to customize the column content is to do it client-side, passing a particular Javascript function.
+   
+So, you have to:
+
+* Step 1: write a Javascript function that will be internally used by DataTables
+
++
+[source, javascript]
+----
+function yourFunction(data, type, full) {
+  return '<a href="' + data + '">Download</a>';
+}
+----
+
++
+The Javascript function takes 3 parameters :
+
+** {array|object} The data source for the row (based on mData)</li>
+** {string} The type call data requested - this will be 'filter', 'display', 'type' or 'sort'.</li>
+** {array|object} The full data source for the row (not based on mData)</li>
+
++
+TIP: You can use the first parameter (data) of the function if you already use the <<jsp-column-property, `property`>> (JSP) or <<tml-th-property, `dt:property`>> (Thymeleaf) attribute because it internally generates a http://datatables.net/reference/option/data[data] parameter that you can reuse.
+
+* Step 2: tell Dandelion-Datatables you want to use a custom rendering function for a particular column using either the <<jsp-column-renderFunction, `renderFunction`>> column attribute (JSP) or the <<jsp-column-renderFunction, `dt:renderFunction`>> th attribute (Thymeleaf). 
+
+WARNING: Note that you can't use the <<jsp-column-format, `format`>> column attribute of the JSP taglib when using an AJAX source!
+
+==== 8.3.1. Example, using a mailify function
+
+This example shows how to generate a `mailto` link inside a column.
+
+First, ensure the following function is properly made available to the table:
+
+[source, javascript]
+----
+function mailify(data, type, full) {
+   return '<a href="mailto:' + data + '">' + data + '</a>';
+}
+----
+
+[discrete]
+===== Using JSP
+
+Then, use the <<jsp-column-renderFunction, `renderFunction`>> column attribute and pass the name of the previous JavaScript function:
+
+[source, xml]
+----
+<datatables:table id="myTableId" url="/persons" serverSide="true">
+  ...
+  <datatables:column title="Mail" property="mail" renderFunction="mailify" />
+</datatables:table>
+----
+
+[discrete]
+===== Using Thymeleaf
+
+Use the <<tml-th-renderFunction, `dt:renderFunction`>> th attribute as follows:
+
+[source, html]
+----
+<table id="myTableId" dt:table="true" dt:url="@{/ajax/persons}" dt:serverside="true">
+  <thead>
+    <tr>
+      ...
+      <th dt:property="mail" dt:renderFunction="mailify">Mail</th>
+    </tr>
+  </thead>
+</table>
+----
+
+==== 8.3.2. Another example for an "Actions" column
+
+You can use the same mechanism to add an extra "Actions" column. For example, let's add another column which will contain some links.
+
+[discrete]
+===== Using JSP
+
+[source, xml]
+----
+<datatables:table id="myTableId" url="/persons" serverSide="true" processing="true">
+  ...
+  <datatables:column title="Actions" renderFunction="actions" />
+</datatables:table>
+----
+
+Then you just need to generate HTML code in the function as follows:
+
+[source, javascript]
+----
+function actions(data, type, full) {
+   return '<a class="btn btn-mini" href="/delete/' + full.id + '">Delete data</a>'
+        + '<a class="btn btn-mini" href="/edit/' + full.id + '">Edit data</a>';
+}
+----
+
+TIP: This time, the "Actions" column doesn't use any property of the iterated bean. That's why you should use the third parameter (full) of the Javascript function, which holds the full data source for the row exposed as a JSON object.
+
+[discrete]
+===== Using Thymeleaf
+
+Using Thymeleaf, you can use the <<tml-th-renderFunction, `dt:renderFunction`>> th attribute in the same manner.
+
+[source, html]
+----
+<table id="myTableId" dt:table="true" dt:url="@{/persons}" dt:serverSide="true">
+  <thead>
+    <tr>
+      ...
+      <th dt:property="mail" dt:renderFunction="mailify">Mail</th>
+    </tr>
+  </thead>
+</table>
+----
+
+==== 8.3.3. Handling null and default values
+
+This section deals with the case where the bean you're iterating on contains some null properties.
+
+[discrete]
+===== Using JSP
+
+Using JSP with AJAX sources, null values are handled in the same way than for DOM sources. By default, an empty string will be displayed.
+
+You can also use the <<jsp-column-default, `default`>> column attribute to replace the empty string by anything you want.
+
+[source, xml]
+----
+<datatables:table id="myTableId" url="/persons">
+   <datatables:column title="Id" property="id" />
+   <datatables:column title="FirstName" property="firstName" />
+   <datatables:column title="LastName" property="lastName" />
+   <datatables:column title="City" property="address.town.name" default="My default value !" />
+   <datatables:column title="Mail" property="mail" />
+</datatables:table>
+----
+
+[discrete]
+===== Using Thymeleaf
+
+Using Thymeleaf, this is quite similar. Just use the <<tml-th-default, `dt:default`>> th attribute to override the default empty string.
+
+[source, html]
+----
 <table id="myTableId" dt:table="true" dt:url="@{/persons}">
+  <thead>
+    <tr>
+      ...
+      <th dt:property="address.town.name" dt:default="My default value !">City</th>
+      ...
+    </tr>
+  </thead>
+</table>
+----
+
+=== 8.4. Server-side processing
+
+If you are working with seriously large databases, you might want to consider using the server-side options that DataTables provides and that Dandelion-Datatables supports.
+
+==== 8.4.1. How does it work?
+
+When using server-side processing, DataTables will make an XHR request to the server for each draw of the information on the page (i.e. when paging, sorting, filtering etc). DataTables will send a number of variables to the server to allow it to perform the required processing, and then return the data in the format required by DataTables.
+
+Dandelion-Datatables can help you during this process by providing you some utility classes:
+
+* `DatatablesCriterias`:
+
+This class mainly contains a `getFromRequest(HttpServletRequest request)` method that maps all the DataTables parameters into itself, allowing you to use it in your data access layer.
+
+* `DataSet`:
+
+All results returned from your data access layer should be wrapped into this class in order to build a `DataTablesResponse`.
+
+* `DatatablesResponse`:
+
+This class contains a builder that helps you to return the data in the format required by DataTables. Ensure this object is converted to JSON before displaying the table.
+
+TIP: Note that an integration with Spring has been developed. Read more in the <<8-6-integration-with-spring, integration with Spring section>>
+
+==== 8.4.2. Preparing the ground...
+
+As you may expect, server-side processing requires a bit more work than client-side one. Here are the needed steps to set this up.
+
+All snippets below are extracted from both **datatables-jsp-ajax** and **datatables-thymeleaf-ajax** samples.
+
+===== Prepare the needed SQL queries using your favorite ORM framework
+
+Whether you use Hibernate or any other ORM framework, you need to write some methods, knowing that you can use an instance of `DatatablesCriterias` to help building the queries.
+
+.com.github.dandelion.datatables.repository.jpa.PersonJpaRepository
+[source, java]
+----
+@Repository
+public class PersonJpaRepository implements PersonRepository {
+
+  @PersistenceContext
+  private EntityManager entityManager;
+
+  public List<Person> findAll() {
+    TypedQuery<Person> query = entityManager.createQuery("SELECT p FROM Person p", Person.class);
+    return query.getResultList();
+  }
+
+  public List<Person> findLimited(int maxResult) {
+    TypedQuery<Person> query = entityManager.createQuery("SELECT p FROM Person p", Person.class);
+    query.setMaxResults(maxResult);
+    return query.getResultList();
+  }
+
+  public List<Person> findPersonWithDatatablesCriterias(DatatablesCriterias criterias) {
+
+    StringBuilder queryBuilder = new StringBuilder("SELECT p FROM Person p");
+
+    /**
+     * Step 1: global and individual column filtering
+     */
+    queryBuilder.append(PersonRepositoryUtils.getFilterQuery(criterias));
+
+    /**
+     * Step 2: sorting
+     */
+    if (criterias.hasOneSortedColumn()) {
+
+      List<String> orderParams = new ArrayList<String>();
+      queryBuilder.append(" ORDER BY ");
+      for (ColumnDef columnDef : criterias.getSortingColumnDefs()) {
+        orderParams.add("p." + columnDef.getName() + " " + columnDef.getSortDirection());
+      }
+
+      Iterator<String> itr2 = orderParams.iterator();
+      while (itr2.hasNext()) {
+        queryBuilder.append(itr2.next());
+        if (itr2.hasNext()) {
+          queryBuilder.append(" , ");
+        }
+      }
+    }
+
+    TypedQuery<Person> query = entityManager.createQuery(queryBuilder.toString(), Person.class);
+
+    /**
+     * Step 3: paging
+     */
+    query.setFirstResult(criterias.getStart());
+    query.setMaxResults(criterias.getLength());
+
+    return query.getResultList();
+  }
+
+  public Long getFilteredCount(DatatablesCriterias criterias) {
+
+    StringBuilder queryBuilder = new StringBuilder("SELECT p FROM Person p");
+
+    queryBuilder.append(PersonRepositoryUtils.getFilterQuery(criterias));
+
+    Query query = entityManager.createQuery(queryBuilder.toString());
+    return Long.parseLong(String.valueOf(query.getResultList().size()));
+  }
+
+  public Long getTotalCount() {
+    Query query = entityManager.createQuery("SELECT COUNT(p) FROM Person p");
+    return (Long) query.getSingleResult();
+  }
+}
+----
+
+===== Create (or adapt) a business service
+
+Create or adapt a business service with a method that returns a `DataSet` object.
+
+.com.github.dandelion.datatables.service.PersonServiceImpl
+[source, java]
+----
+public DataSet<Person> findPersonsWithDatatablesCriterias(DatatablesCriterias criterias) {
+
+  List<Person> persons = personRepository.findPersonWithDatatablesCriterias(criterias);
+  Long count = personRepository.getTotalCount();
+  Long countFiltered = personRepository.getFilteredCount(criterias);
+  
+  return new DataSet<Person>(persons, count, countFiltered);
+}
+----
+
+===== Write a JSON web service
+
+Create a web service that will be used by DataTables to perform the AJAX request. Note that it must produce JSON only.
+
+.com.github.dandelion.datatables.web.ajax.AjaxController
+[source, java]
+----
+@RequestMapping(value = "/persons")
+public @ResponseBody DatatablesResponse<Person> findAllForDataTables(HttpServletRequest request) {
+  DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
+  DataSet<Person> persons = personService.findPersonsWithDatatablesCriterias(criterias);
+  
+  return DatatablesResponse.build(persons, criterias);
+}
+----
+
+===== Update views
+
+You need to update your views in order to activate server-side processing. See the section below.
+
+==== 8.4.3. Activating server-side processing
+
+[discrete]
+===== Using JSP
+
+Use the <<jsp-table-serverSide, `serverSide`>> table attribute as follows.
+
+[source, xml]
+----
+<datatables:table id="myTableId" url="/persons" serverSide="true">
+  ...
+</datatables:table>
+----
+
+[discrete]
+===== Using Thymeleaf
+
+Use the <<tml-table-serverSide, `dt:serverside`>> table attribute as follows:
+
+[source, html]
+----
+<table id="myTableId" dt:table="true" dt:url="@{/persons}" dt:serverside="true">
+  ...
+</table>
+----
+
+==== 8.4.4. Pipelining data
+
+When using server-side processing with DataTables, it can be quite intensive on your server having an Ajax call every time the user performs some kind of interaction - you can effectively DDOS your server with your own application!
+
+You might over-come this by modifying the request set to the server to retrieve more information than is actually required for a single page's display. This means that the user can page multiple times (5 times the display size is the default) before a request must be made of the server. Paging is typically the most common interaction performed with a DataTable, so this can be most beneficial to your server's resource usage. Of course the pipeline must be cleared for interactions other than paging (sorting, filtering etc), but that's the trade off that can be made (sending extra information is cheap - while another XHR is expensive).
+
+[discrete]
+===== Using JSP
+
+Use the <<jsp-table-pipelining, `pipelining`>> table attribute as follows:
+
+[source, xml]
+----
+<datatables:table id="myTableId" url="/persons" serverSide="true" pipelining="true" pipeSize="6">
+  ...
+</datatables:table>
+----
+
+[discrete]
+===== Using Thymeleaf
+
+Use the <<tml-table-pipelining, `dt:pipelining`>> table attribute as follows:
+
+[source, html]
+----
+<table id="myTableId" dt:table="true" dt:url="@{/persons}" dt:serverside="true" dt:pipelining="true" dt:pipesize="6">
+  ...
+</table>
+----
+
+TIP: Note that you can also set the pipe size using the <<jsp-table-pipeSize, `pipeSize`>> / <<tml-table-pipeSize, `dt:pipesize`>> table attributes (which defaults to 5).
+
+=== 8.5. Reloading data
+
+By default, the configured URL is used at initialisation time only. However it can be useful to re-read an AJAX source and have the table update.
+
+Starting from the v0.10.0, Dandelion-Datatables provides utilities to allow data reloading.
+
+==== 8.5.1. Default reloading
+
+The default reloading fits for use cases when you just need a "Refresh" button/link. Internally, Dandelion-Datatables will load the needed API and call the http://www.datatables.net/plug-ins/api/fnReloadAjax[`fnReloadAjax`] function.
+
+Dandelion-Datatables makes available the <<jsp-table-reloadSelector, `reloadSelector`>> (JSP) / <<tml-table-reloadSelector, `dt:reloadSelector`>> (Thymeleaf) attribute. You just need to pass in a jQuery selector targeting the element on which a 'click' event will be bound to trigger the table reloading.
+
+[discrete]
+===== Using JSP
+
+[source, xml]
+----
+<a id="reload">Click me to refresh the table!</a>
+
+<datatables:table id="myTableId" url="/persons" serverSide="true" reloadSelector="#reload">
+  <datatables:column title="Id" property="id" />
+  <datatables:column title="FirstName" property="firstName" />
+  <datatables:column title="LastName" property="lastName" />
+  <datatables:column title="City" property="address.town.name" />
+  <datatables:column title="Mail" property="mail" />
+</datatables:table>
+----
+
+[discrete]
+===== Using Thymeleaf
+
+[source, html]
+----
+<a id="reload">Click me to refresh the table!</a>   
+
+<table id="myTableId" dt:table="true" dt:url="@{/ajax/persons}" dt:serverside="true" dt:reloadSelector="#reload">
   <thead>
     <tr>
       <th dt:property="id">Id</th>
@@ -58,720 +549,153 @@ Moreover, you have to tell Dandelion-datatables which property must be read from
 </table>
 ----
 
-WARNING: Cross-domain requests are not supported yet.
+==== 8.5.1. Custom reloading
 
-==== 8.1.2. Example using Spring
+If you need to configure more actions during a data reloading, you may prefer to use the custom reloading.
 
-You can see an example of AJAX source in the https://github.com/dandelion/dandelion-samples/tree/master/datatables-jsp[JSP demo application].
+You can use the <<jsp-table-reloadFunction, `reloadFunction`>> (JSP) / <<tml-table-reloadFunction, `dt:reloadFunction`>> (Thymeleaf) table attribute. Just pass the name of a JavaScript function that will be called in the 'click' event bound by the <<jsp-table-reloadSelector, `reloadSelector`>> (JSP) / <<tml-table-reloadSelector, `dt:reloadSelector`>> (Thymeleaf) attribute.
 
-The bellowing Spring controller contains a RESTful method `findAll` that returns a list of `Person` as raw data using the `@ResponseBody` annotation.
+Note that when using this attribute, you will have to call manually the http://www.datatables.net/plug-ins/api/fnReloadAjax[`fnReloadAjax`] function.</p>
 
+Assuming the following custom function:
+
+[source, javascript]
+----
+function customReload() {
+  // Some custom code...
+ 
+  oTable_myTableId.fnReloadAjax();
+ 
+  // Some custom code...
+}
+----
+
+In the example below, a click on the link with ID "reload" will call the `customReload()` function.
+
+[discrete]
+===== Using JSP
+
+[source, html]
+----
+<a id="reload">Click me to refresh the table!</a>
+
+<datatables:table id="myTableId" url="/persons" serverSide="true" reloadSelector="#reload" reloadFunction="customReload">
+  <datatables:column title="Id" property="id" />
+  <datatables:column title="FirstName" property="firstName" />
+  <datatables:column title="LastName" property="lastName" />
+  <datatables:column title="City" property="address.town.name" />
+  <datatables:column title="Mail" property="mail" />
+</datatables:table>
+----
+
+[discrete]
+===== Using Thymeleaf
+
+[source, html]
+----
+<a id="reload">Click me to refresh the table!</a>   
+
+<table id="myTableId" dt:table="true" dt:url="@{/ajax/persons}" dt:serverside="true" dt:reloadSelector="#reload" dt:reloadFunction="customReload">
+  <thead>
+    <tr>
+      <th dt:property="id">Id</th>
+      <th dt:property="firstName">Firstname</th>
+      <th dt:property="lastName">Lastname</th>
+      <th dt:property="address.town.name">City</th>
+      <th dt:property="mail">Mail</th>
+    </tr>
+  </thead>
+</table>
+----
+
+=== 8.6. Integration with Spring
+
+Wether you use client-side or server-side processing, the Spring extra provides some utility classes to work with AJAX sources.
+
+==== 8.6.1. Installing the Spring extra
+
+.Example with Apache Maven
+[source,xml,subs="+attributes"]
+----
+<dependency>
+  <groupId>com.github.dandelion</groupId>
+  <artifactId>datatables-spring3</artifactId>
+  <version>{project-version}</version>
+</dependency>
+----
+
+==== 8.6.2. Custom method argument resolver for `DatatablesCriterias`
+
+This custom resolver can be used to map the DataTables' attributes obtained from the `HttpServletRequest` to a `DatatablesCriterias` object  annotated with `@DatatablesParam`.
+
+===== Before Spring 3.1
+
+You can use the `com.github.dandelion.datatables.extras.spring3.ajax.DatatablesCriteriasResolver` by carrying out the following steps:
+
+. Register the custom `WebArgumentResolver` with the following XML configuration:
+
++
+[source, xml]
+----
+<mvc:annotation-driven>
+   <mvc:argument-resolvers>
+      <bean class="com.github.dandelion.datatables.extras.spring3.ajax.DatatablesCriteriasResolver" />
+   </mvc:argument-resolvers>
+</mvc:annotation-driven>
+----
+
+. You can then use it in any Spring controller like this:
+
++
+[source, xml]
+----
+@RequestMapping(value = "/persons")
+public @ResponseBody DatatablesResponse<Person> findAll(@DatatablesParams DatatablesCriterias criterias) {
+   DataSet<Person> dataSet = personService.findPersonsWithDatatablesCriterias(criterias);
+   return DatatablesResponse.build(dataSet, criterias);
+}
+----
+
+===== Starting from Spring 3.1
+
+You can use a the `com.github.dandelion.datatables.extras.spring3.ajax.DatatablesCriteriasMethodArgumentResolver` by carrying out the following steps:
+
+. Register the custom method argument resolver, either using XML configuration...
+
++
+[source, xml]
+----
+<mvc:annotation-driven>
+   <mvc:argument-resolvers>
+      <bean class="com.github.dandelion.datatables.extras.spring3.ajax.DatatablesCriteriasMethodArgumentResolver" />
+   </mvc:argument-resolvers>
+</mvc:annotation-driven>
+----
+
++
+Or using JavaConfig:
+
++
 [source, java]
 ----
-@Controller
-@RequestMapping(method = RequestMethod.GET)
-public class SpringMvcAjaxController {
-
-  @Autowired
-  private PersonService personService;
-
-  @RequestMapping(value = "/persons")
-  public @ResponseBody
-  List<Person> findAll(HttpServletRequest request) {
-    return personService.findAll();
+@Configuration
+@EnableWebMvc
+public class MyWebConfig extends WebMvcConfigurerAdapter {
+  @Override
+  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+    argumentResolvers.add(new DatatablesCriteriasMethodArgumentResolver());
   }
 }
 ----
 
-Note that since Spring defaultly performs the JSON serialization using the Jackson JSON processor, so make sure to have the http://search.maven.org/#search%7Cga%7C1%7Cjackson-mapper-asl[Jackson JARs] in your classpath to make it work.
-
-=== 8.2. Customizing AJAX calls
-
-You may need some additional request parameters to call your AJAX source or even a fully customized call. Well, whether or not you use server-side processing, you can completely override the default AJAX request which obtains the data from the server to something more suitable for your application.
-
-==== 8.2.1. Extra request parameters
-
-You can send extra information to the server when making an AJAX request. For that, you'll have to:
-
-* Step 1: write a Javascript function that will be internally called by the DataTables configuration
+. You can then use it in any Spring controller like this:
 
 +
-[source, javascript]
+[source, java]
 ----
-function getExtraParams( aoData ) {
-  aoData.push( { "name": "more_data", "value": "my_value" } );
-}
-----
-
-+
-This Javascript function takes 1 parameter :
-
-+
-** {array}: Data array (array of objects which are name/value pairs) that has been constructed by DataTables and will be sent to the server.
-
-* Step 2: tell Dandelion-Datatables you need extra parameters using either the <<jsp-table-serverParams, `serverParams`>> (JSP) or the <<tml-table-serverParams, `dt:serverParams`>> table attribute.
-
-[discrete]
-===== Using JSP
-
-Use the <<jsp-table-serverParams, `serverParams`>> table attribute and set the name of the previous Javascript function. Ensure that the function is loaded <strong>before</strong> using the taglib.
-
-[source, xml]
-----
-<datatables:table id="myTableId" url="/persons" serverSide="true" serverParams="getExtraParams" processing="true">
-  ...
-</datatables:table>
-----
-
-[discrete]
-===== Using Thymeleaf
-
-Using Thymeleaf, you can use the {% reftl dt table dt:serverParams%} table attribute. It works the same way than with JSP. Pass the name of the previous Javascript function.
-
-[source, html]
-----
-<table id="myTableId" dt:table="true" dt:url="@{/persons}" dt:serverside="true" dt:serverparams="getExtraParams">
-  ...
-</table>
-----
-
-==== 8.2.2. Change the HTTP method
-
-You may also need to change the HTTP method that is used to make the AJAX call (server-side processing or AJAX sourced data).
-
-For that you can use either the {% refjsp dt table serverMethod %} (JSP) or the {% reftl dt table dt:serverMethod %} (Thymeleaf) and pass "POST" if you need a POST instead of the default GET.
-
-==== 8.2.3. Fully customized AJAX call
-
-TIP: Pending
-
-As a last resort, if the above tricks are not enough, you can use a fully customized AJAX call.
-
-For that, you will need:
-
-* Step 1: to write a Javascript function that will be internally called by the DataTables configuration
-
-+
-[source, javascript]
-----
-function myAjaxRequest ( sSource, aoData, fnCallback, oSettings ) {
-  oSettings.jqXHR = $.ajax( {
-    "dataType": 'json',
-    "type": "POST",
-    "url": sSource,
-    "data": aoData,
-    "success": fnCallback
-  });
-}
-----
-
-+
-This Javascript function takes 4 parameters :
-
-** {string}: HTTP source to obtain the data from (sAjaxSource)
-** {array}: A key/value pair object containing the data to send to the server
-** {function}: to be called on completion of the data get process that will draw the data on the page
-** {object}: DataTables settings object
-
-* Step 2: tell Dandelion-Datatables you need to override the AJAX call using either the <<jsp-table-serverData, `serverData`>> (JSP) or the <<tml-table-serverData, `dt:serverData`>> table attribute.
-
-[discrete]
-===== Using JSP
-
-Use the <<jsp-table-serverData, `serverData`>> table attribute and set the name of the previous Javascript function. Ensure that the function is loaded <strong>before</strong> using the taglib.
-
-[source, xml]
-----
-<datatables:table id="myTableId" url="/persons" serverSide="true" serverData="myAjaxRequest">
-  ...
-</datatables:table>
-----
-
-[discrete]
-===== Using Thymeleaf
-
-Using Thymeleaf, you can use the <<tml-table-serverData, `dt:serverData`>> table attribute. It works the same way than with JSP. Pass the name of the previous Javascript function.
-
-[source, html]
-----
-<table id="myTableId" dt:table="true" dt:url="@{/persons}" dt:serverside="true" dt:serverdata="myAjaxRequest">
-  ...
-</table>
-----
-
-TIP: TODO Special bundle syntax
-
-=== 8.3. Customizing column contents
-
-Since the v0.8.7, you can add customized column content using AJAX sources. It can be very useful for instance to display an "actions" column or if you need to display a bit more than just the raw data (e.g. a mailto link).
-
-Using DOM sources, you can use the {% refjsp dt table row %} table attribute but using AJAX source, the table's build if fully delegated to DataTables. So the only way to customize the column content is to do it client-side, passing a particular Javascript function.
-   
-So, you have to:
-
-* Step 1: write a Javascript function that will be internally used by DataTables
-
-+
-[source, javascript]
-----
-function yourFunction(data, type, full) {
-  return '&lt;a href="' + data + '">Download&lt;/a>';
-}
-----
-
-+
-The Javascript function takes 3 parameters :
-
-** {array|object} The data source for the row (based on mData)</li>
-** {string} The type call data requested - this will be 'filter', 'display', 'type' or 'sort'.</li>
-** {array|object} The full data source for the row (not based on mData)</li>
-
-+
-TIP: You can use the first parameter (data) of the function if you already use the {% refjsp dt column property %} (JSP) or {% reftl dt th dt:property %} (Thymeleaf) attribute because it internally generates a <a href="http://datatables.net/ref#mdata">mData</a> parameter that you can reuse.
-
-* Step 2: tell Dandelion-Datatables you want to use a custom rendering function for a particular column using either the {% refjsp dt column renderFunction %} (JSP) or the {% reftl dt th dt:renderFunction %} column attribute. 
-
-WARNING: Note that you can't use the {% refjsp dt column format%} column attribute of the JSP taglib when using an AJAX source!
-
-=== 8.3.1. Example, using a mailify function
-
-TIP: Pending
-
-This example shows how to generate a <i>mailto</i> link inside a column.
-
-<h4>Using JSP</h4>
-<p>
-   First, ensure your function is present <strong>before</strong> the table.
-<pre class="prettyprint">
-function mailify(data, type, full) {
-   return '&lt;a href="mailto:' + data + '">' + data + '&lt;/a>';
-}
-</pre>
-</p>
-<p>
-   Then, just use the {% refjsp dt column renderFunction %} column attribute and pass the name of the previous Javascript function.
-<pre class="prettyprint">
-&lt;datatables:table id="myTableId" url="/persons" serverSide="true" processing="true">
-   &lt;datatables:column title="Id" property="id" />
-   &lt;datatables:column title="FirstName" property="firstName" />
-   &lt;datatables:column title="LastName" property="lastName" />
-   &lt;datatables:column title="City" property="address.town.name" />
-   &lt;datatables:column title="Mail" property="mail" renderFunction="mailify" />
-&lt;/datatables:table>
-</pre>
-</p>
-
-<h3 class="section-title" id="aefaac">Another example for an "Actions" column</h3>
-<p>
-   You can use the same mechanism to add an extra "Actions" column.
-   For example, let's add another column which will contain some links.
-</p>
-<h4>Using JSP</h4>
-<p>
-<pre class="prettyprint">
-&lt;datatables:table id="myTableId" url="/persons" serverSide="true" processing="true">
-   &lt;datatables:column title="Id" property="id" />
-   &lt;datatables:column title="FirstName" property="firstName" />
-   &lt;datatables:column title="LastName" property="lastName" />
-   &lt;datatables:column title="City" property="address.town.name" />
-   &lt;datatables:column title="Mail" property="mail" />
-   &lt;datatables:column title="Actions" renderFunction="actions" />
-&lt;/datatables:table>
-</pre>
-</p>
-<p>
-   Then you just need to generate HTML code in the function as follows:
-<pre class="prettyprint">
-function actions(data, type, full) {
-   return '&lt;a class="btn btn-mini" href="/delete/' + full.id + '">Delete data&lt;/a>'
-            + '&lt;a class="btn btn-mini" href="/edit/' + full.id + '">Edit data&lt;/a>';
-}
-</pre>
-</p>
-
-<p class="alert alert-info">
-   <strong><i class="fa fa-info-circle fa-2x"></i></strong>&nbsp; This
-   time, the "Actions" column doesn't use any property of the iterated
-   bean. That's why you should use the third parameter (full) of the
-   Javascript function, which holds the full data source for the row
-   exposed as a JSON object.
-</p>
-         
-<h4>Using Thymeleaf</h4>
-<p>
-   Using Thymeleaf, you can use the {% reftl dt th dt:renderFunction %} th attribute in the same manner.
-<pre class="prettyprint">
-&lt;table id="myTableId" dt:table="true" dt:url="@{/persons}" dt:serverSide="true">
-   &lt;thead>
-      &lt;tr>
-         &lt;th dt:property="id">Id&lt;/th>
-         &lt;th dt:property="firstName">Firstname&lt;/th>
-         &lt;th dt:property="lastName">Lastname&lt;/th>
-         &lt;th dt:property="address.town.name">City&lt;/th>
-         &lt;th dt:property="mail" dt:renderFunction="'mailify'">Mail&lt;/th>
-      &lt;/tr>
-  &lt;/thead>
-&lt;/table>
-</pre>            
-</p>
-<p>
-   Note that if you want to add the Javascript directly in your page, you'll have to use the script inlining capabilities:
-<pre class="prettyprint">
-&lt;script th:inline="javascript">
-/*&lt;![CDATA[*/
-   function actions(data, type, full) {
-      return '&lt;a class="btn btn-mini" href="/delete/' + full.id + '">Delete data&lt;/a>'
-               + '&lt;a class="btn btn-mini" href="/edit/' + full.id + '">Edit data&lt;/a>';
-   }
-/*]]>*/
-&lt;/script>
-</pre>
-You can find more details <a href="http://www.thymeleaf.org/doc/Tutorial%20-%20Using%20Thymeleaf%2020120517.pdf">here</a>.
-</p>
-
-<h3 class="section-title" id="hnadv">Handling null and default values</h3>
-<p>
-   This section deals with the case where the bean you're iterating on contains some properties that are null.
-</p>
-<h4>Using JSP</h4>
-<p>
-   Using JSP with AJAX sources, null values are handled in the same way than for DOM sources. 
-   By default, an empty string will be displayed.
-</p>
-<p>
-   You can also use the {% refjsp dt column default %} column attribute to replace the empty string by anything you want.
-<pre class="prettyprint">
-&lt;datatables:table id="myTableId" url="/persons">
-   &lt;datatables:column title="Id" property="id" />
-   &lt;datatables:column title="FirstName" property="firstName" />
-   &lt;datatables:column title="LastName" property="lastName" />
-   &lt;datatables:column title="City" property="address.town.name" default="My default value !" />
-   &lt;datatables:column title="Mail" property="mail" />
-&lt;/datatables:table>
-</pre>
-</p>
-
-<h4>Using Thymeleaf</h4>
-<p>
-   Using Thymeleaf, this is quite similar. Just use the {% reftl dt th dt:default %} th attribute to override the default empty string.
-<pre class="prettyprint">
-&lt;table id="myTableId" dt:table="true" dt:url="@{/persons}">
-   &lt;thead>
-      &lt;tr>
-         &lt;th dt:property="id">Id&lt;/th>
-         &lt;th dt:property="firstName">Firstname&lt;/th>
-         &lt;th dt:property="lastName">Lastname&lt;/th>
-         &lt;th dt:property="address.town.name" dt:default="My default value !">City&lt;/th>
-         &lt;th dt:property="mail">Mail&lt;/th>
-      &lt;/tr>
-   &lt;/thead>
-&lt;/table>
-</pre>
-
-=== 8.4. Server-side processing
-
-<p>
-   If you are working with seriously large databases, you might want to
-   consider using the server-side options that DataTables provides and
-   that Dandelion-Datatables supports.
-</p>
-
-<h3 class="section-title">How does it work?</h3>
-<p>
-   When using server-side processing, DataTables will make an XHR request to the server for each draw of the information on the page (i.e. when paging, sorting, filtering etc). DataTables will send a
-   number of variables to the server to allow it to perform the required processing, and then return the data in the format required by DataTables.
-</p>
-<p>
-   Dandelion-Datatables can help you during this process by providing you some utility classes:
-   <ul>
-      <li>
-        {% javadoc dt datatables-core DatatablesCriterias %}
-        <p>
-            This class mainly contains a <code>getFromRequest(HttpServletRequest request)</code> method that maps all the DataTables parameters into itself, allowing you to use it in your data access layer.
-        </p>
-      </li>
-      <li>
-         {% javadoc dt datatables-core DataSet %}
-         <p>
-            All the results returned from you data access layer should be wrapped in this class in order to build a <strong>DataTablesResponse</strong>.
-         </p>
-      </li>
-      <li>
-         {% javadoc dt datatables-core DatatablesResponse %}
-         <p>
-            This class contains a builder that helps you to return the data in the format required by DataTables. Ensure this object is converted to JSON before displaying the table.
-         </p>
-      </li>
-   </ul>
-</p>
-
-<p class="alert alert-info">
-   <strong><i class="fa fa-info-circle fa-2x"></i></strong>&nbsp;
-   Note that an integration with Spring has been developed. More details <a href="/datatables/features/ajax/integration-with-spring.html">here</a>...
-</p>
-         
-<h3 class="section-title">Preparing the ground...</h3>
-<p>
-   As you may expect, server-side processing requires a bit more work than client-side one. Here are the needed steps to set this up.
-</p>
-<p>
-   <ul>
-      <li>
-         <h5>Prepare the needed SQL queries using your favorite ORM framework</h5>
-         <p>
-            Whether you use Hibernate or any other ORM framework, you need to write some methods, knowing you can use an instance of {% javadoc dt datatables-core DatatablesCriterias %} to help building the queries.
-         </p>
-         <p>
-            Waiting for other implementations are added, you can browse the following example from the demo application that uses
-            <a href="https://github.com/Dandelion/dandelion-samples/blob/master/datatables-jsp/src/main/java/com/github/dandelion/datatables/dao/PersonDao.java">the Hibernate implementation of JPA</a>.
-         </p>
-      </li>
-      <li>
-         <h5>Create (or adapt) a business service</h5>
-         <p>
-            Create or adapt a business service with a method that returns a <code>DataSet</code> object.
-         </p>
-         <p>
-            You can see an example of <a href="https://github.com/Dandelion/dandelion-samples/blob/master/datatables-jsp/src/main/java/com/github/dandelion/datatables/service/impl/PersonServiceJpaImpl.java">business service</a> in the demo application.
-         </p>
-      </li>
-      <li>
-         <h5>Write a JSON web service</h5>
-         <p>
-            Create a web service that will be used by DataTables to perform the AJAX request. Note that it must produce JSON only.
-         </p> 
-         <p>
-            The demo application uses a <a
-            href="https://github.com/Dandelion/dandelion-samples/blob/master/datatables-jsp/src/main/java/com/github/dandelion/datatables/ajax/SpringMvcAjaxController.java">AJAX-enabled Spring
-            controllers</a>
-          </p>
-      </li>
-      <li>
-         <h5>Update your views</h5>
-         <p>
-            You need to update your views in order to activate server-side processing. Take a look just below!
-         </p>
-      </li>
-   </ul>
-</p>
-
-<h3 class="section-title">Activating server-side processing</h3>
-<h4>Using JSP</h4>
-<p>
-   Just use the {% refjsp dt table serverSide %} table attribute as follows. You can also use the {% refjsp dt table processing %} table attribute to display a message during the loading.
-</p>
-<p>
-<pre class="prettyprint">
-&lt;datatables:table id="myTableId" url="/persons" serverSide="true" processing="true">
-   &lt;datatables:column title="Id" property="id" />
-   &lt;datatables:column title="FirstName" property="firstName" />
-   &lt;datatables:column title="LastName" property="lastName" />
-   &lt;datatables:column title="City" property="address.town.name" />
-   &lt;datatables:column title="Mail" property="mail" />
-&lt;/datatables:table>
-</pre>
-</p>
-
-<h4>Using Thymeleaf</h4>
-<p>
-   This is quite similar. You can use the {% reftl dt table serverside %} and {% reftl dt table processing %} table attributes.
-</p>
-<p>
-<pre class="prettyprint">
-&lt;table id="myTableId" dt:table="true" dt:url="@{/persons}" dt:serverside="true" dt:processing="true">
-   &lt;thead>
-      &lt;tr>
-         &lt;th dt:property="id">Id&lt;/th>
-         &lt;th dt:property="firstName">Firstname&lt;/th>
-         &lt;th dt:property="lastName">Lastname&lt;/th>
-         &lt;th dt:property="address.town.name">City&lt;/th>
-         &lt;th dt:property="mail">Mail&lt;/th>
-      &lt;/tr>
-   &lt;/thead>
-&lt;/table>
-</pre>
-
-<p class="alert alert-info">
-   <strong><i class="fa fa-info-circle fa-2x"></i></strong>&nbsp;
-   Note that you can also reduce AJAX calls for paging by pipelinig data. See more details <a href="/datatables/features/ajax/server-side/pipelining-data.html">here</a>...
-</p>
-
-==== 8.4.1 Pipelining data
-
-<p>
-   When using server-side processing with DataTables, it can be quite
-   intensive on your server having an Ajax call every time the user
-   performs some kind of interaction - you can effectively DDOS your
-   server with your own application!
-</p>
-<p>
-   You might over-come this by modifying the request set to the server
-   to retrieve more information than is actually required for a single
-   page's display. This means that the user can page multiple times (5
-   times the display size is the default) before a request must be made
-   of the server. Paging is typically the most common interaction
-   performed with a DataTable, so this can be most beneficial to your
-   server's resource usage. Of course the pipeline must be cleared for
-   interactions other than paging (sorting, filtering etc), but that's
-   the trade off that can be made (sending extra information is cheap -
-   while another XHR is expensive).
-</p>
-
-<h3 class="section-title">Activating data pipelining</h3>
-<h4>Using JSP</h4>
-<p>
-   Just use the {% refjsp dt table pipelining %} table attribute as follows:
-</p>
-<p>
-<pre class="prettyprint">
-&lt;datatables:table id="myTableId" url="/persons" serverSide="true" processing="true" pipelining="true" pipeSize="6">
-   &lt;datatables:column title="Id" property="id" />
-   &lt;datatables:column title="FirstName" property="firstName" />
-   &lt;datatables:column title="LastName" property="lastName" />
-   &lt;datatables:column title="City" property="address.town.name" />
-   &lt;datatables:column title="Mail" property="mail" />
-&lt;/datatables:table>
-</pre>
-</p>
-<p>
-   Note that you can also set the pipe size using the {% refjsp dt table pipeSize %} table attribute (which is defaultly set to 5).
-</p>
-
-<h4>Using Thymeleaf</h4>
-<p>
-   Just set the {% reftl dt table dt:pipelining %} to <code>true</code>, as for JSP.
-</p>
-<p>
-<pre class="prettyprint">
-&lt;table id="myTableId" dt:table="true" dt:url="@{/persons}" dt:serverside="true" dt:pipelining="true" dt:pipesize="6">
-   &lt;thead>
-      &lt;tr>
-         &lt;th dt:property="id">Id&lt;/th>
-         &lt;th dt:property="firstName">Firstname&lt;/th>
-         &lt;th dt:property="lastName">Lastname&lt;/th>
-         &lt;th dt:property="address.town.name">City&lt;/th>
-         &lt;th dt:property="mail">Mail&lt;/th>
-      &lt;/tr>
-   &lt;/thead>
-&lt;/table>
-</pre>
-
-=== 8.5. Reloading dataa
-
-<p>
-   By default DataTables only uses the {% refjsp dt table url %}
-   (JSP) / {% reftl dt table url %} (Thymeleaf) table attribute at
-   initialisation time, however it can be useful to re-read an AJAX
-   source and have the table update
-</p>
-<p>
-   Starting from the v0.10.0, Dandelion-Datatables provides utilities to allow data reloading.
-</p>
-
-<h3 class="section-title" id="erq">Default reloading</h3>
-<p>The default reloading fits for use cases when you just need a
-   "Refresh" button/link. Internally, Dandelion-Datatables will load the
-   needed API and call the <code>fnReloadAjax()</code> function.</p>
-<p>Dandelion-Datatables makes available the {% refjsp dt table reloadSelector %} (JSP)
- / {% reftl dt table reloadSelector %}
-   (Thymeleaf) attribute. You just need to pass in a jQuery selector
-   targeting the element on which a 'click' event will be bound to
-   trigger the table reloading.</p>
-
-<h4>Using JSP</h4>
-<pre class="prettyprint">
-&lt;a id="reload">Click me to refresh the table!&lt;/a>
-
-&lt;datatables:table id="myTableId" url="/persons" serverSide="true" processing="true" reloadSelector="#reload">
-   &lt;datatables:column title="Id" property="id" />
-   &lt;datatables:column title="FirstName" property="firstName" />
-   &lt;datatables:column title="LastName" property="lastName" />
-   &lt;datatables:column title="City" property="address.town.name" />
-   &lt;datatables:column title="Mail" property="mail" />
-&lt;/datatables:table>
-</pre>
-
-<h4>Using Thymeleaf</h4>
-<p>
-<pre class="prettyprint">
-&lt;a id="reload">Click me to refresh the table!&lt;/a>   
-
-&lt;table id="myTableId" dt:table="true" dt:url="@{/ajax/persons}" dt:serverside="true" dt:processing="true" dt:reloadSelector="#reload">
-   &lt;thead>
-      &lt;tr>
-         &lt;th dt:property="id">Id&lt;/th>
-         &lt;th dt:property="firstName">Firstname&lt;/th>
-         &lt;th dt:property="lastName">Lastname&lt;/th>
-         &lt;th dt:property="address.town.name">City&lt;/th>
-         &lt;th dt:property="mail">Mail&lt;/th>
-      &lt;/tr>
-   &lt;/thead>
-&lt;/table>
-</pre>
-
-<h3 class="section-title" id="dcr">Custom reloading</h3>
-<p>
-   If you need to configure more actions during a data reloading, you may prefer to use the custom realoading.
-</p>
-<p>
-   You can use the {% refjsp dt table reloadFunction %} (JSP) / {% reftl dt table reloadFunction %} (Thymeleaf) table attribute.
-   Just pass the name of a Javascript function that will be called in
-   the 'click' event bound by the {% refjsp dt table reloadSelector %} (JSP) / {% reftl dt table reloadSelector %} (Thymeleaf) attribute.
-</p>
-<p>Note that when using this attribute, you will have to call
-   manually the <code>fnReloadAjax()</code> function.</p>
-
-<h4>Using JSP</h4>
-<p>
-   Assuming the following custom function:
-</p>
-<pre class="prettyprint">
-function customReload() {
-   // Some custom code...
-   oTable_myTableId.fnReloadAjax();
-   // Some custom code...
-}
-</pre>
-<p>
-   In the example below, a click on the link with ID "reload" will call the <code>customReload()</code> function.
-</p>
-<pre class="prettyprint">
-&lt;a id="reload">Click me to refresh the table!&lt;/a>
-
-&lt;datatables:table id="myTableId" url="/persons" serverSide="true" processing="true" reloadSelector="#reload" reloadFunction="customReload">
-   &lt;datatables:column title="Id" property="id" />
-   &lt;datatables:column title="FirstName" property="firstName" />
-   &lt;datatables:column title="LastName" property="lastName" />
-   &lt;datatables:column title="City" property="address.town.name" />
-   &lt;datatables:column title="Mail" property="mail" />
-&lt;/datatables:table>
-</pre>
-<p>
-
-<h4>Using Thymeleaf</h4>
-<p>
-   Assuming the following custom function:
-</p>
-<pre class="prettyprint">
-function customReload() {
-   // Some custom code...
-   oTable_myTableId.fnReloadAjax();
-   // Some custom code...
-}
-</pre>
-<p>
-   In the example below, a click on the link with ID "reload" will call the <code>customReload()</code> function.
-</p>
-<p>
-<pre class="prettyprint">
-&lt;a id="reload">Click me to refresh the table!&lt;/a>   
-
-&lt;table id="myTableId" dt:table="true" dt:url="@{/ajax/persons}" dt:serverside="true" dt:processing="true" dt:reloadSelector="#reload" dt:reloadFunction="customReload">
-   &lt;thead>
-      &lt;tr>
-         &lt;th dt:property="id">Id&lt;/th>
-         &lt;th dt:property="firstName">Firstname&lt;/th>
-         &lt;th dt:property="lastName">Lastname&lt;/th>
-         &lt;th dt:property="address.town.name">City&lt;/th>
-         &lt;th dt:property="mail">Mail&lt;/th>
-      &lt;/tr>
-   &lt;/thead>
-&lt;/table>
-</pre>
-
-=== 8.6. Integration with other projects
-
-<p>
-   Wether you use client-side or server-side processing, the Spring extra provides some utility classes to work with AJAX sources.
-<p>
-
-<h3 class="section-title">Installing the Spring extra</h3>
-<p>
-   You need to add the following dependency in the <tt>dependencies</tt> section of your <tt>pom.xml</tt>:
-<pre class="prettyprint">
-&lt;dependency>
-   &lt;groupId>com.github.dandelion&lt;/groupId>
-   &lt;artifactId>datatables-spring3&lt;/artifactId>
-   &lt;version>{{ site.dandelion.components.datatables.version }}&lt;/version>
-&lt;/dependency>
-</pre>
-</p>
-<p class="alert alert-info">
-   <strong><i class="fa fa-info-circle fa-2x"></i></strong>&nbsp;
-   If you use another build system or want to download the JAR manually, go <a href="http://search.maven.org/#artifactdetails%7Ccom.github.dandelion%7Cdatatables-spring3%7C{{ site.dandelion.components.datatables.version }}%7Cjar">here</a>.
-</p>
-
-<h3 class="section-title">Custom method argument resolver for {% javadoc dt datatables-core DatatablesCriterias %}</h3>
-<p>
-   This custom resolver can be used to map the DataTables' attributes obtained from the
-   <code>HttpServletRequest</code> to a {% javadoc dt datatables-core DatatablesCriterias %} object annotated with {% javadoc dt datatables-extras/datatables-spring3 DatatablesParam %}.
-</p>
-
-<h4>Working with Spring 3.0 and earlier</h4>
-<p>
-   You can use the <code>com.github.dandelion.datatables.extras.spring3.ajax.DatatablesCriteriasResolver</code> by carrying out the following steps:
-</p>
-<p>
-   <ol>
-      <li>
-         Register the custom  WebArgumentResolver with the following XML configuration:
-<pre class="prettyprint">
-&lt;mvc:annotation-driven&gt;
-   &lt;mvc:argument-resolvers&gt;
-      &lt;bean class="com.github.dandelion.datatables.extras.spring3.ajax.DatatablesCriteriasResolver" /&gt;
-   &lt;/mvc:argument-resolvers&gt;
-&lt;/mvc:annotation-driven&gt;
-</pre>
-      </li>
-      <li>
-         You can then use it in any Spring controller like this:
-<pre class="prettyprint">
 @RequestMapping(value = "/persons")
 public @ResponseBody DatatablesResponse<Person> findAll(@DatatablesParams DatatablesCriterias criterias) {
-   DataSet<Person> dataSet = personService.findPersonsWithDatatablesCriterias(criterias);
-   return DatatablesResponse.build(dataSet, criterias);
+  DataSet<Person> dataSet = personService.findPersonsWithDatatablesCriterias(criterias);
+  return DatatablesResponse.build(dataSet, criterias);
 }
-</pre>         
-      </li>
-   </ol>
-</p>
-
-<h4>Working with Spring 3.1 and greater</h4>
-<p>
-   You can use a the <code>com.github.dandelion.datatables.extras.spring3.ajax.DatatablesCriteriasMethodArgumentResolver</code> by carrying out the following steps:
-</p>
-<p>
-   <ol>
-      <li>
-         Register the custom method argument resolver, either using XML configuration...
-<pre class="prettyprint">
-&lt;mvc:annotation-driven&gt;
-   &lt;mvc:argument-resolvers&gt;
-      &lt;bean class="com.github.dandelion.datatables.extras.spring3.ajax.DatatablesCriteriasMethodArgumentResolver" /&gt;
-   &lt;/mvc:argument-resolvers&gt;
-&lt;/mvc:annotation-driven&gt;
-</pre>         
-         ... or using JavaConfig:
-<pre class="prettyprint">
-&#064;Configuration
-&#064;EnableWebMvc
-public class MyWebConfig extends WebMvcConfigurerAdapter {
-   &#064;Override
-   public void addArgumentResolvers(List&lt;HandlerMethodArgumentResolver&gt; argumentResolvers) {
-      argumentResolvers.add(new DatatablesCriteriasMethodArgumentResolver());
-   }
-}
-</pre>
-      </li>
-      <li>
-         You can then use it in any Spring controller like this:
-<pre class="prettyprint">
-@RequestMapping(value = "/persons")
-public @ResponseBody DatatablesResponse<Person> findAll(@DatatablesParams DatatablesCriterias criterias) {
-   DataSet<Person> dataSet = personService.findPersonsWithDatatablesCriterias(criterias);
-   return DatatablesResponse.build(dataSet, criterias);
-}
-</pre>
-      </li>
-   </ol>
-</p>
+----

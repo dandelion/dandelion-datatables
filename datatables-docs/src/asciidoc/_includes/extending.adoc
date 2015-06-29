@@ -2,7 +2,7 @@
 
 === 13.1. Introducing the extension mechanism
 
-Since the earliest version of Dandelion-Datatables, we've been trying to develop the component in a modular manner. That's why if you dig into the source code, you'll see lots of already existing extensions as the {% javadoc dt datatables-core AjaxFeature %}, the {% javadoc dt datatables-core ServerSideFeature %}, or the {% javadoc dt datatables-core Bootstrap2Theme %}, ...
+Since the earliest version of Dandelion-Datatables, we've been trying to develop the component in a modular manner. That's why if you dig into the source code, you'll see lots of already existing extensions as the `AjaxFeature`, the `ServerSideFeature`, or the `Bootstrap2Theme`, ...
 
 
 Starting from the v0.9.0, you can now write your own extensions, thus providing a powerful mechanism to customize your tables.
@@ -12,9 +12,9 @@ Starting from the v0.9.0, you can now write your own extensions, thus providing 
 
 Any extension will generally fall into one of three categories:
 
-* *Theme*: extension used to theme a table (e.g. {% javadoc dt datatables-core Bootstrap2Theme %})
-* *Plugin*: extension used to encapsulate a DataTables' native plugin (e.g. {% javadoc dt datatables-core ScrollerPlugin %})
-* *Feature*: all other extensions (e.g. {% javadoc dt datatables-core ServerSideFeature %})</li>
+* *Theme*: extension used to theme a table (e.g. `Bootstrap2Theme`)
+* *Plugin*: extension used to encapsulate a DataTables' native plugin (e.g. `ScrollerPlugin`)
+* *Feature*: all other extensions (e.g. `ServerSideFeature`)
 
 But generally speaking, we'll call it simply _extension_.
 
@@ -37,11 +37,7 @@ By using the extension mechanism, you can easily modify these parameters:
 
 Often the extension needs some extra Javascript code, e.g. a library.
 
-The concept of <a
-      href="/dandelion/features/asset-bundles/introducing-asset-bundles.html">asset
-      bundle</a> introduced in the v0.10.0 is also accessible from any
-   extension. Thus, you can benefit from the powerful asset system of
-   Dandelion and play with bundles inside your extension.
+The concept of _asset bundle_ introduced in the v0.10.0 is also accessible from any extension. Thus, you can benefit from the powerful asset system of Dandelion and play with bundles inside your extension.
 
 [discrete]
 ===== 13.1.2.3. Access the whole generated Javascript file
@@ -55,7 +51,7 @@ The HTML table can be easily accessed, as well as the columns and all other nest
 
 To summarize, you have here a powerful mechanism in situations where all ready-to-use extensions don't fit your needs.
 
-To go further, see how to write your own extension in <a href="writing-your-own-extension.html">this tutorial</a>. Or you can already take a look at some examples <a href="examples.html">here</a>.
+To go further, see how to write your own extension in the next section.
 
 === 13.2. Writing your own extension
 
@@ -81,13 +77,11 @@ public class MyCustomExtension extends AbstractExtension {
     // load some bundles...
     // modify the TableConfiguration...
     // add, remove, update any DataTable parameter...
-    // <3>
   }
 }
 ----
 <1> The name is important here. It will be used later to activate the extension.
 <2> The `HtmlTable` instance is made available here, thus providing access to both the table structure (HTML) and its configuration through the `TableConfiguration` instance.
-<3> The `AbstractExtension` class provides plenty of utilities for dealing with TODO.
 
 * Step 2 : in the `META-INF/services` folder of your project, create a text file (UTF-8 encoded) using the following convention:
 
@@ -126,7 +120,7 @@ That is what the <<opt-main.extension.names, `main.extension.names`>> option is 
 ----
 global.main.extension.names=myAwesomeExtension <1>
 ----
-<1> Note that the <<opt-main.extension.names, `main.extension.names`>> option is prefixed by the `global` group, thus activating the extension glboally. Also note that `myAwesomeExtension` if the name of the extension previously set in the `getName()` method of the extension.
+<1> Note that the <<opt-main.extension.names, `main.extension.names`>> option is prefixed by the `global` group, thus activating the extension globally. Also note that `myAwesomeExtension` if the name of the extension previously set in the `getName()` method of the extension.
  
 NOTE: You can of course reduce the scope of application by using a <<_11_4_using_option_groups, custom option group>> instead of the global one.
 
@@ -164,11 +158,5 @@ Use the <<tml-table-ext, `dt:ext`>> in the same way as for JSP.
 And that's all! Your extension(s) will be loaded as any other built-in extension before the table is displayed.
 
 === 13.4. Extending an already existing extension
-
-NOTE: Pending
-
-https://github.com/dandelion/dandelion-datatables/tree/dandelion-datatables-{ddl-version}/datatables-core/src/main/java/com/github/dandelion/datatables/core/extension
-
-=== 13.5. Examples
 
 NOTE: Pending

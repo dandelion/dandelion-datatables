@@ -1,23 +1,13 @@
-= Dandelion-Datatables {ddl-version} Documentation
+= Dandelion-Datatables {project-version} Documentation
 Thibault Duchateau <https://github.com/tduchateau[@tduchateau]>
 
-:description: This guide describes the basic structure of an AsciiDoc document, how to create your first AsciiDoc document, how to add other structural elements such as lists, block quotes and source code, and how to convert an AsciiDoc document to HTML, DocBook and PDF.
-:keywords: AsciiDoc, Asciidoctor, syntax, reference, learn, how to, writers, authors
-:toc: left
-:toclevels: 3
-:imagesdir: images
 :include-dir: _includes
-:homepage: http://dandelion.github.io/datatables
-:ddl-version: 0.11.0
-:core-link: http://dandelion.github.io/core
 
 include::{include-dir}/introduction.adoc[]
 
 include::{include-dir}/requirements.adoc[]
 
 include::{include-dir}/installation.adoc[]
-
-include::{include-dir}/links-with-core.adoc[]
 
 include::{include-dir}/basics.adoc[]
 
@@ -39,10 +29,10 @@ include::{include-dir}/debugger.adoc[]
 
 include::{include-dir}/extending.adoc[]
 
+include::{include-dir}/connections-with-core.adoc[]
+
 include::{include-dir}/reference-jsp-taglib.adoc[]
 
 include::{include-dir}/reference-thymeleaf-dialect.adoc[]
 
 include::{include-dir}/reference-options.adoc[]
-
-include::{include-dir}/reference-bundle.adoc[]

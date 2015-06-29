@@ -1,7 +1,5 @@
 == 4. Basic features
 
-:checkedbox: pass:normal[+[&#10004;]+]
-
 === 4.1. Data sources
 
 DataTables can obtain data from four different fundamental sources. Listed below are all data sources currently supported by Dandelion-Datatables.
@@ -85,7 +83,7 @@ Using Thymeleaf, set the <<tml-table-sortable,`dt:sortable`>> table attribute to
 
 === 4.3. DOM positioning
 
-When customising DataTables for your own usage, you might find that the default position of the feature elements (filter input etc) is not quite to your liking. To address this issue DataTables takes inspiration from the CSS 3 Advanced Layout Module and provides the sDom initialisation parameter which can be set to indicate where you wish particular features to appear in the DOM. You can also specify div wrapping containers (with classes) to provide complete layout flexibility.
+When customising DataTables for your own usage, you might find that the default position of the feature elements (filter input etc) is not quite to your liking. Dandelion-Datatables leverages the DOM positioning feature of DataTables which is used to indicate where you wish particular features to appear in the DOM. You can also specify div wrapping containers (with classes) to provide complete layout flexibility.
 
 The syntax available is:
 
@@ -98,7 +96,7 @@ The syntax available is:
 * < and > - div elements
 * <"class" and > - div with a class
 
-Since the v0.10.0, you can make use of this feature to configure your own control. See <<7-2-using-extra-html-snippets>> for more details.
+Since the v0.10.0, you can make use of this feature to configure your own control. See the <<7-2-using-extra-html-snippets, extra HTML section>> for more details.
 
 [discrete]
 ==== Using JSP
@@ -138,7 +136,7 @@ If you do need expression like the above, use the properties trick as follows:
 myTableId.dom=<"myCSSClass"t>
 ----
 
-2. Then, usethe created property in your template (http://www.thymeleaf.org/doc/usingthymeleaf.html#using-thtext-and-externalizing-text[more info here]):
+2. Then use the created property in your template (http://www.thymeleaf.org/doc/usingthymeleaf.html#using-thtext-and-externalizing-text[more info here]):
 
 +
 [source, xml]
@@ -150,10 +148,10 @@ myTableId.dom=<"myCSSClass"t>
 
 === 4.4. Changing display length
 
-By default, Datatables displays only 10 rows. You can of course configure this number.
+By default, DataTables display 10 rows. You can of course configure this number.
 
 [discrete]
-==== Using JSP
+=== Using JSP
 
 You can use the <<jsp-table-displayLength, `displayLength`>> table attribute.
 
@@ -165,7 +163,7 @@ You can use the <<jsp-table-displayLength, `displayLength`>> table attribute.
 ----
 
 [discrete]
-==== Using Thymeleaf
+=== Using Thymeleaf
 
 With Thymeleaf, you can use the <<tml-table-displayLength, `dt:displayLength`>> table attribute.
 
@@ -185,17 +183,13 @@ Dandelion-Datatables make some implicit objects available in the scope of the pa
 It can be handy if you need to display a bit more than just a raw property.
 
 [discrete]
-===== Using JSP
+==== Using JSP
 
 You will be able to access the object being iterated on thanks to the <<jsp-table-row,`row`>> table attribute. Just give a name under which you will refer the object in column bodies.
 
 [source, xml]
 ----
 <datatables:table id="myTableId" data="${persons}" row="person"> <1>
-  <datatables:column title="Id" property="id" />
-  <datatables:column title="FirstName" property="firstName" />
-  <datatables:column title="LastName" property="lastName" />
-  <datatables:column title="City" property="address.town.name" />
   <datatables:column title="Mail">
     <a href="mailto:${person.mail}">${person.mail}</a> <2>
   </datatables:column>
@@ -205,7 +199,7 @@ You will be able to access the object being iterated on thanks to the <<jsp-tabl
 <2> You can then access the object inside a column body
 
 [discrete]
-===== Using Thymeleaf
+==== Using Thymeleaf
 
 Actually, Dandelion-Datatables brings nothing here. Thymeleaf already allows you to access the object being iterated on thanks to the `th:each` attribute. See the http://www.thymeleaf.org/doc/usingthymeleaf.html#iteration[documentation] for more details.
 
@@ -214,19 +208,11 @@ Actually, Dandelion-Datatables brings nothing here. Thymeleaf already allows you
 <table id="myTableId" dt:table="true">
   <thead>
     <tr>
-      <th>Id</th>
-      <th>Firstname</th>
-      <th>Lastname</th>
-      <th>City</th>
       <th>Mail</th>
     </tr>
   </thead>
   <tbody>
     <tr th:each="person : ${persons}">
-      <td th:text="${person.id}">1</td>
-      <td th:text="${person.firstName}">John</td>
-      <td th:text="${person.lastName}">Doe</td>
-      <td th:text="${person.address.town.name}">Nobody knows !</td>
       <td><a th:href="${'mailto:' + person.mail}" th:text="${person.mail}">john@doe.com</a></td>
     </tr>
   </tbody>
@@ -235,20 +221,14 @@ Actually, Dandelion-Datatables brings nothing here. Thymeleaf already allows you
 
 ==== 4.5.2. Accessing the current row index
 
-There are times when you might need to access the row index.
-
 [discrete]
-===== Using JSP
+==== Using JSP
 
 Dandelion-Datatables makes available the row index through the <<jsp-table-row, `row`>> table attribute. The object accessed thanks to this attribute has a property called `_rowIndex`. Just use it as follows:
 
 [source, xml]
 ----
 <datatables:table id="myTableId" data="${persons}" row="person">
-  <datatables:column title="Id" property="id" />
-  <datatables:column title="FirstName" property="firstName" />
-  <datatables:column title="LastName" property="lastName" />
-  <datatables:column title="City" property="address.town.name" />
   <datatables:column title="Row index">
     Row index : <c:out value="${person_rowIndex}" />
   </datatables:column>
@@ -256,7 +236,7 @@ Dandelion-Datatables makes available the row index through the <<jsp-table-row, 
 ----
 
 [discrete]
-===== Using Thymeleaf
+==== Using Thymeleaf
 
 Once again, Dandelion-Datatables adds nothing here. http://www.thymeleaf.org[Thymeleaf] already offers a mechanism useful for keeping track of the status of the iteration. See http://www.thymeleaf.org/doc/usingthymeleaf.html#iteration[more details here].
 
@@ -265,19 +245,11 @@ Once again, Dandelion-Datatables adds nothing here. http://www.thymeleaf.org[Thy
 <table id="myTableId" dt:table="true">
   <thead>
     <tr>
-      <th>Id</th>
-      <th>Firstname</th>
-      <th>Lastname</th>
-      <th>City</th>
       <th>Row index</th>
     </tr>
   </thead>
   <tbody>
     <tr th:each="person,iterStat : ${persons}">
-      <td th:text="${person.id}">1</td>
-      <td th:text="${person.firstName}">John</td>
-      <td th:text="${person.lastName}">Doe</td>
-      <td th:text="${person.address.town.name}">Nobody knows!</td>
       <td th:text="${iterStat.index}">0</td>
     </tr>
   </tbody>
@@ -301,16 +273,16 @@ $(document).ready(function(){
 
 This means you can access the created DataTable object through the variable `oTable_[tableId]` but also the configuration to be applied to the table with the variable `oTable_[tableId]_params`.
 
-See <<7-1-using-extra-javascript>> for usage examples.
+See <<7-1-using-extra-javascript, extra JavaScript section>> for usage examples.
 
 === 4.6. Sorting data
 
 ==== 4.6.1. Individual column sorting
 
-We have seen in <<4-1-feature-enablement>> that global sorting can be enabled/disabled. But you can also enable/disable sorting on individual columns.
+We have seen in <<4-2-feature-enablement, feature enablement section>> that global sorting can be enabled/disabled. But you can also enable/disable sorting on individual columns.
 
 [discrete]
-===== Using JSP
+==== Using JSP
 
 You can enable/disable the sorting feature in a specific column using the <<jsp-column-sortable, `sortable`>> column attribute:
 
@@ -327,7 +299,7 @@ You can enable/disable the sorting feature in a specific column using the <<jsp-
 <1> Sorting in the first and last columns is now impossible
 
 [discrete]
-===== Using Thymeleaf
+==== Using Thymeleaf
 
 You can enable/disable the sorting feature in a specific column using the <<tml-th-sortable, `dt:sortable`>> th attribute.
 
@@ -358,28 +330,32 @@ You can enable/disable the sorting feature in a specific column using the <<tml-
 
 ==== 4.6.2. Sorting initialization
 
-TODO   You will see in this tutorial how to initialize sorting on individual columns.
+Sorting can of course be initialized in many ways in individual columns.
 
 ===== 4.6.2.1. Default initialization order
 
-====== Using JSP
+[discrete]
+===== Using JSP
 
-You can also initialise the column sorting direction using the {% refjsp dt column sortInitDirection %} column attribute. Just set it to `asc` or `desc` on each column you want sorting to be initialized.
+Use the <<jsp-column-sortInitDirection, `sortInitDirection`>> column attribute, with either `asc` or `desc` as possible values, on each column you want sorting to be initialized.
 
 [source, xml]
 ----
 <datatables:table id="myTableId" data="${persons}">
   <datatables:column title="Id" property="id" sortable="false" />
-  <datatables:column title="FirstName" property="firstName" sortInit="desc" />
-  <datatables:column title="LastName" property="lastName" sortInit="desc" />
-  <datatables:column title="City" property="address.town.name" />
+  <datatables:column title="FirstName" property="firstName" sortInitDirection="desc" /> <1>
+  <datatables:column title="LastName" property="lastName" />
+  <datatables:column title="City" property="address.town.name" sortInitDirection="asc" /> <2>
  <datatables:column title="Mail" property="mail" sortable="false" />
 </datatables:table>
 ----
+<1> Sorting is first initialized in the second column
+<2> Another sorting is then initialized in the fourth column
 
-====== Using Thymeleaf
+[discrete]
+===== Using Thymeleaf
 
-Use the {% reftl dt th dt:sortInitDirection %} in the same manner.
+Use the <<tml-th-sortInitDirection, `sortInitDirection`>> th attribute with either `asc` or `desc` as possible values.
 
 [source, xml]
 ----
@@ -388,48 +364,43 @@ Use the {% reftl dt th dt:sortInitDirection %} in the same manner.
     <tr>
       <th >Id</th>
       <th dt:sortInitDirection="desc">Firstname</th>
-      <th dt:sortInitDirection="desc">Lastname</th>
-      <th>City</th>
+      <th>Lastname</th>
+      <th dt:sortInitDirection="asc">City</th>
       <th>Mail</th>
     </tr>
   </thead>
-  <tbody>
-    <tr th:each="person : ${persons}">
-      <td th:text="${person.id}">1</td>
-      <td th:text="${person.firstName}">John</td>
-      <td th:text="${person.lastName}">Doe</td>
-      <td th:text="${person.address.town.name}">Nobody knows !</td>
-      <td th:text="${person.mail}">john@doe.com</td>
-    </tr>
-  </tbody>
+  ...
 </table>
 ----
 
-Note that by default, columns are initialized in a sequential order, i.e. in the order columns are defined.
+NOTE: Note that by default, columns are initialized in a sequential order, i.e. in the order columns are defined.
 
 ===== 4.6.2.2. Custom initialization order
 
-[discrete]
-====== Using JSP
+As explained in the previous section, sorting is by default initialized in the order columns are defined. But you may need to change that.
 
-You can change the initialization order using the {% refjsp dt column sortInitOrder %} column
-   attribute. You just need to set the index in which you want to column to be initialized.
+[discrete]
+===== Using JSP
+
+The initialization order can be changed using the <<jsp-column-sortInitOrder, `sortInitOrder`>> column attribute. Just set the index in which you want the column to be initialized, starting from 0.
 
 [source, xml]
 ----
 <datatables:table id="myTableId" data="${persons}">
   <datatables:column title="Id" property="id" />
-  <datatables:column title="FirstName" property="firstName" sortInitDirection="asc" sortInitOrder="1" />
-  <datatables:column title="LastName" property="lastName" sortInitDirection="desc" sortInitOrder="0" />
+  <datatables:column title="FirstName" property="firstName" sortInitDirection="asc" sortInitOrder="1" /> <2>
+  <datatables:column title="LastName" property="lastName" sortInitDirection="desc" sortInitOrder="0" /> <1>
   <datatables:column title="City" property="address.town.name" />
   <datatables:column title="Mail" property="mail" />
 </datatables:table>
 ----
+<1> The lastName column is first initialized in the `desc` direction
+<2> Then the firstName column, in the `asc` direction
 
 [discrete]
-====== Using Thymeleaf
+===== Using Thymeleaf
 
-Use the {% reftl dt th dt:sortInitOrder %} in the same manner.
+The initialization order can be changed using the <<tml-th-sortInitOrder, `dt:sortInitOrder`>> th attribute. Just set the index in which you want the column to be initialized, starting from 0.
 
 [source, xml]
 ----
@@ -443,72 +414,15 @@ Use the {% reftl dt th dt:sortInitOrder %} in the same manner.
       <th>Mail</th>
     </tr>
   </thead>
-  <tbody>
-    <tr th:each="person : ${persons}">
-      <td th:text="${person.id}">1</td>
-      <td th:text="${person.firstName}">John</td>
-      <td th:text="${person.lastName}">Doe</td>
-      <td th:text="${person.address.town.name}">Nobody knows !</td>
-      <td th:text="${person.mail}">john@doe.com</td>
-    </tr>
-  </tbody>
+  ...
 </table>
 ----
  
-==== 4.6.3. Sorting direction control
-
-At times you may wish to limit the sorting to a single direction, or you could add complex behaviour to the sorting interaction.
-
-[discrete]
-===== Using JSP
-
-For this purpose, you can use the {% refjsp dt column sortDirection %} column attribute and set its value to a comma-separated list of `asc` or `desc`.
-
-[source, xml]
-----
-<datatables:table id="myTableId" data="${persons}">
-  <datatables:column title="Id" property="id" sortable="false" />
-  <datatables:column title="FirstName" property="firstName" />
-  <datatables:column title="LastName" property="lastName" />
-  <datatables:column title="City" property="address.town.name" sortDirection="asc" />
-  <datatables:column title="Mail" property="mail" sortDirection="desc,asc" />
-</datatables:table>
-----
-
-[discrete]
-===== Using Thymeleaf
-
-With Thymeleaf, you can use the {% reftl dt th dt:sortDir %} th attribute.
-
-[source, xml]
-----
-<table id="myTableId" dt:table="true">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Firstname</th>
-      <th>Lastname</th>
-      <th dt:sortDir="asc">City</th>
-      <th dt:sortDir="desc,asc">Mail</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr th:each="person : ${persons}">
-      <td th:text="${person.id}">1</td>
-        <td th:text="${person.firstName}">John</td>
-        <td th:text="${person.lastName}">Doe</td>
-        <td th:text="${person.address.town.name}">Nobody knows !</td>
-        <td th:text="${person.mail}">john@doe.com</td>
-      </tr>
-   </tbody>
-</table>
-----
-
-==== 4.6.4. Sorting functions
+==== 4.6.3. Sorting functions
 
 Dandelion-Datatables uses a http://datatables.net/development/sorting#type_based[type based column sorting] among the http://datatables.net/development/sorting[available DataTables APIs]. It means the default sorting functions will be used in all columns unless you specify a specific sorting function name to be applied on a particular column.
 
-===== 4.6.4.1. Available sorting functions
+===== 4.6.3.1. Available sorting functions
 
 Since the v0.9.0, Dandelion-Datatables supports the following sorting functions:
 
@@ -516,6 +430,51 @@ Since the v0.9.0, Dandelion-Datatables supports the following sorting functions:
 [cols="1,5,1,1"]
 |===
 |Sorting function |Description |JSP syntax |Thymeleaf syntax
+
+|Alt string
+|Use the `alt` attribute of an image tag as the data to sort upon
+|<<jsp-column-sortType,`sortType`>>="alt_string"
+|<<tml-column-sortType,`dt:sortType`>>="alt_string"
+
+|Anti-"the"
+|Sort with the prefixed word `dt-string The` removed, if present
+|<<jsp-column-sortType,`sortType`>>="anti_the"
+|<<tml-column-sortType,`dt:sortType`>>="anti_the"
+
+|Chinese (String)
+|Sort Chinese characters
+|<<jsp-column-sortType,`sortType`>>="chinese_string"
+|<<tml-column-sortType,`dt:sortType`>>="chinese_string"
+
+|Date-de
+|Sort date / time in the format `dd.mm.YYYY HH:mm` or `dd.mm.YYYY`
+|<<jsp-column-sortType,`sortType`>>="date-de"
+|<<tml-column-sortType,`dt:sortType`>>="date-de"
+
+|Date-eu
+|Sort dates in the format `dd/mm/YY[YY]` (with optional spaces)
+|<<jsp-column-sortType,`sortType`>>="date-eu"
+|<<tml-column-sortType,`dt:sortType`>>="date-eu"
+
+|Date-euro
+|Sort date / time in the format `dd/mm/YYY hh:ii:ss`
+|<<jsp-column-sortType,`sortType`>>="date-euro"
+|<<tml-column-sortType,`dt:sortType`>>="date-euro"
+
+|Date-uk
+|Sort dates in the format `dd/mm/YY`
+|<<jsp-column-sortType,`sortType`>>="date-uk"
+|<<tml-column-sortType,`dt:sortType`>>="date-uk"
+
+|Filesize
+|Sort abbreviated file sizes correctly (8MB, 4KB, etc)
+|<<jsp-column-sortType,`sortType`>>="filesize"
+|<<tml-column-sortType,`dt:sortType`>>="filesize"
+
+|IP addresses
+|Sort IP addresses numerically
+|<<jsp-column-sortType,`sortType`>>="ip-address"
+|<<tml-column-sortType,`dt:sortType`>>="ip-address" 
 
 |Natural sorting
 |DataTables implementation of the https://github.com/overset/javascript-natural-sort[naturalSort()] function by Jim Palmer. With this one, you can sort on
@@ -525,47 +484,28 @@ Since the v0.9.0, Dandelion-Datatables supports the following sorting functions:
 |<<jsp-column-sortType,`sortType`>>="natural"
 |<<tml-column-sortType,`dt:sortType`>>="natural"
 
-|Anti-"the"
-|Often a list of data which has titles in it (books, albums
-            etc) will have the word "the" at the start of some
-            individual titles, which you don't want to include in your
-            sorting order. This sorting function will strip the word "the" from
-            the start of a string and sort on what is left.
-|<<jsp-column-sortType,`sortType`>>="anti_the"
-|<<tml-column-sortType,`dt:sortType`>>="anti_the"
+|Persian
+|Sort Persian strings alphabetically
+|<<jsp-column-sortType,`sortType`>>="persian"
+|<<tml-column-sortType,`dt:sortType`>>="persian" 
 
-|Alt string
-|Sort on the 'alt' tag of images in a column. This is
-            particularly useful if you have a column of images (ticks
-            and crosses for example) and you want to control the sorting
-            using the alt tag.
-|<<jsp-column-sortType,`sortType`>>="alt_string"
-|<<tml-column-sortType,`dt:sortType`>>="alt_string"
+|Scientific
+|Sort data which is written in exponential notation
+|<<jsp-column-sortType,`sortType`>>="scientific"
+|<<tml-column-sortType,`dt:sortType`>>="scientific"
 
-|Currency
-|This sorting function will provide numeric sorting for currency
-            columns while taking account
-            of the currency symbol ($ or £ by default).
-|<<jsp-column-sortType,`sortType`>>="currency"
-|<<tml-column-sortType,`dt:sortType`>>="currency"
+|Fully signed numbers
+|Sort data numerically with a leading `+` symbol (as well as `-`).
+|<<jsp-column-sortType,`sortType`>>="signed-num"
+|<<tml-column-sortType,`dt:sortType`>>="signed-num"
 
-|Filesize
-|When dealing with computer file sizes, it is common to
-            append a post fix such as KB, MB or GB to a string in order
-            to easily denote the order of magnitude of the file size.
-            This sorting function allows sorting to take these indicates of size
-            into account.
-|<<jsp-column-sortType,`sortType`>>="filesize"
-|<<tml-column-sortType,`dt:sortType`>>="filesize" 
-
-|Formatted numbers
-|This sorting function will provide numeric sorting for numeric
-            columns which have extra formatting, such as thousands
-            seperators, currency symobols or any other non-numeric data.
-|<<jsp-column-sortType,`sortType`>>="formatted_numbers"
-|<<tml-column-sortType,`dt:sortType`>>="formatted_numbers"
+|Turkish
+|Sort Turkish characters
+|<<jsp-column-sortType,`sortType`>>="turkish-string"
+|<<tml-column-sortType,`dt:sortType`>>="turkish-string"
 |===
 
+[discrete]
 ===== Using JSP
 
 You can activate a sorting function on a column using the <<jsp-column-sortType, `sortType`>> column attribute.
@@ -588,6 +528,7 @@ You can activate a sorting function on a column using the <<jsp-column-sortType,
 </datatables:table>
 ----
 
+[discrete]
 ===== Using Thymeleaf
 
 You can activate a sorting function on a column using the <<tml-th-sortType, `dt:sortType`>> th attribute.
@@ -621,52 +562,55 @@ You can activate a sorting function on a column using the <<tml-th-sortType, `dt
 </table>
 ----
 
+===== 4.6.3.2. Plugging-in your own sorting function
+
+TIP: pending...
+
 === 4.7. Filtering data
+
+In order to filter data, Dandelion-Datatables uses the great http://yadcf-showcase.appspot.com/[YADCF] plugin authored by https://github.com/vedmack[Daniel Reznick].
+This plugin, which works on top of DataTables, will be automatically added as a new dependency as soon as a filtering feature is enabled.
 
 ==== 4.7.1. Using input fields
 
-As soon as you activate individual column filtering, Dandelion-Datatables will generate some fields allowing you to filter each column of the table.
+As soon as you activate individual column filtering, Dandelion-Datatables will generate the corresponding fields that allow to filter each column of the table.
 
 By default, input fields will be generated in the corresponding `tfoot` cell.
 
 [discrete]
 ===== Using JSP
 
-Just use the {% refjsp dt column filterable %} column attribute and set it to `true`.
+Set the <<jsp-column-filterable, `filterable`>> column attribute to `true`.
 
 [source, xml]
 ----
 <datatables:table id="myTableId" data="${persons}">
-   <datatables:column title="Id" property="id" />
+   ...
    <datatables:column title="FirstName" property="firstName" filterable="true" />
-   <datatables:column title="LastName" property="lastName" filterable="true" />
-   <datatables:column title="City" property="address.town.name" filterable="true" />
-   <datatables:column title="Mail" property="mail" />
+   ...
 </datatables:table>
 ----
 
 [discrete]
 ===== Using Thymeleaf
 
-With Thymeleaf, use the {% reftl dt th dt:filterable %} th attribute instead.
+With Thymeleaf, set the <<tml-th-filterable, `dt:filterable`>> th attribute to `true` to enable input-based filtering.
 
 [source, xml]
 ----
 <table id="myTableId" dt:table="true">
    <thead>
       <tr>
-         <th>Id</th>
+         ...
          <th dt:filterable="true">FirstName</th>
-         <th dt:filterable="true">LastName</th>
-         <th dt:filterable="true">City</th>
-         <th>Mail</th>
+         ...
       </tr>
    </thead>
    ...
 </table>
 ----
 
-NOTE: Note that you can change the place where the filtering fields will be injected. See <<4-6-3-filtering-placeholders>> for more details.
+NOTE: Note that you can change the location of filtering elements. See <<4.7.3. Filtering placeholders, filtering placeholders section>> for more details.
 
 ==== 4.7.2. Using drop-down lists
 
@@ -675,86 +619,80 @@ Instead of the default input fields, you can choose to display drop-down lists.
 ===== 4.7.2.1. Using the default drop-down list
 
 [discrete]
-====== Using JSP
+===== Using JSP
 
-Just change the value of the {% refjsp dt column filterType %} column attribute to `select` (instead of default `input`).
+Set the <<jsp-column-filterType, `filterType`>> column attribute to `select` (which defaults to `input`).
 
 [source, xml]
 ----
 <datatables:table id="myTableId" data="${persons}">
-   <datatables:column title="Id" property="id" />
+   ...
    <datatables:column title="FirstName" property="firstName" filterable="true" filterType="select" />
-   <datatables:column title="LastName" property="lastName" filterable="true" />
-   <datatables:column title="City" property="address.town.name" filterable="true" />
-   <datatables:column title="Mail" property="mail" />
+   ...
 </datatables:table>
 ----
 
 [discrete]
-====== Using Thymeleaf
+===== Using Thymeleaf
 
-With Thymeleaf, use the {% reftl dt th dt:filterType %} th attribute instead.
+With Thymeleaf, set the <<tml-th-filterType, `dt:filterType`>> th attribute to `select` (which defaults to `input`).
 
 [source, xml]
 ----
 <table id="myTableId" dt:table="true">
    <thead>
       <tr>
-         <th>Id</th>
+         ...
          <th dt:filterable="true" dt:filterType="select">FirstName</th>
-         <th dt:filterable="true">LastName</th>
-         <th dt:filterable="true">City</th>
-         <th>Mail</th>
+         ...
       </tr>
    </thead>
    ...
 </table>
 ----
 
-As a consequence, Dandelion-Datatables will generate a drop-down list
-   in each column (defaultly in the
-   `tfoot`
-   ) and create as many options as entries in the corresponding column
-   (minus duplicates).
+By default, Dandelion-Datatables will generate a drop-down list and create as many options as entries in the corresponding column (minus duplicates).
 
-WARNING: It is worth noting that for now, the default drop-down lists (generated with the `select` filter type)
+WARNING: It is worth noting that the default drop-down lists (generated with the `select` filter type)
    are only compatible with DOM sources and AJAX sources (without
    server-side processing). For AJAX sources with server-side processing,
    this the section below.
 
 ===== 4.7.2.1. Using drop-down lists with predefined values
 
-Instead of letting Dandelion-Datatables fill the filtering drop-down lists, you can choose to display predefined values.
+Instead of letting Dandelion-Datatables fill the filtering drop-down lists automatically, you may need to display predefined values.
 
-To do this, you need:
+For this purpose, you can use the <<jsp-column-filterValues, `filterValues`>> column attribute (JSP) / <<tml-th-filterValues, `dt:filterValues`>> th attribute (Thymeleaf) and pass any array of strings. Array of objects also works.
 
-1. To create a Javascript array containing plain Strings. (Array of objects are not supported yet)
+====== Example
 
-+
-[source, xml]
+Assuming the following asset bundled in the `filtering` bundle:
+
+.dandelion/filtering.json
+[source, json]
 ----
-<script>
-  var myPredefinedValues = ['Val1', 'Val2', 'Val3'];
-</script>
-----
-
-2. To use either the JSP taglib or Thymeleaf dialect as follows:
-
-Use the {% refjsp dt column filterValues %} column attribute and references the previously created Javascript array as a value.
-
-+
-[source, xml]
-----
-<datatables:table id="myTableId" data="${persons}">
-  <datatables:column title="Id" property="id" />
-  <datatables:column title="FirstName" property="firstName" />
-  <datatables:column title="LastName" property="lastName" />
-  <datatables:column title="City" property="address.town.name" filterable="true" filterType="select" filterValues="myPredefinedValues"/>
-  <datatables:column title="Mail" property="mail" />
-</datatables:table>
+{  
+  "assets":[  
+    {  
+      "locations":{  
+        "webapp":"/assets/js/filtering.js"
+      }
+    }
+  ]
+}
 ----
 
-Use the {% reftl dt th dt:filterValues %} th attribute in the same manner.
+The array can contain plain Strings or array of objects:
+
+./assets/js/filtering.js
+[source, javascript]
+----
+var arrayOfStrings = [ "1", "2" ];
+// or
+var arrayOfObjects = [{ "value" : "1", "label" : "One"} , { "value" : "2", "label" : "Two"}]; 
+----
+
+Finally, use the <<tml-th-filterValues, `dt:filterValues`>> th attribute as follows:
 
 [source, xml]
 ----
@@ -764,96 +702,50 @@ Use the {% reftl dt th dt:filterValues %} th attribute in the same manner.
       <th>Id</th>
       <th>FirstName</th>
       <th>LastName</th>
-      <th dt:filterable="true" dt:filterType="select" dt:filterValues="myPredefinedValues">City</th>
+      <th dt:filterable="true" dt:filterType="select" dt:filterValues="filtering#arrayOfObjects">City</th> <1>
       <th>Mail</th>
     </tr>
   </thead>
   ...
 </table>
 ----
+<1> Note that the `filtering` bundle is automatically included into the request thanks to the `bundle-name#javaScriptObject` syntax. See the <<14-3-bundle-special-syntax, bundle special syntax>> for more details.
 
 NOTE: Note that these drop-down lists can be used with all types of data source: DOM, AJAX and AJAX + server-side processing.
 
 ==== 4.7.3. Filtering placeholders
 
-You may have noticed that Dandelion-Datatables defaultly use the `tfoot` section of the table to place the filtering elements (input fields, drop-down lists, ...).
-
-You'll see in this tutorial how to change the place where filtering elements are placed.
-
-===== 4.7.3.1. Available placeholders
+You may have noticed that Dandelion-Datatables defaultly use the `tfoot` section of the table to place the filtering elements. Actually, you can choose where filtering elements will be inserted. Here follow the available placeholders:
 
 .Available filtering placeholders
 |===
 |Placeholder |Description |JSP syntax |Thymeleaf syntax
 
 |Footer
-|All filtering elements will be placed in the `tfoot` section of the table. Default value.
-|`filterPlaceholder="foot"`
-|`dt:filterPlaceholder="foot"`
+|All filtering elements will be inserted in the `tfoot` section of the table. Default value.
+|<<jsp-table-filterPlaceholder, `filterPlaceholder`>> = "footer"
+|<<tml-table-filterPlaceholder, `dt:filterPlaceholder`>> = "footer"
 
-|Before the head
-|All filtering elements will be placed in a new `tr` before the one containing column headers.
-|`filterPlaceholder="head_before"`
-|`dt:filterPlaceholder="head_before"`
+|Header
+|All filtering elements will be inserted in the existing `thead` section.
+|<<jsp-table-filterPlaceholder, `filterPlaceholder`>> = "header"
+|<<tml-table-filterPlaceholder, `dt:filterPlaceholder`>> = "header"
 
-|After the head</td>
-|All filtering elements will be placed in a new `tr` after the one containing column headers.
-|`filterPlaceholder="head_after"`</td>
-|`dt:filterPlaceholder="head_after"`</td>
-
-|None</td>
+|None
 |The table is left untouched, no row is added. Use this option to let Dandelion-Datatables generate filtering elements in an <a href="using-an-external-form.html">external form</a>.
-|`filterPlaceholder="none"`</td>
-|`dt:filterPlaceholder="none"`</td>
+|<<jsp-table-filterPlaceholder, `filterPlaceholder`>> = "none"
+|<<tml-table-filterPlaceholder, `dt:filterPlaceholder`>> = "none"
 |===
-
-===== 4.7.3.2. Examples
-
-[discrete]
-====== Using JSP
-
-Use the {% refjsp dt table filterPlaceholder %} table attribute.
-
-[source, xml]
-----
-<datatables:table id="myTableId" data="${persons}" filterPlaceholder="head_after">
-   <datatables:column title="Id" property="id" />
-   <datatables:column title="FirstName" property="firstName" filterable="true" filterType="select" />
-   <datatables:column title="LastName" property="lastName" filterable="true" />
-   <datatables:column title="City" property="address.town.name" filterable="true" />
-   <datatables:column title="Mail" property="mail" />
-</datatables:table>
-----
-
-====== Using Thymeleaf
-
-You can use the {% reftl dt table dt:filterPlaceholder %} table attribute.
-
-[source, xml]
-----
-<table id="myTableId" dt:table="true" dt:filterPlaceholder="head_after">
-   <thead>
-      <tr>
-         <th>Id</th>
-         <th dt:filterable="true" dt:filterType="select">FirstName</th>
-         <th dt:filterable="true">LastName</th>
-         <th dt:filterable="true">City</th>
-         <th>Mail</th>
-      </tr>
-   </thead>
-   ...
-</table>
-----
 
 ==== 4.7.4. External form
 
-At times, you might need to externalize all filtering elements out of the table. You'll see in this tutorial different ways to do that.
+At times, you might need to externalize all filtering elements out of the table. As shown above, you can the `none` filter placeholder.
 
 ===== 4.7.4.1. Using filtering selectors
 
-You can tell Dandelion-Datatables to inject filtering elements (such as input fields, drop-down lists, ...) in externalized placeholders.
+You can tell Dandelion-Datatables to inject filtering elements (such as input fields or drop-down lists) in externalized placeholders.
 
-First, you need to give all placeholders an ID.
+First give all placeholders an `id`.
 
 [source, xml]
 ----
@@ -862,7 +754,7 @@ First, you need to give all placeholders an ID.
 <div id="cityFilter"></div>
 ----
 
-Then, use the {% refjsp dt column selector %} column attribute (JSP) / {% reftl dt th selector %} th attribute (Thymeleaf). Those attributes wait for a jQuery selector.
+Then, use the <<jsp-column-selector, `selector`>> column attribute (JSP) / <<tml-th-selector, `dt:selector`>> th attribute (Thymeleaf). As value, just pass the DOM id of the element in which you want the filter element to be inserted.
 
 [discrete]
 ====== Using JSP
@@ -870,11 +762,11 @@ Then, use the {% refjsp dt column selector %} column attribute (JSP) / {% reftl 
 [source, xml]
 ----
 <datatables:table id="myTableId" data="${persons}" filterPlaceholder="none">
-  <datatables:column title="Id" property="id" />
-  <datatables:column title="FirstName" property="firstName" filterable="true" filterType="select" selector="#firstNameFilter" />
-  <datatables:column title="LastName" property="lastName" filterable="true" selector="#lastNameFilter" />
-  <datatables:column title="City" property="address.town.name" filterable="true" selector="#cityFilter" />
-  <datatables:column title="Mail" property="mail" />
+  ...
+  <datatables:column ... filterable="true" filterType="select" selector="firstNameFilter" />
+  <datatables:column ... filterable="true" selector="lastNameFilter" />
+  <datatables:column ... filterable="true" selector="cityFilter" />
+  ...
 </datatables:table>
 ----
 
@@ -883,28 +775,18 @@ Then, use the {% refjsp dt column selector %} column attribute (JSP) / {% reftl 
 [source, xml]
 ----
 <table id="myTableId" dt:table="true" dt:filterPlaceholder="none">
-   <thead>
-      <tr>
-         <th>Id</th>
-         <th dt:filterable="true" dt:filterType="select" dt:selector="'#firstNameFilter'">Firstname</th>
-         <th dt:filterable="true" dt:selector="'#lastNameFilter'">Lastname</th>
-         <th dt:filterable="true" dt:selector="'#cityFilter'">City</th>
-         <th>Mail</th>
-      </tr>
-   </thead>
-   <tbody th:remove="all-but-first">
-      <tr th:each="person : ${persons}">
-         <td th:text="${person.id}">1</td>
-         <td th:text="${person.firstName}">John</td>
-         <td th:text="${person.lastName}">Doe</td>
-         <td th:text="${person.address.town.name">Nobody knows!</td>
-         <td th:text="${person.mail}">john@doe.com</td>
-      </tr>
-   </tbody>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th dt:filterable="true" dt:filterType="select" dt:selector="firstNameFilter">Firstname</th>
+      <th dt:filterable="true" dt:selector="lastNameFilter">Lastname</th>
+      <th dt:filterable="true" dt:selector="cityFilter">City</th>
+      <th>Mail</th>
+    </tr>
+  </thead>
+  ...
 </table>
 ----
-
-IMPORTANT: the <<jsp-table-filterPlaceholder, `filterPlaceholder`>> (JSP) / <<tml-table-filterPlaceholder, `dt:filterPlaceholder`>> (Thymeleaf) attributes must have `none` as a value. This way, Dandelion-Datatables won't generate any new row in the table.
 
 ===== 4.7.4.2. Using the DataTables API
 
@@ -933,10 +815,8 @@ You could add an external search form as follows:
 
 [source, html]
 ----
-<form>
+<form ...>
   <input type="text" name="value1" />
-  <input type="text" name="value2" />
-    
   <a onclick="doSearch();">Search</a>
 </form>
 
@@ -950,69 +830,55 @@ You could add an external search form as follows:
 
 ==== 4.7.5. Exclude columns from global filtering
 
-There are times when you might find it useful to exclude some columns from filtering. This section describes how to proceed.
+There are times when you might find it useful to exclude some columns from filtering.
 
 [discrete]
 ===== Using JSP
 
-Make use of the <<jsp-column-searchable, `searchable`>> column attribute. Setting the value to `false` will exclude the column.
+Use the <<jsp-column-searchable, `searchable`>> column attribute. Set it to `false` to exclude the corresponding column from filtering.
 
 [source, xml]
 ----
 <datatables:table id="myTableId" data="${persons}">
-  <datatables:column title="Id" property="id" />
+  ...
   <datatables:column title="FirstName" property="firstName" searchable="false" />
-  <datatables:column title="LastName" property="lastName" />
-  <datatables:column title="City" property="address.town.name" />
-  <datatables:column title="Mail" property="mail" />
+  ...
 </datatables:table>
 ----
 
 ===== Using Thymeleaf
 
-You can use the {% reftl dt th dt:searchable %} th attribute.
+You can use the <<tml-th-searchable, `dt:searchable`>> th attribute. Set it to `false` to exclude the corresponding column from filtering.
 
 [source, xml]
 ----
 <table id="myTableId" dt:table="true">
   <thead>
     <tr>
-      <th>Id</th>
+      ...
       <th dt:searchable="false">Firstname</th>
-      <th>Lastname</th>
-      <th>City</th>
-      <th>Mail</th>
+      ...
     </tr>
   </thead>
-  <tbody>
-    <tr th:each="person : ${persons}">
-      <td th:text="${person.id}">1</td>
-      <td th:text="${person.firstName}">John</td>
-      <td th:text="${person.lastName}">Doe</td>
-      <td th:text="${person.address.town.name}">Nobody knows!</td>
-      <td th:text="${person.mail}">john@doe.com</td>
-    </tr>
-  </tbody>
+  ...
 </table>
 ----
 
 ==== 4.7.6. Filtering on click
 
-Since the v0.10.0, data filtering can be done not only on key press but also on button click whether you use a DOM or an AJAX source.
+Since the v0.10.0, data filtering can be done not only on key press but also on button click whether, you use a DOM or an AJAX source.
 
 [discrete]
 ===== Using JSP
 
-You can use the <<jsp-table-filterSelector, `filterSelector`>> table attribute, which needs a http://api.jquery.com/category/selectors/[jQuery selector]. However, there is a requirement: all columns must declare a <<jsp-column-name, `name`>> attribute.
+You can use the <<jsp-table-filterSelector, `filterSelector`>> table attribute, which needs a http://api.jquery.com/category/selectors/[jQuery selector].
 
 [source, xml]
 ----
 <datatables:table id="myTableId" data="${persons}" dom="l0rtip" filterSelector="#filterButton" filterClearSelector="#filterClearButton">
-  <datatables:column title="Id" name="id" property="id" />
-  <datatables:column title="FirstName" name="firstName" property="firstName" filterable="true" filterType="select" />
-  <datatables:column title="LastName" name="lastName" property="lastName" filterable="true" />
-  <datatables:column title="City" name="city" property="address.town.name" filterable="true" filterCssClass="input-medium" />
-  <datatables:column title="Mail" name="mail" property="mail" />
+  <datatables:column ... filterable="true" filterType="select" />
+  <datatables:column ... filterable="true" />
+  <datatables:column ... filterable="true" />
   <datatables:extraHtml uid="0" cssStyle="float:right;">
     <a id="filterButton" class="btn btn-primary">Apply filters</a>
     <a id="filterClearButton" class="btn btn-inverse">Clear filters</a>
@@ -1020,217 +886,128 @@ You can use the <<jsp-table-filterSelector, `filterSelector`>> table attribute, 
 </datatables:table>
 ----
 
-At initialization, Dandelion-Datatables will automatically trigger a <i>click</i> event on the element targeted by the <<jsp-table-filterSelector, `filterSelector`>> attribute which will lead to a global filtering using all filled filtering elements.
+At initialization, Dandelion-Datatables will automatically bind a _click_ event on the element targeted by the <<jsp-table-filterSelector, `filterSelector`>> attribute which will lead to a global filtering using all filled filtering elements.
 
-To go a step further, note that you can do the same to clear the filters by assigning another http://api.jquery.com/category/selectors/[jQuery       selector] to the element targeted by the <<jsp-table-filterClearSelector, `filterClearSelector`>> attribute. 
+To go a step further, note that you can do the same to clear the filters by assigning another http://api.jquery.com/category/selectors/[jQuery selector] to the element targeted by the <<jsp-table-filterClearSelector, `filterClearSelector`>> attribute. 
 
 [discrete]
 ===== Using Thymeleaf
 
-You can use the <<tml-table-filterSelector, `dt:filterSelector`>> table attribute to apply the filters and {% reftl dt table filterClearSelector %} to clear them.
+You can use the <<tml-table-filterSelector, `dt:filterSelector`>> table attribute to apply the filters and <<tml-table-filterClearSelector, `dt:filterClearSelector`>> to clear them.
 
 [source, xml]
 ----
-<div dt:conf="myTableId">
+<div dt:conf="myTableId"> <1>
   <div dt:confType="extrahtml" dt:uid="0" dt:cssStyle="float:right;">
-    <a id="filterButton" class="btn btn-primary" style="margin-right:5px;">Apply filters</a>
-    <a id="filterClearButton" class="btn btn-inverse">Clear filters</a>
+    <a id="filterButton">Apply filters</a>
+    <a id="filterClearButton">Clear filters</a>
   </div>
 </div>      
 
 <table id="myTableId" dt:table="true" dt:dom="l0rtip" dt:filterSelector="#filterButton" dt:filterClearSelector="#filterClearButton">
   <thead>
     <tr>
-      <th dt:name="id">Id</th>
       <th dt:name="firstname" dt:filterable="true" dt:filterType="select">Firstname</th>
       <th dt:name="lastname" dt:filterable="true">Lastname</th>
       <th dt:name="city" dt:filterable="true">City</th>
-      <th dt:name="mail">Mail</th>
     </tr>
   </thead>
-  <tbody>
-    <tr th:each="person : ${persons}">
-      <td th:text="${person.id}">1</td>
-      <td th:text="${person.firstName}">John</td>
-      <td th:text="${person.lastName}">Doe</td>
-      <td th:text="${person.address.town.name}">Nobody knows!</td>
-      <td th:text="${person.mail}">john@doe.com</td>
-    </tr>
-  </tbody>
+  ...
 </table>
 ----
-
-NOTE: In the above example, we make use of the new <<7-6-configuration-div-thymeleaf-only, configuration div>> introduced in the v0.10.0.
+<1> See the <<7-6-configuration-div-thymeleaf-only, configuration div>> for more details.
 
 ==== 4.7.7. Delayed filtering
 
-Starting from the v0.10.0, a delay (in ms) has been added in order to keep the browser more responsive while using any of the filtering element. This can be particularly useful when working with server-side processing, where you wouldn't typically want an AJAX request to be made with every key press the user makes when searching the table.
+Starting from the v0.10.0, all individual filtering actions can be delayed (in ms) to keep the browser more responsive. This can be particularly useful when working with server-side processing, where you wouldn't typically want an AJAX request to be made with every key press the user makes when searching the table.
 
-===== 4.7.7.1. Global delay
-
-Any action in the table (global filtering, paging, individual column filtering, sorting) will be performed after a delay of 500ms.
-
-TIP: You can change this default delay using the <<jsp-table-filterDelay, `filterDelay`>> / <<tml-table-filterDelay, `dt:filterDelay`>> (JSP/Thymeleaf) table attribute.
+By default, the delay is set to 500ms.
 
 [discrete]
 ====== Using JSP
+
+Use the <<jsp-table-filterDelay, `filterDelay`>> table attribute to impact all filtering controls (except the global one).
 
 [source, xml]
 ----
 <datatables:table id="myTableId" url="/persons" serverSide="true" filterDelay="1000">
-  <datatables:column title="Id" property="id" />
-  <datatables:column title="FirstName" property="firstName" />
-  <datatables:column title="LastName" property="lastName" />
-  <datatables:column title="City" property="address.town.name" filterable="true" />
-  <datatables:column title="Mail" property="mail" renderFunction="mailify" />
+  ...
 </datatables:table>
 ----
 
 [discrete]
 ====== Using Thymeleaf
+
+Use the <<tml-table-filterDelay, `dt:filterDelay`>> table attribute to impact all filtering controls (except the global one).
 
 [source, xml]
 ----
 <table id="myTableId" dt:table="true" dt:url="@{/persons}" dt:serverside="true" dt:filterDelay="1000">
-  <thead>
-    <tr>
-      <th dt:property="id">Id</th>
-      <th dt:property="firstName">Firstname</th>
-      <th dt:property="lastName">Lastname</th>
-      <th dt:property="address.town.name" dt:filterable="true">City</th>
-      <th dt:property="mail" dt:renderFunction="custom-rendering#mailify">Mail</th>
-    </tr>
-  </thead>
+  ...
 </table>
 ----
 
-===== 4.7.7.2. Column delay
-
-You can also set a delay on each filtering input based on the minimal number of character to enter before triggering the filtering.
-
-You can do this thanks to the {% refjsp dt column filterMinLength %} / {% reftl dt column filterMinLength %} column attribute.
-
-In the belowing examples, data will be filtered after the user enters 3 characters in the "City" column.
-
-====== Using JSP
-
-[source, xml]
-----
-<datatables:table id="myTableId" url="/persons" serverSide="true" processing="true">
-  <datatables:column title="Id" property="id" />
-  <datatables:column title="FirstName" property="firstName" />
-  <datatables:column title="LastName" property="lastName" />
-  <datatables:column title="City" property="address.town.name" filterable="true" filterMinLength="3" />
-  <datatables:column title="Mail" property="mail" renderFunction="custom-rendering#mailify" />
-</datatables:table>
-----
-
-====== Using Thymeleaf
-
-[source, xml]
-----
-<table id="myTableId" dt:table="true" dt:url="@{/ajax/persons}" dt:serverside="true" dt:processing="true">
-  <thead>
-    <tr>
-      <th dt:property="id">Id</th>
-      <th dt:property="firstName">Firstname</th>
-      <th dt:property="lastName">Lastname</th>
-      <th dt:property="address.town.name" dt:filterable="true" dt:filterMinLength="3">City</th>
-      <th dt:property="mail" dt:renderFunction="custom-rendering#mailify">Mail</th>
-    </tr>
-  </thead>
-</table>
-----
+WARNING: All filtering elements are impacted by the delay, except the global filtering control.
 
 === 4.8. Paging data
 
-=== 4.8.1. Changing pagination style
-
-Dandelion-Datatables uses the extensible pagination mechanism of DataTables to offer different pagination style in an easy way. You'll see in this tutorial how to change the pagination style.
-
-==== 4.8.1.1. Available pagination styles
+Dandelion-Datatables uses the extensible pagination mechanism of DataTables to offer different pagination style in an easy way.
 
 Dandelion-Datatables supports the following pagination styles:
 
-* two_button
+* simple
+* simple_numbers 
+* full
 * full_numbers
-* four_button
-* bootstrap
-* bootstrap_four_button
-* bootstrap_full_numbers
-* scrolling
 * input
 * listbox
-* extJs
+* scrolling
+* extStyle
+* bootstrap_simple
+* bootstrap_full
+* bootstrap_full_numbers
 
 [discrete]
 ===== Using JSP
 
-You can use the {% refjsp dt table paginationType %} table attribute.
+Use the <<jsp-table-pagingType, `pagingType`>> table attribute.
 
 [source, xml]
 ----
-<datatables:table id="myTableId" data="${persons}" paginationType="full_numbers">
-  <datatables:column title="Id" property="id" />
-  <datatables:column title="FirstName" property="firstName" />
-  <datatables:column title="LastName" property="lastName" />
-  <datatables:column title="City" property="address.town.name" />
-  <datatables:column title="Mail" property="mail" />
+<datatables:table id="myTableId" ... pagingType="full_numbers">
+  ...
 </datatables:table>
 ----
 
 [discrete]
 ===== Using Thymeleaf
 
-You can use the {% reftl dt table dt:paginationType %} table attribute.
+Use the <<tml-table-pagingType, `dt:pagingType`>> table attribute.
 
 [source, xml]
 ----
-<table id="myTableId" dt:table="true" dt:paginationtype="full_numbers">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Firstname</th>
-      <th>Lastname</th>
-      <th>City</th>
-      <th>Mail</th>
-    </tr>
-  </thead>
-  <tbody th:remove="all-but-first">
-    <tr th:each="person : ${persons}">
-      <td th:text="${person.id}">1</td>
-      <td th:text="${person.firstName}">John</td>
-      <td th:text="${person.lastName}">Doe</td>
-      <td th:text="${person.address != null and person.address.town != null} ? ${person.address.town.name} : ''">Nobody knows !</td>
-      <td th:text="${person.mail}">john@doe.com</td>
-    </tr>
-  </tbody>
+<table id="myTableId" dt:table="true" ... dt:pagingType="full_numbers">
+  ...
 </table>
 ----
 
 === 4.9. Scrolling
 
-You may need to allow horizontal or vertical scrolling, e.g. when you have a wide table, with a large number of rows and/or columns to display. Let's see in this tutorial how to proceed.
+You may need to allow horizontal or vertical scrolling, e.g. when you have a wide table, with a large number of rows and/or columns to display.
 
 ==== 4.9.1. Vertical scrolling
 
 [discrete]
 ===== Using JSP
 
-You can use the <<jsp-table-scrollY, `scrollY`>> table attribute.
+Use the <<jsp-table-scrollY, `scrollY`>> table attribute.
 
 [source, xml]
 ----
-<datatables:table id="myTableId" data="${persons}" scrollY="200px" pageable="false">
-  <datatables:column title="Id" property="id" />
-  <datatables:column title="FirstName" property="firstName" />
-  <datatables:column title="LastName" property="lastName" />
-  <datatables:column title="City" property="address.town.name" />
-  <datatables:column title="Mail" property="mail" />
+<datatables:table id="myTableId" ... scrollY="200px" pageable="false">
+  ...
 </datatables:table>
 ----
-
-NOTE: Disabling table pagination is not mandatory, it will work just fine with pagination enabled as well!
 
 ===== Using Thymeleaf
 
@@ -1238,27 +1015,12 @@ You can use the <<tml-table-scrolly, `dt:scrolly`>> table attribute.
 
 [source, xml]
 ----
-<table id="myTable" dt:table="true" dt:scrolly="200px" dt:pageable="false">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Firstname</th>
-      <th>Lastname</th>
-      <th>City</th>
-      <th>Mail</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr th:each="person : ${persons}">
-      <td th:text="${person.id}">1</td>
-      <td th:text="${person.firstName}">John</td>
-      <td th:text="${person.lastName}">Doe</td>
-      <td th:text="${person.address.town.name}">Nobody knows!</td>
-      <td th:text="${person.mail}">john@doe.com</td>
-    </tr>
-  </tbody>
+<table id="myTable" dt:table="true" ... dt:scrolly="200px" dt:pageable="false">
+  ...
 </table>
 ----
+
+NOTE: Disabling table pagination is not mandatory, it will work just fine with pagination enabled as well
 
 ==== 4.9.2. Horizontal scrolling
 
@@ -1269,12 +1031,8 @@ You can use the <<jsp-table-scrollX, `scrollX`>> table attribute.
 
 [source, xml]
 ----
-<datatables:table id="myTableId" data="${persons}" scrollX="120%">
-  <datatables:column title="Id" property="id" />
-  <datatables:column title="FirstName" property="firstName" />
-  <datatables:column title="LastName" property="lastName" />
-  <datatables:column title="City" property="address.town.name" filterable="true" />
-  <datatables:column title="Mail" property="mail" filterable="true" />
+<datatables:table id="myTableId" ... scrollX="120%">
+  ...
 </datatables:table>
 ----
 
@@ -1283,25 +1041,8 @@ You can use the <<jsp-table-scrollX, `scrollX`>> table attribute.
 
 [source, xml]
 ----
-<table id="myTable" dt:table="true" dt:scrollx="120%">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Firstname</th>
-      <th>Lastname</th>
-      <th>City</th>
-      <th>Mail</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr th:each="person : ${persons}">
-      <td th:text="${person.id}">1</td>
-      <td th:text="${person.firstName}">John</td>
-      <td th:text="${person.lastName}">Doe</td>
-      <td th:text="${person.address.town.name}">Nobody knows!</td>
-      <td th:text="${person.mail}">john@doe.com</td>
-    </tr>
-  </tbody>
+<table id="myTable" dt:table="true" ... dt:scrollx="120%">
+  ...
 </table>
 ----
 
@@ -1439,12 +1180,12 @@ As soon as you need to customize a column header, just wrap your custom code ins
   </datatables:column>
 </datatables:table>
 ----
-<1> Anything inside the <<a-3-code-datatables-columnhead-code-tag, `<datatables:columnHead`>> tag will be used for the column header
+<1> Anything inside the <<a-3-code-datatables-columnhead-code-tag, `<datatables:columnHead`>> tag will be displayed in the column header
 <2> Anything else will be used for each cell's contents
 
 ==== Using Thymeleaf
 
-Nothing's specific is needed with Thymeleaf since you have full control over the `thead` section of the table.
+Nothing's specific is needed with Thymeleaf since you have natively a full control over the `thead` section of the table.
 
 [source, xml]
 ----
