@@ -1,14 +1,51 @@
+/**
+ * This pagination plug-in provides pagination controls for DataTables which
+ * match the style and interaction of the ExtJS library's grid component.
+ *
+ *  @name ExtJS style
+ *  @summary Pagination in the styling of ExtJS
+ *  @author [Zach Curtis](http://zachariahtimothy.wordpress.com/)
+ *
+ *  @example
+ *    $(document).ready(function() {
+ *        $('#example').dataTable( {
+ *            "sPaginationType": "extStyle"
+ *        } );
+ *    } );
+ */
+
+$.fn.dataTableExt.oApi.fnExtStylePagingInfo = function ( oSettings )
+{
+	return {
+		"iStart":         oSettings._iDisplayStart,
+		"iEnd":           oSettings.fnDisplayEnd(),
+		"iLength":        oSettings._iDisplayLength,
+		"iTotal":         oSettings.fnRecordsTotal(),
+		"iFilteredTotal": oSettings.fnRecordsDisplay(),
+		"iPage":          oSettings._iDisplayLength === -1 ?
+			0 : Math.ceil( oSettings._iDisplayStart / oSettings._iDisplayLength ),
+		"iTotalPages":    oSettings._iDisplayLength === -1 ?
+			0 : Math.ceil( oSettings.fnRecordsDisplay() / oSettings._iDisplayLength )
+	};
+};
+
 $.fn.dataTableExt.oPagination.extStyle = {
+    
+
     "fnInit": function (oSettings, nPaging, fnCallbackDraw) {
-        nFirst = $('<span />', { 'class': 'paginate_button first' });
-        nPrevious = $('<span />', { 'class': 'paginate_button previous' });
-        nNext = $('<span />', { 'class': 'paginate_button next' });
-        nLast = $('<span />', { 'class': 'paginate_button last' });
+        
+        var oPaging = oSettings.oInstance.fnExtStylePagingInfo();
+
+        nFirst = $('<span/>', { 'class': 'paginate_button first' , text : "<<" });
+        nPrevious = $('<span/>', { 'class': 'paginate_button previous' , text : "<" });
+        nNext = $('<span/>', { 'class': 'paginate_button next' , text : ">" });
+        nLast = $('<span/>', { 'class': 'paginate_button last' , text : ">>" });
         nPageTxt = $("<span />", { text: 'Page' });
         nPageNumBox = $('<input />', { type: 'text', val: 1, 'class': 'pageinate_input_box' });
-        nPageOf = $('<span />', { text: 'of' });
-        nTotalPages = $('<span />', { text: parseInt(oSettings.aoData.length / oSettings._iDisplayLength, 10) });
-  
+        nPageOf = $('<span />', { text: '/' });
+        nTotalPages = $('<span />', { class :  "paginate_total" , text : oPaging.iTotalPages });
+
+        
         $(nPaging)
             .append(nFirst)
             .append(nPrevious)
@@ -20,39 +57,44 @@ $.fn.dataTableExt.oPagination.extStyle = {
             .append(nLast);
   
         nFirst.click(function () {
+            if( $(this).hasClass("disabled") )
+                return;
             oSettings.oApi._fnPageChange(oSettings, "first");
             fnCallbackDraw(oSettings);
-            nPageNumBox.val(parseInt(oSettings._iDisplayEnd / oSettings._iDisplayLength, 10));
         }).bind('selectstart', function () { return false; });
   
         nPrevious.click(function () {
+            if( $(this).hasClass("disabled") )
+                return;
             oSettings.oApi._fnPageChange(oSettings, "previous");
             fnCallbackDraw(oSettings);
-            nPageNumBox.val(parseInt(oSettings._iDisplayEnd / oSettings._iDisplayLength, 10));
         }).bind('selectstart', function () { return false; });
   
         nNext.click(function () {
+            if( $(this).hasClass("disabled") )
+                return;
             oSettings.oApi._fnPageChange(oSettings, "next");
             fnCallbackDraw(oSettings);
-           nPageNumBox.val(parseInt(oSettings._iDisplayEnd / oSettings._iDisplayLength, 10));
         }).bind('selectstart', function () { return false; });
   
         nLast.click(function () {
+            if( $(this).hasClass("disabled") )
+                return;
             oSettings.oApi._fnPageChange(oSettings, "last");
             fnCallbackDraw(oSettings);
-            nPageNumBox.val(parseInt(oSettings._iDisplayEnd / oSettings._iDisplayLength,10 ));
         }).bind('selectstart', function () { return false; });
   
-        nPageNumBox.focus(function () {
-            $(this).attr("style", "border-color: #D0B39A");
-        }).blur(function () {
-            $(this).attr("style", "border-color: #C9C9C9");
-        }).change(function () {
-            var pageValue = parseInt($(this).val(), 10);
-            if ((pageValue !== NaN) && pageValue > 0 && pageValue < oSettings.aoData.length) {
-                oSettings._iDisplayStart = $(this).val();
-                fnCallbackDraw(oSettings);
+        nPageNumBox.change(function () {
+            var pageValue = parseInt($(this).val(), 10) - 1 ; // -1 because pages are 0 indexed, but the UI is 1
+            var oPaging = oSettings.oInstance.fnPagingInfo();
+            
+            if(pageValue === NaN || pageValue<0 ){
+                pageValue = 0;
+            }else if(pageValue >= oPaging.iTotalPages ){
+                pageValue = oPaging.iTotalPages -1;
             }
+            oSettings.oApi._fnPageChange(oSettings, pageValue);
+            fnCallbackDraw(oSettings);
         });
   
     },
@@ -62,29 +104,34 @@ $.fn.dataTableExt.oPagination.extStyle = {
         if (!oSettings.aanFeatures.p) {
             return;
         }
+        
+        var oPaging = oSettings.oInstance.fnExtStylePagingInfo();
   
         /* Loop over each instance of the pager */
         var an = oSettings.aanFeatures.p;
-        for (var i = 0, iLen = an.length; i < iLen; i++) {
-            //var buttons = an[i].getElementsByTagName('span');
-            var buttons = $(an[i]).find('span.paginate_button');
-            if (oSettings._iDisplayStart === 0) {
-                buttons.eq(0).attr("class", "paginate_disabled_first paginate_button");
-                buttons.eq(1).attr("class", "paginate_disabled_previous paginate_button");
-            }
-            else {
-                buttons.eq(0).attr("class", "paginate_enabled_first paginate_button");
-                buttons.eq(1).attr("class", "paginate_enabled_previous paginate_button");
+
+        $(an).find('span.paginate_total').html(oPaging.iTotalPages);
+        $(an).find('.pageinate_input_box').val(oPaging.iPage+1);
+                
+        $(an).each(function(index,item) {
+
+            var $item = $(item);
+           
+            if (oPaging.iPage == 0) {
+                var prev = $item.find('span.paginate_button.first').add($item.find('span.paginate_button.previous'));
+                prev.addClass("disabled");
+            }else {
+                var prev = $item.find('span.paginate_button.first').add($item.find('span.paginate_button.previous'));
+                prev.removeClass("disabled");
             }
   
-            if (oSettings.fnDisplayEnd() == oSettings.fnRecordsDisplay()) {
-                buttons.eq(2).attr("class", "paginate_disabled_next paginate_button");
-                buttons.eq(3).attr("class", "paginate_disabled_last paginate_button");
+            if (oPaging.iPage+1 == oPaging.iTotalPages) {
+                var next = $item.find('span.paginate_button.last').add($item.find('span.paginate_button.next'));
+                next.addClass("disabled");
+            }else {
+                var next = $item.find('span.paginate_button.last').add($item.find('span.paginate_button.next'));
+                next.removeClass("disabled");
             }
-            else {
-                buttons.eq(2).attr("class", "paginate_enabled_next paginate_button");
-                buttons.eq(3).attr("class", "paginate_enabled_last paginate_button");
-            }
-        }
+        });
     }
 };

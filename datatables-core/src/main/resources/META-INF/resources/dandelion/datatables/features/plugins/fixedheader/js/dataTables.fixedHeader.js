@@ -1,4 +1,4 @@
-/*! FixedHeader 2.1.0
+/*! FixedHeader 2.1.2
  * ©2010-2014 SpryMedia Ltd - datatables.net/license
  */
 
@@ -6,7 +6,7 @@
  * @summary     FixedHeader
  * @description Fix a table's header or footer, so it is always visible while
  *              Scrolling
- * @version     2.1.0
+ * @version     2.1.2
  * @file        dataTables.fixedHeader.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -22,11 +22,11 @@
  * For details please refer to: http://www.datatables.net
  */
 
-/* Global bundle for FixedColumns for backwards compatibility - will be removed
+/* Global scope for FixedColumns for backwards compatibility - will be removed
  * in future. Not documented in 1.1.x.
  */
 
-/* Global bundle for FixedColumns */
+/* Global scope for FixedColumns */
 var FixedHeader;
 
 (function(window, document, undefined) {
@@ -37,20 +37,23 @@ var factory = function( $, DataTable ) {
 
 /*
  * Function: FixedHeader
- * Purpose:  Provide 'fixed' header, footer and columns on an HTML table
+ * Purpose:  Provide 'fixed' header, footer and columns for a DataTable
  * Returns:  object:FixedHeader - must be called with 'new'
  * Inputs:   mixed:mTable - target table
- *					   1. DataTable object - when using FixedHeader with DataTables, or
- *					   2. HTML table node - when using FixedHeader without DataTables
- *           object:oInit - initialisation settings, with the following properties (each optional)
- *             bool:top -    fix the header (default true)
- *             bool:bottom - fix the footer (default false)
- *             int:left -    fix the left column(s) (default 0)
- *             int:right -   fix the right column(s) (default 0)
- *             int:zTop -    fixed header zIndex
- *             int:zBottom - fixed footer zIndex
- *             int:zLeft -   fixed left zIndex
- *             int:zRight -  fixed right zIndex
+ *  @param {object} dt DataTables instance or HTML table node. With DataTables
+ *    1.10 this can also be a jQuery collection (with just a single table in its
+ *    result set), a jQuery selector, DataTables API instance or settings
+ *    object.
+ *  @param {object} [oInit] initialisation settings, with the following
+ *    properties (each optional)
+ *    * bool:top -    fix the header (default true)
+ *    * bool:bottom - fix the footer (default false)
+ *    * int:left -    fix the left column(s) (default 0)
+ *    * int:right -   fix the right column(s) (default 0)
+ *    * int:zTop -    fixed header zIndex
+ *    * int:zBottom - fixed footer zIndex
+ *    * int:zLeft -   fixed left zIndex
+ *    * int:zRight -  fixed right zIndex
  */
 FixedHeader = function ( mTable, oInit ) {
 	/* Sanity check - you just know it will happen */
@@ -144,7 +147,7 @@ FixedHeader = function ( mTable, oInit ) {
 /*
  * Variable: FixedHeader
  * Purpose:  Prototype for FixedHeader
- * bundle:    global
+ * Scope:    global
  */
 FixedHeader.prototype = {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -213,12 +216,12 @@ FixedHeader.prototype = {
 		} );
 
 		$(s.nTable)
-			.on('column-reorder', function () {
+			.on('column-reorder.dt', function () {
 				FixedHeader.fnMeasure();
 				that._fnUpdateClones( true );
 				that._fnUpdatePositions();
 			} )
-			.on('column-visibility', function () {
+			.on('column-visibility.dt', function () {
 				FixedHeader.fnMeasure();
 				that._fnUpdateClones( true );
 				that._fnUpdatePositions();
@@ -925,7 +928,7 @@ FixedHeader.prototype = {
 /*
  * Variable: oWin
  * Purpose:  Store information about the window positioning
- * bundle:    FixedHeader
+ * Scope:    FixedHeader
  */
 FixedHeader.oWin = {
 	"iScrollTop": 0,
@@ -939,7 +942,7 @@ FixedHeader.oWin = {
 /*
  * Variable: oDoc
  * Purpose:  Store information about the document size
- * bundle:    FixedHeader
+ * Scope:    FixedHeader
  */
 FixedHeader.oDoc = {
 	"iHeight": 0,
@@ -949,7 +952,7 @@ FixedHeader.oDoc = {
 /*
  * Variable: afnScroll
  * Purpose:  Array of functions that are to be used for the scrolling components
- * bundle:    FixedHeader
+ * Scope:    FixedHeader
  */
 FixedHeader.afnScroll = [];
 
@@ -979,7 +982,7 @@ FixedHeader.fnMeasure = function ()
 };
 
 
-FixedHeader.version = "2.1.0";
+FixedHeader.version = "2.1.2";
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1009,7 +1012,11 @@ return FixedHeader;
 
 // Define as an AMD module if possible
 if ( typeof define === 'function' && define.amd ) {
-	define( 'datatables-fixedheader', ['jquery', 'datatables'], factory );
+	define( ['jquery', 'datatables'], factory );
+}
+else if ( typeof exports === 'object' ) {
+    // Node/CommonJS
+    factory( require('jquery'), require('datatables') );
 }
 else if ( jQuery && !jQuery.fn.dataTable.FixedHeader ) {
 	// Otherwise simply initialise as normal, stopping multiple evaluation
@@ -1018,4 +1025,3 @@ else if ( jQuery && !jQuery.fn.dataTable.FixedHeader ) {
 
 
 })(window, document);
-

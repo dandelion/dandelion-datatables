@@ -3,20 +3,20 @@
     "assets": [
         {
             "name": "bootstrap3-theme-js",
-            "version": "1.10.6",
+            "version": "1.10.7",
             "type": "js",
             "locations": {
                 "jar": "dandelion/datatables/features/themes/bootstrap3/js/dataTables.bootstrap.js",
-                "remote" : "//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.js"
+                "remote" : "//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"
             }
         },
         {
             "name": "bootstrap3-theme-css",
-            "version": "1.10.6",
+            "version": "1.10.7",
             "type": "css",
             "locations": {
                 "jar": "dandelion/datatables/features/themes/bootstrap3/css/dataTables.bootstrap.css",
-                "remote" : "//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css"
+                "remote" : "//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css"
             }
         }
     ]

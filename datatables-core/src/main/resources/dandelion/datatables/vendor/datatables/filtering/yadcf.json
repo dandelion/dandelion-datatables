@@ -2,15 +2,17 @@
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "version": "0.8.8.beta.17",
+            "version": "0.8.8",
             "locations": {
-                "jar": "dandelion/datatables/features/filtering/jquery.dataTables.yadcf.js"
+                "jar": "dandelion/datatables/features/filtering/jquery.dataTables.yadcf.js",
+                "remote" : "https://rawgit.com/vedmack/yadcf/0.8.8/jquery.dataTables.yadcf.js"
             }
         },
         {
-            "version": "0.8.8.beta.10",
+            "version": "0.8.8",
             "locations": {
-                "jar": "dandelion/datatables/features/filtering/jquery.dataTables.yadcf.css"
+                "jar": "dandelion/datatables/features/filtering/jquery.dataTables.yadcf.css",
+                "remote" : "https://rawgit.com/vedmack/yadcf/0.8.8/jquery.dataTables.yadcf.css"
             }
         }
     ]

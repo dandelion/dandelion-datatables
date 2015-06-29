@@ -2,9 +2,10 @@
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "version" : "fixed",
+            "version" : "1.10.7",
             "locations": {
-                "jar": "dandelion/datatables/features/sorting/chinese-string.js"
+                "jar": "dandelion/datatables/features/sorting/chinese-string.js",
+                "remote": "//cdn.datatables.net/plug-ins/1.10.7/sorting/chinese-string.js"
             }
         }
     ]

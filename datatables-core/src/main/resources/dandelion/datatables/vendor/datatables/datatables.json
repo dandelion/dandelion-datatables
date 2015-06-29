@@ -4,7 +4,7 @@
     "assets": [
         {
             "name": "datatables",
-            "version": "1.10.6",
+            "version": "1.10.7",
             "locations": {
                 "jar" : "dandelion/datatables/js/jquery.dataTables.js",
                 "remote" : "//cdn.datatables.net/1.10.7/js/jquery.dataTables.js"
@@ -12,7 +12,7 @@
         },
         {
             "name": "datatables",
-            "version": "1.10.6",
+            "version": "1.10.7",
             "locations": {
                 "jar" : "dandelion/datatables/css/jquery.dataTables.css",
                 "remote" : "//cdn.datatables.net/1.10.7/css/jquery.dataTables.css"

@@ -2,9 +2,10 @@
     "dependencies": [ "datatables" ],
     "assets": [
         {
-            "version" : "fixed",
+            "version" : "1.10.7",
             "locations": {
-                "jar": "dandelion/datatables/features/sorting/date-uk.js"
+                "jar": "dandelion/datatables/features/sorting/date-uk.js",
+                "remote" : "//cdn.datatables.net/plug-ins/1.10.7/sorting/date-uk.js"
             }
         }
     ]

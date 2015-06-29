@@ -5,7 +5,8 @@
             "name": "paging-input",
             "version" : "fixed",
             "locations": {
-                "jar": "dandelion/datatables/features/paging/input.js"
+                "jar": "dandelion/datatables/features/paging/input.js",
+                "remote": "https://cdn.datatables.net/plug-ins/1.10.7/pagination/input.js"
             }
         }
     ]

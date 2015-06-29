@@ -3,20 +3,20 @@
     "assets": [
 		{
 		    "name": "bootstrap3",
-		    "version": "3.3.4",
+		    "version": "3.3.5",
 		    "type": "js",
 		    "locations": {
 		    	"jar" : "dandelion/bootstrap3/js/bootstrap.js",
-		        "remote" : "//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"
+		        "remote" : "//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
 		    }
 		},       
         {
             "name": "bootstrap3",
-            "version": "3.3.4",
+            "version": "3.3.5",
             "type": "css",
             "locations": {
             	"jar" : "dandelion/bootstrap3/css/bootstrap.css",
-                "remote" : "//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.css"
+                "remote" : "//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css"
             }
         }
     ]

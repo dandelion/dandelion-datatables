@@ -5,7 +5,8 @@
             "name": "paging-extjs",
             "version" : "fixed",
             "locations": {
-                "jar": "dandelion/datatables/features/paging/extjs.js"
+                "jar": "dandelion/datatables/features/paging/extjs.js",
+                "remote" : "https://cdn.datatables.net/plug-ins/1.10.7/pagination/extjs.js"
             }
         }
     ]

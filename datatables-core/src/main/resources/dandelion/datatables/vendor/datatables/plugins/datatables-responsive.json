@@ -3,18 +3,18 @@
     "assets": [
         {
             "name": "datatables-responsive",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "locations": {
             	"jar" : "dandelion/datatables/features/plugins/responsive/js/dataTables.responsive.js",
-                "remote": "//cdn.datatables.net/responsive/1.0.5/js/dataTables.responsive.js"
+                "remote": "//cdn.datatables.net/responsive/1.0.6/js/dataTables.responsive.js"
             }
         },
         {
         	"name": "datatables-responsive",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "locations": {
             	"jar" : "dandelion/datatables/features/plugins/responsive/css/dataTables.responsive.css",
-                "remote": "//cdn.datatables.net/responsive/1.0.5/css/dataTables.responsive.css"
+                "remote": "//cdn.datatables.net/responsive/1.0.6/css/dataTables.responsive.css"
             }
         }
     ]
