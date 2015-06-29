@@ -1,13 +1,25 @@
-.settings/
-bin/
+# Maven
 target/
+
+# IntelliJ
+*.iml
 .idea/
 
+# Eclipse
 .project
 .classpath
-*.iml
+.settings/
+bin/
+.metadata
 
+# JRebel
 rebel.xml
 
+# OSX
 .DS_Store
-snapshots/
+
+# Netbeans
+nb-configuration.xml
+
+# Windows
+Thumbs.db
