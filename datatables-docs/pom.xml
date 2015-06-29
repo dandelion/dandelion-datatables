@@ -16,15 +16,14 @@
    <properties>
       <!-- Configuration -->
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
       <!-- Dependencies -->
-      <dandelion.version>1.0.0-SNAPSHOT</dandelion.version>
       <asciidoctor-diagram.version>1.2.1</asciidoctor-diagram.version>
       <jruby.version>1.7.20.1</jruby.version>
 
       <!-- Maven plugins -->
-      <asciidoctor.maven.plugin.version>1.5.2.1</asciidoctor.maven.plugin.version>
+      <asciidoctor-maven-plugin.version>1.5.2.1</asciidoctor-maven-plugin.version>
+      <gem-maven-plugin.version>1.0.10</gem-maven-plugin.version>
    </properties>
 
    <dependencies>
@@ -49,7 +48,7 @@
          <plugin>
             <groupId>de.saumya.mojo</groupId>
             <artifactId>gem-maven-plugin</artifactId>
-            <version>1.0.10</version>
+            <version>${gem-maven-plugin.version}</version>
             <configuration>
                <!-- align JRuby version with AsciidoctorJ to avoid redundant downloading -->
                <jrubyVersion>1.7.9</jrubyVersion>
@@ -67,7 +66,7 @@
          <plugin>
             <groupId>org.asciidoctor</groupId>
             <artifactId>asciidoctor-maven-plugin</artifactId>
-            <version>${asciidoctor.maven.plugin.version}</version>
+            <version>${asciidoctor-maven-plugin.version}</version>
             <executions>
                <execution>
                   <id>generate-html</id>
