@@ -68,16 +68,16 @@ public class DatatablesCriterias implements Serializable {
    private final Integer start;
    private final Integer length;
    private final List<ColumnDef> columnDefs;
-   private final List<ColumnDef> sortingColumnDefs;
+   private final List<ColumnDef> sortedColumnDefs;
    private final Integer draw;
 
    private DatatablesCriterias(String search, Integer displayStart, Integer displaySize, List<ColumnDef> columnDefs,
-         List<ColumnDef> sortingColumnDefs, Integer draw) {
+         List<ColumnDef> sortedColumnDefs, Integer draw) {
       this.search = search;
       this.start = displayStart;
       this.length = displaySize;
       this.columnDefs = columnDefs;
-      this.sortingColumnDefs = sortingColumnDefs;
+      this.sortedColumnDefs = sortedColumnDefs;
       this.draw = draw;
    }
 
@@ -101,8 +101,19 @@ public class DatatablesCriterias implements Serializable {
       return columnDefs;
    }
 
+   /**
+    * @return all sorted columns.
+    * @deprecated Use {@link #getSortedColumnDefs()} instead.
+    */
    public List<ColumnDef> getSortingColumnDefs() {
-      return sortingColumnDefs;
+      return sortedColumnDefs;
+   }
+
+   /**
+    * @return all sorted columns.
+    */
+   public List<ColumnDef> getSortedColumnDefs() {
+      return sortedColumnDefs;
    }
 
    /**
@@ -144,7 +155,7 @@ public class DatatablesCriterias implements Serializable {
     * @return true if a column is being sorted, false otherwise.
     */
    public Boolean hasOneSortedColumn() {
-      return !sortingColumnDefs.isEmpty();
+      return !sortedColumnDefs.isEmpty();
    }
 
    /**
@@ -207,11 +218,19 @@ public class DatatablesCriterias implements Serializable {
             }
          }
 
+         for (int j = 0; j < columnNumber; j++) {
+            String ordered = request.getParameter("order[" + j + "][column]");
+            if (ordered != null && ordered.equals(String.valueOf(i))) {
+               columnDef.setSorted(true);
+               break;
+            }
+         }
+
          columnDefs.add(columnDef);
       }
 
       // Sorted column definitions
-      List<ColumnDef> sortingColumnDefs = new LinkedList<ColumnDef>();
+      List<ColumnDef> sortedColumnDefs = new LinkedList<ColumnDef>();
 
       for (int i = 0; i < columnNumber; i++) {
          String paramSortedCol = request.getParameter("order[" + i + "][column]");
@@ -225,11 +244,11 @@ public class DatatablesCriterias implements Serializable {
                sortedColumnDef.setSortDirection(SortDirection.valueOf(sortedColDirection.toUpperCase()));
             }
 
-            sortingColumnDefs.add(sortedColumnDef);
+            sortedColumnDefs.add(sortedColumnDef);
          }
       }
 
-      return new DatatablesCriterias(paramSearch, start, length, columnDefs, sortingColumnDefs, draw);
+      return new DatatablesCriterias(paramSearch, start, length, columnDefs, sortedColumnDefs, draw);
    }
 
    private static int getColumnNumber(HttpServletRequest request) {
@@ -255,6 +274,6 @@ public class DatatablesCriterias implements Serializable {
    @Override
    public String toString() {
       return "DatatablesCriterias [search=" + search + ", start=" + start + ", length=" + length + ", columnDefs="
-            + columnDefs + ", sortingColumnDefs=" + sortingColumnDefs + ", draw=" + draw + "]";
+            + columnDefs + ", sortingColumnDefs=" + sortedColumnDefs + ", draw=" + draw + "]";
    }
 }

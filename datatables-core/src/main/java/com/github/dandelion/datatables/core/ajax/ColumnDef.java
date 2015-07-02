@@ -44,7 +44,7 @@ public class ColumnDef implements Serializable {
    private static final long serialVersionUID = 6349611254914115218L;
    private String name;
    private boolean sortable;
-   private boolean sorted;
+   private boolean sorted = false;
    private boolean searchable;
    private boolean filtered;
    private String regex;
