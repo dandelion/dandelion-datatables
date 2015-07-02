@@ -42,9 +42,10 @@ public final class DTConstants {
    public static final String DT_INFO = "info";
    public static final String DT_SORT = "ordering";
    public static final String DT_PAGING = "paging";
+   public static final String DT_PAGE_LENGTH = "pageLength";
    public static final String DT_PAGINGTYPE = "pagingType";
    public static final String DT_LENGTH_CHANGE = "lengthChange";
-   public static final String DT_STATE_SAVE = "bStateSave";
+   public static final String DT_STATE_SAVE = "stateSave";
    public static final String DT_A_LENGTH_MENU = "lengthMenu";
    public static final String DT_AS_STRIPE_CLASSES = "stripeClasses";
    public static final String DT_S_CLASS = "className";
