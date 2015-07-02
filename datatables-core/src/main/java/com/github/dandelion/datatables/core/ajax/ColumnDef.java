@@ -45,7 +45,7 @@ public class ColumnDef implements Serializable {
    private String name;
    private boolean sortable;
    private boolean sorted;
-   private boolean filterable;
+   private boolean searchable;
    private boolean filtered;
    private String regex;
    private String search;
@@ -81,12 +81,23 @@ public class ColumnDef implements Serializable {
       this.sortable = sortable;
    }
 
+   /**
+    * @return {@code true} if the column is searchable, {@code false} otherwise.
+    * @deprecated Use {@link #isSearchable()} instead.
+    */
    public boolean isFilterable() {
-      return filterable;
+      return searchable;
    }
 
-   public void setFilterable(boolean filterable) {
-      this.filterable = filterable;
+   public void setSearchable(boolean searchable) {
+      this.searchable = searchable;
+   }
+
+   /**
+    * @return {@code true} if the column is searchable, {@code false} otherwise.
+    */
+   public boolean isSearchable() {
+      return searchable;
    }
 
    public String getRegex() {
@@ -139,7 +150,7 @@ public class ColumnDef implements Serializable {
 
    @Override
    public String toString() {
-      return "ColumnDef [name=" + name + ", sortable=" + sortable + ", sorted=" + sorted + ", filterable=" + filterable
+      return "ColumnDef [name=" + name + ", sortable=" + sortable + ", sorted=" + sorted + ", searchable=" + searchable
             + ", filtered=" + filtered + ", regex=" + regex + ", search=" + search + ", searchFrom=" + searchFrom
             + ", searchTo=" + searchTo + ", sortDirection=" + sortDirection + "]";
    }

@@ -106,11 +106,21 @@ public class DatatablesCriterias implements Serializable {
    }
 
    /**
-    * @return true if a column is filterable, false otherwise.
+    * @return {@code true} if one the columns is searchable, {@code false}
+    *         otherwise.
+    * @deprecated Use {@link #hasOneSearchableColumn()} instead.
     */
    public Boolean hasOneFilterableColumn() {
+      return hasOneSearchableColumn();
+   }
+
+   /**
+    * @return {@code true} if one the columns is searchable, {@code false}
+    *         otherwise.
+    */
+   public Boolean hasOneSearchableColumn() {
       for (ColumnDef columnDef : this.columnDefs) {
-         if (columnDef.isFilterable()) {
+         if (columnDef.isSearchable()) {
             return true;
          }
       }
@@ -170,7 +180,7 @@ public class DatatablesCriterias implements Serializable {
          ColumnDef columnDef = new ColumnDef();
 
          columnDef.setName(request.getParameter("columns[" + i + "][data]"));
-         columnDef.setFilterable(Boolean.parseBoolean(request.getParameter("columns[" + i + "][searchable]")));
+         columnDef.setSearchable(Boolean.parseBoolean(request.getParameter("columns[" + i + "][searchable]")));
          columnDef.setSortable(Boolean.parseBoolean(request.getParameter("columns[" + i + "][orderable]")));
          columnDef.setRegex(request.getParameter("columns[" + i + "][search][regex]"));
 
