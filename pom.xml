@@ -15,7 +15,7 @@
    <description>
       Dandelion component that allows to quickly create full-featured HTML tables using the amazing DataTables jQuery plugin.
    </description>
-   <url>http://dandelion.github.io/datatables</url>
+   <url>http://dandelion.github.io/component/datatables</url>
    <inceptionYear>2013</inceptionYear>
    <organization>
       <name>Dandelion Project</name>
@@ -44,7 +44,7 @@
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
       <!-- Dependencies -->
-      <dandelion.version>1.0.0</dandelion.version>
+      <dandelion.version>1.0.1</dandelion.version>
       <thymeleaf.version>2.1.4.RELEASE</thymeleaf.version>
       <commons-beanutils.version>1.8.3</commons-beanutils.version>
       <servlet-api.version>3.0.1</servlet-api.version>
