@@ -80,7 +80,7 @@ public class DatatablesCriteriasTest {
 		assertThat(criterias.getLength()).isEqualTo(-1);
 		assertThat(criterias.getDraw()).isEqualTo(-1);
 		assertThat(criterias.getColumnDefs()).isEmpty();
-		assertThat(criterias.getSortingColumnDefs()).isEmpty();
+		assertThat(criterias.getSortedColumnDefs()).isEmpty();
 	}
 
 	@Test
@@ -104,16 +104,16 @@ public class DatatablesCriteriasTest {
 		assertThat(criterias.getColumnDefs().get(0).getName()).isEqualTo("prop1");
 		assertThat(criterias.getColumnDefs().get(0).isSortable()).isFalse();
 		assertThat(criterias.getColumnDefs().get(0).isSorted()).isFalse();
-		assertThat(criterias.getColumnDefs().get(0).isFilterable()).isFalse();
+		assertThat(criterias.getColumnDefs().get(0).isSearchable()).isFalse();
 		assertThat(criterias.getColumnDefs().get(0).isFiltered()).isFalse();
 
 		assertThat(criterias.getColumnDefs().get(1).getName()).isEqualTo("prop2");
 		assertThat(criterias.getColumnDefs().get(1).isSortable()).isFalse();
 		assertThat(criterias.getColumnDefs().get(1).isSorted()).isFalse();
-		assertThat(criterias.getColumnDefs().get(1).isFilterable()).isFalse();
+		assertThat(criterias.getColumnDefs().get(1).isSearchable()).isFalse();
 		assertThat(criterias.getColumnDefs().get(1).isFiltered()).isFalse();
 
-		assertThat(criterias.getSortingColumnDefs()).isEmpty();
+		assertThat(criterias.getSortedColumnDefs()).isEmpty();
 	}
 
 	@Test
@@ -140,22 +140,22 @@ public class DatatablesCriteriasTest {
 		assertThat(criterias.getColumnDefs()).hasSize(2);
 		assertThat(criterias.getColumnDefs().get(0).getName()).isEqualTo("prop1");
 		assertThat(criterias.getColumnDefs().get(0).isSortable()).isTrue();
-		assertThat(criterias.getColumnDefs().get(0).isSorted()).isFalse();
-		assertThat(criterias.getColumnDefs().get(0).isFilterable()).isFalse();
+		assertThat(criterias.getColumnDefs().get(0).isSorted()).isTrue();
+		assertThat(criterias.getColumnDefs().get(0).isSearchable()).isFalse();
 		assertThat(criterias.getColumnDefs().get(0).isFiltered()).isFalse();
 
 		assertThat(criterias.getColumnDefs().get(1).getName()).isEqualTo("prop2");
 		assertThat(criterias.getColumnDefs().get(1).isSortable()).isTrue();
 		assertThat(criterias.getColumnDefs().get(1).isSorted()).isFalse();
-		assertThat(criterias.getColumnDefs().get(1).isFilterable()).isFalse();
+		assertThat(criterias.getColumnDefs().get(1).isSearchable()).isFalse();
 		assertThat(criterias.getColumnDefs().get(1).isFiltered()).isFalse();
 
-		assertThat(criterias.getSortingColumnDefs()).hasSize(1);
-		assertThat(criterias.getColumnDefs().get(0).getName()).isEqualTo("prop1");
-		assertThat(criterias.getColumnDefs().get(0).isSortable()).isTrue();
-		assertThat(criterias.getColumnDefs().get(0).isSorted()).isFalse();
-		assertThat(criterias.getColumnDefs().get(0).isFilterable()).isFalse();
-		assertThat(criterias.getColumnDefs().get(0).isFiltered()).isFalse();
+		assertThat(criterias.getSortedColumnDefs()).hasSize(1);
+		assertThat(criterias.getSortedColumnDefs().get(0).getName()).isEqualTo("prop1");
+		assertThat(criterias.getSortedColumnDefs().get(0).isSortable()).isTrue();
+		assertThat(criterias.getSortedColumnDefs().get(0).isSorted()).isTrue();
+		assertThat(criterias.getSortedColumnDefs().get(0).isSearchable()).isFalse();
+		assertThat(criterias.getSortedColumnDefs().get(0).isFiltered()).isFalse();
 	}
 
 	@Test
@@ -178,7 +178,7 @@ public class DatatablesCriteriasTest {
 
 		DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
 
-		assertThat(criterias.hasOneFilterableColumn()).isTrue();
+		assertThat(criterias.hasOneSearchableColumn()).isTrue();
 	}
 
 	@Test

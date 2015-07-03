@@ -339,7 +339,7 @@ public class DatatablesGeneratorTest {
 		Map<String, Object> mainConf = generator.generateConfig(table);
 
 		assertThat(mainConf).hasSize(2);
-		assertThat(mainConf.get(DTConstants.DT_I_LENGTH)).isEqualTo(10);
+		assertThat(mainConf.get(DTConstants.DT_PAGE_LENGTH)).isEqualTo(10);
 	}
 
 	@Test

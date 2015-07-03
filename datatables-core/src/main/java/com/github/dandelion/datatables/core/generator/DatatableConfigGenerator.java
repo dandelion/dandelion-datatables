@@ -160,7 +160,7 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
          mainConf.put(DTConstants.DT_AUTO_WIDTH, featureAutoWidth);
       }
       if (featureDisplayLength != null) {
-         mainConf.put(DTConstants.DT_I_LENGTH, featureDisplayLength);
+         mainConf.put(DTConstants.DT_PAGE_LENGTH, featureDisplayLength);
       }
       if (featureLengthChange != null) {
          mainConf.put(DTConstants.DT_LENGTH_CHANGE, featureLengthChange);

@@ -66,6 +66,6 @@ public class TheadFixedPositionAttrProcessor extends AbstractTableAttrProcessor 
 
       String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-      stagingConf.put(DatatableOptions.PLUGIN_FIXEDPOSITION, Integer.valueOf(attrValue));
+      stagingConf.put(DatatableOptions.PLUGIN_FIXEDPOSITION, attrValue);
    }
 }

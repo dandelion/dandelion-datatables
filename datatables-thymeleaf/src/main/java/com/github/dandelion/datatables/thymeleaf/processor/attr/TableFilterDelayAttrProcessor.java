@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.attr;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import org.thymeleaf.Arguments;
@@ -65,8 +66,8 @@ public class TableFilterDelayAttrProcessor extends AbstractTableAttrProcessor {
    protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
          Map<Option<?>, Object> stagingConf) {
 
-      Integer attrValue = AttributeUtils.parseAttribute(arguments, element, attributeName, Integer.class);
+      BigDecimal attrValue = AttributeUtils.parseAttribute(arguments, element, attributeName, BigDecimal.class);
 
-      stagingConf.put(DatatableOptions.FEATURE_FILTER_DELAY, attrValue);
+      stagingConf.put(DatatableOptions.FEATURE_FILTER_DELAY, attrValue.intValue());
    }
 }
