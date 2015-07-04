@@ -1,33 +1,34 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
       <groupId>com.github.dandelion</groupId>
       <artifactId>datatables-extras</artifactId>
-      <version>1.0.2-SNAPSHOT</version>
+      <version>1.1.0-SNAPSHOT</version>
    </parent>
 
    <artifactId>datatables-struts1</artifactId>
    <packaging>jar</packaging>
    <name>Dandelion :: Datatables :: Extras :: Struts1</name>
    <description>Extra providing I18N utilities when dealing with Struts 1.x</description>
-   
+
    <dependencies>
-   
+
       <!-- Internal dependencies -->
       <dependency>
          <groupId>com.github.dandelion</groupId>
          <artifactId>datatables-core</artifactId>
          <version>${project.version}</version>
       </dependency>
-      
+
       <!-- Struts 1 -->
       <dependency>
          <groupId>org.apache.struts</groupId>
          <artifactId>struts-core</artifactId>
          <scope>provided</scope>
       </dependency>
-      
+
       <!-- Servlet API -->
       <dependency>
          <groupId>javax.servlet</groupId>

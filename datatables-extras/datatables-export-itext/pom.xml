@@ -1,17 +1,18 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
       <groupId>com.github.dandelion</groupId>
       <artifactId>datatables-extras</artifactId>
-      <version>1.0.2-SNAPSHOT</version>
+      <version>1.1.0-SNAPSHOT</version>
    </parent>
 
    <artifactId>datatables-export-itext</artifactId>
    <packaging>jar</packaging>
    <name>Dandelion :: Datatables :: Extras :: Export PDF using iText</name>
    <description>Extra providing a default PDF export class based on iText</description>
-   
+
    <dependencies>
 
       <!-- Internal dependencies -->
@@ -33,6 +34,6 @@
          <groupId>com.itextpdf</groupId>
          <artifactId>itextpdf</artifactId>
       </dependency>
-      
+
    </dependencies>
 </project>
