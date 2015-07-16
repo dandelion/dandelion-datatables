@@ -245,7 +245,7 @@ public abstract class AbstractColumnTag extends BodyTagSupport implements Dynami
                return messageFormat.format(new Object[] { propertyValue });
             }
             else if (StringUtils.isBlank(format) && propertyValue != null) {
-               return propertyValue.toString();
+               return StringUtils.escape(propertyValue.toString());
             }
             else {
                if (StringUtils.isNotBlank(defaultValue)) {
