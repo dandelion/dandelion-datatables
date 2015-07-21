@@ -30,13 +30,13 @@
 package com.github.dandelion.datatables.core.option;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -95,28 +95,9 @@ public class TableConfiguration {
       this.configurations = userConf;
       this.messageResolver = messageResolver;
       this.request = request;
-      this.stagingConfiguration = new HashMap<Option<?>, Object>();
+      this.stagingConfiguration = new ConcurrentHashMap<Option<?>, Object>();
       this.exportConfiguration = new LinkedHashMap<String, ExportConf>();
       this.optionGroupName = optionGroupName;
-   }
-
-   /**
-    * TODO
-    * 
-    * @param objectToClone
-    *           Source object to clone.
-    * @param request
-    *           The request attached to the {@link TableConfiguration} instance.
-    */
-   static TableConfiguration clone(TableConfiguration original) {
-      TableConfiguration clone = new TableConfiguration(original.getTableId(), original.getConfigurations(),
-            original.getMessageResolver(), original.getRequest(), original.getOptionGroupName());
-      clone.setExtraJs(original.getExtraJs());
-      clone.setCallbacks(original.getCallbacks());
-      clone.setExtraHtmlSnippets(original.getExtraHtmlSnippets());
-      clone.setExporting(original.getExporting());
-      clone.setMessages(original.getMessages());
-      return clone;
    }
 
    public void set(String exportFormat, ExportConf exportConf) {

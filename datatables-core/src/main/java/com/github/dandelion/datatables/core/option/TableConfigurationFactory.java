@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.core.option;
 
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -63,50 +64,62 @@ public class TableConfigurationFactory {
    private static Logger LOGGER = LoggerFactory.getLogger(TableConfigurationFactory.class);
 
    /**
-    * Static map containing all configurations
+    * Static map containing all templates of configuration.
     */
    private static final Map<Locale, Map<String, Map<Option<?>, Object>>> OPTIONS_BY_GROUP_BY_LOCALE = new ConcurrentHashMap<Locale, Map<String, Map<Option<?>, Object>>>();
 
    /**
-    * Return an instance of {@link TableConfiguration} for the
-    * <code>DEFAULT_GROUP_NAME</code> (global), i.e. containing all global
-    * configurations.
+    * <p>
+    * Returns a new instance of {@link TableConfiguration} corresponding to
+    * {@link ConfigLoader#DEFAULT_GROUP_NAME}, i.e. containing all global
+    * configuration.
+    * </p>
+    * <p>
+    * The instance is duplicated from the template instance stored in the
+    * {@link #OPTIONS_BY_GROUP_BY_LOCALE} map.
+    * </p>
     * 
+    * @param tableId
+    *           The DOM id of the HTML table.
     * @param request
-    *           The request is not used yet but will to work with Locale.
-    * @return an instance of {@link TableConfiguration} that contains all the
-    *         table configuration.
+    *           The current request.
+    * @return a new and initialized instance of {@link TableConfiguration}.
     */
-   public static TableConfiguration getInstance(String tableId, HttpServletRequest request) {
-      return getInstance(tableId, request, ConfigLoader.DEFAULT_GROUP_NAME);
+   public static TableConfiguration newInstance(String tableId, HttpServletRequest request) {
+      return newInstance(tableId, request, ConfigLoader.DEFAULT_GROUP_NAME);
    }
 
    /**
     * <p>
-    * Returns an instance of {@link TableConfiguration} for the given groupName.
-    * The instance is retrieved from the {@link TableConfigurationFactory}.
+    * Returns a new instance of {@link TableConfiguration} corresponding to the
+    * passed {@code groupName} and locale resolved from the request.
+    * </p>
     * <p>
     * If the passed group name doesn't exist, the DEFAULT_GROUP_NAME (global)
     * will be used.
+    * </p>
+    * <p>
+    * The instance is duplicated from the template instance stored in the
+    * {@link #OPTIONS_BY_GROUP_BY_LOCALE} map.
+    * </p>
     * 
+    * @param tableId
+    *           The DOM id of the HTML table.
     * @param request
-    * 
+    *           The current request.
     * @param groupName
     *           Name of the configuration group to load.
-    * @return an instance of {@link TableConfiguration} that contains all the
-    *         table configuration.
+    * @return a new and initialized instance of {@link TableConfiguration}.
     */
-   public static TableConfiguration getInstance(String tableId, HttpServletRequest request, String groupName) {
+   public synchronized static TableConfiguration newInstance(String tableId, HttpServletRequest request,
+         String groupName) {
 
-      // Retrieve the TableConfiguration prototype from the store
-      // TableConfiguration prototype =
-      // TableConfigurationFactory.getPrototype(request, groupName);
-
-      Locale locale = null;
+      // Process group
       String group = StringUtils.isBlank(groupName) ? ConfigLoader.DEFAULT_GROUP_NAME : groupName;
 
       // Retrieve the locale either from a configured LocaleResolver or using
       // the default locale
+      Locale locale = null;
       if (request != null) {
          locale = DatatableConfigurator.getLocaleResolver().resolveLocale(request);
       }
@@ -114,14 +127,15 @@ public class TableConfigurationFactory {
          locale = Locale.getDefault();
       }
 
+      // Clear the map only in dev profile
+      // WARNING: not thread safe
       Context context = (Context) request.getAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE);
       if (context == null) {
-         LOGGER.warn("The Dandelion context doesn't seem to be available. Did you forget to declare the DandelionFilter in your web.xml file?");
-      }
-      else if (context.isDevProfileEnabled()) {
-         clear();
+         LOGGER.warn(
+               "The Dandelion context doesn't seem to be available. Did you forget to declare the DandelionFilter in your web.xml file?");
       }
 
+      // Feed the map for the corresponding locale if it doesn't exist
       if (!OPTIONS_BY_GROUP_BY_LOCALE.containsKey(locale)) {
          resolveGroupsForLocale(locale, request);
       }
@@ -136,18 +150,23 @@ public class TableConfigurationFactory {
 
       MessageResolver messageResolver = DatatableConfigurator.getMessageResolver(request);
 
-      TableConfiguration tc = new TableConfiguration(tableId, OPTIONS_BY_GROUP_BY_LOCALE.get(locale).get(group),
-            messageResolver, request, group);
-
-      TableConfiguration clone = TableConfiguration.clone(tc);
-      return clone;
+      // Return a fresh instance from the template instance
+      return new TableConfiguration(tableId,
+            new HashMap<Option<?>, Object>(OPTIONS_BY_GROUP_BY_LOCALE.get(locale).get(group)), messageResolver, request,
+            group);
    }
 
    /**
+    * <p>
     * Resolves configurations groups for the given locale and stores them in the
-    * {@link TableConfigurationFactory}.
+    * {@link #OPTIONS_BY_GROUP_BY_LOCALE} map.
+    * </p>
     * 
     * @param locale
+    *           The locale resolved from the user properties or from the
+    *           request.
+    * @param request
+    *           The current request.
     */
    public static void resolveGroupsForLocale(Locale locale, HttpServletRequest request) {
       Map<String, Map<Option<?>, Object>> map = new ConcurrentHashMap<String, Map<Option<?>, Object>>();

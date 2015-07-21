@@ -108,8 +108,6 @@ public final class ConfigUtils {
       if (configurations != null) {
 
          for (Entry<Option<?>, Object> entry : configurations.entrySet()) {
-            logger.debug("Processing configuration \"{}\" with the value \"{}\"({})", entry.getKey(), entry.getValue(),
-                  entry.getValue().getClass().getSimpleName());
             OptionProcessor optionProcessor = entry.getKey().getProcessor();
             OptionProcessingContext pc = new OptionProcessingContext(entry, table.getTableConfiguration(), null,
                   optionProcessor.isBundleGraphUpdatable());
@@ -170,7 +168,10 @@ public final class ConfigUtils {
    public static void processOptions(HtmlColumn column, HtmlTable table) {
 
       if (column.getColumnConfiguration().getConfigurations() != null) {
-         for (Entry<Option<?>, Object> entry : column.getColumnConfiguration().getConfigurations().entrySet()) {
+
+         Map<Option<?>, Object> configurations = column.getColumnConfiguration().getConfigurations();
+
+         for (Entry<Option<?>, Object> entry : configurations.entrySet()) {
 
             OptionProcessor optionProcessor = entry.getKey().getProcessor();
             OptionProcessingContext pc = new OptionProcessingContext(entry, table.getTableConfiguration(),

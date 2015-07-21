@@ -58,21 +58,7 @@ public class ExtensionLoader {
 
    private static Logger logger = LoggerFactory.getLogger(ExtensionLoader.class);
 
-   private final HtmlTable table;
-
-   /**
-    * <p>
-    * Constructor of the ExtensionLoader.
-    * </p>
-    * 
-    * @param table
-    *           The table containing module informations.
-    */
-   public ExtensionLoader(HtmlTable table) {
-      this.table = table;
-   }
-
-   public void loadExtensions(DatatableJQueryContent datatableContent, Map<String, Object> mainConf) {
+   public void loadExtensions(HtmlTable table, DatatableJQueryContent datatableContent, Map<String, Object> mainConf) {
 
       registerExtensions(table);
 

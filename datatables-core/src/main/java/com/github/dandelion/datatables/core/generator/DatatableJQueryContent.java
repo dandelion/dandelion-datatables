@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.generator.js.jquery.JQueryContent;
+import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.extension.ExtensionLoader;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 
@@ -68,6 +69,16 @@ public class DatatableJQueryContent extends JQueryContent {
    private final String originalId;
 
    /**
+    * Loader of {@link Extension}s.
+    */
+   private final ExtensionLoader extensionLoader;
+
+   /**
+    * The generator in charge of generating the DataTables' configuration.
+    */
+   private final DatatableConfigGenerator configGenerator;
+
+   /**
     * <p>
     * Build and fill a new instance of {@link DatatableJQueryContent} from the
     * provided {@link HtmlTable}.
@@ -85,15 +96,15 @@ public class DatatableJQueryContent extends JQueryContent {
        * Main configuration file building
        */
       logger.debug("Generating the main configuration for the table with id: {}", this.originalId);
-      DatatableConfigGenerator configGenerator = new DatatableConfigGenerator();
+      this.configGenerator = new DatatableConfigGenerator();
       Map<String, Object> mainConf = configGenerator.generateConfig(htmlTable);
 
       /**
        * Extension loading
        */
       logger.debug("Loading extensions for the table with id: {}", this.originalId);
-      ExtensionLoader extensionLoader = new ExtensionLoader(htmlTable);
-      extensionLoader.loadExtensions(this, mainConf);
+      this.extensionLoader = new ExtensionLoader();
+      this.extensionLoader.loadExtensions(htmlTable, this, mainConf);
 
       /**
        * Main configuration generation

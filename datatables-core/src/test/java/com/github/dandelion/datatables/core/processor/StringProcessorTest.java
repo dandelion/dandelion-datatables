@@ -41,7 +41,7 @@ public class StringProcessorTest {
 		request = (HttpServletRequest) mockPageContext.getRequest();
 		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
 		confToBeApplied = new HashMap<Option<?>, Object>();
-		tableConfiguration = TableConfigurationFactory.getInstance("tableId", request, null);
+		tableConfiguration = TableConfigurationFactory.newInstance("tableId", request, null);
 		columnConfiguration = new ColumnConfiguration();
 	}
 

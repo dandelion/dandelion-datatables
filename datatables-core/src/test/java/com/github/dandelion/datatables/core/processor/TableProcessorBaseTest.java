@@ -64,7 +64,7 @@ public abstract class TableProcessorBaseTest {
 		request = (HttpServletRequest) mockPageContext.getRequest();
 		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
 		confToBeApplied = new HashMap<Option<?>, Object>();
-		tableConfiguration = TableConfigurationFactory.getInstance("fakeId", request, null);
+		tableConfiguration = TableConfigurationFactory.newInstance("fakeId", request, null);
 	}
 	
 	@After

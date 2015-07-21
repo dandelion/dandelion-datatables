@@ -79,7 +79,7 @@ public class HtmlTable extends AbstractHtmlTag {
       this.originalId = id;
       this.id = processId(id);
       this.dynamicAttributes = dynamicAttributes;
-      this.tableConfiguration = TableConfigurationFactory.getInstance(id, request, groupName);
+      this.tableConfiguration = TableConfigurationFactory.newInstance(id, request, groupName);
    }
 
    @Override
