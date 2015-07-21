@@ -116,8 +116,6 @@ public final class DatatableOptions {
          new FeatureFilterSelectorProcessor(), 100);
    public static final Option<String> FEATURE_FILTER_CLEAR_SELECTOR = new Option<String>("feature.filterClearSelector",
          new StringProcessor(), 100);
-   public static final Option<String> FEATURE_FILTER_TRIGGER = new Option<String>("feature.filterTrigger",
-         new StringProcessor(), 100);
    public static final Option<Boolean> FEATURE_PAGEABLE = new Option<Boolean>("feature.pageable",
          new BooleanProcessor(), 100);
    public static final Option<PagingType> FEATURE_PAGINGTYPE = new Option<PagingType>("feature.pagingType",

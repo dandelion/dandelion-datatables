@@ -123,7 +123,6 @@ public class DatatableOptionGroupsDebugPage extends AbstractDebugPage {
       options.add(option(DatatableOptions.FEATURE_FILTER_DELAY, optionsMap));
       options.add(option(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, optionsMap));
       options.add(option(DatatableOptions.FEATURE_FILTER_SELECTOR, optionsMap));
-      options.add(option(DatatableOptions.FEATURE_FILTER_TRIGGER, optionsMap));
       options.add(option(DatatableOptions.FEATURE_INFO, optionsMap));
       options.add(option(DatatableOptions.FEATURE_JQUERYUI, optionsMap));
       options.add(option(DatatableOptions.FEATURE_LENGTHCHANGE, optionsMap));

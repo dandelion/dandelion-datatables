@@ -23,7 +23,6 @@ public class FeatureFilterSelectorProcessor extends AbstractOptionProcessor {
 
       if (StringUtils.isNotBlank(valueAsString)) {
          context.registerExtension(ExternalFilterFeature.FEATURE_NAME);
-         context.addTableEntry(DatatableOptions.FEATURE_FILTER_TRIGGER, "click");
       }
 
       return valueAsString;

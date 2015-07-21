@@ -70,6 +70,5 @@ public class FeatureFilterSelectorProcessorTest extends TableProcessorBaseTest {
 		
 		assertThat(entry.getValue()).isEqualTo("aCssSelector");
 		assertThat(new ArrayList<Extension>(tableConfiguration.getInternalExtensions())).contains(new ExternalFilterFeature());
-		assertThat(tableConfiguration.getStagingConfiguration().get(DatatableOptions.FEATURE_FILTER_TRIGGER)).isEqualTo("click");
 	}
 }
