@@ -26,9 +26,8 @@ public class CssThemeProcessor extends AbstractOptionProcessor {
             sb.append(valueAsString);
             sb.append("' is not a valid theme name. Possible values are: ");
             sb.append(EnumUtils.printPossibleValuesOf(Theme.class));
-            throw new DandelionException(sb.toString());
+            throw new DandelionException(sb.toString(), e);
          }
-
       }
 
       return retval;
