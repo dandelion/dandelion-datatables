@@ -34,12 +34,16 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxDeferRenderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxParamsAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxPipeSizeAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxPipeliningAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxServerSideAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxUrlAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAppearAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAutoWidthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableConfGroupAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableCustomExtensionsProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxDeferRenderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableDisplayLengthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableDomAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableExportAttrProcessor;
@@ -49,15 +53,12 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterClear
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterDelayAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterPlaceholderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterSelectorAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterTriggerAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableFilterableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableInfoAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableLengthChangeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableLengthMenuAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePageableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TablePagingTypeAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxPipeSizeAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxPipeliningAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableProcessingAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableReloadFunctionAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableReloadSelectorAttrProcessor;
@@ -65,13 +66,11 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollColla
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollXAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollXInnerAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableScrollYAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxServerSideAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableSortableAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableStateSaveAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableStripeClassesAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableThemeOptionAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxUrlAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TheadFixedOffsetTopAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TheadFixedPositionAttrProcessor;
 
@@ -96,7 +95,6 @@ public enum TableAttrProcessors {
    BASIC_FILTER_DELAY(TableFilterDelayAttrProcessor.class, "filterDelay", "table"),
    BASIC_FILTER_SELECTOR(TableFilterSelectorAttrProcessor.class, "filterSelector", "table"),
    BASIC_FILTER_CLEAR_SELECTOR(TableFilterClearSelectorAttrProcessor.class, "filterClearSelector", "table"),
-   BASIC_FILTER_TRIGGER(TableFilterTriggerAttrProcessor.class, "filterTrigger", "table"),
    BASIC_PAGING_TYPE(TablePagingTypeAttrProcessor.class, "pagingType", "table"),
    BASIC_LENGTH_MENU(TableLengthMenuAttrProcessor.class, "lengthMenu", "table"),
    BASIC_LENGTH_CHANGE(TableLengthChangeAttrProcessor.class, "lengthChange", "table"),
