@@ -61,9 +61,7 @@ public class CaptionTag extends BodyTagSupport implements DynamicAttributes {
     */
    protected Map<String, String> dynamicAttributes;
 
-   /**
-    * {@inheritDoc}
-    */
+   @Override
    public int doStartTag() throws JspException {
 
       TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
@@ -74,9 +72,7 @@ public class CaptionTag extends BodyTagSupport implements DynamicAttributes {
       throw new JspException("The tag 'caption' must be inside the 'table' tag.");
    }
 
-   /**
-    * {@inheritDoc}
-    */
+   @Override
    public int doEndTag() throws JspException {
 
       TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
@@ -85,9 +81,9 @@ public class CaptionTag extends BodyTagSupport implements DynamicAttributes {
       if (parent.isFirstIteration()) {
 
          HtmlCaption caption = new HtmlCaption();
-         caption.setId(id);
-         caption.addCssClass(cssClass);
-         caption.addCssStyle(cssStyle);
+         caption.setId(this.id);
+         caption.addCssClass(this.cssClass);
+         caption.addCssStyle(this.cssStyle);
          caption.setTitle(StringUtils.escape(this.escapeXml, this.title));
          caption.addContent(getBodyContent().getString());
 
@@ -97,9 +93,7 @@ public class CaptionTag extends BodyTagSupport implements DynamicAttributes {
       return EVAL_PAGE;
    }
 
-   /**
-    * {@inheritDoc}
-    */
+   @Override
    public void setDynamicAttribute(String uri, String localName, Object value) throws JspException {
 
       validateDynamicAttribute(localName, value);
@@ -108,7 +102,7 @@ public class CaptionTag extends BodyTagSupport implements DynamicAttributes {
          this.dynamicAttributes = new HashMap<String, String>();
       }
 
-      dynamicAttributes.put(localName, (String) value);
+      this.dynamicAttributes.put(localName, (String) value);
    }
 
    /**
@@ -134,8 +128,8 @@ public class CaptionTag extends BodyTagSupport implements DynamicAttributes {
                "The 'style' attribute is not allowed. Please use the 'cssStyle' attribute instead.");
       }
       if (!(value instanceof String)) {
-         throw new IllegalArgumentException("The attribute " + localName
-               + " won't be added to the table. Only string values are accepted.");
+         throw new IllegalArgumentException(
+               "The attribute " + localName + " won't be added to the table. Only string values are accepted.");
       }
    }
 

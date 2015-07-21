@@ -42,11 +42,13 @@ import com.github.dandelion.datatables.core.util.ProcessorUtils;
 /**
  * <p>
  * JSP tag used to add a DataTables callback.
+ * </p>
  * <p>
  * Note that this tag will be processed only once, at the first iteration.
- * 
+ * </p>
  * <p>
- * Example usage:
+ * Usage example:
+ * </p>
  * 
  * <pre>
  * &lt;script>
@@ -73,25 +75,25 @@ public class CallbackTag extends TagSupport {
    private static final long serialVersionUID = -3453884184847355817L;
 
    /**
-    * Tag attributes
+    * Type of callback.
     */
-   // Type of the callback
    private String type;
 
-   // Name of the function
+   /**
+    * Function to be called as callback.
+    */
    private String function;
 
    /**
-    * Internal attributes
+    * The current request.
     */
    private HttpServletRequest request;
 
-   /**
-    * {@inheritDoc}
-    */
+   @Override
    public int doStartTag() throws JspException {
 
-      request = (HttpServletRequest) pageContext.getRequest();
+      this.request = (HttpServletRequest) this.pageContext.getRequest();
+
       TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
       if (parent != null) {
          return SKIP_BODY;
@@ -100,12 +102,10 @@ public class CallbackTag extends TagSupport {
       throw new JspException("The tag 'callback' must be inside the 'table' tag.");
    }
 
-   /**
-    * {@inheritDoc}
-    */
+   @Override
    public int doEndTag() throws JspException {
 
-      AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
+      TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
       // The tag is evaluated only once, at the first iteration
       if (parent.isFirstIteration()) {
@@ -120,27 +120,22 @@ public class CallbackTag extends TagSupport {
             sb.append(this.type);
             sb.append("' is not a valid callback type. Possible values are: ");
             sb.append(EnumUtils.printPossibleValuesOf(CallbackType.class));
-            throw new JspException(sb.toString());
+            throw new JspException(sb.toString(), e);
          }
 
-         function = ProcessorUtils.getValueAfterProcessingBundles(function, request);
+         this.function = ProcessorUtils.getValueAfterProcessingBundles(this.function, this.request);
 
          // The callback has already been registered
          if (parent.getTable().getTableConfiguration().hasCallback(callbackType)) {
-            parent.getTable()
-                  .getTableConfiguration()
-                  .getCallback(callbackType)
-                  .appendCode(
-                        (callbackType.hasReturn() ? "return " : "") + function + "("
-                              + StringUtils.join(callbackType.getArgs(), ",") + ");");
+            parent.getTable().getTableConfiguration().getCallback(callbackType)
+                  .appendCode((callbackType.hasReturn() ? "return " : "") + this.function + "("
+                        + StringUtils.join(callbackType.getArgs(), ",") + ");");
          }
          // The callback hasn't been registered yet
          else {
-            parent.getTable()
-                  .getTableConfiguration()
-                  .registerCallback(
-                        new Callback(callbackType, (callbackType.hasReturn() ? "return " : "") + function + "("
-                              + StringUtils.join(callbackType.getArgs(), ",") + ");"));
+            parent.getTable().getTableConfiguration()
+                  .registerCallback(new Callback(callbackType, (callbackType.hasReturn() ? "return " : "") + function
+                        + "(" + StringUtils.join(callbackType.getArgs(), ",") + ");"));
          }
       }
 

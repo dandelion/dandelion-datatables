@@ -69,14 +69,16 @@ public class ExtraJsTag extends TagSupport {
    private static final long serialVersionUID = -287813095911386884L;
 
    /**
-    * Tag attributes
+    * The bundles where to extract JavaScript files from.
     */
    private String bundles;
-   private String placeholder;
 
    /**
-    * {@inheritDoc}
+    * The placeholder where to inject the JavaScript files.
     */
+   private String placeholder;
+
+   @Override
    public int doStartTag() throws JspException {
 
       TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
@@ -87,12 +89,10 @@ public class ExtraJsTag extends TagSupport {
       throw new JspException("The tag 'extraJs' must be inside the 'table' tag.");
    }
 
-   /**
-    * {@inheritDoc}
-    */
+   @Override
    public int doEndTag() throws JspException {
 
-      AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
+      TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
       // The tag is evaluated only once, at the first iteration
       if (parent.isFirstIteration()) {

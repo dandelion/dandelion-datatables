@@ -80,9 +80,7 @@ public class ExtraHtmlTag extends BodyTagSupport {
 
    // escaped
 
-   /**
-    * {@inheritDoc}
-    */
+   @Override
    public int doStartTag() throws JspException {
 
       TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
@@ -93,9 +91,7 @@ public class ExtraHtmlTag extends BodyTagSupport {
       throw new JspException("The tag 'extraHtml' must be inside the 'table' tag.");
    }
 
-   /**
-    * {@inheritDoc}
-    */
+   @Override
    public int doEndTag() throws JspException {
 
       TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
@@ -104,11 +100,11 @@ public class ExtraHtmlTag extends BodyTagSupport {
       if (parent.isFirstIteration()) {
 
          ExtraHtml extraHtml = new ExtraHtml();
-         extraHtml.setUid(uid);
-         extraHtml.setContainer(StringUtils.isNotBlank(container) ? StringUtils.escape(this.escapeXml, this.container)
-               : "div");
-         extraHtml.setCssStyle(cssStyle);
-         extraHtml.setCssClass(cssClass);
+         extraHtml.setUid(this.uid);
+         extraHtml.setContainer(
+               StringUtils.isNotBlank(this.container) ? StringUtils.escape(this.escapeXml, this.container) : "div");
+         extraHtml.setCssStyle(this.cssStyle);
+         extraHtml.setCssClass(this.cssClass);
          if (getBodyContent() != null) {
             extraHtml.setContent(getBodyContent().getString().replaceAll("[\n\r]", "").trim());
          }

@@ -63,17 +63,16 @@ public class OptionTag extends TagSupport {
    private static final long serialVersionUID = -3453884184847355817L;
 
    /**
-    * Tag attributes
+    * Name of the configuration option.
     */
-   // Name of the configuration option
    private String name;
 
-   // Value of the configuration option
+   /**
+    * Value of the configuration option.
+    */
    private String value;
 
-   /**
-    * {@inheritDoc}
-    */
+   @Override
    public int doStartTag() throws JspException {
 
       TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
@@ -84,12 +83,10 @@ public class OptionTag extends TagSupport {
       throw new JspException("The tag 'option' must be inside the 'table' tag.");
    }
 
-   /**
-    * {@inheritDoc}
-    */
+   @Override
    public int doEndTag() throws JspException {
 
-      AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
+      TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
       // The tag is evaluated only once, at the first iteration
       if (parent.isFirstIteration()) {
@@ -100,7 +97,7 @@ public class OptionTag extends TagSupport {
             throw new JspException("'" + name + "' is not a valid option. Please read the documentation.");
          }
          else {
-            parent.stagingConf.put(option, value);
+            parent.getStagingConf().put(option, value);
          }
       }
 

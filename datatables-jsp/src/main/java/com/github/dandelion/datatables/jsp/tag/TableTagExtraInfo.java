@@ -42,15 +42,20 @@ import javax.servlet.jsp.tagext.VariableInfo;
  * </p>
  * 
  * @author Thibault Duchateau
+ * @since 0.1.0
  */
 public class TableTagExtraInfo extends TagExtraInfo {
 
+   private static final String ROW_ATTRIBUTE_NAME = "row";
+
+   @Override
    public VariableInfo[] getVariableInfo(TagData data) {
 
       List<VariableInfo> variables = new ArrayList<VariableInfo>();
 
-      if (data.getAttributeString("row") != null) {
-         variables.add(new VariableInfo(data.getAttributeString("row"), "java.lang.Object", true, VariableInfo.NESTED));
+      if (data.getAttributeString(ROW_ATTRIBUTE_NAME) != null) {
+         variables.add(new VariableInfo(data.getAttributeString(ROW_ATTRIBUTE_NAME), "java.lang.Object", true,
+               VariableInfo.NESTED));
       }
 
       return (VariableInfo[]) variables.toArray(new VariableInfo[] {});

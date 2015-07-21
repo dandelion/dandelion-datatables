@@ -64,9 +64,7 @@ public class ColumnHeadTag extends BodyTagSupport {
 
    private static final long serialVersionUID = -8928415196287387948L;
 
-   /**
-    * {@inheritDoc}
-    */
+   @Override
    public int doStartTag() throws JspException {
 
       ColumnTag parent = (ColumnTag) findAncestorWithClass(this, ColumnTag.class);
@@ -77,16 +75,12 @@ public class ColumnHeadTag extends BodyTagSupport {
       throw new JspException("The 'columnHead' tag must be inside the 'column' tag.");
    }
 
-   /**
-    * {@inheritDoc}
-    */
+   @Override
    public int doAfterBody() throws JspException {
       return EVAL_PAGE;
    }
 
-   /**
-    * {@inheritDoc}
-    */
+   @Override
    public int doEndTag() throws JspException {
 
       TableTag tableTag = (TableTag) findAncestorWithClass(this, TableTag.class);

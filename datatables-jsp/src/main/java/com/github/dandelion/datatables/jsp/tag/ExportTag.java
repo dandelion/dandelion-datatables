@@ -49,12 +49,13 @@ import com.github.dandelion.datatables.core.export.HttpMethod;
 /**
  * <p>
  * JSP tag used to configure an export type in the current table.
- * 
+ * </p>
  * <p>
  * Note that this tag will be processed only once, at the first iteration.
- * 
+ * </p>
  * <p>
- * Example usage:
+ * Usage example:
+ * </p>
  * 
  * <pre>
  * &lt;datatables:table id="myTableId" data="${persons}" row="person" export="xls">
@@ -74,6 +75,7 @@ import com.github.dandelion.datatables.core.export.HttpMethod;
  * @see ExportConf
  */
 public class ExportTag extends TagSupport {
+
    private static final long serialVersionUID = -3453884184847355817L;
 
    // Logger
@@ -96,9 +98,7 @@ public class ExportTag extends TagSupport {
    private String mimeType;
    private boolean escapeXml = true; // Whether XML characters should be escaped
 
-   /**
-    * {@inheritDoc}
-    */
+   @Override
    public int doStartTag() throws JspException {
 
       TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
@@ -109,15 +109,13 @@ public class ExportTag extends TagSupport {
       throw new JspException("The tag 'export' must be inside the 'table' tag.");
    }
 
-   /**
-    * {@inheritDoc}
-    */
+   @Override
    public int doEndTag() throws JspException {
 
       HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
       HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
 
-      AbstractTableTag parent = (AbstractTableTag) findAncestorWithClass(this, AbstractTableTag.class);
+      TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
 
       // The tag is evaluated only once, at the first iteration
       if (parent.isFirstIteration()) {
