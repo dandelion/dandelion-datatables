@@ -56,7 +56,6 @@ public class AjaxPipeliningProcessorTest extends TableProcessorBaseTest {
 		processor.process(pc);
 		assertThat(entry.getValue()).isEqualTo(true);
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
-		assertThat(tableConfiguration.getStagingConfiguration().get(DatatableOptions.AJAX_PIPESIZE)).isEqualTo(5);
 		assertThat(new PipeliningFeature()).isIn(tableConfiguration.getInternalExtensions());
 	}
 	

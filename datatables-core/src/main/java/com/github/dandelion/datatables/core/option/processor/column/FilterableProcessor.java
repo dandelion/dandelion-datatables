@@ -30,7 +30,6 @@
 package com.github.dandelion.datatables.core.option.processor.column;
 
 import com.github.dandelion.core.util.StringUtils;
-import com.github.dandelion.datatables.core.generator.YadcfConfigGenerator.FilterType;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
@@ -53,12 +52,8 @@ public class FilterableProcessor extends AbstractOptionProcessor {
       String valueAsString = context.getValueAsString();
       if (StringUtils.isNotBlank(valueAsString)) {
          if (valueAsString.equalsIgnoreCase("true")) {
-            context.registerExtension(context.getColumnConfiguration().getStagingExtension()
-                  .get(DatatableOptions.FILTERABLE));
-
-            if (!context.isOptionPresent(DatatableOptions.FILTERTYPE)) {
-               context.addColumnEntry(DatatableOptions.FILTERTYPE, FilterType.INPUT);
-            }
+            context.registerExtension(
+                  context.getColumnConfiguration().getStagingExtension().get(DatatableOptions.FILTERABLE));
 
             retval = true;
          }

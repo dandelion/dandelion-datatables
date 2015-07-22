@@ -87,8 +87,6 @@ public class FilterableProcessorTest extends ColumnProcessorBaseTest {
 		assertThat(entry.getValue()).isEqualTo(true);
 		assertThat(new ArrayList<Extension>(tableConfiguration.getInternalExtensions())).contains(
 				new FakeFilteringFeature());
-		assertThat(columnConfiguration.getStagingConfigurations().get(DatatableOptions.FILTERTYPE)).isEqualTo(
-				FilterType.INPUT);
 	}
 
 	@Test

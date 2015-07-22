@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -64,8 +63,6 @@ public class TableConfiguration {
    private final MessageResolver messageResolver;
    private final HttpServletRequest request;
    private final String optionGroupName;
-
-   private Map<Option<?>, Object> stagingConfiguration;
 
    // Dandelion-Datatables parameters
    private Set<ExtraJs> extraJs;
@@ -95,7 +92,6 @@ public class TableConfiguration {
       this.configurations = userConf;
       this.messageResolver = messageResolver;
       this.request = request;
-      this.stagingConfiguration = new ConcurrentHashMap<Option<?>, Object>();
       this.exportConfiguration = new LinkedHashMap<String, ExportConf>();
       this.optionGroupName = optionGroupName;
    }
@@ -289,20 +285,8 @@ public class TableConfiguration {
       this.currentExportFormat = currentExport;
    }
 
-   public Map<Option<?>, Object> getStagingConfiguration() {
-      return stagingConfiguration;
-   }
-
    public void addOption(Option<?> option, Object value) {
       this.configurations.put(option, value);
-   }
-
-   public void setStagingConfiguration(Map<Option<?>, Object> stagingConfiguration) {
-      this.stagingConfiguration = stagingConfiguration;
-   }
-
-   public void addStagingConf(Option<?> configToken, Object value) {
-      this.stagingConfiguration.put(configToken, value);
    }
 
    public String getOptionGroupName() {

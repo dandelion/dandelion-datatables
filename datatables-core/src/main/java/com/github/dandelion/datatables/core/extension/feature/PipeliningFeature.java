@@ -73,9 +73,13 @@ public class PipeliningFeature extends AbstractExtension {
 
       Map<String, Object> ajaxParams = new HashMap<String, Object>();
       ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
-      if (pipeSize != null && pipeSize != 5) {
+      if (pipeSize != null) {
          ajaxParams.put("pages", pipeSize);
       }
+      else {
+         ajaxParams.put("pages", 5);
+      }
+
       Writer writer = new StringWriter();
       try {
          JSONValue.writeJSONString(ajaxParams, writer);

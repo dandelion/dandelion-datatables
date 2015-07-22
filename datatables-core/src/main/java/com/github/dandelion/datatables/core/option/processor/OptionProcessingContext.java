@@ -38,7 +38,6 @@ import com.github.dandelion.datatables.core.extension.ExtensionLoader;
 import com.github.dandelion.datatables.core.option.ColumnConfiguration;
 import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.option.TableConfiguration;
-import com.github.dandelion.datatables.core.util.ConfigUtils;
 import com.github.dandelion.datatables.core.util.ProcessorUtils;
 
 /**
@@ -114,8 +113,8 @@ public class OptionProcessingContext {
       }
       else {
          if (optionEntry.getValue() != null) {
-            this.valueAsString = ProcessorUtils.getValueAfterProcessingBundles(String.valueOf(optionEntry.getValue())
-                  .trim(), this.request);
+            this.valueAsString = ProcessorUtils
+                  .getValueAfterProcessingBundles(String.valueOf(optionEntry.getValue()).trim(), this.request);
          }
          else {
             this.valueAsString = null;
@@ -184,72 +183,5 @@ public class OptionProcessingContext {
     */
    public void registerExtension(String extensionName) {
       this.tableConfiguration.registerExtension(ExtensionLoader.get(extensionName));
-   }
-
-   /**
-    * <p>
-    * Test whether the passed {@link Option} is already present in the
-    * configuration map.
-    * </p>
-    * <p>
-    * In most of the cases, this is useful to initialize a entry with a default
-    * value.
-    * </p>
-    * 
-    * @param option
-    *           The option to test.
-    * @return {@code true} if present, otherwise {@code false}.
-    */
-   public boolean isOptionPresent(Option<?> option) {
-      return this.tableConfiguration.getConfigurations().containsKey(option) || this.columnConfiguration != null
-            && this.columnConfiguration.getConfigurations().containsKey(option);
-   }
-
-   /**
-    * <p>
-    * Add a new entry to the staging configuration map of the current
-    * {@link TableConfiguration} instance.
-    * 
-    * <p>
-    * The new entry cannot be directly added to the configuration map because
-    * this map is being iterated on (ConcurrentModificationException).
-    * 
-    * <p>
-    * The staging configuration map will be merged in the final map just after
-    * the end of the loop. See the
-    * {@link ConfigUtils#processOptions(com.github.dandelion.datatables.core.html.HtmlTable)}
-    * method.
-    * 
-    * @param option
-    *           The new {@link Option} to add.
-    * @param value
-    *           The value associated with the {@link Option}.
-    */
-   public void addTableEntry(Option<?> option, Object value) {
-      this.tableConfiguration.getStagingConfiguration().put(option, value);
-   }
-
-   /**
-    * <p>
-    * Add a new entry to the staging configuration map of the current
-    * {@link ColumnConfiguration} instance.
-    * 
-    * <p>
-    * The new entry cannot be directly added to the configuration map because
-    * this map is being iterated on (ConcurrentModificationException).
-    * 
-    * <p>
-    * The staging configuration map will be merged in the final map just after
-    * the end of the loop. See the
-    * {@link ConfigUtils#processOptions(com.github.dandelion.datatables.core.html.HtmlColumn, com.github.dandelion.datatables.core.html.HtmlTable)}
-    * method.
-    * 
-    * @param option
-    *           The new {@link Option} to add.
-    * @param value
-    *           The value associated with the {@link Option}.
-    */
-   public void addColumnEntry(Option<?> option, Object value) {
-      this.columnConfiguration.getStagingConfigurations().put(option, value);
    }
 }

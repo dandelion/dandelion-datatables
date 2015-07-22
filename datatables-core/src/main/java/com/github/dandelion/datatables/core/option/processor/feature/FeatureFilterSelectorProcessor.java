@@ -2,7 +2,6 @@ package com.github.dandelion.datatables.core.option.processor.feature;
 
 import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.datatables.core.extension.feature.ExternalFilterFeature;
-import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 

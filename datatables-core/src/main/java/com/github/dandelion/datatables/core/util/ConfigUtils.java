@@ -113,9 +113,6 @@ public final class ConfigUtils {
                   optionProcessor.isBundleGraphUpdatable());
             optionProcessor.process(pc);
          }
-
-         // Merging staging configuration into to the final configuration map
-         configurations.putAll(table.getTableConfiguration().getStagingConfiguration());
       }
    }
 

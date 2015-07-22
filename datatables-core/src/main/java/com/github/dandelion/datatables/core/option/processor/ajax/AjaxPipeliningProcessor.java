@@ -63,11 +63,6 @@ public class AjaxPipeliningProcessor extends AbstractOptionProcessor {
          if (retval != null && retval) {
             context.registerExtension(PipeliningFeature.PIPELINING_FEATURE_NAME);
          }
-
-         if (!context.isOptionPresent(DatatableOptions.AJAX_PIPESIZE)) {
-            context.addTableEntry(DatatableOptions.AJAX_PIPESIZE, 5);
-         }
-
       }
 
       return retval;
