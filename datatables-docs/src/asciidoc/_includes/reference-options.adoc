@@ -42,6 +42,18 @@ Note that all options are presented in the following format:
 
 3+|*AJAX-related options*
 
+.4+|[[opt-ajax.deferLoading]]*ajax.deferLoading*
+2+|Delay the loading of server-side data until second draw
+
+|Values
+|Any integer \| Array of integer (length=2)
+
+|Default
+|
+
+|Groupable
+|Yes
+
 .4+|[[opt-ajax.deferRender]]*ajax.deferRender*
 2+|Defer the creation of the table elements for each row until they are needed for a draw
 

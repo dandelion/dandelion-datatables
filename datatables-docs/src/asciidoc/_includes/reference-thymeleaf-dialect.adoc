@@ -117,6 +117,21 @@ Note that all options are presented in the following format:
 |Option
 |n/a
 
+.5+|[[tml-table-deferLoading]]*dt:deferLoading*
+2+|Delay the loading of server-side data until second draw
+
+|Values
+|Any integer \| Array of integer (length=2)
+
+|Default
+|
+
+|Data source
+|AJAX
+
+|Option
+|<<opt-ajax.deferLoading,ajax.deferLoading>>
+
 .5+|[[tml-table-deferRender]]*dt:deferRender*
 2+|Defer the creation of the table elements for each row until they are needed for a draw
 

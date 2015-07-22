@@ -204,6 +204,21 @@ _Option_: with which name you can refer to the corresponding feature in the conf
 |Option
 |<<opt-css.cssStripes,css.cssStripes>>
 
+.5+|[[jsp-table-deferLoading]]*deferLoading*
+2+|Delay the loading of server-side data until second draw
+
+|Values
+|Any integer \| Array of integer (length=2)
+
+|Default
+|
+
+|Data source
+|AJAX
+
+|Option
+|<<opt-ajax.deferLoading,ajax.deferLoading>>
+
 .5+|[[jsp-table-deferRender]]*deferRender*
 2+|Defer the creation of the table elements for each row until they are needed for a draw
 
