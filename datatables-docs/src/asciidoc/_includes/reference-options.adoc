@@ -256,18 +256,6 @@ Note that all options are presented in the following format:
 
 3+|*Feature-related options*
 
-.4+|[[opt-feature.appear]]*feature.appear*
-2+|Display mode used when the table has finished loading and must appear in the page. A duration can be set (in milliseconds) if the display mode is set to fadein
-
-|Values
-|block \| fadein[,duration]
-
-|Default
-|fadein 
-
-|Groupable
-|Yes
-
 .4+|[[opt-feature.autoWidth]]*feature.autoWidth*
 2+|Enable or disable automatic column width calculation
 

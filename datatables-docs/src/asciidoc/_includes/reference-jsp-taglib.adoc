@@ -129,21 +129,6 @@ _Option_: with which name you can refer to the corresponding feature in the conf
 |Option
 |n/a
 
-.5+|[[jsp-table-appear]]*appear*
-2+|Display mode used when the table has finished loading and must appear in the page. A duration can be set (in milliseconds) if the display mode is set to `fadein`
-
-|Values
-|block \| fadein[,duration]
-
-|Default
-|fadein
-
-|Data source
-|DOM/AJAX
-
-|Option
-|<<opt-feature.appear,feature.appear>>
-
 .5+|[[jsp-table-autoWidth]]*autoWidth*
 2+|Enable or disable automatic column width calculation
 
