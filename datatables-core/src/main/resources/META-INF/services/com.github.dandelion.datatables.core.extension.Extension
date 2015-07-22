@@ -1,7 +1,6 @@
 #Features
 com.github.dandelion.datatables.core.extension.feature.AjaxFeature
 com.github.dandelion.datatables.core.extension.feature.AjaxReloadFeature
-com.github.dandelion.datatables.core.extension.feature.AppearFeature
 com.github.dandelion.datatables.core.extension.feature.ExportFeature
 com.github.dandelion.datatables.core.extension.feature.ExtraHtmlFeature
 com.github.dandelion.datatables.core.extension.feature.ExtraJsFeature

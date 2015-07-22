@@ -40,7 +40,6 @@ import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxPipeSiz
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxPipeliningAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxServerSideAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxUrlAttrProcessor;
-import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAppearAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAutoWidthAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableConfGroupAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableCustomExtensionsProcessor;
@@ -90,7 +89,6 @@ public enum TableAttrProcessors {
    BASIC_INFO(TableInfoAttrProcessor.class, "info", "table"),
    BASIC_PAGEABLE(TablePageableAttrProcessor.class, "pageable", "table"),
    BASIC_SORTABLE(TableSortableAttrProcessor.class, "sortable", "table"),
-   BASIC_APPEAR(TableAppearAttrProcessor.class, "appear", "table"),
    BASIC_FILTER_PLACEHOLDER(TableFilterPlaceholderAttrProcessor.class, "filterPlaceholder", "table"),
    BASIC_FILTER_DELAY(TableFilterDelayAttrProcessor.class, "filterDelay", "table"),
    BASIC_FILTER_SELECTOR(TableFilterSelectorAttrProcessor.class, "filterSelector", "table"),

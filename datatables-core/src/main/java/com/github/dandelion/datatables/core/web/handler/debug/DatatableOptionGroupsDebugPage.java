@@ -113,8 +113,6 @@ public class DatatableOptionGroupsDebugPage extends AbstractDebugPage {
       options.add(option(DatatableOptions.CSS_THEMEOPTION, optionsMap));
 
       // Feature-related options
-      options.add(option(DatatableOptions.FEATURE_APPEAR, optionsMap));
-      options.add(option(DatatableOptions.FEATURE_APPEAR_DURATION, optionsMap));
       options.add(option(DatatableOptions.FEATURE_AUTOWIDTH, optionsMap));
       options.add(option(DatatableOptions.FEATURE_DISPLAYLENGTH, optionsMap));
       options.add(option(DatatableOptions.FEATURE_DOM, optionsMap));

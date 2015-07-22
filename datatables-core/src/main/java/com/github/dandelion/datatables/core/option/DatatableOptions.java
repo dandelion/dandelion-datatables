@@ -61,7 +61,6 @@ import com.github.dandelion.datatables.core.option.processor.css.CssThemeOptionP
 import com.github.dandelion.datatables.core.option.processor.css.CssThemeProcessor;
 import com.github.dandelion.datatables.core.option.processor.export.ExportEnabledFormatProcessor;
 import com.github.dandelion.datatables.core.option.processor.export.ExportFormatProcessor;
-import com.github.dandelion.datatables.core.option.processor.feature.FeatureAppearProcessor;
 import com.github.dandelion.datatables.core.option.processor.feature.FeatureFilterPlaceholderProcessor;
 import com.github.dandelion.datatables.core.option.processor.feature.FeatureFilterSelectorProcessor;
 import com.github.dandelion.datatables.core.option.processor.feature.FeatureLengthMenuProcessor;
@@ -141,9 +140,6 @@ public final class DatatableOptions {
          100);
    public static final Option<String> FEATURE_SCROLLXINNER = new Option<String>("feature.scrollXInner",
          new StringProcessor(), 100);
-   public static final Option<String> FEATURE_APPEAR = new Option<String>("feature.appear",
-         new FeatureAppearProcessor(), 100);
-   public static final Option<String> FEATURE_APPEAR_DURATION = new Option<String>("feature.appearDuration", null, 100);
    public static final Option<Boolean> FEATURE_PROCESSING = new Option<Boolean>("feature.processing",
          new BooleanProcessor(), 100);
 

@@ -645,10 +645,6 @@ public class TableTag extends BodyTagSupport implements DynamicAttributes {
       stagingConf.put(DatatableOptions.CSS_THEMEOPTION, themeOption);
    }
 
-   public void setAppear(String appear) {
-      stagingConf.put(DatatableOptions.FEATURE_APPEAR, appear);
-   }
-
    public void setLengthMenu(String lengthMenu) {
       stagingConf.put(DatatableOptions.FEATURE_LENGTHMENU, lengthMenu);
    }
