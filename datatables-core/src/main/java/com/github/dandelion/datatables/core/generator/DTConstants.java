@@ -52,6 +52,7 @@ public final class DTConstants {
 
    // AJAX related constants
    public static final String DT_DEFER_RENDER = "deferRender";
+   public static final String DT_DEFER_LOADING = "deferLoading";
    public static final String DT_B_PROCESSING = "processing";
    public static final String DT_B_SERVER_SIDE = "serverSide";
    public static final String DT_S_AJAX_SOURCE = "ajax";

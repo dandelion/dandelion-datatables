@@ -364,36 +364,16 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
    private void generateAjaxConfiguration(Map<String, Object> mainConf, TableConfiguration tableConfiguration) {
       Boolean ajaxServerSide = DatatableOptions.AJAX_SERVERSIDE.valueFrom(tableConfiguration);
       Boolean ajaxDeferRender = DatatableOptions.AJAX_DEFERRENDER.valueFrom(tableConfiguration);
+      Object ajaxDeferLoading = DatatableOptions.AJAX_DEFERLOADING.valueFrom(tableConfiguration);
 
       if (ajaxServerSide != null) {
-         // String ajaxSource =
-         // DatatableOptions.AJAX_SOURCE.valueFrom(tableConfiguration);
-         // String ajaxServerData =
-         // DatatableOptions.AJAX_SERVERDATA.valueFrom(tableConfiguration);
-         // String ajaxServerParam =
-         // DatatableOptions.AJAX_SERVERPARAM.valueFrom(tableConfiguration);
-         // String ajaxServerMethod =
-         // DatatableOptions.AJAX_SERVERMETHOD.valueFrom(tableConfiguration);
-
          mainConf.put(DTConstants.DT_B_SERVER_SIDE, ajaxServerSide);
-
-         // if (StringUtils.isNotBlank(ajaxSource)) {
-         // mainConf.put(DTConstants.DT_S_AJAX_SOURCE, ajaxSource);
-         // }
-         // if (StringUtils.isNotBlank(ajaxServerData)) {
-         // mainConf.put(DTConstants.DT_FN_SERVERDATA, new
-         // JsSnippet(ajaxServerData));
-         // }
-         // if (StringUtils.isNotBlank(ajaxServerParam)) {
-         // mainConf.put(DTConstants.DT_FN_SERVERPARAMS, new
-         // JsSnippet(ajaxServerParam));
-         // }
-         // if (StringUtils.isNotBlank(ajaxServerMethod)) {
-         // mainConf.put(DTConstants.DT_S_SERVERMETHOD, ajaxServerMethod);
-         // }
       }
       if (ajaxDeferRender != null) {
          mainConf.put(DTConstants.DT_DEFER_RENDER, ajaxDeferRender);
+      }
+      if (ajaxDeferLoading != null) {
+         mainConf.put(DTConstants.DT_DEFER_LOADING, ajaxDeferLoading);
       }
    }
 

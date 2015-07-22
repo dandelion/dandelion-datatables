@@ -47,6 +47,7 @@ import com.github.dandelion.datatables.core.option.processor.EmptyStringProcesso
 import com.github.dandelion.datatables.core.option.processor.IntegerProcessor;
 import com.github.dandelion.datatables.core.option.processor.StringBuilderProcessor;
 import com.github.dandelion.datatables.core.option.processor.StringProcessor;
+import com.github.dandelion.datatables.core.option.processor.ajax.AjaxDeferLoadingProcessor;
 import com.github.dandelion.datatables.core.option.processor.ajax.AjaxPipeliningProcessor;
 import com.github.dandelion.datatables.core.option.processor.ajax.AjaxReloadFunctionProcessor;
 import com.github.dandelion.datatables.core.option.processor.ajax.AjaxReloadSelectorProcessor;
@@ -145,13 +146,16 @@ public final class DatatableOptions {
 
    public static final Option<Boolean> AJAX_DEFERRENDER = new Option<Boolean>("ajax.deferRender",
          new BooleanProcessor(), 100);
+   public static final Option<Object> AJAX_DEFERLOADING = new Option<Object>("ajax.deferLoading",
+         new AjaxDeferLoadingProcessor(), 100);
    public static final Option<String> AJAX_SOURCE = new Option<String>("ajax.source", new AjaxSourceProcessor(), 100);
    public static final Option<String> AJAX_PARAMS = new Option<String>("ajax.params", new StringProcessor(true), 98);
    public static final Option<Boolean> AJAX_SERVERSIDE = new Option<Boolean>("ajax.serverSide",
          new AjaxServerSideProcessor(), 99);
    public static final Option<Boolean> AJAX_PIPELINING = new Option<Boolean>("ajax.pipelining",
          new AjaxPipeliningProcessor(), 101);
-   public static final Option<Integer> AJAX_PIPESIZE = new Option<Integer>("ajax.pipeSize", new IntegerProcessor(), 100);
+   public static final Option<Integer> AJAX_PIPESIZE = new Option<Integer>("ajax.pipeSize", new IntegerProcessor(),
+         100);
    public static final Option<String> AJAX_RELOAD_SELECTOR = new Option<String>("ajax.reloadSelector",
          new AjaxReloadSelectorProcessor(), 100);
    public static final Option<String> AJAX_RELOAD_FUNCTION = new Option<String>("ajax.reloadFunction",
@@ -220,7 +224,8 @@ public final class DatatableOptions {
    public static final Option<String> TITLEKEY = new Option<String>("titleKey", new StringProcessor(), 100);
    public static final Option<String> NAME = new Option<String>("name", new StringProcessor(), 100);
    public static final Option<String> PROPERTY = new Option<String>("property", new StringProcessor(), 100);
-   public static final Option<String> DEFAULTVALUE = new Option<String>("defaultValue", new EmptyStringProcessor(), 100);
+   public static final Option<String> DEFAULTVALUE = new Option<String>("defaultValue", new EmptyStringProcessor(),
+         100);
    public static final Option<StringBuilder> CSSSTYLE = new Option<StringBuilder>("cssStyle",
          new StringBuilderProcessor(), 100);
    public static final Option<StringBuilder> CSSCELLSTYLE = new Option<StringBuilder>("cssCellStyle",
@@ -232,9 +237,10 @@ public final class DatatableOptions {
    public static final Option<Boolean> SORTABLE = new Option<Boolean>("sortable", new BooleanProcessor(), 100);
    public static final Option<List<Direction>> SORTDIRECTION = new Option<List<Direction>>("sortDirection",
          new SortDirectionProcessor(), 100);
-   public static final Option<String> SORTINITDIRECTION = new Option<String>("sortInitDirection",
-         new StringProcessor(), 100);
-   public static final Option<Integer> SORTINITORDER = new Option<Integer>("sortInitOrder", new IntegerProcessor(), 100);
+   public static final Option<String> SORTINITDIRECTION = new Option<String>("sortInitDirection", new StringProcessor(),
+         100);
+   public static final Option<Integer> SORTINITORDER = new Option<Integer>("sortInitOrder", new IntegerProcessor(),
+         100);
    public static final Option<String> SORTTYPE = new Option<String>("sortType", new SortTypeProcessor(true), 100);
    public static final Option<Boolean> FILTERABLE = new Option<Boolean>("filterable", new FilterableProcessor(), 100);
    public static final Option<Boolean> SEARCHABLE = new Option<Boolean>("searchable", new BooleanProcessor(), 100);
@@ -242,8 +248,8 @@ public final class DatatableOptions {
    public static final Option<FilterType> FILTERTYPE = new Option<FilterType>("filterType", new FilterTypeProcessor(),
          100);
    public static final Option<String> FILTERVALUES = new Option<String>("filterValues", new StringProcessor(true), 100);
-   public static final Option<String> FILTERPLACEHOLDER = new Option<String>("filterPlaceholder",
-         new StringProcessor(), 100);
+   public static final Option<String> FILTERPLACEHOLDER = new Option<String>("filterPlaceholder", new StringProcessor(),
+         100);
    public static final Option<String> RENDERFUNCTION = new Option<String>("renderFunction", new StringProcessor(true),
          100);
    public static final Option<String> SELECTOR = new Option<String>("selector", new StringProcessor(), 100);

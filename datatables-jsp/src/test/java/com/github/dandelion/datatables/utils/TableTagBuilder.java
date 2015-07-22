@@ -48,11 +48,6 @@ public class TableTagBuilder {
 		return this;
 	}
 	
-	public TableTagBuilder appear(String appear){
-		tableTag.setAppear(appear);
-		return this;
-	}
-	
 	public TableTagBuilder autoWidth(Boolean auto){
 		tableTag.setAutoWidth(auto);
 		return this;

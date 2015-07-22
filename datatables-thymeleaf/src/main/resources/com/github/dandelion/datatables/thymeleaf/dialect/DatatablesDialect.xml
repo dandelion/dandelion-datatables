@@ -74,6 +74,24 @@
          ]]>
       </documentation>
    </attribute-processor>      
+   
+   <attribute-processor name="deferLoading"
+      class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableDeferLoadingAttrProcessor">
+      <restrictions tags="table" attributes="dt:table=true"/>
+      <documentation>
+         <![CDATA[
+            <p>Delay the loading of server-side data until second draw.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>integer|array of integers</b></li>
+            <li>Data source: <b>AJAX</b></li>
+            <li>Configuration property: <b>ajax.deferLoading</b></li>
+            </ul>
+            </p>
+         ]]>
+      </documentation>
+   </attribute-processor> 
         
    <attribute-processor name="info"
       class="com.github.dandelion.datatables.thymeleaf.processor.attr.TableInfoAttrProcessor">

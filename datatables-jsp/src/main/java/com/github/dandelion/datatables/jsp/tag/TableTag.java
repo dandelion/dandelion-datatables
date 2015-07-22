@@ -544,6 +544,10 @@ public class TableTag extends BodyTagSupport implements DynamicAttributes {
       stagingConf.put(DatatableOptions.AJAX_DEFERRENDER, deferRender);
    }
 
+   public void setDeferLoading(String deferLoading) {
+      stagingConf.put(DatatableOptions.AJAX_DEFERLOADING, deferLoading);
+   }
+   
    public void setFilterable(boolean filterable) {
       stagingConf.put(DatatableOptions.FEATURE_FILTERABLE, filterable);
    }

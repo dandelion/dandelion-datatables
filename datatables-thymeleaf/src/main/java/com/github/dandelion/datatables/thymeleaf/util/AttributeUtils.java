@@ -101,8 +101,10 @@ public class AttributeUtils {
     * @return A Boolean which is evaluated :
     *         <ul>
     *         <li>either using the "true" or "false" strings</li>
-    *         <li>or using the default value if the expression to parse is null</li>
-    *         <li>or using the Standard Thymeleaf Expression in all other cases</li>
+    *         <li>or using the default value if the expression to parse is null
+    *         </li>
+    *         <li>or using the Standard Thymeleaf Expression in all other cases
+    *         </li>
     *         </ul>
     */
    public static Boolean parseBooleanAttribute(Arguments arguments, Element element, String attributeName) {
@@ -136,8 +138,10 @@ public class AttributeUtils {
     * @return A string which is evaluated :
     *         <ul>
     *         <li>either using a specific case (e.g. asc/desc)</li>
-    *         <li>or using the default value if the expression to parse is null</li>
-    *         <li>or using the Standard Thymeleaf Expression in all other cases</li>
+    *         <li>or using the default value if the expression to parse is null
+    *         </li>
+    *         <li>or using the Standard Thymeleaf Expression in all other cases
+    *         </li>
     *         </ul>
     */
    public static String parseStringAttribute(Arguments arguments, Element element, String attributeName) {
@@ -155,6 +159,21 @@ public class AttributeUtils {
 
       // Default behaviour
       return processStandardExpression(arguments, value, String.class);
+   }
+
+   public static String forceParsingStringAttribute(Arguments arguments, Element element, String attributeName) {
+
+      String value = element.getAttributeValue(attributeName);
+
+      if (value == null) {
+         return null;
+      }
+
+      if (stringRegex.matcher(value.trim().toLowerCase()).find()) {
+         return value.trim().toLowerCase();
+      }
+
+      return String.valueOf(getProcessedAttribute(arguments, value));
    }
 
    /**
@@ -224,5 +243,23 @@ public class AttributeUtils {
       }
 
       return clazz.isAssignableFrom(result.getClass()) ? (T) result : null;
+   }
+
+   private static Object getProcessedAttribute(Arguments arguments, String value) {
+
+      Object result = null;
+
+      Configuration configuration = arguments.getConfiguration();
+      StandardExpressionParserWrapper expressionParser = new StandardExpressionParserWrapper();
+      IStandardExpression standardExpression = expressionParser.parseExpression(configuration, arguments, value);
+
+      if (standardExpression == null) {
+         result = value;
+      }
+      else {
+         result = standardExpression.execute(configuration, arguments);
+      }
+
+      return result;
    }
 }

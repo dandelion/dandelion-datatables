@@ -34,6 +34,7 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractTableAttrProcessor;
+import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxDeferLoadingAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxDeferRenderAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxParamsAttrProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.attr.TableAjaxPipeSizeAttrProcessor;
@@ -119,6 +120,7 @@ public enum TableAttrProcessors {
    AJAX_URL(TableAjaxUrlAttrProcessor.class, "url", "table"),
    AJAX_SERVER_SIDE(TableAjaxServerSideAttrProcessor.class, "serverSide", "table"),
    AJAX_DEFER_RENDER(TableAjaxDeferRenderAttrProcessor.class, "deferRender", "table"),
+   AJAX_DEFER_LOADING(TableAjaxDeferLoadingAttrProcessor.class, "deferLoading", "table"),
    AJAX_PIPELINING(TableAjaxPipeliningAttrProcessor.class, "pipelining", "table"),
    AJAX_PIPESIZE(TableAjaxPipeSizeAttrProcessor.class, "pipeSize", "table"),
    AJAX_PROCESSING(TableProcessingAttrProcessor.class, "processing", "table"),

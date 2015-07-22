@@ -210,6 +210,23 @@
       <attribute>
          <description>
          <![CDATA[
+            <p>Delay the loading of server-side data until second draw.</p>
+            <p>
+            <ul>
+            <li>Required: <b>no</b></li>
+            <li>Possible values: <b>integer|array of integers</b></li>
+            <li>Data source: <b>AJAX</b></li>
+            <li>Configuration property: <b>ajax.deferLoading</b></li>
+            </ul>
+            </p>
+         ]]>
+         </description>
+         <name>deferLoading</name>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <description>
+         <![CDATA[
             <p>Enable or disable the table information display.</p>
             <p>This shows information about the data that is currently visible on the page, including information about filtered data if that action is being performed.</p>
             <p>
