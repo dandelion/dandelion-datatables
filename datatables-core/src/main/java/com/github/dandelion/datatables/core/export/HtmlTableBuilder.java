@@ -42,6 +42,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.util.StringUtils;
+import com.github.dandelion.datatables.core.ajax.ColumnDef;
+import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
@@ -57,13 +59,13 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  * 
  * <pre>
  * public class Person {
- * 	private Long id;
- * 	private String firstName;
- * 	private String lastName;
- * 	private String mail;
- * 	private Date birthDate;
+ *    private Long id;
+ *    private String firstName;
+ *    private String lastName;
+ *    private String mail;
+ *    private Date birthDate;
  * 
- * 	// Accessors...
+ *    // Accessors...
  * }
  * </pre>
  * <p>
@@ -73,9 +75,9 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  * 
  * <pre>
  * HtmlTable table = new HtmlTableBuilder&lt;Person&gt;().newBuilder(&quot;yourTableId&quot;, persons, request).column()
- * 		.fillWithProperty(&quot;id&quot;).title(&quot;Id&quot;).column().fillWithProperty(&quot;firstName&quot;).title(&quot;Firtname&quot;).column()
- * 		.fillWithProperty(&quot;lastName&quot;).title(&quot;Lastname&quot;).column().fillWithProperty(&quot;mail&quot;).title(&quot;Mail&quot;).column()
- * 		.fillWithProperty(&quot;birthDate&quot;, &quot;{0,date,dd-MM-yyyy}&quot;).title(&quot;BirthDate&quot;).build();
+ *       .fillWithProperty(&quot;id&quot;).title(&quot;Id&quot;).column().fillWithProperty(&quot;firstName&quot;).title(&quot;Firtname&quot;).column()
+ *       .fillWithProperty(&quot;lastName&quot;).title(&quot;Lastname&quot;).column().fillWithProperty(&quot;mail&quot;).title(&quot;Mail&quot;).column()
+ *       .fillWithProperty(&quot;birthDate&quot;, &quot;{0,date,dd-MM-yyyy}&quot;).title(&quot;BirthDate&quot;).build();
  * </pre>
  * <p>
  * where:
@@ -88,7 +90,7 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  * </ul>
  * 
  * @param <T>
- *            Type of the data used to build the table.
+ *           Type of the data used to build the table.
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -106,36 +108,204 @@ public class HtmlTableBuilder<T> {
    }
 
    public static interface ColumnStep {
+
+      /**
+       * <p>
+       * Starts the definition of a new column in the exported file.
+       * </p>
+       */
       FirstContentStep column();
+
+      /**
+       * <p>
+       * Automatically builds the instance using all {@link ColumnDef} present
+       * in the passed {@code criteria}.
+       * </p>
+       * <p>
+       * All columns will be rendered as-is, i.e. with no formatting. All titles
+       * will be computed from the capitalized property used to extract value
+       * from the collection.
+       * </p>
+       * <p>
+       * If you need a more fine-grained rendering, use the
+       * {@link FirstContentStep#fillFromCriteria(DatatablesCriterias)} or
+       * {@link FirstContentStep#fillFromCriteria(DatatablesCriterias, String)}
+       * instead.
+       * </p>
+       * 
+       * @param criteria
+       *           All criteria sent by DataTable.
+       * @since 1.1.0
+       */
+      BuildStep auto(DatatablesCriterias criteria);
    }
 
    public static interface FirstContentStep {
+
+      /**
+       * <p>
+       * Fills the current column with the property extracted from the
+       * collection passed in the builder.
+       * </p>
+       * 
+       * @param propertyName
+       *           Name of the property to be extracted from the collection.
+       */
       SecondContentStep fillWithProperty(String propertyName);
 
+      /**
+       * <p>
+       * Fills the current column with the property extracted from the
+       * collection passed in the builder.
+       * </p>
+       * <p>
+       * The extracted value is then formatted using the passed {@code pattern}
+       * with a {@link MessageFormat}.
+       * </p>
+       * 
+       * @param propertyName
+       *           Name of the property to be extracted from the collection.
+       * @param pattern
+       *           Pattern to be used by the {@link MessageFormat} to format the
+       *           returned value.
+       */
       SecondContentStep fillWithProperty(String propertyName, String pattern);
 
+      /**
+       * <p>
+       * Fills the current column with the property extracted from the
+       * collection passed in the builder.
+       * </p>
+       * <p>
+       * The extracted value is then formatted using the passed {@code pattern}
+       * with a {@link MessageFormat}.
+       * </p>
+       * 
+       * @param propertyName
+       *           Name of the property to be extracted from the collection.
+       * @param pattern
+       *           Pattern to be used by the {@link MessageFormat} to format the
+       *           returned value.
+       * @param defaultContent
+       *           The contents to render if the extrated value is null.
+       */
       SecondContentStep fillWithProperty(String propertyName, String pattern, String defaultContent);
 
+      /**
+       * <p>
+       * Simply fills the current column with the passed {@code content}.
+       * </p>
+       * 
+       * @param content
+       *           The string to be used in the column.
+       */
       SecondContentStep fillWith(String content);
+
+      /**
+       * <p>
+       * Fills the current column using the corresponding {@link ColumnDef}
+       * instance of the passed {@code criterias}.
+       * </p>
+       * <p>
+       * As soon as this method is invoked, an internal counter is incremented.
+       * The increment is used to directly access the list of {@link ColumnDef}
+       * of {@link DatatablesCriterias}.
+       * </p>
+       * <p>
+       * <b>WARNING:</b> don't call this method more times than the number of
+       * columns registered.
+       * </p>
+       * 
+       * @param criteria
+       *           All criteria sent by DataTable.
+       * @since 1.1.0
+       */
+      SecondContentStep fillFromCriteria(DatatablesCriterias criteria);
+
+      /**
+       * <p>
+       * Fills the current column using the corresponding {@link ColumnDef}
+       * instance of the passed {@code criterias}.
+       * </p>
+       * <p>
+       * The extracted value is then formatted using the passed {@code pattern}
+       * with a {@link MessageFormat}.
+       * </p>
+       * <p>
+       * As soon as this method is invoked, an internal counter is incremented.
+       * The increment is used to directly access the list of {@link ColumnDef}
+       * of {@link DatatablesCriterias}.
+       * </p>
+       * <p>
+       * <b>WARNING:</b> don't call this method more times than the number of
+       * columns registered.
+       * </p>
+       * 
+       * @param criteria
+       *           All criteria sent by DataTable.
+       * @param pattern
+       *           Pattern to be used by the {@link MessageFormat} to format the
+       *           returned value.
+       * @since 1.1.0
+       */
+      SecondContentStep fillFromCriteria(DatatablesCriterias criteria, String pattern);
    }
 
    public static interface SecondContentStep {
+
+      /**
+       * @see {@link FirstContentStep#fillWithProperty(String)}
+       */
       SecondContentStep andProperty(String propertyName);
 
+      /**
+       * @see {@link FirstContentStep#fillWithProperty(String, String)}
+       */
       SecondContentStep andProperty(String propertyName, String pattern);
 
+      /**
+       * @see {@link FirstContentStep#fillWithProperty(String, String, String)}
+       */
       SecondContentStep andProperty(String propertyName, String pattern, String defaultContent);
 
+      /**
+       * @see {@link FirstContentStep#fillWith(String)}
+       */
       SecondContentStep and(String content);
 
+      /**
+       * <p>
+       * Sets the title of the current column.
+       * </p>
+       * 
+       * @param title
+       *           Title to be used in the exported file.
+       */
       BuildStep title(String title);
    }
 
    public static interface TitleStep extends ColumnStep {
+
+      /**
+       * <p>
+       * Sets the title of the current column.
+       * </p>
+       * 
+       * @param title
+       *           Title to be used in the exported file.
+       */
       ColumnStep title(String title);
    }
 
    public static interface BuildStep {
+
+      /**
+       * <p>
+       * Finalizes the build of the {@link HtmlTable}.
+       * </p>
+       * 
+       * @return the instance of {@link HtmlTable}.
+       */
       HtmlTable build();
 
       FirstContentStep column();
@@ -149,6 +319,7 @@ public class HtmlTableBuilder<T> {
       private HttpServletRequest request;
       private HttpServletResponse response;
       private ExportConf exportConf;
+      private int columnInvocationCount = 0;
 
       public Steps(String id, List<T> data, HttpServletRequest request) {
          this(id, data, request, null);
@@ -163,8 +334,6 @@ public class HtmlTableBuilder<T> {
             this.exportConf.mergeWith(exportConf);
          }
       }
-
-      // Table configuration
 
       public Steps<T> column() {
          HtmlColumn column = new HtmlColumn(true, "");
@@ -194,12 +363,21 @@ public class HtmlTableBuilder<T> {
          return fillWithProperty(property, pattern, "");
       }
 
+      public Steps<T> fillFromCriteria(DatatablesCriterias criteria) {
+         return fillWithProperty(criteria.getColumnDefs().get(columnInvocationCount).getName(), null, "");
+      }
+
+      public Steps<T> fillFromCriteria(DatatablesCriterias criteria, String pattern) {
+         return fillWithProperty(criteria.getColumnDefs().get(columnInvocationCount).getName(), pattern, "");
+      }
+
       public Steps<T> fillWithProperty(String property, String pattern, String defaultContent) {
          if (headerColumns.getLast().getColumnConfiguration().getColumnElements() == null) {
             headerColumns.getLast().getColumnConfiguration().setColumnElements(new ArrayList<ColumnElement>());
          }
          headerColumns.getLast().getColumnConfiguration().getColumnElements()
                .add(new ColumnElement(property, pattern, "", defaultContent));
+         columnInvocationCount++;
          return this;
       }
 
@@ -209,6 +387,7 @@ public class HtmlTableBuilder<T> {
          }
          headerColumns.getLast().getColumnConfiguration().getColumnElements()
                .add(new ColumnElement(null, null, content, null));
+         columnInvocationCount++;
          return this;
       }
 
@@ -245,8 +424,8 @@ public class HtmlTableBuilder<T> {
          table.getTableConfiguration().getExportConfiguration().put(exportConf.getFormat(), exportConf);
 
          if (data != null && data.size() > 0) {
-            DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), data.get(0).getClass()
-                  .getSimpleName());
+            DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(),
+                  data.get(0).getClass().getSimpleName());
          }
          else {
             DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), "???");
@@ -277,8 +456,8 @@ public class HtmlTableBuilder<T> {
 
                      if (StringUtils.isNotBlank(columnElement.getPropertyName())) {
                         try {
-                           Object tmpObject = PropertyUtils
-                                 .getNestedProperty(o, columnElement.getPropertyName().trim());
+                           Object tmpObject = PropertyUtils.getNestedProperty(o,
+                                 columnElement.getPropertyName().trim());
 
                            if (StringUtils.isNotBlank(columnElement.getPattern())) {
                               MessageFormat messageFormat = new MessageFormat(columnElement.getPattern());
@@ -289,7 +468,8 @@ public class HtmlTableBuilder<T> {
                            }
                         }
                         catch (Exception e) {
-                           logger.warn("Something went wrong with the property {}. Check that an accessor method for this property exists in the bean.");
+                           logger.warn(
+                                 "Something went wrong with the property {}. Check that an accessor method for this property exists in the bean.");
                            content += columnElement.getDefaultValue();
                         }
                      }
@@ -307,6 +487,20 @@ public class HtmlTableBuilder<T> {
          }
 
          return table;
+      }
+
+      @Override
+      public BuildStep auto(DatatablesCriterias criteria) {
+         for (ColumnDef columnDef : criteria.getColumnDefs()) {
+            HtmlColumn headerColumn = new HtmlColumn(true, "");
+            headerColumn.getColumnConfiguration().getConfigurations().put(DatatableOptions.TITLE,
+                  StringUtils.capitalize(columnDef.getName()));
+            headerColumn.getColumnConfiguration().setColumnElements(new ArrayList<ColumnElement>());
+            headerColumn.getColumnConfiguration().getColumnElements()
+                  .add(new ColumnElement(columnDef.getName(), null, null, null));
+            headerColumns.add(headerColumn);
+         }
+         return this;
       }
    }
 }
