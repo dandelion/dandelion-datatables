@@ -34,6 +34,7 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.DynamicAttributes;
@@ -44,6 +45,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.i18n.MessageResolver;
+import com.github.dandelion.core.option.Option;
+import com.github.dandelion.core.util.OptionUtils;
 import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.datatables.core.config.ConfigLoader;
 import com.github.dandelion.datatables.core.extension.Extension;
@@ -51,8 +54,6 @@ import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlRow;
 import com.github.dandelion.datatables.core.option.ColumnConfiguration;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
-import com.github.dandelion.datatables.core.util.ConfigUtils;
 import com.github.dandelion.datatables.jsp.extension.feature.FilteringFeature;
 
 /**
@@ -104,7 +105,7 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
     * Maps holding the staging configuration to apply to the column.
     */
    private Map<Option<?>, Object> stagingConf;
-   private Map<Option<?>, Extension> stagingExtension;
+   private Map<Option<?>, Extension> stagingExtensions;
 
    /**
     * Title of the column.
@@ -153,6 +154,8 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
     */
    private boolean escapeXml = true;
 
+   private HttpServletRequest request;
+
    /**
     * The map of dynamic attributes that will be set as-is on the table tag.
     */
@@ -168,11 +171,13 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
     */
    public ColumnTag() {
       this.stagingConf = new HashMap<Option<?>, Object>();
-      this.stagingExtension = new HashMap<Option<?>, Extension>();
+      this.stagingExtensions = new HashMap<Option<?>, Extension>();
    }
 
    @Override
    public int doStartTag() throws JspException {
+
+      this.request = (HttpServletRequest) this.pageContext.getRequest();
 
       TableTag parent = (TableTag) findAncestorWithClass(this, TableTag.class);
       if (parent != null) {
@@ -180,6 +185,8 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
          // On the first iteration, a header cell must be added
          if (parent.isFirstIteration()) {
             this.headerColumn = new HtmlColumn(true, null, this.dynamicAttributes, this.display);
+            this.request.setAttribute(ColumnConfiguration.class.getCanonicalName(),
+                  this.headerColumn.getColumnConfiguration());
          }
 
          // When using a DOM source, the 'property' attribute has precedence
@@ -284,13 +291,11 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
       // with user configuration
       // The user configuration can now be applied to the default
       // configuration
-      ConfigUtils.applyStagingOptionsAndExtensions(this.stagingConf, this.stagingExtension, this.headerColumn);
-      // ColumnConfig.applyConfiguration(stagingConf, stagingExtension,
-      // headerColumn);
+      this.headerColumn.getColumnConfiguration().getOptions().putAll(this.stagingConf);
+      this.headerColumn.getColumnConfiguration().getStagingExtension().putAll(this.stagingExtensions);
 
       // Once all configuration are merged, they can be processed
-      ConfigUtils.processOptions(this.headerColumn, parent.getTable());
-      // ColumnConfig.processConfiguration(headerColumn, parent.getTable());
+      OptionUtils.processOptions(this.headerColumn.getColumnConfiguration().getOptions(), this.request);
 
       parent.getTable().getLastHeaderRow().addColumn(this.headerColumn);
    }
@@ -341,11 +346,10 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
       }
 
       if (StringUtils.isNotBlank(this.defaultValue)) {
-         this.headerColumn.getColumnConfiguration().getConfigurations().put(DatatableOptions.DEFAULTVALUE,
-               this.defaultValue);
+         this.headerColumn.getColumnConfiguration().getOptions().put(DatatableOptions.DEFAULTVALUE, this.defaultValue);
       }
       else {
-         this.headerColumn.getColumnConfiguration().getConfigurations().put(DatatableOptions.DEFAULTVALUE, "");
+         this.headerColumn.getColumnConfiguration().getOptions().put(DatatableOptions.DEFAULTVALUE, "");
       }
 
       // At this point, all setters have been called and both the staging
@@ -353,12 +357,11 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
       // with user configuration
       // The user configuration can now be applied to the default
       // configuration
-      ConfigUtils.applyStagingOptionsAndExtensions(this.stagingConf, this.stagingExtension, this.headerColumn);
-      // ColumnConfig.applyConfiguration(stagingConf, stagingExtension,
-      // headerColumn);
+      this.headerColumn.getColumnConfiguration().getOptions().putAll(this.stagingConf);
+      this.headerColumn.getColumnConfiguration().getStagingExtension().putAll(this.stagingExtensions);
 
       // Once all configuration are merged, they can be processed
-      ConfigUtils.processOptions(this.headerColumn, parent.getTable());
+      OptionUtils.processOptions(this.headerColumn.getColumnConfiguration().getOptions(), this.request);
 
       parent.getTable().getLastHeaderRow().addColumn(this.headerColumn);
    }
@@ -532,7 +535,7 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
 
    public void setFilterable(Boolean filterable) {
       this.stagingConf.put(DatatableOptions.FILTERABLE, filterable);
-      this.stagingExtension.put(DatatableOptions.FILTERABLE, new FilteringFeature());
+      this.stagingExtensions.put(DatatableOptions.FILTERABLE, new FilteringFeature());
    }
 
    public void setSearchable(Boolean searchable) {

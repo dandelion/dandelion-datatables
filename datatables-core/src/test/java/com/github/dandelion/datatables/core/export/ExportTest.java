@@ -89,7 +89,7 @@ public class ExportTest {
 			table.getLastBodyRow().addColumn(person.getMail());
 		}
 
-		DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration().getConfigurations(), Mock.persons.get(0).getClass()
+		DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration().getOptions(), Mock.persons.get(0).getClass()
 				.getSimpleName());
 	}
 
@@ -114,12 +114,12 @@ public class ExportTest {
 			table.getLastBodyRow().addColumn(person.getMail());
 		}
 
-		DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration().getConfigurations(), Mock.persons.get(0).getClass()
+		DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration().getOptions(), Mock.persons.get(0).getClass()
 				.getSimpleName());
 	}
 
 	public void configureExport(ExportConf exportConf) {
-		table.getTableConfiguration().getExportConfiguration().put(exportConf.getFormat(), exportConf);
+		table.getTableConfiguration().getExportConfigurations().put(exportConf.getFormat(), exportConf);
 	}
 
 	public void processExport(DatatablesExport export) {

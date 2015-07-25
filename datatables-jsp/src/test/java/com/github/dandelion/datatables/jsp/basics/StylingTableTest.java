@@ -57,16 +57,16 @@ public class StylingTableTest extends DomBaseTest {
 	
 	@Test
 	public void should_set_css_style_using_class() {
-		assertThat(DatatableOptions.CSS_CLASS.valueFrom(table.getTableConfiguration()).toString()).isEqualTo("myClass");
+		assertThat(DatatableOptions.CSS_CLASS.valueFrom(table.getTableConfiguration().getOptions()).toString()).isEqualTo("myClass");
 	}
 	
 	@Test
 	public void should_set_strip_classes() {
-		assertThat(DatatableOptions.CSS_STRIPECLASSES.valueFrom(table.getTableConfiguration())).isEqualTo("['myStrip1','myStrip2']");
+		assertThat(DatatableOptions.CSS_STRIPECLASSES.valueFrom(table.getTableConfiguration().getOptions())).isEqualTo("['myStrip1','myStrip2']");
 	}
 	
 	@Test
 	public void should_set_css_style() {
-		assertThat(DatatableOptions.CSS_STYLE.valueFrom(table.getTableConfiguration()).toString()).isEqualTo("myStyle");
+		assertThat(DatatableOptions.CSS_STYLE.valueFrom(table.getTableConfiguration().getOptions()).toString()).isEqualTo("myStyle");
 	}
 }

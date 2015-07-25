@@ -125,12 +125,12 @@ public class ExportTag extends TagSupport {
          // Export URL build
          ExportConf conf = null;
 
-         if (parent.getTable().getTableConfiguration().getExportConfiguration().get(format) != null) {
-            conf = parent.getTable().getTableConfiguration().getExportConfiguration().get(format);
+         if (parent.getTable().getTableConfiguration().getExportConfigurations().get(format) != null) {
+            conf = parent.getTable().getTableConfiguration().getExportConfigurations().get(format);
          }
          else {
             conf = new ExportConf(format);
-            parent.getTable().getTableConfiguration().getExportConfiguration().put(format, conf);
+            parent.getTable().getTableConfiguration().getExportConfigurations().put(format, conf);
          }
 
          // Default mode (export using filter)

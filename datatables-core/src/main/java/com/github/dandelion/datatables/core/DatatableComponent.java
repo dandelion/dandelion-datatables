@@ -46,6 +46,7 @@ import com.github.dandelion.datatables.core.web.handler.debug.DatatableDebugMenu
 public class DatatableComponent implements Component {
 
    public static final String COMPONENT_NAME = "ddl-dt";
+   public static final String DDL_DT_REQUESTATTR_TABLES = "ddl-dt-tables";
 
    @Override
    public String getName() {

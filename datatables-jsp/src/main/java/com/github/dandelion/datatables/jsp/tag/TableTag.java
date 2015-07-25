@@ -31,9 +31,11 @@ package com.github.dandelion.datatables.jsp.tag;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +50,8 @@ import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.generator.js.jquery.JQueryJsContentGenerator;
+import com.github.dandelion.core.option.Option;
+import com.github.dandelion.core.util.OptionUtils;
 import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.core.util.UrlUtils;
 import com.github.dandelion.core.web.AssetRequestContext;
@@ -58,8 +62,7 @@ import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.generator.DatatableJQueryContent;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
-import com.github.dandelion.datatables.core.util.ConfigUtils;
+import com.github.dandelion.datatables.core.option.TableConfiguration;
 
 /**
  * <p>
@@ -187,6 +190,7 @@ public class TableTag extends BodyTagSupport implements DynamicAttributes {
       this.response = (HttpServletResponse) this.pageContext.getResponse();
 
       this.table = new HtmlTable(this.id, this.request, this.response, this.confGroup, this.dynamicAttributes);
+      this.request.setAttribute(TableConfiguration.class.getCanonicalName(), this.table.getTableConfiguration());
 
       // The table data are loaded using an AJAX source
       if (SOURCE_AJAX.equals(this.dataSourceType)) {
@@ -222,10 +226,10 @@ public class TableTag extends BodyTagSupport implements DynamicAttributes {
       // configuration map should have been filled with user configuration
       // The user configuration can now be applied to the default
       // configuration
-      ConfigUtils.applyStagingOptions(this.stagingConf, this.table);
+      this.table.getTableConfiguration().getOptions().putAll(this.stagingConf);
 
       // Once all configuration are merged, they can be processed
-      ConfigUtils.processOptions(this.table);
+      OptionUtils.processOptions(this.table.getTableConfiguration().getOptions(), this.request);
 
       // The table is being exported
       if (ExportUtils.isTableBeingExported(this.request, this.table)) {
@@ -233,7 +237,19 @@ public class TableTag extends BodyTagSupport implements DynamicAttributes {
       }
       // The table must be generated and displayed
       else {
-         ConfigUtils.storeTableInRequest(this.request, this.table);
+
+         if (request.getAttribute(DatatableComponent.DDL_DT_REQUESTATTR_TABLES) == null) {
+            List<HtmlTable> htmlTables = new ArrayList<HtmlTable>();
+            htmlTables.add(table);
+            request.setAttribute(DatatableComponent.DDL_DT_REQUESTATTR_TABLES, htmlTables);
+         }
+         else {
+            List<HtmlTable> htmlTables = (List<HtmlTable>) request
+                  .getAttribute(DatatableComponent.DDL_DT_REQUESTATTR_TABLES);
+            htmlTables.add(table);
+         }
+
+         // ConfigUtils.storeTableInRequest(this.request, this.table);
          return setupHtmlGeneration();
       }
    }
@@ -547,7 +563,7 @@ public class TableTag extends BodyTagSupport implements DynamicAttributes {
    public void setDeferLoading(String deferLoading) {
       stagingConf.put(DatatableOptions.AJAX_DEFERLOADING, deferLoading);
    }
-   
+
    public void setFilterable(boolean filterable) {
       stagingConf.put(DatatableOptions.FEATURE_FILTERABLE, filterable);
    }

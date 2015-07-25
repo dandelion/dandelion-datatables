@@ -55,35 +55,35 @@ public class FeatureEnablementTest extends DomBaseTest {
 
 	@Test
 	public void should_disable_info(){
-		assertThat(DatatableOptions.FEATURE_INFO.valueFrom(table.getTableConfiguration())).isFalse();
+		assertThat(DatatableOptions.FEATURE_INFO.valueFrom(table.getTableConfiguration().getOptions())).isFalse();
 		assertThat(mainConf.containsKey(DTConstants.DT_INFO)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_INFO)).isEqualTo(false);
 	}
 	
 	@Test
 	public void should_disable_lengthChange(){
-		assertThat(DatatableOptions.FEATURE_LENGTHCHANGE.valueFrom(table.getTableConfiguration())).isEqualTo(false);
+		assertThat(DatatableOptions.FEATURE_LENGTHCHANGE.valueFrom(table.getTableConfiguration().getOptions())).isEqualTo(false);
 		assertThat(mainConf.containsKey(DTConstants.DT_LENGTH_CHANGE)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_LENGTH_CHANGE)).isEqualTo(false);
 	}
 	
 	@Test
 	public void should_disable_sort(){
-		assertThat(DatatableOptions.FEATURE_SORTABLE.valueFrom(table.getTableConfiguration())).isFalse();
+		assertThat(DatatableOptions.FEATURE_SORTABLE.valueFrom(table.getTableConfiguration().getOptions())).isFalse();
 		assertThat(mainConf.containsKey(DTConstants.DT_SORT)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_SORT)).isEqualTo(false);
 	}
 	
 	@Test
 	public void should_enable_filter(){
-		assertThat(DatatableOptions.FEATURE_FILTERABLE.valueFrom(table.getTableConfiguration())).isTrue();
+		assertThat(DatatableOptions.FEATURE_FILTERABLE.valueFrom(table.getTableConfiguration().getOptions())).isTrue();
 		assertThat(mainConf.containsKey(DTConstants.DT_FILTER)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_FILTER)).isEqualTo(true);
 	}
 	
 	@Test
 	public void should_enable_paginate(){
-		assertThat(DatatableOptions.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration())).isTrue();
+		assertThat(DatatableOptions.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration().getOptions())).isTrue();
 		assertThat(mainConf.containsKey(DTConstants.DT_PAGING)).isTrue();
 		assertThat(mainConf.get(DTConstants.DT_PAGING)).isEqualTo(true);
 	}

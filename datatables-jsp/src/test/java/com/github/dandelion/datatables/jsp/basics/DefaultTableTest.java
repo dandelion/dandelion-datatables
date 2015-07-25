@@ -64,7 +64,7 @@ public class DefaultTableTest extends DomBaseTest {
 	@Test
 	public void should_generate_a_default_table() {
 		assertThat(table.getTableConfiguration().getInternalExtensions()).isNull();
-		assertThat(DatatableOptions.CSS_THEME.valueFrom(table.getTableConfiguration())).isNull();
+		assertThat(DatatableOptions.CSS_THEME.valueFrom(table.getTableConfiguration().getOptions())).isNull();
 		//TODO more assertions are needed
 	}
 }
