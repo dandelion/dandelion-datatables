@@ -96,10 +96,11 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
    }
 
    private void generateScrollingConfiguration(Map<String, Object> mainConf, TableConfiguration tableConfiguration) {
-      String featureScrollY = DatatableOptions.FEATURE_SCROLLY.valueFrom(tableConfiguration);
-      Boolean featureScrollCollapse = DatatableOptions.FEATURE_SCROLLCOLLAPSE.valueFrom(tableConfiguration);
-      String featureScrollX = DatatableOptions.FEATURE_SCROLLX.valueFrom(tableConfiguration);
-      String featureScrollXInner = DatatableOptions.FEATURE_SCROLLXINNER.valueFrom(tableConfiguration);
+      String featureScrollY = DatatableOptions.FEATURE_SCROLLY.valueFrom(tableConfiguration.getOptions());
+      Boolean featureScrollCollapse = DatatableOptions.FEATURE_SCROLLCOLLAPSE
+            .valueFrom(tableConfiguration.getOptions());
+      String featureScrollX = DatatableOptions.FEATURE_SCROLLX.valueFrom(tableConfiguration.getOptions());
+      String featureScrollXInner = DatatableOptions.FEATURE_SCROLLXINNER.valueFrom(tableConfiguration.getOptions());
 
       if (StringUtils.isNotBlank(featureScrollY)) {
          mainConf.put(DTConstants.DT_SCROLLY, featureScrollY);
@@ -118,11 +119,11 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
    private void generateFeatureEnablementConfiguration(Map<String, Object> mainConf,
          TableConfiguration tableConfiguration) {
 
-      Boolean featureFilterable = DatatableOptions.FEATURE_FILTERABLE.valueFrom(tableConfiguration);
-      Boolean featureInfo = DatatableOptions.FEATURE_INFO.valueFrom(tableConfiguration);
-      Boolean featurePaginate = DatatableOptions.FEATURE_PAGEABLE.valueFrom(tableConfiguration);
-      Boolean featureSort = DatatableOptions.FEATURE_SORTABLE.valueFrom(tableConfiguration);
-      Boolean featureProcessing = DatatableOptions.FEATURE_PROCESSING.valueFrom(tableConfiguration);
+      Boolean featureFilterable = DatatableOptions.FEATURE_FILTERABLE.valueFrom(tableConfiguration.getOptions());
+      Boolean featureInfo = DatatableOptions.FEATURE_INFO.valueFrom(tableConfiguration.getOptions());
+      Boolean featurePaginate = DatatableOptions.FEATURE_PAGEABLE.valueFrom(tableConfiguration.getOptions());
+      Boolean featureSort = DatatableOptions.FEATURE_SORTABLE.valueFrom(tableConfiguration.getOptions());
+      Boolean featureProcessing = DatatableOptions.FEATURE_PROCESSING.valueFrom(tableConfiguration.getOptions());
 
       if (featureFilterable != null) {
          mainConf.put(DTConstants.DT_FILTER, featureFilterable);
@@ -143,15 +144,15 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 
    private void generateMiscConfiguration(Map<String, Object> mainConf, TableConfiguration tableConfiguration) {
 
-      String featureDom = DatatableOptions.FEATURE_DOM.valueFrom(tableConfiguration);
-      Boolean featureAutoWidth = DatatableOptions.FEATURE_AUTOWIDTH.valueFrom(tableConfiguration);
-      String featureLengthMenu = DatatableOptions.FEATURE_LENGTHMENU.valueFrom(tableConfiguration);
-      String cssStripeClasses = DatatableOptions.CSS_STRIPECLASSES.valueFrom(tableConfiguration);
-      Integer featureDisplayLength = DatatableOptions.FEATURE_DISPLAYLENGTH.valueFrom(tableConfiguration);
-      Boolean featureLengthChange = DatatableOptions.FEATURE_LENGTHCHANGE.valueFrom(tableConfiguration);
-      PagingType featurePaginationType = DatatableOptions.FEATURE_PAGINGTYPE.valueFrom(tableConfiguration);
-      Boolean featureStateSave = DatatableOptions.FEATURE_STATESAVE.valueFrom(tableConfiguration);
-      Boolean featureJqueryUi = DatatableOptions.FEATURE_JQUERYUI.valueFrom(tableConfiguration);
+      String featureDom = DatatableOptions.FEATURE_DOM.valueFrom(tableConfiguration.getOptions());
+      Boolean featureAutoWidth = DatatableOptions.FEATURE_AUTOWIDTH.valueFrom(tableConfiguration.getOptions());
+      String featureLengthMenu = DatatableOptions.FEATURE_LENGTHMENU.valueFrom(tableConfiguration.getOptions());
+      String cssStripeClasses = DatatableOptions.CSS_STRIPECLASSES.valueFrom(tableConfiguration.getOptions());
+      Integer featureDisplayLength = DatatableOptions.FEATURE_DISPLAYLENGTH.valueFrom(tableConfiguration.getOptions());
+      Boolean featureLengthChange = DatatableOptions.FEATURE_LENGTHCHANGE.valueFrom(tableConfiguration.getOptions());
+      PagingType featurePaginationType = DatatableOptions.FEATURE_PAGINGTYPE.valueFrom(tableConfiguration.getOptions());
+      Boolean featureStateSave = DatatableOptions.FEATURE_STATESAVE.valueFrom(tableConfiguration.getOptions());
+      Boolean featureJqueryUi = DatatableOptions.FEATURE_JQUERYUI.valueFrom(tableConfiguration.getOptions());
 
       if (StringUtils.isNotBlank(featureDom)) {
          mainConf.put(DTConstants.DT_DOM, featureDom);
@@ -197,41 +198,41 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
             tmp = new HashMap<String, Object>();
 
             // Name
-            String name = DatatableOptions.NAME.valueFrom(columnConfiguration);
+            String name = DatatableOptions.NAME.valueFrom(columnConfiguration.getOptions());
             if (StringUtils.isNotBlank(name)) {
                tmp.put(DTConstants.DT_NAME, name);
             }
 
             // Sortable
-            Boolean sortable = DatatableOptions.SORTABLE.valueFrom(columnConfiguration);
+            Boolean sortable = DatatableOptions.SORTABLE.valueFrom(columnConfiguration.getOptions());
             if (sortable != null) {
                tmp.put(DTConstants.DT_SORTABLE, sortable);
             }
 
             // Searchable
-            Boolean searchable = DatatableOptions.SEARCHABLE.valueFrom(columnConfiguration);
+            Boolean searchable = DatatableOptions.SEARCHABLE.valueFrom(columnConfiguration.getOptions());
             if (searchable != null) {
                tmp.put(DTConstants.DT_SEARCHABLE, searchable);
             }
 
             // Visible
-            Boolean visible = DatatableOptions.VISIBLE.valueFrom(columnConfiguration);
+            Boolean visible = DatatableOptions.VISIBLE.valueFrom(columnConfiguration.getOptions());
             if (visible != null) {
                tmp.put(DTConstants.DT_VISIBLE, visible);
             }
 
             // Column's content
-            String property = DatatableOptions.PROPERTY.valueFrom(columnConfiguration);
+            String property = DatatableOptions.PROPERTY.valueFrom(columnConfiguration.getOptions());
             if (StringUtils.isNotBlank(property)) {
                tmp.put(DTConstants.DT_DATA, property);
             }
 
-            String renderFunction = DatatableOptions.RENDERFUNCTION.valueFrom(columnConfiguration);
+            String renderFunction = DatatableOptions.RENDERFUNCTION.valueFrom(columnConfiguration.getOptions());
             if (StringUtils.isNotBlank(renderFunction)) {
                tmp.put(DTConstants.DT_COLUMN_RENDERER, new JsSnippet(renderFunction));
             }
 
-            String defaultValue = DatatableOptions.DEFAULTVALUE.valueFrom(columnConfiguration);
+            String defaultValue = DatatableOptions.DEFAULTVALUE.valueFrom(columnConfiguration.getOptions());
             if (defaultValue != null) {
                tmp.put(DTConstants.DT_DEFAULT_CONTENT, defaultValue);
             }
@@ -240,8 +241,8 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
             }
 
             // Column's style (AJAX only)
-            StringBuilder cssCellClass = DatatableOptions.CSSCELLCLASS.valueFrom(columnConfiguration);
-            String ajaxSource = DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration());
+            StringBuilder cssCellClass = DatatableOptions.CSSCELLCLASS.valueFrom(columnConfiguration.getOptions());
+            String ajaxSource = DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration().getOptions());
             if (StringUtils.isNotBlank(ajaxSource)) {
                if (cssCellClass != null && StringUtils.isNotBlank(cssCellClass.toString())) {
                   tmp.put(DTConstants.DT_S_CLASS, cssCellClass.toString());
@@ -249,7 +250,7 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
             }
 
             // Sorting direction
-            List<Direction> sortDirections = DatatableOptions.SORTDIRECTION.valueFrom(columnConfiguration);
+            List<Direction> sortDirections = DatatableOptions.SORTDIRECTION.valueFrom(columnConfiguration.getOptions());
             if (sortDirections != null) {
                List<String> directions = new ArrayList<String>();
                for (Direction direction : sortDirections) {
@@ -259,7 +260,7 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
             }
 
             // Sorting type
-            String sortType = DatatableOptions.SORTTYPE.valueFrom(columnConfiguration);
+            String sortType = DatatableOptions.SORTTYPE.valueFrom(columnConfiguration.getOptions());
             if (StringUtils.isNotBlank(sortType)) {
                tmp.put(DTConstants.DT_TYPE, sortType);
             }
@@ -277,8 +278,9 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
 
       for (HtmlColumn column : table.getLastHeaderRow().getColumns(ReservedFormat.ALL, ReservedFormat.HTML)) {
 
-         String sortInitDirection = DatatableOptions.SORTINITDIRECTION.valueFrom(column.getColumnConfiguration());
-         Integer sortInitOrder = DatatableOptions.SORTINITORDER.valueFrom(column.getColumnConfiguration());
+         String sortInitDirection = DatatableOptions.SORTINITDIRECTION
+               .valueFrom(column.getColumnConfiguration().getOptions());
+         Integer sortInitOrder = DatatableOptions.SORTINITORDER.valueFrom(column.getColumnConfiguration().getOptions());
 
          if (sortInitOrder != null && StringUtils.isNotBlank(sortInitDirection)) {
             Map<Integer, String> value = new HashMap<Integer, String>();
@@ -362,9 +364,9 @@ public class DatatableConfigGenerator extends AbstractConfigGenerator {
     *           The table configuration to read from.
     */
    private void generateAjaxConfiguration(Map<String, Object> mainConf, TableConfiguration tableConfiguration) {
-      Boolean ajaxServerSide = DatatableOptions.AJAX_SERVERSIDE.valueFrom(tableConfiguration);
-      Boolean ajaxDeferRender = DatatableOptions.AJAX_DEFERRENDER.valueFrom(tableConfiguration);
-      Object ajaxDeferLoading = DatatableOptions.AJAX_DEFERLOADING.valueFrom(tableConfiguration);
+      Boolean ajaxServerSide = DatatableOptions.AJAX_SERVERSIDE.valueFrom(tableConfiguration.getOptions());
+      Boolean ajaxDeferRender = DatatableOptions.AJAX_DEFERRENDER.valueFrom(tableConfiguration.getOptions());
+      Object ajaxDeferLoading = DatatableOptions.AJAX_DEFERLOADING.valueFrom(tableConfiguration.getOptions());
 
       if (ajaxServerSide != null) {
          mainConf.put(DTConstants.DT_B_SERVER_SIDE, ajaxServerSide);

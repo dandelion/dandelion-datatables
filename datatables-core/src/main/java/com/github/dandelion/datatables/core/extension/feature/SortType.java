@@ -42,15 +42,21 @@ public enum SortType {
 
    ALT_STRING("alt-string", DatatableBundles.DDL_DT_SORTING_ALT_STRING), ANTI_THE("anti-the",
          DatatableBundles.DDL_DT_SORTING_ANTI_THE), CHINESE_STRING("chinese_string",
-         DatatableBundles.DDL_DT_SORTING_CHINESE_STRING), DATE_DE("date-de", DatatableBundles.DDL_DT_SORTING_DATE_DE), DATE_EU(
-         "date-eu", DatatableBundles.DDL_DT_SORTING_DATE_EU), DATE_EURO("date-euro",
-         DatatableBundles.DDL_DT_SORTING_DATE_EURO), DATE_UK("date-uk", DatatableBundles.DDL_DT_SORTING_DATE_UK), FILESIZE(
-         "file-size", DatatableBundles.DDL_DT_SORTING_FILESIZE), IP_ADDRESS("ip-address",
-         DatatableBundles.DDL_DT_SORTING_IP), NATURAL("natural", DatatableBundles.DDL_DT_SORTING_NATURAL), PERSIAN(
-         "persian", DatatableBundles.DDL_DT_SORTING_PERSIAN), SCIENTIFIC("scientific",
-         DatatableBundles.DDL_DT_SORTING_SCIENTIFIC), SIGNED_NUM("signed-num",
-         DatatableBundles.DDL_DT_SORTING_SIGNED_NUM), TURKISH_STRING("turkish-string",
-         DatatableBundles.DDL_DT_SORTING_TURKISH_STRING);
+               DatatableBundles.DDL_DT_SORTING_CHINESE_STRING), DATE_DE("date-de",
+                     DatatableBundles.DDL_DT_SORTING_DATE_DE), DATE_EU("date-eu",
+                           DatatableBundles.DDL_DT_SORTING_DATE_EU), DATE_EURO("date-euro",
+                                 DatatableBundles.DDL_DT_SORTING_DATE_EURO), DATE_UK("date-uk",
+                                       DatatableBundles.DDL_DT_SORTING_DATE_UK), FILESIZE("file-size",
+                                             DatatableBundles.DDL_DT_SORTING_FILESIZE), IP_ADDRESS("ip-address",
+                                                   DatatableBundles.DDL_DT_SORTING_IP), NATURAL("natural",
+                                                         DatatableBundles.DDL_DT_SORTING_NATURAL), PERSIAN("persian",
+                                                               DatatableBundles.DDL_DT_SORTING_PERSIAN), SCIENTIFIC(
+                                                                     "scientific",
+                                                                     DatatableBundles.DDL_DT_SORTING_SCIENTIFIC), SIGNED_NUM(
+                                                                           "signed-num",
+                                                                           DatatableBundles.DDL_DT_SORTING_SIGNED_NUM), TURKISH_STRING(
+                                                                                 "turkish-string",
+                                                                                 DatatableBundles.DDL_DT_SORTING_TURKISH_STRING);
 
    private String name;
    private DatatableBundles bundle;

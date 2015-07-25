@@ -22,7 +22,7 @@ public class AjaxReloadFeatureTest extends AbstractExtensionTest {
 		js.append("$('").append(mySelector).append("').bind('click', function() {");
 		js.append("oTable_").append(table.getId()).append(".ajax.reload();");
 		js.append("});");
-		DatatableOptions.AJAX_RELOAD_SELECTOR.setIn(table.getTableConfiguration(), mySelector);
+		DatatableOptions.AJAX_RELOAD_SELECTOR.setIn(table.getTableConfiguration().getOptions(), mySelector);
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(ajaxReloadFeature)));
 
@@ -38,8 +38,8 @@ public class AjaxReloadFeatureTest extends AbstractExtensionTest {
 		js.append("$('").append(mySelector).append("').bind('click', function() {");
 		js.append(myFunction).append("();");
 		js.append("});");
-		DatatableOptions.AJAX_RELOAD_SELECTOR.setIn(table.getTableConfiguration(), mySelector);
-		DatatableOptions.AJAX_RELOAD_FUNCTION.setIn(table.getTableConfiguration(), myFunction);
+		DatatableOptions.AJAX_RELOAD_SELECTOR.setIn(table.getTableConfiguration().getOptions(), mySelector);
+		DatatableOptions.AJAX_RELOAD_FUNCTION.setIn(table.getTableConfiguration().getOptions(), myFunction);
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(ajaxReloadFeature)));
 

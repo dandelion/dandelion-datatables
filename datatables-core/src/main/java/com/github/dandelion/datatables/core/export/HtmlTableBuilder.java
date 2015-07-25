@@ -342,7 +342,7 @@ public class HtmlTableBuilder<T> {
       }
 
       public Steps<T> title(String title) {
-         headerColumns.getLast().getColumnConfiguration().getConfigurations().put(DatatableOptions.TITLE, title);
+         headerColumns.getLast().getColumnConfiguration().getOptions().put(DatatableOptions.TITLE, title);
          return this;
       }
 
@@ -421,20 +421,20 @@ public class HtmlTableBuilder<T> {
       public HtmlTable build() {
          HtmlTable table = new HtmlTable(id, request, response);
 
-         table.getTableConfiguration().getExportConfiguration().put(exportConf.getFormat(), exportConf);
+         table.getTableConfiguration().getExportConfigurations().put(exportConf.getFormat(), exportConf);
 
          if (data != null && data.size() > 0) {
-            DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(),
+            DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration().getOptions(),
                   data.get(0).getClass().getSimpleName());
          }
          else {
-            DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration(), "???");
+            DatatableOptions.INTERNAL_OBJECTTYPE.setIn(table.getTableConfiguration().getOptions(), "???");
          }
 
          table.addHeaderRow();
 
          for (HtmlColumn column : headerColumns) {
-            String title = DatatableOptions.TITLE.valueFrom(column.getColumnConfiguration());
+            String title = DatatableOptions.TITLE.valueFrom(column.getColumnConfiguration().getOptions());
             if (StringUtils.isNotBlank(title)) {
                column.setContent(new StringBuilder(title));
             }
@@ -493,7 +493,7 @@ public class HtmlTableBuilder<T> {
       public BuildStep auto(DatatablesCriterias criteria) {
          for (ColumnDef columnDef : criteria.getColumnDefs()) {
             HtmlColumn headerColumn = new HtmlColumn(true, "");
-            headerColumn.getColumnConfiguration().getConfigurations().put(DatatableOptions.TITLE,
+            headerColumn.getColumnConfiguration().getOptions().put(DatatableOptions.TITLE,
                   StringUtils.capitalize(columnDef.getName()));
             headerColumn.getColumnConfiguration().setColumnElements(new ArrayList<ColumnElement>());
             headerColumn.getColumnConfiguration().getColumnElements()

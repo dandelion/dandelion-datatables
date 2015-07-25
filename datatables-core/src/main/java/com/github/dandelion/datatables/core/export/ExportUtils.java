@@ -125,8 +125,8 @@ public final class ExportUtils {
                exportConf.getMimeType());
       }
       catch (IOException e) {
-         throw new DandelionException(
-               "Unable to write to response using the " + exportClass.getClass().getSimpleName(), e);
+         throw new DandelionException("Unable to write to response using the " + exportClass.getClass().getSimpleName(),
+               e);
       }
    }
 

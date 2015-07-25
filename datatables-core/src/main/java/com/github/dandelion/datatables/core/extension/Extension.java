@@ -70,7 +70,8 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
  * => <b>AFTERALL</b>
  * </pre>
  * 
- * </blockquote></li> </ul>
+ * </blockquote></li>
+ * </ul>
  * 
  * @author Thibault Duchateau
  * @since 0.7.1

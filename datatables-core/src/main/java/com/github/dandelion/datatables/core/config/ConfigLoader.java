@@ -56,13 +56,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.dandelion.core.DandelionException;
+import com.github.dandelion.core.option.Option;
 import com.github.dandelion.core.util.LibraryDetector;
 import com.github.dandelion.core.util.PropertiesUtils;
 import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.core.util.UTF8Control;
 import com.github.dandelion.core.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
 
 /**
  * <p>
@@ -95,7 +95,8 @@ public class ConfigLoader {
     * Load the default configuration from the internal properties file and both:
     * <ul>
     * <li>stores the properties inside a class field</li>
-    * <li>returns the properties if they need to be used outside of the class</li>
+    * <li>returns the properties if they need to be used outside of the class
+    * </li>
     * </ul>
     * 
     * @return the default properties
@@ -185,8 +186,8 @@ public class ConfigLoader {
             // if no resource bundle is found, try using the context
             // classloader
             try {
-               userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES_LOCATION + DT_USER_PROPERTIES, locale, Thread
-                     .currentThread().getContextClassLoader(), new UTF8Control());
+               userBundle = ResourceBundle.getBundle(DT_USER_PROPERTIES_LOCATION + DT_USER_PROPERTIES, locale,
+                     Thread.currentThread().getContextClassLoader(), new UTF8Control());
             }
             catch (MissingResourceException mre) {
                logger.debug("No custom configuration. Using default one.");
@@ -283,7 +284,8 @@ public class ConfigLoader {
     * @param request
     *           The request sent by the browser.
     */
-   public void resolveConfigurations(Map<String, Map<Option<?>, Object>> map, Locale locale, HttpServletRequest request) {
+   public void resolveConfigurations(Map<String, Map<Option<?>, Object>> map, Locale locale,
+         HttpServletRequest request) {
 
       logger.debug("Resolving configurations for the locale {}...", locale);
 
@@ -310,7 +312,8 @@ public class ConfigLoader {
       }
 
       // Updates the ARC if Dandelion-Datatables is used in a standalone mode
-      if (userProperties.containsKey("main.standalone") && userProperties.getProperty("main.standalone").equals("true")) {
+      if (userProperties.containsKey("main.standalone")
+            && userProperties.getProperty("main.standalone").equals("true")) {
          AssetRequestContext.get(request).excludeBundles(STANDALONE_BUNDLES_TO_EXCLUDE);
       }
 

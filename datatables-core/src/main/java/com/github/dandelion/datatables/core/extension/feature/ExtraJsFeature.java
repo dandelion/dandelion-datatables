@@ -81,8 +81,8 @@ public class ExtraJsFeature extends AbstractExtension {
             if (!getContext().getBundleStorage().getBundleDag().getVertexMap().containsKey(bundleName)) {
                throw new DandelionException("The requested bundle \"" + bundleName + "\" does not exist in the graph.");
             }
-            assetsToInject.addAll(getContext().getBundleStorage().getBundleDag().getVertex(bundleName)
-                  .getAssetStorageUnits());
+            assetsToInject
+                  .addAll(getContext().getBundleStorage().getBundleDag().getVertex(bundleName).getAssetStorageUnits());
          }
 
          Set<AssetStorageUnit> filteredAsus = new LinkedHashSet<AssetStorageUnit>();

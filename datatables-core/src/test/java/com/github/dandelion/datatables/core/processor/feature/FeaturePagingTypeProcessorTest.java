@@ -31,15 +31,16 @@ package com.github.dandelion.datatables.core.processor.feature;
 
 import org.junit.Test;
 
+import com.github.dandelion.core.option.DefaultOptionProcessingContext;
+import com.github.dandelion.core.option.Option;
+import com.github.dandelion.core.option.OptionProcessingContext;
+import com.github.dandelion.core.option.OptionProcessor;
+import com.github.dandelion.datatables.core.MapEntry;
 import com.github.dandelion.datatables.core.extension.feature.PagingType;
 import com.github.dandelion.datatables.core.extension.feature.PagingTypeBootstrapSimpleFeature;
 import com.github.dandelion.datatables.core.extension.feature.PagingTypeInputFeature;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.feature.FeaturePagingTypeProcessor;
-import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -54,21 +55,21 @@ public class FeaturePagingTypeProcessorTest extends TableProcessorBaseTest {
 	@Test
 	public void should_set_pagingType() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_PAGINGTYPE, "bootstrap_simple");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat(entry.getValue()).isEqualTo(PagingType.BOOTSTRAP_SIMPLE);
 		assertThat(tableConfiguration.getInternalExtensions()).contains(new PagingTypeBootstrapSimpleFeature());
 
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_PAGINGTYPE, "BOOTSTRAP_SIMPLE");
-		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat(entry.getValue()).isEqualTo(PagingType.BOOTSTRAP_SIMPLE);
 		assertThat(tableConfiguration.getInternalExtensions()).contains(new PagingTypeBootstrapSimpleFeature());
 
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FEATURE_PAGINGTYPE, "INPUT");
-		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat(entry.getValue()).isEqualTo(PagingType.INPUT);

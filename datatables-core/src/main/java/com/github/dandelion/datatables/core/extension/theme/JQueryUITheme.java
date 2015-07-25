@@ -59,7 +59,7 @@ public class JQueryUITheme extends AbstractExtension {
       addBundle(DatatableBundles.DDL_DT_THEME_JQUERYUI);
       addParameter(new Parameter(DTConstants.DT_JQUERYUI, true));
 
-      ThemeOption themeOption = DatatableOptions.CSS_THEMEOPTION.valueFrom(table.getTableConfiguration());
+      ThemeOption themeOption = DatatableOptions.CSS_THEMEOPTION.valueFrom(table.getTableConfiguration().getOptions());
 
       if (themeOption != null) {
          switch (themeOption) {

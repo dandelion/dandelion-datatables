@@ -36,14 +36,15 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.github.dandelion.core.DandelionException;
+import com.github.dandelion.core.option.DefaultOptionProcessingContext;
+import com.github.dandelion.core.option.Option;
+import com.github.dandelion.core.option.OptionProcessingContext;
+import com.github.dandelion.core.option.OptionProcessor;
+import com.github.dandelion.datatables.core.MapEntry;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
 import com.github.dandelion.datatables.core.option.Direction;
-import com.github.dandelion.datatables.core.option.Option;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.column.SortDirectionProcessor;
 import com.github.dandelion.datatables.core.processor.ColumnProcessorBaseTest;
-import com.github.dandelion.datatables.core.processor.MapEntry;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -60,7 +61,7 @@ public class SortDirectionProcessorTest extends ColumnProcessorBaseTest {
 	@Test
 	public void should_return_null_when_the_option_value_is_empty() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.SORTDIRECTION, "");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat(entry.getValue()).isNull();
@@ -69,7 +70,7 @@ public class SortDirectionProcessorTest extends ColumnProcessorBaseTest {
 	@Test
 	public void should_map_to_an_enum_when_using_an_existing_value() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.SORTDIRECTION, " asc");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat(entry.getValue()).isEqualTo(Arrays.asList(Direction.ASC));
@@ -78,7 +79,7 @@ public class SortDirectionProcessorTest extends ColumnProcessorBaseTest {
 	@Test
 	public void should_throw_an_exception_wiwth_message() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.SORTDIRECTION, "assssc");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		
 		exception.expect(DandelionException.class);
 		exception.expectMessage("");

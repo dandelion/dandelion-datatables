@@ -30,13 +30,13 @@
 package com.github.dandelion.datatables.core.option.processor.column;
 
 import com.github.dandelion.core.DandelionException;
+import com.github.dandelion.core.option.AbstractOptionProcessor;
+import com.github.dandelion.core.option.OptionProcessingContext;
 import com.github.dandelion.core.util.EnumUtils;
 import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.datatables.core.extension.feature.AbstractFilteringFeature;
 import com.github.dandelion.datatables.core.generator.YadcfConfigGenerator.FilterType;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 
 /**
  * <p>

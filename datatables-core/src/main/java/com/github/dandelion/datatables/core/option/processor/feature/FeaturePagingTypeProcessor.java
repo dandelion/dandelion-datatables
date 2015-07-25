@@ -32,6 +32,8 @@ package com.github.dandelion.datatables.core.option.processor.feature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.dandelion.core.option.AbstractOptionProcessor;
+import com.github.dandelion.core.option.OptionProcessingContext;
 import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.datatables.core.extension.feature.PagingType;
 import com.github.dandelion.datatables.core.extension.feature.PagingTypeBootstrapFullFeature;
@@ -41,8 +43,7 @@ import com.github.dandelion.datatables.core.extension.feature.PagingTypeExtJsFea
 import com.github.dandelion.datatables.core.extension.feature.PagingTypeInputFeature;
 import com.github.dandelion.datatables.core.extension.feature.PagingTypeListboxFeature;
 import com.github.dandelion.datatables.core.extension.feature.PagingTypeScrollingFeature;
-import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.TableConfiguration;
 
 public class FeaturePagingTypeProcessor extends AbstractOptionProcessor {
 
@@ -51,6 +52,8 @@ public class FeaturePagingTypeProcessor extends AbstractOptionProcessor {
    @Override
    protected Object getProcessedValue(OptionProcessingContext context) {
 
+      TableConfiguration tc = (TableConfiguration) context.getRequest()
+            .getAttribute(TableConfiguration.class.getCanonicalName());
       String valueAsString = context.getValueAsString();
       PagingType retval = null;
 
@@ -73,27 +76,27 @@ public class FeaturePagingTypeProcessor extends AbstractOptionProcessor {
 
             switch (retval) {
             case INPUT:
-               context.registerExtension(PagingTypeInputFeature.FEATURE_NAME);
+               tc.registerExtension(PagingTypeInputFeature.FEATURE_NAME);
                break;
             case LISTBOX:
-               context.registerExtension(PagingTypeListboxFeature.FEATURE_NAME);
+               tc.registerExtension(PagingTypeListboxFeature.FEATURE_NAME);
                break;
             case SCROLLING:
-               context.registerExtension(PagingTypeScrollingFeature.FEATURE_NAME);
+               tc.registerExtension(PagingTypeScrollingFeature.FEATURE_NAME);
                break;
             case EXTSTYLE:
-               context.registerExtension(PagingTypeExtJsFeature.FEATURE_NAME);
+               tc.registerExtension(PagingTypeExtJsFeature.FEATURE_NAME);
                break;
 
             // --- Bootstrap 2 styles ---
             case BOOTSTRAP_SIMPLE:
-               context.registerExtension(PagingTypeBootstrapSimpleFeature.FEATURE_NAME);
+               tc.registerExtension(PagingTypeBootstrapSimpleFeature.FEATURE_NAME);
                break;
             case BOOTSTRAP_FULL:
-               context.registerExtension(PagingTypeBootstrapFullFeature.FEATURE_NAME);
+               tc.registerExtension(PagingTypeBootstrapFullFeature.FEATURE_NAME);
                break;
             case BOOTSTRAP_FULL_NUMBERS:
-               context.registerExtension(PagingTypeBootstrapFullNumbersFeature.FEATURE_NAME);
+               tc.registerExtension(PagingTypeBootstrapFullNumbersFeature.FEATURE_NAME);
                break;
 
             default:

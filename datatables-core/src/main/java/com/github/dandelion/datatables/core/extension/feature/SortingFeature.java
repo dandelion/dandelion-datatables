@@ -41,9 +41,8 @@ import com.github.dandelion.datatables.core.option.DatatableOptions;
  * help DataTables to configure the sort on a column.
  * </p>
  * <p>
- * See <a
- * href="http://datatables.net/plug-ins/sorting">http://datatables.net/plugins
- * /sorting</a> for an overview of all available sorting functions.
+ * See <a href="http://datatables.net/plug-ins/sorting">http://datatables.net/
+ * plugins /sorting</a> for an overview of all available sorting functions.
  * </p>
  * 
  * @author Thibault Duchateau
@@ -63,7 +62,7 @@ public class SortingFeature extends AbstractExtension {
    public void setup(HtmlTable table) {
 
       for (HtmlColumn column : table.getLastHeaderRow().getColumns()) {
-         String sortTypeString = DatatableOptions.SORTTYPE.valueFrom(column.getColumnConfiguration());
+         String sortTypeString = DatatableOptions.SORTTYPE.valueFrom(column.getColumnConfiguration().getOptions());
          if (StringUtils.isNotBlank(sortTypeString)) {
             SortType sortType = SortType.findByName(sortTypeString);
             if (sortType != null) {

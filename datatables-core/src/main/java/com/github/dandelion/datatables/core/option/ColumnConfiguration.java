@@ -33,30 +33,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.github.dandelion.core.option.Option;
 import com.github.dandelion.datatables.core.export.ColumnElement;
 import com.github.dandelion.datatables.core.extension.Extension;
 
 /**
+ * <p>
  * Contains the column configuration.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
  */
 public class ColumnConfiguration {
 
-   private Map<Option<?>, Object> configurations;
-   private Map<Option<?>, Object> stagingConfigurations;
+   /**
+    * All {@link Option}/value entries associated with this configuration.
+    */
+   private Map<Option<?>, Object> options;
+   private Map<Option<?>, Object> stagingOptions;
    private Map<Option<?>, Extension> stagingExtension;
    private List<ColumnElement> columnElements;
 
    public ColumnConfiguration() {
-      this.configurations = new HashMap<Option<?>, Object>();
-      this.stagingConfigurations = new HashMap<Option<?>, Object>();
+      this.options = new HashMap<Option<?>, Object>();
+      this.stagingOptions = new HashMap<Option<?>, Object>();
       this.setStagingExtension(new HashMap<Option<?>, Extension>());
    }
 
-   public Map<Option<?>, Object> getConfigurations() {
-      return configurations;
+   public Map<Option<?>, Object> getOptions() {
+      return options;
    }
 
    public List<ColumnElement> getColumnElements() {
@@ -67,16 +73,8 @@ public class ColumnConfiguration {
       this.columnElements = columnElements;
    }
 
-   public Map<Option<?>, Object> getStagingConfigurations() {
-      return stagingConfigurations;
-   }
-
-   public void setStagingConfigurations(Map<Option<?>, Object> stagingConfigurations) {
-      this.stagingConfigurations = stagingConfigurations;
-   }
-
-   public void setConfigurations(Map<Option<?>, Object> configurations) {
-      this.configurations = configurations;
+   public Map<Option<?>, Object> getStagingOptions() {
+      return stagingOptions;
    }
 
    public Map<Option<?>, Extension> getStagingExtension() {
@@ -88,6 +86,6 @@ public class ColumnConfiguration {
    }
 
    public void addOption(Option<?> option, Object value) {
-      this.configurations.put(option, value);
+      this.options.put(option, value);
    }
 }

@@ -41,9 +41,9 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
+import com.github.dandelion.core.option.Option;
 import com.github.dandelion.datatables.core.config.ConfigLoader;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

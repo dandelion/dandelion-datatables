@@ -61,10 +61,10 @@ public class HtmlColumnTest {
 	@Test
 	public void should_create_header_column_with_id() {
 		column = new HtmlColumn(true, "content");
-		DatatableOptions.ID.setIn(column.getColumnConfiguration(), "fakeId");
+		DatatableOptions.ID.setIn(column.getColumnConfiguration().getOptions(), "fakeId");
 		assertThat(column.isHeaderColumn()).isTrue();
 		assertThat(column.toHtml().toString()).isEqualTo(
-				"<" + column.getTag() + " id=\"" + DatatableOptions.ID.valueFrom(column.getColumnConfiguration()) + "\">content</"
+				"<" + column.getTag() + " id=\"" + DatatableOptions.ID.valueFrom(column.getColumnConfiguration().getOptions()) + "\">content</"
 						+ column.getTag() + ">");
 	}
 	

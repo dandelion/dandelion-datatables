@@ -82,29 +82,31 @@ public class ExportFeature extends AbstractExtension {
 
       // If the export has been configured to be triggered with a POST, PUT or
       // DELETE HTTP method, a custom plugin must be added to the page
-      for (ExportConf exportConf : table.getTableConfiguration().getExportConfiguration().values()) {
+      for (ExportConf exportConf : table.getTableConfiguration().getExportConfigurations().values()) {
          if (exportConf.getMethod().equals(HttpMethod.POST) || exportConf.getMethod().equals(HttpMethod.PUT)
                || exportConf.getMethod().equals(HttpMethod.DELETE)) {
             addBundle(DatatableBundles.JQUERY_DOWNLOAD);
          }
       }
 
-      String exportContainerStyle = DatatableOptions.EXPORT_CONTAINER_STYLE.valueFrom(table.getTableConfiguration());
-      String exportContainerClass = DatatableOptions.EXPORT_CONTAINER_CLASS.valueFrom(table.getTableConfiguration());
+      String exportContainerStyle = DatatableOptions.EXPORT_CONTAINER_STYLE
+            .valueFrom(table.getTableConfiguration().getOptions());
+      String exportContainerClass = DatatableOptions.EXPORT_CONTAINER_CLASS
+            .valueFrom(table.getTableConfiguration().getOptions());
 
       // In order to be easily positioned around the table, a DataTable
       // feature is created
       ExtraHtml extraHtml = new ExtraHtml();
       extraHtml.setUid("E");
       extraHtml.setContainer("div");
-      extraHtml.setCssClass("dataTables_export "
-            + (StringUtils.isNotBlank(exportContainerClass) ? exportContainerClass : ""));
+      extraHtml.setCssClass(
+            "dataTables_export " + (StringUtils.isNotBlank(exportContainerClass) ? exportContainerClass : ""));
       extraHtml.setCssStyle(StringUtils.isNotBlank(exportContainerStyle) ? exportContainerStyle : "float: right;");
 
-      String dom = DatatableOptions.FEATURE_DOM.valueFrom(table.getTableConfiguration());
-      if (table.getTableConfiguration().getConfigurations().containsKey(DatatableOptions.CSS_THEME)
-            && table.getTableConfiguration().getConfigurations().get(DatatableOptions.CSS_THEME).getClass()
-                  .getSimpleName().equals("JQueryUITheme")) {
+      String dom = DatatableOptions.FEATURE_DOM.valueFrom(table.getTableConfiguration().getOptions());
+      if (table.getTableConfiguration().getOptions().containsKey(DatatableOptions.CSS_THEME)
+            && table.getTableConfiguration().getOptions().get(DatatableOptions.CSS_THEME).getClass().getSimpleName()
+                  .equals("JQueryUITheme")) {
          addParameter(DTConstants.DT_DOM, "<'" + TOOLBAR_PREXIX + "-tr'lEfr>t<'" + TOOLBAR_PREXIX + "-br'ip>",
                Mode.OVERRIDE);
       }
@@ -116,7 +118,7 @@ public class ExportFeature extends AbstractExtension {
       HtmlHyperlink link = null;
 
       // A HTML link is generated for each ExportConf bean
-      for (ExportConf conf : table.getTableConfiguration().getExportConfiguration().values()) {
+      for (ExportConf conf : table.getTableConfiguration().getExportConfigurations().values()) {
 
          link = new HtmlHyperlink();
 

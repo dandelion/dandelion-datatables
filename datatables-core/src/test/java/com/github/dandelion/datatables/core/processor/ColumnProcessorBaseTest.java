@@ -40,11 +40,11 @@ import org.junit.Before;
 import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
+import com.github.dandelion.core.option.Option;
+import com.github.dandelion.core.option.OptionProcessor;
 import com.github.dandelion.datatables.core.option.ColumnConfiguration;
-import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.option.TableConfiguration;
 import com.github.dandelion.datatables.core.option.TableConfigurationFactory;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 
 public abstract class ColumnProcessorBaseTest {
 
@@ -64,6 +64,8 @@ public abstract class ColumnProcessorBaseTest {
 		confToBeApplied = new HashMap<Option<?>, Object>();
 		tableConfiguration = TableConfigurationFactory.newInstance("tableId", request, null);
 		columnConfiguration = new ColumnConfiguration();
+		request.setAttribute(TableConfiguration.class.getCanonicalName(), tableConfiguration);
+		request.setAttribute(ColumnConfiguration.class.getCanonicalName(), columnConfiguration);
 	}
 	
 	@After

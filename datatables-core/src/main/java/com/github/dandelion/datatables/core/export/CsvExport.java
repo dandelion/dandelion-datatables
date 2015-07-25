@@ -54,7 +54,7 @@ public class CsvExport implements DatatablesExport {
    @Override
    public void initExport(HtmlTable table) {
       this.table = table;
-      this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.CSV);
+      this.exportConf = table.getTableConfiguration().getExportConfigurations().get(ReservedFormat.CSV);
    }
 
    @Override

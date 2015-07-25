@@ -75,8 +75,7 @@ import com.github.dandelion.datatables.core.option.CallbackType;
  * <li>Create a class that extends {@link AbstractExtension}. You could directly
  * create a class that directly implements {@link Extension} but this is not
  * recommended.</li>
- * <li>
- * Create a file called
+ * <li>Create a file called
  * <b>com.github.dandelion.datatables.core.extension.Extension</b> under the
  * <b>META-INF/services</b> folder: <blockquote>
  * 
@@ -87,8 +86,8 @@ import com.github.dandelion.datatables.core.option.CallbackType;
  * </blockquote>
  * 
  * </li>
- * <li>
- * Add to the above file the full qualified name of your extension class. <br />
+ * <li>Add to the above file the full qualified name of your extension class.
+ * <br />
  * For example, assuming the following extension class: <blockquote>
  * 
  * <pre>
@@ -226,8 +225,8 @@ public abstract class AbstractExtension implements Extension {
    }
 
    public void addBundleParameter(String assetName, String paramName, Object paramValue) {
-      AssetRequestContext.get(table.getTableConfiguration().getRequest())
-            .addParameter(assetName, paramName, paramValue);
+      AssetRequestContext.get(table.getTableConfiguration().getRequest()).addParameter(assetName, paramName,
+            paramValue);
    }
 
    /**
@@ -244,8 +243,8 @@ public abstract class AbstractExtension implements Extension {
     *           The Javascript code to execute in the callback.
     */
    public void addCallback(CallbackType callbackType, String javascript) {
-      addParameter(new Parameter(callbackType.getName(), new JsFunction(javascript, callbackType.getArgs()),
-            Mode.APPEND));
+      addParameter(
+            new Parameter(callbackType.getName(), new JsFunction(javascript, callbackType.getArgs()), Mode.APPEND));
    }
 
    /**

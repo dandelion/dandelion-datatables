@@ -37,6 +37,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.github.dandelion.core.option.Option;
 import com.github.dandelion.core.util.ResourceUtils;
 import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.core.web.handler.HandlerContext;
@@ -44,7 +45,6 @@ import com.github.dandelion.core.web.handler.debug.AbstractDebugPage;
 import com.github.dandelion.datatables.core.config.DatatableConfigurator;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.option.TableConfigurationFactory;
 
 /**

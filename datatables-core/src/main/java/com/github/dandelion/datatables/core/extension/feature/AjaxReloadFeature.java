@@ -58,8 +58,10 @@ public class AjaxReloadFeature extends AbstractExtension {
    @Override
    public void setup(HtmlTable table) {
 
-      String reloadSelector = DatatableOptions.AJAX_RELOAD_SELECTOR.valueFrom(table.getTableConfiguration());
-      String reloadFunction = DatatableOptions.AJAX_RELOAD_FUNCTION.valueFrom(table.getTableConfiguration());
+      String reloadSelector = DatatableOptions.AJAX_RELOAD_SELECTOR
+            .valueFrom(table.getTableConfiguration().getOptions());
+      String reloadFunction = DatatableOptions.AJAX_RELOAD_FUNCTION
+            .valueFrom(table.getTableConfiguration().getOptions());
 
       StringBuilder js = new StringBuilder();
 

@@ -69,10 +69,10 @@ public class PipeliningFeature extends AbstractExtension {
    public void setup(HtmlTable table) {
 
       addBundle(DatatableBundles.DDL_DT_AJAX_PIPELINING);
-      Integer pipeSize = DatatableOptions.AJAX_PIPESIZE.valueFrom(table.getTableConfiguration());
+      Integer pipeSize = DatatableOptions.AJAX_PIPESIZE.valueFrom(table.getTableConfiguration().getOptions());
 
       Map<String, Object> ajaxParams = new HashMap<String, Object>();
-      ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
+      ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration().getOptions()));
       if (pipeSize != null) {
          ajaxParams.put("pages", pipeSize);
       }

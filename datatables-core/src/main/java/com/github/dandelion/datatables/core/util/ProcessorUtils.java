@@ -32,8 +32,8 @@ package com.github.dandelion.datatables.core.util;
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.dandelion.core.DandelionException;
+import com.github.dandelion.core.option.OptionProcessor;
 import com.github.dandelion.core.web.AssetRequestContext;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 
 /**
  * <p>

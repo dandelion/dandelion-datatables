@@ -101,7 +101,7 @@ public class DatatablesGeneratorTest {
 	@Before
 	public void createTable() {
 		table = new HtmlTable("aTable", request, response);
-		table.getTableConfiguration().getConfigurations().clear();
+		table.getTableConfiguration().getOptions().clear();
 		headerRow = table.addHeaderRow();
 		firstColumn = headerRow.addHeaderColumn("firstColumn");
 	}

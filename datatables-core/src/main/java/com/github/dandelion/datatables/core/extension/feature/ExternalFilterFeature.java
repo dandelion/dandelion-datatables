@@ -56,9 +56,10 @@ public class ExternalFilterFeature extends AbstractExtension {
    @Override
    public void setup(HtmlTable table) {
 
-      String filterSelector = DatatableOptions.FEATURE_FILTER_SELECTOR.valueFrom(table.getTableConfiguration());
-      String filterClearSelector = DatatableOptions.FEATURE_FILTER_CLEAR_SELECTOR.valueFrom(table
-            .getTableConfiguration());
+      String filterSelector = DatatableOptions.FEATURE_FILTER_SELECTOR
+            .valueFrom(table.getTableConfiguration().getOptions());
+      String filterClearSelector = DatatableOptions.FEATURE_FILTER_CLEAR_SELECTOR
+            .valueFrom(table.getTableConfiguration().getOptions());
 
       StringBuilder js = new StringBuilder();
       js.append("$('").append(filterSelector).append("').click(function() {");

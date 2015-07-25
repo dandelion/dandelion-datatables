@@ -27,7 +27,7 @@ public class ScrollerPluginTest extends AbstractExtensionTest {
 
 	@Test
 	public void shoud_load_the_extension_with_already_configured_dom() {
-		DatatableOptions.FEATURE_DOM.setIn(table.getTableConfiguration(), "lfr");
+		DatatableOptions.FEATURE_DOM.setIn(table.getTableConfiguration().getOptions(), "lfr");
 		mainConfig.put(DTConstants.DT_DOM, "lfr");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new ScrollerPlugin())));
 
@@ -38,7 +38,7 @@ public class ScrollerPluginTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_jqueryui_enabled() {
-		DatatableOptions.FEATURE_JQUERYUI.setIn(table.getTableConfiguration(), true);
+		DatatableOptions.FEATURE_JQUERYUI.setIn(table.getTableConfiguration().getOptions(), true);
 		mainConfig.put(DTConstants.DT_DOM, "lfr");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new ScrollerPlugin())));
 

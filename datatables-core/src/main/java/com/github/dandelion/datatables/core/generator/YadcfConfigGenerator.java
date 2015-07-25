@@ -75,11 +75,11 @@ public class YadcfConfigGenerator {
 
             ColumnConfiguration columnConfiguration = column.getColumnConfiguration();
 
-            Boolean filterable = DatatableOptions.FILTERABLE.valueFrom(columnConfiguration);
+            Boolean filterable = DatatableOptions.FILTERABLE.valueFrom(columnConfiguration.getOptions());
             if (filterable != null && filterable) {
 
                columnConf.put("column_number", columnIndex);
-               FilterType filterType = DatatableOptions.FILTERTYPE.valueFrom(columnConfiguration);
+               FilterType filterType = DatatableOptions.FILTERTYPE.valueFrom(columnConfiguration.getOptions());
 
                if (filterType != null) {
 
@@ -98,23 +98,25 @@ public class YadcfConfigGenerator {
                retval.add(columnConf);
             }
 
-            String selector = DatatableOptions.SELECTOR.valueFrom(columnConfiguration);
+            String selector = DatatableOptions.SELECTOR.valueFrom(columnConfiguration.getOptions());
             if (StringUtils.isNotBlank(selector)) {
                columnConf.put("filter_container_id", selector);
             }
 
-            String filterValues = DatatableOptions.FILTERVALUES.valueFrom(columnConfiguration);
+            String filterValues = DatatableOptions.FILTERVALUES.valueFrom(columnConfiguration.getOptions());
             if (StringUtils.isNotBlank(filterValues)) {
                columnConf.put("data", new JsSnippet(filterValues));
             }
 
-            String filterSelector = DatatableOptions.FEATURE_FILTER_SELECTOR.valueFrom(table);
+            String filterSelector = DatatableOptions.FEATURE_FILTER_SELECTOR
+                  .valueFrom(table.getTableConfiguration().getOptions());
             if (StringUtils.isNotBlank(filterSelector)) {
                columnConf.put("externally_triggered", true);
             }
 
             // Filtering delay
-            Integer filterColumnDelay = DatatableOptions.FEATURE_FILTER_DELAY.valueFrom(table.getTableConfiguration());
+            Integer filterColumnDelay = DatatableOptions.FEATURE_FILTER_DELAY
+                  .valueFrom(table.getTableConfiguration().getOptions());
             if (filterColumnDelay != null) {
                columnConf.put("filter_delay", filterColumnDelay);
             }

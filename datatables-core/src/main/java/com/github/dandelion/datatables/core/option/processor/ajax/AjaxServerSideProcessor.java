@@ -29,10 +29,11 @@
  */
 package com.github.dandelion.datatables.core.option.processor.ajax;
 
+import com.github.dandelion.core.option.AbstractOptionProcessor;
+import com.github.dandelion.core.option.OptionProcessingContext;
 import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.datatables.core.extension.feature.ServerSideFeature;
-import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.TableConfiguration;
 
 /**
  * Processor used when server-side processing is enabled.
@@ -45,12 +46,15 @@ public class AjaxServerSideProcessor extends AbstractOptionProcessor {
    @Override
    protected Object getProcessedValue(OptionProcessingContext context) {
 
+      TableConfiguration tc = (TableConfiguration) context.getRequest()
+            .getAttribute(TableConfiguration.class.getCanonicalName());
+
       Boolean retval = null;
       if (StringUtils.isNotBlank(context.getValueAsString())) {
          retval = Boolean.parseBoolean(context.getValueAsString());
 
          if (retval) {
-            context.registerExtension(ServerSideFeature.SERVER_SIDE_FEATURE_NAME);
+            tc.registerExtension(ServerSideFeature.SERVER_SIDE_FEATURE_NAME);
          }
       }
 

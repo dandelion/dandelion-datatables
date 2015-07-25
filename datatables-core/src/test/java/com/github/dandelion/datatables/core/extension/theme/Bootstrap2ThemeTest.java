@@ -29,7 +29,7 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 
 	@Test
 	public void shoud_load_the_extension_with_a_custom_domfeature() {
-		DatatableOptions.FEATURE_DOM.setIn(table.getTableConfiguration(), "lft");
+		DatatableOptions.FEATURE_DOM.setIn(table.getTableConfiguration().getOptions(), "lft");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
@@ -40,7 +40,7 @@ public class Bootstrap2ThemeTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_paging_enabled() {
-		DatatableOptions.FEATURE_PAGEABLE.setIn(table.getTableConfiguration(), true);
+		DatatableOptions.FEATURE_PAGEABLE.setIn(table.getTableConfiguration().getOptions(), true);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new Bootstrap2Theme())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(2);

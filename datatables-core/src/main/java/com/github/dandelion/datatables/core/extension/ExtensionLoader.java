@@ -65,7 +65,7 @@ public class ExtensionLoader {
       ExtensionProcessor extensionProcessor = new ExtensionProcessor(table, datatableContent, mainConf);
       extensionProcessor.process(table.getTableConfiguration().getInternalExtensions());
 
-      Extension theme = DatatableOptions.CSS_THEME.valueFrom(table.getTableConfiguration());
+      Extension theme = DatatableOptions.CSS_THEME.valueFrom(table.getTableConfiguration().getOptions());
       if (theme != null) {
          extensionProcessor.process(new HashSet<Extension>(Arrays.asList(theme)));
       }
@@ -94,7 +94,8 @@ public class ExtensionLoader {
          }
       }
 
-      throw new DandelionException("The requested extension \"" + extensionName + "\" is not present in the classpath.");
+      throw new DandelionException(
+            "The requested extension \"" + extensionName + "\" is not present in the classpath.");
    }
 
    /**
@@ -114,7 +115,8 @@ public class ExtensionLoader {
       List<Extension> builtInExtensions = ServiceLoaderUtils.getProvidersAsList(Extension.class);
 
       // Load built-in extension if some are enabled
-      Set<String> extensionNames = DatatableOptions.MAIN_EXTENSION_NAMES.valueFrom(table.getTableConfiguration());
+      Set<String> extensionNames = DatatableOptions.MAIN_EXTENSION_NAMES
+            .valueFrom(table.getTableConfiguration().getOptions());
       if (builtInExtensions != null && !builtInExtensions.isEmpty() && extensionNames != null
             && !extensionNames.isEmpty()) {
          for (String extensionToRegister : extensionNames) {

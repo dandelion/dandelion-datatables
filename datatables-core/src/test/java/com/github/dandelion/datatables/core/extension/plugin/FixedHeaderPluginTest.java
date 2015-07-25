@@ -27,7 +27,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 
 	@Test
 	public void shoud_load_the_extension_with_fixedPosition_to_top() {
-		DatatableOptions.PLUGIN_FIXEDPOSITION.setIn(table.getTableConfiguration(), "top");
+		DatatableOptions.PLUGIN_FIXEDPOSITION.setIn(table.getTableConfiguration().getOptions(), "top");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
@@ -37,7 +37,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_fixedPosition_to_bottom() {
-		DatatableOptions.PLUGIN_FIXEDPOSITION.setIn(table.getTableConfiguration(), "bottom");
+		DatatableOptions.PLUGIN_FIXEDPOSITION.setIn(table.getTableConfiguration().getOptions(), "bottom");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
@@ -47,7 +47,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_fixedPosition_to_right() {
-		DatatableOptions.PLUGIN_FIXEDPOSITION.setIn(table.getTableConfiguration(), "right");
+		DatatableOptions.PLUGIN_FIXEDPOSITION.setIn(table.getTableConfiguration().getOptions(), "right");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
@@ -57,7 +57,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_fixedPosition_to_RIGHT() {
-		DatatableOptions.PLUGIN_FIXEDPOSITION.setIn(table.getTableConfiguration(), "RIGHT");
+		DatatableOptions.PLUGIN_FIXEDPOSITION.setIn(table.getTableConfiguration().getOptions(), "RIGHT");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
@@ -67,7 +67,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_fixedPosition_to_left() {
-		DatatableOptions.PLUGIN_FIXEDPOSITION.setIn(table.getTableConfiguration(), "left");
+		DatatableOptions.PLUGIN_FIXEDPOSITION.setIn(table.getTableConfiguration().getOptions(), "left");
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);
@@ -77,7 +77,7 @@ public class FixedHeaderPluginTest extends AbstractExtensionTest {
 	
 	@Test
 	public void shoud_load_the_extension_with_offsetTop() {
-		DatatableOptions.PLUGIN_FIXEDOFFSETTOP.setIn(table.getTableConfiguration(), 30);
+		DatatableOptions.PLUGIN_FIXEDOFFSETTOP.setIn(table.getTableConfiguration().getOptions(), 30);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new FixedHeaderPlugin())));
 
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(1);

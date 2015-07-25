@@ -33,8 +33,8 @@ import com.github.dandelion.datatables.core.extension.plugin.ScrollerPlugin;
 
 /**
  * <p>
- * A parameter can be seen as a name/value pair in the DataTables
- * configuration Javascript object.
+ * A parameter can be seen as a name/value pair in the DataTables configuration
+ * Javascript object.
  * <p>
  * Some extension may need to modify the DataTables parameters object, that's
  * why there's a Mode attribute, which defines the way the configuration will
@@ -56,73 +56,73 @@ import com.github.dandelion.datatables.core.extension.plugin.ScrollerPlugin;
  */
 public class Parameter {
 
-	/**
-	 * DataTables parameter's name
-	 */
-	private String name;
+   /**
+    * DataTables parameter's name
+    */
+   private String name;
 
-	/**
-	 * DataTables parameter's value
-	 */
-	private Object value;
+   /**
+    * DataTables parameter's value
+    */
+   private Object value;
 
-	/**
-	 * DataTables parameter's updating mode
-	 */
-	private Mode mode;
+   /**
+    * DataTables parameter's updating mode
+    */
+   private Mode mode;
 
-	public enum Mode {
-		// Override the existing parameter with the new one
-		OVERRIDE,
+   public enum Mode {
+      // Override the existing parameter with the new one
+      OVERRIDE,
 
-		// Append the new parameter to the old one
-		APPEND,
+      // Append the new parameter to the old one
+      APPEND,
 
-		// Prepend the new parameter to the old one
-		PREPEND,
+      // Prepend the new parameter to the old one
+      PREPEND,
 
-		// Append the new parameter to the old one, with a separating space
-		APPEND_WITH_SPACE,
+      // Append the new parameter to the old one, with a separating space
+      APPEND_WITH_SPACE,
 
-		// Prepend the new parameter to the old one, with a separating space
-		PREPEND_WITH_SPACE
-	}
+      // Prepend the new parameter to the old one, with a separating space
+      PREPEND_WITH_SPACE
+   }
 
-	public Parameter(String name){
-		this(name, null, Mode.OVERRIDE);
-	}
-	
-	public Parameter(String name, Object value) {
-		this(name, value, Mode.OVERRIDE);
-	}
+   public Parameter(String name) {
+      this(name, null, Mode.OVERRIDE);
+   }
 
-	public Parameter(String name, Object value, Parameter.Mode mode) {
-		this.name = name;
-		this.value = value;
-		this.setMode(mode);
-	}
+   public Parameter(String name, Object value) {
+      this(name, value, Mode.OVERRIDE);
+   }
 
-	public String getName() {
-		return name;
-	}
+   public Parameter(String name, Object value, Parameter.Mode mode) {
+      this.name = name;
+      this.value = value;
+      this.setMode(mode);
+   }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+   public String getName() {
+      return name;
+   }
 
-	public Object getValue() {
-		return value;
-	}
+   public void setName(String name) {
+      this.name = name;
+   }
 
-	public void setValue(Object value) {
-		this.value = value;
-	}
+   public Object getValue() {
+      return value;
+   }
 
-	public Mode getMode() {
-		return mode;
-	}
+   public void setValue(Object value) {
+      this.value = value;
+   }
 
-	public void setMode(Mode mode) {
-		this.mode = mode;
-	}
+   public Mode getMode() {
+      return mode;
+   }
+
+   public void setMode(Mode mode) {
+      this.mode = mode;
+   }
 }

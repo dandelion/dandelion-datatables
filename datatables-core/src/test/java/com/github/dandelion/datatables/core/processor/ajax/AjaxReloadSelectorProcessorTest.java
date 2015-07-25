@@ -31,13 +31,14 @@ package com.github.dandelion.datatables.core.processor.ajax;
 
 import org.junit.Test;
 
+import com.github.dandelion.core.option.DefaultOptionProcessingContext;
+import com.github.dandelion.core.option.Option;
+import com.github.dandelion.core.option.OptionProcessingContext;
+import com.github.dandelion.core.option.OptionProcessor;
+import com.github.dandelion.datatables.core.MapEntry;
 import com.github.dandelion.datatables.core.extension.feature.AjaxReloadFeature;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.ajax.AjaxReloadSelectorProcessor;
-import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,7 +53,7 @@ public class AjaxReloadSelectorProcessorTest extends TableProcessorBaseTest {
 	@Test
 	public void should_register_a_feature_when_a_reload_selector_exists() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_RELOAD_SELECTOR, "#myReloadSelector");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat(entry.getValue()).isEqualTo("#myReloadSelector");

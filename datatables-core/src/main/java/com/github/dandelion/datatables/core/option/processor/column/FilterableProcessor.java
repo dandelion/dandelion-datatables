@@ -29,10 +29,12 @@
  */
 package com.github.dandelion.datatables.core.option.processor.column;
 
+import com.github.dandelion.core.option.AbstractOptionProcessor;
+import com.github.dandelion.core.option.OptionProcessingContext;
 import com.github.dandelion.core.util.StringUtils;
+import com.github.dandelion.datatables.core.option.ColumnConfiguration;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.TableConfiguration;
 
 /**
  * <p>
@@ -48,13 +50,16 @@ public class FilterableProcessor extends AbstractOptionProcessor {
    @Override
    protected Object getProcessedValue(OptionProcessingContext context) {
 
+      TableConfiguration tc = (TableConfiguration) context.getRequest()
+            .getAttribute(TableConfiguration.class.getCanonicalName());
+      ColumnConfiguration cc = (ColumnConfiguration) context.getRequest()
+            .getAttribute(ColumnConfiguration.class.getCanonicalName());
+
       Boolean retval = null;
       String valueAsString = context.getValueAsString();
       if (StringUtils.isNotBlank(valueAsString)) {
          if (valueAsString.equalsIgnoreCase("true")) {
-            context.registerExtension(
-                  context.getColumnConfiguration().getStagingExtension().get(DatatableOptions.FILTERABLE));
-
+            tc.registerExtension(cc.getStagingExtension().get(DatatableOptions.FILTERABLE));
             retval = true;
          }
          else {

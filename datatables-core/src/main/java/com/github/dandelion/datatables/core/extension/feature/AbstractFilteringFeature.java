@@ -74,8 +74,8 @@ public abstract class AbstractFilteringFeature extends AbstractExtension {
 
       addBundle(DatatableBundles.YADCF);
 
-      FilterPlaceholder filterPlaceHolder = DatatableOptions.FEATURE_FILTER_PLACEHOLDER.valueFrom(table
-            .getTableConfiguration());
+      FilterPlaceholder filterPlaceHolder = DatatableOptions.FEATURE_FILTER_PLACEHOLDER
+            .valueFrom(table.getTableConfiguration().getOptions());
       if (filterPlaceHolder != null) {
          switch (filterPlaceHolder) {
          case FOOTER:

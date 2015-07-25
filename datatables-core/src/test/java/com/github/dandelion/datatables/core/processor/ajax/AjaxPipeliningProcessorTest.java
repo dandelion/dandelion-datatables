@@ -31,13 +31,14 @@ package com.github.dandelion.datatables.core.processor.ajax;
 
 import org.junit.Test;
 
+import com.github.dandelion.core.option.DefaultOptionProcessingContext;
+import com.github.dandelion.core.option.Option;
+import com.github.dandelion.core.option.OptionProcessingContext;
+import com.github.dandelion.core.option.OptionProcessor;
+import com.github.dandelion.datatables.core.MapEntry;
 import com.github.dandelion.datatables.core.extension.feature.PipeliningFeature;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.ajax.AjaxPipeliningProcessor;
-import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,7 +53,7 @@ public class AjaxPipeliningProcessorTest extends TableProcessorBaseTest {
 	@Test
 	public void should_register_a_feature_and_use_default_pipelinig_when_value_is_true() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_PIPELINING, "true");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		assertThat(entry.getValue()).isEqualTo(true);
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
@@ -61,20 +62,20 @@ public class AjaxPipeliningProcessorTest extends TableProcessorBaseTest {
 	
 	@Test
 	public void should_register_a_feature_and_leave_pipelining_untouched_when_value_is_true() {
-		tableConfiguration.getConfigurations().put(DatatableOptions.AJAX_PIPESIZE, 3);
+		tableConfiguration.getOptions().put(DatatableOptions.AJAX_PIPESIZE, 3);
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_PIPELINING, "true");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		assertThat(entry.getValue()).isEqualTo(true);
 		assertThat(tableConfiguration.getInternalExtensions()).hasSize(1);
-		assertThat(tableConfiguration.getConfigurations().get(DatatableOptions.AJAX_PIPESIZE)).isEqualTo(3);
+		assertThat(tableConfiguration.getOptions().get(DatatableOptions.AJAX_PIPESIZE)).isEqualTo(3);
 		assertThat(new PipeliningFeature()).isIn(tableConfiguration.getInternalExtensions());
 	}
 	
 	@Test
 	public void should_not_register_anything_when_value_is_false() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_PIPELINING, "false");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		assertThat(entry.getValue()).isEqualTo(false);
 		assertThat(tableConfiguration.getInternalExtensions()).isNull();
@@ -83,7 +84,7 @@ public class AjaxPipeliningProcessorTest extends TableProcessorBaseTest {
 	@Test
 	public void should_not_register_anything_when_value_is_wrong() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.AJAX_PIPELINING, "weird");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat(entry.getValue()).isEqualTo(false);

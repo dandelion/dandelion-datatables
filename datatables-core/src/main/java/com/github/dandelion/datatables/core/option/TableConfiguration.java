@@ -42,13 +42,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.github.dandelion.core.html.AbstractHtmlTag;
 import com.github.dandelion.core.i18n.MessageResolver;
+import com.github.dandelion.core.option.Option;
 import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.extension.Extension;
+import com.github.dandelion.datatables.core.extension.ExtensionLoader;
 import com.github.dandelion.datatables.core.extension.feature.ExtraHtml;
 import com.github.dandelion.datatables.core.extension.feature.ExtraJs;
 
 /**
+ * <p>
  * Contains all the table configuration.
+ * </p>
  * 
  * @author Thibault Duchateau
  * @since 0.9.0
@@ -59,26 +63,70 @@ public class TableConfiguration {
     * The table DOM id.
     */
    private final String tableId;
-   private final Map<Option<?>, Object> configurations;
+
+   /**
+    * All {@link Option}/value entries associated with this configuration.
+    */
+   private final Map<Option<?>, Object> options;
+
+   /**
+    * The configured message resolver.
+    */
    private final MessageResolver messageResolver;
+
+   /**
+    * The current request.
+    */
    private final HttpServletRequest request;
+
+   /**
+    * The activated option group.
+    */
    private final String optionGroupName;
 
-   // Dandelion-Datatables parameters
+   /**
+    * All registered {@link ExtraJs}.
+    */
    private Set<ExtraJs> extraJs;
+
+   /**
+    * All registered {@link Callback}s.
+    */
    private List<Callback> extraCallbacks;
+
+   /**
+    * All registered {@link ExtraHtml}.
+    */
    private List<ExtraHtml> extraHtmls;
 
-   // Export parameters
-   private Map<String, ExportConf> exportConfiguration;
+   /**
+    * The map of export configuration, one entry per export format.
+    */
+   private Map<String, ExportConf> exportConfigurations;
+
+   /**
+    * Flag that indicates whether the table is being exported.
+    */
    private Boolean exporting;
-   private Boolean isExportable = false;
+
+   /**
+    * Current export format (if the table is being exported).
+    */
    private String currentExportFormat;
 
-   // I18n
+   /**
+    * All internationalized messages.
+    */
    private Properties messages = new Properties();
 
+   /**
+    * All registered {@link Extension}s.
+    */
    private Set<Extension> internalExtensions;
+
+   /**
+    * The current response.
+    */
    private HttpServletResponse response;
 
    /**
@@ -89,31 +137,34 @@ public class TableConfiguration {
    TableConfiguration(String tableId, Map<Option<?>, Object> userConf, MessageResolver messageResolver,
          HttpServletRequest request, String optionGroupName) {
       this.tableId = tableId;
-      this.configurations = userConf;
+      this.options = userConf;
       this.messageResolver = messageResolver;
       this.request = request;
-      this.exportConfiguration = new LinkedHashMap<String, ExportConf>();
+      this.exportConfigurations = new LinkedHashMap<String, ExportConf>();
       this.optionGroupName = optionGroupName;
    }
 
    public void set(String exportFormat, ExportConf exportConf) {
-      this.exportConfiguration.put(exportFormat, exportConf);
+      this.exportConfigurations.put(exportFormat, exportConf);
    }
 
-   public Map<String, ExportConf> getExportConfiguration() {
-      return exportConfiguration;
-   }
-
-   public void setExportConfiguration(Map<String, ExportConf> exports) {
-      this.exportConfiguration = exports;
-   }
-
-   public Map<Option<?>, Object> getConfigurations() {
-      return configurations;
+   public Map<String, ExportConf> getExportConfigurations() {
+      return exportConfigurations;
    }
 
    /**
-    * Register an extension in the TableConfiguration.
+    * @return the current {@link Option}s/values entries associated with this
+    *         {@link TableConfiguration} instance.
+    */
+   public Map<Option<?>, Object> getOptions() {
+      return options;
+   }
+
+   /**
+    * <p>
+    * Registers an {@link Extension} which will be processed during the asset
+    * generation.
+    * </p>
     * 
     * @param extension
     *           The extension to register.
@@ -124,6 +175,21 @@ public class TableConfiguration {
       }
       this.internalExtensions.add(extension);
       return this;
+   }
+
+   /**
+    * <p>
+    * Registers an {@link Extension} whose name is passed as parameter.
+    * </p>
+    * 
+    * @param extensionName
+    *           The name of the {@link Extension} to register.
+    */
+   public void registerExtension(String extensionName) {
+      if (this.internalExtensions == null) {
+         this.internalExtensions = new HashSet<Extension>();
+      }
+      this.internalExtensions.add(ExtensionLoader.get(extensionName));
    }
 
    public Set<ExtraJs> getExtraJs() {
@@ -195,14 +261,6 @@ public class TableConfiguration {
       this.exporting = exporting;
    }
 
-   public Boolean isExportable() {
-      return isExportable;
-   }
-
-   public void setIsExportable(Boolean isExportable) {
-      this.isExportable = isExportable;
-   }
-
    public TableConfiguration setExportTypes(String exportTypes) {
       return this;
    }
@@ -213,24 +271,24 @@ public class TableConfiguration {
 
    public TableConfiguration addCssStyle(String cssStyle) {
 
-      if (DatatableOptions.CSS_STYLE.valueFrom(this) == null) {
-         DatatableOptions.CSS_STYLE.setIn(this, new StringBuilder());
+      if (DatatableOptions.CSS_STYLE.valueFrom(this.getOptions()) == null) {
+         DatatableOptions.CSS_STYLE.setIn(this.getOptions(), new StringBuilder());
       }
       else {
-         DatatableOptions.CSS_STYLE.appendIn(this, AbstractHtmlTag.STYLE_SEPARATOR);
+         DatatableOptions.CSS_STYLE.appendIn(this.getOptions(), AbstractHtmlTag.STYLE_SEPARATOR);
       }
-      DatatableOptions.CSS_STYLE.appendIn(this, cssStyle);
+      DatatableOptions.CSS_STYLE.appendIn(this.getOptions(), cssStyle);
       return this;
    }
 
    public TableConfiguration addCssClass(String cssClass) {
-      if (DatatableOptions.CSS_CLASS.valueFrom(this) == null) {
-         DatatableOptions.CSS_CLASS.setIn(this, new StringBuilder());
+      if (DatatableOptions.CSS_CLASS.valueFrom(this.getOptions()) == null) {
+         DatatableOptions.CSS_CLASS.setIn(this.getOptions(), new StringBuilder());
       }
       else {
-         DatatableOptions.CSS_CLASS.appendIn(this, AbstractHtmlTag.CLASS_SEPARATOR);
+         DatatableOptions.CSS_CLASS.appendIn(this.getOptions(), AbstractHtmlTag.CLASS_SEPARATOR);
       }
-      DatatableOptions.CSS_CLASS.appendIn(this, cssClass);
+      DatatableOptions.CSS_CLASS.appendIn(this.getOptions(), cssClass);
       return this;
    }
 
@@ -243,7 +301,7 @@ public class TableConfiguration {
    }
 
    public ExportConf getExportConf(String format) {
-      return exportConfiguration.get(format);
+      return exportConfigurations.get(format);
    }
 
    public Properties getMessages() {
@@ -286,7 +344,7 @@ public class TableConfiguration {
    }
 
    public void addOption(Option<?> option, Object value) {
-      this.configurations.put(option, value);
+      this.options.put(option, value);
    }
 
    public String getOptionGroupName() {

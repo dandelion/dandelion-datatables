@@ -37,9 +37,8 @@ package com.github.dandelion.datatables.core.export;
  * <li>First, to identify reserved words when export is enabled for a table. As
  * soon as one of these reserved words is used, some configuration will be
  * applied by default.</li>
- * <li>
- * But it is also used to decide whether a format should appear in the processed
- * template (HTML page, export file).</li>
+ * <li>But it is also used to decide whether a format should appear in the
+ * processed template (HTML page, export file).</li>
  * </ul>
  * 
  * @author Thibault Duchateau

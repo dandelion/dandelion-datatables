@@ -1,10 +1,10 @@
 package com.github.dandelion.datatables.core.option.processor.feature;
 
 import com.github.dandelion.core.DandelionException;
+import com.github.dandelion.core.option.AbstractOptionProcessor;
+import com.github.dandelion.core.option.OptionProcessingContext;
 import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.datatables.core.extension.feature.FilterPlaceholder;
-import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 
 public class FeatureFilterPlaceholderProcessor extends AbstractOptionProcessor {
 
@@ -18,7 +18,8 @@ public class FeatureFilterPlaceholderProcessor extends AbstractOptionProcessor {
             retval = FilterPlaceholder.valueOf(valueAsString.toUpperCase());
          }
          catch (IllegalArgumentException e) {
-            throw new DandelionException(valueAsString + " is not a valid value among " + FilterPlaceholder.values(), e);
+            throw new DandelionException(valueAsString + " is not a valid value among " + FilterPlaceholder.values(),
+                  e);
          }
       }
 

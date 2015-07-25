@@ -59,10 +59,10 @@ public class Bootstrap2Theme extends AbstractExtension {
 
       addBundle(DatatableBundles.DDL_DT_THEME_BOOTSTRAP2);
 
-      Boolean paging = DatatableOptions.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration());
+      Boolean paging = DatatableOptions.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration().getOptions());
       if (paging != null && paging == true) {
          addBundle(DatatableBundles.DDL_DT_PAGING_BOOTSTRAP_SIMPLE);
-         if (DatatableOptions.FEATURE_PAGINGTYPE.valueFrom(table.getTableConfiguration()) == null) {
+         if (DatatableOptions.FEATURE_PAGINGTYPE.valueFrom(table.getTableConfiguration().getOptions()) == null) {
             addParameter(DTConstants.DT_PAGINGTYPE, PagingType.BOOTSTRAP_SIMPLE.toString());
          }
       }

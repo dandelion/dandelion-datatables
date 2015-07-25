@@ -81,7 +81,7 @@ public class Bootstrap3Theme extends AbstractExtension {
 
       addBundle(DatatableBundles.DDL_DT_THEME_BOOTSTRAP3);
 
-      Boolean pageable = DatatableOptions.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration());
+      Boolean pageable = DatatableOptions.FEATURE_PAGEABLE.valueFrom(table.getTableConfiguration().getOptions());
       if (pageable != null && pageable) {
          addParameter(DTConstants.DT_PAGINGTYPE, PagingType.BOOTSTRAP_SIMPLE.toString());
       }

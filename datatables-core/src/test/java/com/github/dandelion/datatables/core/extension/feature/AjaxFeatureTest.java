@@ -22,12 +22,12 @@ public class AjaxFeatureTest extends AbstractExtensionTest {
 
 	@Test
 	public void shoud_load_the_extension_with_the_given_ajax_source() {
-		DatatableOptions.AJAX_SOURCE.setIn(table.getTableConfiguration(), "/ajaxSource");
+		DatatableOptions.AJAX_SOURCE.setIn(table.getTableConfiguration().getOptions(), "/ajaxSource");
 		
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(new AjaxFeature())));
 
 		Map<String, String> ajaxParams = new HashMap<String, String>();
-		ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
+		ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration().getOptions()));
 		ajaxParams.put(DTConstants.DT_S_AJAXDATAPROP, "");
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).hasSize(0);

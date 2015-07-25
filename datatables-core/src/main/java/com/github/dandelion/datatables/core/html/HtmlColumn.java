@@ -117,10 +117,12 @@ public class HtmlColumn extends HtmlTagWithContent {
    protected StringBuilder getHtmlAttributes() {
       StringBuilder html = new StringBuilder();
       if (this.isHeaderColumn) {
-         html.append(writeAttribute("class", DatatableOptions.CSSCLASS.valueFrom(this.getColumnConfiguration())));
-         html.append(writeAttribute("style", DatatableOptions.CSSSTYLE.valueFrom(this.getColumnConfiguration())));
+         html.append(writeAttribute("class",
+               DatatableOptions.CSSCLASS.valueFrom(this.getColumnConfiguration().getOptions())));
+         html.append(writeAttribute("style",
+               DatatableOptions.CSSSTYLE.valueFrom(this.getColumnConfiguration().getOptions())));
 
-         String columnId = DatatableOptions.ID.valueFrom(this.getColumnConfiguration());
+         String columnId = DatatableOptions.ID.valueFrom(this.getColumnConfiguration().getOptions());
          if (StringUtils.isNotBlank(columnId)) {
             html.append(writeAttribute("id", columnId));
          }
@@ -156,11 +158,11 @@ public class HtmlColumn extends HtmlTagWithContent {
 
    public void addCssClass(String cssClass) {
       if (this.isHeaderColumn) {
-         StringBuilder cssClassSb = DatatableOptions.CSSCLASS.valueFrom(this.columnConfiguration);
+         StringBuilder cssClassSb = DatatableOptions.CSSCLASS.valueFrom(this.columnConfiguration.getOptions());
          if (cssClassSb != null && cssClassSb.length() != 0) {
-            DatatableOptions.CSSCLASS.appendIn(this.columnConfiguration, CLASS_SEPARATOR);
+            DatatableOptions.CSSCLASS.appendIn(this.columnConfiguration.getOptions(), CLASS_SEPARATOR);
          }
-         DatatableOptions.CSSCLASS.appendIn(this.columnConfiguration, cssClass);
+         DatatableOptions.CSSCLASS.appendIn(this.columnConfiguration.getOptions(), cssClass);
       }
       else {
          if (this.cssClass == null) {

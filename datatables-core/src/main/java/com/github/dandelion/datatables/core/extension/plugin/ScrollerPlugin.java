@@ -58,8 +58,8 @@ public class ScrollerPlugin extends AbstractExtension {
 
       addBundle(DatatableBundles.DATATABLES_SCROLLER);
 
-      String dom = DatatableOptions.FEATURE_DOM.valueFrom(table.getTableConfiguration());
-      Boolean jqueryUiEnabled = DatatableOptions.FEATURE_JQUERYUI.valueFrom(table.getTableConfiguration());
+      String dom = DatatableOptions.FEATURE_DOM.valueFrom(table.getTableConfiguration().getOptions());
+      Boolean jqueryUiEnabled = DatatableOptions.FEATURE_JQUERYUI.valueFrom(table.getTableConfiguration().getOptions());
 
       if (StringUtils.isNotBlank(dom)) {
          addParameter(DTConstants.DT_DOM, "S", Parameter.Mode.APPEND);

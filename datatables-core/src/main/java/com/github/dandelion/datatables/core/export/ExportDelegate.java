@@ -72,7 +72,7 @@ public class ExportDelegate {
 
       // Get the current export type
       String exportFormat = htmlTable.getTableConfiguration().getCurrentExportFormat();
-      ExportConf exportConf = htmlTable.getTableConfiguration().getExportConfiguration().get(exportFormat);
+      ExportConf exportConf = htmlTable.getTableConfiguration().getExportConfigurations().get(exportFormat);
 
       String exportClassName = exportConf.getExportClass();
       if (exportClassName == null) {

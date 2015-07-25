@@ -27,7 +27,7 @@ public class AbstractExtensionTest {
 		request = new MockHttpServletRequest();
 		request.setAttribute(WebConstants.DANDELION_CONTEXT_ATTRIBUTE, new Context(new MockFilterConfig()));
 		table = new HtmlTable("fakeId", request, response);
-		table.getTableConfiguration().getConfigurations().clear();
+		table.getTableConfiguration().getOptions().clear();
 		table.addHeaderRow();
 		table.getLastHeaderRow().addHeaderColumn("column1");
 		table.getLastHeaderRow().addHeaderColumn("column2");

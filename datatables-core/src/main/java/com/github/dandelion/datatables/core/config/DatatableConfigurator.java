@@ -122,7 +122,8 @@ public class DatatableConfigurator {
             }
          }
          catch (DandelionException e) {
-            throw new DandelionException("Unable to retrieve the LocaleResolver using the class '" + className + "'", e);
+            throw new DandelionException("Unable to retrieve the LocaleResolver using the class '" + className + "'",
+                  e);
          }
       }
       return localeResolver;

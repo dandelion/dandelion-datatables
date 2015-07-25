@@ -33,12 +33,13 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import com.github.dandelion.core.option.DefaultOptionProcessingContext;
+import com.github.dandelion.core.option.Option;
+import com.github.dandelion.core.option.OptionProcessingContext;
+import com.github.dandelion.core.option.OptionProcessor;
+import com.github.dandelion.datatables.core.MapEntry;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.main.MainExtensionNamesProcessor;
-import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -54,13 +55,13 @@ public class MainExtensionNamesProcessorTest extends TableProcessorBaseTest {
 	@Test
 	public void should_set_a_set_containing_only_one_feature() throws Exception{
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.MAIN_EXTENSION_NAMES, "feature1");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat((Set<String>)entry.getValue()).contains("feature1");
 		
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.MAIN_EXTENSION_NAMES, "FEATURE1");
-		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat((Set<String>)entry.getValue()).contains("feature1");
@@ -70,13 +71,13 @@ public class MainExtensionNamesProcessorTest extends TableProcessorBaseTest {
 	@Test
 	public void should_set_a_set_containing_multiple_features() throws Exception{
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.MAIN_EXTENSION_NAMES, "feature1,feature2");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat((Set<String>)entry.getValue()).contains("feature1", "feature2");
 		
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.MAIN_EXTENSION_NAMES, "FEATURE1 , feature2 ");
-		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat((Set<String>)entry.getValue()).contains("feature1", "feature2");

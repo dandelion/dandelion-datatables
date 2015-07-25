@@ -29,12 +29,13 @@
  */
 package com.github.dandelion.datatables.core.option.processor.column;
 
+import com.github.dandelion.core.option.AbstractOptionProcessor;
+import com.github.dandelion.core.option.OptionProcessingContext;
 import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.extension.feature.SortingFeature;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
+import com.github.dandelion.datatables.core.option.TableConfiguration;
 
 /**
  * <p>
@@ -57,13 +58,16 @@ public class SortTypeProcessor extends AbstractOptionProcessor {
    @Override
    protected Object getProcessedValue(OptionProcessingContext context) {
 
+      TableConfiguration tc = (TableConfiguration) context.getRequest()
+            .getAttribute(TableConfiguration.class.getCanonicalName());
+
       String retval = null;
       String valueAsString = context.getValueAsString();
       if (StringUtils.isNotBlank(valueAsString)) {
 
          SortType sortType = SortType.findByName(valueAsString);
          if (sortType != null) {
-            context.registerExtension(SortingFeature.SORTING_FEATURE_NAME);
+            tc.registerExtension(SortingFeature.SORTING_FEATURE_NAME);
             retval = sortType.getName();
          }
          else {

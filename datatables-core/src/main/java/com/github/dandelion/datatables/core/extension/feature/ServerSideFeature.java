@@ -67,10 +67,10 @@ public class ServerSideFeature extends AbstractExtension {
    @Override
    public void setup(HtmlTable table) {
       Map<String, String> ajaxParams = new HashMap<String, String>();
-      ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration()));
+      ajaxParams.put("url", DatatableOptions.AJAX_SOURCE.valueFrom(table.getTableConfiguration().getOptions()));
       ajaxParams.put(DTConstants.DT_S_AJAXDATAPROP, "data");
 
-      String extraParams = DatatableOptions.AJAX_PARAMS.valueFrom(table.getTableConfiguration());
+      String extraParams = DatatableOptions.AJAX_PARAMS.valueFrom(table.getTableConfiguration().getOptions());
       if (StringUtils.isNotBlank(extraParams)) {
          StringBuilder paramObject = new StringBuilder("oTable_").append(table.getId()).append("_params");
          StringBuilder js = new StringBuilder();

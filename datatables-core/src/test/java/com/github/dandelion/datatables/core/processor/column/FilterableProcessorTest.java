@@ -35,15 +35,16 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.github.dandelion.core.option.DefaultOptionProcessingContext;
+import com.github.dandelion.core.option.Option;
+import com.github.dandelion.core.option.OptionProcessingContext;
+import com.github.dandelion.core.option.OptionProcessor;
+import com.github.dandelion.datatables.core.MapEntry;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.generator.YadcfConfigGenerator.FilterType;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.column.FilterableProcessor;
 import com.github.dandelion.datatables.core.processor.ColumnProcessorBaseTest;
-import com.github.dandelion.datatables.core.processor.MapEntry;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -57,7 +58,7 @@ public class FilterableProcessorTest extends ColumnProcessorBaseTest {
 	@Test
 	public void should_return_null_when_the_value_is_empty() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FILTERABLE, "");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 
 		assertThat(entry.getValue()).isNull();
@@ -67,7 +68,7 @@ public class FilterableProcessorTest extends ColumnProcessorBaseTest {
 	@Test
 	public void should_return_false_when_the_value_is_false() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.FILTERABLE, "false");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 
 		assertThat(entry.getValue()).isEqualTo(false);
@@ -81,7 +82,7 @@ public class FilterableProcessorTest extends ColumnProcessorBaseTest {
 		stagingExtensions.put(DatatableOptions.FILTERABLE, new FakeFilteringFeature());
 		columnConfiguration.setStagingExtension(stagingExtensions);
 
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 
 		assertThat(entry.getValue()).isEqualTo(true);
@@ -97,12 +98,12 @@ public class FilterableProcessorTest extends ColumnProcessorBaseTest {
 		columnConfiguration.setStagingExtension(stagingExtensions);
 		columnConfiguration.addOption(DatatableOptions.FILTERTYPE, FilterType.SELECT);
 
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 
 		assertThat(entry.getValue()).isEqualTo(true);
 		assertThat(new ArrayList<Extension>(tableConfiguration.getInternalExtensions())).contains(
 				new FakeFilteringFeature());
-		assertThat(DatatableOptions.FILTERTYPE.valueFrom(columnConfiguration)).isEqualTo(FilterType.SELECT);
+		assertThat(DatatableOptions.FILTERTYPE.valueFrom(columnConfiguration.getOptions())).isEqualTo(FilterType.SELECT);
 	}
 }

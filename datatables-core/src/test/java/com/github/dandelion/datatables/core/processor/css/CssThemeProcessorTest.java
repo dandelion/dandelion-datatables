@@ -32,14 +32,15 @@ package com.github.dandelion.datatables.core.processor.css;
 import org.junit.Test;
 
 import com.github.dandelion.core.DandelionException;
+import com.github.dandelion.core.option.DefaultOptionProcessingContext;
+import com.github.dandelion.core.option.Option;
+import com.github.dandelion.core.option.OptionProcessingContext;
+import com.github.dandelion.core.option.OptionProcessor;
+import com.github.dandelion.datatables.core.MapEntry;
 import com.github.dandelion.datatables.core.extension.theme.Bootstrap2Theme;
 import com.github.dandelion.datatables.core.extension.theme.JQueryUITheme;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.css.CssThemeProcessor;
-import com.github.dandelion.datatables.core.processor.MapEntry;
 import com.github.dandelion.datatables.core.processor.TableProcessorBaseTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -54,25 +55,25 @@ public class CssThemeProcessorTest extends TableProcessorBaseTest {
 	@Test
 	public void should_set_theme() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_THEME, "bootstrap2");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat(entry.getValue()).isEqualTo(new Bootstrap2Theme());
 		
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_THEME, "BOOTSTRAP2");
-		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat(entry.getValue()).isEqualTo(new Bootstrap2Theme());
 		
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_THEME, "jqueryui");
-		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat(entry.getValue()).isEqualTo(new JQueryUITheme());
 		
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_THEME, "jqueryUI");
-		pc = new OptionProcessingContext(entry, tableConfiguration, null);
+		pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat(entry.getValue()).isEqualTo(new JQueryUITheme());
@@ -81,14 +82,14 @@ public class CssThemeProcessorTest extends TableProcessorBaseTest {
 	@Test(expected = DandelionException.class)
 	public void should_raise_an_exception() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_THEME, "booooootstrap2");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 	}
 	
 	@Test(expected = DandelionException.class)
 	public void should_raise_an_exception_as_well() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.CSS_THEME, "jquery");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, null);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 	}
 }

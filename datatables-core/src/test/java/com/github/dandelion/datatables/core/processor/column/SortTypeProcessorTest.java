@@ -31,14 +31,15 @@ package com.github.dandelion.datatables.core.processor.column;
 
 import org.junit.Test;
 
+import com.github.dandelion.core.option.DefaultOptionProcessingContext;
+import com.github.dandelion.core.option.Option;
+import com.github.dandelion.core.option.OptionProcessingContext;
+import com.github.dandelion.core.option.OptionProcessor;
+import com.github.dandelion.datatables.core.MapEntry;
 import com.github.dandelion.datatables.core.extension.feature.SortType;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.column.SortTypeProcessor;
 import com.github.dandelion.datatables.core.processor.ColumnProcessorBaseTest;
-import com.github.dandelion.datatables.core.processor.MapEntry;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -52,7 +53,7 @@ public class SortTypeProcessorTest extends ColumnProcessorBaseTest {
 	@Test
 	public void should_return_null_when_the_option_value_is_empty() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.SORTTYPE, "");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat(entry.getValue()).isNull();;
@@ -61,7 +62,7 @@ public class SortTypeProcessorTest extends ColumnProcessorBaseTest {
 	@Test
 	public void should_map_to_an_enum_when_using_an_existing_value() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.SORTTYPE, "natural");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat(entry.getValue()).isEqualTo(SortType.NATURAL.getName());
@@ -70,7 +71,7 @@ public class SortTypeProcessorTest extends ColumnProcessorBaseTest {
 	@Test
 	public void should_be_able_to_use_a_custom_sort_type() {
 		entry = new MapEntry<Option<?>, Object>(DatatableOptions.SORTTYPE, "my-sorttype");
-		OptionProcessingContext pc = new OptionProcessingContext(entry, tableConfiguration, columnConfiguration);
+      OptionProcessingContext pc = new DefaultOptionProcessingContext(entry, request, processor.isBundleGraphUpdatable());
 		processor.process(pc);
 		
 		assertThat(entry.getValue()).isEqualTo("my-sorttype");

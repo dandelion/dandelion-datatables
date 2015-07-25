@@ -27,30 +27,70 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.dandelion.datatables.core.option.processor;
+package com.github.dandelion.datatables.core;
 
-import com.github.dandelion.core.DandelionException;
-import com.github.dandelion.core.util.StringUtils;
+import java.util.Map;
 
-/**
- * Processor used for all Integer parameters.
- * 
- * @author Thibault Duchateau
- * @since 0.9.0
- */
-public class IntegerProcessor extends AbstractOptionProcessor {
+public class MapEntry<K, V> implements Map.Entry<K, V>, Cloneable {
+	K key;
+	V value;
 
-   @Override
-   protected Object getProcessedValue(OptionProcessingContext context) {
-      Integer result = null;
-      String valueAsString = context.getValueAsString();
-      try {
-         result = StringUtils.isNotBlank(valueAsString) ? Integer.parseInt(valueAsString) : null;
-      }
-      catch (NumberFormatException e) {
-         throw new DandelionException("The value '" + valueAsString + "' cannot be parsed to Integer", e);
-      }
+	public interface Type<RT, KT, VT> {
+		RT get(MapEntry<KT, VT> entry);
+	}
 
-      return result;
-   }
+	public MapEntry(K theKey) {
+		key = theKey;
+	}
+
+	public MapEntry(K theKey, V theValue) {
+		key = theKey;
+		value = theValue;
+	}
+
+	@Override
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (this == object) {
+			return true;
+		}
+		if (object instanceof Map.Entry) {
+			Map.Entry<?, ?> entry = (Map.Entry<?, ?>) object;
+			return (key == null ? entry.getKey() == null : key.equals(entry.getKey()))
+					&& (value == null ? entry.getValue() == null : value.equals(entry.getValue()));
+		}
+		return false;
+	}
+
+	public K getKey() {
+		return key;
+	}
+
+	public V getValue() {
+		return value;
+	}
+
+	@Override
+	public int hashCode() {
+		return (key == null ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode());
+	}
+
+	public V setValue(V object) {
+		V result = value;
+		value = object;
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return key + "=" + value;
+	}
 }

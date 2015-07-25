@@ -134,8 +134,8 @@ public class HtmlTable extends AbstractHtmlTag {
    protected StringBuilder getHtmlAttributes() {
       StringBuilder html = new StringBuilder();
       html.append(writeAttribute("id", this.id));
-      html.append(writeAttribute("class", DatatableOptions.CSS_CLASS.valueFrom(this.tableConfiguration)));
-      html.append(writeAttribute("style", DatatableOptions.CSS_STYLE.valueFrom(this.tableConfiguration)));
+      html.append(writeAttribute("class", DatatableOptions.CSS_CLASS.valueFrom(this.tableConfiguration.getOptions())));
+      html.append(writeAttribute("style", DatatableOptions.CSS_STYLE.valueFrom(this.tableConfiguration.getOptions())));
       return html;
    }
 
@@ -203,24 +203,24 @@ public class HtmlTable extends AbstractHtmlTag {
    }
 
    public void addCssStyle(String cssStyle) {
-      if (DatatableOptions.CSS_STYLE.valueFrom(this.tableConfiguration) == null) {
-         DatatableOptions.CSS_STYLE.setIn(this.tableConfiguration, new StringBuilder());
+      if (DatatableOptions.CSS_STYLE.valueFrom(this.tableConfiguration.getOptions()) == null) {
+         DatatableOptions.CSS_STYLE.setIn(this.tableConfiguration.getOptions(), new StringBuilder());
       }
       else {
-         DatatableOptions.CSS_STYLE.appendIn(this.tableConfiguration, STYLE_SEPARATOR);
+         DatatableOptions.CSS_STYLE.appendIn(this.tableConfiguration.getOptions(), STYLE_SEPARATOR);
       }
 
-      DatatableOptions.CSS_STYLE.appendIn(this.tableConfiguration, cssStyle);
+      DatatableOptions.CSS_STYLE.appendIn(this.tableConfiguration.getOptions(), cssStyle);
    }
 
    public void addCssClass(String cssClass) {
-      if (DatatableOptions.CSS_CLASS.valueFrom(this.tableConfiguration) == null) {
-         DatatableOptions.CSS_CLASS.setIn(this.tableConfiguration, new StringBuilder());
+      if (DatatableOptions.CSS_CLASS.valueFrom(this.tableConfiguration.getOptions()) == null) {
+         DatatableOptions.CSS_CLASS.setIn(this.tableConfiguration.getOptions(), new StringBuilder());
       }
       else {
-         DatatableOptions.CSS_CLASS.appendIn(this.tableConfiguration, CLASS_SEPARATOR);
+         DatatableOptions.CSS_CLASS.appendIn(this.tableConfiguration.getOptions(), CLASS_SEPARATOR);
       }
-      DatatableOptions.CSS_CLASS.appendIn(this.tableConfiguration, cssClass);
+      DatatableOptions.CSS_CLASS.appendIn(this.tableConfiguration.getOptions(), cssClass);
    }
 
    public TableConfiguration getTableConfiguration() {

@@ -60,7 +60,7 @@ public class XmlExport implements DatatablesExport {
    @Override
    public void initExport(HtmlTable table) {
       this.table = table;
-      this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.XML);
+      this.exportConf = table.getTableConfiguration().getExportConfigurations().get(ReservedFormat.XML);
    }
 
    @Override
@@ -77,7 +77,7 @@ public class XmlExport implements DatatablesExport {
 
       XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
       XMLStreamWriter writer = null;
-      String objectType = DatatableOptions.INTERNAL_OBJECTTYPE.valueFrom(table.getTableConfiguration());
+      String objectType = DatatableOptions.INTERNAL_OBJECTTYPE.valueFrom(table.getTableConfiguration().getOptions());
       String normalizedObjectType = objectType.toLowerCase();
 
       try {

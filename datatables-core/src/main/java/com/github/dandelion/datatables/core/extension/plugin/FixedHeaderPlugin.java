@@ -81,8 +81,10 @@ public class FixedHeaderPlugin extends AbstractExtension {
    private Map<String, Object> getSpecificCongiguration(HtmlTable table) {
       Map<String, Object> conf = new HashMap<String, Object>();
 
-      String fixedPosition = DatatableOptions.PLUGIN_FIXEDPOSITION.valueFrom(table.getTableConfiguration());
-      Integer fixedOffset = DatatableOptions.PLUGIN_FIXEDOFFSETTOP.valueFrom(table.getTableConfiguration());
+      String fixedPosition = DatatableOptions.PLUGIN_FIXEDPOSITION
+            .valueFrom(table.getTableConfiguration().getOptions());
+      Integer fixedOffset = DatatableOptions.PLUGIN_FIXEDOFFSETTOP
+            .valueFrom(table.getTableConfiguration().getOptions());
 
       // fixedPosition attribute (default "top")
       if (StringUtils.isNotBlank(fixedPosition)) {

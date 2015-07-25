@@ -3,9 +3,9 @@ package com.github.dandelion.datatables.core.option.processor.css;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import com.github.dandelion.core.option.AbstractOptionProcessor;
+import com.github.dandelion.core.option.OptionProcessingContext;
 import com.github.dandelion.core.util.StringUtils;
-import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 
 public class CssStripeClassesProcessor extends AbstractOptionProcessor {
 
