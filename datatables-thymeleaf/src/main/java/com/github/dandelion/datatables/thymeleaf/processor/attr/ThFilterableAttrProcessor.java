@@ -35,9 +35,9 @@ import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 
+import com.github.dandelion.core.option.Option;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.extension.feature.FilteringFeature;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractColumnAttrProcessor;

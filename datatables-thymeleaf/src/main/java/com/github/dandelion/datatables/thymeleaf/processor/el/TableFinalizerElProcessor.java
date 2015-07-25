@@ -29,6 +29,7 @@
  */
 package com.github.dandelion.datatables.thymeleaf.processor.el;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -47,6 +48,8 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.core.asset.generator.js.jquery.JQueryContent;
 import com.github.dandelion.core.asset.generator.js.jquery.JQueryJsContentGenerator;
 import com.github.dandelion.core.html.AbstractHtmlTag;
+import com.github.dandelion.core.option.Option;
+import com.github.dandelion.core.util.OptionUtils;
 import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.core.web.AssetRequestContext;
 import com.github.dandelion.datatables.core.DatatableBundles;
@@ -62,8 +65,7 @@ import com.github.dandelion.datatables.core.generator.DatatableJQueryContent;
 import com.github.dandelion.datatables.core.html.HtmlTable;
 import com.github.dandelion.datatables.core.option.Callback;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
-import com.github.dandelion.datatables.core.util.ConfigUtils;
+import com.github.dandelion.datatables.core.option.TableConfiguration;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 import com.github.dandelion.datatables.thymeleaf.processor.config.ConfType;
@@ -102,16 +104,26 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
 
          applyLocalConfiguration(arguments, request, htmlTable, stagingConf);
 
-         ConfigUtils.applyStagingOptions(stagingConf, htmlTable);
-         ConfigUtils.processOptions(htmlTable);
-
+         htmlTable.getTableConfiguration().getOptions().putAll(stagingConf);
+         request.setAttribute(TableConfiguration.class.getCanonicalName(), htmlTable.getTableConfiguration());
+         OptionUtils.processOptions(htmlTable.getTableConfiguration().getOptions(), request);
+         
          // The table is being exported
          if (ExportUtils.isTableBeingExported(request, htmlTable)) {
             setupExport(arguments, htmlTable);
          }
          // The table must be displayed
          else {
-            ConfigUtils.storeTableInRequest(request, htmlTable);
+            if (request.getAttribute(DatatableComponent.DDL_DT_REQUESTATTR_TABLES) == null) {
+               List<HtmlTable> htmlTables = new ArrayList<HtmlTable>();
+               htmlTables.add(htmlTable);
+               request.setAttribute(DatatableComponent.DDL_DT_REQUESTATTR_TABLES, htmlTables);
+            }
+            else {
+               List<HtmlTable> htmlTables = (List<HtmlTable>) request.getAttribute(DatatableComponent.DDL_DT_REQUESTATTR_TABLES);
+               htmlTables.add(htmlTable);
+            }
+            
             setupHtml(arguments, request, htmlTable);
          }
       }
@@ -152,7 +164,7 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
             Map<String, ExportConf> overloadedExportConf = (Map<String, ExportConf>) configs.get(htmlTable.getId())
                   .get(ConfType.EXPORT);
             if (overloadedExportConf != null && !overloadedExportConf.isEmpty()) {
-               htmlTable.getTableConfiguration().getExportConfiguration().putAll(overloadedExportConf);
+               htmlTable.getTableConfiguration().getExportConfigurations().putAll(overloadedExportConf);
             }
 
             // Callbacks
@@ -215,7 +227,7 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
       Element tableElement = (Element) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_NODE_TABLE, request);
 
       // CSS class
-      StringBuilder configuredCssClass = DatatableOptions.CSS_CLASS.valueFrom(htmlTable.getTableConfiguration());
+      StringBuilder configuredCssClass = DatatableOptions.CSS_CLASS.valueFrom(htmlTable.getTableConfiguration().getOptions());
       if (configuredCssClass != null) {
 
          String currentCssClass = tableElement.getAttributeValue("class");
@@ -229,7 +241,7 @@ public class TableFinalizerElProcessor extends AbstractElProcessor {
       }
 
       // CSS style
-      StringBuilder configuredCssStyle = DatatableOptions.CSS_STYLE.valueFrom(htmlTable.getTableConfiguration());
+      StringBuilder configuredCssStyle = DatatableOptions.CSS_STYLE.valueFrom(htmlTable.getTableConfiguration().getOptions());
       if (configuredCssStyle != null) {
 
          String currentCssStyle = tableElement.getAttributeValue("style");

@@ -49,6 +49,7 @@ import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.asset.generator.js.jquery.JQueryContentPlaceholder;
+import com.github.dandelion.core.option.Option;
 import com.github.dandelion.core.util.EnumUtils;
 import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.core.util.UrlUtils;
@@ -62,7 +63,6 @@ import com.github.dandelion.datatables.core.extension.feature.ExtraJs;
 import com.github.dandelion.datatables.core.option.Callback;
 import com.github.dandelion.datatables.core.option.CallbackType;
 import com.github.dandelion.datatables.core.option.DatatableOptions;
-import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.util.ProcessorUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.el.DivExtraHtmlFinalizerElProcessor;

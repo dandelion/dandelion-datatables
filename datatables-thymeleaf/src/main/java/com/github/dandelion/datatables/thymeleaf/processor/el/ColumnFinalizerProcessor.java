@@ -30,6 +30,7 @@
 package com.github.dandelion.datatables.thymeleaf.processor.el;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,11 +41,11 @@ import org.thymeleaf.dom.Text;
 import org.thymeleaf.processor.IElementNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 
+import com.github.dandelion.core.option.Option;
+import com.github.dandelion.core.util.OptionUtils;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlColumn;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.option.Option;
-import com.github.dandelion.datatables.core.util.ConfigUtils;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 
@@ -54,17 +55,11 @@ public class ColumnFinalizerProcessor extends AbstractElProcessor {
       super(matcher);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override
    public int getPrecedence() {
       return 8005;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override
    @SuppressWarnings("unchecked")
    protected ProcessorResult doProcessElement(Arguments arguments, Element element, HttpServletRequest request,
@@ -89,8 +84,15 @@ public class ColumnFinalizerProcessor extends AbstractElProcessor {
 
       // Applies the staging configuration against the current column
       // configuration
-      ConfigUtils.applyStagingOptionsAndExtensions(stagingConf, stagingExt, htmlColumn);
-      ConfigUtils.processOptions(htmlColumn, htmlTable);
+//      ConfigUtils.applyStagingOptionsAndExtensions(stagingConf, stagingExt, htmlColumn);
+//      ConfigUtils.processOptions(htmlColumn, htmlTable);
+      
+      for (Entry<Option<?>, Object> stagingEntry : stagingConf.entrySet()) {
+         htmlColumn.getColumnConfiguration().getOptions().put(stagingEntry.getKey(), stagingEntry.getValue());
+      }
+      htmlColumn.getColumnConfiguration().getStagingExtension().putAll(stagingExt);
+      OptionUtils.processOptions(htmlColumn.getColumnConfiguration().getOptions(), request);
+      
 
       // Add it to the table
       if (htmlTable != null) {
