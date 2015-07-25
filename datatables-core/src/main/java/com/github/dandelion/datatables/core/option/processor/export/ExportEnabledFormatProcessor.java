@@ -1,6 +1,6 @@
 /*
  * [The "BSD licence"]
- * Copyright (c) 2012 Dandelion
+ * Copyright (c) 2013-2015 Dandelion
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,6 +29,8 @@
  */
 package com.github.dandelion.datatables.core.option.processor.export;
 
+import com.github.dandelion.core.option.AbstractOptionProcessor;
+import com.github.dandelion.core.option.OptionProcessingContext;
 import com.github.dandelion.core.util.StringUtils;
 import com.github.dandelion.core.util.UrlUtils;
 import com.github.dandelion.core.web.WebConstants;
@@ -36,8 +38,6 @@ import com.github.dandelion.datatables.core.export.ExportConf;
 import com.github.dandelion.datatables.core.export.ExportUtils;
 import com.github.dandelion.datatables.core.extension.feature.ExportFeature;
 import com.github.dandelion.datatables.core.option.TableConfiguration;
-import com.github.dandelion.datatables.core.option.processor.AbstractOptionProcessor;
-import com.github.dandelion.datatables.core.option.processor.OptionProcessingContext;
 
 /**
  * This processor is particular in the sense that it's returning null. Indeed,
@@ -53,12 +53,10 @@ public class ExportEnabledFormatProcessor extends AbstractOptionProcessor {
    @Override
    protected Object getProcessedValue(OptionProcessingContext context) {
 
-      TableConfiguration tableConfiguration = context.getTableConfiguration();
+      TableConfiguration tableConfiguration = (TableConfiguration) context.getRequest()
+            .getAttribute(TableConfiguration.class.getCanonicalName());
       String valueAsString = context.getValueAsString();
       if (StringUtils.isNotBlank(valueAsString)) {
-
-         // Init the exportable flag in order to add export links
-         tableConfiguration.setIsExportable(true);
 
          // Allowed export types
          String[] enabledFormats = valueAsString.split(",");
@@ -71,7 +69,7 @@ public class ExportEnabledFormatProcessor extends AbstractOptionProcessor {
 
             // The exportConf may already exist due to the ExportTag (JSP)
             // or the DivConfTypeAttrProcessor (Thymeleaf)
-            if (!tableConfiguration.getExportConfiguration().containsKey(enabledFormat)) {
+            if (!tableConfiguration.getExportConfigurations().containsKey(enabledFormat)) {
 
                // Default mode (export using filter)
                StringBuilder exportUrl = UrlUtils.getCurrentUri(tableConfiguration.getRequest());
@@ -85,14 +83,15 @@ public class ExportEnabledFormatProcessor extends AbstractOptionProcessor {
                exportConf = new ExportConf(enabledFormat, UrlUtils.getProcessedUrl(exportUrl,
                      tableConfiguration.getRequest(), tableConfiguration.getResponse()));
 
-               tableConfiguration.getExportConfiguration().put(enabledFormat, exportConf);
+               tableConfiguration.getExportConfigurations().put(enabledFormat, exportConf);
             }
          }
 
-         context.registerExtension(ExportFeature.EXTENSION_NAME);
+         tableConfiguration.registerExtension(ExportFeature.EXTENSION_NAME);
       }
 
-      // TODO bizarre
-      return null;
+      // The value is not used later during the processing but returned anyway
+      // mainly for logging purpose
+      return valueAsString;
    }
 }

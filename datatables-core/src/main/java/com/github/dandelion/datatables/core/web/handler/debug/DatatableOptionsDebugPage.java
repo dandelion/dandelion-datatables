@@ -39,15 +39,15 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.github.dandelion.core.option.Option;
 import com.github.dandelion.core.util.ResourceUtils;
 import com.github.dandelion.core.web.handler.HandlerContext;
 import com.github.dandelion.core.web.handler.debug.AbstractDebugPage;
+import com.github.dandelion.datatables.core.DatatableComponent;
 import com.github.dandelion.datatables.core.config.DatatableConfigurator;
 import com.github.dandelion.datatables.core.extension.Extension;
 import com.github.dandelion.datatables.core.html.HtmlTable;
-import com.github.dandelion.datatables.core.option.Option;
 import com.github.dandelion.datatables.core.option.TableConfigurationFactory;
-import com.github.dandelion.datatables.core.util.ConfigUtils;
 
 /**
  * <p>
@@ -76,15 +76,15 @@ public class DatatableOptionsDebugPage extends AbstractDebugPage {
 
    @Override
    public String getTemplate(HandlerContext context) throws IOException {
-      return ResourceUtils.getContentFromInputStream(Thread.currentThread().getContextClassLoader()
-            .getResourceAsStream(PAGE_LOCATION));
+      return ResourceUtils.getContentFromInputStream(
+            Thread.currentThread().getContextClassLoader().getResourceAsStream(PAGE_LOCATION));
    }
 
    @Override
    @SuppressWarnings("unchecked")
    protected Map<String, Object> getPageContext() {
-      List<HtmlTable> htmlTables = (List<HtmlTable>) context.getRequest().getAttribute(
-            ConfigUtils.DDL_DT_REQUESTATTR_TABLES);
+      List<HtmlTable> htmlTables = (List<HtmlTable>) context.getRequest()
+            .getAttribute(DatatableComponent.DDL_DT_REQUESTATTR_TABLES);
 
       List<Map<String, Object>> tablesJson = new ArrayList<Map<String, Object>>();
       if (!htmlTables.isEmpty()) {
@@ -133,11 +133,9 @@ public class DatatableOptionsDebugPage extends AbstractDebugPage {
             .get(htmlTable.getTableConfiguration().getOptionGroupName()).entrySet()) {
 
          tableOptions.add(new MapBuilder<String, Object>()
-               .entry("name", entry.getKey().getName())
-               .entry(
-                     "value",
-                     entry.getValue() instanceof Extension ? entry.getValue().getClass().getCanonicalName() : entry
-                           .getValue()).entry("precedence", entry.getKey().getPrecedence()).create());
+               .entry("name", entry.getKey().getName()).entry("value", entry.getValue() instanceof Extension
+                     ? entry.getValue().getClass().getCanonicalName() : entry.getValue())
+               .entry("precedence", entry.getKey().getPrecedence()).create());
       }
       return tableOptions;
    }

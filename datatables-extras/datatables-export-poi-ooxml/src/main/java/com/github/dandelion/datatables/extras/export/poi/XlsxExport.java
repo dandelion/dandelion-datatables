@@ -61,7 +61,7 @@ public class XlsxExport implements DatatablesExport {
    @Override
    public void initExport(HtmlTable table) {
       this.table = table;
-      this.exportConf = table.getTableConfiguration().getExportConfiguration().get(ReservedFormat.XLSX);
+      this.exportConf = table.getTableConfiguration().getExportConfigurations().get(ReservedFormat.XLSX);
    }
 
    @Override

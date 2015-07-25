@@ -27,7 +27,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		ExportConf exportConf = new ExportConf("csv");
 		exportConf.setUrl("/myExportUrl");
 		exportConf.setLabel("CSV");
-		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
+		table.getTableConfiguration().getExportConfigurations().put("csv", exportConf);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 
 		assertThat(exportFeature.getBeforeAll()).isNull();
@@ -44,7 +44,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		exportConf.setHasCustomUrl(true);
 		exportConf.setUrl("/myExportUrl");
 		exportConf.setLabel("CSV");
-		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
+		table.getTableConfiguration().getExportConfigurations().put("csv", exportConf);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).isEmpty();
@@ -60,7 +60,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		exportConf.setHasCustomUrl(true);
 		exportConf.setUrl("/myExportUrl?existingParam=val");
 		exportConf.setLabel("CSV");
-		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
+		table.getTableConfiguration().getExportConfigurations().put("csv", exportConf);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).isEmpty();
@@ -77,7 +77,7 @@ public class ExportFeatureTest extends AbstractExtensionTest {
 		exportConf.setUrl("/myExportUrl");
 		exportConf.setMethod(HttpMethod.POST);
 		exportConf.setLabel("CSV");
-		table.getTableConfiguration().getExportConfiguration().put("csv", exportConf);
+		table.getTableConfiguration().getExportConfigurations().put("csv", exportConf);
 		extensionProcessor.process(new HashSet<Extension>(Arrays.asList(exportFeature)));
 		
 		assertThat(AssetRequestContext.get(table.getTableConfiguration().getRequest()).getBundles(true)).contains(DatatableBundles.JQUERY_DOWNLOAD.getBundleName());

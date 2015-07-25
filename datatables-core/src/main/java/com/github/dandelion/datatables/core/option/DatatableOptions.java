@@ -34,7 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import com.github.dandelion.core.option.BooleanProcessor;
 import com.github.dandelion.core.option.EmptyStringProcessor;
@@ -61,8 +60,11 @@ import com.github.dandelion.datatables.core.option.processor.column.SortTypeProc
 import com.github.dandelion.datatables.core.option.processor.css.CssStripeClassesProcessor;
 import com.github.dandelion.datatables.core.option.processor.css.CssThemeOptionProcessor;
 import com.github.dandelion.datatables.core.option.processor.css.CssThemeProcessor;
+import com.github.dandelion.datatables.core.option.processor.export.ExportClassProcessor;
 import com.github.dandelion.datatables.core.option.processor.export.ExportEnabledFormatProcessor;
-import com.github.dandelion.datatables.core.option.processor.export.ExportFormatProcessor;
+import com.github.dandelion.datatables.core.option.processor.export.ExportFileNameProcessor;
+import com.github.dandelion.datatables.core.option.processor.export.ExportLabelProcessor;
+import com.github.dandelion.datatables.core.option.processor.export.ExportMimeTypeProcessor;
 import com.github.dandelion.datatables.core.option.processor.feature.FeatureFilterPlaceholderProcessor;
 import com.github.dandelion.datatables.core.option.processor.feature.FeatureFilterSelectorProcessor;
 import com.github.dandelion.datatables.core.option.processor.feature.FeatureLengthMenuProcessor;
@@ -173,14 +175,46 @@ public final class DatatableOptions {
          new StringProcessor(), 100);
    public static final Option<String> EXPORT_CONTAINER_CLASS = new Option<String>("export.container.class",
          new StringProcessor(), 100);
-   public static final Option<String> EXPORT_CLASS = new Option<String>(ExportFormatProcessor.REGEX_EXPORT_CLASS,
-         new ExportFormatProcessor(), 100);
-   public static final Option<String> EXPORT_LABEL = new Option<String>(ExportFormatProcessor.REGEX_EXPORT_LABEL,
-         new ExportFormatProcessor(), 100);
-   public static final Option<String> EXPORT_FILENAME = new Option<String>(ExportFormatProcessor.REGEX_EXPORT_FILENAME,
-         new ExportFormatProcessor(), 100);
-   public static final Option<String> EXPORT_MIMETYPE = new Option<String>(ExportFormatProcessor.REGEX_EXPORT_MIMETYPE,
-         new ExportFormatProcessor(), 100);
+   public static final Option<String> EXPORT_CSV_CLASS = new Option<String>("export.csv.class",
+         new ExportClassProcessor(), 100);
+   public static final Option<String> EXPORT_CSV_LABEL = new Option<String>("export.csv.label",
+         new ExportLabelProcessor(), 100);
+   public static final Option<String> EXPORT_CSV_FILENAME = new Option<String>("export.csv.filename",
+         new ExportFileNameProcessor(), 100);
+   public static final Option<String> EXPORT_CSV_MIMETYPE = new Option<String>("export.csv.mimetype   ",
+         new ExportMimeTypeProcessor(), 100);
+   public static final Option<String> EXPORT_XML_CLASS = new Option<String>("export.xml.class",
+         new ExportClassProcessor(), 100);
+   public static final Option<String> EXPORT_XML_LABEL = new Option<String>("export.xml.label",
+         new ExportLabelProcessor(), 100);
+   public static final Option<String> EXPORT_XML_FILENAME = new Option<String>("export.xml.filename",
+         new ExportFileNameProcessor(), 100);
+   public static final Option<String> EXPORT_XML_MIMETYPE = new Option<String>("export.xml.mimetype   ",
+         new ExportMimeTypeProcessor(), 100);
+   public static final Option<String> EXPORT_PDF_CLASS = new Option<String>("export.pdf.class",
+         new ExportClassProcessor(), 100);
+   public static final Option<String> EXPORT_PDF_LABEL = new Option<String>("export.pdf.label",
+         new ExportLabelProcessor(), 100);
+   public static final Option<String> EXPORT_PDF_FILENAME = new Option<String>("export.pdf.filename",
+         new ExportFileNameProcessor(), 100);
+   public static final Option<String> EXPORT_PDF_MIMETYPE = new Option<String>("export.pdf.mimetype   ",
+         new ExportMimeTypeProcessor(), 100);
+   public static final Option<String> EXPORT_XLS_CLASS = new Option<String>("export.xls.class",
+         new ExportClassProcessor(), 100);
+   public static final Option<String> EXPORT_XLS_LABEL = new Option<String>("export.xls.label",
+         new ExportLabelProcessor(), 100);
+   public static final Option<String> EXPORT_XLS_FILENAME = new Option<String>("export.xls.filename",
+         new ExportFileNameProcessor(), 100);
+   public static final Option<String> EXPORT_XLS_MIMETYPE = new Option<String>("export.xls.mimetype   ",
+         new ExportMimeTypeProcessor(), 100);
+   public static final Option<String> EXPORT_XLSX_CLASS = new Option<String>("export.xlsx.class",
+         new ExportClassProcessor(), 100);
+   public static final Option<String> EXPORT_XLSX_LABEL = new Option<String>("export.xlsx.label",
+         new ExportLabelProcessor(), 100);
+   public static final Option<String> EXPORT_XLSX_FILENAME = new Option<String>("export.xlsx.filename",
+         new ExportFileNameProcessor(), 100);
+   public static final Option<String> EXPORT_XLSX_MIMETYPE = new Option<String>("export.xlsx.mimetype   ",
+         new ExportMimeTypeProcessor(), 100);
 
    public static final Option<String> I18N_MSG_PROCESSING = new Option<String>("i18n.msg.processing",
          new MessageProcessor(), 100);
@@ -270,41 +304,6 @@ public final class DatatableOptions {
       String normalizedKey = optionName.trim().toLowerCase();
       if (OPTIONS_BY_NAME.containsKey(normalizedKey)) {
          return OPTIONS_BY_NAME.get(normalizedKey);
-      }
-      else if (optionName.contains("export")) {
-         Option<?> option = null;
-
-         Pattern patternExportClass = Pattern.compile(ExportFormatProcessor.REGEX_EXPORT_CLASS,
-               Pattern.CASE_INSENSITIVE);
-         if (patternExportClass.matcher(optionName).find()) {
-            option = EXPORT_CLASS;
-            option.setUserName(optionName);
-            return option;
-         }
-
-         Pattern patternExportFilename = Pattern.compile(ExportFormatProcessor.REGEX_EXPORT_FILENAME,
-               Pattern.CASE_INSENSITIVE);
-         if (patternExportFilename.matcher(optionName).find()) {
-            option = EXPORT_FILENAME;
-            option.setUserName(optionName);
-            return option;
-         }
-
-         Pattern patternExportLabel = Pattern.compile(ExportFormatProcessor.REGEX_EXPORT_LABEL,
-               Pattern.CASE_INSENSITIVE);
-         if (patternExportLabel.matcher(optionName).find()) {
-            option = EXPORT_LABEL;
-            option.setUserName(optionName);
-            return option;
-         }
-
-         Pattern patternExportMimetype = Pattern.compile(ExportFormatProcessor.REGEX_EXPORT_MIMETYPE,
-               Pattern.CASE_INSENSITIVE);
-         if (patternExportMimetype.matcher(optionName).find()) {
-            option = EXPORT_MIMETYPE;
-            option.setUserName(optionName);
-            return option;
-         }
       }
 
       return null;

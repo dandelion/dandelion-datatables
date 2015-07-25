@@ -73,8 +73,8 @@ public class DatatableOptionGroupsDebugPage extends AbstractDebugPage {
 
    @Override
    public String getTemplate(HandlerContext context) throws IOException {
-      return ResourceUtils.getContentFromInputStream(Thread.currentThread().getContextClassLoader()
-            .getResourceAsStream(PAGE_LOCATION));
+      return ResourceUtils.getContentFromInputStream(
+            Thread.currentThread().getContextClassLoader().getResourceAsStream(PAGE_LOCATION));
    }
 
    @Override
@@ -151,12 +151,28 @@ public class DatatableOptionGroupsDebugPage extends AbstractDebugPage {
 
       // Export-related options
       options.add(option(DatatableOptions.EXPORT_ENABLED_FORMATS, optionsMap));
-      options.add(option(DatatableOptions.EXPORT_CLASS, optionsMap));
       options.add(option(DatatableOptions.EXPORT_CONTAINER_CLASS, optionsMap));
       options.add(option(DatatableOptions.EXPORT_CONTAINER_STYLE, optionsMap));
-      options.add(option(DatatableOptions.EXPORT_FILENAME, optionsMap));
-      options.add(option(DatatableOptions.EXPORT_LABEL, optionsMap));
-      options.add(option(DatatableOptions.EXPORT_MIMETYPE, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_CSV_CLASS, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_CSV_LABEL, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_CSV_FILENAME, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_CSV_MIMETYPE, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_XML_CLASS, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_XML_LABEL, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_XML_FILENAME, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_XML_MIMETYPE, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_PDF_CLASS, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_PDF_LABEL, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_PDF_FILENAME, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_PDF_MIMETYPE, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_XLS_CLASS, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_XLS_LABEL, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_XLS_FILENAME, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_XLS_MIMETYPE, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_XLSX_CLASS, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_XLSX_LABEL, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_XLSX_FILENAME, optionsMap));
+      options.add(option(DatatableOptions.EXPORT_XLSX_MIMETYPE, optionsMap));
 
       // I18n-related options
       options.add(option(DatatableOptions.I18N_MSG_ARIA_SORTASC, optionsMap));
