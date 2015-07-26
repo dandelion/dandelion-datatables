@@ -62,10 +62,10 @@ public class TableThemeOptionAttrProcessor extends AbstractTableAttrProcessor {
 
    @Override
    protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-         Map<Option<?>, Object> stagingConf) {
+         Map<Option<?>, Object> stagingOptions) {
 
       String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-      stagingConf.put(DatatableOptions.CSS_THEMEOPTION, attrValue);
+      stagingOptions.put(DatatableOptions.CSS_THEMEOPTION, attrValue);
    }
 }

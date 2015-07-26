@@ -44,9 +44,12 @@ import com.github.dandelion.core.option.Option;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 
 /**
+ * <p>
  * Abstract superclass for all processors applied to the {@code table} tag.
+ * </p>
  * 
  * @author Thibault Duchateau
+ * @since 0.10.0
  */
 public abstract class AbstractTableAttrProcessor extends AbstractAttrProcessor {
 
@@ -59,11 +62,12 @@ public abstract class AbstractTableAttrProcessor extends AbstractAttrProcessor {
    protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
 
       HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-      Map<Option<?>, Object> stagingConf = (Map<Option<?>, Object>) request
-            .getAttribute(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF);
+
+      Map<Option<?>, Object> stagingOptions = (Map<Option<?>, Object>) request
+            .getAttribute(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_OPTIONS);
 
       // Make the actual attribute processing
-      doProcessAttribute(arguments, element, attributeName, stagingConf);
+      doProcessAttribute(arguments, element, attributeName, stagingOptions);
 
       // Housekeeping
       element.removeAttribute(attributeName);
@@ -71,14 +75,13 @@ public abstract class AbstractTableAttrProcessor extends AbstractAttrProcessor {
       return ProcessorResult.ok();
    }
 
-   /**
-    * Returns the precedence of the table attribute processor.
-    */
    @Override
    public abstract int getPrecedence();
 
    /**
+    * <p>
     * Actually performs the processing of the table attribute.
+    * </p>
     * 
     * @param arguments
     *           Thymeleaf arguments.
@@ -86,9 +89,10 @@ public abstract class AbstractTableAttrProcessor extends AbstractAttrProcessor {
     *           Element holding the attribute to process.
     * @param attributeName
     *           Name of the attribute to process.
-    * @param stagingConf
-    *           Map containing the table local configuration.
+    * @param stagingOptions
+    *           Map containing the staging options to be applied to the table at
+    *           the end of the tag processing.
     */
    protected abstract void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-         Map<Option<?>, Object> stagingConf);
+         Map<Option<?>, Object> stagingOptions);
 }

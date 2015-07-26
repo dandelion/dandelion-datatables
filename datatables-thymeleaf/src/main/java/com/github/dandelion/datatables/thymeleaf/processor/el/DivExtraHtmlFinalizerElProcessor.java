@@ -40,17 +40,11 @@ public class DivExtraHtmlFinalizerElProcessor extends AbstractElProcessor {
       super(matcher);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override
    public int getPrecedence() {
       return 8005;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @SuppressWarnings("unchecked")
    protected ProcessorResult doProcessElement(Arguments arguments, Element element, HttpServletRequest request,
          HttpServletResponse response, HtmlTable htmlTable) {

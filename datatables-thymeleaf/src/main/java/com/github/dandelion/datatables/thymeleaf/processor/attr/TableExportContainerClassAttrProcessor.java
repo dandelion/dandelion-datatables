@@ -63,10 +63,10 @@ public class TableExportContainerClassAttrProcessor extends AbstractTableAttrPro
 
    @Override
    protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-         Map<Option<?>, Object> stagingConf) {
+         Map<Option<?>, Object> stagingOptions) {
 
       String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-      stagingConf.put(DatatableOptions.EXPORT_CONTAINER_CLASS, attrValue);
+      stagingOptions.put(DatatableOptions.EXPORT_CONTAINER_CLASS, attrValue);
    }
 }

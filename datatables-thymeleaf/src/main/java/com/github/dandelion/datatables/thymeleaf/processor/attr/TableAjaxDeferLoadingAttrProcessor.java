@@ -63,10 +63,10 @@ public class TableAjaxDeferLoadingAttrProcessor extends AbstractTableAttrProcess
 
    @Override
    protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-         Map<Option<?>, Object> stagingConf) {
+         Map<Option<?>, Object> stagingOptions) {
 
       String attrValue = AttributeUtils.forceParsingStringAttribute(arguments, element, attributeName);
 
-      stagingConf.put(DatatableOptions.AJAX_DEFERLOADING, attrValue);
+      stagingOptions.put(DatatableOptions.AJAX_DEFERLOADING, attrValue);
    }
 }

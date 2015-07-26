@@ -65,7 +65,7 @@ public class TableConfGroupAttrProcessor extends AbstractTableAttrProcessor {
 
    @Override
    protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-         Map<Option<?>, Object> stagingConf) {
+         Map<Option<?>, Object> stagingOptions) {
 
       HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
 

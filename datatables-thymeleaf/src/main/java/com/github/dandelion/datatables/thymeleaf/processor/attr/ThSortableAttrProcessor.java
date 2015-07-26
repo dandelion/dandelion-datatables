@@ -63,10 +63,10 @@ public class ThSortableAttrProcessor extends AbstractColumnAttrProcessor {
 
    @Override
    protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-         Map<Option<?>, Object> stagingConf, Map<Option<?>, Extension> stagingExt) {
+         Map<Option<?>, Object> stagingOptions, Map<Option<?>, Extension> stagingExt) {
 
       Boolean attrValue = AttributeUtils.parseBooleanAttribute(arguments, element, attributeName);
 
-      stagingConf.put(DatatableOptions.SORTABLE, attrValue);
+      stagingOptions.put(DatatableOptions.SORTABLE, attrValue);
    }
 }

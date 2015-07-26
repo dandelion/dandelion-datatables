@@ -62,10 +62,10 @@ public class TableAjaxPipeliningAttrProcessor extends AbstractTableAttrProcessor
 
    @Override
    protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-         Map<Option<?>, Object> stagingConf) {
+         Map<Option<?>, Object> stagingOptions) {
 
       Boolean attrValue = AttributeUtils.parseBooleanAttribute(arguments, element, attributeName);
 
-      stagingConf.put(DatatableOptions.AJAX_PIPELINING, attrValue);
+      stagingOptions.put(DatatableOptions.AJAX_PIPELINING, attrValue);
    }
 }

@@ -43,6 +43,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import com.github.dandelion.core.DandelionException;
 import com.github.dandelion.core.option.Option;
 import com.github.dandelion.datatables.core.html.HtmlTable;
+import com.github.dandelion.datatables.core.option.TableConfiguration;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
 import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
@@ -50,6 +51,7 @@ import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
 /**
  * <p>
  * Element processor applied to the HTML <tt>table</tt> tag.
+ * </p>
  * 
  * @author Thibault Duchateau
  */
@@ -59,17 +61,11 @@ public class TableInitializerElProcessor extends AbstractElProcessor {
       super(matcher);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override
    public int getPrecedence() {
       return DataTablesDialect.DT_HIGHEST_PRECEDENCE;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override
    protected ProcessorResult doProcessElement(Arguments arguments, Element element, HttpServletRequest request,
          HttpServletResponse response, HtmlTable htmlTable) {
@@ -81,6 +77,7 @@ public class TableInitializerElProcessor extends AbstractElProcessor {
          String confGroup = (String) RequestUtils.getFromRequest(DataTablesDialect.INTERNAL_CONF_GROUP, request);
 
          HtmlTable newHtmlTable = new HtmlTable(tableId, request, response, confGroup);
+         request.setAttribute(TableConfiguration.class.getCanonicalName(), newHtmlTable.getTableConfiguration());
 
          // Add a default header row
          newHtmlTable.addHeaderRow();
@@ -95,7 +92,7 @@ public class TableInitializerElProcessor extends AbstractElProcessor {
          RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_NODE_TABLE, element, request);
 
          // Map used to store the table local configuration
-         RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_CONF,
+         RequestUtils.storeInRequest(DataTablesDialect.INTERNAL_BEAN_TABLE_STAGING_OPTIONS,
                new HashMap<Option<?>, Object>(), request);
 
          // The HTML needs to be updated
@@ -111,6 +108,7 @@ public class TableInitializerElProcessor extends AbstractElProcessor {
    /**
     * <p>
     * The HTML markup needs to be updated for several reasons:
+    * </p>
     * <ul>
     * <li>First for housekeeping: all Dandelion-Datatables attributes must be
     * removed before the table is displayed</li>
@@ -122,7 +120,6 @@ public class TableInitializerElProcessor extends AbstractElProcessor {
     * {@code div} will be removed in its corresponding processor, i.e.
     * {@link TableFinalizerElProcessor}</li>
     * </ul>
-    * <p>
     * 
     * @param element
     *           The {@code table} tag.

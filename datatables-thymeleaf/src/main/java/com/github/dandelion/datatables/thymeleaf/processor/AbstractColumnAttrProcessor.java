@@ -47,7 +47,7 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
  * </p>
  * 
  * @author Thibault Duchateau
- * @since 0.9.0
+ * @since 0.10.0
  */
 public abstract class AbstractColumnAttrProcessor extends AbstractAttrProcessor {
 
@@ -59,13 +59,13 @@ public abstract class AbstractColumnAttrProcessor extends AbstractAttrProcessor 
    @SuppressWarnings("unchecked")
    protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
 
-      Map<Option<?>, Object> stagingConf = (Map<Option<?>, Object>) arguments
-            .getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF);
-      Map<Option<?>, Extension> stagingExt = (Map<Option<?>, Extension>) arguments
-            .getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT);
+      Map<Option<?>, Object> stagingOptions = (Map<Option<?>, Object>) arguments
+            .getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_STAGING_OPTIONS);
+      Map<Option<?>, Extension> stagingExtensions = (Map<Option<?>, Extension>) arguments
+            .getLocalVariable(DataTablesDialect.INTERNAL_BEAN_COLUMN_STAGING_EXTENSIONS);
 
       // Perform the actual attribute processing
-      doProcessAttribute(arguments, element, attributeName, stagingConf, stagingExt);
+      doProcessAttribute(arguments, element, attributeName, stagingOptions, stagingExtensions);
 
       // Housekeeping
       element.removeAttribute(attributeName);
@@ -73,14 +73,13 @@ public abstract class AbstractColumnAttrProcessor extends AbstractAttrProcessor 
       return ProcessorResult.ok();
    }
 
-   /**
-    * Returns the precedence of the column attribute processor.
-    */
    @Override
    public abstract int getPrecedence();
 
    /**
+    * <p>
     * Actually performs the processing of the column attribute.
+    * </p>
     * 
     * @param arguments
     *           Thymeleaf arguments.
@@ -88,11 +87,13 @@ public abstract class AbstractColumnAttrProcessor extends AbstractAttrProcessor 
     *           Element holding the attribute to process.
     * @param attributeName
     *           Name of the attribute to process.
-    * @param stagingConf
-    *           Map containing the column local configuration.
-    * @param stagingExt
-    *           Map containing the column local extension.
+    * @param stagingOptions
+    *           Map containing the staging options to be applied to the table at
+    *           the end of the tag processing.
+    * @param stagingExtensions
+    *           Map containing the staging extensions to be applied to the table
+    *           at the end of the tag processing.
     */
    protected abstract void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-         Map<Option<?>, Object> stagingConf, Map<Option<?>, Extension> stagingExt);
+         Map<Option<?>, Object> stagingOptions, Map<Option<?>, Extension> stagingExtensions);
 }

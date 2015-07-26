@@ -63,10 +63,10 @@ public class TableAjaxDeferRenderAttrProcessor extends AbstractTableAttrProcesso
 
    @Override
    protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-         Map<Option<?>, Object> stagingConf) {
+         Map<Option<?>, Object> stagingOptions) {
 
       Boolean attrValue = AttributeUtils.parseBooleanAttribute(arguments, element, attributeName);
 
-      stagingConf.put(DatatableOptions.AJAX_DEFERRENDER, attrValue);
+      stagingOptions.put(DatatableOptions.AJAX_DEFERRENDER, attrValue);
    }
 }

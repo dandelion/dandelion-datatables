@@ -67,9 +67,9 @@ public class DataTablesDialect extends AbstractDialect {
    public static final String INTERNAL_NODE_CONFIG = "nodeConfig";
    public static final String INTERNAL_NODE_TABLE = "tableNode";
    public static final String INTERNAL_CONF_GROUP = "confGroup";
-   public static final String INTERNAL_BEAN_TABLE_STAGING_CONF = "tableStagingConf";
-   public static final String INTERNAL_BEAN_COLUMN_LOCAL_CONF = "columnLocalConf";
-   public static final String INTERNAL_BEAN_COLUMN_LOCAL_EXT = "columnLocalExtension";
+   public static final String INTERNAL_BEAN_TABLE_STAGING_OPTIONS = "tableStagingOptions";
+   public static final String INTERNAL_BEAN_COLUMN_STAGING_OPTIONS = "columnStagingOptions";
+   public static final String INTERNAL_BEAN_COLUMN_STAGING_EXTENSIONS = "columnStagingExtensions";
 
    public String getPrefix() {
       return DIALECT_PREFIX;
@@ -87,28 +87,28 @@ public class DataTablesDialect extends AbstractDialect {
       final Set<IProcessor> processors = new HashSet<IProcessor>();
 
       // Element processors
-      processors.add(new TableInitializerElProcessor(new ElementNameProcessorMatcher("table",
-            DIALECT_PREFIX + ":table", "true", false)));
-      processors.add(new TableFinalizerElProcessor(new ElementNameProcessorMatcher("div", DIALECT_PREFIX + ":tmp",
-            "internalUse", false)));
-      processors.add(new TheadElProcessor(new ElementNameProcessorMatcher("thead", DIALECT_PREFIX + ":data",
-            "internalUse", false)));
-      processors.add(new TbodyElProcessor(new ElementNameProcessorMatcher("tbody", DIALECT_PREFIX + ":data",
-            "internalUse", false)));
-      processors.add(new ColumnInitializerElProcessor(new ElementNameProcessorMatcher("th", DIALECT_PREFIX + ":data",
-            "internalUse", false)));
-      processors.add(new ColumnFinalizerProcessor(new ElementNameProcessorMatcher("th", DIALECT_PREFIX + ":data",
-            "internalUse", false)));
-      processors.add(new TrElProcessor(new ElementNameProcessorMatcher("tr", DIALECT_PREFIX + ":data", "internalUse",
-            false)));
-      processors.add(new TdElProcessor(new ElementNameProcessorMatcher("td", DIALECT_PREFIX + ":data", "internalUse",
-            false)));
+      processors.add(new TableInitializerElProcessor(
+            new ElementNameProcessorMatcher("table", DIALECT_PREFIX + ":table", "true", false)));
+      processors.add(new TableFinalizerElProcessor(
+            new ElementNameProcessorMatcher("div", DIALECT_PREFIX + ":tmp", "internalUse", false)));
+      processors.add(new TheadElProcessor(
+            new ElementNameProcessorMatcher("thead", DIALECT_PREFIX + ":data", "internalUse", false)));
+      processors.add(new TbodyElProcessor(
+            new ElementNameProcessorMatcher("tbody", DIALECT_PREFIX + ":data", "internalUse", false)));
+      processors.add(new ColumnInitializerElProcessor(
+            new ElementNameProcessorMatcher("th", DIALECT_PREFIX + ":data", "internalUse", false)));
+      processors.add(new ColumnFinalizerProcessor(
+            new ElementNameProcessorMatcher("th", DIALECT_PREFIX + ":data", "internalUse", false)));
+      processors.add(
+            new TrElProcessor(new ElementNameProcessorMatcher("tr", DIALECT_PREFIX + ":data", "internalUse", false)));
+      processors.add(
+            new TdElProcessor(new ElementNameProcessorMatcher("td", DIALECT_PREFIX + ":data", "internalUse", false)));
 
       // Config processors
       processors.add(new DivConfAttrProcessor(new AttributeNameProcessorMatcher("conf", "div")));
       processors.add(new DivConfTypeAttrProcessor(new AttributeNameProcessorMatcher("confType", "div")));
-      processors.add(new DivExtraHtmlFinalizerElProcessor(new ElementNameProcessorMatcher("div", DIALECT_PREFIX
-            + ":tmp", "internalUseExtraHtml", false)));
+      processors.add(new DivExtraHtmlFinalizerElProcessor(
+            new ElementNameProcessorMatcher("div", DIALECT_PREFIX + ":tmp", "internalUseExtraHtml", false)));
 
       // Table attribute processors
       for (TableAttrProcessors processor : TableAttrProcessors.values()) {

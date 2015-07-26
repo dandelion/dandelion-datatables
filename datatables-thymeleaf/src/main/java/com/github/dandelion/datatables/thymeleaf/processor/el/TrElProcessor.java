@@ -47,9 +47,11 @@ import com.github.dandelion.datatables.thymeleaf.processor.AbstractElProcessor;
  * Element processor applied to the <tt>tr</tt> HTML tag. Whenever Thymeleaf
  * meets a <tt>tr</tt> tag, a HtmlRow is added to the current table. So each
  * <tt>td</tt> tag will be able to update it.
+ * </p>
  * <p>
  * This processor is only used for the export feature which is based on the
  * HtmlTable bean.
+ * </p>
  * 
  * @author Thibault Duchateau
  */
@@ -59,17 +61,11 @@ public class TrElProcessor extends AbstractElProcessor {
       super(matcher);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override
    public int getPrecedence() {
       return 4001;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override
    protected ProcessorResult doProcessElement(Arguments arguments, Element element, HttpServletRequest request,
          HttpServletResponse response, HtmlTable htmlTable) {

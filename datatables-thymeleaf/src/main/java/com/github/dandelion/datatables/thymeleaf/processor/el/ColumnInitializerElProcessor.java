@@ -57,17 +57,11 @@ public class ColumnInitializerElProcessor extends AbstractElProcessor {
       super(matcher);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override
    public int getPrecedence() {
       return DataTablesDialect.DT_DEFAULT_PRECEDENCE;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override
    protected ProcessorResult doProcessElement(Arguments arguments, Element element, HttpServletRequest request,
          HttpServletResponse response, HtmlTable htmlTable) {
@@ -78,8 +72,8 @@ public class ColumnInitializerElProcessor extends AbstractElProcessor {
       // The staging configuration is stored as a local variable. It must be
       // accessible in all column head processors.
       Map<String, Object> newVariable = new HashMap<String, Object>();
-      newVariable.put(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_CONF, stagingConf);
-      newVariable.put(DataTablesDialect.INTERNAL_BEAN_COLUMN_LOCAL_EXT, stagingExtension);
+      newVariable.put(DataTablesDialect.INTERNAL_BEAN_COLUMN_STAGING_OPTIONS, stagingConf);
+      newVariable.put(DataTablesDialect.INTERNAL_BEAN_COLUMN_STAGING_EXTENSIONS, stagingExtension);
       return ProcessorResult.setLocalVariables(newVariable);
    }
 }

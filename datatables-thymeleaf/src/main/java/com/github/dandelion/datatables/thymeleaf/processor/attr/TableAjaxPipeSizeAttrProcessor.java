@@ -63,10 +63,10 @@ public class TableAjaxPipeSizeAttrProcessor extends AbstractTableAttrProcessor {
 
    @Override
    protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-         Map<Option<?>, Object> stagingConf) {
+         Map<Option<?>, Object> stagingOptions) {
 
       BigDecimal attrValue = AttributeUtils.parseAttribute(arguments, element, attributeName, BigDecimal.class);
 
-      stagingConf.put(DatatableOptions.AJAX_PIPESIZE, attrValue.intValue());
+      stagingOptions.put(DatatableOptions.AJAX_PIPESIZE, attrValue.intValue());
    }
 }

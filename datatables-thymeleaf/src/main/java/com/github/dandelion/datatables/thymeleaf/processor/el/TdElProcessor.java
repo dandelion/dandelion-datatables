@@ -53,9 +53,11 @@ import com.github.dandelion.datatables.thymeleaf.util.AttributeUtils;
  * Element processor applied to the {@code td} tag. Whenever Thymeleaf meets a
  * {@code td} tag, a {@link HtmlColumn} is added to the last added
  * {@link HtmlRow}.
+ * </p>
  * <p>
  * Important note : the unique goal of this processor is to fill the
  * {@link HtmlTable} bean in order to make it exportable.
+ * </p>
  * 
  * @author Thibault Duchateau
  */
@@ -67,17 +69,11 @@ public class TdElProcessor extends AbstractElProcessor {
       super(matcher);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override
    public int getPrecedence() {
       return 4002;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override
    protected ProcessorResult doProcessElement(Arguments arguments, Element element, HttpServletRequest request,
          HttpServletResponse response, HtmlTable htmlTable) {

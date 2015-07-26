@@ -63,10 +63,10 @@ public class TableScrollXInnerAttrProcessor extends AbstractTableAttrProcessor {
 
    @Override
    protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-         Map<Option<?>, Object> stagingConf) {
+         Map<Option<?>, Object> stagingOptions) {
 
       String attrValue = AttributeUtils.parseStringAttribute(arguments, element, attributeName);
 
-      stagingConf.put(DatatableOptions.FEATURE_SCROLLXINNER, attrValue);
+      stagingOptions.put(DatatableOptions.FEATURE_SCROLLXINNER, attrValue);
    }
 }

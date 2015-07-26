@@ -63,10 +63,10 @@ public class TableScrollCollapseAttrProcessor extends AbstractTableAttrProcessor
 
    @Override
    protected void doProcessAttribute(Arguments arguments, Element element, String attributeName,
-         Map<Option<?>, Object> stagingConf) {
+         Map<Option<?>, Object> stagingOptions) {
 
       Boolean attrValue = AttributeUtils.parseBooleanAttribute(arguments, element, attributeName);
 
-      stagingConf.put(DatatableOptions.FEATURE_SCROLLCOLLAPSE, attrValue);
+      stagingOptions.put(DatatableOptions.FEATURE_SCROLLCOLLAPSE, attrValue);
    }
 }

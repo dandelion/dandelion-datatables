@@ -46,8 +46,10 @@ import com.github.dandelion.datatables.thymeleaf.util.RequestUtils;
 /**
  * <p>
  * Abstract superclass for all Datatables element processors.
+ * </p>
  * 
  * @author Thibault Duchateau
+ * @since 0.10.0
  */
 public abstract class AbstractElProcessor extends AbstractElementProcessor {
 
@@ -66,14 +68,13 @@ public abstract class AbstractElProcessor extends AbstractElementProcessor {
       return processorResult;
    }
 
-   /**
-    * Returns the precedence of the element processor.
-    */
    @Override
    public abstract int getPrecedence();
 
    /**
-    * Actually performs the processing of the element..
+    * <p>
+    * Actually performs the processing of the element.
+    * </p>
     * 
     * @param arguments
     *           Thymeleaf arguments.
@@ -88,6 +89,6 @@ public abstract class AbstractElProcessor extends AbstractElementProcessor {
     *           on.
     * @return result of process
     */
-   protected abstract ProcessorResult doProcessElement(Arguments arguments, Element element,
-         HttpServletRequest request, HttpServletResponse response, HtmlTable htmlTable);
+   protected abstract ProcessorResult doProcessElement(Arguments arguments, Element element, HttpServletRequest request,
+         HttpServletResponse response, HtmlTable htmlTable);
 }
