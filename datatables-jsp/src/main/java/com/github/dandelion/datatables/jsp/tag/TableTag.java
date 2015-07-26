@@ -140,7 +140,7 @@ public class TableTag extends BodyTagSupport implements DynamicAttributes {
     * Map containing the staging configuration to be applied to the table at the
     * end of the tag processing.
     */
-   private Map<Option<?>, Object> stagingConf;
+   private Map<Option<?>, Object> stagingOptions;
 
    /**
     * The table to be built.
@@ -175,12 +175,12 @@ public class TableTag extends BodyTagSupport implements DynamicAttributes {
 
    /**
     * <p>
-    * Initialize a new map intended to store the staging configuration to be
-    * applied to table and columns.
+    * Initialize a new map intended to store the staging options to be applied
+    * to table and columns.
     * </p>
     */
    public TableTag() {
-      this.stagingConf = new HashMap<Option<?>, Object>();
+      this.stagingOptions = new HashMap<Option<?>, Object>();
    }
 
    @Override
@@ -220,13 +220,14 @@ public class TableTag extends BodyTagSupport implements DynamicAttributes {
    }
 
    @Override
+   @SuppressWarnings("unchecked")
    public int doEndTag() throws JspException {
 
       // At this point, all setters have been called and the staging
       // configuration map should have been filled with user configuration
       // The user configuration can now be applied to the default
       // configuration
-      this.table.getTableConfiguration().getOptions().putAll(this.stagingConf);
+      this.table.getTableConfiguration().getOptions().putAll(this.stagingOptions);
 
       // Once all configuration are merged, they can be processed
       OptionUtils.processOptions(this.table.getTableConfiguration().getOptions(), this.request);
@@ -288,7 +289,7 @@ public class TableTag extends BodyTagSupport implements DynamicAttributes {
             Object object = this.iterator.next();
 
             this.setCurrentObject(object);
-            this.stagingConf.put(DatatableOptions.INTERNAL_OBJECTTYPE, object.getClass().getSimpleName());
+            this.stagingOptions.put(DatatableOptions.INTERNAL_OBJECTTYPE, object.getClass().getSimpleName());
 
             if (this.row != null) {
                this.pageContext.setAttribute(this.row, object);
@@ -485,8 +486,8 @@ public class TableTag extends BodyTagSupport implements DynamicAttributes {
       return this.currentObject;
    }
 
-   public Map<Option<?>, Object> getStagingConf() {
-      return stagingConf;
+   public Map<Option<?>, Object> getStagingOptions() {
+      return stagingOptions;
    }
 
    public void setCurrentObject(Object currentObject) {
@@ -520,7 +521,7 @@ public class TableTag extends BodyTagSupport implements DynamicAttributes {
    public void setUrl(String url) {
       String processedUrl = UrlUtils.getProcessedUrl(url, (HttpServletRequest) this.pageContext.getRequest(),
             (HttpServletResponse) this.pageContext.getResponse());
-      this.stagingConf.put(DatatableOptions.AJAX_SOURCE, processedUrl);
+      this.stagingOptions.put(DatatableOptions.AJAX_SOURCE, processedUrl);
       this.dataSourceType = SOURCE_AJAX;
    }
 
@@ -553,163 +554,163 @@ public class TableTag extends BodyTagSupport implements DynamicAttributes {
    }
 
    public void setAutoWidth(boolean autoWidth) {
-      stagingConf.put(DatatableOptions.FEATURE_AUTOWIDTH, autoWidth);
+      stagingOptions.put(DatatableOptions.FEATURE_AUTOWIDTH, autoWidth);
    }
 
    public void setDeferRender(String deferRender) {
-      stagingConf.put(DatatableOptions.AJAX_DEFERRENDER, deferRender);
+      stagingOptions.put(DatatableOptions.AJAX_DEFERRENDER, deferRender);
    }
 
    public void setDeferLoading(String deferLoading) {
-      stagingConf.put(DatatableOptions.AJAX_DEFERLOADING, deferLoading);
+      stagingOptions.put(DatatableOptions.AJAX_DEFERLOADING, deferLoading);
    }
 
    public void setFilterable(boolean filterable) {
-      stagingConf.put(DatatableOptions.FEATURE_FILTERABLE, filterable);
+      stagingOptions.put(DatatableOptions.FEATURE_FILTERABLE, filterable);
    }
 
    public void setInfo(boolean info) {
-      stagingConf.put(DatatableOptions.FEATURE_INFO, info);
+      stagingOptions.put(DatatableOptions.FEATURE_INFO, info);
    }
 
    public void setPageable(boolean pageable) {
-      stagingConf.put(DatatableOptions.FEATURE_PAGEABLE, pageable);
+      stagingOptions.put(DatatableOptions.FEATURE_PAGEABLE, pageable);
    }
 
    public void setLengthChange(boolean lengthChange) {
-      stagingConf.put(DatatableOptions.FEATURE_LENGTHCHANGE, lengthChange);
+      stagingOptions.put(DatatableOptions.FEATURE_LENGTHCHANGE, lengthChange);
    }
 
    public void setProcessing(boolean processing) {
-      stagingConf.put(DatatableOptions.FEATURE_PROCESSING, processing);
+      stagingOptions.put(DatatableOptions.FEATURE_PROCESSING, processing);
    }
 
    public void setServerSide(boolean serverSide) {
-      stagingConf.put(DatatableOptions.AJAX_SERVERSIDE, serverSide);
+      stagingOptions.put(DatatableOptions.AJAX_SERVERSIDE, serverSide);
    }
 
    public void setPagingType(String pagingType) {
-      stagingConf.put(DatatableOptions.FEATURE_PAGINGTYPE, pagingType);
+      stagingOptions.put(DatatableOptions.FEATURE_PAGINGTYPE, pagingType);
    }
 
    public void setSortable(boolean sortable) {
-      stagingConf.put(DatatableOptions.FEATURE_SORTABLE, sortable);
+      stagingOptions.put(DatatableOptions.FEATURE_SORTABLE, sortable);
    }
 
    public void setStateSave(String stateSave) {
-      stagingConf.put(DatatableOptions.FEATURE_STATESAVE, stateSave);
+      stagingOptions.put(DatatableOptions.FEATURE_STATESAVE, stateSave);
    }
 
    public void setScrollY(String scrollY) {
-      stagingConf.put(DatatableOptions.FEATURE_SCROLLY, scrollY);
+      stagingOptions.put(DatatableOptions.FEATURE_SCROLLY, scrollY);
    }
 
    public void setScrollCollapse(String scrollCollapse) {
-      stagingConf.put(DatatableOptions.FEATURE_SCROLLCOLLAPSE, scrollCollapse);
+      stagingOptions.put(DatatableOptions.FEATURE_SCROLLCOLLAPSE, scrollCollapse);
    }
 
    public void setScrollX(String scrollX) {
-      stagingConf.put(DatatableOptions.FEATURE_SCROLLX, scrollX);
+      stagingOptions.put(DatatableOptions.FEATURE_SCROLLX, scrollX);
    }
 
    public void setScrollXInner(String scrollXInner) {
-      stagingConf.put(DatatableOptions.FEATURE_SCROLLXINNER, scrollXInner);
+      stagingOptions.put(DatatableOptions.FEATURE_SCROLLXINNER, scrollXInner);
    }
 
    public void setFixedPosition(String fixedPosition) {
-      stagingConf.put(DatatableOptions.PLUGIN_FIXEDPOSITION, fixedPosition);
+      stagingOptions.put(DatatableOptions.PLUGIN_FIXEDPOSITION, fixedPosition);
    }
 
    public void setOffsetTop(int fixedOffsetTop) {
-      stagingConf.put(DatatableOptions.PLUGIN_FIXEDOFFSETTOP, fixedOffsetTop);
+      stagingOptions.put(DatatableOptions.PLUGIN_FIXEDOFFSETTOP, fixedOffsetTop);
    }
 
    public void setExport(String export) {
-      stagingConf.put(DatatableOptions.EXPORT_ENABLED_FORMATS, export);
+      stagingOptions.put(DatatableOptions.EXPORT_ENABLED_FORMATS, export);
    }
 
    public void setExportStyle(String exportContainerStyle) {
-      stagingConf.put(DatatableOptions.EXPORT_CONTAINER_STYLE, exportContainerStyle);
+      stagingOptions.put(DatatableOptions.EXPORT_CONTAINER_STYLE, exportContainerStyle);
    }
 
    public void setExportClass(String exportContainerClass) {
-      stagingConf.put(DatatableOptions.EXPORT_CONTAINER_CLASS, exportContainerClass);
+      stagingOptions.put(DatatableOptions.EXPORT_CONTAINER_CLASS, exportContainerClass);
    }
 
    public void setJqueryUI(String jqueryUI) {
-      stagingConf.put(DatatableOptions.FEATURE_JQUERYUI, jqueryUI);
+      stagingOptions.put(DatatableOptions.FEATURE_JQUERYUI, jqueryUI);
    }
 
    public void setPipelining(String pipelining) {
-      stagingConf.put(DatatableOptions.AJAX_PIPELINING, pipelining);
+      stagingOptions.put(DatatableOptions.AJAX_PIPELINING, pipelining);
    }
 
    public void setPipeSize(int pipeSize) {
-      stagingConf.put(DatatableOptions.AJAX_PIPESIZE, pipeSize);
+      stagingOptions.put(DatatableOptions.AJAX_PIPESIZE, pipeSize);
    }
 
    public void setReloadSelector(String reloadSelector) {
-      stagingConf.put(DatatableOptions.AJAX_RELOAD_SELECTOR, reloadSelector);
+      stagingOptions.put(DatatableOptions.AJAX_RELOAD_SELECTOR, reloadSelector);
    }
 
    public void setReloadFunction(String reloadFunction) {
-      stagingConf.put(DatatableOptions.AJAX_RELOAD_FUNCTION, reloadFunction);
+      stagingOptions.put(DatatableOptions.AJAX_RELOAD_FUNCTION, reloadFunction);
    }
 
    public void setTheme(String theme) {
       System.out.println("theme=" + theme);
-      stagingConf.put(DatatableOptions.CSS_THEME, theme);
+      stagingOptions.put(DatatableOptions.CSS_THEME, theme);
    }
 
    public void setThemeOption(String themeOption) {
-      stagingConf.put(DatatableOptions.CSS_THEMEOPTION, themeOption);
+      stagingOptions.put(DatatableOptions.CSS_THEMEOPTION, themeOption);
    }
 
    public void setLengthMenu(String lengthMenu) {
-      stagingConf.put(DatatableOptions.FEATURE_LENGTHMENU, lengthMenu);
+      stagingOptions.put(DatatableOptions.FEATURE_LENGTHMENU, lengthMenu);
    }
 
    public void setCssStripes(String cssStripesClasses) {
-      stagingConf.put(DatatableOptions.CSS_STRIPECLASSES, cssStripesClasses);
+      stagingOptions.put(DatatableOptions.CSS_STRIPECLASSES, cssStripesClasses);
    }
 
    public void setAjaxParams(String ajaxParams) {
-      stagingConf.put(DatatableOptions.AJAX_PARAMS, ajaxParams);
+      stagingOptions.put(DatatableOptions.AJAX_PARAMS, ajaxParams);
    }
 
    public void setDisplayLength(int displayLength) {
-      stagingConf.put(DatatableOptions.FEATURE_DISPLAYLENGTH, displayLength);
+      stagingOptions.put(DatatableOptions.FEATURE_DISPLAYLENGTH, displayLength);
    }
 
    public void setFilterDelay(int filterDelay) {
-      stagingConf.put(DatatableOptions.FEATURE_FILTER_DELAY, filterDelay);
+      stagingOptions.put(DatatableOptions.FEATURE_FILTER_DELAY, filterDelay);
    }
 
    public void setFilterSelector(String filterSelector) {
-      stagingConf.put(DatatableOptions.FEATURE_FILTER_SELECTOR, filterSelector);
+      stagingOptions.put(DatatableOptions.FEATURE_FILTER_SELECTOR, filterSelector);
    }
 
    public void setFilterClearSelector(String filterClearSelector) {
-      stagingConf.put(DatatableOptions.FEATURE_FILTER_CLEAR_SELECTOR, filterClearSelector);
+      stagingOptions.put(DatatableOptions.FEATURE_FILTER_CLEAR_SELECTOR, filterClearSelector);
    }
 
    public void setDom(String dom) {
-      stagingConf.put(DatatableOptions.FEATURE_DOM, dom);
+      stagingOptions.put(DatatableOptions.FEATURE_DOM, dom);
    }
 
    public void setExt(String extensions) {
-      stagingConf.put(DatatableOptions.MAIN_EXTENSION_NAMES, extensions);
+      stagingOptions.put(DatatableOptions.MAIN_EXTENSION_NAMES, extensions);
    }
 
    public void setCssStyle(String cssStyle) {
-      stagingConf.put(DatatableOptions.CSS_STYLE, cssStyle);
+      stagingOptions.put(DatatableOptions.CSS_STYLE, cssStyle);
    }
 
    public void setCssClass(String cssClass) {
-      stagingConf.put(DatatableOptions.CSS_CLASS, cssClass);
+      stagingOptions.put(DatatableOptions.CSS_CLASS, cssClass);
    }
 
    public void setFilterPlaceholder(String filterPlaceholder) {
-      stagingConf.put(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, filterPlaceholder);
+      stagingOptions.put(DatatableOptions.FEATURE_FILTER_PLACEHOLDER, filterPlaceholder);
    }
 }

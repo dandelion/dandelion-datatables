@@ -97,7 +97,7 @@ public class OptionTag extends TagSupport {
             throw new JspException("'" + name + "' is not a valid option. Please read the documentation.");
          }
          else {
-            parent.getStagingConf().put(option, value);
+            parent.getStagingOptions().put(option, value);
          }
       }
 

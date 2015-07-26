@@ -104,7 +104,7 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
    /**
     * Maps holding the staging configuration to apply to the column.
     */
-   private Map<Option<?>, Object> stagingConf;
+   private Map<Option<?>, Object> stagingOptions;
    private Map<Option<?>, Extension> stagingExtensions;
 
    /**
@@ -165,12 +165,12 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
 
    /**
     * <p>
-    * Initializes a new staging configuration map and a new staging extension
-    * map to be applied to the {@link ColumnConfiguration} instance.
+    * Initializes a new staging options map and a new staging extension map to
+    * be applied to the {@link ColumnConfiguration} instance.
     * </p>
     */
    public ColumnTag() {
-      this.stagingConf = new HashMap<Option<?>, Object>();
+      this.stagingOptions = new HashMap<Option<?>, Object>();
       this.stagingExtensions = new HashMap<Option<?>, Extension>();
    }
 
@@ -291,7 +291,7 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
       // with user configuration
       // The user configuration can now be applied to the default
       // configuration
-      this.headerColumn.getColumnConfiguration().getOptions().putAll(this.stagingConf);
+      this.headerColumn.getColumnConfiguration().getOptions().putAll(this.stagingOptions);
       this.headerColumn.getColumnConfiguration().getStagingExtension().putAll(this.stagingExtensions);
 
       // Once all configuration are merged, they can be processed
@@ -331,8 +331,10 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
    /**
     * <p>
     * Adds a header column to the table when using AJAX source.
+    * </p>
     * <p>
     * Column are always marked as "header" using an AJAX source.
+    * </p>
     * 
     * @param isHeader
     * @param content
@@ -357,7 +359,7 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
       // with user configuration
       // The user configuration can now be applied to the default
       // configuration
-      this.headerColumn.getColumnConfiguration().getOptions().putAll(this.stagingConf);
+      this.headerColumn.getColumnConfiguration().getOptions().putAll(this.stagingOptions);
       this.headerColumn.getColumnConfiguration().getStagingExtension().putAll(this.stagingExtensions);
 
       // Once all configuration are merged, they can be processed
@@ -474,7 +476,7 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
    }
 
    public Map<Option<?>, Object> getStagingConf() {
-      return stagingConf;
+      return stagingOptions;
    }
 
    public void setTitle(String titleKey) {
@@ -490,7 +492,7 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
    }
 
    public void setName(String name) {
-      stagingConf.put(DatatableOptions.NAME, name);
+      stagingOptions.put(DatatableOptions.NAME, name);
    }
 
    public void setProperty(String property) {
@@ -498,7 +500,7 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
       this.property = property;
 
       // For AJAX sources
-      stagingConf.put(DatatableOptions.PROPERTY, property);
+      stagingOptions.put(DatatableOptions.PROPERTY, property);
    }
 
    public void setFormat(String format) {
@@ -506,15 +508,15 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
    }
 
    public void setCssStyle(String cssStyle) {
-      this.stagingConf.put(DatatableOptions.CSSSTYLE, cssStyle);
+      this.stagingOptions.put(DatatableOptions.CSSSTYLE, cssStyle);
    }
 
    public void setCssClass(String cssClass) {
-      this.stagingConf.put(DatatableOptions.CSSCLASS, cssClass);
+      this.stagingOptions.put(DatatableOptions.CSSCLASS, cssClass);
    }
 
    public void setSortable(Boolean sortable) {
-      this.stagingConf.put(DatatableOptions.SORTABLE, sortable);
+      this.stagingOptions.put(DatatableOptions.SORTABLE, sortable);
    }
 
    public void setCssCellStyle(String cssCellStyle) {
@@ -522,7 +524,7 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
       this.cssCellStyle = cssCellStyle;
 
       // For AJAX sources
-      this.stagingConf.put(DatatableOptions.CSSCELLSTYLE, cssCellStyle);
+      this.stagingOptions.put(DatatableOptions.CSSCELLSTYLE, cssCellStyle);
    }
 
    public void setCssCellClass(String cssCellClass) {
@@ -530,44 +532,44 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
       this.cssCellClass = cssCellClass;
 
       // For AJAX sources
-      this.stagingConf.put(DatatableOptions.CSSCELLCLASS, cssCellClass);
+      this.stagingOptions.put(DatatableOptions.CSSCELLCLASS, cssCellClass);
    }
 
    public void setFilterable(Boolean filterable) {
-      this.stagingConf.put(DatatableOptions.FILTERABLE, filterable);
+      this.stagingOptions.put(DatatableOptions.FILTERABLE, filterable);
       this.stagingExtensions.put(DatatableOptions.FILTERABLE, new FilteringFeature());
    }
 
    public void setSearchable(Boolean searchable) {
-      this.stagingConf.put(DatatableOptions.SEARCHABLE, searchable);
+      this.stagingOptions.put(DatatableOptions.SEARCHABLE, searchable);
    }
 
    public void setVisible(Boolean visible) {
-      this.stagingConf.put(DatatableOptions.VISIBLE, visible);
+      this.stagingOptions.put(DatatableOptions.VISIBLE, visible);
    }
 
    public void setFilterType(String filterType) {
-      this.stagingConf.put(DatatableOptions.FILTERTYPE, filterType);
+      this.stagingOptions.put(DatatableOptions.FILTERTYPE, filterType);
    }
 
    public void setFilterValues(String filterValues) {
-      this.stagingConf.put(DatatableOptions.FILTERVALUES, filterValues);
+      this.stagingOptions.put(DatatableOptions.FILTERVALUES, filterValues);
    }
 
    public void setFilterPlaceholder(String filterPlaceholder) {
-      this.stagingConf.put(DatatableOptions.FILTERPLACEHOLDER, filterPlaceholder);
+      this.stagingOptions.put(DatatableOptions.FILTERPLACEHOLDER, filterPlaceholder);
    }
 
    public void setSortDirection(String sortDirection) {
-      this.stagingConf.put(DatatableOptions.SORTDIRECTION, sortDirection);
+      this.stagingOptions.put(DatatableOptions.SORTDIRECTION, sortDirection);
    }
 
    public void setSortInitDirection(String sortInitDirection) {
-      this.stagingConf.put(DatatableOptions.SORTINITDIRECTION, sortInitDirection);
+      this.stagingOptions.put(DatatableOptions.SORTINITDIRECTION, sortInitDirection);
    }
 
    public void setSortInitOrder(String sortInitOrder) {
-      this.stagingConf.put(DatatableOptions.SORTINITORDER, sortInitOrder);
+      this.stagingOptions.put(DatatableOptions.SORTINITORDER, sortInitOrder);
    }
 
    public void setDisplay(String display) {
@@ -579,22 +581,22 @@ public class ColumnTag extends BodyTagSupport implements DynamicAttributes {
       this.defaultValue = defaultValue;
 
       // For AJAX sources
-      this.stagingConf.put(DatatableOptions.DEFAULTVALUE, defaultValue);
+      this.stagingOptions.put(DatatableOptions.DEFAULTVALUE, defaultValue);
    }
 
    public void setRenderFunction(String renderFunction) {
-      this.stagingConf.put(DatatableOptions.RENDERFUNCTION, renderFunction);
+      this.stagingOptions.put(DatatableOptions.RENDERFUNCTION, renderFunction);
    }
 
    public void setSelector(String selector) {
-      this.stagingConf.put(DatatableOptions.SELECTOR, selector);
+      this.stagingOptions.put(DatatableOptions.SELECTOR, selector);
    }
 
    public void setSortType(String sortType) {
-      this.stagingConf.put(DatatableOptions.SORTTYPE, sortType);
+      this.stagingOptions.put(DatatableOptions.SORTTYPE, sortType);
    }
 
    public void setId(String id) {
-      this.stagingConf.put(DatatableOptions.ID, id);
+      this.stagingOptions.put(DatatableOptions.ID, id);
    }
 }
