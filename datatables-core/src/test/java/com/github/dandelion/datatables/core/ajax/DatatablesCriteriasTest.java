@@ -82,6 +82,32 @@ public class DatatablesCriteriasTest {
 		assertThat(criterias.getColumnDefs()).isEmpty();
 		assertThat(criterias.getSortedColumnDefs()).isEmpty();
 	}
+	
+	@Test
+	public void should_return_criterias_when_single_column_defined() {
+	    
+	    request.addParameter(DTConstants.DT_I_DRAW, "1");
+        request.addParameter(DTConstants.DT_I_START, "0");
+        request.addParameter(DTConstants.DT_I_LENGTH, "10");
+        request.addParameter("columns[0][data]", "prop1");
+        
+        DatatablesCriterias criterias = DatatablesCriterias.getFromRequest(request);
+        
+        assertThat(criterias).isNotNull();
+        assertThat(criterias.getSearch()).isNull();
+        assertThat(criterias.getStart()).isEqualTo(0);
+        assertThat(criterias.getLength()).isEqualTo(10);
+        assertThat(criterias.getDraw()).isEqualTo(1);
+        
+        assertThat(criterias.getColumnDefs()).hasSize(1);
+        assertThat(criterias.getColumnDefs().get(0).getName()).isEqualTo("prop1");
+        assertThat(criterias.getColumnDefs().get(0).isSortable()).isFalse();
+        assertThat(criterias.getColumnDefs().get(0).isSorted()).isFalse();
+        assertThat(criterias.getColumnDefs().get(0).isSearchable()).isFalse();
+        assertThat(criterias.getColumnDefs().get(0).isFiltered()).isFalse();
+        
+        assertThat(criterias.getSortedColumnDefs()).isEmpty();
+	}
 
 	@Test
 	public void should_return_criterias_when_sorting_disabled_and_filtering_disabled() {
