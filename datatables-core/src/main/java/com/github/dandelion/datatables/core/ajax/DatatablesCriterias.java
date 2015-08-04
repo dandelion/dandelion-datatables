@@ -253,7 +253,7 @@ public class DatatablesCriterias implements Serializable {
 
    private static int getColumnNumber(HttpServletRequest request) {
 
-      int columnNumber = 0;
+      int columnNumber = -1;
       for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
          String param = e.nextElement();
          Matcher matcher = pattern.matcher(param);
@@ -265,9 +265,8 @@ public class DatatablesCriterias implements Serializable {
          }
       }
 
-      if (columnNumber != 0) {
-         columnNumber++;
-      }
+      columnNumber++;
+         
       return columnNumber;
    }
 
