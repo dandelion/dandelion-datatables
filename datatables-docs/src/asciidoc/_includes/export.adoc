@@ -506,7 +506,7 @@ Finally, some extra options are available in order to configure the export.
 
 Using JSP, all options can be set via the <<a-5-code-datatables-export-code-tag, `<datatables:export>`>> tag.
 
-Using Thymeleaf, you'll have to use the <a href="/datatables/features/advanced/configuration-div.html">configuration div</a> introduced in the v0.10.0.
+Using Thymeleaf, you'll have to use the <<7-6-configuration-div-thymeleaf-only, configuration div>> introduced in the v0.10.0.
 
 [cols="a,<,<"]
 |===
