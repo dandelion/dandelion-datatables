@@ -27,7 +27,6 @@
       <module>datatables-jsp</module>
       <module>datatables-thymeleaf</module>
       <module>datatables-extras</module>
-      <module>datatables-docs</module>
    </modules>
 
    <licenses>
