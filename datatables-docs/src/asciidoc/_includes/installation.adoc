@@ -72,7 +72,7 @@ Add the following configuration to your `web.xml` file:
 ----
 <1> Note that the URL pattern can be customized thanks to the <<opt-asset.url.pattern, `asset.url.pattern`>> config option
 
-=== 3.3. JSP-based steps
+=== 3.3. JSP-specific step
 
 * *Declare the taglib definition*
 
@@ -80,7 +80,7 @@ Everywhere you want to display a table using Dandelion-DataTables, you need to a
 
  <%@ taglib prefix="datatables" uri="http://github.com/dandelion/datatables" %>
 
-=== 3.4. Thymeleaf-based steps
+=== 3.4. Thymeleaf-specific steps
 
 * *Declare the Thymeleaf dialect*
 
@@ -122,7 +122,27 @@ This way you can benefit from some content assist in your favorite IDE:
 
 WARNING: Using a wrong namespace will prevent the content assist from working correctly
 
-=== 3.5. Client-side dependencies
+=== 3.5. Spring-specific steps
+
+In case you're using http://spring.io/[Spring] and the Spring's dispatcher is configured with a `/` mapping, you will need to configure the Spring's default servlet handler in order to have static content properly served.
+
+Using JavaConfig:
+
+[source, java]
+----
+public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+  configurer.enable(); 
+}
+----
+
+Or XML:
+
+[source, xml]
+----
+<mvc:default-servlet-handler/>
+----
+
+=== 3.6. Client-side dependencies
 
 Actually you won't need anything else to start working with Dandelion-Datatables since the component embeds a set of vendor bundles that pull the required client-side dependencies, such as http://datatables.net[DataTables] and http://jquery.com[jQuery], from a CDN.
 
