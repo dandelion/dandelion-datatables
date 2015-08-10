@@ -593,12 +593,12 @@ The following configuration types are allowed:
 </div>
 ----
 
-* `dt:confType="property"`, which allows you to locally <<11-2-overriding-default-options, override configuration options</a>:
+* `dt:confType="option"`, which allows you to locally <<11-2-overriding-default-options, override configuration options>>:
 
 [source, html]
 ----
 <div dt:conf="your-table-id">
-  <div dt:confType="property" ... /> 
+  <div dt:confType="option" ... /> 
 </div>
 ----
 
