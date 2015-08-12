@@ -87,7 +87,7 @@ public class DatatableOptionsDebugPage extends AbstractDebugPage {
             .getAttribute(DatatableComponent.DDL_DT_REQUESTATTR_TABLES);
 
       List<Map<String, Object>> tablesJson = new ArrayList<Map<String, Object>>();
-      if (!htmlTables.isEmpty()) {
+      if (htmlTables != null && !htmlTables.isEmpty()) {
 
          int index = 0;
          for (HtmlTable htmlTable : htmlTables) {
