@@ -266,7 +266,7 @@ public class DatatablesCriterias implements Serializable {
       }
 
       columnNumber++;
-         
+
       return columnNumber;
    }
 
