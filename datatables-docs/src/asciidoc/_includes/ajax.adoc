@@ -71,7 +71,7 @@ public class SpringMvcAjaxController {
 
   @RequestMapping(value = "/persons")
   public @ResponseBody List<Person> findAll(HttpServletRequest request) {
-    return personService.fin8.3.dAll();
+    return personService.findAll();
   }
 }
 ----
