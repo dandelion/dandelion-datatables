@@ -40,14 +40,18 @@ import com.github.dandelion.datatables.core.html.HtmlTable;
 /**
  * <p>
  * CSV implementation of {@link DatatablesExport} that exports data in CSV
- * format.
+ * format. Fields are surrounded by double quotes, embedded double quotes are
+ * escaped by doubling them, and fields are separated by commas.  
  * </p>
  * 
  * @author Thibault Duchateau
+ * @author Arnaldo Piccinelli
  */
 public class CsvExport implements DatatablesExport {
 
-   private static final String SEPARATOR_CHAR = ";";
+   private static final String SEPARATOR_CHAR = ",";
+   private static final String DOUBLE_QUOTES = "\"";
+   private static final String ESCAPED_DOUBLE_QUOTES = "\"\"";
    private HtmlTable table;
    private ExportConf exportConf;
 
@@ -57,6 +61,14 @@ public class CsvExport implements DatatablesExport {
       this.exportConf = table.getTableConfiguration().getExportConfigurations().get(ReservedFormat.CSV);
    }
 
+   private String escapeField(StringBuilder value) {
+      if (value == null) {
+         return "";
+      } else {
+         return value.toString().replaceAll(DOUBLE_QUOTES, ESCAPED_DOUBLE_QUOTES);
+      }
+   }
+
    @Override
    public void processExport(OutputStream output) {
       StringBuilder buffer = new StringBuilder();
@@ -64,16 +76,15 @@ public class CsvExport implements DatatablesExport {
       if (exportConf.getIncludeHeader()) {
          for (HtmlRow row : table.getHeadRows()) {
             for (HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.CSV)) {
-               buffer.append(column.getContent()).append(SEPARATOR_CHAR);
+               buffer.append(DOUBLE_QUOTES).append(escapeField(column.getContent())).append(DOUBLE_QUOTES).append(SEPARATOR_CHAR);
             }
             buffer.append("\n");
          }
       }
       for (HtmlRow row : table.getBodyRows()) {
          for (HtmlColumn column : row.getColumns(ReservedFormat.ALL, ReservedFormat.CSV)) {
-            buffer.append(column.getContent()).append(SEPARATOR_CHAR);
+            buffer.append(DOUBLE_QUOTES).append(escapeField(column.getContent())).append(DOUBLE_QUOTES).append(SEPARATOR_CHAR);
          }
-
          buffer.append("\n");
       }
 
