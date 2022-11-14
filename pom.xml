@@ -61,7 +61,7 @@
       <!-- Test dependencies -->
       <assertj.version>1.6.0</assertj.version>
       <junit.version>4.11</junit.version>
-      <spring.version>3.2.7.RELEASE</spring.version>
+      <spring.version>3.2.18.RELEASE</spring.version>
       <jackson.version>1.9.13</jackson.version>
 
       <!-- Maven plugins -->
